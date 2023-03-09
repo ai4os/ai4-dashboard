@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    loadChildren: () =>
-    import('./layout/layout.module').then((m) => m.LayoutModule),
-  }
+    component: ContentLayoutComponent,
+    //canActivate: [NoAuthGuard], // Should be replaced with actual auth guard
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('@modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
+    ]
+  },
 
 ];
 

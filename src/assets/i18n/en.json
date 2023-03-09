@@ -1,0 +1,16 @@
+{
+    "HEADQUARTER": "test",
+    "SIDENAV" : {
+        "DASHBOARD": "Dashboard",
+        "MODULES": "Modules (marketplace)",
+        "DEPLOYMENTS": "Deployments",
+        "IAM": "Identity and Access",
+        "DEEP-MARKETPLACE": "DEEP Marketplace",
+        "DEEP-DOCUMENTATION": "DEEP Documentation",
+        "PROJECT-PAGE": "Project page"
+
+        
+
+    },
+    "LOGOUT": "log out"
+}

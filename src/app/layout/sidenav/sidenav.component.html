@@ -1,0 +1,24 @@
+<mat-sidenav-container class="container mat-primary">
+    <mat-sidenav #sidenav mode="side" opened class="sidenav"
+        [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top"
+        [fixedBottomGap]="options.value.bottom">
+
+        <nav id="sidebarMenu" class="">
+            <mat-nav-list>
+                <mat-list-item *ngFor="let link of mainLinks"  class="sidenav-item">
+                    <a mat-list-item routerLink="{{ link.url }}" routerLinkActive="active" class="sidenav-link">{{ link.name | translate }}</a>
+                </mat-list-item>
+                <mat-divider class="mt-3 mb-3"></mat-divider>
+                <p class="other-links ml-3">Other links</p>
+
+                <mat-list-item *ngFor="let link of otherLinks"  class="sidenav-item">
+                    <a mat-list-item href="{{ link.url }}"   routerLinkActive="active" class="sidenav-link" target="_blank">{{ link.name | translate }}</a>
+                </mat-list-item>
+              </mat-nav-list>
+        </nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+    
+</mat-sidenav-container>

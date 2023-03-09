@@ -19,6 +19,13 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@core/*": ["src/app/core/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@data/*": ["src/app/data/*"],
+      "@images/*": ["src/assets/images/*"]
+    },
     "lib": [
       "ES2022",
       "dom"
@@ -30,4 +37,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   }
+
 }
