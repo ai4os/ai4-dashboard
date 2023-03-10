@@ -87,6 +87,8 @@ $ai4eosc-app-theme: mat.define-light-theme(
        )
 );
 
+// Emit theme-dependent styles for common features used across multiple components.
+@include mat.all-component-themes($ai4eosc-app-theme);
 
 .cdk-overlay-pane {
   max-width: 100vw !important;
