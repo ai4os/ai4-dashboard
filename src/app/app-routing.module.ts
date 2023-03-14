@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
+import { NotFoundComponent } from './modules/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('@modules/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
+      {
+        path: 'modules',
+        loadChildren: () =>
+          import('@modules/marketplace/marketplace.module').then(m => m.MarketplaceModule)
+      },
+      {
+        path: '**', component: NotFoundComponent
+      }
     ]
   },
 
