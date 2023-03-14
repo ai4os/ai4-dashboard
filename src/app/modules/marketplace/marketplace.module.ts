@@ -5,19 +5,28 @@ import { ModuleCardComponent } from './components/modules-list/module-card/modul
 import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { SearchPipe } from './pipes/search-card-pipe';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     ModulesListComponent,
-    ModuleCardComponent
+    ModuleCardComponent,
+    SearchPipe
   ],
   imports: [
     CommonModule,
     MarketplaceRoutingModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
+    ReactiveFormsModule
   ]
 })
 export class MarketplaceModule { }
