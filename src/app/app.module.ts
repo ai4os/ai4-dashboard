@@ -3,14 +3,6 @@ import {
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-// Angular Material Modules
-import { MatSidenavModule} from '@angular/material/sidenav';
-import { MatToolbarModule} from '@angular/material/toolbar';
-import { MatCheckboxModule} from '@angular/material/checkbox';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import {MatListModule} from '@angular/material/list';
-
-
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,8 +14,7 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
-import { MatIconModule } from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
+import { SharedModule } from './shared/shared.module';
 
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
@@ -52,13 +43,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       },
     }),
     BrowserAnimationsModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatIconModule, 
-    MatDividerModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
