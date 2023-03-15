@@ -5,13 +5,15 @@ import { ModulesListComponent } from './components/modules-list/modules-list.com
 import { ModuleCardComponent } from './components/modules-list/module-card/module-card.component';
 import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { SearchPipe } from './pipes/search-card-pipe';
+import { ModuleDetailComponent } from './components/module-detail/module-detail.component';
 
 
 @NgModule({
   declarations: [
     ModulesListComponent,
     ModuleCardComponent,
-    SearchPipe
+    SearchPipe,
+    ModuleDetailComponent
   ],
   imports: [
     CommonModule,

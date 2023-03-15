@@ -1,9 +1,15 @@
+@use '@angular/material' as mat;
 .module-card {
     //max-width: 500px;
 
     .mat-mdc-card-actions{
         justify-content: right;
     }
+
+    &:hover {
+        @include mat.elevation(12);
+        cursor: pointer;
+      }
 
 
   }

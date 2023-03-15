@@ -9,4 +9,9 @@ export class ModuleCardComponent {
 
     // This property is bound using its original name.
     @Input() module: any;
+
+    openModuleDetail(module: any){
+      console.log(module)
+    }
+
 }
