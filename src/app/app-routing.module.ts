@@ -20,6 +20,11 @@ const routes: Routes = [
           import('@modules/marketplace/marketplace.module').then(m => m.MarketplaceModule)
       },
       {
+        path: 'deployments',
+        loadChildren: () =>
+          import('@modules/deployments/deployments.module').then(m => m.DeploymentsModule)
+      },
+      {
         path: '**', component: NotFoundComponent
       }
     ]

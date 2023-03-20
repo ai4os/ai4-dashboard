@@ -8,9 +8,16 @@
         "DEEP-MARKETPLACE": "DEEP Marketplace",
         "DEEP-DOCUMENTATION": "DEEP Documentation",
         "PROJECT-PAGE": "Project page"
-
-        
-
+    },
+    "DEPLOYMENTS": {
+        "BULK-ACTIONS": "Bulk actions",
+        "UUID": "Deployment uuid", 
+        "STATUS": "Status",
+        "CONTAINER-NAME": "Container name",
+        "GPUS": "GPUs",
+        "CREATION-TIME": "Creation time",
+        "DEPLOYED-AT": "Deployed at",
+        "ACTIONS": "Actions"
     },
     "LOGOUT": "log out"
 }

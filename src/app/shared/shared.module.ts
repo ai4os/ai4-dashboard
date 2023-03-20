@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from './material.module';
 
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import { MaterialModule } from './material.module';
   exports: [
     ReactiveFormsModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ]
 })
 export class SharedModule { }
