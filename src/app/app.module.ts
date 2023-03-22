@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -43,7 +45,16 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       },
     }),
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          breaks: true
+        }
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
