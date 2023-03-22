@@ -1,1 +1,19 @@
-<p>module-detail works!</p>
+<mat-toolbar class="mb-3 marketplace-toolbar">
+    <span>Module <mat-icon>view_in_ar</mat-icon></span>
+</mat-toolbar>
+
+<h1>{{module.title}}</h1>
+<p>{{module.summary}}</p>
+<p>{{module.keywords}}</p>
+<p>{{module.license}}</p>
+<p>{{module.date_creation}}</p>
+<p>{{module.dataset_url}}</p>
+<p>{{module.sources | json}}</p>
+<p>{{module.continuous_integration | json}}</p>
+<p>{{module.tosca | json}}</p>
+
+
+
+<markdown [data]="module.description">
+
+</markdown>

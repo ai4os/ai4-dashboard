@@ -6,6 +6,7 @@ import { ModuleCardComponent } from './components/modules-list/module-card/modul
 import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { SearchPipe } from './pipes/search-card-pipe';
 import { ModuleDetailComponent } from './components/module-detail/module-detail.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ModuleDetailComponent } from './components/module-detail/module-detail.
   imports: [
     CommonModule,
     MarketplaceRoutingModule,
-    SharedModule
+    SharedModule,
+    MarkdownModule.forChild(),
   ]
 })
 export class MarketplaceModule { }

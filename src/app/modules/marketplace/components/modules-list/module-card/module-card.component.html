@@ -1,9 +1,9 @@
-<mat-card class="module-card" routerLink="{{module.id}}" >
+<mat-card class="module-card" routerLink="{{module.name}}" >
     <mat-card-header>
       <mat-card-title>{{module.title}}</mat-card-title>
-      <mat-card-subtitle>{{module.subtitle}}</mat-card-subtitle>
+      <mat-card-subtitle>{{module.keywords}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content >
-        {{module.shortDescription}}
+        {{module.summary}}
     </mat-card-content>
   </mat-card>
