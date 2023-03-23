@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { environment } from '@environments/environment';
-import { Module, ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { Module, ModuleConfiguration, ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { HttpClient } from '@angular/common/http';
 
 const { base, endpoints } = environment.api;
@@ -27,6 +27,14 @@ export class ModulesService {
       moduleName
     )}`;
     return this.http.get<Module>(url);
+  }
+
+  getModuleConfiguration(moduleName: string): Observable<ModuleConfiguration>{
+    const url = `${base}${endpoints.moduleConfiguration.replace(
+      ':name',
+      moduleName
+    )}`;
+    return this.http.get<ModuleConfiguration>(url);
   }
 
 }

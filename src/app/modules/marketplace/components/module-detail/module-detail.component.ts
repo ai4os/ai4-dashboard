@@ -19,7 +19,6 @@ export class ModuleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      console.log(params)
       this.modulesService.getModule(params['id']).subscribe( module => {
         
           this.module = module;

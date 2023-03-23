@@ -7,6 +7,10 @@ import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { SearchPipe } from './pipes/search-card-pipe';
 import { ModuleDetailComponent } from './components/module-detail/module-detail.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { ModuleTrainComponent } from './components/module-train/module-train.component';
+import { GeneralConfFormComponent } from './components/module-train/general-conf-form/general-conf-form.component';
+import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
+import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
 
 
 @NgModule({
@@ -14,7 +18,11 @@ import { MarkdownModule } from 'ngx-markdown';
     ModulesListComponent,
     ModuleCardComponent,
     SearchPipe,
-    ModuleDetailComponent
+    ModuleDetailComponent,
+    ModuleTrainComponent,
+    GeneralConfFormComponent,
+    HardwareConfFormComponent,
+    StorageConfFormComponent
   ],
   imports: [
     CommonModule,

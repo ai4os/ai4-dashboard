@@ -24,7 +24,10 @@ export interface Module {
     }
     tosca: object[]
 
+}
 
-
-
+export interface ModuleConfiguration {
+    general: [],
+    hardware: [],
+    storage: []
 }

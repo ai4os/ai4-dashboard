@@ -1,0 +1,39 @@
+
+<mat-toolbar>
+    <span>Configure training: Dogs breed detector</span>
+</mat-toolbar>
+
+<mat-stepper #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>General configuration</ng-template>
+
+        <app-general-conf-form [defaultFormValues]="generalConfDefaultValues"></app-general-conf-form>
+        
+        <div class="next-back-buttons">
+          <button mat-raised-button matStepperNext color="primary">Next</button>
+        </div>
+
+
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Hardware Configuration</ng-template>
+        <app-hardware-conf-form [defaultFormValues]="hardwareConfDefaultValues"></app-hardware-conf-form>
+        <div class="next-back-buttons">
+          <button mat-raised-button matStepperPrevious >Back</button>
+          <button mat-raised-button matStepperNext color="primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Storage Configuration</ng-template>
+      
+      <app-storage-conf-form></app-storage-conf-form>
+      <div class="next-back-buttons">
+        <button mat-raised-button matStepperPrevious class="mr-3" >Back</button>
+        <button mat-raised-button color="primary">Submit</button>
+      </div>
+    </mat-step>
+  </mat-stepper>

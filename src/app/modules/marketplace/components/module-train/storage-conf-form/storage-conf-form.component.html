@@ -1,0 +1,32 @@
+<h4> Storage options</h4>
+
+<div class="form-grid">
+    <mat-form-field class="example-full-width">
+        <mat-label>RCLONE configuration</mat-label>
+        <input matInput placeholder="" value="">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Storage URL</mat-label>
+        <input matInput placeholder="" value="">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>RCLONE vendor (webdav)</mat-label>
+        <mat-select >
+            <mat-option *ngFor="let rcloneVendorOption of rcloneVendorOptions" [value]="rcloneVendorOption.value">
+                {{rcloneVendorOption.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>RCLONE user</mat-label>
+        <input matInput placeholder="" value="" type="number">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" >
+        <mat-label>RCLONE Password</mat-label>
+        <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="At least 9 characters" >
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"> {{hidePassword ? 'visibility_off' : 'visibility'}} </mat-icon>
+    </mat-form-field>
+</div>
+<mat-divider class="mb-5 mt-4"></mat-divider>

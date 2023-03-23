@@ -1,3 +1,5 @@
 export const endpoints = {
-  test: 'test'
+  modulesSummary: '/modules/summary',
+  module: '/modulesmetadata/:name',
+  moduleConfiguration: '/info/conf/:name'
 };
