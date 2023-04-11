@@ -1,28 +1,34 @@
-import { Component, Input } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-hardware-conf-form',
   templateUrl: './hardware-conf-form.component.html',
   styleUrls: ['./hardware-conf-form.component.scss']
 })
-export class HardwareConfFormComponent {
+export class HardwareConfFormComponent implements OnInit{
 
   constructor(
+    private ctrlContainer: FormGroupDirective,
     private fb: FormBuilder
   ){}
 
+  parentForm!: FormGroup;
+
   private _defaultFormValues: any;
 
+  isGpuModelSelectDisabled: boolean = true;
+ //this.hardwareConfFormGroup.get('gpuNumberInput')?.value! < 1
 
   hardwareConfFormGroup = this.fb.group({
     cpuNumberInput: [''],
     gpuNumberInput:[0],
     descriptionInput: [''],
-    gpuModelSelect: [''],
+    gpuModelSelect: [{value: '', disabled: true}],
     ramMemoryInput: [''],
     diskMemoryInput: [''],
   })
+
 
 
   @Input() set defaultFormValues(defaultFormValues: any) {
@@ -48,5 +54,31 @@ export class HardwareConfFormComponent {
 
 
   gpuModelOptions: {value: string, viewValue: string}[] = []
+
+  /**
+   * Method to handle wether the gpuNumberSelector should be disabled or not.
+   */
+  gpuNumberSelectorBehaviourHandler(){
+    let gpuNumberInputControl = this.hardwareConfFormGroup.get('gpuNumberInput')?.value;
+
+    if(typeof gpuNumberInputControl == 'number' && gpuNumberInputControl > 0){
+        this.isGpuModelSelectDisabled = false;
+    }
+    this.hardwareConfFormGroup.get('gpuNumberInput')?.valueChanges.subscribe((value: any) => {
+      if(value > 0){
+        this.isGpuModelSelectDisabled = false;
+        this.hardwareConfFormGroup.get('gpuModelSelect')?.enable()
+      }else{
+        this.hardwareConfFormGroup.get('gpuModelSelect')?.disable()
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.parentForm = this.ctrlContainer.form;
+    this.parentForm.addControl("hardwareConfForm", this.hardwareConfFormGroup);
+    this.gpuNumberSelectorBehaviourHandler()
+    
+  }
 
 }

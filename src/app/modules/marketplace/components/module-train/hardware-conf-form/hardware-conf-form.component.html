@@ -10,11 +10,11 @@
     </mat-form-field>
     <mat-form-field class="example-full-width">
         <mat-label>Number of GPUs</mat-label>
-        <input matInput placeholder="" value="" type="number" formControlName="gpuNumberInput">
+        <input matInput placeholder="" value="" type="number" min="0" formControlName="gpuNumberInput">
     </mat-form-field>
     <mat-form-field class="example-full-width">
         <mat-label>GPU model</mat-label>
-        <mat-select formControlName="gpuModelSelect" [disabled]="this.hardwareConfFormGroup.get('gpuNumberInput')?.value! < 1">
+        <mat-select formControlName="gpuModelSelect" >
             <mat-option *ngFor="let gpuModelOption of gpuModelOptions" [value]="gpuModelOption.value">
                 {{gpuModelOption.viewValue}}
             </mat-option>
@@ -26,7 +26,7 @@
     </mat-form-field>
     <mat-form-field class="example-full-width">
         <mat-label>Disk memory (in MB)</mat-label>
-        <input matInput placeholder="" value="" type="text" formControlName="diskMemoryInput">
+        <input matInput placeholder="" value="" type="number" formControlName="diskMemoryInput">
     </mat-form-field>
 </div>
 

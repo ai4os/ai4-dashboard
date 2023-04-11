@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-general-conf-form',
@@ -9,10 +9,14 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class GeneralConfFormComponent implements OnInit {
 
   constructor(
+    private ctrlContainer: FormGroupDirective,
     private fb: FormBuilder
   ){}
 
+  parentForm!: FormGroup;
+
   private _defaultFormValues: any;
+  
 
   @Input() set defaultFormValues(defaultFormValues: any) {
     if(defaultFormValues) {
@@ -38,7 +42,7 @@ export class GeneralConfFormComponent implements OnInit {
     descriptionInput: [''],
     commandSelect: ['deepaas'],
     titleInput: ['', [Validators.required, Validators.maxLength(45)]],
-    jupyterLabPassInput: ['', [Validators.required, Validators.minLength(9)]],
+    jupyterLabPassInput: [{value: '', disabled: true}, [Validators.required, Validators.minLength(9)]],
     dockerImageInput: [{value: '', disabled: true}],
     dockerTagSelect: ['']
   })
@@ -49,11 +53,17 @@ export class GeneralConfFormComponent implements OnInit {
   ]
   dockerTagOptions: {value: string, viewValue: string}[] = []
 
-  ngOnInit(): void {
-
+  ngOnInit(): void {    
+    this.parentForm = this.ctrlContainer.form;
+    this.parentForm.addControl("generalConfForm", this.generalConfFormGroup);
 
     this.generalConfFormGroup.get('commandSelect')?.valueChanges.subscribe(val => {
-      this.isJupyterLab = val === 'jupyterlab' ? true : false
+      this.isJupyterLab = val === 'jupyterlab' ? true : false;
+      if(this.isJupyterLab){
+        this.generalConfFormGroup.get('jupyterLabPassInput')?.enable();
+      }else{
+        this.generalConfFormGroup.get('jupyterLabPassInput')?.disable();
+      }
       
     })
   }

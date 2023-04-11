@@ -1,48 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-storage-conf-form',
   templateUrl: './storage-conf-form.component.html',
   styleUrls: ['./storage-conf-form.component.scss']
 })
-export class StorageConfFormComponent {
+export class StorageConfFormComponent implements OnInit{
 
-  hidePassword: boolean = true;
-  rcloneVendorOptions = [
-    {value:"test", viewValue:"test"}
-  ]
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private fb: FormBuilder
+  ){}
 
-  /**
-   *  "storage": {
-    "rclone_conf": {
-      "name": "RCLONE configuration",
-      "value": "/srv/.rclone/rclone.conf",
-      "description": "rclone.conf location"
-    },
-    "rclone_url": {
-      "name": "Storage URL",
-      "value": "https://data-deep.a.incd.pt/remote.php/webdav/",
-      "description": "Remote storage link to be accessed via rclone (webdav)"
-    },
-    "rclone_vendor": {
-      "name": "RCLONE vendor",
-      "value": "nextcloud",
-      "options": [
-        "nextcloud"
-      ],
-      "description": "RCLONE vendor (webdav)"
-    },
-    "rclone_user": {
-      "name": "RCLONE user",
-      "value": "",
-      "description": "rclone user to access a webdav remote storage"
-    },
-    "rclone_password": {
-      "name": "RCLONE user password",
-      "value": ""
+  parentForm!: FormGroup;
+
+
+  storageConfFormGroup = this.fb.group({
+    rcloneConfInput: [''],
+    storageUrlInput:[''],
+    rcloneVendorSelect: [''],
+    rcloneUserInput: [''],
+    rclonePasswordInput: [''],
+  })
+
+  private _defaultFormValues: any;
+
+  @Input() set defaultFormValues(defaultFormValues: any) {
+    if(defaultFormValues) {
+      this._defaultFormValues = defaultFormValues;
+      
+      
+       this.storageConfFormGroup.get('rcloneConfInput')?.setValue(defaultFormValues.rclone_conf.value)
+       this.storageConfFormGroup.get('storageUrlInput')?.setValue(defaultFormValues.rclone_url.value)
+       this.storageConfFormGroup.get('rcloneUserInput')?.setValue(defaultFormValues.rclone_user.value)
+       defaultFormValues.rclone_vendor.options?.forEach((option: any)  => {
+        this.rcloneVendorOptions.push(
+          {
+            value: option,
+            viewValue: option
+          }
+        )
+      }); 
     }
   }
-   * 
-   */
+
+
+
+  hidePassword: boolean = true;
+  rcloneVendorOptions: any = []
+
+  ngOnInit(): void {
+    this.parentForm = this.ctrlContainer.form;
+    this.parentForm.addControl("storageConfForm", this.storageConfFormGroup);
+  }
 
 }

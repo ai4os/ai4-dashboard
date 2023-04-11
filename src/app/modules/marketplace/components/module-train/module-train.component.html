@@ -3,22 +3,23 @@
     <span>Configure training: Dogs breed detector</span>
 </mat-toolbar>
 
-<mat-stepper #stepper>
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
+
+<mat-stepper linear #stepper>
+    <mat-step [stepControl]="generalConfForm">
+      <form [formGroup]="generalConfForm">
         <ng-template matStepLabel>General configuration</ng-template>
 
         <app-general-conf-form [defaultFormValues]="generalConfDefaultValues"></app-general-conf-form>
         
         <div class="next-back-buttons">
-          <button mat-raised-button matStepperNext color="primary">Next</button>
+          <button type="button" mat-raised-button matStepperNext color="primary">Next</button>
         </div>
 
 
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
+    <mat-step [stepControl]="hardwareConfForm" [optional]="true">
+      <form [formGroup]="hardwareConfForm">
         <ng-template matStepLabel>Hardware Configuration</ng-template>
         <app-hardware-conf-form [defaultFormValues]="hardwareConfDefaultValues"></app-hardware-conf-form>
         <div class="next-back-buttons">
@@ -27,13 +28,14 @@
         </div>
       </form>
     </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Storage Configuration</ng-template>
-      
-      <app-storage-conf-form></app-storage-conf-form>
+    <mat-step [stepControl]="storageConfForm" [optional]="true">
+      <form [formGroup]="storageConfForm">
+      <ng-template matStepLabel>Storage Configuration</ng-template>      
+      <app-storage-conf-form [defaultFormValues]="storageConfDefaultValues"></app-storage-conf-form>
       <div class="next-back-buttons">
         <button mat-raised-button matStepperPrevious class="mr-3" >Back</button>
         <button mat-raised-button color="primary">Submit</button>
       </div>
+      </form>
     </mat-step>
   </mat-stepper>
