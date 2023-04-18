@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DeploymentsService } from '../../services/deployments.service';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
@@ -24,6 +25,7 @@ export class DeploymentsListComponent implements OnInit {
     public dialog: MatDialog,
     private translateService: TranslateService, 
     private deploymentsService: DeploymentsService,
+    public confirmationDialog: MatDialog
     ) {
   }
   
@@ -63,6 +65,15 @@ export class DeploymentsListComponent implements OnInit {
 
   removeDeployment(e: MouseEvent, index: number){
     e.stopPropagation();
+    this.confirmationDialog.open(ConfirmationDialogComponent, {
+      data: `¿Are you sure you want to delete this deployment?`
+    })
+    .afterClosed()
+    .subscribe((confirmed: Boolean) => {
+      if (confirmed) {
+        console.log("removing...", index)
+      } 
+    });
     console.log("removing...", index)
   }
 
