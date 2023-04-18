@@ -1,0 +1,56 @@
+<mat-toolbar class="mb-3 marketplace-toolbar">
+    <span>Deployment detail <mat-icon>view_in_ar</mat-icon></span>
+</mat-toolbar>
+
+
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title class="deployment-detail-title">
+            <h2>{{deploymentInfo?.title}}</h2>
+
+            <h4>
+                Status: {{deploymentInfo?.status}}
+            </h4>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="deployment-detail-container">
+            <div>
+                <h3>Docker image</h3>
+                <p>{{deploymentInfo?.docker_image}}</p>
+            </div>
+            <div>
+                <h3>Description</h3>
+                <p>{{deploymentInfo?.description}}</p>
+            </div>
+            <div>
+                <h3>Creation time</h3>
+                <p> {{deploymentInfo?.submit_time}}</p>
+            </div>
+            <div>
+                <h3>Deployment ID</h3>
+                <p> {{deploymentInfo?.job_ID}} </p>
+            </div>
+            <div>
+                <h3>Resources assigned</h3>
+                <p> {{deploymentInfo?.resources}} </p>
+            </div>
+            <div>
+                <h3>Endpoints   </h3>
+                <p> {{deploymentInfo?.resources}} </p>
+            </div>
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-raised-button color="warn">
+            <mat-icon>delete</mat-icon>
+            Delete</button>
+        <button mat-raised-button color="primary" class="m-2">
+            <mat-icon>terminal</mat-icon>
+            Access</button>
+        
+      </mat-card-actions>
+</mat-card>
+
+

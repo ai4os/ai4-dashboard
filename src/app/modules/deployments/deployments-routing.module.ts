@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DeploymentDetailComponent } from './components/deployment-detail/deployment-detail.component';
 import { DeploymentsListComponent } from './components/deployments-list/deployments-list.component';
 
 const routes: Routes = [
     {
       path: '',
       component: DeploymentsListComponent,
+    },
+    {
+      path: ':uuid',
+      component: DeploymentDetailComponent,
     },
     
 ];
