@@ -4,88 +4,81 @@
 @include mat.core();
 
 $ai4eosc-palette-primary: (
-    50 : #e0f0f1,
-    100 : #b3dadd,
-    200 : #80c1c6,
-    300 : #4da8af,
-    400 : #26959e,
-    500 : #00828d,
-    600 : #007a85,
-    700 : #006f7a,
-    800 : #006570,
-    900 : #00525d,
-    A100 : #8eefff,
-    A200 : #5be8ff,
-    A400 : #28e0ff,
-    A700 : #0eddff,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50 : #e0f1f2,
+  100 : #b3dbde,
+  200 : #80c3c9,
+  300 : #4dabb3,
+  400 : #2699a2,
+  500 : #008792,
+  600 : #007f8a,
+  700 : #00747f,
+  800 : #006a75,
+  900 : #005763,
+  A100 : #93efff,
+  A200 : #60e8ff,
+  A400 : #2de1ff,
+  A700 : #14ddff,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
 );
 
 /* For use in src/lib/core/theming/_palette.scss */
 $ai4eosc-palette-secondary: (
-    50 : #ffebf0,
-    100 : #ffced9,
-    200 : #ffaec0,
-    300 : #ff8da6,
-    400 : #ff7493,
-    500 : #ff5c80,
-    600 : #ff5478,
-    700 : #ff4a6d,
-    800 : #ff4163,
-    900 : #ff3050,
-    A100 : #ffffff,
-    A200 : #ffffff,
-    A400 : #ffdbe0,
-    A700 : #ffc2ca,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #000000,
-        700 : #000000,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50 : #ffebf0,
+  100 : #ffced9,
+  200 : #ffadbf,
+  300 : #ff8ca5,
+  400 : #ff7492,
+  500 : #ff5b7f,
+  600 : #ff5377,
+  700 : #ff496c,
+  800 : #ff4062,
+  900 : #ff2f4f,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffdae0,
+  A700 : #ffc1ca,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
 );
 
 
 $ai4eosc-app-primary: mat.define-palette($ai4eosc-palette-primary);
-$ai4eosc-app-accent: mat.define-palette($ai4eosc-palette-secondary, A200, A100, A400);
+$ai4eosc-app-accent: mat.define-palette($ai4eosc-palette-secondary);
 $ai4eosc-app-warn: mat.define-palette(mat.$red-palette);
 
-$ai4eosc-app-theme: mat.define-light-theme(
-  (
-        color: (
-          primary: $ai4eosc-app-primary,
-          accent: $ai4eosc-app-accent,
-          warning: $ai4eosc-app-warn
-        ),
-        typography: mat.define-typography-config($font-family: "'Raleway', Arial, Helvetica, sans-serif",),
-        density: 0,
-       )
-);
+$ai4eosc-app-theme: mat.define-light-theme((color: (primary: $ai4eosc-app-primary,
+        accent: $ai4eosc-app-accent,
+        warning: $ai4eosc-app-warn ),
+      typography: mat.define-typography-config($font-family: "'Raleway', Arial, Helvetica, sans-serif", ),
+      density: 0,
+    ));
 
 // Emit theme-dependent styles for common features used across multiple components.
 @include mat.all-component-themes($ai4eosc-app-theme);

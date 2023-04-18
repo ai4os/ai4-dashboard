@@ -15,8 +15,15 @@
   --sky-blue: #5da9ff;
   --soft-green: #7cd67e;
 
-  --primary: #00828d;
-  --accent:  #ff5c80;
+  /*--primary: #008792;
+  --primary-text: #151515;
+  --accent:  #ff5b7f;
+  --warn: #f44336;*/
+
+  //IMAGINE
+  --primary: #EF7D17;
+  --primary-text: #1961AC;
+  --accent:  #1961AC;
   --warn: #f44336;
 
 
@@ -67,4 +74,9 @@
     font-size: 14px;
     color: var(--neon-red);
   }
+  .mat-toolbar{
+    background-color: var(--white-three);
+  }
+
+
 }
