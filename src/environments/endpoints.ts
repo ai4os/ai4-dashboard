@@ -1,5 +1,9 @@
 export const endpoints = {
   modulesSummary: '/modules/summary',
-  module: '/modulesmetadata/:name',
-  moduleConfiguration: '/info/conf/:name'
+  module: '/modules/metadata/:name',
+  moduleConfiguration: '/info/conf/:name',
+  trainModule: '/deployments',
+  deploymentByUUID: '/deployments/:deploymentUUID',
+  deployments: '/deployments'
+
 };
