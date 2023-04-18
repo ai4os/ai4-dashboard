@@ -1,7 +1,38 @@
 <mat-toolbar>
-    <img src="../../../assets/images/ai4-logo.png" class="ai4-logo">
-    <span class="spacer"></span>
-    <button mat-icon-button class="example-icon person-icon" aria-label="Profile icon showing the silhouette of a person">
-      <mat-icon>person</mat-icon>
+  <img src="../../../assets/images/ai4-logo.png" class="ai4-logo">
+  <span class="spacer"></span>
+  <div *ngIf="isLoggedIn(); else showLoginLink">
+
+
+    <button #button  mat-button [matMenuTriggerFor]="loginMenuAccess" #menuTrigger="matMenuTrigger"
+     (mouseenter)="buttonEnter(menuTrigger)" (mouseleave)="buttonLeave(menuTrigger, button)"    style="z-index:1050">
+      <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
+      {{userProfile?.name}}
     </button>
+
+    <mat-menu #loginMenuAccess ="matMenu"   >
+      <button mat-menu-item (click)="logout()" (mouseenter)="menuenter()" (mouseleave)="menuLeave(menuTrigger, button)">
+        <mat-icon>logout</mat-icon>
+        Logout
+        
+      </button>
+      
+    </mat-menu>
+
+
+
+    
+    
+    
+  </div>
+
+  <ng-template #showLoginLink>
+    <mat-icon>person</mat-icon>
+    <a (click)="login()"> Login - Register </a>
+
+
+
+
+  </ng-template>
+
 </mat-toolbar>
