@@ -17,7 +17,7 @@
         "GPUS": "GPUs",
         "CREATION-TIME": "Creation time",
         "DEPLOYED-AT": "Deployed at",
-        "ACTIONS": "Actions"
+        "ACTIONS": "Quick Actions"
     },
     "LOGOUT": "log out"
 }

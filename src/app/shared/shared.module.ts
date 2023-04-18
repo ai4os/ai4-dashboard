@@ -6,11 +6,15 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material.module';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ConfirmationDialogComponent
+  ],
   imports: [
     CommonModule,
+    MaterialModule
   ],
   exports: [
     ReactiveFormsModule,
