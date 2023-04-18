@@ -2,18 +2,82 @@
     <span>Module <mat-icon>view_in_ar</mat-icon></span>
 </mat-toolbar>
 
-<h1>{{module.title}}</h1>
-<p>{{module.summary}}</p>
-<p>{{module.keywords}}</p>
-<p>{{module.license}}</p>
-<p>{{module.date_creation}}</p>
-<p>{{module.dataset_url}}</p>
-<p>{{module.sources | json}}</p>
-<p>{{module.continuous_integration | json}}</p>
-<p>{{module.tosca | json}}</p>
+
+<mat-card class="example-card">
+    <mat-card-header id="module-detail-card-header">
+        <div class="grid-2-columns">
+            <div>
+                <h1 style="color:var(--primary-text)">{{module.title}}</h1>
+                <p>{{module.summary}}</p>
+            </div>
+            <div>
+                <div class="grid-3-columns">
+                    <div class="module-header-info">
+                        <h5>Build status</h5>
+                        <p>
+                            <a href="{{module.continuous_integration?.build_status_url}}"><img alt="Build Status"
+                                    src="{{module.continuous_integration?.build_status_badge}}"></a>
+                        </p>
+                    </div>
+
+                    <div class="module-header-info">
+                        <h5>License</h5>
+                        <p>{{module.license}}</p>
+                    </div>
+                    <div class="module-header-info">
+                        <h5>Created</h5>
+                        <p>{{module.date_creation}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+
+        <div class="grid-2-columns-content">
+            <div>
+                <markdown [data]="module.description">
+
+                </markdown>
+            </div>
+
+            <div class="mb-3">
+                <h4>Categories</h4>
+                <div class="tags ml-3">
+                    <span class="keyword" *ngFor="let keyword of module.keywords">
+                        {{keyword}}
+                    </span>
+                </div>
+
+                <h4>Additional Resources</h4>
+                
+                <p>Get the code</p>
+                <div class="mr-3">
+                    <a mat-raised-button href="{{module.sources?.code}}" target="_blank" class="mr-2">
+                        <img src="../../../../../assets/images/github-mark.svg" width="16" height="16">
+                        Github</a>
+                    <a mat-raised-button href="https://hub.docker.com/r/{{module.sources?.docker_registry_repo}}"
+                        target="_blank">
+                        <img src="../../../../../assets/images/dockerhub.png" width="16" height="16">
+                        Dockerhub</a>
+                </div>
+                <p>Get the data</p>
+                
+                <a mat-raised-button href="{{module.dataset_url}}">
+                    <mat-icon>database</mat-icon>
+                    Dataset</a>
+
+            </div>
 
 
 
-<markdown [data]="module.description">
-
-</markdown>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="end" *ngIf="isLoggedIn()">
+        <div class="train-button mr-3">
+            <a class="mb-3" mat-raised-button routerLink="train" color="primary">Train module</a>
+        </div>
+    </mat-card-actions>
+</mat-card>

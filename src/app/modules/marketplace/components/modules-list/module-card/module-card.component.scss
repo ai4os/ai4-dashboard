@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 .module-card {
     //max-width: 500px;
+    min-height: 225px;
 
     .mat-mdc-card-actions{
         justify-content: right;
@@ -13,3 +14,7 @@
 
 
   }
+
+.module-card-content{
+    font-size: 1rem;
+}
