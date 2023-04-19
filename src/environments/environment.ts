@@ -5,7 +5,7 @@ export const environment = {
     develop: true,
     production: false,
     api: {
-      base: '/',
+      base: 'https://api.dev.imagine-ai.eu',
       endpoints,
     },
 };
