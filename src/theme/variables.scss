@@ -15,16 +15,18 @@
   --sky-blue: #5da9ff;
   --soft-green: #7cd67e;
 
-  /*--primary: #008792;
+  //AI4EOSC
+  --primary: #008792;
   --primary-text: #151515;
   --accent:  #ff5b7f;
-  --warn: #f44336;*/
+  --warn: #f44336;
 
-  //IMAGINE
+  /*IMAGINE
   --primary: #EF7D17;
   --primary-text: #1961AC;
   --accent:  #1961AC;
   --warn: #f44336;
+  */
 
 
 
@@ -76,6 +78,21 @@
   }
   .mat-toolbar{
     background-color: var(--white-three);
+  }
+
+  .mat-mdc-snack-bar-container {
+    &.red-snackbar {
+      --mdc-snackbar-container-color: var(--neon-red);
+      --mat-mdc-snack-bar-button-color: var(--white);
+      --mdc-snackbar-supporting-text-color: var(--white);
+      white-space: pre-wrap
+    }
+    &.primary-snackbar {
+      --mdc-snackbar-container-color: var(--primary);
+      --mat-mdc-snack-bar-button-color: var(--white);
+      --mdc-snackbar-supporting-text-color: var(--white);
+      white-space: pre-wrap
+    }
   }
 
 

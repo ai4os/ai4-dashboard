@@ -19,5 +19,8 @@
         "DEPLOYED-AT": "Deployed at",
         "ACTIONS": "Quick Actions"
     },
-    "LOGOUT": "log out"
+    "LOGOUT": "log out",
+    "ERRORS": {
+        "SERVICE-ERROR": "Error calling the API, please retry later"
+    }
 }

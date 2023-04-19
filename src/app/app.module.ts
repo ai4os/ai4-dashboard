@@ -1,5 +1,5 @@
 import {
-  HttpClient
+  HttpClient, HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,6 +22,7 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
+import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
@@ -71,6 +72,13 @@ const { base } = environment.api;
         }
       }
     })
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
