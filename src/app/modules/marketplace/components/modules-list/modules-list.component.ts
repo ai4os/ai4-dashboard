@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { TranslateService } from '@ngx-translate/core';
 import { ModulesService } from '../../services/modules-service/modules.service';
 
 @Component({
@@ -12,22 +14,32 @@ export class ModulesListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private modulesService: ModulesService
-    ) {}
- 
+    private modulesService: ModulesService,
+  ) { }
+
   searchFormGroup!: FormGroup;
+  isLoading: boolean = false;
 
   modules: ModuleSummary[] = []
 
-  initializeForm(){
+  initializeForm() {
     this.searchFormGroup = this.fb.group({
       search: ''
     })
   }
 
-  getModulesSummaryFromService(){
-    this.modulesService.getModulesSummary().subscribe( modules => {
-      this.modules = modules;
+  getModulesSummaryFromService() {
+    this.isLoading = true;
+    this.modulesService.getModulesSummary().subscribe({
+      next: modules => {
+        this.isLoading = false;
+        this.modules = modules;
+      },
+      error: () => {
+        setTimeout(() =>
+          this.isLoading = false
+          , 3000);
+      }
     })
   }
 
