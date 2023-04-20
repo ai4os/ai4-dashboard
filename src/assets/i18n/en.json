@@ -59,12 +59,13 @@
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
                 "DEPLOYMENT-TITLE": "Deployment title",
+                "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
                 "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
                 "SERVICE-TO-RUN": "Service to run",
                 "JUPYTERLAB-PASS": "JupyterLab password",
                 "JUPYTERLAB-PASS-REQUIRED": "A JupyterLab password is required",
-                "JUPYTERLAB-PASS-LENGTH-ERROR": "Name must be at least 9 characters long",
+                "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG":  "Docker tag"

@@ -4,6 +4,9 @@
         <mat-form-field appearance="fill">
             <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE" | translate}}</mat-label>
             <input matInput placeholder="" formControlName="titleInput" maxlength="45">
+            <mat-error *ngIf="generalConfFormGroup.get('titleInput')?.errors?.['required']">
+                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED" | translate}}
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -20,14 +23,14 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" *ngIf="isJupyterLab">
+        <mat-form-field appearance="fill">
             <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS" | translate}}</mat-label>
             <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="At least 9 characters"
                 formControlName="jupyterLabPassInput">
-            <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"> {{hidePassword ?
-                'visibility_off' : 'visibility'}} </mat-icon>
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"  > {{hidePassword ?
+                'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['required']">
-                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYERLAB-PASS-REQUIRED" | translate}}
+                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED" | translate}}
             </mat-error>
             <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['minlength']">
                 {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR" | translate}}
