@@ -1,18 +1,18 @@
 <form [formGroup]="generalConfFormGroup">
-    <h4>Deployment options</h4>
+    <h4>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TITLE" | translate}}</h4>
     <div class="form-grid">
         <mat-form-field appearance="fill">
-            <mat-label>Deployment title</mat-label>
+            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE" | translate}}</mat-label>
             <input matInput placeholder="" formControlName="titleInput" maxlength="45">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <mat-label>Deployment description</mat-label>
-            <input matInput placeholder="Useful when you have lots of different active deployments."
+            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION" | translate}}</mat-label>
+            <input matInput placeholder="{{'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION-PLACEHOLDER' | translate}}"
                 formControlName="descriptionInput">
         </mat-form-field>
         <mat-form-field appearance="fill">
-            <mat-label>Service to run</mat-label>
+            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN" | translate}}</mat-label>
             <mat-select formControlName="commandSelect">
                 <mat-option *ngFor="let commandOption of commandOptions" [value]="commandOption.value">
                     {{commandOption.viewValue}}
@@ -21,31 +21,31 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" *ngIf="isJupyterLab">
-            <mat-label>JupyterLab Password</mat-label>
+            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS" | translate}}</mat-label>
             <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="At least 9 characters"
                 formControlName="jupyterLabPassInput">
             <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"> {{hidePassword ?
                 'visibility_off' : 'visibility'}} </mat-icon>
             <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['required']">
-                A JupyterLab password is required.
+                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYERLAB-PASS-REQUIRED" | translate}}
             </mat-error>
             <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['minlength']">
-                Name must be at least 9 characters long.
+                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR" | translate}}
             </mat-error>
         </mat-form-field>
 
     </div>
     
-    <h4>Docker options</h4>
+    <h4>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS" | translate}}</h4>
     <mat-divider class="mt-3 mb-3"></mat-divider>
     <div class="form-grid">
         
             <mat-form-field class="example-full-width">
-                <mat-label>Docker image</mat-label>
+                <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE" | translate}}</mat-label>
                 <input matInput placeholder=""   formControlName="dockerImageInput">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <mat-label>Docker tag</mat-label>
+                <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG" | translate}}</mat-label>
                 <mat-select formControlName="dockerTagSelect">
                     <mat-option *ngFor="let dockerTagOption of dockerTagOptions" [value]="dockerTagOption.value">
                         {{dockerTagOption.viewValue}}

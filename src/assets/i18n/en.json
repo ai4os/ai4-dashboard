@@ -7,9 +7,25 @@
         "IAM": "Identity and Access",
         "DEEP-MARKETPLACE": "DEEP Marketplace",
         "DEEP-DOCUMENTATION": "DEEP Documentation",
-        "PROJECT-PAGE": "Project page"
+        "PROJECT-PAGE": "Project page",
+        "OTHER-LINKS": "Other links"
+    },
+    "TOP-NAVBAR": {
+        "LOGOUT": "Log out",
+        "LOGIN-REGISTER": "Login - Register"
     },
     "DEPLOYMENTS": {
+        "TITLE": "Deployments",
+        "DEPLOYMENT-DETAIL": {
+            "TITLE": "Deployment detail",
+            "STATUS": "Status",
+            "DOCKER-IMAGE": "Docker image",
+            "DESCRIPTION": "Description",
+            "CREATION-TIME": "Creation time",
+            "DEPLOYMENT-ID": "Deployment ID",
+            "RESOURCES-ASSIGNED": "Resources assigned",
+            "ENDPOINTS": "Endpoints"
+        },
         "BULK-ACTIONS": "Bulk actions",
         "UUID": "Deployment uuid", 
         "STATUS": "Status",
@@ -17,9 +33,73 @@
         "GPUS": "GPUs",
         "CREATION-TIME": "Creation time",
         "DEPLOYED-AT": "Deployed at",
-        "ACTIONS": "Quick Actions"
+        "ACTIONS": "Quick Actions",
+        "NAMESPACE": "Namespace",
+        "NEW-DEPLOYMENT": "New deployment"
     },
-    "LOGOUT": "log out",
+    "MODULES": {
+        "TITLE": "Marketplace",
+        "MODULE-DETAIL": {
+            "TITLE": "Module",
+            "BUILD-STATUS": "Build status",
+            "LICENSE": "License",
+            "CREATED":  "Created",
+            "CATEGORIES": "Categories",
+            "ADDITIONAL-RESOURCES": "Additional Resources",
+            "GET-THE-CODE": "Get the code",
+            "GET-THE-DATA": "Get the data",
+            "DATASET":"Dataset",
+            "TRAIN-MODULE": "Train module"
+        },
+        "MODULE-TRAIN": {
+            "TITLE": "Configure training",
+            "GENERAL-CONF": "General configuration",
+            "HARDWARE-CONF": "Hardware configuration",
+            "STORAGE-CONF": "Storage configuration",
+            "GENERAL-CONF-FORM": {
+                "TITLE": "Deployment options",
+                "DEPLOYMENT-TITLE": "Deployment title",
+                "DEPLOYMENT-DESCRIPTION": "Deployment description",
+                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
+                "SERVICE-TO-RUN": "Service to run",
+                "JUPYTERLAB-PASS": "JupyterLab password",
+                "JUPYTERLAB-PASS-REQUIRED": "A JupyterLab password is required",
+                "JUPYTERLAB-PASS-LENGTH-ERROR": "Name must be at least 9 characters long",
+                "DOCKER-OPTIONS": "Docker options",
+                "DOCKER-IMAGE": "Docker image",
+                "DOCKER-TAG":  "Docker tag"
+            },
+            "HARDWARE-CONF-FORM": {
+                "TITLE": "Hardware options",
+                "NUMBER-OF-CPUS": "Number of CPUs",
+                "NUMBER-OF-GPUS": "Number of GPUs",
+                "GPU-MODEL": "GPU model",
+                "RAM-MEMORY": "RAM memory (in MB)",
+                "DISK-MEMORY": "Disk memory (in MB)"
+            },
+            "STORAGE-CONF-FORM": {
+                "TITLE":"Storage options",
+                "RCLONE-CONF": "RCLONE configuration", 
+                "STORAGE-URL": "Storage URL",
+                "RCLONE-VENDOR": "RCLONE vendor (webdav)",
+                "RCLONE-USER": "RCLONE user",
+                "RCLONE-PASS": "RCLONE password"
+            }
+        }
+    },
+    "GENERAL-BUTTONS": {
+        "DELETE": "Delete",
+        "ACCEPT": "Accept",
+        "ACCESS": "Access",
+        "YES": "Yes",
+        "NO": "No",
+        "BACK": "Back",
+        "NEXT": "Next",
+        "SUBMIT": "Submit",    
+        "GITHUB": "Github",
+        "DOCKERHUB": "Dockerhub"
+        
+    },
     "ERRORS": {
         "SERVICE-ERROR": "Error calling the API, please retry later"
     }

@@ -1,19 +1,19 @@
 
-<h4>Hardware Options</h4>
+<h4>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.TITLE" | translate}}</h4>
 
 
 <form [formGroup]="hardwareConfFormGroup">
 <div class="form-grid">
     <mat-form-field class="example-full-width">
-        <mat-label>Number of CPUs</mat-label>
+        <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS" | translate}}</mat-label>
         <input matInput placeholder="" value="" type="number" formControlName="cpuNumberInput">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-        <mat-label>Number of GPUs</mat-label>
+        <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-GPUS" | translate}}</mat-label>
         <input matInput placeholder="" value="" type="number" min="0" formControlName="gpuNumberInput">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-        <mat-label>GPU model</mat-label>
+        <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.GPU-MODEL" | translate}}</mat-label>
         <mat-select formControlName="gpuModelSelect" >
             <mat-option *ngFor="let gpuModelOption of gpuModelOptions" [value]="gpuModelOption.value">
                 {{gpuModelOption.viewValue}}
@@ -21,11 +21,11 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="example-full-width">
-        <mat-label>RAM memory (in MB)</mat-label>
+        <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.RAM-MEMORY" | translate}}</mat-label>
         <input matInput placeholder="" value="" type="number" formControlName="ramMemoryInput">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-        <mat-label>Disk memory (in MB)</mat-label>
+        <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.DISK-MEMORY" | translate}}</mat-label>
         <input matInput placeholder="" value="" type="number" formControlName="diskMemoryInput">
     </mat-form-field>
 </div>

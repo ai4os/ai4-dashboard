@@ -3,7 +3,6 @@
   <span class="spacer"></span>
   <div *ngIf="isLoggedIn(); else showLoginLink">
 
-
     <button #button  mat-button [matMenuTriggerFor]="loginMenuAccess" #menuTrigger="matMenuTrigger"
      (mouseenter)="buttonEnter(menuTrigger)" (mouseleave)="buttonLeave(menuTrigger, button)"    style="z-index:1050">
       <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
@@ -13,26 +12,15 @@
     <mat-menu #loginMenuAccess ="matMenu"   >
       <button mat-menu-item (click)="logout()" (mouseenter)="menuenter()" (mouseleave)="menuLeave(menuTrigger, button)">
         <mat-icon>logout</mat-icon>
-        Logout
-        
+        {{"TOP-NAVBAR.LOGOUT" | translate}}
       </button>
-      
     </mat-menu>
 
-
-
-    
-    
-    
   </div>
 
   <ng-template #showLoginLink>
     <mat-icon>person</mat-icon>
-    <a (click)="login()"> Login - Register </a>
-
-
-
-
+    <a (click)="login()"> {{"TOP-NAVBAR.LOGIN-REGISTER" | translate}} </a>
   </ng-template>
 
 </mat-toolbar>

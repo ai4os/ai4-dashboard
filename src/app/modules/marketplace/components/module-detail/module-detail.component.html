@@ -1,5 +1,5 @@
 <mat-toolbar class="mb-3 marketplace-toolbar">
-    <span>Module <mat-icon>view_in_ar</mat-icon></span>
+    <span>{{"MODULES.MODULE-DETAIL.TITLE" | translate}} <mat-icon>view_in_ar</mat-icon></span>
 </mat-toolbar>
 
 
@@ -13,7 +13,7 @@
             <div>
                 <div class="grid-3-columns">
                     <div class="module-header-info">
-                        <h5>Build status</h5>
+                        <h5>{{"MODULES.MODULE-DETAIL.BUILD-STATUS" | translate}}</h5>
                         <p>
                             <a href="{{module.continuous_integration?.build_status_url}}"><img alt="Build Status"
                                     src="{{module.continuous_integration?.build_status_badge}}"></a>
@@ -21,11 +21,11 @@
                     </div>
 
                     <div class="module-header-info">
-                        <h5>License</h5>
+                        <h5>{{"MODULES.MODULE-DETAIL.LICENSE" | translate}}</h5>
                         <p>{{module.license}}</p>
                     </div>
                     <div class="module-header-info">
-                        <h5>Created</h5>
+                        <h5>{{"MODULES.MODULE-DETAIL.CREATED" | translate}}</h5>
                         <p>{{module.date_creation}}</p>
                     </div>
                 </div>
@@ -44,30 +44,30 @@
             </div>
 
             <div class="mb-3">
-                <h4>Categories</h4>
+                <h4>{{"MODULES.MODULE-DETAIL.CATEGORIES" | translate}}</h4>
                 <div class="tags ml-3">
                     <span class="keyword" *ngFor="let keyword of module.keywords">
                         {{keyword}}
                     </span>
                 </div>
 
-                <h4>Additional Resources</h4>
+                <h4>{{"MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES" | translate}}</h4>
                 
-                <p>Get the code</p>
+                <p>{{"MODULES.MODULE-DETAIL.GET-THE-CODE" | translate}}</p>
                 <div class="mr-3">
                     <a mat-raised-button href="{{module.sources?.code}}" target="_blank" class="mr-2">
                         <img src="../../../../../assets/images/github-mark.svg" width="16" height="16">
-                        Github</a>
+                        {{"GENERAL-BUTTONS.GITHUB" | translate}}</a>
                     <a mat-raised-button href="https://hub.docker.com/r/{{module.sources?.docker_registry_repo}}"
                         target="_blank">
                         <img src="../../../../../assets/images/dockerhub.png" width="16" height="16">
-                        Dockerhub</a>
+                        {{"GENERAL-BUTTONS.DOCKERHUB" | translate}}</a>
                 </div>
-                <p>Get the data</p>
+                <p>{{"MODULES.MODULE-DETAIL.GET-THE-DATA" | translate}}</p>
                 
                 <a mat-raised-button href="{{module.dataset_url}}">
                     <mat-icon>database</mat-icon>
-                    Dataset</a>
+                    {{"MODULES.MODULE-DETAIL.DATASET" | translate}}</a>
 
             </div>
 
@@ -77,7 +77,9 @@
     </mat-card-content>
     <mat-card-actions align="end" *ngIf="isLoggedIn()">
         <div class="train-button mr-3">
-            <a class="mb-3" mat-raised-button routerLink="train" color="primary">Train module</a>
+            <a class="mb-3" mat-raised-button routerLink="train" color="primary">
+                {{"MODULES.MODULE-DETAIL.TRAIN-MODULE" | translate}}
+            </a>
         </div>
     </mat-card-actions>
 </mat-card>
