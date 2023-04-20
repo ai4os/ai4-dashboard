@@ -48,9 +48,15 @@
 }
 
 .other-links {
-    color: var(--warm-grey)
+    display: flex;
+    align-items: center;
+    color: var(--warm-grey);
+    & .mat-icon {
+        transform: scale(0.7)
+    }
 }
 
 .mat-drawer-content{
     background-color: var(--white-three);
 }
+
