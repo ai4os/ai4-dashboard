@@ -37,7 +37,6 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
-    console.log("logging out")
     this.oauthService.logOut();
   }
 

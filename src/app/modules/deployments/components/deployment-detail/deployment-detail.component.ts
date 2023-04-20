@@ -19,13 +19,11 @@ export class DeploymentDetailComponent implements OnInit{
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      console.log("estos parametros", params['uuid'])
       this.deploymentsService.getDeploymentByUUID(params['uuid']).subscribe( (deployment: DeploymentInfo) => {
         if(deployment.description == ''){
           deployment.description = '-'
         }
         this.deploymentInfo = deployment
-        console.log("Lo que viene del service", deployment)
       })
     });
   }

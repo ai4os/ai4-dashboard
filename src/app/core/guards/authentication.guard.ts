@@ -9,11 +9,9 @@ export const AuthenticationGuard = () => {
 
   if (authService.isAuthenticated()) {
     return true;
-  }else{
-    console.log("No estoy logeado")
   }
 
   // Redirect to the login page
-  return router.parseUrl('/login');
+  return router.parseUrl('/modules');
 };
 

@@ -28,7 +28,6 @@ export class ModuleDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.modulesService.getModule(params['id']).subscribe( module => {
           this.module = module;
-          console.log(module)
       })
     });
         
