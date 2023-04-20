@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-module-train',
@@ -19,7 +20,8 @@ export class ModuleTrainComponent implements OnInit {
     private deploymentsService: DeploymentsService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private _location: Location
   ) { }
 
   generalConfForm: FormGroup = this._formBuilder.group({
@@ -92,9 +94,6 @@ export class ModuleTrainComponent implements OnInit {
         this.storageConfDefaultValues = moduleConf.storage
       })
     });
-
-    console.log(this.storageConfForm)
-
   }
 
 }

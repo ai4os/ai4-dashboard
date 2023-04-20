@@ -1,36 +1,37 @@
-
 <mat-toolbar>
-    <span>{{"MODULES.MODULE-TRAIN.TITLE" | translate}}: <strong>{{deploymentTitle}}</strong></span>
+  <h4>{{"MODULES.MODULE-TRAIN.TITLE" | translate}}: <strong>{{deploymentTitle}}</strong></h4>
 </mat-toolbar>
 
 <mat-stepper linear #stepper>
-    <mat-step [stepControl]="generalConfForm">
-      <form [formGroup]="generalConfForm">
-        <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.GENERAL-CONF" | translate}}</ng-template>
-        <app-general-conf-form [defaultFormValues]="generalConfDefaultValues"></app-general-conf-form>
-        <div class="next-back-buttons">
-          <button type="button" mat-raised-button matStepperNext color="primary">{{"GENERAL-BUTTONS.NEXT" | translate}}</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="hardwareConfForm">
-      <form [formGroup]="hardwareConfForm">
-        <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF" | translate}}</ng-template>
-        <app-hardware-conf-form [defaultFormValues]="hardwareConfDefaultValues"></app-hardware-conf-form>
-        <div class="next-back-buttons">
-          <button mat-raised-button matStepperPrevious >{{"GENERAL-BUTTONS.BACK" | translate}}</button>
-          <button mat-raised-button matStepperNext color="primary">{{"GENERAL-BUTTONS.NEXT" | translate}}</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="storageConfForm">
-      <form [formGroup]="storageConfForm">
-      <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.STORAGE-CONF" | translate}}</ng-template>      
+  <mat-step [stepControl]="generalConfForm">
+    <form [formGroup]="generalConfForm">
+      <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.GENERAL-CONF" | translate}}</ng-template>
+      <app-general-conf-form [defaultFormValues]="generalConfDefaultValues"></app-general-conf-form>
+      <div class="next-back-buttons">
+        <button type="button" mat-raised-button matStepperNext color="primary">{{"GENERAL-BUTTONS.NEXT" |
+          translate}}</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="hardwareConfForm">
+    <form [formGroup]="hardwareConfForm">
+      <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF" | translate}}</ng-template>
+      <app-hardware-conf-form [defaultFormValues]="hardwareConfDefaultValues"></app-hardware-conf-form>
+      <div class="next-back-buttons">
+        <button mat-raised-button matStepperPrevious class="mr-2">{{"GENERAL-BUTTONS.BACK" | translate}}</button>
+        <button mat-raised-button matStepperNext color="primary">{{"GENERAL-BUTTONS.NEXT" | translate}}</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="storageConfForm">
+    <form [formGroup]="storageConfForm">
+      <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.STORAGE-CONF" | translate}}</ng-template>
       <app-storage-conf-form [defaultFormValues]="storageConfDefaultValues"></app-storage-conf-form>
       <div class="next-back-buttons">
-        <button mat-raised-button matStepperPrevious class="mr-3" >{{"GENERAL-BUTTONS.BACK" | translate}}</button>
-        <button mat-raised-button color="primary" (click)="submitTrainingRequest()">{{"GENERAL-BUTTONS.SUBMIT" | translate}}</button>
+        <button mat-raised-button matStepperPrevious class="mr-2">{{"GENERAL-BUTTONS.BACK" | translate}}</button>
+        <button mat-raised-button color="primary" (click)="submitTrainingRequest()">{{"GENERAL-BUTTONS.SUBMIT" |
+          translate}}</button>
       </div>
-      </form>
-    </mat-step>
-  </mat-stepper>
+    </form>
+  </mat-step>
+</mat-stepper>
