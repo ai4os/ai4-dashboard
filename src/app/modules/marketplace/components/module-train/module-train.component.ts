@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
@@ -17,6 +18,8 @@ export class ModuleTrainComponent implements OnInit {
     private modulesService: ModulesService,
     private deploymentsService: DeploymentsService,
     private route: ActivatedRoute,
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   generalConfForm: FormGroup = this._formBuilder.group({
@@ -35,35 +38,46 @@ export class ModuleTrainComponent implements OnInit {
   submitTrainingRequest() {
     let request: TrainModuleRequest;
     request = {
-        general: {
-          title: this.generalConfForm.value.generalConfForm.titleInput,
-          desc: this.generalConfForm.value.generalConfForm.descriptionInput,
-          docker_image: this.generalConfForm.getRawValue().generalConfForm.dockerImageInput,
-          docker_tag: this.generalConfForm.value.generalConfForm.dockerTagSelect,
-          service: this.generalConfForm.value.generalConfForm.commandSelect,
-          jupyter_password: this.generalConfForm.getRawValue().generalConfForm.jupyterLabPassInput
-        },
-        hardware: {
-          cpu_num: this.hardwareConfForm.value.hardwareConfForm.cpuNumberInput,
-          ram: this.hardwareConfForm.value.hardwareConfForm.ramMemoryInput,
-          disk: this.hardwareConfForm.value.hardwareConfForm.diskMemoryInput,
-          gpu_num: this.hardwareConfForm.value.hardwareConfForm.gpuNumberInput,
-        },
-        storage: {
-          rclone_conf: this.storageConfForm.value.storageConfForm.rcloneConfInput,
-          rclone_url: this.storageConfForm.value.storageConfForm.storageUrlInput,
-          rclone_vendor: this.storageConfForm.value.storageConfForm.rcloneVendorSelect,
-          rclone_user: this.storageConfForm.value.storageConfForm.rcloneUserInput,
-          rclone_password: this.storageConfForm.value.storageConfForm.rclonePasswordInput,
-        }
-      
-    }
-    console.log(this.generalConfForm.getRawValue().generalConfForm)
-    console.log("mando esto al serivice", request)
+      general: {
+        title: this.generalConfForm.value.generalConfForm.titleInput,
+        desc: this.generalConfForm.value.generalConfForm.descriptionInput,
+        docker_image: this.generalConfForm.getRawValue().generalConfForm.dockerImageInput,
+        docker_tag: this.generalConfForm.value.generalConfForm.dockerTagSelect,
+        service: this.generalConfForm.value.generalConfForm.commandSelect,
+        jupyter_password: this.generalConfForm.getRawValue().generalConfForm.jupyterLabPassInput
+      },
+      hardware: {
+        cpu_num: this.hardwareConfForm.value.hardwareConfForm.cpuNumberInput,
+        ram: this.hardwareConfForm.value.hardwareConfForm.ramMemoryInput,
+        disk: this.hardwareConfForm.value.hardwareConfForm.diskMemoryInput,
+        gpu_num: this.hardwareConfForm.value.hardwareConfForm.gpuNumberInput,
+      },
+      storage: {
+        rclone_conf: this.storageConfForm.value.storageConfForm.rcloneConfInput,
+        rclone_url: this.storageConfForm.value.storageConfForm.storageUrlInput,
+        rclone_vendor: this.storageConfForm.value.storageConfForm.rcloneVendorSelect,
+        rclone_user: this.storageConfForm.value.storageConfForm.rcloneUserInput,
+        rclone_password: this.storageConfForm.value.storageConfForm.rclonePasswordInput,
+      }
 
-    this.deploymentsService.postTrainModule(request).subscribe((result: any) => {
-      console.log("El servicio me responde con esto", result)
-    })
+    }
+
+    this.deploymentsService.postTrainModule(request).subscribe({
+      next: (result: any) => {
+        if (result && result.status == 'success') {
+          this.router.navigate(['']).then((navigated: boolean) => {
+            if (navigated) {
+              this._snackBar.open("Deployment created with ID" + result.job_id)
+            }
+          });
+        } else {
+          if (result && result.status == 'fail') {
+            this._snackBar.open("Error while creating the deployment" + result.error_msg)
+          }
+        }
+      }
+    }
+    )
   }
 
   ngOnInit(): void {
