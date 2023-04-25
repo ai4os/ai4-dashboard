@@ -33,7 +33,7 @@
     position: relative;
     margin: 0 16px 8px 0;
     padding: 0 10px 0 12px;
-    background: var(--accent);    
+    background: var(--primary);    
     -webkit-border-bottom-right-radius: 3px;    
     border-bottom-right-radius: 3px;
     -webkit-border-top-right-radius: 3px;    
@@ -55,7 +55,7 @@
     left: -12px;
     width: 0;
     height: 0;
-    border-color: transparent var(--accent) transparent transparent;
+    border-color: transparent var(--primary) transparent transparent;
     border-style: solid;
     border-width: 12px 12px 12px 0;        
     }

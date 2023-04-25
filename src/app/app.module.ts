@@ -18,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 
-import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -29,6 +29,31 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 const { base } = environment.api;
+
+const renderer = new MarkedRenderer();
+ 
+
+renderer.paragraph = (text: string) => {
+  if (text.startsWith("&lt;img")) {
+    let div = document.createElement('div')
+    div.innerHTML = text.trim()
+    if(div.firstChild?.textContent != null){
+      return div.firstChild.textContent
+    }else{
+      return ''
+    }
+  } else {
+    return '<p>' + text + '</p>';
+  }
+};
+
+renderer.link = ( href, title, text ) => {
+  if(text.endsWith('/&gt;')){
+    return text;
+  }else{
+    return '<a href="'+ href +'" title="' + title + '">' + text + '</a>'
+  }
+}
 
 
 @NgModule({
@@ -67,8 +92,10 @@ const { base } = environment.api;
       markedOptions: {
         provide: MarkedOptions,
         useValue: {
+          renderer: renderer,
           gfm: true,
-          breaks: true
+          breaks: false,
+          sanitize: false,
         }
       }
     })
@@ -86,4 +113,4 @@ export class AppModule {
   constructor(iconRegistry: MatIconRegistry) {
     iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
   }
- }
+}

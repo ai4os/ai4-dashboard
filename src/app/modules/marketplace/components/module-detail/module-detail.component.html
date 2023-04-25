@@ -38,7 +38,7 @@
 
         <div class="grid-2-columns-content">
             <div>
-                <markdown [data]="module.description">
+                <markdown [data]="module.description" ngPreserveWhitespaces [disableSanitizer]="true">
 
                 </markdown>
             </div>
@@ -77,7 +77,7 @@
     </mat-card-content>
     <mat-card-actions align="end" *ngIf="isLoggedIn()">
         <div class="train-button mr-3">
-            <a class="mb-3" mat-raised-button routerLink="train" color="primary">
+            <a class="mb-3" mat-raised-button routerLink="train" color="accent">
                 {{"MODULES.MODULE-DETAIL.TRAIN-MODULE" | translate}}
             </a>
         </div>

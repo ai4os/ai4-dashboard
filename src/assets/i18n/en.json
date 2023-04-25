@@ -26,6 +26,7 @@
             "RESOURCES-ASSIGNED": "Resources assigned",
             "ENDPOINTS": "Endpoints"
         },
+        "DEPLOYMENT-NAME": "Name",
         "BULK-ACTIONS": "Bulk actions",
         "UUID": "Deployment uuid", 
         "STATUS": "Status",
