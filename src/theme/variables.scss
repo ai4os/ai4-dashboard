@@ -3,7 +3,11 @@
 :root {
   /** Styleguide: colors **/
   --black-60: rgba(0, 0, 0, 0.6);
+  --black: #000000;
   --white: #ffffff;
+  --light-gray: #F7F6F7;
+  --border-gray: #E4E4E4;
+  --dark-gray: #999999;
   --white-two: #d9d9d9;
   --white-three: #f8f8f8;
   --warm-grey: #7b7b7b;
@@ -13,12 +17,13 @@
   --greyish-brown-two: #545453;
   --warm-grey-opacity: rgba(var(--warm-grey), 0.8);
   --sky-blue: #5da9ff;
+  --success-green: #44cc11;
   --soft-green: #7cd67e;
 
   //AI4EOSC
-  --primary: #008792;
+  --primary: #ff5b7f;
   --primary-text: #151515;
-  --accent:  #ff5b7f;
+  --accent: #008792;
   --warn: #f44336;
 
   /*IMAGINE
