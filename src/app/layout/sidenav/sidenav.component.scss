@@ -29,7 +29,7 @@
 }
 
 .sidenav-item:hover .mdc-list-item {
-    background-color: var(--primary);
+    background-color: var(--accent);
     color: var(--white);
 }
 
@@ -43,7 +43,7 @@
 }
 
 .active {
-    background-color: var(--primary);
+    background-color: var(--accent);
     color: var(--white);
 }
 

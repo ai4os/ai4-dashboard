@@ -1,15 +1,18 @@
 <mat-toolbar>
+  <div *ngIf="mobileQuery.matches">
+    <button mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
+  </div>
   <img src="../../../assets/images/ai4-logo.png" class="ai4-logo">
   <span class="spacer"></span>
   <div *ngIf="isLoggedIn(); else showLoginLink">
 
-    <button #button  mat-button [matMenuTriggerFor]="loginMenuAccess" #menuTrigger="matMenuTrigger"
-     (mouseenter)="buttonEnter(menuTrigger)" (mouseleave)="buttonLeave(menuTrigger, button)"    style="z-index:1050">
+    <button #button mat-button [matMenuTriggerFor]="loginMenuAccess" #menuTrigger="matMenuTrigger"
+      (mouseenter)="buttonEnter(menuTrigger)" (mouseleave)="buttonLeave(menuTrigger, button)" style="z-index:1050">
       <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
       {{userProfile?.name}}
     </button>
 
-    <mat-menu #loginMenuAccess ="matMenu"   >
+    <mat-menu #loginMenuAccess="matMenu">
       <button mat-menu-item (click)="logout()" (mouseenter)="menuenter()" (mouseleave)="menuLeave(menuTrigger, button)">
         <mat-icon>logout</mat-icon>
         {{"TOP-NAVBAR.LOGOUT" | translate}}

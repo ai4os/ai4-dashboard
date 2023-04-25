@@ -1,5 +1,7 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
+import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 
 @Component({
   selector: 'app-top-navbar',
@@ -9,13 +11,20 @@ import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 export class TopNavbarComponent  implements OnInit{
   constructor(
     private readonly authService: AuthService, 
-    private ren: Renderer2
+    private ren: Renderer2,
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher,
+    private sidenavService: SidenavService,    
   ){
+    this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener('change', this._mobileQueryListener)
     authService.userProfileSubject.subscribe( profile => {
       this.userProfile = profile;
     })
   }
-
+  private _mobileQueryListener: () => void;
+  mobileQuery: MediaQueryList;
   userProfile? : UserProfile
   isMatMenuOpen = false;
   enteredButton = false;
@@ -91,6 +100,10 @@ export class TopNavbarComponent  implements OnInit{
         this.enteredButton = false;
       }
     }, 100)
+  }
+
+  toggleSidenav(){
+    this.sidenavService.toggle();
   }
 
   ngOnInit(): void {
