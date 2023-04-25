@@ -22,6 +22,8 @@ export class ModulesListComponent implements OnInit {
 
   modules: ModuleSummary[] = []
 
+  moduleType: "development" | "model" = "model"
+
   initializeForm() {
     this.searchFormGroup = this.fb.group({
       search: ''
