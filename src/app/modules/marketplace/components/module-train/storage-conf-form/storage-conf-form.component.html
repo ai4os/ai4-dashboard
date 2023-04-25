@@ -27,7 +27,7 @@
             <mat-label>{{"MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-PASS" | translate}}</mat-label>
             <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="At least 9 characters"
                 formControlName="rclonePasswordInput">
-            <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"> {{hidePassword ?
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="accent"> {{hidePassword ?
                 'visibility_off' : 'visibility'}} </mat-icon>
         </mat-form-field>
     </div>

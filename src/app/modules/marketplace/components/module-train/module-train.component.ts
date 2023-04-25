@@ -67,7 +67,7 @@ export class ModuleTrainComponent implements OnInit {
     this.deploymentsService.postTrainModule(request).subscribe({
       next: (result: any) => {
         if (result && result.status == 'success') {
-          this.router.navigate(['']).then((navigated: boolean) => {
+          this.router.navigate(['/deployments']).then((navigated: boolean) => {
             if (navigated) {
               this._snackBar.open("Deployment created with ID" + result.job_id)
             }

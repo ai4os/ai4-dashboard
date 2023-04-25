@@ -8,7 +8,7 @@
       <ng-template matStepLabel>{{"MODULES.MODULE-TRAIN.GENERAL-CONF" | translate}}</ng-template>
       <app-general-conf-form [defaultFormValues]="generalConfDefaultValues"></app-general-conf-form>
       <div class="next-back-buttons">
-        <button type="button" mat-raised-button matStepperNext color="primary">{{"GENERAL-BUTTONS.NEXT" |
+        <button type="button" mat-raised-button matStepperNext color="accent">{{"GENERAL-BUTTONS.NEXT" |
           translate}}</button>
       </div>
     </form>
@@ -19,7 +19,7 @@
       <app-hardware-conf-form [defaultFormValues]="hardwareConfDefaultValues"></app-hardware-conf-form>
       <div class="next-back-buttons">
         <button mat-raised-button matStepperPrevious class="mr-2">{{"GENERAL-BUTTONS.BACK" | translate}}</button>
-        <button mat-raised-button matStepperNext color="primary">{{"GENERAL-BUTTONS.NEXT" | translate}}</button>
+        <button mat-raised-button matStepperNext color="accent">{{"GENERAL-BUTTONS.NEXT" | translate}}</button>
       </div>
     </form>
   </mat-step>
@@ -29,7 +29,7 @@
       <app-storage-conf-form [defaultFormValues]="storageConfDefaultValues"></app-storage-conf-form>
       <div class="next-back-buttons">
         <button mat-raised-button matStepperPrevious class="mr-2">{{"GENERAL-BUTTONS.BACK" | translate}}</button>
-        <button mat-raised-button color="primary" (click)="submitTrainingRequest()">{{"GENERAL-BUTTONS.SUBMIT" |
+        <button mat-raised-button color="accent" (click)="submitTrainingRequest()">{{"GENERAL-BUTTONS.SUBMIT" |
           translate}}</button>
       </div>
     </form>
