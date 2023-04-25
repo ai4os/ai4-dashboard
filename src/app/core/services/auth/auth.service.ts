@@ -10,7 +10,7 @@ export interface UserProfile {
 
 @Injectable()
 export class AuthService {
-  constructor(private oauthService: OAuthService){
+  constructor(private oauthService: OAuthService) {
     this.configureOAuthService();
   }
 
@@ -21,12 +21,17 @@ export class AuthService {
     this.oauthService.setupAutomaticSilentRefresh();
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then(isLoggedIn => {
       if (isLoggedIn && this.isAuthenticated()) {
-        this.oauthService.loadUserProfile().then((profile: any) => {
-          let userProfile: UserProfile= {
-            name: profile['info']['name']
-          }
-          this.userProfileSubject.next(userProfile)
-        });
+        if (this.oauthService.hasValidAccessToken()) {
+          this.oauthService.loadUserProfile().then((profile: any) => {
+            let userProfile: UserProfile = {
+              name: profile['info']['name']
+            }
+            this.userProfileSubject.next(userProfile)
+          });
+        }else{
+          // Renew access token as we are logged in, the token expired and the app couldn't auto renew it
+          this.oauthService.refreshToken();
+        }
       }
     });
   }
