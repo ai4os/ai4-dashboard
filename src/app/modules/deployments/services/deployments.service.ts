@@ -35,4 +35,12 @@ export class DeploymentsService {
     return this.http.post<ModuleConfiguration>(url, moduleConf);
   }
 
+  deleteDeploymentByUUID(deploymentUUID: string): Observable<Object>{
+    const url = `${base}${endpoints.deploymentByUUID.replace(
+      ':deploymentUUID',
+      deploymentUUID
+    )}`;
+    return this.http.delete<Object>(url);
+  }
+
 }

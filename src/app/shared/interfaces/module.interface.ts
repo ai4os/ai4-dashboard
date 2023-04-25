@@ -1,5 +1,5 @@
 export interface ModuleSummary {
-    moduleName: string;
+    name: string;
     title: string;
     summary: string;
     keywords: string[];
