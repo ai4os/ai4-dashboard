@@ -7,10 +7,9 @@
     <mat-card-header>
         <mat-card-title class="deployment-detail-title">
             <h2>{{deploymentInfo?.title}}</h2>
-
-            <h4>
-                {{"DEPLOYMENTS.DEPLOYMENT-DETAIL.STATUS" | translate}}: {{deploymentInfo?.status}}
-            </h4>
+            <p>
+                <img src="https://img.shields.io/badge/status-{{statusBadge}}" width="125"/>
+            </p>
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -43,13 +42,27 @@
 
     </mat-card-content>
     <mat-card-actions align="end">
-        <button mat-raised-button color="warn">
+        <button mat-raised-button color="warn" (click)="deleteDeployment()" class="mr-2">
             <mat-icon>delete</mat-icon>
             {{"GENERAL-BUTTONS.DELETE" | translate}}</button>
-        <button mat-raised-button color="primary" class="m-2">
+            <button mat-raised-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
+            class="action-button-in-cell" (click)="$event.stopPropagation()" color="accent">
             <mat-icon>terminal</mat-icon>
             {{"GENERAL-BUTTONS.ACCESS" | translate}}</button>
-        
+        <mat-menu #menuAccess="matMenu">
+            <button mat-menu-item (click)="accessDeployment()">
+                <span> DEEEPaaS</span>
+            </button>
+            <button mat-menu-item>
+                <span> JupyterLab</span>
+            </button>
+            <button mat-menu-item>
+                <span> Monitor</span>
+            </button>
+            <button mat-menu-item>
+                <span> History</span>
+            </button>
+        </mat-menu>        
       </mat-card-actions>
 </mat-card>
 
