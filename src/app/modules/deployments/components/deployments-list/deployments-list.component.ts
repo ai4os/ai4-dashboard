@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,7 +10,8 @@ import { DeploymentDetailComponent } from '../deployment-detail/deployment-detai
 
 export interface TableColumn {
   columnDef: any;
-  header: string
+  header: string;
+  hidden?: boolean
 }
 
 @Component({
@@ -23,21 +25,23 @@ export interface TableColumn {
 export class DeploymentsListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
-    private translateService: TranslateService, 
+    private translateService: TranslateService,
     private deploymentsService: DeploymentsService,
-    public confirmationDialog: MatDialog
-    ) {
+    public confirmationDialog: MatDialog,
+    private _snackBar: MatSnackBar
+  ) {
   }
-  
+
   isLoading = false;
 
   columns: Array<TableColumn> = [
-    { columnDef: 'uuid', header: 'DEPLOYMENTS.UUID'},
-    { columnDef: 'status', header: 'DEPLOYMENTS.STATUS'},
+    { columnDef: 'uuid', header: '', hidden: true },
+    { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
+    { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
     { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
     { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
     { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-    { columnDef: 'deployedAt', header: 'DEPLOYMENTS.DEPLOYED-AT' },
+    { columnDef: 'deployedAt', header: 'DEPLOYMENTS.NAMESPACE' },
   ];
   dataset: Array<any> = [];
 
@@ -46,11 +50,11 @@ export class DeploymentsListComponent implements OnInit {
   displayedColumns: string[] = [];
 
   openDetailsDialog() {
-   
+
   }
 
-   /** Whether the number of selected elements matches the total number of rows. */
-   isAllSelected() {
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -63,37 +67,51 @@ export class DeploymentsListComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  removeDeployment(e: MouseEvent, index: number){
+  removeDeployment(e: MouseEvent, index: number) {
     e.stopPropagation();
     this.confirmationDialog.open(ConfirmationDialogComponent, {
       data: `¿Are you sure you want to delete this deployment?`
     })
-    .afterClosed()
-    .subscribe((confirmed: Boolean) => {
-      if (confirmed) {
-        console.log("removing...", index)
-      } 
-    });
-    console.log("removing...", index)
+      .afterClosed()
+      .subscribe((confirmed: Boolean) => {
+        if (confirmed) {
+          let uuid = this.dataset[index].uuid;
+          this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
+            next: (response: any) => {
+              if(response && response['status'] == 'success'){
+              const itemIndex = this.dataset.findIndex(obj => obj[uuid] === uuid);
+              this.dataset.splice(itemIndex, 1);
+              this.dataSource = new MatTableDataSource<any>(this.dataset);
+              this._snackBar.open("Successfully deleted deployment with uuid: " + uuid)  
+              }else{
+                this._snackBar.open("Error deleting deployment with uuid: " + uuid)  
+              }
+            },
+            error: () => {
+              this._snackBar.open("Error deleting deployment with uuid: " + uuid)
+            }
+          })
+        }
+      });
   }
 
-  getDeploymentsList(){
+  getDeploymentsList() {
     this.isLoading = true;
-    this.deploymentsService.getDeployments().subscribe( (deploymentsList: any) => {
+    this.deploymentsService.getDeployments().subscribe((deploymentsList: any) => {
       this.isLoading = false;
-      console.log("lista de deployments para janedoe", deploymentsList)
       deploymentsList.forEach((deployment: any) => {
-        
-        let row = 
+
+        let row =
         {
           uuid: deployment.job_ID,
+          name: deployment.title,
           status: deployment.status,
           containerName: "deephdc/deep-oc-generic-dev:latest",
           gpus: 2,
           creationTime: deployment.submit_time,
           deployedAt: "IFCA"
         }
-      this.dataset.push(row)  
+        this.dataset.push(row)
       })
       this.dataSource = new MatTableDataSource<any>(this.dataset);
     })
@@ -101,19 +119,19 @@ export class DeploymentsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataset = []
-    this.getDeploymentsList(); 
+    this.getDeploymentsList();
     // set checkbox column
     //this.displayedColumns.push("select");
 
     // set table columns
-    this.displayedColumns = this.displayedColumns.concat(this.columns.map(x => x.columnDef));    // pre-fix static
+    this.displayedColumns = this.displayedColumns.concat(this.columns.filter(x => !x.hidden).map(x => x.columnDef));    // pre-fix static
     // add action column
     this.displayedColumns.push("action");
     this.dataSource = new MatTableDataSource<any>(this.dataset);
 
     // set pagination
     //this.dataSource.paginator = this.paginator;
-   
+
   }
 
 }

@@ -1,9 +1,9 @@
 .mat-mdc-header-row {
-    background: var(--accent);
+    background: var(--light-gray);
 
     .mat-mdc-header-cell {
-        border: 1px solid var(--black-60);
-        color: var(--white);
+        border: 1px solid var(--border-gray);
+        color: var(--primary);
         font-weight: bold;
     }
 }
@@ -38,18 +38,13 @@
     }
 }
 
-.mat-column-uuid {
-    white-space: nowrap;
-    min-width: 350px;
-}
-
-.action-button-in-cell {
-    //min-width: 110px;
+.mat-column-gpus {
+    max-width: 100px;
 }
 
 .mat-column-status {
     justify-content: center;
-    max-width: 180px;
+    max-width: 150px;
 }
 
 .mat-column-containerName {
@@ -58,6 +53,18 @@
 }
 
 .mat-mdc-table .mat-mdc-row:hover {
-    background-color: var(--primary);
+    background-color: var(--accent);
     cursor: pointer;
+    & .mat-mdc-cell{
+        color: var(--white);
+    }
+}
+
+.mat-mdc-table .mat-mdc-row:hover  #accessIcon{
+    color: var(--white);
+}
+
+
+.table-container{
+    //overflow-x: scroll;
 }

@@ -5,9 +5,9 @@
 
 <mat-card class="example-card">
     <mat-card-content>
-
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <!-- selection column with checkbox 
+        <div class="table-container">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- selection column with checkbox 
             <ng-container matColumnDef="select">
                 <mat-header-cell *matHeaderCellDef class="selection-checkbox">
                     <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
@@ -23,78 +23,79 @@
             </ng-container>
             -->
 
-            <!-- Rest of the columns-->
-            <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-                <mat-header-cell *matHeaderCellDef>{{ column.header | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let row" class="content-cell"> {{ row[column.columnDef] }}</mat-cell>
-            </ng-container>
+                <!-- Rest of the columns-->
+                <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+                    <mat-header-cell *matHeaderCellDef>{{ column.header | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="content-cell"> {{ row[column.columnDef] }}</mat-cell>
+                </ng-container>
 
-            <!-- table action column -->
+                <!-- table action column -->
 
-            <ng-container matColumnDef="action">
-                <mat-header-cell *matHeaderCellDef class="actions-cell">{{"DEPLOYMENTS.ACTIONS" |
-                    translate}}</mat-header-cell>
-                <mat-cell *matCellDef="let i = index" class="actions-cell">
-                    <button mat-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
-                        class="action-button-in-cell" (click)="$event.stopPropagation()">
-                        <mat-icon color="primary">terminal</mat-icon>
-                    </button>
-                    <mat-menu #menuAccess="matMenu">
-                        <button mat-menu-item>
-                            <span> DEEEPaaS</span>
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef class="actions-cell">{{"DEPLOYMENTS.ACTIONS" |
+                        translate}}</mat-header-cell>
+                    <mat-cell *matCellDef="let i = index" class="actions-cell">
+                        <button mat-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
+                            class="action-button-in-cell" (click)="$event.stopPropagation()">
+                            <mat-icon color="accent" id="accessIcon">terminal</mat-icon>
                         </button>
-                        <button mat-menu-item>
-                            <span> JupyterLab</span>
-                        </button>
-                        <button mat-menu-item>
-                            <span> Monitor</span>
-                        </button>
-                        <button mat-menu-item>
-                            <span> History</span>
-                        </button>
-                    </mat-menu>
-                    <!-- <button mat-button [matMenuTriggerFor]="menuInfo">
+                        <mat-menu #menuAccess="matMenu">
+                            <button mat-menu-item>
+                                <span> DEEEPaaS</span>
+                            </button>
+                            <button mat-menu-item>
+                                <span> JupyterLab</span>
+                            </button>
+                            <button mat-menu-item>
+                                <span> Monitor</span>
+                            </button>
+                            <button mat-menu-item>
+                                <span> History</span>
+                            </button>
+                        </mat-menu>
+                        <!-- <button mat-button [matMenuTriggerFor]="menuInfo">
                         <mat-icon color="primary">info</mat-icon>
                     </button> -->
-                    <mat-menu #menuInfo="matMenu">
-                        <button mat-menu-item (click)="openDetailsDialog()"
-                            routerLink="11edc702-17a4-c685-b970-0242bb56267d">
+                        <mat-menu #menuInfo="matMenu">
+                            <button mat-menu-item (click)="openDetailsDialog()"
+                                routerLink="11edc702-17a4-c685-b970-0242bb56267d">
 
-                            <span>Details</span>
-                            <mat-icon class="ml-2">list</mat-icon>
+                                <span>Details</span>
+                                <mat-icon class="ml-2">list</mat-icon>
 
+                            </button>
+
+                            <button mat-menu-item>
+                                <span>View template</span>
+                                <mat-icon class="ml-2">search</mat-icon>
+
+                            </button>
+
+
+
+                        </mat-menu>
+
+
+                        <button mat-button matTooltip="Delete" class="action-button-in-cell"
+                            (click)="removeDeployment($event, i)">
+                            <mat-icon color="warn">delete</mat-icon>
                         </button>
 
-                        <button mat-menu-item>
-                            <span>View template</span>
-                            <mat-icon class="ml-2">search</mat-icon>
-
-                        </button>
+                    </mat-cell>
+                </ng-container>
 
 
-
-                    </mat-menu>
-
-
-                    <button mat-button matTooltip="Delete" class="action-button-in-cell"
-                        (click)="removeDeployment($event, i)">
-                        <mat-icon color="warn">delete</mat-icon>
-                    </button>
-
-                </mat-cell>
-            </ng-container>
-
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns" routerLink="{{row.uuid}}"></mat-row>
-        </table>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" routerLink="{{row.uuid}}"></mat-row>
+            </table>
+        </div>
         <div *ngIf="isLoading" class="spinner">
             <mat-progress-spinner color="primary" mode="indeterminate">
             </mat-progress-spinner>
         </div>
     </mat-card-content>
     <mat-card-actions align="end">
-        <a mat-raised-button aria-label="" color="primary" class="mt-2 mr-2 mb-2"
+        <a mat-raised-button aria-label="" color="accent" class="mt-2 mr-2 mb-2"
             routerLink="/modules/deep-oc-generic-dev/train">
             {{"DEPLOYMENTS.NEW-DEPLOYMENT" | translate}}
         </a>
