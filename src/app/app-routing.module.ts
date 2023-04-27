@@ -11,7 +11,12 @@ const routes: Routes = [
     //canActivate: [NoAuthGuard], // Should be replaced with actual auth guard
     children: [
       {
-        path: '',
+        path:'',
+        redirectTo: 'modules',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
         loadChildren: () =>
           import('@modules/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
