@@ -31,7 +31,7 @@ export class TopNavbarComponent  implements OnInit{
   prevButtonTrigger: any;
 
   login(){
-    this.authService.login();
+    this.authService.login(window.location.pathname);
   }
 
   logout(){
