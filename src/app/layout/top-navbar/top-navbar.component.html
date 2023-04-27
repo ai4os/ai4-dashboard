@@ -2,7 +2,7 @@
   <div *ngIf="mobileQuery.matches">
     <button mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
   </div>
-  <img src="../../../assets/images/ai4-logo.png" class="ai4-logo">
+  <img src="../../../assets/images/dashboard-logo.png" class="dashboard-logo">
   <span class="spacer"></span>
   <div *ngIf="isLoggedIn(); else showLoginLink">
 
@@ -22,8 +22,9 @@
   </div>
 
   <ng-template #showLoginLink>
-    <mat-icon>person</mat-icon>
-    <a (click)="login()"> {{"TOP-NAVBAR.LOGIN-REGISTER" | translate}} </a>
+    <a mat-button (click)="login()">
+      <mat-icon>person</mat-icon> {{"TOP-NAVBAR.LOGIN-REGISTER" | translate}} 
+    </a>
   </ng-template>
 
 </mat-toolbar>

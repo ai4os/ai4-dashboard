@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build-ai4eosc": "ng build --configuration production-ai4eosc",
+    "build-imagine": "ng build --configuration production-imagine",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

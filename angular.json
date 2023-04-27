@@ -29,17 +29,14 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/theme/variables.scss",
-              "src/styles.scss"
-            ],
+            
             "stylePreprocessorOptions": {
               "includePaths": ["src/theme/exports"]
             },
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "production-ai4eosc": {
               "budgets": [
                 {
                   "type": "initial",
@@ -52,9 +49,58 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "styles": [
+                "src/theme/ai4eosc/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/ai4eosc",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
+              ]
             },
-            "development": {
+            "production-imagine": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "styles": [
+                "src/theme/imagine/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/imagine",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
+              ]
+            },
+            "development-ai4eosc": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -66,22 +112,76 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.development.ts"
                 }
+              ],
+              "styles": [
+                "src/theme/ai4eosc/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/ai4eosc",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
+              ]
+            },
+            "development-imagine": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
+              "styles": [
+                "src/theme/imagine/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/imagine",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
               ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "production-ai4eosc"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "ai4-dashboard:build:production"
+            "production-ai4eosc": {
+              "browserTarget": "ai4-dashboard:build:production-ai4eosc"
             },
-            "development": {
-              "browserTarget": "ai4-dashboard:build:development"
+            "development-ai4eosc": {
+              "browserTarget": "ai4-dashboard:build:development-ai4eosc"
+            },
+            "production-imagine": {
+              "browserTarget": "ai4-dashboard:build:production-imagine"
+            },
+            "development-imagine": {
+              "browserTarget": "ai4-dashboard:build:development-imagine"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development-ai4eosc"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
