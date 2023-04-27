@@ -5,7 +5,7 @@ export const environment = {
     develop: true,
     production: false,
     api: {
-      base: 'http://localhost:8000',
+      base: 'http://localhost:8000/v1',
       endpoints
     },
 };
