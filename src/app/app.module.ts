@@ -1,8 +1,8 @@
 import {
   HttpClient, HTTP_INTERCEPTORS
 } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 
@@ -23,6 +23,7 @@ import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+import { AppConfigService } from './core/services/app-config/app-config.service';
 
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
@@ -105,7 +106,18 @@ renderer.link = ( href, title, text ) => {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        return () => {
+          return appConfigService.loadAppConfig();
+        };
+      }
+    },
+    Title,
   ],
   bootstrap: [AppComponent]
 })

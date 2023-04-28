@@ -1,0 +1,17 @@
+{
+    "title": "iMagine platform dashboard",
+    "sidenavMenu": [
+        {
+            "name": "SIDENAV.IAM",
+            "url": "https://aai.egi.eu/"
+        },
+        {
+            "name": "SIDENAV.IMAGINE-DOCUMENTATION",
+            "url": "https://www.imagine-ai.eu/"
+        },
+        {
+            "name": "SIDENAV.PROJECT-PAGE",
+            "url": "https://www.imagine-ai.eu/"
+        }
+    ]
+}

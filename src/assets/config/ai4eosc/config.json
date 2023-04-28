@@ -1,0 +1,17 @@
+{
+    "title": "AI4EOSC - Dashboard",
+    "sidenavMenu": [
+        {
+            "name": "SIDENAV.IAM",
+            "url": "https://aai.egi.eu/"
+        },
+        {
+            "name": "SIDENAV.AI4EOSC-DOCUMENTATION",
+            "url": "https://ai4eosc.eu"
+        },
+        {
+            "name": "SIDENAV.PROJECT-PAGE",
+            "url": "https://ai4eosc.eu"
+        }
+    ]
+}

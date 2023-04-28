@@ -62,6 +62,11 @@
                   "output": "/assets/images/"
                 },
                 {
+                  "glob": "config.json",
+                  "input": "src/assets/config/ai4eosc/",
+                  "output": "/assets/"
+                },
+                {
                   "glob": "**/*",
                   "input": "src/assets/",
                   "output": "/assets/"
@@ -92,6 +97,11 @@
                   "glob": "**/*",
                   "input": "src/assets/images/imagine",
                   "output": "/assets/images/"
+                },
+                {
+                  "glob": "config.json",
+                  "input": "src/assets/config/imagine/",
+                  "output": "/assets/"
                 },
                 {
                   "glob": "**/*",
@@ -125,6 +135,11 @@
                   "output": "/assets/images/"
                 },
                 {
+                  "glob": "config.json",
+                  "input": "src/assets/config/ai4eosc/",
+                  "output": "/assets/"
+                },
+                {
                   "glob": "**/*",
                   "input": "src/assets/",
                   "output": "/assets/"
@@ -154,6 +169,11 @@
                   "glob": "**/*",
                   "input": "src/assets/images/imagine",
                   "output": "/assets/images/"
+                },
+                {
+                  "glob": "config.json",
+                  "input": "src/assets/config/imagine/",
+                  "output": "/assets/"
                 },
                 {
                   "glob": "**/*",
