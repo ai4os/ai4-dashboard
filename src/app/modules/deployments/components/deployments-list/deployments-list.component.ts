@@ -106,10 +106,13 @@ export class DeploymentsListComponent implements OnInit {
           uuid: deployment.job_ID,
           name: deployment.title,
           status: deployment.status,
-          containerName: "deephdc/deep-oc-generic-dev:latest",
-          gpus: 2,
+          containerName: deployment.docker_image,
+          gpus: "-",
           creationTime: deployment.submit_time,
           deployedAt: "IFCA"
+        }
+        if(deployment.resources && Object.keys(deployment.resources).length !== 0){
+          row.gpus = deployment.resources.gpu_num
         }
         this.dataset.push(row)
       })
