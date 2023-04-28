@@ -5,8 +5,8 @@
         "MODULES": "Modules (marketplace)",
         "DEPLOYMENTS": "Deployments",
         "IAM": "Identity and Access",
-        "DEEP-MARKETPLACE": "DEEP Marketplace",
-        "DEEP-DOCUMENTATION": "DEEP Documentation",
+        "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
+        "IMAGINE-DOCUMENTATION": "iMagine documentation",
         "PROJECT-PAGE": "Project page",
         "OTHER-LINKS": "Other links"
     },
