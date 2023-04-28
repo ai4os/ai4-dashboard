@@ -19,6 +19,8 @@ export class ModuleDetailComponent implements OnInit {
   modulesList = []
   module: any = [];
 
+  isLoading: boolean = false;
+
 
   isLoggedIn(){
     return this.authService.isAuthenticated();
@@ -26,8 +28,10 @@ export class ModuleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      this.isLoading = true;
       this.modulesService.getModule(params['id']).subscribe( module => {
-          this.module = module;
+        this.isLoading = false;
+        this.module = module;
       })
     });
         

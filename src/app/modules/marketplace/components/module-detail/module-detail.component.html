@@ -4,7 +4,7 @@
 
 
 <mat-card class="example-card">
-    <mat-card-header id="module-detail-card-header">
+    <mat-card-header id="module-detail-card-header" *ngIf="!isLoading" >
         <div class="grid-2-columns">
             <div>
                 <h1 style="color:var(--primary-text)">{{module.title}}</h1>
@@ -35,8 +35,12 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
+        <div *ngIf="isLoading" class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
 
-        <div class="grid-2-columns-content">
+        <div class="grid-2-columns-content" *ngIf="!isLoading" >
             <div>
                 <markdown [data]="module.description" ngPreserveWhitespaces [disableSanitizer]="true">
 
