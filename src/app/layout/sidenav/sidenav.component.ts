@@ -1,7 +1,8 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 
@@ -11,7 +12,7 @@ import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit{
   @ViewChild('sidenav', {static:true}) public sidenav!: MatSidenav;
 
   constructor(
@@ -19,7 +20,8 @@ export class SidenavComponent {
     protected authService: AuthService,
     private changeDetectorRef: ChangeDetectorRef,
     private media: MediaMatcher,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private appConfigService: AppConfigService
   ) {
     this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -56,24 +58,16 @@ export class SidenavComponent {
   otherLinks = [
     {
       name: "SIDENAV.IAM",
-      url: "https://iam.deep-hybrid-datacloud.eu"
-    },
-    {
-      name: "SIDENAV.DEEP-MARKETPLACE",
-      url: "https://marketplace.deep-hybrid-datacloud.eu"
-    },
-    {
-      name: "SIDENAV.DEEP-DOCUMENTATION",
-      url: "https://docs.deep-hybrid-datacloud.eu"
-    },
-    {
-      name: "SIDENAV.PROJECT-PAGE",
-      url: "https://deep-hybrid-datacloud.eu"
+      url: "https://aai.egi.eu/"
     }
   ]
 
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  ngOnInit(): void {
+    this.otherLinks = this.appConfigService.sidenavMenu
   }
 
   ngAfterViewInit(): void {
