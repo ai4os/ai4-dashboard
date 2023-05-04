@@ -46,8 +46,8 @@ export class AuthService {
             }
           });
         }else{
-          // Renew access token as we are logged in, the token expired and the app couldn't auto renew it
-          this.oauthService.refreshToken();
+          // Force logout as we have no access to refresh tokens without client secret
+          this.logout();
         }
       }
     });
