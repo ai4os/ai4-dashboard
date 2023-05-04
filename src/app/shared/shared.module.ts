@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    TranslateModule
+    TranslateModule,
+    BreadcrumbModule
   ]
 })
 export class SharedModule { }
