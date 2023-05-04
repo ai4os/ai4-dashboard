@@ -14,7 +14,7 @@
       {{userProfile?.name}}
     </button>
 
-    <mat-menu #loginMenuAccess="matMenu">
+    <mat-menu #loginMenuAccess="matMenu" class="logoutDropdownMenu">
       <button mat-menu-item (click)="logout()" (mouseenter)="menuenter()" (mouseleave)="menuLeave(menuTrigger, button)">
         <mat-icon>logout</mat-icon>
         {{"TOP-NAVBAR.LOGOUT" | translate}}
