@@ -11,6 +11,7 @@ import { ModuleTrainComponent } from './components/module-train/module-train.com
 import { GeneralConfFormComponent } from './components/module-train/general-conf-form/general-conf-form.component';
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
+import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { HardwareConfFormComponent } from './components/module-train/hardware-co
     ModuleTrainComponent,
     GeneralConfFormComponent,
     HardwareConfFormComponent,
-    StorageConfFormComponent
+    StorageConfFormComponent,
+    ModuleDetailViewComponent
   ],
   imports: [
     CommonModule,
