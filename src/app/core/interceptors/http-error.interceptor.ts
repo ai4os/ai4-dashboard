@@ -9,6 +9,7 @@ import {
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -20,6 +21,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
         private readonly injector: Injector,
         private _snackBar: MatSnackBar,
+        private router: Router
     ) { }
 
 
@@ -32,6 +34,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 retry(1),
 
                 catchError((error: HttpErrorResponse) => {
+
+                    if (error.status === 401 || error.status === 403){
+                        this.router.navigate(["forbidden"])
+                    }
 
                     let errorMessage = '';
 
