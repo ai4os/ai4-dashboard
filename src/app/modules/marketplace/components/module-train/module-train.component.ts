@@ -69,12 +69,18 @@ export class ModuleTrainComponent implements OnInit {
         if (result && result.status == 'success') {
           this.router.navigate(['/deployments']).then((navigated: boolean) => {
             if (navigated) {
-              this._snackBar.open("Deployment created with ID" + result.job_id)
+              this._snackBar.open("Deployment created with ID" + result.job_id, "X",  {
+                duration: 3000,
+                panelClass: ['primary-snackbar']
+            })
             }
           });
         } else {
           if (result && result.status == 'fail') {
-            this._snackBar.open("Error while creating the deployment" + result.error_msg)
+            this._snackBar.open("Error while creating the deployment" + result.error_msg, "X",  {
+              duration: 3000,
+              panelClass: ['red-snackbar']
+          })
           }
         }
       }
@@ -84,7 +90,7 @@ export class ModuleTrainComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(params => {
+    this.route.parent?.params.subscribe(params => {
       this.modulesService.getModule(params['id']).subscribe(module => {
         this.deploymentTitle = module.title;
       })

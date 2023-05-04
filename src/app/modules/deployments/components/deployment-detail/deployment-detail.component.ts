@@ -66,15 +66,24 @@ export class DeploymentDetailComponent implements OnInit {
               if(response && response['status'] == 'success'){
                 this.router.navigate(['/deployments']).then((navigated: boolean) => {
                   if (navigated) {
-                    this._snackBar.open("Successfully deleted deployment with uuid: " + uuid)  
+                    this._snackBar.open("Successfully deleted deployment with uuid: " + uuid, "X",  {
+                      duration: 3000,
+                      panelClass: ['primary-snackbar']
+                  })  
                   }
                 });
               }else{
-                this._snackBar.open("Error deleting deployment with uuid: " + uuid)  
+                this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X",  {
+                  duration: 3000,
+                  panelClass: ['red-snackbar']
+              })  
               }
             },
             error: () => {
-              this._snackBar.open("Error deleting deployment with uuid: " + uuid)
+              this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X",  {
+                duration: 3000,
+                panelClass: ['red-snackbar']
+            })
             }
           })
         }

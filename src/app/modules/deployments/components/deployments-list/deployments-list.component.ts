@@ -82,13 +82,22 @@ export class DeploymentsListComponent implements OnInit {
               const itemIndex = this.dataset.findIndex(obj => obj[uuid] === uuid);
               this.dataset.splice(itemIndex, 1);
               this.dataSource = new MatTableDataSource<any>(this.dataset);
-              this._snackBar.open("Successfully deleted deployment with uuid: " + uuid)  
+              this._snackBar.open("Successfully deleted deployment with uuid: " + uuid, "X",  {
+                duration: 3000,
+                panelClass: ['primary-snackbar']
+            })  
               }else{
-                this._snackBar.open("Error deleting deployment with uuid: " + uuid)  
+                this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X",  {
+                  duration: 3000,
+                  panelClass: ['red-snackbar']
+              })  
               }
             },
             error: () => {
-              this._snackBar.open("Error deleting deployment with uuid: " + uuid)
+              this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X",  {
+                duration: 3000,
+                panelClass: ['red-snackbar']
+            })
             }
           })
         }
