@@ -20,7 +20,7 @@ export class ModuleCardComponent implements OnInit {
   @Input() module!: ModuleSummary;
 
   moduleType: "Development" | "Model" = "Model"
-  displayedKeywords: string = '';
+  displayedKeywords: string[] = [];
 
 
   ngOnInit(): void {
@@ -29,8 +29,8 @@ export class ModuleCardComponent implements OnInit {
       let displayedKeywordsArray = this.module.keywords.filter(
         keyword => keyword.includes('inference') ||
           keyword.includes('trainable') ||
-          keyword.includes('pre-trained')).map((keyword) => '| ' + this.titleCasePipe.transform(keyword))
-      this.displayedKeywords = displayedKeywordsArray.join('')
+          keyword.includes('pre-trained')).map((keyword) => this.titleCasePipe.transform(keyword))
+      this.displayedKeywords = displayedKeywordsArray;
     }
   }
 }
