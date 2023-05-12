@@ -8,5 +8,5 @@ RUN npm run build-imagine
 FROM nginx:alpine
 RUN apk add certbot certbot-nginx
 RUN mkdir -p /var/www/certbot
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./docker/imagine/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=node /app/dist/ai4-dashboard /usr/share/nginx/html
