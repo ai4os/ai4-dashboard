@@ -10,7 +10,7 @@
     grid-gap: 5rem;
 }
 
-.train-button{
+.train-button-container{
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -22,6 +22,11 @@
 
 .module-header-info{
     text-align: center;
+}
+
+::ng-deep .module-description img{
+    background-color: red;
+    max-width: 100%;
 }
 
 
