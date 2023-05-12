@@ -36,7 +36,8 @@
         "DEPLOYED-AT": "Deployed at",
         "ACTIONS": "Quick Actions",
         "NAMESPACE": "Namespace",
-        "NEW-DEPLOYMENT": "New deployment"
+        "NEW-DEPLOYMENT": "New deployment",
+        "NO-DEPLOYMENTS": "Nothing deployed yet"
     },
     "MODULES": {
         "TITLE": "Marketplace",
