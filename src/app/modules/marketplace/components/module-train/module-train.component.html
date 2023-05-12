@@ -2,6 +2,9 @@
   <h4>{{"MODULES.MODULE-TRAIN.TITLE" | translate}}: <strong>{{deploymentTitle}}</strong></h4>
 </mat-toolbar>
 
+<xng-breadcrumb class="mb-3"></xng-breadcrumb>
+
+
 <mat-stepper linear #stepper>
   <mat-step [stepControl]="generalConfForm">
     <form [formGroup]="generalConfForm">
