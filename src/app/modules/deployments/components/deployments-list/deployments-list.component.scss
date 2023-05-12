@@ -47,6 +47,18 @@
     max-width: 150px;
 }
 
+.mat-column-name{
+    max-width: 300px;
+}
+
+.mat-column-deployedAt{
+    max-width: 125px;
+}
+
+.mat-column-creationTime{
+    max-width: 200px;
+}
+
 .mat-column-containerName {
     white-space: nowrap;
     min-width: 260px;
@@ -67,4 +79,10 @@
 
 .table-container{
     //overflow-x: scroll;
+}
+
+.no-deployment-message-container{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
 }

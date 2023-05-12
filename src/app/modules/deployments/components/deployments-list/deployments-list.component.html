@@ -34,6 +34,7 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef class="actions-cell">{{"DEPLOYMENTS.ACTIONS" |
                         translate}}</mat-header-cell>
+                    
                     <mat-cell *matCellDef="let i = index" class="actions-cell">
                         <button mat-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
                             class="action-button-in-cell" (click)="$event.stopPropagation()">
@@ -53,28 +54,6 @@
                                 <span> History</span>
                             </button>
                         </mat-menu>
-                        <!-- <button mat-button [matMenuTriggerFor]="menuInfo">
-                        <mat-icon color="primary">info</mat-icon>
-                    </button> -->
-                        <mat-menu #menuInfo="matMenu">
-                            <button mat-menu-item (click)="openDetailsDialog()"
-                                routerLink="11edc702-17a4-c685-b970-0242bb56267d">
-
-                                <span>Details</span>
-                                <mat-icon class="ml-2">list</mat-icon>
-
-                            </button>
-
-                            <button mat-menu-item>
-                                <span>View template</span>
-                                <mat-icon class="ml-2">search</mat-icon>
-
-                            </button>
-
-
-
-                        </mat-menu>
-
 
                         <button mat-button matTooltip="Delete" class="action-button-in-cell"
                             (click)="removeDeployment($event, i)">
@@ -87,8 +66,15 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns" routerLink="{{row.uuid}}"></mat-row>
+                
+                <!--No data in table message-->
+                <ng-container *ngIf="!isLoading">
+                    <div *matNoDataRow  class="no-deployment-message-container">{{'DEPLOYMENTS.NO-DEPLOYMENTS' | translate}}</div>
+                </ng-container>
+                
             </table>
         </div>
+
         <div *ngIf="isLoading" class="spinner">
             <mat-progress-spinner color="primary" mode="indeterminate">
             </mat-progress-spinner>
@@ -96,7 +82,7 @@
     </mat-card-content>
     <mat-card-actions align="end">
         <a mat-raised-button aria-label="" color="accent" class="mt-2 mr-2 mb-2"
-            routerLink="/modules/deep-oc-generic-dev/train">
+            routerLink="/modules/generic-module/train">
             {{"DEPLOYMENTS.NEW-DEPLOYMENT" | translate}}
         </a>
     </mat-card-actions>
