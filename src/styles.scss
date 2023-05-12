@@ -41,3 +41,7 @@ body {
     background: white;
     min-height: 250px;
 }
+
+.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control:not(:focus)::placeholder{
+    color: transparent;
+}
