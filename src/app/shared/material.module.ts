@@ -20,47 +20,31 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
+const materialModules = [
+  MatButtonModule,
+  MatToolbarModule,
+  MatInputModule,
+  MatSidenavModule,
+  MatCardModule,
+  MatListModule,
+  MatIconModule,
+  MatDividerModule,
+  MatTableModule,
+  MatCheckboxModule,
+  MatMenuModule,
+  MatDialogModule,
+  MatTabsModule,
+  MatStepperModule,
+  MatSelectModule,
+  MatTooltipModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+]
+
+
 @NgModule({
   declarations: [],
-  imports: [
-    MatButtonModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatSidenavModule,
-    MatCardModule,
-    MatListModule,
-    MatIconModule,
-    MatDividerModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatMenuModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatStepperModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule
-  ],
-  exports: [
-    MatButtonModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatSidenavModule,
-    MatCardModule,
-    MatListModule,
-    MatIconModule,
-    MatDividerModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatMenuModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatStepperModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule
-  ]
+  imports: materialModules,
+  exports: materialModules
 })
 export class MaterialModule {}
