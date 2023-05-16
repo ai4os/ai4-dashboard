@@ -7,6 +7,9 @@ const routes: Routes = [
     {
       path: '',
       component: DeploymentsListComponent,
+      data: {
+        breadcrumb: 'Deployments'
+      }
     },
     {
       path: ':uuid',

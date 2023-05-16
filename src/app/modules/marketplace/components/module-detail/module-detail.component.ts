@@ -34,7 +34,6 @@ export class ModuleDetailComponent implements OnInit {
       this.modulesService.getModule(params['id']).subscribe( module => {
         this.isLoading = false;
         this.module = module;
-        console.log("Module")
         this.breadcrumbService.set('@moduleName', module.title)
       })
     });
