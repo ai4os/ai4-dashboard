@@ -34,7 +34,8 @@ const routes: Routes = [
       },
       {
         path: 'forbidden',
-        component: ForbiddenComponent
+        loadChildren: () =>
+        import('@modules/forbidden/forbidden.module').then(m => m.ForbiddenModule)
       },
       {
         path: '**', component: NotFoundComponent
