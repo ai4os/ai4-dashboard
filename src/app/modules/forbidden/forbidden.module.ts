@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ForbiddenRoutingModule } from './forbidden-routing.module';
 import { ForbiddenComponent } from './forbidden.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ForbiddenComponent } from './forbidden.component';
   ],
   imports: [
     CommonModule,
-    ForbiddenRoutingModule
+    ForbiddenRoutingModule,
+    SharedModule
   ]
 })
 export class ForbiddenModule { }
