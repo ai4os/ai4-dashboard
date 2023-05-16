@@ -15,18 +15,25 @@ export class AppConfigService {
     return firstValueFrom(this.http.get('/assets/config.json')).then(config => { this.appConfig = config; })
   }
 
-  // This is an example property ... you can make it however you want.
-  get title() {
+  checkConfigFileLoaded(){
     if (!this.appConfig) {
       throw Error('Config file not loaded!');
     }
+  }
+
+  // This is an example property ... you can make it however you want.
+  get title() {
+    this.checkConfigFileLoaded();
     return this.appConfig.title;
   }
 
   get sidenavMenu(){
-    if (!this.appConfig) {
-      throw Error('Config file not loaded!');
-    }
+    this.checkConfigFileLoaded();
     return this.appConfig.sidenavMenu
+  }
+
+  get tags(){
+    this.checkConfigFileLoaded();
+      return this.appConfig.tags
   }
 }

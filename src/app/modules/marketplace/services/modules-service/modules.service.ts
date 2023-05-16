@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs';
 import { environment } from '@environments/environment';
 import { Module, ModuleConfiguration, ModuleSummary } from '@app/shared/interfaces/module.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 const { base, endpoints } = environment.api;
 
@@ -14,14 +13,24 @@ export class ModulesService {
 
   constructor(
     private http: HttpClient,
+
   ) { }
 
-  getModulesSummary(): Observable<ModuleSummary[]>{
+  getModulesSummary(tags?: any): Observable<ModuleSummary[]> {
     const url = `${base}${endpoints.modulesSummary}`;
-    return this.http.get<Array<ModuleSummary>>(url);
+    if (tags) {
+      let params = new HttpParams();
+      Object.keys(tags).forEach((key: string) => {
+        params = params.set(key, tags[key])
+      });
+      return this.http.get<Array<ModuleSummary>>(url, { params });
+    }else{
+      return this.http.get<Array<ModuleSummary>>(url);
+    }
   }
 
-  getModule(moduleName: string): Observable<Module>{
+  getModule(moduleName: string): Observable<Module> {
+
     const url = `${base}${endpoints.module.replace(
       ':name',
       moduleName
@@ -29,7 +38,7 @@ export class ModulesService {
     return this.http.get<Module>(url);
   }
 
-  getModuleConfiguration(moduleName: string): Observable<ModuleConfiguration>{
+  getModuleConfiguration(moduleName: string): Observable<ModuleConfiguration> {
     const url = `${base}${endpoints.moduleConfiguration.replace(
       ':name',
       moduleName
