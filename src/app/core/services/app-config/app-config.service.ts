@@ -15,7 +15,7 @@ export class AppConfigService {
     return firstValueFrom(this.http.get('/assets/config.json')).then(config => { this.appConfig = config; })
   }
 
-  checkConfigFileLoaded(){
+  checkConfigFileLoaded() {
     if (!this.appConfig) {
       throw Error('Config file not loaded!');
     }
@@ -27,13 +27,19 @@ export class AppConfigService {
     return this.appConfig.title;
   }
 
-  get sidenavMenu(){
+  get sidenavMenu() {
     this.checkConfigFileLoaded();
     return this.appConfig.sidenavMenu
   }
 
-  get tags(){
+  get tags() {
     this.checkConfigFileLoaded();
-      return this.appConfig.tags
+    return this.appConfig.tags
   }
+
+  get voName(){
+    this.checkConfigFileLoaded();
+    return this.appConfig.voName
+  }
+
 }
