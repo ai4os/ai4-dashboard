@@ -24,7 +24,7 @@ export class HardwareConfFormComponent implements OnInit{
     cpuNumberInput: [''],
     gpuNumberInput:[0],
     descriptionInput: [''],
-    gpuModelSelect: [{value: '', disabled: true}],
+    gpuModelSelect: [{value: '', disabled: true}, [Validators.required]],
     ramMemoryInput: [''],
     diskMemoryInput: [''],
   })
