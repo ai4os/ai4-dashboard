@@ -35,9 +35,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
                 catchError((error: HttpErrorResponse) => {
 
-                    if (error.status === 401 || error.status === 403){
-                        this.router.navigate(["forbidden"])
-                    }
+                    
 
                     let errorMessage = '';
 
@@ -51,6 +49,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         // server-side error
                         errorMessage = `Error Code: ${error.status}`;
 
+                    }
+
+                    if (error.status === 401 || error.status === 403){
+                        this.router.navigate(["forbidden", {errorMessage: errorMessage}] )
                     }
                     try {
                         const translateService = this.injector.get(TranslateService)
