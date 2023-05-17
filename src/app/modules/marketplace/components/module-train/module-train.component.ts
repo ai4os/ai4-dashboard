@@ -53,6 +53,7 @@ export class ModuleTrainComponent implements OnInit {
         ram: this.hardwareConfForm.value.hardwareConfForm.ramMemoryInput,
         disk: this.hardwareConfForm.value.hardwareConfForm.diskMemoryInput,
         gpu_num: this.hardwareConfForm.value.hardwareConfForm.gpuNumberInput,
+        gpu_type: this.hardwareConfForm.value.hardwareConfForm.gpuModelSelect
       },
       storage: {
         rclone_conf: this.storageConfForm.value.storageConfForm.rcloneConfInput,
