@@ -79,7 +79,7 @@ export class DeploymentsListComponent implements OnInit {
           this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
             next: (response: any) => {
               if(response && response['status'] == 'success'){
-              const itemIndex = this.dataset.findIndex(obj => obj[uuid] === uuid);
+              const itemIndex = this.dataset.findIndex(obj => obj['uuid'] === uuid);
               this.dataset.splice(itemIndex, 1);
               this.dataSource = new MatTableDataSource<any>(this.dataset);
               this._snackBar.open("Successfully deleted deployment with uuid: " + uuid, "X",  {
