@@ -3,11 +3,11 @@
     <div class="form-grid">
         <mat-form-field class="example-full-width">
             <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS" | translate}}</mat-label>
-            <input matInput placeholder="" value="" type="number" min="1" formControlName="cpuNumberInput">
+            <input matInput placeholder="" value="" type="number" min="2" max="20" formControlName="cpuNumberInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-GPUS" | translate}}</mat-label>
-            <input matInput placeholder="" value="" type="number" min="0" formControlName="gpuNumberInput">
+            <input matInput placeholder="" value="" type="number" min="0" max="2" formControlName="gpuNumberInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.GPU-MODEL" | translate}}</mat-label>
@@ -19,11 +19,11 @@
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.RAM-MEMORY" | translate}}</mat-label>
-            <input matInput placeholder="" value="" type="number" formControlName="ramMemoryInput">
+            <input matInput placeholder="" value="" type="number" min="4000" max="20000" formControlName="ramMemoryInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>{{"MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.DISK-MEMORY" | translate}}</mat-label>
-            <input matInput placeholder="" value="" type="number" formControlName="diskMemoryInput">
+            <input matInput placeholder="" value="" type="number" min="5000" max="40000" formControlName="diskMemoryInput">
         </mat-form-field>
     </div>
 
