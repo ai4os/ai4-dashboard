@@ -42,4 +42,19 @@ export class AppConfigService {
     return this.appConfig.voName
   }
 
+  get acknowledgments(){
+    this.checkConfigFileLoaded();
+    return this.appConfig.acknowledgments
+  }
+
+  get projectName(){
+    this.checkConfigFileLoaded();
+    return this.appConfig.projectName
+  }
+
+  get projectUrl(){
+    this.checkConfigFileLoaded();
+    return this.appConfig.projectUrl
+  }
+
 }
