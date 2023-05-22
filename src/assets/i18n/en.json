@@ -8,7 +8,10 @@
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
         "IMAGINE-DOCUMENTATION": "iMagine AI platform documentation",
         "PROJECT-PAGE": "Project page",
-        "OTHER-LINKS": "Other links"
+        "OTHER-LINKS": "Other links",
+        "TERMS-OF-USE": "Terms of use",
+        "PRIVACY-POLICY": "Privacy policy",
+        "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by"
     },
     "TOP-NAVBAR": {
         "LOGOUT": "Log out",

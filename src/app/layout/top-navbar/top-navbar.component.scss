@@ -1,3 +1,10 @@
+.top-navbar-container{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 0.5rem;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
@@ -6,4 +13,13 @@
   width: 200px;
 }
 
-::ng-deep {.mat-mdc-menu-panel.logoutDropdownMenu { width: 215px; } }
+.dashboard-logo-container{
+  display: flex;
+  align-items: center;
+}
+
+.profile-button{
+  z-index: 1050;
+}
+
+::ng-deep {.mat-mdc-menu-panel.logoutDropdownMenu { width: 215px; } } 

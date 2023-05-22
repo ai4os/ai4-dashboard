@@ -2,13 +2,22 @@
     <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches" class="sidenav"
         [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top"
         [fixedBottomGap]="options.value.bottom">
+        
+        <div class="dashboard-logo-container">
+            <button  *ngIf="mobileQuery.matches" mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
+            <a routerLink="">
+                <img src="../../../assets/images/dashboard-logo.png">
+            </a>
+        </div>
+
 
         <nav id="sidebarMenu" class="">
             <mat-nav-list>
                 <ng-container *ngFor="let link of mainLinks">
                     <mat-list-item *ngIf="!link.isRestricted || (link.isRestricted && isLoggedIn())"
                         class="sidenav-item" [disabled]="link.isDisabled">
-                        <a  mat-list-item [routerLink]="!link.isDisabled ?  link.url : null" routerLinkActive="active" class="sidenav-link"
+                        <a mat-list-item [routerLink]="!link.isDisabled ?  link.url : null" routerLinkActive="active"
+                            class="sidenav-link"
                             [routerLinkActiveOptions]="link.url === '/' ? {exact: true} : {exact: false}">{{ link.name |
                             translate }}</a>
                     </mat-list-item>
@@ -25,10 +34,17 @@
                 </mat-list-item>
             </mat-nav-list>
         </nav>
+        <div class="sidenav-footer mb-3 ml-3">
+            <img src="../../../assets/images/eu-flag.jpg" width="50" class="mr-2">
+            <img src="../../../assets/images/dashboard-logo.png" width="100" class="mb-1">
+            <p>{{acknowledgments}} <a [href]="projectUrl">{{projectName}}</a></p>
+            <a routerLink="conditions-of-use">{{"SIDENAV.TERMS-OF-USE" | translate}}</a>
+            <a routerLink="privacy-policy" class="ml-3">{{"SIDENAV.PRIVACY-POLICY" | translate}}</a>
+        </div>
     </mat-sidenav>
-    <mat-sidenav-content class="pl-3 pr-3">
+    <mat-sidenav-content class="pl-3 pr-3 sidenav-content">
+        <app-top-navbar class="top-navbar"></app-top-navbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 
 </mat-sidenav-container>
-

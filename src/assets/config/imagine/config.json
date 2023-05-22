@@ -20,11 +20,14 @@
             "tags_any": "*image*"
         },
         {
-            "tags": "imagine"
+            "tags": "vo.imagine-ai.eu"
         },
         {
             "tags": "development"
         }
     ],
-    "voName": "vo.imagine-ai.eu"
+    "voName": "vo.imagine-ai.eu",
+    "projectName": "iMagine",
+    "projectUrl": "https://www.imagine-ai.eu/",
+    "acknowledgments": "The iMagine platform dashboard is a service provided by CSIC, co-funded by "
 }

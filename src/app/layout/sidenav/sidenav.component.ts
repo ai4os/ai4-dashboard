@@ -62,16 +62,27 @@ export class SidenavComponent implements OnInit{
     }
   ]
 
+  acknowledgments: string = ''
+  projectName: string = ''
+  projectUrl: string = ''
+
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
   }
 
   ngOnInit(): void {
     this.otherLinks = this.appConfigService.sidenavMenu
+    this.acknowledgments = this.appConfigService.acknowledgments
+    this.projectName =  this.appConfigService.projectName
+    this.projectUrl = this.appConfigService.projectUrl
   }
 
   ngAfterViewInit(): void {
     this.sidenavService.setSidenav(this.sidenav);
+  }
+
+  toggleSidenav(){
+    this.sidenavService.toggle();
   }
 
 }

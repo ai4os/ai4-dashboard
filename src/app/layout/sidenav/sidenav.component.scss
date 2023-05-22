@@ -3,7 +3,7 @@
 
 .container {
     position: absolute;
-    top: 80px;
+    top: 0px;
     bottom: 0px;
     left: 0;
     right: 0;
@@ -14,7 +14,8 @@
     align-items: center;
     justify-content: center;
     width: 300px;
-    background: var(--white);
+    min-height: 500px;
+    background: var(--white-three);
 }
 
 .header {
@@ -40,6 +41,10 @@
     font-size: 15px;
     padding: 15px 20px;
 
+    & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text{
+        white-space: break-spaces;
+    }
+    
 }
 
 .active {
@@ -60,3 +65,27 @@
     background-color: var(--white-three);
 }
 
+.sidenav-footer{
+    position: absolute;
+    bottom: 1rem;
+}
+
+.dashboard-logo-container{
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 16px;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    height: 60px;
+    margin-left: 0.6rem;
+
+    & img{
+        max-width: 200px;
+    }
+}
+
+.sidenav-content{
+    background-color: var(--white);
+}

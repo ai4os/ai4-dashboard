@@ -28,7 +28,6 @@ export class TopNavbarComponent  implements OnInit{
   userProfile? : UserProfile
   isMatMenuOpen = false;
   enteredButton = false;
-  prevButtonTrigger: any;
 
   login(){
     this.authService.login(window.location.pathname);
@@ -63,26 +62,16 @@ export class TopNavbarComponent  implements OnInit{
 
   buttonEnter(trigger: any) {
     setTimeout(() => {
-      if(this.prevButtonTrigger && this.prevButtonTrigger != trigger){
-        this.prevButtonTrigger.closeMenu();
-        this.prevButtonTrigger = trigger;
-        this.isMatMenuOpen = false;
-        trigger.openMenu();
-        this.ren.removeClass(trigger.menu.items.first['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(trigger.menu.items.first['_elementRef'].nativeElement, 'cdk-program-focused');
-      }
-      else if (!this.isMatMenuOpen) {
+      if (!this.isMatMenuOpen) {
         this.enteredButton = true;
-        this.prevButtonTrigger = trigger
         trigger.openMenu();
         this.ren.removeClass(trigger.menu.items.first['_elementRef'].nativeElement, 'cdk-focused');
         this.ren.removeClass(trigger.menu.items.first['_elementRef'].nativeElement, 'cdk-program-focused');
       }
       else {
         this.enteredButton = true;
-        this.prevButtonTrigger = trigger
       }
-    })
+    }, 50)
   }
 
 
