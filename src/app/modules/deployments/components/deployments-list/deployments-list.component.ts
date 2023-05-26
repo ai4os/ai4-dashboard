@@ -109,7 +109,6 @@ export class DeploymentsListComponent implements OnInit {
     this.deploymentsService.getDeployments().subscribe((deploymentsList: any) => {
       this.isLoading = false;
       deploymentsList.forEach((deployment: any) => {
-
         let row =
         {
           uuid: deployment.job_ID,
@@ -127,6 +126,10 @@ export class DeploymentsListComponent implements OnInit {
       })
       this.dataSource = new MatTableDataSource<any>(this.dataset);
     })
+  }
+
+  isDeploymentRunning(index: number){
+    return this.dataset[index].status === 'running'
   }
 
   ngOnInit(): void {

@@ -36,10 +36,12 @@
                         translate}}</mat-header-cell>
                     
                     <mat-cell *matCellDef="let i = index" class="actions-cell">
-                        <button mat-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
+                        <div matTooltip="Access">
+                        <button [disabled]="!isDeploymentRunning(i)" mat-button  [matMenuTriggerFor]="menuAccess"
                             class="action-button-in-cell" (click)="$event.stopPropagation()">
                             <mat-icon color="accent" id="accessIcon">terminal</mat-icon>
                         </button>
+                        </div>
                         <mat-menu #menuAccess="matMenu">
                             <button mat-menu-item>
                                 <span> DEEEPaaS</span>

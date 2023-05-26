@@ -57,7 +57,7 @@
             <mat-icon>delete</mat-icon>
             {{"GENERAL-BUTTONS.DELETE" | translate}}</button>
             <button mat-raised-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
-            class="action-button-in-cell" (click)="$event.stopPropagation()" color="accent">
+            class="action-button-in-cell" (click)="$event.stopPropagation()" color="accent" [disabled]="deploymentInfo?.status !== 'running'">
             <mat-icon>terminal</mat-icon>
             {{"GENERAL-BUTTONS.ACCESS" | translate}}</button>
         <mat-menu #menuAccess="matMenu">
