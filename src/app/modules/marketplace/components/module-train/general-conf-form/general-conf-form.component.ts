@@ -15,8 +15,12 @@ export class GeneralConfFormComponent implements OnInit {
 
   parentForm!: FormGroup;
 
-  private _defaultFormValues: any;
+  protected _defaultFormValues: any;
+  protected _showHelp: any;
   
+  @Input() set showHelp(showHelp: any){
+      this._showHelp = showHelp;
+  }
 
   @Input() set defaultFormValues(defaultFormValues: any) {
     if(defaultFormValues) {

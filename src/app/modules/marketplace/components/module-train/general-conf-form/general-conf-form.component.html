@@ -7,20 +7,23 @@
             <mat-error *ngIf="generalConfFormGroup.get('titleInput')?.errors?.['required']">
                 {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED" | translate}}
             </mat-error>
+            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.title.description}}</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
             <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION" | translate}}</mat-label>
             <input matInput placeholder="{{'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION-PLACEHOLDER' | translate}}"
                 formControlName="descriptionInput">
+            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.desc.description}}</mat-hint>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" >
             <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN" | translate}}</mat-label>
             <mat-select formControlName="commandSelect">
                 <mat-option *ngFor="let commandOption of commandOptions" [value]="commandOption.value">
                     {{commandOption.viewValue}}
                 </mat-option>
             </mat-select>
+            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.service.description}}</mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -35,17 +38,19 @@
             <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['minlength']">
                 {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR" | translate}}
             </mat-error>
+            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.jupyter_password.description}}</mat-hint>
         </mat-form-field>
 
     </div>
     
-    <h4>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS" | translate}}</h4>
+    <h4     [ngClass]="{'mt-5': _showHelp}"    >{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS" | translate}}</h4>
     <mat-divider class="mt-3 mb-3"></mat-divider>
     <div class="form-grid">
         
             <mat-form-field class="example-full-width">
                 <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE" | translate}}</mat-label>
                 <input matInput placeholder=""   formControlName="dockerImageInput">
+                <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.docker_image.description}}</mat-hint>
             </mat-form-field>
             <mat-form-field class="example-full-width">
                 <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG" | translate}}</mat-label>
@@ -54,6 +59,7 @@
                         {{dockerTagOption.viewValue}}
                     </mat-option>
                 </mat-select>
+                <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.docker_tag.description}}</mat-hint>
             </mat-form-field>
 
     </div>

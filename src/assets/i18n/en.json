@@ -61,6 +61,7 @@
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
             "STORAGE-CONF": "Storage configuration",
+            "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
                 "DEPLOYMENT-TITLE": "Deployment title",

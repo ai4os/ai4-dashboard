@@ -24,13 +24,17 @@ export class StorageConfFormComponent implements OnInit{
     rclonePasswordInput: [''],
   })
 
-  private _defaultFormValues: any;
+  protected _defaultFormValues: any;
+
+  protected _showHelp: boolean = false;
+
+  @Input() set showHelp(showHelp: any) {
+    this._showHelp = showHelp;
+  }
 
   @Input() set defaultFormValues(defaultFormValues: any) {
     if(defaultFormValues) {
       this._defaultFormValues = defaultFormValues;
-      
-      
        this.storageConfFormGroup.get('rcloneConfInput')?.setValue(defaultFormValues.rclone_conf.value)
        this.storageConfFormGroup.get('storageUrlInput')?.setValue(defaultFormValues.rclone_url.value)
        this.storageConfFormGroup.get('rcloneUserInput')?.setValue(defaultFormValues.rclone_user.value)

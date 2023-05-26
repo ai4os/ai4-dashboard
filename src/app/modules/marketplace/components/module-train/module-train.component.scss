@@ -7,3 +7,13 @@
     position: relative;
     left: -12px;
 }
+
+.breadcrumbs-and-help-container{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1rem;
+}
+
+::ng-deep .childFormContainer form{
+    min-height: 420px;
+}
