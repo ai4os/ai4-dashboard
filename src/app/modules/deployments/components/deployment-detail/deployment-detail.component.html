@@ -20,6 +20,11 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
+        <div *ngIf="deploymentHasError">
+            <h4>
+               <mat-icon style="vertical-align: bottom;" color="warn">warning</mat-icon> <mat-error> Error: {{deploymentInfo?.error_msg}}</mat-error>
+            </h4>
+        </div>
         <ng-container *ngIf="!isLoading; else loading">
             <div class="deployment-detail-container">
                 <div>
@@ -64,6 +69,7 @@
 
 
                 </div>
+             
             </div>
 
             <ng-template #noResources>

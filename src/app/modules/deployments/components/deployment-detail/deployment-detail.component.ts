@@ -29,20 +29,26 @@ export class DeploymentDetailComponent implements OnInit {
   deploymentInfo: DeploymentInfo | undefined;
   statusBadge: string = '';
   isLoading: boolean = false;
+  protected deploymentHasError: boolean = false;
 
   ngOnInit(): void {
     if (this.data.uuid) {
       this.isLoading =  true;
       this.deploymentsService.getDeploymentByUUID(this.data.uuid).subscribe((deployment: DeploymentInfo) => {
         this.isLoading = false;
+        if(deployment.error_msg && deployment.error_msg != ""){
+          this.deploymentHasError = true 
+        }
         if (deployment.description == '') {
           deployment.description = '-'
         }
         switch (deployment.status) {
           case 'pending':
           case 'scheduled':
+          case 'queued':
             this.statusBadge = deployment.status + '-yellow'
             break;
+          case 'starting':
           case 'running':
           case 'complete':
             this.statusBadge = deployment.status + '-brightgreen'

@@ -95,3 +95,12 @@
 .action-button-in-cell:hover #accessIcon{
     color: var(--dark-gray);
 }
+
+::ng-deep .mat-badge-content {
+    font-family: 'Material Icons';
+}
+
+::ng-deep .mat-badge-small.mat-badge-after .mat-badge-content {
+    right: 0;
+    top: -4px;
+}

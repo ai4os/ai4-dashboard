@@ -49,6 +49,7 @@ export class DeploymentsListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
   displayedColumns: string[] = [];
+  private rawDeploymentLists: any;
 
   openDetailsDialog() {
 
@@ -109,6 +110,7 @@ export class DeploymentsListComponent implements OnInit {
     this.isLoading = true;
     this.deploymentsService.getDeployments().subscribe((deploymentsList: any) => {
       this.isLoading = false;
+      this.rawDeploymentLists = deploymentsList;
       deploymentsList.forEach((deployment: any) => {
         let row =
         {
@@ -136,6 +138,10 @@ export class DeploymentsListComponent implements OnInit {
 
   getDeploymentEndpoints(index: number){
     return this.dataset[index].endpoints
+  }
+
+  hasDeploymentErrors(index: number){
+    return this.rawDeploymentLists[index].error_msg
   }
 
   openDeploymentDetailDialog(index: number): void {
