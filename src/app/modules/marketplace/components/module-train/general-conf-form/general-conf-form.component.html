@@ -18,16 +18,16 @@
         </mat-form-field>
         <mat-form-field appearance="fill" >
             <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN" | translate}}</mat-label>
-            <mat-select formControlName="commandSelect">
-                <mat-option *ngFor="let commandOption of commandOptions" [value]="commandOption.value">
-                    {{commandOption.viewValue}}
+            <mat-select formControlName="serviceToRunSelect">
+                <mat-option *ngFor="let serviceToRunOption of serviceToRunOptions" [value]="serviceToRunOption.value">
+                    {{serviceToRunOption.viewValue | titlecase}}
                 </mat-option>
             </mat-select>
             <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.service.description}}</mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS" | translate}}</mat-label>
+            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD" | translate}}</mat-label>
             <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="At least 9 characters"
                 formControlName="jupyterLabPassInput">
             <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"  > {{hidePassword ?
@@ -39,6 +39,15 @@
                 {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR" | translate}}
             </mat-error>
             <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.jupyter_password.description}}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Hostname</mat-label>
+            <input matInput placeholder="" formControlName="hostnameInput" maxlength="45">
+            <mat-error *ngIf="generalConfFormGroup.get('titleInput')?.errors?.['required']">
+                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED" | translate}}
+            </mat-error>
+            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.hostname.description}}</mat-hint>
         </mat-form-field>
 
     </div>

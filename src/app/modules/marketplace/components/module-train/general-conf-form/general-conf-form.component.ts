@@ -17,6 +17,8 @@ export class GeneralConfFormComponent implements OnInit {
 
   protected _defaultFormValues: any;
   protected _showHelp: any;
+
+  serviceToRunOptions: {value: string, viewValue: string}[] = []
   
   @Input() set showHelp(showHelp: any){
       this._showHelp = showHelp;
@@ -26,6 +28,14 @@ export class GeneralConfFormComponent implements OnInit {
     if(defaultFormValues) {
       this._defaultFormValues = defaultFormValues;
       this.generalConfFormGroup.get('dockerImageInput')?.setValue(defaultFormValues.docker_image.value)
+      if(defaultFormValues.service){
+        defaultFormValues.service.options.forEach((service: any) => {
+          console.log(service )
+          this.serviceToRunOptions.push({
+            value: service, viewValue: service
+          })
+        })
+      }
       defaultFormValues.docker_tag.options?.forEach((tag: any)  => {
         this.dockerTagOptions.push(
           {
@@ -44,25 +54,26 @@ export class GeneralConfFormComponent implements OnInit {
 
   generalConfFormGroup = this.fb.group({
     descriptionInput: [''],
-    commandSelect: ['deepaas'],
+    serviceToRunSelect: ['deepaas'],
     titleInput: ['', [Validators.required, Validators.maxLength(45)]],
     jupyterLabPassInput: [{value: '', disabled: true}, [Validators.required, Validators.minLength(9)]],
     dockerImageInput: [{value: '', disabled: true}],
-    dockerTagSelect: ['']
+    dockerTagSelect: [''],
+    hostnameInput: ['']
   })
 
-  commandOptions = [
-    {value: "deepaas", viewValue: "DEEPaaS"},
-    {value: "jupyterlab", viewValue: "JupyterLab"},
-  ]
+
   dockerTagOptions: {value: string, viewValue: string}[] = []
 
   ngOnInit(): void {    
     this.parentForm = this.ctrlContainer.form;
     this.parentForm.addControl("generalConfForm", this.generalConfFormGroup);
-
-    this.generalConfFormGroup.get('commandSelect')?.valueChanges.subscribe(val => {
-      this.isJupyterLab = val === 'jupyterlab' ? true : false;
+    this.generalConfFormGroup.get('serviceToRunSelect')?.valueChanges.subscribe(val => {
+      if(val === 'jupyter' || val === 'vscode'){
+        this.isJupyterLab = true; 
+      }else{
+        this.isJupyterLab = false;
+      }
       if(this.isJupyterLab){
         this.generalConfFormGroup.get('jupyterLabPassInput')?.enable();
       }else{

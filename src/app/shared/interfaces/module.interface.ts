@@ -39,7 +39,8 @@ export interface TrainModuleRequest {
         docker_image: string,
         docker_tag: string,
         service: string,
-        jupyter_password?: string
+        jupyter_password?: string,
+        hostname?: string
     },
     hardware: {
         cpu_num: number,
