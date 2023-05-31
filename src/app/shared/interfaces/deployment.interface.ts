@@ -15,5 +15,5 @@ export interface DeploymentInfo {
         },
         endpoints?: object,
         alloc_ID?: string,
-        error_msg: object
+        error_msg: string
 }
