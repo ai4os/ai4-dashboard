@@ -35,30 +35,21 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
                 catchError((error: HttpErrorResponse) => {
 
-                    
-
                     let errorMessage = '';
 
-                    if (error.error instanceof ErrorEvent) {
-
-                        // client-side error
-                        errorMessage = `Error: ${error.error.message}`;
-
-                    } else {
-
-                        // server-side error
-                        errorMessage = `Error Code: ${error.status}`;
-
+                    // client-side error
+                    if (error.error.detail) {
+                        errorMessage = `Error: ${error.error.detail}`;
                     }
 
-                    if (error.status === 401 || error.status === 403){
-                        this.router.navigate(["forbidden", {errorMessage: errorMessage}] )
+                    if (error.status === 401 || error.status === 403) {
+                        this.router.navigate(["forbidden", { errorMessage: errorMessage }])
                     }
                     try {
                         const translateService = this.injector.get(TranslateService)
-                        this._snackBar.open(translateService.instant("ERRORS.SERVICE-ERROR") + "\n "+ errorMessage, "X",
+                        this._snackBar.open(translateService.instant("ERRORS.SERVICE-ERROR") + "\n " + errorMessage, "X",
                             {
-                                duration: 3000,
+                                duration: 10000,
                                 panelClass: ['red-snackbar']
                             })
                     } catch {
