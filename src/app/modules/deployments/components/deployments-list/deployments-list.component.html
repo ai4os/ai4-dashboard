@@ -34,27 +34,25 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef class="actions-cell">{{"DEPLOYMENTS.ACTIONS" |
                         translate}}</mat-header-cell>
-                    
+
                     <mat-cell *matCellDef="let i = index" class="actions-cell">
-                        <div matTooltip="Access">
-                        <button [disabled]="!isDeploymentRunning(i)" mat-button  [matMenuTriggerFor]="menuAccess"
-                            class="action-button-in-cell" (click)="$event.stopPropagation()">
-                            <mat-icon color="accent" id="accessIcon">terminal</mat-icon>
+                        <button mat-button matTooltip="Info" class="action-button-in-cell" (click)="openDeploymentDetailDialog(i)">
+                            <mat-icon color="accent" id="infoIcon">info</mat-icon>
                         </button>
+
+                        <div matTooltip="Access">
+                            <button [disabled]="!isDeploymentRunning(i)" mat-button [matMenuTriggerFor]="menuAccess"
+                                class="action-button-in-cell" (click)="$event.stopPropagation()">
+                                <mat-icon color="accent" id="accessIcon">terminal</mat-icon>
+                            </button>
                         </div>
                         <mat-menu #menuAccess="matMenu">
-                            <button mat-menu-item>
-                                <span> DEEEPaaS</span>
-                            </button>
-                            <button mat-menu-item>
-                                <span> JupyterLab</span>
-                            </button>
-                            <button mat-menu-item>
-                                <span> Monitor</span>
-                            </button>
-                            <button mat-menu-item>
-                                <span> History</span>
-                            </button>
+                            <ng-container *ngFor="let endpoint of getDeploymentEndpoints(i) | keyvalue">
+                                <button mat-menu-item>
+                                    <a mat-raised-button [href]="endpoint.value" target="blank"> {{ $any(endpoint.key) |
+                                        uppercase }} </a>
+                                </button>
+                            </ng-container>
                         </mat-menu>
 
                         <button mat-button matTooltip="Delete" class="action-button-in-cell"
@@ -67,13 +65,14 @@
 
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns" routerLink="{{row.uuid}}"></mat-row>
-                
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
                 <!--No data in table message-->
                 <ng-container *ngIf="!isLoading">
-                    <div *matNoDataRow  class="no-deployment-message-container">{{'DEPLOYMENTS.NO-DEPLOYMENTS' | translate}}</div>
+                    <div *matNoDataRow class="no-deployment-message-container">{{'DEPLOYMENTS.NO-DEPLOYMENTS' |
+                        translate}}</div>
                 </ng-container>
-                
+
             </table>
         </div>
 

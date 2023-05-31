@@ -54,8 +54,9 @@ export class ModuleTrainComponent implements OnInit {
         desc: this.generalConfForm.value.generalConfForm.descriptionInput,
         docker_image: this.generalConfForm.getRawValue().generalConfForm.dockerImageInput,
         docker_tag: this.generalConfForm.value.generalConfForm.dockerTagSelect,
-        service: this.generalConfForm.value.generalConfForm.commandSelect,
-        jupyter_password: this.generalConfForm.getRawValue().generalConfForm.jupyterLabPassInput
+        service: this.generalConfForm.value.generalConfForm.serviceToRunSelect,
+        jupyter_password: this.generalConfForm.getRawValue().generalConfForm.jupyterLabPassInput,
+        hostname: this.generalConfForm.getRawValue().generalConfForm.hostnameInput
       },
       hardware: {
         cpu_num: this.hardwareConfForm.value.hardwareConfForm.cpuNumberInput,

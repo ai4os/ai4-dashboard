@@ -2,57 +2,81 @@
     <span> {{"DEPLOYMENTS.DEPLOYMENT-DETAIL.TITLE" | translate}} <mat-icon>view_in_ar</mat-icon></span>
 </mat-toolbar>
 
-<xng-breadcrumb class="mb-3"></xng-breadcrumb>
-
 <mat-card class="example-card">
+
+    <ng-template #loading>
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    </ng-template>
+
     <mat-card-header>
         <mat-card-title class="deployment-detail-title">
             <h2>{{deploymentInfo?.title}}</h2>
             <p>
-                <img src="https://img.shields.io/badge/status-{{statusBadge}}" width="125"/>
+                <img src="https://img.shields.io/badge/status-{{statusBadge}}" width="125" />
             </p>
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <div class="deployment-detail-container">
-            <div>
-                <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER_IMAGE" | translate}}</h3>
-                <p>{{deploymentInfo?.docker_image}}</p>
-            </div>
-            <div>
-                <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION" | translate}}</h3>
-                <p>{{deploymentInfo?.description}}</p>
-            </div>
-            <div>
-                <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME" | translate}}</h3>
-                <p> {{deploymentInfo?.submit_time}}</p>
-            </div>
-            <div>
-                <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID" | translate}}</h3>
-                <p> {{deploymentInfo?.job_ID}} </p>
-            </div>
-            <div>
-                <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED" | translate}}</h3>
-                <ng-container *ngIf="(deploymentInfo?.resources | json) !== '{}'; else noResources">
-                    <p> {{deploymentInfo?.resources | json}} </p>
-                </ng-container>
-            </div>
-            <div>
-                <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS" | translate}}</h3>
-                <ng-container *ngIf="(deploymentInfo?.resources | json) !== '{}'; else noResources">
-                    <p> {{deploymentInfo?.endpoints | json}} </p>
-                </ng-container>
-            
-                
-            </div>
-        </div>
+        <ng-container *ngIf="!isLoading; else loading">
+            <div class="deployment-detail-container">
+                <div>
+                    <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE" | translate}}</h3>
+                    <p>{{deploymentInfo?.docker_image}}</p>
+                </div>
+                <div>
+                    <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION" | translate}}</h3>
+                    <p>{{deploymentInfo?.description}}</p>
+                </div>
+                <div>
+                    <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME" | translate}}</h3>
+                    <p> {{deploymentInfo?.submit_time}}</p>
+                </div>
+                <div>
+                    <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID" | translate}}</h3>
+                    <p> {{deploymentInfo?.job_ID}} </p>
+                </div>
+                <div>
+                    <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED" | translate}}</h3>
+                    <ng-container *ngIf="(deploymentInfo?.resources | json) !== '{}'; else noResources">
+                        <mat-list>
+                            <ng-container *ngFor="let resource of deploymentInfo?.resources | keyvalue">
+                                <mat-list-item>{{'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' + (resource.key | uppercase
+                                    )| translate}}: {{resource.value}}</mat-list-item>
+                            </ng-container>
+                        </mat-list>
+                    </ng-container>
+                </div>
+                <div>
+                    <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS" | translate}}</h3>
+                    <ng-container *ngIf="(deploymentInfo?.endpoints | json) !== '{}'; else noResources">
+                        <mat-list>
+                            <ng-container *ngFor="let endpoint of deploymentInfo?.endpoints | keyvalue">
+                                <mat-list-item>
+                                    <a mat-button [href]="endpoint.value" target="blank"> {{ $any(endpoint.key) |
+                                        uppercase }} <mat-icon>open_in_new</mat-icon></a>
+                                </mat-list-item>
+                            </ng-container>
+                        </mat-list>
+                    </ng-container>
 
-        <ng-template #noResources>
-            -
-        </ng-template>
+
+                </div>
+            </div>
+
+            <ng-template #noResources>
+                -
+            </ng-template>
+        </ng-container>
+
 
     </mat-card-content>
     <mat-card-actions align="end">
+        <button mat-raised-button mat-dialog-close color="accent">Ok</button>
+    </mat-card-actions>
+    <!-- <mat-card-actions align="end">
         <button mat-raised-button color="warn" (click)="deleteDeployment()" class="mr-2">
             <mat-icon>delete</mat-icon>
             {{"GENERAL-BUTTONS.DELETE" | translate}}</button>
@@ -74,7 +98,5 @@
                 <span> History</span>
             </button>
         </mat-menu>        
-      </mat-card-actions>
+      </mat-card-actions> -->
 </mat-card>
-
-

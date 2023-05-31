@@ -66,16 +66,18 @@
 
 .mat-mdc-table .mat-mdc-row:hover {
     background-color: var(--accent);
-    cursor: pointer;
+    //cursor: pointer;
     & .mat-mdc-cell{
         color: var(--white);
     }
 }
 
-.mat-mdc-table .mat-mdc-row:hover  #accessIcon{
+.mat-mdc-table .mat-mdc-row:hover #accessIcon{
     color: var(--white);
 }
-
+.mat-mdc-table .mat-mdc-row:hover  #infoIcon{
+    color: var(--white);
+}
 
 .table-container{
     //overflow-x: scroll;
@@ -88,5 +90,8 @@
 }
 
 .action-button-in-cell:disabled #accessIcon{
+    color: var(--dark-gray) !important;
+}
+.action-button-in-cell:hover #accessIcon{
     color: var(--dark-gray);
 }

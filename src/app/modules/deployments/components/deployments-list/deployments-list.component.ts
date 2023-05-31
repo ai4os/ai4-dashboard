@@ -42,6 +42,7 @@ export class DeploymentsListComponent implements OnInit {
     { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
     { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
     { columnDef: 'deployedAt', header: 'DEPLOYMENTS.NAMESPACE' },
+    { columnDef: 'endpoints', header: '', hidden: true}
   ];
   dataset: Array<any> = [];
 
@@ -117,7 +118,8 @@ export class DeploymentsListComponent implements OnInit {
           containerName: deployment.docker_image,
           gpus: "-",
           creationTime: deployment.submit_time,
-          deployedAt: "IFCA"
+          deployedAt: "IFCA",
+          endpoints: deployment.endpoints
         }
         if(deployment.resources && Object.keys(deployment.resources).length !== 0){
           row.gpus = deployment.resources.gpu_num
@@ -130,6 +132,23 @@ export class DeploymentsListComponent implements OnInit {
 
   isDeploymentRunning(index: number){
     return this.dataset[index].status === 'running'
+  }
+
+  getDeploymentEndpoints(index: number){
+    return this.dataset[index].endpoints
+  }
+
+  openDeploymentDetailDialog(index: number): void {
+    const dialogRef = this.dialog.open(DeploymentDetailComponent, {
+      data: { uuid: this.dataset[index].uuid },
+      width: '650px',
+      maxWidth: '650px',
+      minWidth: '650px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+    });
   }
 
   ngOnInit(): void {

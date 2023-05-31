@@ -27,7 +27,13 @@
             "CREATION-TIME": "Creation time",
             "DEPLOYMENT-ID": "Deployment ID",
             "RESOURCES-ASSIGNED": "Resources assigned",
-            "ENDPOINTS": "Endpoints"
+            "ENDPOINTS": "Endpoints",
+            "RESOURCES": {
+                "CPU_NUM": "Number of CPUs",
+                "GPU_NUM": "Number of GPUs",
+                "DISKMB": "Disk memory",
+                "MEMORYMB": "RAM memory"
+            }
         },
         "DEPLOYMENT-NAME": "Name",
         "BULK-ACTIONS": "Bulk actions",
@@ -37,7 +43,7 @@
         "GPUS": "GPUs",
         "CREATION-TIME": "Creation time",
         "DEPLOYED-AT": "Deployed at",
-        "ACTIONS": "Quick Actions",
+        "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
         "NEW-DEPLOYMENT": "New deployment",
         "NO-DEPLOYMENTS": "Nothing deployed yet"
@@ -69,8 +75,9 @@
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
                 "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
                 "SERVICE-TO-RUN": "Service to run",
+                "PASSWORD": "Password",
                 "JUPYTERLAB-PASS": "JupyterLab password",
-                "JUPYTERLAB-PASS-REQUIRED": "A JupyterLab password is required",
+                "JUPYTERLAB-PASS-REQUIRED": "A password is required",
                 "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
