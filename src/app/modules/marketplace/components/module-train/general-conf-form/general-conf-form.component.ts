@@ -31,7 +31,6 @@ export class GeneralConfFormComponent implements OnInit {
       this.generalConfFormGroup.get('serviceToRunSelect')?.setValue((defaultFormValues.service.value))
       if(defaultFormValues.service){
         defaultFormValues.service.options.forEach((service: any) => {
-          console.log(service )
           this.serviceToRunOptions.push({
             value: service, viewValue: service
           })
