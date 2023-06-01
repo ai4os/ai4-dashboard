@@ -20,6 +20,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSortModule } from '@angular/material/sort';
 
 
 const materialModules = [
@@ -42,7 +43,8 @@ const materialModules = [
   MatProgressSpinnerModule,
   MatSnackBarModule,
   MatSlideToggleModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatSortModule
 ]
 
 
