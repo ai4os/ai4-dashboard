@@ -14,8 +14,12 @@
     align-items: center;
     justify-content: center;
     width: 300px;
-    min-height: 650px;
+    min-height: 655px;
     background: var(--white-three);
+}
+
+::ng-deep .sidenav .mat-drawer-inner-container{
+    overflow: hidden !important;
 }
 
 .header {
@@ -88,4 +92,8 @@
 
 .sidenav-content{
     background-color: var(--white);
+}
+
+.acknowledgments{
+    font-size: 0.9rem;
 }
