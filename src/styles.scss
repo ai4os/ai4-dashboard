@@ -49,3 +49,7 @@ body {
 .mat-toolbar{
     background-color: var(--white);
 }
+
+.mat-mdc-card{
+    border: 1px solid var(--border-gray) !important;
+}
