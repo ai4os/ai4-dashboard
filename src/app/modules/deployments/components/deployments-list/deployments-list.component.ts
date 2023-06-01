@@ -49,7 +49,6 @@ export class DeploymentsListComponent implements OnInit {
     { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
     { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
     { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-    { columnDef: 'deployedAt', header: 'DEPLOYMENTS.NAMESPACE' },
     { columnDef: 'endpoints', header: '', hidden: true },
     { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS'}
   ];
@@ -58,7 +57,6 @@ export class DeploymentsListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
   displayedColumns: string[] = [];
-  private rawDeploymentLists: any;
 
   openDetailsDialog() {
 
@@ -119,7 +117,6 @@ export class DeploymentsListComponent implements OnInit {
     this.isLoading = true;
     this.deploymentsService.getDeployments().subscribe((deploymentsList: any) => {
       this.isLoading = false;
-      this.rawDeploymentLists = deploymentsList;
       deploymentsList.forEach((deployment: any) => {
         let row =
         {
@@ -129,7 +126,6 @@ export class DeploymentsListComponent implements OnInit {
           containerName: deployment.docker_image,
           gpus: "-",
           creationTime: deployment.submit_time,
-          deployedAt: "IFCA",
           endpoints: deployment.endpoints
         }
         if (deployment.resources && Object.keys(deployment.resources).length !== 0) {
