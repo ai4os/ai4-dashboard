@@ -12,6 +12,7 @@ export function getDeploymentBadge(status: string) {
             statusBadge = status + '-brightgreen'
             break;
         case 'failed':
+        case 'error':
             statusBadge = status + '-red'
             break;
         case 'dead':
