@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,10 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
 import { TranslateService } from '@ngx-translate/core';
 import { DeploymentsService } from '../../services/deployments.service';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { getDeploymentBadge } from '../../utils/deployment-badge';
+
 
 export interface TableColumn {
   columnDef: any;
@@ -28,10 +32,14 @@ export class DeploymentsListComponent implements OnInit {
     private translateService: TranslateService,
     private deploymentsService: DeploymentsService,
     public confirmationDialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _liveAnnouncer: LiveAnnouncer
   ) {
   }
 
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
   isLoading = false;
 
   columns: Array<TableColumn> = [
@@ -42,7 +50,8 @@ export class DeploymentsListComponent implements OnInit {
     { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
     { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
     { columnDef: 'deployedAt', header: 'DEPLOYMENTS.NAMESPACE' },
-    { columnDef: 'endpoints', header: '', hidden: true}
+    { columnDef: 'endpoints', header: '', hidden: true },
+    { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS'}
   ];
   dataset: Array<any> = [];
 
@@ -69,7 +78,7 @@ export class DeploymentsListComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  removeDeployment(e: MouseEvent, index: number) {
+  removeDeployment(e: MouseEvent, row: any) {
     e.stopPropagation();
     this.confirmationDialog.open(ConfirmationDialogComponent, {
       data: `¿Are you sure you want to delete this deployment?`
@@ -77,29 +86,29 @@ export class DeploymentsListComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
-          let uuid = this.dataset[index].uuid;
+          let uuid = row.uuid;
           this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
             next: (response: any) => {
-              if(response && response['status'] == 'success'){
-              const itemIndex = this.dataset.findIndex(obj => obj['uuid'] === uuid);
-              this.dataset.splice(itemIndex, 1);
-              this.dataSource = new MatTableDataSource<any>(this.dataset);
-              this._snackBar.open("Successfully deleted deployment with uuid: " + uuid, "X",  {
-                duration: 3000,
-                panelClass: ['primary-snackbar']
-            })  
-              }else{
-                this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X",  {
+              if (response && response['status'] == 'success') {
+                const itemIndex = this.dataset.findIndex(obj => obj['uuid'] === uuid);
+                this.dataset.splice(itemIndex, 1);
+                this.dataSource = new MatTableDataSource<any>(this.dataset);
+                this._snackBar.open("Successfully deleted deployment with uuid: " + uuid, "X", {
+                  duration: 3000,
+                  panelClass: ['primary-snackbar']
+                })
+              } else {
+                this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X", {
                   duration: 3000,
                   panelClass: ['red-snackbar']
-              })  
+                })
               }
             },
             error: () => {
-              this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X",  {
+              this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X", {
                 duration: 3000,
                 panelClass: ['red-snackbar']
-            })
+              })
             }
           })
         }
@@ -123,7 +132,7 @@ export class DeploymentsListComponent implements OnInit {
           deployedAt: "IFCA",
           endpoints: deployment.endpoints
         }
-        if(deployment.resources && Object.keys(deployment.resources).length !== 0){
+        if (deployment.resources && Object.keys(deployment.resources).length !== 0) {
           row.gpus = deployment.resources.gpu_num
         }
         this.dataset.push(row)
@@ -132,21 +141,25 @@ export class DeploymentsListComponent implements OnInit {
     })
   }
 
-  isDeploymentRunning(index: number){
-    return this.dataset[index].status === 'running'
+  isDeploymentRunning(row: any) {
+    return row.status === 'running'
   }
 
-  getDeploymentEndpoints(index: number){
-    return this.dataset[index].endpoints
+  getDeploymentEndpoints(row: any) {
+    return row.endpoints
   }
 
-  hasDeploymentErrors(index: number){
-    return this.rawDeploymentLists[index].error_msg
+  hasDeploymentErrors(row: any) {
+    return row.error_msg;
   }
 
-  openDeploymentDetailDialog(index: number): void {
+  returnDeploymentBadge(status: string){
+    return getDeploymentBadge(status)
+  }
+
+  openDeploymentDetailDialog(row: any): void {
     const dialogRef = this.dialog.open(DeploymentDetailComponent, {
-      data: { uuid: this.dataset[index].uuid },
+      data: { uuid: row.uuid },
       width: '650px',
       maxWidth: '650px',
       minWidth: '650px'
@@ -155,6 +168,19 @@ export class DeploymentsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
     });
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
   ngOnInit(): void {
@@ -166,7 +192,6 @@ export class DeploymentsListComponent implements OnInit {
     // set table columns
     this.displayedColumns = this.displayedColumns.concat(this.columns.filter(x => !x.hidden).map(x => x.columnDef));    // pre-fix static
     // add action column
-    this.displayedColumns.push("action");
     this.dataSource = new MatTableDataSource<any>(this.dataset);
 
     // set pagination

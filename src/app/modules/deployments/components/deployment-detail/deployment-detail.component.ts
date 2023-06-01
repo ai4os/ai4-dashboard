@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DeploymentInfo } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments.service';
+import { getDeploymentBadge } from '../../utils/deployment-badge';
 
 @Component({
   selector: 'app-deployment-detail',
@@ -42,26 +43,7 @@ export class DeploymentDetailComponent implements OnInit {
         if (deployment.description == '') {
           deployment.description = '-'
         }
-        switch (deployment.status) {
-          case 'pending':
-          case 'scheduled':
-          case 'queued':
-            this.statusBadge = deployment.status + '-yellow'
-            break;
-          case 'starting':
-          case 'running':
-          case 'complete':
-            this.statusBadge = deployment.status + '-brightgreen'
-            break;
-          case 'dead':
-          case 'draining':
-            this.statusBadge = deployment.status + '-lightgrey'
-            break;
-          default:
-            this.statusBadge = 'unknown-lightgrey'
-            break;
-        }
-
+        this.statusBadge = getDeploymentBadge(deployment.status)
         this.deploymentInfo = deployment
       })
     }
