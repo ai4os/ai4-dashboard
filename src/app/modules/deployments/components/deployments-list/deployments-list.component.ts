@@ -11,6 +11,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
+import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 
 
 export interface TableColumn {
@@ -61,13 +62,14 @@ export class DeploymentsListComponent implements OnInit {
     { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
     { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
     { columnDef: 'endpoints', header: '', hidden: true },
-    { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS'}
+    { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' }
   ];
   dataset: Array<any> = [];
 
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
   displayedColumns: string[] = [];
+  private unsub = new Subject<void>();
 
   openDetailsDialog() {
 
@@ -126,29 +128,35 @@ export class DeploymentsListComponent implements OnInit {
 
   getDeploymentsList() {
     this.isLoading = true;
-    this.deploymentsService.getDeployments().subscribe((deploymentsList: Deployment[]) => {
-      this.isLoading = false;
-      deploymentsList.forEach((deployment: Deployment) => {
-        let row: deploymentTableRow =
-        {
-          uuid: deployment.job_ID ,
-          name: deployment.title,
-          status: deployment.status,
-          containerName: deployment.docker_image,
-          gpus: "-",
-          creationTime: deployment.submit_time,
-          endpoints: deployment.endpoints
-        }
-        if(deployment.error_msg){
-          row.error_msg = deployment.error_msg
-        }
-        if (deployment.resources && Object.keys(deployment.resources).length !== 0) {
-          row.gpus = deployment.resources.gpu_num
-        }
-        this.dataset.push(row)
+    timer(0, 5000)
+      .pipe(
+        takeUntil(this.unsub),
+        switchMap(() => this.deploymentsService.getDeployments())
+      )
+      .subscribe((deploymentsList: Deployment[]) => {
+        this.dataset = []
+        this.isLoading = false;
+        deploymentsList.forEach((deployment: Deployment) => {
+          let row: deploymentTableRow =
+          {
+            uuid: deployment.job_ID,
+            name: deployment.title,
+            status: deployment.status,
+            containerName: deployment.docker_image,
+            gpus: "-",
+            creationTime: deployment.submit_time,
+            endpoints: deployment.endpoints
+          }
+          if (deployment.error_msg) {
+            row.error_msg = deployment.error_msg
+          }
+          if (deployment.resources && Object.keys(deployment.resources).length !== 0) {
+            row.gpus = deployment.resources.gpu_num
+          }
+          this.dataset.push(row)
+        })
+        this.dataSource = new MatTableDataSource<any>(this.dataset);
       })
-      this.dataSource = new MatTableDataSource<any>(this.dataset);
-    })
   }
 
   isDeploymentRunning(row: any) {
@@ -163,7 +171,7 @@ export class DeploymentsListComponent implements OnInit {
     return row.error_msg;
   }
 
-  returnDeploymentBadge(status: string){
+  returnDeploymentBadge(status: string) {
     return getDeploymentBadge(status)
   }
 
@@ -207,6 +215,11 @@ export class DeploymentsListComponent implements OnInit {
     // set pagination
     //this.dataSource.paginator = this.paginator;
 
+  }
+
+  ngOnDestroy(): void {
+    this.unsub.next();
+    this.unsub.complete();
   }
 
 }
