@@ -13,7 +13,7 @@
 
     <mat-card-header>
         <mat-card-title class="deployment-detail-title">
-            <h2>{{deploymentInfo?.title}}</h2>
+            <h2>{{deployment?.title}}</h2>
             <p>
                 <img src="https://img.shields.io/badge/status-{{statusBadge}}" width="125" />
             </p>
@@ -22,32 +22,32 @@
     <mat-card-content>
         <div *ngIf="deploymentHasError">
             <h4>
-               <mat-icon style="vertical-align: bottom;" color="warn">warning</mat-icon> <mat-error> Error: {{deploymentInfo?.error_msg}}</mat-error>
+               <mat-icon style="vertical-align: bottom;" color="warn">warning</mat-icon> <mat-error> Error: {{deployment?.error_msg}}</mat-error>
             </h4>
         </div>
         <ng-container *ngIf="!isLoading; else loading">
             <div class="deployment-detail-container">
                 <div>
                     <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE" | translate}}</h3>
-                    <p>{{deploymentInfo?.docker_image}}</p>
+                    <p>{{deployment?.docker_image}}</p>
                 </div>
                 <div>
                     <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION" | translate}}</h3>
-                    <p>{{deploymentInfo?.description}}</p>
+                    <p>{{deployment?.description}}</p>
                 </div>
                 <div>
                     <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME" | translate}}</h3>
-                    <p> {{deploymentInfo?.submit_time}}</p>
+                    <p> {{deployment?.submit_time}}</p>
                 </div>
                 <div>
                     <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID" | translate}}</h3>
-                    <p> {{deploymentInfo?.job_ID}} </p>
+                    <p> {{deployment?.job_ID}} </p>
                 </div>
                 <div>
                     <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED" | translate}}</h3>
-                    <ng-container *ngIf="(deploymentInfo?.resources | json) !== '{}'; else noResources">
+                    <ng-container *ngIf="(deployment?.resources | json) !== '{}'; else noResources">
                         <mat-list>
-                            <ng-container *ngFor="let resource of deploymentInfo?.resources | keyvalue">
+                            <ng-container *ngFor="let resource of deployment?.resources | keyvalue">
                                 <mat-list-item>{{'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' + (resource.key | uppercase
                                     )| translate}}: {{resource.value}}</mat-list-item>
                             </ng-container>
@@ -56,9 +56,9 @@
                 </div>
                 <div>
                     <h3>{{"DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS" | translate}}</h3>
-                    <ng-container *ngIf="(deploymentInfo?.endpoints | json) !== '{}'; else noResources">
+                    <ng-container *ngIf="(deployment?.endpoints | json) !== '{}'; else noResources">
                         <mat-list>
-                            <ng-container *ngFor="let endpoint of deploymentInfo?.endpoints | keyvalue">
+                            <ng-container *ngFor="let endpoint of deployment?.endpoints | keyvalue">
                                 <mat-list-item>
                                     <a mat-button [href]="endpoint.value" target="blank"> {{ $any(endpoint.key) |
                                         uppercase }} <mat-icon>open_in_new</mat-icon></a>
@@ -87,7 +87,7 @@
             <mat-icon>delete</mat-icon>
             {{"GENERAL-BUTTONS.DELETE" | translate}}</button>
             <button mat-raised-button matTooltip="Access" [matMenuTriggerFor]="menuAccess"
-            class="action-button-in-cell" (click)="$event.stopPropagation()" color="accent" [disabled]="deploymentInfo?.status !== 'running'">
+            class="action-button-in-cell" (click)="$event.stopPropagation()" color="accent" [disabled]="deployment?.status !== 'running'">
             <mat-icon>terminal</mat-icon>
             {{"GENERAL-BUTTONS.ACCESS" | translate}}</button>
         <mat-menu #menuAccess="matMenu">

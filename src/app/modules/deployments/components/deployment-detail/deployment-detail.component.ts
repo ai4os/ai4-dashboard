@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { DeploymentInfo } from '@app/shared/interfaces/deployment.interface';
+import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 
@@ -27,7 +27,7 @@ export class DeploymentDetailComponent implements OnInit {
 
   
 
-  deploymentInfo: DeploymentInfo | undefined;
+  deployment: Deployment | undefined;
   statusBadge: string = '';
   isLoading: boolean = false;
   protected deploymentHasError: boolean = false;
@@ -35,7 +35,7 @@ export class DeploymentDetailComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.uuid) {
       this.isLoading =  true;
-      this.deploymentsService.getDeploymentByUUID(this.data.uuid).subscribe((deployment: DeploymentInfo) => {
+      this.deploymentsService.getDeploymentByUUID(this.data.uuid).subscribe((deployment: Deployment) => {
         this.isLoading = false;
         if(deployment.error_msg && deployment.error_msg != ""){
           this.deploymentHasError = true 
@@ -44,7 +44,7 @@ export class DeploymentDetailComponent implements OnInit {
           deployment.description = '-'
         }
         this.statusBadge = getDeploymentBadge(deployment.status)
-        this.deploymentInfo = deployment
+        this.deployment = deployment
       })
     }
   }
@@ -56,7 +56,7 @@ export class DeploymentDetailComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
-          let uuid = this.deploymentInfo!.job_ID
+          let uuid = this.deployment!.job_ID
           this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
             next: (response: any) => {
               if (response && response['status'] == 'success') {

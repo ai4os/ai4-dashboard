@@ -1,5 +1,4 @@
-export interface Deployment { }
-export interface DeploymentInfo {
+export interface Deployment {
         job_ID: string,
         status: string,
         owner: string,
@@ -15,5 +14,5 @@ export interface DeploymentInfo {
         },
         endpoints?: object,
         alloc_ID?: string,
-        error_msg: string
+        error_msg?: string
 }

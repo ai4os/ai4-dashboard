@@ -10,6 +10,7 @@ import { DeploymentDetailComponent } from '../deployment-detail/deployment-detai
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
+import { Deployment } from '@app/shared/interfaces/deployment.interface';
 
 
 export interface TableColumn {
@@ -18,13 +19,23 @@ export interface TableColumn {
   hidden?: boolean
 }
 
+
+interface deploymentTableRow {
+  uuid: string,
+  name: string,
+  status: string,
+  containerName: string,
+  gpus: string | number,
+  creationTime: string,
+  endpoints?: object | undefined,
+  error_msg?: string
+}
+
 @Component({
   selector: 'app-deployments-list',
   templateUrl: './deployments-list.component.html',
   styleUrls: ['./deployments-list.component.scss']
 })
-
-
 
 export class DeploymentsListComponent implements OnInit {
   constructor(
@@ -115,18 +126,21 @@ export class DeploymentsListComponent implements OnInit {
 
   getDeploymentsList() {
     this.isLoading = true;
-    this.deploymentsService.getDeployments().subscribe((deploymentsList: any) => {
+    this.deploymentsService.getDeployments().subscribe((deploymentsList: Deployment[]) => {
       this.isLoading = false;
-      deploymentsList.forEach((deployment: any) => {
-        let row =
+      deploymentsList.forEach((deployment: Deployment) => {
+        let row: deploymentTableRow =
         {
-          uuid: deployment.job_ID,
+          uuid: deployment.job_ID ,
           name: deployment.title,
           status: deployment.status,
           containerName: deployment.docker_image,
           gpus: "-",
           creationTime: deployment.submit_time,
           endpoints: deployment.endpoints
+        }
+        if(deployment.error_msg){
+          row.error_msg = deployment.error_msg
         }
         if (deployment.resources && Object.keys(deployment.resources).length !== 0) {
           row.gpus = deployment.resources.gpu_num
