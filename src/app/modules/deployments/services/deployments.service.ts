@@ -20,11 +20,12 @@ export class DeploymentsService {
   ) { }
 
   readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+  readonly vosArrayParam = new HttpParams().set('vos', this.appConfigService.voName);
  
 
   getDeployments(): Observable<Deployment[]> {
     const url = `${base}${endpoints.deployments}`;
-    return this.http.get<Array<Deployment>>(url, { params: this.voParam });
+    return this.http.get<Array<Deployment>>(url, { params: this.vosArrayParam });
   }
 
   getDeploymentByUUID(deploymentUUID: string): Observable<Deployment> {
