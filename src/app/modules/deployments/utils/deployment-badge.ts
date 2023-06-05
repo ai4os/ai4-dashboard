@@ -4,11 +4,12 @@ export function getDeploymentBadge(status: string) {
         case 'pending':
         case 'scheduled':
         case 'queued':
-            statusBadge = status + '-yellow'
+            statusBadge = status + '-fd5d00'
             break;
         case 'starting':
+            statusBadge = status + '-yellow'
+            break;
         case 'running':
-        case 'complete':
             statusBadge = status + '-brightgreen'
             break;
         case 'failed':
@@ -17,6 +18,7 @@ export function getDeploymentBadge(status: string) {
             break;
         case 'dead':
         case 'draining':
+        case 'complete':
             statusBadge = status + '-lightgrey'
             break;
         default:
