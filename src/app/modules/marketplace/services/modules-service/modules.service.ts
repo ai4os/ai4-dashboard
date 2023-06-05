@@ -3,8 +3,10 @@ import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
 import { Module, ModuleConfiguration, ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 const { base, endpoints } = environment.api;
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,11 @@ export class ModulesService {
 
   constructor(
     private http: HttpClient,
+    private appConfigService: AppConfigService
 
   ) { }
+
+  readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 
   getModulesSummary(tags?: any): Observable<ModuleSummary[]> {
     const url = `${base}${endpoints.modulesSummary}`;
@@ -43,7 +48,7 @@ export class ModulesService {
       ':name',
       moduleName
     )}`;
-    return this.http.get<ModuleConfiguration>(url);
+    return this.http.get<ModuleConfiguration>(url, { params: this.voParam });
   }
 
 }
