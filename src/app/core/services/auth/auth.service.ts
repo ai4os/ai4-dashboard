@@ -3,17 +3,20 @@ import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Subject } from 'rxjs';
 import { authCodeFlowConfig } from './auth.config';
+import { AppConfigService } from '../app-config/app-config.service';
 
 
 export interface UserProfile {
-  name: string
+  name: string,
+  isAuthorized: boolean
 }
 
 @Injectable()
 export class AuthService {
   constructor(
     private oauthService: OAuthService,
-    private router: Router
+    private router: Router,
+    private appConfigService: AppConfigService
     ) {
     this.configureOAuthService();
   }
@@ -34,7 +37,16 @@ export class AuthService {
         if (this.oauthService.hasValidAccessToken()) {
           this.oauthService.loadUserProfile().then((profile: any) => {
             let userProfile: UserProfile = {
-              name: profile['info']['name']
+              name: profile['info']['name'],
+              isAuthorized: false
+            }
+            if(profile['info']['eduperson_entitlement'] && profile['info']['eduperson_entitlement'].length > 0){
+              let vos: string[] = this.parseVosFromProfile(profile['info']['eduperson_entitlement'])
+              vos.forEach(vo => {
+                if(vo.includes(this.appConfigService.voName)){
+                  userProfile.isAuthorized = true
+                }
+              })
             }
             this.userProfileSubject.next(userProfile)
             if (this.oauthService.state && this.oauthService.state !== 'undefined' && this.oauthService.state !== 'null') {
@@ -66,4 +78,14 @@ export class AuthService {
     return !!this.oauthService.getIdToken();
   }
 
+  parseVosFromProfile(entitlements: string[]): string[]{
+    let foundVos: string[] = []
+    entitlements.forEach(vo => {
+      if(vo.match("group:(.+?):")?.[0]){
+
+        foundVos.push(vo.match("group:(.+?):")![0])
+      }
+    })
+    return foundVos;
+  }
 }

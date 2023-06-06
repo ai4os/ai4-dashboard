@@ -6,7 +6,7 @@
       <img src="../../../assets/images/dashboard-logo.png" class="dashboard-logo">
     </a> 
   </div>
-  
+  <mat-error class="not-authorized-error" *ngIf="!isAuthorized() && isAuthorized() !== undefined">{{'ERRORS.NOT-AUTHORIZED-ERROR' | translate: {vo: appConfigService.voName} }} </mat-error>
   <span class="spacer"></span>
   <div *ngIf="isLoggedIn(); else showSignInLink">
 

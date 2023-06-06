@@ -1,5 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 
@@ -15,6 +16,7 @@ export class TopNavbarComponent  implements OnInit{
     private changeDetectorRef: ChangeDetectorRef,
     private media: MediaMatcher,
     private sidenavService: SidenavService,    
+    protected appConfigService: AppConfigService
   ){
     this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -89,6 +91,10 @@ export class TopNavbarComponent  implements OnInit{
         this.enteredButton = false;
       }
     }, 100)
+  }
+
+  isAuthorized(){
+    return this.userProfile?.isAuthorized;
   }
 
   toggleSidenav(){
