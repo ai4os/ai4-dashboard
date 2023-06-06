@@ -5,6 +5,7 @@ import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class SidenavComponent implements OnInit{
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', this._mobileQueryListener)
   }
+
+  protected environment = environment
 
   options = this._formBuilder.group({
     bottom: 0,

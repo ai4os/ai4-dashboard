@@ -3,6 +3,7 @@
         [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top"
         [fixedBottomGap]="options.value.bottom">
         
+        <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
         <div class="dashboard-logo-container">
             <button  *ngIf="mobileQuery.matches" mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
             <a routerLink="">

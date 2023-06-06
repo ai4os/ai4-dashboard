@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-top-navbar',
@@ -26,6 +27,7 @@ export class TopNavbarComponent  implements OnInit{
     })
   }
   private _mobileQueryListener: () => void;
+  protected environment = environment
   mobileQuery: MediaQueryList;
   userProfile? : UserProfile
   isMatMenuOpen = false;

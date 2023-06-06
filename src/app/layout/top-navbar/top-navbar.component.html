@@ -1,6 +1,6 @@
 <mat-toolbar class="top-navbar-container">
   <div *ngIf="mobileQuery.matches" class="dashboard-logo-container">
-    
+    <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
     <button mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
     <a routerLink="">
       <img src="../../../assets/images/dashboard-logo.png" class="dashboard-logo">

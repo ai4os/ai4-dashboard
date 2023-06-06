@@ -27,3 +27,19 @@
 .not-authorized-error{
   margin-left: 25rem;
 }
+
+.corner-ribbon {
+  width: 180px;
+  background: #e43;
+  position: absolute;
+  top: 5px;
+  left: -85px;
+  text-align: center;
+  line-height: 30px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  z-index: 1000;
+  font-size: 1rem;
+}
