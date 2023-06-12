@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build-ai4eosc-dev": "ng build --configuration development-ai4eosc",
     "build-ai4eosc-prod": "ng build --configuration production-ai4eosc",
+    "build-ai4eosc-tutorials": "ng build --configuration tutorials-ai4eosc",
     "build-imagine-dev": "ng build --configuration development-imagine",
     "build-imagine-prod": "ng build --configuration production-imagine",
     "watch": "ng build --watch --configuration development",
