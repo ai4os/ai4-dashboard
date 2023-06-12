@@ -31,4 +31,4 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:tutorials
-          file: docker/ai4eosc/dev/Dockerfile
+          file: docker/ai4eosc/tutorials/Dockerfile
