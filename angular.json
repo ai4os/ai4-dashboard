@@ -265,6 +265,49 @@
                 "output": "/assets/"
               }
             ]
+          },
+          "tutorials-ai4eosc": {
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "500kb",
+                "maximumError": "2mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "2kb",
+                "maximumError": "4kb"
+              }
+            ],
+            "outputHashing": "all",
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.production.ts"
+              }
+            ],
+            "styles": [
+              "src/theme/ai4eosc/variables.scss",
+              "src/styles.scss"
+            ],
+            "assets": [
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "src/assets/images/ai4eosc",
+                "output": "/assets/images/"
+              },
+              {
+                "glob": "config.json",
+                "input": "src/assets/config/ai4eosc/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              }
+            ]
           }
         },
           "defaultConfiguration": "production-ai4eosc"
@@ -289,6 +332,9 @@
             },
             "development-imagine": {
               "browserTarget": "ai4-dashboard:build:development-imagine"
+            },
+            "tutorials-ai4eosc": {
+              "browserTarget": "ai4-dashboard:build:tutorials-ai4eosc"
             }
           },
           "defaultConfiguration": "local-ai4eosc"
