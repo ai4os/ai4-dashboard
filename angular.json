@@ -299,7 +299,7 @@
               },
               {
                 "glob": "config.json",
-                "input": "src/assets/config/ai4eosc/",
+                "input": "src/assets/config/tutorials/",
                 "output": "/assets/"
               },
               {
