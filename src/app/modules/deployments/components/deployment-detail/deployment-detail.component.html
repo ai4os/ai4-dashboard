@@ -60,7 +60,7 @@
                         <mat-list>
                             <ng-container *ngFor="let endpoint of deployment?.endpoints | keyvalue">
                                 <mat-list-item>
-                                    <a mat-button [href]="endpoint.value" target="blank"> {{ $any(endpoint.key) |
+                                    <a mat-button [href]="endpoint.value" target="_blank"> {{ $any(endpoint.key) |
                                         uppercase }} <mat-icon>open_in_new</mat-icon></a>
                                 </mat-list-item>
                             </ng-container>

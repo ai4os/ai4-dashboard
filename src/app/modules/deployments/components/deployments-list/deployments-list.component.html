@@ -46,7 +46,7 @@
                             <mat-menu #menuAccess="matMenu">
                                 <ng-container *ngFor="let endpoint of getDeploymentEndpoints(row) | keyvalue">
                                     <button mat-menu-item>
-                                        <a mat-raised-button [href]="endpoint.value" target="blank"> {{
+                                        <a mat-raised-button [href]="endpoint.value" target="_blank"> {{
                                             $any(endpoint.key) |
                                             uppercase }} </a>
                                     </button>
