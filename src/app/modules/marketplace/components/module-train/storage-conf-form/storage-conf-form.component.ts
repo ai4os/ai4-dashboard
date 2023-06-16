@@ -38,6 +38,7 @@ export class StorageConfFormComponent implements OnInit{
        this.storageConfFormGroup.get('rcloneConfInput')?.setValue(defaultFormValues.rclone_conf.value)
        this.storageConfFormGroup.get('storageUrlInput')?.setValue(defaultFormValues.rclone_url.value)
        this.storageConfFormGroup.get('rcloneUserInput')?.setValue(defaultFormValues.rclone_user.value)
+       this.storageConfFormGroup.get('rcloneVendorSelect')?.setValue(defaultFormValues.rclone_vendor.value)
        defaultFormValues.rclone_vendor.options?.forEach((option: any)  => {
         this.rcloneVendorOptions.push(
           {
