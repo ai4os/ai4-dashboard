@@ -26,7 +26,7 @@ export class ModuleDetailComponent implements OnInit {
   modulesList = []
   module: any = [];
   userProfile? : UserProfile
-
+  isInferenceModule: boolean = false;
   isLoading: boolean = false;
 
 
@@ -45,11 +45,9 @@ export class ModuleDetailComponent implements OnInit {
         this.isLoading = false;
         this.module = module;
         this.breadcrumbService.set('@moduleName', module.title)
+
+        this.isInferenceModule = module.keywords.includes("inference");
       })
     });
-        
   }
-
-
-
 }

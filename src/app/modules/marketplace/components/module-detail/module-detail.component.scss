@@ -10,10 +10,14 @@
     grid-gap: 5rem;
 }
 
-.train-button-container{
+.interact-button-container{
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.interact-button:not(:last-child) {
+    margin-right: 10px;
 }
 
 #module-detail-card-header{

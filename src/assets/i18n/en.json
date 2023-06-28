@@ -60,7 +60,8 @@
             "GET-THE-CODE": "Get the code",
             "GET-THE-DATA": "Get the data",
             "DATASET":"Dataset",
-            "TRAIN-MODULE": "Train module"
+            "TRAIN-MODULE": "Train module",
+            "TRY-MODULE": "Try me"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
@@ -99,6 +100,9 @@
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password"
             }
+        },
+        "MODULE-TEST" : {
+            "TITLE": "Configure test parameters"
         }
     },
     "GENERAL-BUTTONS": {
