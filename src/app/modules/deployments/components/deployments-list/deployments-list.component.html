@@ -37,22 +37,13 @@
                                 <mat-icon color="accent" id="infoIcon">info</mat-icon>
                             </button>
 
-                            <div matTooltip="Access">
-                                <button [disabled]="!isDeploymentRunning(row)" mat-button [matMenuTriggerFor]="menuAccess"
-                                    class="action-button-in-cell" (click)="$event.stopPropagation()">
+                            <div matTooltip="Quick access">
+                                <a mat-button  [disabled]="!isDeploymentRunning(row)" [href]="row.mainEndpoint" target="_blank"
+                                class="action-button-in-cell" (click)="$event.stopPropagation()">
                                     <mat-icon color="accent" id="accessIcon">terminal</mat-icon>
-                                </button>
+                                </a>
                             </div>
-                            <mat-menu #menuAccess="matMenu">
-                                <ng-container *ngFor="let endpoint of getDeploymentEndpoints(row) | keyvalue">
-                                    <button mat-menu-item>
-                                        <a mat-raised-button [href]="endpoint.value" target="_blank"> {{
-                                            $any(endpoint.key) |
-                                            uppercase }} </a>
-                                    </button>
-                                </ng-container>
-                            </mat-menu>
-
+                            
                             <button mat-button matTooltip="Delete" class="action-button-in-cell"
                                 (click)="removeDeployment($event, row)">
                                 <mat-icon color="warn">delete</mat-icon>
