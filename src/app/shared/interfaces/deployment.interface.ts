@@ -13,6 +13,7 @@ export interface Deployment {
                 diskMB: number,
         },
         endpoints?: object,
+        main_endpoint: string,
         alloc_ID?: string,
         error_msg?: string
 }

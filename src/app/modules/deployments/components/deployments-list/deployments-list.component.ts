@@ -29,6 +29,7 @@ interface deploymentTableRow {
   gpus: string | number,
   creationTime: string,
   endpoints?: object | undefined,
+  mainEndpoint: string,
   error_msg?: string
 }
 
@@ -145,7 +146,8 @@ export class DeploymentsListComponent implements OnInit {
             containerName: deployment.docker_image,
             gpus: "-",
             creationTime: deployment.submit_time,
-            endpoints: deployment.endpoints
+            endpoints: deployment.endpoints,
+            mainEndpoint: deployment.main_endpoint
           }
           if (deployment.error_msg) {
             row.error_msg = deployment.error_msg
