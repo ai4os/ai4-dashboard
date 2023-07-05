@@ -138,7 +138,6 @@ export class DeploymentsListComponent implements OnInit {
         this.dataset = []
         this.isLoading = false;
         deploymentsList.forEach((deployment: Deployment) => {
-          console.log("Tengo este deployment", deployment)
           let row: deploymentTableRow =
           {
             uuid: deployment.job_ID,
