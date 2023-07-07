@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-module-train',
@@ -21,7 +20,6 @@ export class ModuleTrainComponent implements OnInit {
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private _location: Location,
     private renderer: Renderer2
   ) { }
 
