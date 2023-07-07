@@ -50,6 +50,7 @@
     },
     "MODULES": {
         "TITLE": "Marketplace",
+        "NEW-DEPLOYMENT": "New deployment",
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "BUILD-STATUS": "Build status",

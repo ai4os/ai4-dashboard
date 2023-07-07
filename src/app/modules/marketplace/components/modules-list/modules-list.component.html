@@ -9,14 +9,17 @@
   </form>
 </mat-toolbar>
 
-<div *ngIf="isLoading" class="spinner">
+<div *ngIf="isLoading; else modulesList" class="spinner">
   <mat-progress-spinner color="primary" mode="indeterminate">
   </mat-progress-spinner>
 </div>
+<ng-template #modulesList>
 <div class="modules-cards-container">
+  <app-dev-module-card class="m-2"></app-dev-module-card>
   <div fxFlex *ngFor="let module of (modules | search:this.searchFormGroup.get('search')?.value) as modules"
     class="m-2">
     <app-module-card [module]="module"></app-module-card>
   </div>
 
 </div>
+</ng-template>
