@@ -1,0 +1,10 @@
+
+<h2 mat-dialog-title> Please enter your OSCAR token </h2>
+<div mat-dialog-content>
+    <mat-form-field class="form-field-full-width">
+        <mat-label>Token</mat-label>
+        <input matInput [(ngModel)]="data.token">
+    </mat-form-field>
+    <button mat-raised-button color="accent" [mat-dialog-close]="data.token" cdkFocusInitial>Ok</button>
+    <button mat-raised-button color="white-two" class="ml-1" (click)="onNoClick()">No Thanks</button>
+</div>

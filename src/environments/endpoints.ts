@@ -4,6 +4,11 @@ export const endpoints = {
   moduleConfiguration: '/info/conf/:name',
   trainModule: '/deployments',
   deploymentByUUID: '/deployments/:deploymentUUID',
-  deployments: '/deployments'
+  deployments: '/deployments',
+
+  //OSCAR endpoints
+  services: '/services',
+  serviceByName: '/services/:name',
+  runService: '/run/:name'
 
 };

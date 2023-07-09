@@ -1,0 +1,58 @@
+.form-field-full-width {
+    width: 100%;
+}
+
+.next-back-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.arrow-back-button {
+    position: relative;
+    left: -12px;
+}
+
+.breadcrumbs-and-help-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1rem;
+}
+
+::ng-deep .child-form-container-no-help form {
+    min-height: 450px;
+}
+
+::ng-deep .child-form-container-show-help form {
+    min-height: 575px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.upload-file-icon {
+    cursor: pointer;
+}
+
+
+.input-file {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+.interact-button-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.interact-button:not(:last-child) {
+    margin-right: 10px;
+}

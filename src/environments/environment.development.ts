@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   api: {
     base: 'https://api.cloud.ai4eosc.eu/v1',
+    clusterBase: 'http://localhost:3000',
     endpoints,
   },
 };

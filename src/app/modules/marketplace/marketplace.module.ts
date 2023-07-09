@@ -12,7 +12,7 @@ import { GeneralConfFormComponent } from './components/module-train/general-conf
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
-import { ModuleTestComponent } from './components/module-test/module-test.component';
+import { ModuleTryComponent } from './components/module-try/module-try.component';
 
 
 @NgModule({
@@ -26,7 +26,7 @@ import { ModuleTestComponent } from './components/module-test/module-test.compon
     HardwareConfFormComponent,
     StorageConfFormComponent,
     ModuleDetailViewComponent,
-    ModuleTestComponent
+    ModuleTryComponent
   ],
   imports: [
     CommonModule,

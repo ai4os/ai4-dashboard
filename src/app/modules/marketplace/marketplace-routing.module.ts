@@ -5,7 +5,7 @@ import { ModuleDetailComponent } from './components/module-detail/module-detail.
 import { ModuleTrainComponent } from './components/module-train/module-train.component';
 import { ModulesListComponent } from './components/modules-list/modules-list.component';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
-import { ModuleTestComponent } from './components/module-test/module-test.component';
+import { ModuleTryComponent } from './components/module-try/module-try.component';
 
 const routes: Routes = [
   {
@@ -27,10 +27,10 @@ const routes: Routes = [
         data: { breadcrumb: 'Train' }
       },
       {
-        path: 'test',
-        //canActivate: [AuthenticationGuard],
-        component: ModuleTestComponent,
-        data: { breadcrumb: 'Test' }
+        path: 'tryme',
+        canActivate: [AuthenticationGuard],
+        component: ModuleTryComponent,
+        data: { breadcrumb: 'Try Me' }
       }
 
     ]

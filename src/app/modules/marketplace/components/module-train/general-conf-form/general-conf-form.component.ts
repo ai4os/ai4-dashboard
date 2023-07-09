@@ -27,6 +27,7 @@ export class GeneralConfFormComponent implements OnInit {
   @Input() set defaultFormValues(defaultFormValues: any) {
     if(defaultFormValues) {
       this._defaultFormValues = defaultFormValues;
+      console.log(defaultFormValues);
       this.generalConfFormGroup.get('dockerImageInput')?.setValue(defaultFormValues.docker_image.value)
       this.generalConfFormGroup.get('serviceToRunSelect')?.setValue((defaultFormValues.service.value))
       if(defaultFormValues.service){

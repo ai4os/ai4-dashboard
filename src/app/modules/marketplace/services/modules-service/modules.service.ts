@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
-import { Module, ModuleConfiguration, ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { Module, ModuleConfiguration, ModuleSummary, Service } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
-const { base, endpoints } = environment.api;
+const { base, clusterBase, endpoints } = environment.api;
 
 
 @Injectable({
@@ -49,6 +49,13 @@ export class ModulesService {
       moduleName
     )}`;
     return this.http.get<ModuleConfiguration>(url, { params: this.voParam });
+  }
+
+
+  //OSCAR cluster
+  getServices(): Observable<Service[]> {
+    const url = `${clusterBase}${endpoints.services}`
+    return this.http.get<Service[]>(url);
   }
 
 }

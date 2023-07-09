@@ -1,0 +1,90 @@
+<mat-toolbar>
+  <h4>
+    {{ "MODULES.MODULE-TRY.TITLE" | translate }}:
+    <strong>{{ deploymentTitle }}</strong>
+  </h4>
+</mat-toolbar>
+
+<form class="example-form" [formGroup]="showHelpForm" ngNativeValidate>
+  <div class="breadcrumbs-and-help-container">
+    <xng-breadcrumb class="mb-3"></xng-breadcrumb>
+    <mat-slide-toggle color="accent" formControlName="showHelpToggleButton" #showHelpToggle>
+      Show help
+    </mat-slide-toggle>
+  </div>
+</form>
+
+<form [formGroup]="trymeFormGroup">
+  <h4>{{ "MODULES.MODULE-TRY.TRYME-FORM.LAUNCH-OPTIONS" | translate }}</h4>
+  <div class="form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        "MODULES.MODULE-TRY.TRYME-FORM.SERVICE-NAME" | translate
+        }}</mat-label>
+      <mat-select formControlName="serviceNameInput">
+        <mat-option *ngFor="let service of servicesNames" [value]="service">
+          {{ service }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        "MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE" | translate
+        }}</mat-label>
+      <input matInput placeholder="" formControlName="dockerImageInput" />
+    </mat-form-field>
+  </div>
+
+  <h4>{{ "MODULES.MODULE-TRY.TRYME-FORM.INPUT-OPTIONS" | translate }}</h4>
+  <mat-divider class="mt-3 mb-3"></mat-divider>
+  <div class="form-grid">
+    <mat-form-field class="form-field-full-width">
+      <mat-label>{{ "MODULES.MODULE-TRY.TRYME-FORM.INPUT-FILE-LABEL" | translate }}</mat-label>
+      <input matInput [value]="fileName" class="upload-file-icon" (click)="inputFile.click()" readonly>
+      <mat-icon matIconSuffix (click)="inputFile.click()" class="upload-file-icon">
+        attach_file_add</mat-icon>
+      <input type="file" class="input-file" #inputFile (change)="selectFile($event)" formControlName="inputFile"
+        hidden />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{
+        "MODULES.MODULE-TRY.TRYME-FORM.INPUT-TEXT-LABEL" | translate
+        }}</mat-label>
+      <textarea type="text" matInput placeholder="" formControlName="inputText"></textarea>
+    </mat-form-field>
+  </div>
+
+  <h4>{{ "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-OPTIONS" | translate }}</h4>
+  <mat-divider class="mt-3 mb-3"></mat-divider>
+  <div class="form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-TYPES.LABEL" | translate
+        }}</mat-label>
+      <mat-select formControlName="outputType" required>
+        <mat-option value="image">
+          {{ "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-TYPES.IMAGE" | translate }}
+        </mat-option>
+        <mat-option value="audio">
+          {{ "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-TYPES.AUDIO" | translate }}
+        </mat-option>
+        <mat-option value="text">
+          {{ "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-TYPES.TEXT" | translate }}
+        </mat-option>
+        <mat-option value="video">
+          {{ "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-TYPES.VIDEO" | translate }}
+        </mat-option>
+        <!--mat-option value="zip" disabled>
+          {{ "MODULES.MODULE-TRY.TRYME-FORM.OUTPUT-TYPES.ZIP" | translate }}
+        </mat-option-->
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="next-back-buttons">
+    <a class="mb-3 interact-button" mat-raised-button routerLink="train" color="accent">
+        {{"MODULES.MODULE-TRY.TRYME-FORM.LAUNCH-BUTTON" | translate}}
+    </a>
+</div>
+</form>

@@ -117,6 +117,7 @@ export class ModuleTrainComponent implements OnInit {
         this.deploymentTitle = module.title;
       })
       this.modulesService.getModuleConfiguration(params['id']).subscribe(moduleConf => {
+        console.log(moduleConf);
         this.generalConfDefaultValues = moduleConf.general
         this.hardwareConfDefaultValues = moduleConf.hardware
         this.storageConfDefaultValues = moduleConf.storage

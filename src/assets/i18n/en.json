@@ -101,8 +101,27 @@
                 "RCLONE-PASS": "RCLONE password"
             }
         },
-        "MODULE-TEST" : {
-            "TITLE": "Configure test parameters"
+        "MODULE-TRY" : {
+            "TITLE": "Configure test parameters",
+            "TRYME-FORM": {
+                "LAUNCH-OPTIONS" : "Launch options",
+                "SERVICE-NAME" :  "Service name",
+                "INPUT-OPTIONS" : "Input options",
+                "INPUT-FILE": "Input file",
+                "INPUT-FILE-LABEL": "Choose file",
+                "INPUT-TEXT": "Input text",
+                "INPUT-TEXT-LABEL": "Input as text",
+                "OUTPUT-OPTIONS": "Output options",
+                "OUTPUT-TYPES": {
+                    "LABEL": "Output types",
+                    "IMAGE": "Image",
+                    "AUDIO": "Audio",
+                    "TEXT": "Text",
+                    "VIDEO": "Video",
+                    "ZIP": "Zip"
+                },
+                "LAUNCH-BUTTON": "Launch service"
+            }
         }
     },
     "GENERAL-BUTTONS": {
