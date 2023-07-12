@@ -7,37 +7,36 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 
 describe('StorageConfFormComponent', () => {
-  let component: StorageConfFormComponent;
-  let fixture: ComponentFixture<StorageConfFormComponent>;
+    let component: StorageConfFormComponent;
+    let fixture: ComponentFixture<StorageConfFormComponent>;
 
-  beforeEach(async () => {
-    const fb = new FormBuilder()
-    const formGroupDirective = new FormGroupDirective([], []);
-    formGroupDirective.form = fb.group({
-      test: fb.control(null)
+    beforeEach(async () => {
+        const fb = new FormBuilder();
+        const formGroupDirective = new FormGroupDirective([], []);
+        formGroupDirective.form = fb.group({
+            test: fb.control(null),
+        });
+
+        await TestBed.configureTestingModule({
+            declarations: [StorageConfFormComponent],
+            imports: [
+                SharedModule,
+                TranslateModule.forRoot(),
+                NoopAnimationsModule,
+            ],
+            providers: [
+                FormGroupDirective,
+                FormBuilder,
+                { provide: FormGroupDirective, useValue: formGroupDirective },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(StorageConfFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
-    await TestBed.configureTestingModule({
-      declarations: [ StorageConfFormComponent ],
-      imports: [
-        SharedModule,
-        TranslateModule.forRoot(),
-        NoopAnimationsModule
-      ],
-      providers: [ 
-        FormGroupDirective,
-        FormBuilder,
-        {provide: FormGroupDirective, useValue: formGroupDirective}
-      ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(StorageConfFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

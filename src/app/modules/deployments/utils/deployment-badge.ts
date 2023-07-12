@@ -1,29 +1,29 @@
 export function getDeploymentBadge(status: string) {
-    let statusBadge
+    let statusBadge;
     switch (status) {
         case 'pending':
         case 'scheduled':
         case 'queued':
-            statusBadge = status + '-fd5d00'
+            statusBadge = status + '-fd5d00';
             break;
         case 'starting':
-            statusBadge = status + '-yellow'
+            statusBadge = status + '-yellow';
             break;
         case 'running':
-            statusBadge = status + '-brightgreen'
+            statusBadge = status + '-brightgreen';
             break;
         case 'failed':
         case 'error':
-            statusBadge = status + '-red'
+            statusBadge = status + '-red';
             break;
         case 'dead':
         case 'draining':
         case 'complete':
-            statusBadge = status + '-lightgrey'
+            statusBadge = status + '-lightgrey';
             break;
         default:
-            statusBadge = 'unknown-lightgrey'
+            statusBadge = 'unknown-lightgrey';
             break;
     }
-    return statusBadge
+    return statusBadge;
 }

@@ -1,6 +1,5 @@
 @use 'sass:map';
 
-
 .container {
     position: absolute;
     top: 0px;
@@ -18,7 +17,7 @@
     background: var(--white-three);
 }
 
-::ng-deep .sidenav .mat-drawer-inner-container{
+::ng-deep .sidenav .mat-drawer-inner-container {
     overflow: hidden !important;
 }
 
@@ -39,16 +38,14 @@
 }
 
 .sidenav-link {
-
     border-radius: 3px;
     color: var(--greyish-brown);
     font-size: 15px;
     padding: 15px 20px;
 
-    & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text{
+    & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text {
         white-space: break-spaces;
     }
-    
 }
 
 .active {
@@ -61,20 +58,20 @@
     align-items: center;
     color: var(--warm-grey);
     & .mat-icon {
-        transform: scale(0.7)
+        transform: scale(0.7);
     }
 }
 
-.mat-drawer-content{
+.mat-drawer-content {
     background-color: var(--white-three);
 }
 
-.sidenav-footer{
+.sidenav-footer {
     position: absolute;
     bottom: 1rem;
 }
 
-.dashboard-logo-container{
+.dashboard-logo-container {
     display: flex;
     box-sizing: border-box;
     padding: 0 16px;
@@ -85,16 +82,16 @@
     height: 60px;
     margin-left: 0.6rem;
 
-    & img{
+    & img {
         max-width: 200px;
     }
 }
 
-.sidenav-content{
+.sidenav-content {
     background-color: var(--white);
 }
 
-.acknowledgments{
+.acknowledgments {
     font-size: 0.9rem;
 }
 

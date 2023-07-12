@@ -1,25 +1,36 @@
 <mat-toolbar class="mb-3 marketplace-toolbar">
-  <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
-  <form [formGroup]="searchFormGroup" class="example-form">
-    <mat-form-field class="">
-      <mat-icon matPrefix>search</mat-icon>
-      <mat-label>Search modules</mat-label>
-      <input matInput type="search" formControlName="search" placeholder="Enter text to search">
-    </mat-form-field>
-  </form>
+    <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
+    <form [formGroup]="searchFormGroup" class="example-form">
+        <mat-form-field class="">
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-label>Search modules</mat-label>
+            <input
+                matInput
+                type="search"
+                formControlName="search"
+                placeholder="Enter text to search"
+            />
+        </mat-form-field>
+    </form>
 </mat-toolbar>
 
 <div *ngIf="isLoading; else modulesList" class="spinner">
-  <mat-progress-spinner color="primary" mode="indeterminate">
-  </mat-progress-spinner>
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
 </div>
 <ng-template #modulesList>
-<div class="modules-cards-container">
-  <app-dev-module-card class="m-2"></app-dev-module-card>
-  <div fxFlex *ngFor="let module of (modules | search:this.searchFormGroup.get('search')?.value) as modules"
-    class="m-2">
-    <app-module-card [module]="module"></app-module-card>
-  </div>
-
-</div>
+    <div class="modules-cards-container">
+        <app-dev-module-card class="m-2"></app-dev-module-card>
+        <div
+            fxFlex
+            *ngFor="
+                let module of modules
+                    | search
+                        : this.searchFormGroup.get('search')?.value as modules
+            "
+            class="m-2"
+        >
+            <app-module-card [module]="module"></app-module-card>
+        </div>
+    </div>
 </ng-template>

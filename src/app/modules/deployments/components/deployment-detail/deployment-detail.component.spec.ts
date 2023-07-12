@@ -10,36 +10,35 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedModule } from '@app/shared/shared.module';
 
-const mockedConfigService: any = {}
+const mockedConfigService: any = {};
 const mockedTranslateService: any = {
-  get: jest.fn()
-}
+    get: jest.fn(),
+};
 describe('DeploymentDetailComponent', () => {
-  let component: DeploymentDetailComponent;
-  let fixture: ComponentFixture<DeploymentDetailComponent>;
+    let component: DeploymentDetailComponent;
+    let fixture: ComponentFixture<DeploymentDetailComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ DeploymentDetailComponent ],
-      imports:[
-        HttpClientTestingModule,
-        RouterTestingModule,
-        TranslateModule.forRoot(),
-        SharedModule
-      ],
-      providers: [
-        { provide: AppConfigService, useValue: mockedConfigService },
-        { provide:MAT_DIALOG_DATA, useValue:{}},
-      ]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [DeploymentDetailComponent],
+            imports: [
+                HttpClientTestingModule,
+                RouterTestingModule,
+                TranslateModule.forRoot(),
+                SharedModule,
+            ],
+            providers: [
+                { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+            ],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(DeploymentDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(DeploymentDetailComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

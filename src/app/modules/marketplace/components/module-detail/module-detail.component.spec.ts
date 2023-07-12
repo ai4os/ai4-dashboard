@@ -9,37 +9,36 @@ import { of } from 'rxjs';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-const mockedConfigService: any = {}
+const mockedConfigService: any = {};
 const mockedAuthService: any = {
-  userProfileSubject: of({})
-}
+    userProfileSubject: of({}),
+};
 
 describe('ModuleDetailComponent', () => {
-  let component: ModuleDetailComponent;
-  let fixture: ComponentFixture<ModuleDetailComponent>;
+    let component: ModuleDetailComponent;
+    let fixture: ComponentFixture<ModuleDetailComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ModuleDetailComponent ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        SharedModule,
-        TranslateModule.forRoot()
-      ],
-      providers: [
-        { provide: AppConfigService, useValue: mockedConfigService },
-        { provide: AuthService, useValue: mockedAuthService}
-      ]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ModuleDetailComponent],
+            imports: [
+                HttpClientTestingModule,
+                RouterTestingModule,
+                SharedModule,
+                TranslateModule.forRoot(),
+            ],
+            providers: [
+                { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: AuthService, useValue: mockedAuthService },
+            ],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(ModuleDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(ModuleDetailComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

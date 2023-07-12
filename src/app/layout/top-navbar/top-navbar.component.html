@@ -1,34 +1,60 @@
 <mat-toolbar class="top-navbar-container">
-  <div *ngIf="mobileQuery.matches" class="dashboard-logo-container">
-    <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
-    <button mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
-    <a routerLink="">
-      <img src="../../../assets/images/dashboard-logo.png" class="dashboard-logo">
-    </a> 
-  </div>
-  <mat-error class="not-authorized-error" *ngIf="!isAuthorized() && isAuthorized() !== undefined">{{'ERRORS.NOT-AUTHORIZED-ERROR' | translate: {vo: appConfigService.voName} }} </mat-error>
-  <span class="spacer"></span>
-  <div *ngIf="isLoggedIn(); else showSignInLink">
+    <div *ngIf="mobileQuery.matches" class="dashboard-logo-container">
+        <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
+        <button mat-icon-button (click)="toggleSidenav()" style="z-index: 99">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <a routerLink="">
+            <img
+                src="../../../assets/images/dashboard-logo.png"
+                class="dashboard-logo"
+            />
+        </a>
+    </div>
+    <mat-error
+        class="not-authorized-error"
+        *ngIf="!isAuthorized() && isAuthorized() !== undefined"
+        >{{
+            'ERRORS.NOT-AUTHORIZED-ERROR'
+                | translate: { vo: appConfigService.voName }
+        }}
+    </mat-error>
+    <span class="spacer"></span>
+    <div *ngIf="isLoggedIn(); else showSignInLink">
+        <button
+            #button
+            mat-button
+            [matMenuTriggerFor]="loginMenuAccess"
+            #menuTrigger="matMenuTrigger"
+            (mouseenter)="buttonEnter(menuTrigger)"
+            (mouseleave)="buttonLeave(menuTrigger, button)"
+            class="profile-button"
+        >
+            <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
+            {{ userProfile?.name }}
+        </button>
 
-    <button #button mat-button [matMenuTriggerFor]="loginMenuAccess" #menuTrigger="matMenuTrigger"
-      (mouseenter)="buttonEnter(menuTrigger)" (mouseleave)="buttonLeave(menuTrigger, button)" class="profile-button">
-      <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
-      {{userProfile?.name}}
-    </button>
+        <mat-menu
+            #loginMenuAccess="matMenu"
+            class="logoutDropdownMenu"
+            hasBackdrop="false"
+        >
+            <button
+                mat-menu-item
+                (click)="logout()"
+                (mouseenter)="menuenter()"
+                (mouseleave)="menuLeave(menuTrigger, button)"
+            >
+                <mat-icon>logout</mat-icon>
+                {{ 'TOP-NAVBAR.LOGOUT' | translate }}
+            </button>
+        </mat-menu>
+    </div>
 
-    <mat-menu #loginMenuAccess="matMenu" class="logoutDropdownMenu" hasBackdrop="false">
-      <button mat-menu-item (click)="logout()" (mouseenter)="menuenter()" (mouseleave)="menuLeave(menuTrigger, button)">
-        <mat-icon>logout</mat-icon>
-        {{"TOP-NAVBAR.LOGOUT" | translate}}
-      </button>
-    </mat-menu>
-
-  </div>
-
-  <ng-template #showSignInLink>
-    <a mat-button (click)="login()">
-      <mat-icon>person</mat-icon> {{"TOP-NAVBAR.LOGIN-REGISTER" | translate}}
-    </a>
-  </ng-template>
-
+    <ng-template #showSignInLink>
+        <a mat-button (click)="login()">
+            <mat-icon>person</mat-icon>
+            {{ 'TOP-NAVBAR.LOGIN-REGISTER' | translate }}
+        </a>
+    </ng-template>
 </mat-toolbar>

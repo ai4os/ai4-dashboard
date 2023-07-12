@@ -7,34 +7,32 @@ import { ModulesListComponent } from './components/modules-list/modules-list.com
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ModulesListComponent,
-    data: { breadcrumb: 'Modules'}
-  },
-  {
-    path: ':id', component: ModuleDetailViewComponent,
-    children: [
-      {
-        path: '', component: ModuleDetailComponent,
-        data: { breadcrumb: { alias: 'moduleName' } }
-      },
-      {
-        path: 'train',
-        canActivate: [AuthenticationGuard],
-        component: ModuleTrainComponent,
-        data: { breadcrumb: 'Train' }
-      }
-
-    ]
-
-  },
-
-
+    {
+        path: '',
+        component: ModulesListComponent,
+        data: { breadcrumb: 'Modules' },
+    },
+    {
+        path: ':id',
+        component: ModuleDetailViewComponent,
+        children: [
+            {
+                path: '',
+                component: ModuleDetailComponent,
+                data: { breadcrumb: { alias: 'moduleName' } },
+            },
+            {
+                path: 'train',
+                canActivate: [AuthenticationGuard],
+                component: ModuleTrainComponent,
+                data: { breadcrumb: 'Train' },
+            },
+        ],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class MarketplaceRoutingModule { }
+export class MarketplaceRoutingModule {}

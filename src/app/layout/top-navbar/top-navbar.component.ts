@@ -6,104 +6,123 @@ import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from '@environments/environment';
 
 @Component({
-  selector: 'app-top-navbar',
-  templateUrl: './top-navbar.component.html',
-  styleUrls: ['./top-navbar.component.scss']
+    selector: 'app-top-navbar',
+    templateUrl: './top-navbar.component.html',
+    styleUrls: ['./top-navbar.component.scss'],
 })
-export class TopNavbarComponent  implements OnInit{
-  constructor(
-    private readonly authService: AuthService, 
-    private ren: Renderer2,
-    private changeDetectorRef: ChangeDetectorRef,
-    private media: MediaMatcher,
-    private sidenavService: SidenavService,    
-    protected appConfigService: AppConfigService
-  ){
-    this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener('change', this._mobileQueryListener)
-    authService.userProfileSubject.subscribe( profile => {
-      this.userProfile = profile;
-    })
-  }
-  private _mobileQueryListener: () => void;
-  protected environment = environment
-  mobileQuery: MediaQueryList;
-  userProfile? : UserProfile
-  isMatMenuOpen = false;
-  enteredButton = false;
+export class TopNavbarComponent implements OnInit {
+    constructor(
+        private readonly authService: AuthService,
+        private ren: Renderer2,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher,
+        private sidenavService: SidenavService,
+        protected appConfigService: AppConfigService
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+        authService.userProfileSubject.subscribe((profile) => {
+            this.userProfile = profile;
+        });
+    }
+    private _mobileQueryListener: () => void;
+    protected environment = environment;
+    mobileQuery: MediaQueryList;
+    userProfile?: UserProfile;
+    isMatMenuOpen = false;
+    enteredButton = false;
 
-  login(){
-    this.authService.login(window.location.pathname);
-  }
+    login() {
+        this.authService.login(window.location.pathname);
+    }
 
-  logout(){
-    this.authService.logout();
-  }
+    logout() {
+        this.authService.logout();
+    }
 
-  isLoggedIn(): boolean {
-    return this.authService.isAuthenticated();
-  }
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
+    }
 
-  menuenter() {
-    this.isMatMenuOpen = true;
-  }
+    menuenter() {
+        this.isMatMenuOpen = true;
+    }
 
-  
+    menuLeave(trigger: any, button: any) {
+        setTimeout(() => {
+            if (!this.enteredButton) {
+                this.isMatMenuOpen = false;
+                trigger.closeMenu();
+                this.ren.removeClass(
+                    button['_elementRef'].nativeElement,
+                    'cdk-focused'
+                );
+                this.ren.removeClass(
+                    button['_elementRef'].nativeElement,
+                    'cdk-program-focused'
+                );
+            } else {
+                this.isMatMenuOpen = false;
+            }
+        }, 80);
+    }
 
-  menuLeave(trigger: any, button: any) {
-    setTimeout(() => {
-      if(!this.enteredButton){
-        this.isMatMenuOpen = false;
-        trigger.closeMenu();
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } else{
-        this.isMatMenuOpen = false;
-      }
-    }, 80)
-  }
+    buttonEnter(trigger: any) {
+        setTimeout(() => {
+            if (!this.isMatMenuOpen) {
+                this.enteredButton = true;
+                trigger.openMenu();
+                this.ren.removeClass(
+                    trigger.menu.items.first['_elementRef'].nativeElement,
+                    'cdk-focused'
+                );
+                this.ren.removeClass(
+                    trigger.menu.items.first['_elementRef'].nativeElement,
+                    'cdk-program-focused'
+                );
+            } else {
+                this.enteredButton = true;
+            }
+        }, 50);
+    }
 
-  buttonEnter(trigger: any) {
-    setTimeout(() => {
-      if (!this.isMatMenuOpen) {
-        this.enteredButton = true;
-        trigger.openMenu();
-        this.ren.removeClass(trigger.menu.items.first['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(trigger.menu.items.first['_elementRef'].nativeElement, 'cdk-program-focused');
-      }
-      else {
-        this.enteredButton = true;
-      }
-    }, 50)
-  }
+    buttonLeave(trigger: any, button: any) {
+        setTimeout(() => {
+            if (this.enteredButton && !this.isMatMenuOpen) {
+                trigger.closeMenu();
+                this.ren.removeClass(
+                    button['_elementRef'].nativeElement,
+                    'cdk-focused'
+                );
+                this.ren.removeClass(
+                    button['_elementRef'].nativeElement,
+                    'cdk-program-focused'
+                );
+            }
+            if (!this.isMatMenuOpen) {
+                trigger.closeMenu();
+                this.ren.removeClass(
+                    button['_elementRef'].nativeElement,
+                    'cdk-focused'
+                );
+                this.ren.removeClass(
+                    button['_elementRef'].nativeElement,
+                    'cdk-program-focused'
+                );
+            } else {
+                this.enteredButton = false;
+            }
+        }, 100);
+    }
 
+    isAuthorized() {
+        return this.userProfile?.isAuthorized;
+    }
 
-  buttonLeave(trigger:any , button: any) {
-    setTimeout(() => {
-      if (this.enteredButton && !this.isMatMenuOpen) {
-        trigger.closeMenu();
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } if (!this.isMatMenuOpen) {
-        trigger.closeMenu();
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } else {
-        this.enteredButton = false;
-      }
-    }, 100)
-  }
+    toggleSidenav() {
+        this.sidenavService.toggle();
+    }
 
-  isAuthorized(){
-    return this.userProfile?.isAuthorized;
-  }
-
-  toggleSidenav(){
-    this.sidenavService.toggle();
-  }
-
-  ngOnInit(): void {
-  }
-  
+    ngOnInit(): void {}
 }
