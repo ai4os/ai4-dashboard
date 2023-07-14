@@ -1,51 +1,100 @@
 <mat-sidenav-container class="container mat-primary">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches" class="sidenav"
-        [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top"
-        [fixedBottomGap]="options.value.bottom">
-        
+    <mat-sidenav
+        #sidenav
+        [mode]="mobileQuery.matches ? 'over' : 'side'"
+        [opened]="!mobileQuery.matches"
+        class="sidenav"
+        [fixedInViewport]="options.value.fixed"
+        [fixedTopGap]="options.value.top"
+        [fixedBottomGap]="options.value.bottom"
+    >
         <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
         <div class="dashboard-logo-container">
-            <button  *ngIf="mobileQuery.matches" mat-icon-button (click)="toggleSidenav()" style="z-index:99"><mat-icon>menu</mat-icon></button>
+            <button
+                *ngIf="mobileQuery.matches"
+                mat-icon-button
+                (click)="toggleSidenav()"
+                style="z-index: 99"
+            >
+                <mat-icon>menu</mat-icon>
+            </button>
             <a routerLink="">
-                <img src="../../../assets/images/dashboard-logo.png">
+                <img src="../../../assets/images/dashboard-logo.png" />
             </a>
         </div>
-
 
         <nav id="sidebarMenu" class="">
             <mat-nav-list>
                 <ng-container *ngFor="let link of mainLinks">
-                    <mat-list-item *ngIf="!link.isRestricted || (link.isRestricted && isLoggedIn())"
-                        class="sidenav-item" [disabled]="link.isDisabled">
-                        <a mat-list-item [routerLink]="!link.isDisabled ?  link.url : null" routerLinkActive="active"
+                    <mat-list-item
+                        *ngIf="
+                            !link.isRestricted ||
+                            (link.isRestricted && isLoggedIn())
+                        "
+                        class="sidenav-item"
+                        [disabled]="link.isDisabled"
+                    >
+                        <a
+                            mat-list-item
+                            [routerLink]="!link.isDisabled ? link.url : null"
+                            routerLinkActive="active"
                             class="sidenav-link"
-                            [routerLinkActiveOptions]="link.url === '/' ? {exact: true} : {exact: false}">{{ link.name |
-                            translate }}</a>
+                            [routerLinkActiveOptions]="
+                                link.url === '/'
+                                    ? { exact: true }
+                                    : { exact: false }
+                            "
+                            >{{ link.name | translate }}</a
+                        >
                     </mat-list-item>
                 </ng-container>
 
                 <mat-divider class="mt-3 mb-3"></mat-divider>
-                <h4 class="other-links ml-3"> {{"SIDENAV.OTHER-LINKS" | translate}}
+                <h4 class="other-links ml-3">
+                    {{ 'SIDENAV.OTHER-LINKS' | translate }}
                     <mat-icon>open_in_new</mat-icon>
                 </h4>
 
-                <mat-list-item *ngFor="let link of otherLinks" class="sidenav-item">
-                    <a mat-list-item href="{{ link.url }}" routerLinkActive="active" class="sidenav-link"
-                        target="_blank">{{ link.name | translate }}</a>
+                <mat-list-item
+                    *ngFor="let link of otherLinks"
+                    class="sidenav-item"
+                >
+                    <a
+                        mat-list-item
+                        href="{{ link.url }}"
+                        routerLinkActive="active"
+                        class="sidenav-link"
+                        target="_blank"
+                        >{{ link.name | translate }}</a
+                    >
                 </mat-list-item>
             </mat-nav-list>
         </nav>
         <div class="sidenav-footer mb-3 ml-3">
-            <img src="../../../assets/images/eu-flag.jpg" width="50" class="mr-2">
-            <img src="../../../assets/images/dashboard-logo.png" width="100" class="mb-1">
-            <p class="acknowledgments">{{acknowledgments}} <a [href]="projectUrl">{{projectName}}</a></p>
-            <a routerLink="conditions-of-use">{{"SIDENAV.TERMS-OF-USE" | translate}}</a>
-            <a routerLink="privacy-policy" class="ml-3">{{"SIDENAV.PRIVACY-POLICY" | translate}}</a>
+            <img
+                src="../../../assets/images/eu-flag.jpg"
+                width="50"
+                class="mr-2"
+            />
+            <img
+                src="../../../assets/images/dashboard-logo.png"
+                width="100"
+                class="mb-1"
+            />
+            <p class="acknowledgments">
+                {{ acknowledgments }}
+                <a [href]="projectUrl">{{ projectName }}</a>
+            </p>
+            <a routerLink="conditions-of-use">{{
+                'SIDENAV.TERMS-OF-USE' | translate
+            }}</a>
+            <a routerLink="privacy-policy" class="ml-3">{{
+                'SIDENAV.PRIVACY-POLICY' | translate
+            }}</a>
         </div>
     </mat-sidenav>
     <mat-sidenav-content class="pl-3 pr-3 sidenav-content">
         <app-top-navbar class="top-navbar"></app-top-navbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
-
 </mat-sidenav-container>

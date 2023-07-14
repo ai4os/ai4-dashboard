@@ -1,28 +1,36 @@
 <mat-card class="module-card">
     <mat-card-header class="module-card-header">
-      <mat-card-title>
-        <mat-icon *ngIf="moduleType == 'Model'" matTooltip="Model" color="primary">model_training</mat-icon>
-        <mat-icon *ngIf="moduleType == 'Development'" matTooltip="Development" color="primary">developer_mode</mat-icon>
-        <span>{{module?.title}}</span>
-      </mat-card-title>
-  
-  
-  
+        <mat-card-title>
+            <mat-icon
+                *ngIf="moduleType === 'Model'"
+                matTooltip="Model"
+                color="primary"
+                >model_training</mat-icon
+            >
+            <mat-icon
+                *ngIf="moduleType === 'Development'"
+                matTooltip="Development"
+                color="primary"
+                >developer_mode</mat-icon
+            >
+            <span>{{ module?.title }}</span>
+        </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-  
-      <mat-divider></mat-divider>
-  
-      <div class="module-card-content">
-        <p>{{module?.summary}}</p>
-      </div>
-  
-      
-  
+        <mat-divider></mat-divider>
+
+        <div class="module-card-content">
+            <p>{{ module?.summary }}</p>
+        </div>
     </mat-card-content>
     <mat-card-actions align="end" class="quick-env-button-container">
-        <button class="button" mat-raised-button color="accent" routerLink="DEEP-OC-generic-dev/train">
-            {{ 'MODULES.NEW-DEPLOYMENT' | translate}}
+        <button
+            class="button"
+            mat-raised-button
+            color="accent"
+            routerLink="DEEP-OC-generic-dev/train"
+        >
+            {{ 'MODULES.NEW-DEPLOYMENT' | translate }}
         </button>
     </mat-card-actions>
-  </mat-card>
+</mat-card>

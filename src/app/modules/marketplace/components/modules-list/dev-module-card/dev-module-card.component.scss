@@ -6,36 +6,35 @@
     &:hover {
         @include mat.elevation(12);
         cursor: pointer;
-      }
+    }
 
-    & .mat-mdc-card-title{
+    & .mat-mdc-card-title {
         font-size: 1.1rem;
     }
 
-    & .mat-mdc-card-content{
+    & .mat-mdc-card-content {
         font-size: 1rem;
     }
 
     border: 1px solid var(--border-gray);
-
-  }
-.module-card-header .mat-icon{
+}
+.module-card-header .mat-icon {
     transform: scale(0.8);
     position: relative;
     top: 5px;
     left: -4px;
 }
 
-.module-card-content{
-    color: var(--dark-grey)
+.module-card-content {
+    color: var(--dark-grey);
 }
 
-.quick-env-button-container{
+.quick-env-button-container {
     display: flex;
     justify-content: center;
     align-items: baseline;
 }
 
-.mat-mdc-card{
+.mat-mdc-card {
     border: 1px solid var(--accent) !important;
 }

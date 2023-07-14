@@ -1,76 +1,170 @@
 <form [formGroup]="generalConfFormGroup" class="general-conf-form">
-    <h4>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TITLE" | translate}}</h4>
+    <h4>{{ 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TITLE' | translate }}</h4>
     <div class="form-grid">
         <mat-form-field appearance="fill">
-            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE" | translate}}</mat-label>
-            <input matInput placeholder="" formControlName="titleInput" maxlength="45">
-            <mat-error *ngIf="generalConfFormGroup.get('titleInput')?.errors?.['required']">
-                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED" | translate}}
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                formControlName="titleInput"
+                maxlength="45"
+            />
+            <mat-error
+                *ngIf="
+                    generalConfFormGroup.get('titleInput')?.errors?.['required']
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED'
+                        | translate
+                }}
             </mat-error>
-            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.title.description}}</mat-hint>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.title.description
+            }}</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION" | translate}}</mat-label>
-            <input matInput placeholder="{{'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION-PLACEHOLDER' | translate}}"
-                formControlName="descriptionInput">
-            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.desc.description}}</mat-hint>
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder="{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION-PLACEHOLDER'
+                        | translate
+                }}"
+                formControlName="descriptionInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.desc?.description
+            }}</mat-hint>
         </mat-form-field>
-        <mat-form-field appearance="fill"  [ngClass]="{'mt-2': _showHelp}" >
-            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN" | translate}}</mat-label>
+        <mat-form-field appearance="fill" [ngClass]="{ 'mt-2': _showHelp }">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
+                    | translate
+            }}</mat-label>
             <mat-select formControlName="serviceToRunSelect">
-                <mat-option *ngFor="let serviceToRunOption of serviceToRunOptions" [value]="serviceToRunOption.value">
-                    {{serviceToRunOption.viewValue | titlecase}}
+                <mat-option
+                    *ngFor="let serviceToRunOption of serviceToRunOptions"
+                    [value]="serviceToRunOption.value"
+                >
+                    {{ serviceToRunOption.viewValue | titlecase }}
                 </mat-option>
             </mat-select>
-            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.service.description}}</mat-hint>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.service.description
+            }}</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" [ngClass]="{'mt-2': _showHelp}">
-            <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD" | translate}}</mat-label>
-            <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="At least 9 characters"
-                formControlName="jupyterLabPassInput">
-            <mat-icon matSuffix (click)="hidePassword = !hidePassword" color="primary"  > {{hidePassword ?
-                'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['required']">
-                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED" | translate}}
+        <mat-form-field appearance="fill" [ngClass]="{ 'mt-2': _showHelp }">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD' | translate
+            }}</mat-label>
+            <input
+                [type]="hidePassword ? 'password' : 'text'"
+                matInput
+                placeholder="At least 9 characters"
+                formControlName="jupyterLabPassInput"
+                autocomplete="off"
+            />
+            <mat-icon
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                color="primary"
+            >
+                {{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
+            >
+            <mat-error
+                *ngIf="
+                    generalConfFormGroup.get('jupyterLabPassInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED'
+                        | translate
+                }}
             </mat-error>
-            <mat-error *ngIf="generalConfFormGroup.get('jupyterLabPassInput')?.errors?.['minlength']">
-                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR" | translate}}
+            <mat-error
+                *ngIf="
+                    generalConfFormGroup.get('jupyterLabPassInput')?.errors?.[
+                        'minlength'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR'
+                        | translate
+                }}
             </mat-error>
-            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.jupyter_password.description}}</mat-hint>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.jupyter_password?.description
+            }}</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" [ngClass]="{'mt-5': _showHelp}">
+        <mat-form-field appearance="fill" [ngClass]="{ 'mt-5': _showHelp }">
             <mat-label>Hostname</mat-label>
-            <input matInput placeholder="" formControlName="hostnameInput" maxlength="45">
-            <mat-error *ngIf="generalConfFormGroup.get('titleInput')?.errors?.['required']">
-                {{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED" | translate}}
+            <input
+                matInput
+                placeholder=""
+                formControlName="hostnameInput"
+                maxlength="45"
+            />
+            <mat-error
+                *ngIf="
+                    generalConfFormGroup.get('titleInput')?.errors?.['required']
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED'
+                        | translate
+                }}
             </mat-error>
-            <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.hostname.description}}</mat-hint>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.hostname?.description
+            }}</mat-hint>
         </mat-form-field>
-
     </div>
-    
-    <h4     [ngClass]="{'mt-5': _showHelp}"    >{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS" | translate}}</h4>
+
+    <h4 [ngClass]="{ 'mt-5': _showHelp }">
+        {{
+            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS' | translate
+        }}
+    </h4>
     <mat-divider class="mt-3 mb-3"></mat-divider>
     <div class="form-grid">
-        
-            <mat-form-field class="example-full-width">
-                <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE" | translate}}</mat-label>
-                <input matInput placeholder=""   formControlName="dockerImageInput">
-                <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.docker_image.description}}</mat-hint>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <mat-label>{{"MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG" | translate}}</mat-label>
-                <mat-select formControlName="dockerTagSelect">
-                    <mat-option *ngFor="let dockerTagOption of dockerTagOptions" [value]="dockerTagOption.value">
-                        {{dockerTagOption.viewValue}}
-                    </mat-option>
-                </mat-select>
-                <mat-hint *ngIf=_showHelp>{{_defaultFormValues?.docker_tag.description}}</mat-hint>
-            </mat-form-field>
-
+        <mat-form-field class="example-full-width">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
+                    | translate
+            }}</mat-label>
+            <input matInput placeholder="" formControlName="dockerImageInput" />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.docker_image.description
+            }}</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG' | translate
+            }}</mat-label>
+            <mat-select formControlName="dockerTagSelect">
+                <mat-option
+                    *ngFor="let dockerTagOption of dockerTagOptions"
+                    [value]="dockerTagOption.value"
+                >
+                    {{ dockerTagOption.viewValue }}
+                </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.docker_tag.description
+            }}</mat-hint>
+        </mat-form-field>
     </div>
-
 </form>

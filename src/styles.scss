@@ -9,7 +9,7 @@ body {
 
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
     color: var(--primary-text);
 }
 
@@ -25,13 +25,12 @@ body {
     grid-gap: 1rem;
 }
 
-
 .mat-icon-filled {
     font-variation-settings:
         'FILL' 1,
         'wght' 400,
         'GRAD' 0,
-        'opsz' 48
+        'opsz' 48;
 }
 
 .spinner {
@@ -42,14 +41,16 @@ body {
     min-height: 250px;
 }
 
-.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control:not(:focus)::placeholder{
+.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control:not(
+        :focus
+    )::placeholder {
     color: transparent;
 }
 
-.mat-toolbar{
+.mat-toolbar {
     background-color: var(--white);
 }
 
-.mat-mdc-card{
+.mat-mdc-card {
     border: 1px solid var(--border-gray) !important;
 }

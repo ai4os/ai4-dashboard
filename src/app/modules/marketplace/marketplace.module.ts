@@ -14,25 +14,24 @@ import { HardwareConfFormComponent } from './components/module-train/hardware-co
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { DevModuleCardComponent } from './components/modules-list/dev-module-card/dev-module-card.component';
 
-
 @NgModule({
-  declarations: [
-    ModulesListComponent,
-    ModuleCardComponent,
-    SearchPipe,
-    ModuleDetailComponent,
-    ModuleTrainComponent,
-    GeneralConfFormComponent,
-    HardwareConfFormComponent,
-    StorageConfFormComponent,
-    ModuleDetailViewComponent,
-    DevModuleCardComponent,
-  ],
-  imports: [
-    CommonModule,
-    MarketplaceRoutingModule,
-    SharedModule,
-    MarkdownModule.forChild(),
-  ]
+    declarations: [
+        ModulesListComponent,
+        ModuleCardComponent,
+        SearchPipe,
+        ModuleDetailComponent,
+        ModuleTrainComponent,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+        StorageConfFormComponent,
+        ModuleDetailViewComponent,
+        DevModuleCardComponent,
+    ],
+    imports: [
+        CommonModule,
+        MarketplaceRoutingModule,
+        SharedModule,
+        MarkdownModule.forChild(),
+    ],
 })
-export class MarketplaceModule { }
+export class MarketplaceModule {}
