@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
+import { Module } from '@app/shared/interfaces/module.interface';
 
 @Component({
     selector: 'app-module-detail',
@@ -22,10 +23,10 @@ export class ModuleDetailComponent implements OnInit {
     }
 
     modulesList = [];
-    module: any = [];
+    module!: Module;
     userProfile?: UserProfile;
 
-    isLoading: boolean = false;
+    isLoading = false;
 
     isLoggedIn() {
         return this.authService.isAuthenticated();

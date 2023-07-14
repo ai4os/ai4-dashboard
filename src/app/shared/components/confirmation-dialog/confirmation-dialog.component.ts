@@ -18,6 +18,4 @@ export class ConfirmationDialogComponent {
     confirm(): void {
         this.dialog.close(true);
     }
-
-    ngOnInit() {}
 }

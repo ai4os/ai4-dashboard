@@ -22,7 +22,7 @@ export class ModuleCardComponent implements OnInit {
             this.moduleType = this.module.keywords.includes('development')
                 ? 'Development'
                 : 'Model';
-            let displayedKeywordsArray = this.module.keywords
+            const displayedKeywordsArray = this.module.keywords
                 .filter(
                     (keyword) =>
                         keyword.includes('inference') ||

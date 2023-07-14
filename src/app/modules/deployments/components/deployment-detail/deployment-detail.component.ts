@@ -1,8 +1,5 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
@@ -15,17 +12,14 @@ import { getDeploymentBadge } from '../../utils/deployment-badge';
 export class DeploymentDetailComponent implements OnInit {
     constructor(
         private deploymentsService: DeploymentsService,
-        private route: ActivatedRoute,
         public confirmationDialog: MatDialog,
-        private _snackBar: MatSnackBar,
-        private router: Router,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: { uuid: 'string' }
     ) {}
 
     deployment: Deployment | undefined;
-    statusBadge: string = '';
-    isLoading: boolean = false;
-    protected deploymentHasError: boolean = false;
+    statusBadge = '';
+    isLoading = false;
+    protected deploymentHasError = false;
 
     ngOnInit(): void {
         if (this.data.uuid) {
@@ -45,67 +39,4 @@ export class DeploymentDetailComponent implements OnInit {
                 });
         }
     }
-
-    deleteDeployment() {
-        this.confirmationDialog
-            .open(ConfirmationDialogComponent, {
-                data: `¿Are you sure you want to delete this deployment?`,
-            })
-            .afterClosed()
-            .subscribe((confirmed: Boolean) => {
-                if (confirmed) {
-                    let uuid = this.deployment!.job_ID;
-                    this.deploymentsService
-                        .deleteDeploymentByUUID(uuid)
-                        .subscribe({
-                            next: (response: any) => {
-                                if (
-                                    response &&
-                                    response['status'] == 'success'
-                                ) {
-                                    this.router
-                                        .navigate(['/deployments'])
-                                        .then((navigated: boolean) => {
-                                            if (navigated) {
-                                                this._snackBar.open(
-                                                    'Successfully deleted deployment with uuid: ' +
-                                                        uuid,
-                                                    'X',
-                                                    {
-                                                        duration: 3000,
-                                                        panelClass: [
-                                                            'primary-snackbar',
-                                                        ],
-                                                    }
-                                                );
-                                            }
-                                        });
-                                } else {
-                                    this._snackBar.open(
-                                        'Error deleting deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['red-snackbar'],
-                                        }
-                                    );
-                                }
-                            },
-                            error: () => {
-                                this._snackBar.open(
-                                    'Error deleting deployment with uuid: ' +
-                                        uuid,
-                                    'X',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
-                                );
-                            },
-                        });
-                }
-            });
-    }
-    accessDeployment() {}
 }

@@ -8,6 +8,7 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { TagObject } from '@app/data/types/tags';
 
 const { base, endpoints } = environment.api;
 
@@ -22,12 +23,12 @@ export class ModulesService {
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 
-    getModulesSummary(tags?: any): Observable<ModuleSummary[]> {
+    getModulesSummary(tags?: TagObject): Observable<ModuleSummary[]> {
         const url = `${base}${endpoints.modulesSummary}`;
         if (tags) {
             let params = new HttpParams();
             Object.keys(tags).forEach((key: string) => {
-                params = params.set(key, tags[key]);
+                params = params.set(key, tags[key as keyof TagObject] || '');
             });
             return this.http.get<Array<ModuleSummary>>(url, { params });
         } else {

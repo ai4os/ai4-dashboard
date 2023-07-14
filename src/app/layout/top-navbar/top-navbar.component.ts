@@ -1,5 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Component, Renderer2 } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatMenuTrigger, _MatMenuBase } from '@angular/material/menu';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
@@ -10,7 +12,7 @@ import { environment } from '@environments/environment';
     templateUrl: './top-navbar.component.html',
     styleUrls: ['./top-navbar.component.scss'],
 })
-export class TopNavbarComponent implements OnInit {
+export class TopNavbarComponent {
     constructor(
         private readonly authService: AuthService,
         private ren: Renderer2,
@@ -49,7 +51,7 @@ export class TopNavbarComponent implements OnInit {
         this.isMatMenuOpen = true;
     }
 
-    menuLeave(trigger: any, button: any) {
+    menuLeave(trigger: MatMenuTrigger, button: MatButton) {
         setTimeout(() => {
             if (!this.enteredButton) {
                 this.isMatMenuOpen = false;
@@ -68,17 +70,21 @@ export class TopNavbarComponent implements OnInit {
         }, 80);
     }
 
-    buttonEnter(trigger: any) {
+    buttonEnter(trigger: MatMenuTrigger) {
         setTimeout(() => {
             if (!this.isMatMenuOpen) {
                 this.enteredButton = true;
                 trigger.openMenu();
                 this.ren.removeClass(
-                    trigger.menu.items.first['_elementRef'].nativeElement,
+                    (trigger.menu as _MatMenuBase)._allItems.first[
+                        '_elementRef'
+                    ].nativeElement,
                     'cdk-focused'
                 );
                 this.ren.removeClass(
-                    trigger.menu.items.first['_elementRef'].nativeElement,
+                    (trigger.menu as _MatMenuBase)._allItems.first[
+                        '_elementRef'
+                    ].nativeElement,
                     'cdk-program-focused'
                 );
             } else {
@@ -87,7 +93,7 @@ export class TopNavbarComponent implements OnInit {
         }, 50);
     }
 
-    buttonLeave(trigger: any, button: any) {
+    buttonLeave(trigger: MatMenuTrigger, button: MatButton) {
         setTimeout(() => {
             if (this.enteredButton && !this.isMatMenuOpen) {
                 trigger.closeMenu();
@@ -123,6 +129,4 @@ export class TopNavbarComponent implements OnInit {
     toggleSidenav() {
         this.sidenavService.toggle();
     }
-
-    ngOnInit(): void {}
 }

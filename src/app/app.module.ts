@@ -31,7 +31,7 @@ const renderer = new MarkedRenderer();
 
 renderer.paragraph = (text: string) => {
     if (text.startsWith('&lt;img')) {
-        let div = document.createElement('div');
+        const div = document.createElement('div');
         div.innerHTML = text.trim();
         if (div.firstChild?.textContent != null) {
             return div.firstChild.textContent;

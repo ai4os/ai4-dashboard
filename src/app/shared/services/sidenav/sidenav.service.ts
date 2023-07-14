@@ -5,7 +5,6 @@ import { MatSidenav } from '@angular/material/sidenav';
     providedIn: 'root',
 })
 export class SidenavService {
-    constructor() {}
     private sidenav!: MatSidenav;
 
     public setSidenav(sidenav: MatSidenav) {

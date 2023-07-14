@@ -11,8 +11,8 @@
                 placeholder=""
                 value=""
                 type="number"
-                min="{{ _defaultFormValues?.cpu_num.range[0] }}"
-                max="{{ _defaultFormValues?.cpu_num.range[1] }}"
+                min="{{ _defaultFormValues.cpu_num.range[0] }}"
+                max="{{ _defaultFormValues.cpu_num.range[1] }}"
                 formControlName="cpuNumberInput"
             />
             <mat-error
@@ -27,8 +27,8 @@
                     'MODULES.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
                         | translate
                             : {
-                                  min: _defaultFormValues?.cpu_num.range[0],
-                                  max: _defaultFormValues?.cpu_num.range[1]
+                                  min: _defaultFormValues.cpu_num.range[0],
+                                  max: _defaultFormValues.cpu_num.range[1]
                               }
                 }}
             </mat-error>
@@ -43,12 +43,12 @@
                 placeholder=""
                 value=""
                 type="number"
-                min="{{ _defaultFormValues?.gpu_num.range[0] }}"
-                max="{{ _defaultFormValues?.gpu_num.range[1] }}"
+                min="{{ _defaultFormValues.gpu_num.range[0] }}"
+                max="{{ _defaultFormValues.gpu_num.range[1] }}"
                 formControlName="gpuNumberInput"
             />
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.gpu_num.description
+                _defaultFormValues.gpu_num.description
             }}</mat-hint>
             <mat-error
                 *ngIf="
@@ -62,8 +62,8 @@
                     'MODULES.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
                         | translate
                             : {
-                                  min: _defaultFormValues?.gpu_num.range[0],
-                                  max: _defaultFormValues?.gpu_num.range[1]
+                                  min: _defaultFormValues.gpu_num.range[0],
+                                  max: _defaultFormValues.gpu_num.range[1]
                               }
                 }}
             </mat-error>
@@ -81,7 +81,7 @@
                 </mat-option>
             </mat-select>
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.gpu_type.description
+                _defaultFormValues.gpu_type?.description
             }}</mat-hint>
         </mat-form-field>
         <mat-form-field class="example-full-width">
@@ -93,8 +93,8 @@
                 placeholder=""
                 value=""
                 type="number"
-                min="{{ _defaultFormValues?.ram.range[0] }}"
-                max="{{ _defaultFormValues?.ram.range[1] }}"
+                min="{{ _defaultFormValues.ram.range[0] }}"
+                max="{{ _defaultFormValues.ram.range[1] }}"
                 formControlName="ramMemoryInput"
             />
             <mat-error
@@ -109,8 +109,8 @@
                     'MODULES.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
                         | translate
                             : {
-                                  min: _defaultFormValues?.ram.range[0],
-                                  max: _defaultFormValues?.ram.range[1]
+                                  min: _defaultFormValues.ram.range[0],
+                                  max: _defaultFormValues.ram.range[1]
                               }
                 }}
             </mat-error>
@@ -125,8 +125,8 @@
                 placeholder=""
                 value=""
                 type="number"
-                min="{{ _defaultFormValues?.disk.range[0] }}"
-                max="{{ _defaultFormValues?.disk.range[1] }}"
+                min="{{ _defaultFormValues.disk.range[0] }}"
+                max="{{ _defaultFormValues.disk.range[1] }}"
                 formControlName="diskMemoryInput"
             />
             <mat-error
@@ -143,8 +143,8 @@
                     'MODULES.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
                         | translate
                             : {
-                                  min: _defaultFormValues?.disk.range[0],
-                                  max: _defaultFormValues?.disk.range[1]
+                                  min: _defaultFormValues.disk.range[0],
+                                  max: _defaultFormValues.disk.range[1]
                               }
                 }}
             </mat-error>

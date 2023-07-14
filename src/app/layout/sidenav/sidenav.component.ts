@@ -1,7 +1,13 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav } from '@angular/material/sidenav';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
@@ -12,7 +18,7 @@ import { environment } from 'src/environments/environment';
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, AfterViewInit {
     @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
 
     constructor(
@@ -64,9 +70,9 @@ export class SidenavComponent implements OnInit {
         },
     ];
 
-    acknowledgments: string = '';
-    projectName: string = '';
-    projectUrl: string = '';
+    acknowledgments = '';
+    projectName = '';
+    projectUrl = '';
 
     isLoggedIn(): boolean {
         return this.authService.isAuthenticated();

@@ -3,7 +3,6 @@ import {
     HttpInterceptor,
     HttpHandler,
     HttpRequest,
-    HttpResponse,
     HttpErrorResponse,
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
@@ -24,9 +23,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(
-        request: HttpRequest<any>,
+        request: HttpRequest<unknown>,
         next: HttpHandler
-    ): Observable<HttpEvent<any>> {
+    ): Observable<HttpEvent<unknown>> {
         return next
             .handle(request)
 

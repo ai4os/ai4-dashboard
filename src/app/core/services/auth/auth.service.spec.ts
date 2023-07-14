@@ -2,11 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
-import {
-    OAuthService,
-    OAuthSuccessEvent,
-    UrlHelperService,
-} from 'angular-oauth2-oidc';
+import { OAuthService, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 
 const mockedOAuthService = {
     configure: jest.fn().mockReturnValue(void 0),

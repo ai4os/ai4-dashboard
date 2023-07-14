@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
     FormGroupDirective,
     Validators,
 } from '@angular/forms';
+import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
 
 @Component({
     selector: 'app-general-conf-form',
@@ -19,33 +20,37 @@ export class GeneralConfFormComponent implements OnInit {
 
     parentForm!: FormGroup;
 
-    protected _defaultFormValues: any;
-    protected _showHelp: any;
+    protected _defaultFormValues!: ModuleGeneralConfiguration;
+    protected _showHelp = false;
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
 
-    @Input() set showHelp(showHelp: any) {
+    @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
 
-    @Input() set defaultFormValues(defaultFormValues: any) {
+    @Input() set defaultFormValues(
+        defaultFormValues: ModuleGeneralConfiguration
+    ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
             this.generalConfFormGroup
                 .get('dockerImageInput')
-                ?.setValue(defaultFormValues.docker_image.value);
+                ?.setValue(defaultFormValues.docker_image.value as string);
             this.generalConfFormGroup
                 .get('serviceToRunSelect')
-                ?.setValue(defaultFormValues.service.value);
+                ?.setValue(defaultFormValues.service.value as string);
             if (defaultFormValues.service) {
-                defaultFormValues.service.options.forEach((service: any) => {
-                    this.serviceToRunOptions.push({
-                        value: service,
-                        viewValue: service,
-                    });
-                });
+                defaultFormValues.service.options?.forEach(
+                    (service: string) => {
+                        this.serviceToRunOptions.push({
+                            value: service,
+                            viewValue: service,
+                        });
+                    }
+                );
             }
-            defaultFormValues.docker_tag.options?.forEach((tag: any) => {
+            defaultFormValues.docker_tag.options?.forEach((tag: string) => {
                 this.dockerTagOptions.push({
                     value: tag,
                     viewValue: tag,
@@ -53,12 +58,12 @@ export class GeneralConfFormComponent implements OnInit {
             });
             this.generalConfFormGroup
                 .get('dockerTagSelect')
-                ?.setValue(defaultFormValues.docker_tag.value);
+                ?.setValue(defaultFormValues.docker_tag.value as string);
         }
     }
 
-    isJupyterLab: boolean = false;
-    hidePassword: boolean = true;
+    isJupyterLab = false;
+    hidePassword = true;
 
     generalConfFormGroup = this.fb.group({
         descriptionInput: [''],

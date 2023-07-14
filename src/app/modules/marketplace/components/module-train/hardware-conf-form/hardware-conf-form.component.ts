@@ -5,6 +5,17 @@ import {
     FormGroupDirective,
     Validators,
 } from '@angular/forms';
+import {
+    ModuleHardwareConfiguration,
+    confObjectRange,
+} from '@app/shared/interfaces/module.interface';
+
+const mockedConfObject: confObjectRange = {
+    range: [],
+    name: '',
+    value: '',
+    description: '',
+};
 
 @Component({
     selector: 'app-hardware-conf-form',
@@ -19,9 +30,15 @@ export class HardwareConfFormComponent implements OnInit {
 
     parentForm!: FormGroup;
 
-    protected _defaultFormValues: any;
+    protected _defaultFormValues: ModuleHardwareConfiguration = {
+        cpu_num: mockedConfObject,
+        ram: mockedConfObject,
+        disk: mockedConfObject,
+        gpu_num: mockedConfObject,
+        gpu_type: mockedConfObject,
+    };
 
-    isGpuModelSelectDisabled: boolean = true;
+    isGpuModelSelectDisabled = true;
     //this.hardwareConfFormGroup.get('gpuNumberInput')?.value! < 1
 
     hardwareConfFormGroup = this.fb.group({
@@ -57,28 +74,30 @@ export class HardwareConfFormComponent implements OnInit {
         ],
     });
 
-    protected _showHelp: boolean = false;
+    protected _showHelp = false;
 
-    @Input() set showHelp(showHelp: any) {
+    @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
 
-    @Input() set defaultFormValues(defaultFormValues: any) {
+    @Input() set defaultFormValues(
+        defaultFormValues: ModuleHardwareConfiguration
+    ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
             this.hardwareConfFormGroup
                 .get('cpuNumberInput')
-                ?.setValue(defaultFormValues.cpu_num.value);
+                ?.setValue(defaultFormValues.cpu_num.value as string);
             this.hardwareConfFormGroup
                 .get('gpuNumberInput')
-                ?.setValue(defaultFormValues.gpu_num.value);
+                ?.setValue(defaultFormValues.gpu_num.value as number);
             this.hardwareConfFormGroup
                 .get('ramMemoryInput')
-                ?.setValue(defaultFormValues.ram.value);
+                ?.setValue(defaultFormValues.ram.value as string);
             this.hardwareConfFormGroup
                 .get('diskMemoryInput')
-                ?.setValue(defaultFormValues.disk.value);
-            defaultFormValues.gpu_type.options?.forEach((tag: any) => {
+                ?.setValue(defaultFormValues.disk.value as string);
+            defaultFormValues.gpu_type?.options?.forEach((tag: string) => {
                 this.gpuModelOptions.push({
                     value: tag,
                     viewValue: tag,
@@ -86,7 +105,7 @@ export class HardwareConfFormComponent implements OnInit {
             });
             this.hardwareConfFormGroup
                 .get('gpuModelSelect')
-                ?.setValue(defaultFormValues.gpu_type.value);
+                ?.setValue(defaultFormValues.gpu_type?.value as string);
         }
     }
 
@@ -96,7 +115,7 @@ export class HardwareConfFormComponent implements OnInit {
      * Method to handle wether the gpuNumberSelector should be disabled or not.
      */
     gpuNumberSelectorBehaviourHandler() {
-        let gpuNumberInputControl =
+        const gpuNumberInputControl =
             this.hardwareConfFormGroup.get('gpuNumberInput')?.value;
 
         if (
@@ -107,8 +126,9 @@ export class HardwareConfFormComponent implements OnInit {
         }
         this.hardwareConfFormGroup
             .get('gpuNumberInput')
-            ?.valueChanges.subscribe((value: any) => {
+            ?.valueChanges.subscribe((value: number | null) => {
                 if (
+                    value &&
                     value > 0 &&
                     this._defaultFormValues?.gpu_num.range[1] > 0
                 ) {

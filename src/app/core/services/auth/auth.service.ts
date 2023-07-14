@@ -39,7 +39,7 @@ export class AuthService {
                         this.oauthService
                             .loadUserProfile()
                             .then((profile: any) => {
-                                let userProfile: UserProfile = {
+                                const userProfile: UserProfile = {
                                     name: profile['info']['name'],
                                     isAuthorized: false,
                                 };
@@ -48,7 +48,7 @@ export class AuthService {
                                     profile['info']['eduperson_entitlement']
                                         .length > 0
                                 ) {
-                                    let vos: string[] =
+                                    const vos: string[] =
                                         this.parseVosFromProfile(
                                             profile['info'][
                                                 'eduperson_entitlement'
@@ -99,7 +99,7 @@ export class AuthService {
     }
 
     parseVosFromProfile(entitlements: string[]): string[] {
-        let foundVos: string[] = [];
+        const foundVos: string[] = [];
         entitlements.forEach((vo) => {
             if (vo.match('group:(.+?):')?.[0]) {
                 foundVos.push(vo.match('group:(.+?):')![0]);

@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import {
-    TrainModuleRequest,
-    ModuleConfiguration,
-} from '@app/shared/interfaces/module.interface';
+    Deployment,
+    statusReturn,
+} from '@app/shared/interfaces/deployment.interface';
+import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -41,18 +41,18 @@ export class DeploymentsService {
         return this.http.get<Deployment>(url, { params: this.voParam });
     }
 
-    postTrainModule(moduleConf: TrainModuleRequest): Observable<any> {
+    postTrainModule(moduleConf: TrainModuleRequest): Observable<statusReturn> {
         const url = `${base}${endpoints.trainModule}`;
-        return this.http.post<ModuleConfiguration>(url, moduleConf, {
+        return this.http.post<statusReturn>(url, moduleConf, {
             params: this.voParam,
         });
     }
 
-    deleteDeploymentByUUID(deploymentUUID: string): Observable<Object> {
+    deleteDeploymentByUUID(deploymentUUID: string): Observable<statusReturn> {
         const url = `${base}${endpoints.deploymentByUUID.replace(
             ':deploymentUUID',
             deploymentUUID
         )}`;
-        return this.http.delete<Object>(url, { params: this.voParam });
+        return this.http.delete<statusReturn>(url, { params: this.voParam });
     }
 }

@@ -17,3 +17,9 @@ export interface Deployment {
     alloc_ID?: string;
     error_msg?: string;
 }
+
+export interface statusReturn {
+    status: string;
+    error_msg?: string;
+    job_id?: string;
+}

@@ -3,18 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import {
-    Observable,
-    Subject,
-    combineLatest,
-    distinct,
-    forkJoin,
-    groupBy,
-    map,
-    mergeAll,
-    mergeMap,
-    toArray,
-} from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-modules-list',
@@ -29,7 +18,7 @@ export class ModulesListComponent implements OnInit {
     ) {}
 
     searchFormGroup!: FormGroup;
-    isLoading: boolean = false;
+    isLoading = false;
 
     modules: ModuleSummary[] = [];
 
@@ -51,8 +40,8 @@ export class ModulesListComponent implements OnInit {
         this.isLoading = true;
 
         if (this.appConfigService.tags) {
-            let tags = this.appConfigService.tags;
-            let observableList: Observable<ModuleSummary[]>[] = [];
+            const tags = this.appConfigService.tags;
+            const observableList: Observable<ModuleSummary[]>[] = [];
             tags.forEach((tag: any) => {
                 observableList.push(this.modulesService.getModulesSummary(tag));
             });
@@ -61,7 +50,7 @@ export class ModulesListComponent implements OnInit {
             observableResult.subscribe({
                 next: (modules) => {
                     this.isLoading = false;
-                    let jointModulesArray = ([] as ModuleSummary[]).concat(
+                    const jointModulesArray = ([] as ModuleSummary[]).concat(
                         ...modules
                     );
                     // Delete possible duplicates from array based on name

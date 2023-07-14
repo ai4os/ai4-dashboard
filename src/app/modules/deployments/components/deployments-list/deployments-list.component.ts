@@ -1,20 +1,22 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
 import { DeploymentsService } from '../../services/deployments.service';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
-import { Deployment } from '@app/shared/interfaces/deployment.interface';
+import {
+    Deployment,
+    statusReturn,
+} from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 
 export interface TableColumn {
-    columnDef: any;
+    columnDef: string;
     header: string;
     hidden?: boolean;
 }
@@ -36,10 +38,9 @@ interface deploymentTableRow {
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
 })
-export class DeploymentsListComponent implements OnInit {
+export class DeploymentsListComponent implements OnInit, OnDestroy {
     constructor(
         public dialog: MatDialog,
-        private translateService: TranslateService,
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
         private _snackBar: MatSnackBar,
@@ -61,14 +62,12 @@ export class DeploymentsListComponent implements OnInit {
         { columnDef: 'endpoints', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
-    dataset: Array<any> = [];
+    dataset: Array<deploymentTableRow> = [];
 
-    dataSource!: MatTableDataSource<any>;
-    selection = new SelectionModel<any>(true, []);
+    dataSource!: MatTableDataSource<deploymentTableRow>;
+    selection = new SelectionModel<deploymentTableRow>(true, []);
     displayedColumns: string[] = [];
     private unsub = new Subject<void>();
-
-    openDetailsDialog() {}
 
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected() {
@@ -84,20 +83,20 @@ export class DeploymentsListComponent implements OnInit {
             : this.dataSource.data.forEach((row) => this.selection.select(row));
     }
 
-    removeDeployment(e: MouseEvent, row: any) {
+    removeDeployment(e: MouseEvent, row: deploymentTableRow) {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: `¿Are you sure you want to delete this deployment?`,
             })
             .afterClosed()
-            .subscribe((confirmed: Boolean) => {
+            .subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    let uuid = row.uuid;
+                    const uuid = row.uuid;
                     this.deploymentsService
                         .deleteDeploymentByUUID(uuid)
                         .subscribe({
-                            next: (response: any) => {
+                            next: (response: statusReturn) => {
                                 if (
                                     response &&
                                     response['status'] == 'success'
@@ -107,7 +106,7 @@ export class DeploymentsListComponent implements OnInit {
                                     );
                                     this.dataset.splice(itemIndex, 1);
                                     this.dataSource =
-                                        new MatTableDataSource<any>(
+                                        new MatTableDataSource<deploymentTableRow>(
                                             this.dataset
                                         );
                                     this._snackBar.open(
@@ -158,7 +157,7 @@ export class DeploymentsListComponent implements OnInit {
                 this.dataset = [];
                 this.isLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
-                    let row: deploymentTableRow = {
+                    const row: deploymentTableRow = {
                         uuid: deployment.job_ID,
                         name: deployment.title,
                         status: deployment.status,
@@ -179,19 +178,21 @@ export class DeploymentsListComponent implements OnInit {
                     }
                     this.dataset.push(row);
                 });
-                this.dataSource = new MatTableDataSource<any>(this.dataset);
+                this.dataSource = new MatTableDataSource<deploymentTableRow>(
+                    this.dataset
+                );
             });
     }
 
-    isDeploymentRunning(row: any) {
+    isDeploymentRunning(row: deploymentTableRow) {
         return row.status === 'running';
     }
 
-    getDeploymentEndpoints(row: any) {
+    getDeploymentEndpoints(row: deploymentTableRow) {
         return row.endpoints;
     }
 
-    hasDeploymentErrors(row: any) {
+    hasDeploymentErrors(row: deploymentTableRow) {
         return row.error_msg;
     }
 
@@ -199,7 +200,7 @@ export class DeploymentsListComponent implements OnInit {
         return getDeploymentBadge(status);
     }
 
-    openDeploymentDetailDialog(row: any): void {
+    openDeploymentDetailDialog(row: deploymentTableRow): void {
         const dialogRef = this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid },
             width: '650px',
@@ -236,7 +237,9 @@ export class DeploymentsListComponent implements OnInit {
             this.columns.filter((x) => !x.hidden).map((x) => x.columnDef)
         ); // pre-fix static
         // add action column
-        this.dataSource = new MatTableDataSource<any>(this.dataset);
+        this.dataSource = new MatTableDataSource<deploymentTableRow>(
+            this.dataset
+        );
 
         // set pagination
         //this.dataSource.paginator = this.paginator;

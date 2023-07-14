@@ -1,6 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import {
+    ModuleStorageConfiguration,
+    confObjectRange,
+} from '@app/shared/interfaces/module.interface';
 
+const mockedConfObject: confObjectRange = {
+    range: [],
+    name: '',
+    value: '',
+    description: '',
+};
 @Component({
     selector: 'app-storage-conf-form',
     templateUrl: './storage-conf-form.component.html',
@@ -22,40 +32,52 @@ export class StorageConfFormComponent implements OnInit {
         rclonePasswordInput: [''],
     });
 
-    protected _defaultFormValues: any;
+    protected _defaultFormValues: ModuleStorageConfiguration = {
+        rclone_conf: mockedConfObject,
+        rclone_url: mockedConfObject,
+        rclone_vendor: mockedConfObject,
+        rclone_user: mockedConfObject,
+        rclone_password: mockedConfObject,
+    };
 
-    protected _showHelp: boolean = false;
+    protected _showHelp = false;
 
-    @Input() set showHelp(showHelp: any) {
+    @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
 
-    @Input() set defaultFormValues(defaultFormValues: any) {
+    @Input() set defaultFormValues(
+        defaultFormValues: ModuleStorageConfiguration
+    ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
             this.storageConfFormGroup
                 .get('rcloneConfInput')
-                ?.setValue(defaultFormValues.rclone_conf.value);
+                ?.setValue(defaultFormValues.rclone_conf.value as string);
             this.storageConfFormGroup
                 .get('storageUrlInput')
-                ?.setValue(defaultFormValues.rclone_url.value);
+                ?.setValue(defaultFormValues.rclone_url.value as string);
             this.storageConfFormGroup
                 .get('rcloneUserInput')
-                ?.setValue(defaultFormValues.rclone_user.value);
+                ?.setValue(defaultFormValues.rclone_user.value as string);
             this.storageConfFormGroup
                 .get('rcloneVendorSelect')
-                ?.setValue(defaultFormValues.rclone_vendor.value);
-            defaultFormValues.rclone_vendor.options?.forEach((option: any) => {
-                this.rcloneVendorOptions.push({
-                    value: option,
-                    viewValue: option,
-                });
-            });
+                ?.setValue(defaultFormValues.rclone_vendor.value as string);
+            defaultFormValues.rclone_vendor.options?.forEach(
+                (option: string) => {
+                    this.rcloneVendorOptions.push({
+                        value: option,
+                        viewValue: option,
+                    });
+                }
+            );
         }
     }
 
-    hidePassword: boolean = true;
-    rcloneVendorOptions: any = [];
+    hidePassword = true;
+    rcloneVendorOptions: { value: string; viewValue: string }[] = [
+        { value: '', viewValue: '' },
+    ];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;

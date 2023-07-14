@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
 import { Module } from '@app/shared/interfaces/module.interface';
@@ -10,7 +10,7 @@ import { Module } from '@app/shared/interfaces/module.interface';
     styleUrls: ['./dev-module-card.component.scss'],
     providers: [TitleCasePipe],
 })
-export class DevModuleCardComponent {
+export class DevModuleCardComponent implements OnInit {
     constructor(
         public titleCasePipe: TitleCasePipe,
         private modulesService: ModulesService,
@@ -32,7 +32,7 @@ export class DevModuleCardComponent {
                     this.moduleType = module.keywords.includes('development')
                         ? 'Development'
                         : 'Model';
-                    let displayedKeywordsArray = module.keywords
+                    const displayedKeywordsArray = module.keywords
                         .filter(
                             (keyword) =>
                                 keyword.includes('inference') ||
