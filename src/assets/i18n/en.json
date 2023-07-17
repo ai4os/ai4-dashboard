@@ -110,7 +110,8 @@
         "NO": "No",
         "BACK": "Back",
         "NEXT": "Next",
-        "SUBMIT": "Submit",    
+        "SUBMIT": "Submit",
+        "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "Github",
         "DOCKERHUB": "Dockerhub"
         

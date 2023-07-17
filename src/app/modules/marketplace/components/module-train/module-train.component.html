@@ -35,6 +35,14 @@
             ></app-general-conf-form>
             <div class="next-back-buttons">
                 <button
+                    mat-raised-button
+                    class="mr-2"
+                    [disabled]="!generalConfForm.valid"
+                    (click)="submitTrainingRequest()"
+                >
+                    {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
+                </button>
+                <button
                     type="button"
                     mat-raised-button
                     matStepperNext
