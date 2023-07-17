@@ -4,6 +4,7 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Observable, forkJoin } from 'rxjs';
+import { AuthService } from '@app/core/services/auth/auth.service';
 
 @Component({
     selector: 'app-modules-list',
@@ -14,7 +15,8 @@ export class ModulesListComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private modulesService: ModulesService,
-        private appConfigService: AppConfigService
+        private appConfigService: AppConfigService,
+        private authService: AuthService
     ) {}
 
     searchFormGroup!: FormGroup;
@@ -74,6 +76,10 @@ export class ModulesListComponent implements OnInit {
                 },
             });
         }
+    }
+
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
     }
 
     ngOnInit(): void {
