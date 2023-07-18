@@ -3,3 +3,16 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
 }
+.service-to-run-container {
+    display: flex;
+    justify-content: space-between;
+}
+.password-input-field {
+    width: 50%;
+}
+
+.service-to-run-chip.mdc-evolution-chip--selected {
+    ::ng-deep .mdc-evolution-chip__text-label {
+        color: white;
+    }
+}
