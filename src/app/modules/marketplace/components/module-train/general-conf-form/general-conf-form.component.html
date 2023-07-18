@@ -44,71 +44,93 @@
                 _defaultFormValues.desc?.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-form-field appearance="fill" [ngClass]="{ 'mt-2': _showHelp }">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
-                    | translate
-            }}</mat-label>
-            <mat-select formControlName="serviceToRunSelect">
-                <mat-option
-                    *ngFor="let serviceToRunOption of serviceToRunOptions"
-                    [value]="serviceToRunOption.value"
+        <div class="service-to-run-container">
+            <div>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
+                        | translate
+                }}</mat-label>
+
+                <mat-chip-listbox
+                    aria-label="Fish selection"
+                    formControlName="serviceToRunChip"
+                    multiple="false"
                 >
-                    {{ serviceToRunOption.viewValue | titlecase }}
-                </mat-option>
-            </mat-select>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.service.description
-            }}</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" [ngClass]="{ 'mt-2': _showHelp }">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD' | translate
-            }}</mat-label>
-            <input
-                [type]="hidePassword ? 'password' : 'text'"
-                matInput
-                placeholder="At least 9 characters"
-                formControlName="jupyterLabPassInput"
-                autocomplete="off"
-            />
-            <mat-icon
-                matSuffix
-                (click)="hidePassword = !hidePassword"
-                color="primary"
+                    <mat-chip-option
+                        #chipOption
+                        *ngFor="let serviceToRunOption of serviceToRunOptions"
+                        color="accent"
+                        class="service-to-run-chip"
+                        [value]="serviceToRunOption.value"
+                        [selected]="
+                            _defaultFormValues.service.value ===
+                            serviceToRunOption.value
+                        "
+                        [selectable]="chipOption.selected ? false : true"
+                        >{{
+                            serviceToRunOption.viewValue | titlecase
+                        }}</mat-chip-option
+                    >
+                </mat-chip-listbox>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.service.description
+                }}</mat-hint>
+            </div>
+            <mat-form-field
+                appearance="fill"
+                class="password-input-field"
+                [@inOutAnimation]
+                [ngClass]="{ 'mt-2': _showHelp }"
+                *ngIf="isPasswodRequired"
             >
-                {{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
-            >
-            <mat-error
-                *ngIf="
-                    generalConfFormGroup.get('jupyterLabPassInput')?.errors?.[
-                        'required'
-                    ]
-                "
-            >
-                {{
-                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED'
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD'
                         | translate
-                }}
-            </mat-error>
-            <mat-error
-                *ngIf="
-                    generalConfFormGroup.get('jupyterLabPassInput')?.errors?.[
-                        'minlength'
-                    ]
-                "
-            >
-                {{
-                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR'
-                        | translate
-                }}
-            </mat-error>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.jupyter_password?.description
-            }}</mat-hint>
-        </mat-form-field>
-
+                }}</mat-label>
+                <input
+                    [type]="hidePassword ? 'password' : 'text'"
+                    [@inOutAnimation]
+                    matInput
+                    placeholder="At least 9 characters"
+                    formControlName="serviceToRunPassInput"
+                    autocomplete="off"
+                />
+                <mat-icon
+                    matSuffix
+                    (click)="hidePassword = !hidePassword"
+                    color="primary"
+                >
+                    {{
+                        hidePassword ? 'visibility_off' : 'visibility'
+                    }}</mat-icon
+                >
+                <mat-error
+                    *ngIf="
+                        generalConfFormGroup.get('serviceToRunPassInput')
+                            ?.errors?.['required']
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-error
+                    *ngIf="
+                        generalConfFormGroup.get('serviceToRunPassInput')
+                            ?.errors?.['minlength']
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.jupyter_password?.description
+                }}</mat-hint>
+            </mat-form-field>
+        </div>
         <mat-form-field appearance="fill" [ngClass]="{ 'mt-5': _showHelp }">
             <mat-label>Hostname</mat-label>
             <input

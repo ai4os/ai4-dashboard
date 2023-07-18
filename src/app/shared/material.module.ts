@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSortModule } from '@angular/material/sort';
+import { MatChipsModule } from '@angular/material/chips';
 
 const materialModules = [
     MatButtonModule,
@@ -44,6 +45,7 @@ const materialModules = [
     MatSlideToggleModule,
     MatBadgeModule,
     MatSortModule,
+    MatChipsModule,
 ];
 
 @NgModule({

@@ -1,3 +1,11 @@
+import {
+    trigger,
+    transition,
+    style,
+    animate,
+    animateChild,
+    query,
+} from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import {
     FormBuilder,
@@ -11,6 +19,25 @@ import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interf
     selector: 'app-general-conf-form',
     templateUrl: './general-conf-form.component.html',
     styleUrls: ['./general-conf-form.component.scss'],
+    animations: [
+        trigger('inOutAnimation', [
+            transition(':enter', [
+                style({ visibility: 'hidden', opacity: 0 }),
+                animate(
+                    '0.2s ease-out',
+                    style({ visibility: 'visible', opacity: 1 })
+                ),
+            ]),
+            transition(':leave', [
+                query('@*', [animateChild()], { optional: true }),
+                style({ visibility: 'visible', opacity: 1 }),
+                animate(
+                    '0.1s ease-in',
+                    style({ visibility: 'hidden', opacity: 0 })
+                ),
+            ]),
+        ]),
+    ],
 })
 export class GeneralConfFormComponent implements OnInit {
     constructor(
@@ -38,7 +65,7 @@ export class GeneralConfFormComponent implements OnInit {
                 .get('dockerImageInput')
                 ?.setValue(defaultFormValues.docker_image.value as string);
             this.generalConfFormGroup
-                .get('serviceToRunSelect')
+                .get('serviceToRunChip')
                 ?.setValue(defaultFormValues.service.value as string);
             if (defaultFormValues.service) {
                 defaultFormValues.service.options?.forEach(
@@ -62,14 +89,14 @@ export class GeneralConfFormComponent implements OnInit {
         }
     }
 
-    isJupyterLab = false;
+    isPasswodRequired = false;
     hidePassword = true;
 
     generalConfFormGroup = this.fb.group({
         descriptionInput: [''],
-        serviceToRunSelect: ['deepaas'],
+        serviceToRunChip: ['deepaas'],
         titleInput: ['', [Validators.required, Validators.maxLength(45)]],
-        jupyterLabPassInput: [
+        serviceToRunPassInput: [
             { value: '', disabled: true },
             [Validators.required, Validators.minLength(9)],
         ],
@@ -87,20 +114,20 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
         );
         this.generalConfFormGroup
-            .get('serviceToRunSelect')
+            .get('serviceToRunChip')
             ?.valueChanges.subscribe((val) => {
                 if (val === 'jupyter' || val === 'vscode') {
-                    this.isJupyterLab = true;
+                    this.isPasswodRequired = true;
                 } else {
-                    this.isJupyterLab = false;
+                    this.isPasswodRequired = false;
                 }
-                if (this.isJupyterLab) {
+                if (this.isPasswodRequired) {
                     this.generalConfFormGroup
-                        .get('jupyterLabPassInput')
+                        .get('serviceToRunPassInput')
                         ?.enable();
                 } else {
                     this.generalConfFormGroup
-                        .get('jupyterLabPassInput')
+                        .get('serviceToRunPassInput')
                         ?.disable();
                 }
             });
