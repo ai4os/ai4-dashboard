@@ -73,6 +73,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     acknowledgments = '';
     projectName = '';
     projectUrl = '';
+    legalLinks = [
+        {
+            name: '',
+            url: '',
+        },
+    ];
 
     isLoggedIn(): boolean {
         return this.authService.isAuthenticated();
@@ -83,6 +89,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.acknowledgments = this.appConfigService.acknowledgments;
         this.projectName = this.appConfigService.projectName;
         this.projectUrl = this.appConfigService.projectUrl;
+        this.legalLinks = this.appConfigService.legalLinks;
     }
 
     ngAfterViewInit(): void {
