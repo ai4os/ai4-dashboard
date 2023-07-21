@@ -44,6 +44,7 @@ export interface ModuleGeneralConfiguration {
     service: confObject;
     jupyter_password?: confObject;
     hostname?: confObject;
+    federated_secret?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -62,10 +63,23 @@ export interface ModuleStorageConfiguration {
     rclone_password: confObject;
 }
 
+export interface FederatedServerConfiguration {
+    rounds: confObjectRange;
+    metric: confObject;
+    min_clients: confObjectRange;
+    strategy: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
     storage: ModuleStorageConfiguration;
+}
+
+export interface FederatedServerToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+    configuration: FederatedServerConfiguration;
 }
 
 export interface TrainModuleRequest {
@@ -85,11 +99,17 @@ export interface TrainModuleRequest {
         gpu_num: number;
         gpu_type?: string;
     };
-    storage: {
+    storage?: {
         rclone_conf: string;
         rclone_url: string;
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
+    };
+    configuration?: {
+        rounds: number;
+        metric: string;
+        min_clients: number;
+        strategy: string;
     };
 }

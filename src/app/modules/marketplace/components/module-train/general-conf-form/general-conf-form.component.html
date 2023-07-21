@@ -153,6 +153,32 @@
                 _defaultFormValues.hostname?.description
             }}</mat-hint>
         </mat-form-field>
+        <mat-form-field
+            [ngClass]="{ 'mt-5': _showHelp }"
+            class="example-full-width"
+            *ngIf="_showFields.federated_secret"
+        >
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.FEDERATED-SECRET'
+                    | translate
+            }}</mat-label>
+            <input matInput formControlName="federatedSecretInput" />
+            <mat-icon
+                matSuffix
+                color="primary"
+                (click)="
+                    copyValueToClipboard(
+                        generalConfFormGroup.get('federatedSecretInput')?.value
+                    )
+                "
+                class="copy-icon"
+            >
+                content_copy</mat-icon
+            >
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.federated_secret?.description
+            }}</mat-hint>
+        </mat-form-field>
     </div>
 
     <h4 [ngClass]="{ 'mt-5': _showHelp }">

@@ -4,6 +4,8 @@ import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { Module } from '@app/shared/interfaces/module.interface';
+import { ToolsService } from '../../services/tools-service/tools.service';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-module-detail',
@@ -13,13 +15,18 @@ import { Module } from '@app/shared/interfaces/module.interface';
 export class ModuleDetailComponent implements OnInit {
     constructor(
         private modulesService: ModulesService,
+        private toolsService: ToolsService,
         private authService: AuthService,
         private route: ActivatedRoute,
-        private breadcrumbService: BreadcrumbService
+        private breadcrumbService: BreadcrumbService,
+        public location: Location
     ) {
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
         });
+        if (this.location.path().includes('tools')) {
+            this.isTool = true;
+        }
     }
 
     modulesList = [];
@@ -27,6 +34,8 @@ export class ModuleDetailComponent implements OnInit {
     userProfile?: UserProfile;
 
     isLoading = false;
+
+    isTool = false;
 
     isLoggedIn() {
         return this.authService.isAuthenticated();
@@ -39,11 +48,21 @@ export class ModuleDetailComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.isLoading = true;
-            this.modulesService.getModule(params['id']).subscribe((module) => {
-                this.isLoading = false;
-                this.module = module;
-                this.breadcrumbService.set('@moduleName', module.title);
-            });
+            if (this.isTool) {
+                this.toolsService.getTool(params['id']).subscribe((tool) => {
+                    this.isLoading = false;
+                    this.module = tool;
+                    this.breadcrumbService.set('@moduleName', tool.title);
+                });
+            } else {
+                this.modulesService
+                    .getModule(params['id'])
+                    .subscribe((module) => {
+                        this.isLoading = false;
+                        this.module = module;
+                        this.breadcrumbService.set('@moduleName', module.title);
+                    });
+            }
         });
     }
 }

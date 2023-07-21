@@ -28,7 +28,7 @@
             class="button"
             mat-raised-button
             color="accent"
-            routerLink="DEEP-OC-generic-dev/train"
+            [routerLink]="'modules/' + devModuleName + '/train'"
         >
             {{ 'MODULES.NEW-DEPLOYMENT' | translate }}
         </button>

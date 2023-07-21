@@ -2,7 +2,7 @@
     "HEADQUARTER": "test",
     "SIDENAV" : {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Modules (marketplace)",
+        "MODULES": "Marketplace",
         "DEPLOYMENTS": "Deployments",
         "IAM": "Identity and Access",
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
@@ -68,6 +68,7 @@
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
             "STORAGE-CONF": "Storage configuration",
+            "FEDERATED-CONF": "Federated configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -82,7 +83,8 @@
                 "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG":  "Docker tag"
+                "DOCKER-TAG":  "Docker tag",
+                "FEDERATED-SECRET": "Federated secret"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -99,6 +101,13 @@
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password"
+            },
+            "FEDERATED-CONF-FORM": {
+                "TITLE":"Federated options",
+                "ROUNDS": "Number of rounds",
+                "METRIC": "Evaluation metric",
+                "MIN-CLIENTS": "Minimal number of clients",
+                "AGG-STRATEGY": "Federated aggregation strategy"
             }
         }
     },

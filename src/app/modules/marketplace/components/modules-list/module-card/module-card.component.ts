@@ -14,6 +14,8 @@ export class ModuleCardComponent implements OnInit {
     // This property is bound using its original name.
     @Input() module!: ModuleSummary;
 
+    @Input() isTool?: boolean;
+
     moduleType: 'Development' | 'Model' = 'Model';
     displayedKeywords: string[] = [];
 

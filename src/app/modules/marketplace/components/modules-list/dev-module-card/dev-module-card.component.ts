@@ -17,6 +17,8 @@ export class DevModuleCardComponent implements OnInit {
         public dialog: MatDialog
     ) {}
 
+    devModuleName = 'deep-oc-generic-dev';
+
     // This property is bound using its original name.
     module: Module | undefined;
 
@@ -25,7 +27,7 @@ export class DevModuleCardComponent implements OnInit {
 
     ngOnInit(): void {
         this.modulesService
-            .getModule('DEEP-OC-generic-dev')
+            .getModule(this.devModuleName)
             .subscribe((module) => {
                 if (module) {
                     this.module = module;

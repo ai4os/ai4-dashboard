@@ -54,7 +54,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         },
         {
             name: 'SIDENAV.MODULES',
-            url: '/modules',
+            url: '/marketplace',
         },
         {
             name: 'SIDENAV.DEPLOYMENTS',

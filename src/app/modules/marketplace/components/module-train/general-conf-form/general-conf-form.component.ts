@@ -13,7 +13,20 @@ import {
     FormGroupDirective,
     Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
+import { Clipboard } from '@angular/cdk/clipboard';
+
+export interface showGeneralFormField {
+    descriptionInput: boolean;
+    serviceToRunChip: boolean;
+    titleInput: boolean;
+    serviceToRunPassInput: boolean;
+    dockerImageInput: boolean;
+    dockerTagSelect: boolean;
+    hostnameInput: boolean;
+    federated_secret: boolean;
+}
 
 @Component({
     selector: 'app-general-conf-form',
@@ -42,7 +55,9 @@ import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interf
 export class GeneralConfFormComponent implements OnInit {
     constructor(
         private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private clipboard: Clipboard,
+        private _snackBar: MatSnackBar
     ) {}
 
     parentForm!: FormGroup;
@@ -51,6 +66,21 @@ export class GeneralConfFormComponent implements OnInit {
     protected _showHelp = false;
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
+
+    _showFields = {
+        descriptionInput: true,
+        serviceToRunChip: true,
+        titleInput: true,
+        serviceToRunPassInput: true,
+        dockerImageInput: true,
+        dockerTagSelect: true,
+        hostnameInput: true,
+        federated_secret: false,
+    };
+
+    @Input() set showFields(showFields: showGeneralFormField) {
+        this._showFields = showFields;
+    }
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
@@ -86,6 +116,9 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('dockerTagSelect')
                 ?.setValue(defaultFormValues.docker_tag.value as string);
+            this.generalConfFormGroup
+                .get('federatedSecretInput')
+                ?.setValue(defaultFormValues.federated_secret?.value as string);
         }
     }
 
@@ -103,9 +136,20 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
         hostnameInput: [''],
+        federatedSecretInput: [{ value: '', disabled: true }],
     });
 
     dockerTagOptions: { value: string; viewValue: string }[] = [];
+
+    copyValueToClipboard(value: string | null | undefined) {
+        if (value) {
+            this.clipboard.copy(value);
+            this._snackBar.open('Copied to clipboard!', 'X', {
+                duration: 3000,
+                panelClass: ['primary-snackbar'],
+            });
+        }
+    }
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;

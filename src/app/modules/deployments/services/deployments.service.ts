@@ -48,6 +48,13 @@ export class DeploymentsService {
         });
     }
 
+    trainTool(moduleConf: TrainModuleRequest): Observable<statusReturn> {
+        const url = `${base}${endpoints.trainTool}`;
+        return this.http.post<statusReturn>(url, moduleConf, {
+            params: this.voParam,
+        });
+    }
+
     deleteDeploymentByUUID(deploymentUUID: string): Observable<statusReturn> {
         const url = `${base}${endpoints.deploymentByUUID.replace(
             ':deploymentUUID',

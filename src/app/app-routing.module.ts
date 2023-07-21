@@ -12,7 +12,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'modules',
+                redirectTo: 'marketplace',
                 pathMatch: 'full',
             },
             {
@@ -23,7 +23,7 @@ const routes: Routes = [
                     ),
             },
             {
-                path: 'modules',
+                path: 'marketplace',
                 loadChildren: () =>
                     import('@modules/marketplace/marketplace.module').then(
                         (m) => m.MarketplaceModule
