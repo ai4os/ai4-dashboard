@@ -21,11 +21,11 @@
     "legalLinks": [
         {
             "name": "SIDENAV.TERMS-OF-USE",
-            "url": "https://confluence.ifca.es/display/IC/Legal+matters"
+            "url": "https://ai4eosc.eu/platform/acceptable-use-policy/"
         },
         {
             "name": "SIDENAV.PRIVACY-POLICY",
-            "url": "https://confluence.ifca.es/display/IC/Legal+matters"
+            "url": "https://ai4eosc.eu/platform/privacy-policy/"
         }
     ]
 }
