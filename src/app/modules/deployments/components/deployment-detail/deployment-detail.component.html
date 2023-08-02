@@ -1,6 +1,12 @@
 <mat-toolbar class="mb-3 marketplace-toolbar">
     <span>
-        {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TITLE' | translate }}
+        <ng-container *ngIf="data.isTool; else deploymentTitle">
+            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
+        </ng-container>
+        <ng-template #deploymentTitle>
+            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TITLE' | translate }}
+        </ng-template>
+
         <mat-icon>view_in_ar</mat-icon></span
     >
 </mat-toolbar>

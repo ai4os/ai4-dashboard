@@ -13,7 +13,8 @@ export class DeploymentDetailComponent implements OnInit {
     constructor(
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA) public data: { uuid: 'string' }
+        @Inject(MAT_DIALOG_DATA)
+        public data: { uuid: 'string'; isTool: boolean }
     ) {}
 
     deployment: Deployment | undefined;
@@ -24,19 +25,45 @@ export class DeploymentDetailComponent implements OnInit {
     ngOnInit(): void {
         if (this.data.uuid) {
             this.isLoading = true;
-            this.deploymentsService
-                .getDeploymentByUUID(this.data.uuid)
-                .subscribe((deployment: Deployment) => {
-                    this.isLoading = false;
-                    if (deployment.error_msg && deployment.error_msg != '') {
-                        this.deploymentHasError = true;
-                    }
-                    if (deployment.description == '') {
-                        deployment.description = '-';
-                    }
-                    this.statusBadge = getDeploymentBadge(deployment.status);
-                    this.deployment = deployment;
-                });
+            if (this.data.isTool) {
+                this.deploymentsService
+                    .getToolByUUID(this.data.uuid)
+                    .subscribe((deployment: Deployment) => {
+                        this.isLoading = false;
+                        if (
+                            deployment.error_msg &&
+                            deployment.error_msg != ''
+                        ) {
+                            this.deploymentHasError = true;
+                        }
+                        if (deployment.description == '') {
+                            deployment.description = '-';
+                        }
+                        this.statusBadge = getDeploymentBadge(
+                            deployment.status
+                        );
+                        this.deployment = deployment;
+                    });
+            } else {
+                this.deploymentsService
+                    .getDeploymentByUUID(this.data.uuid)
+                    .subscribe((deployment: Deployment) => {
+                        this.isLoading = false;
+                        if (
+                            deployment.error_msg &&
+                            deployment.error_msg != ''
+                        ) {
+                            this.deploymentHasError = true;
+                        }
+                        if (deployment.description == '') {
+                            deployment.description = '-';
+                        }
+                        this.statusBadge = getDeploymentBadge(
+                            deployment.status
+                        );
+                        this.deployment = deployment;
+                    });
+            }
         }
     }
 }
