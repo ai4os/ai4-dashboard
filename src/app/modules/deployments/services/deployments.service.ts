@@ -41,6 +41,14 @@ export class DeploymentsService {
         return this.http.get<Deployment>(url, { params: this.voParam });
     }
 
+    getToolByUUID(deploymentUUID: string): Observable<Deployment> {
+        const url = `${base}${endpoints.toolByUUID.replace(
+            ':deploymentUUID',
+            deploymentUUID
+        )}`;
+        return this.http.get<Deployment>(url, { params: this.voParam });
+    }
+
     postTrainModule(moduleConf: TrainModuleRequest): Observable<statusReturn> {
         const url = `${base}${endpoints.trainModule}`;
         return this.http.post<statusReturn>(url, moduleConf, {
@@ -55,8 +63,23 @@ export class DeploymentsService {
         });
     }
 
+    getTools(): Observable<Deployment[]> {
+        const url = `${base}${endpoints.tools}`;
+        return this.http.get<Array<Deployment>>(url, {
+            params: this.vosArrayParam,
+        });
+    }
+
     deleteDeploymentByUUID(deploymentUUID: string): Observable<statusReturn> {
         const url = `${base}${endpoints.deploymentByUUID.replace(
+            ':deploymentUUID',
+            deploymentUUID
+        )}`;
+        return this.http.delete<statusReturn>(url, { params: this.voParam });
+    }
+
+    deleteToolByUUID(deploymentUUID: string): Observable<statusReturn> {
+        const url = `${base}${endpoints.toolByUUID.replace(
             ':deploymentUUID',
             deploymentUUID
         )}`;

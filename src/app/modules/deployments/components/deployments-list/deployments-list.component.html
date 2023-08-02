@@ -1,11 +1,14 @@
 <mat-toolbar class="mb-3 marketplace-toolbar">
-    <span
-        >{{ 'DEPLOYMENTS.TITLE' | translate }}
-        <mat-icon>view_in_ar</mat-icon></span
-    >
+    <span class="aligned-with-icon">
+        {{ 'DEPLOYMENTS.TITLE' | translate }}
+        <mat-icon>view_in_ar</mat-icon>
+    </span>
 </mat-toolbar>
 
 <mat-card class="example-card">
+    <span class="aligned-with-icon scale-icon-down ml-3 mt-2 mb-3"
+        >Modules <mat-icon>category</mat-icon></span
+    >
     <mat-card-content>
         <div class="table-container">
             <table
@@ -97,7 +100,7 @@
             </table>
         </div>
 
-        <div *ngIf="isLoading" class="spinner">
+        <div *ngIf="isLoading" class="smaller-spinner">
             <mat-progress-spinner color="primary" mode="indeterminate">
             </mat-progress-spinner>
         </div>
@@ -114,3 +117,11 @@
         </a>
     </mat-card-actions>
 </mat-card>
+
+<mat-card class="example-card mt-3">
+    <span class="aligned-with-icon scale-icon-down ml-3 mt-2 mb-3"
+        >{{ 'DEPLOYMENTS.TOOLS' | translate }}
+        <mat-icon>handyman</mat-icon>
+    </span>
+    <mat-card-content> <app-tools-table></app-tools-table> </mat-card-content
+></mat-card>

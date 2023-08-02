@@ -82,7 +82,6 @@ export class FederatedServerComponent implements OnInit {
     }
 
     submitTrainingRequest() {
-        console.log('generalform', this.generalConfForm.value.generalConfForm);
         const request: TrainModuleRequest = {
             general: {
                 title: this.generalConfForm.value.generalConfForm.titleInput,
@@ -128,8 +127,6 @@ export class FederatedServerComponent implements OnInit {
             },
         };
 
-        console.log('mando esta petición', request);
-
         this.deploymentsService.trainTool(request).subscribe({
             next: (result: statusReturn) => {
                 if (result && result.status == 'success') {
@@ -165,7 +162,6 @@ export class FederatedServerComponent implements OnInit {
         });
     }
     showHelpButtonChange(event: MatSlideToggleChange) {
-        console.log('Tengo el evento en el padre', event);
         this.showHelp = event.checked;
     }
 

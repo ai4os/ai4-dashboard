@@ -79,10 +79,6 @@
     color: var(--white);
 }
 
-.table-container {
-    //overflow-x: scroll;
-}
-
 .no-deployment-message-container {
     display: flex;
     justify-content: center;
@@ -103,18 +99,4 @@
 ::ng-deep .mat-badge-small.mat-badge-after .mat-badge-content {
     right: 0;
     top: -4px;
-}
-
-.aligned-with-icon {
-    display: flex;
-    align-items: center;
-    &.scale-icon-down {
-        .mat-icon {
-            transform: scale(0.7);
-        }
-    }
-}
-
-.smaller-spinner {
-    max-height: 150px !important;
 }
