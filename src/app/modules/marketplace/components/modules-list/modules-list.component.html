@@ -14,26 +14,47 @@
     </form>
 </mat-toolbar>
 
-<div *ngIf="isLoading; else modulesList" class="spinner">
-    <mat-progress-spinner color="primary" mode="indeterminate">
-    </mat-progress-spinner>
-</div>
-<ng-template #modulesList>
-    <div class="modules-cards-container">
-        <app-dev-module-card
-            class="m-2"
-            *ngIf="isLoggedIn()"
-        ></app-dev-module-card>
-        <div
-            fxFlex
-            *ngFor="
-                let module of modules
-                    | search
-                        : this.searchFormGroup.get('search')?.value as modules
-            "
-            class="m-2"
-        >
-            <app-module-card [module]="module"></app-module-card>
+<mat-tab-group>
+    <mat-tab label="Modules">
+        <div *ngIf="isLoading; else modulesList" class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
         </div>
-    </div>
-</ng-template>
+        <ng-template #modulesList>
+            <div class="modules-cards-container">
+                <app-dev-module-card
+                    class="m-2"
+                    *ngIf="isLoggedIn()"
+                ></app-dev-module-card>
+                <div
+                    fxFlex
+                    *ngFor="
+                        let module of modules
+                            | search
+                                : this.searchFormGroup.get('search')
+                                      ?.value as modules
+                    "
+                    class="m-2"
+                >
+                    <app-module-card [module]="module"></app-module-card>
+                </div>
+            </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Tools">
+        <div *ngIf="isLoading; else toolsList" class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+        <ng-template #toolsList>
+            <div class="modules-cards-container">
+                <div *ngFor="let tool of tools" class="m-2">
+                    <app-module-card
+                        [module]="tool"
+                        [isTool]="true"
+                    ></app-module-card>
+                </div>
+            </div>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

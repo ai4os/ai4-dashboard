@@ -10,9 +10,11 @@
 .password-input-field {
     width: 50%;
 }
-
 .service-to-run-chip.mdc-evolution-chip--selected {
     ::ng-deep .mdc-evolution-chip__text-label {
         color: white;
     }
+}
+.copy-icon {
+    cursor: pointer;
 }

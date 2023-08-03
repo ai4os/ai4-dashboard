@@ -41,6 +41,14 @@ body {
     min-height: 250px;
 }
 
+.smaller-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    min-height: 150px;
+}
+
 .mat-mdc-form-field-input-control.mat-mdc-form-field-input-control:not(
         :focus
     )::placeholder {

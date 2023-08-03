@@ -85,12 +85,11 @@
                 {{ acknowledgments }}
                 <a [href]="projectUrl">{{ projectName }}</a>
             </p>
-            <a routerLink="conditions-of-use">{{
-                'SIDENAV.TERMS-OF-USE' | translate
-            }}</a>
-            <a routerLink="privacy-policy" class="ml-3">{{
-                'SIDENAV.PRIVACY-POLICY' | translate
-            }}</a>
+            <ng-container *ngFor="let link of legalLinks">
+                <a href="{{ link.url }}" class="sidenav-link" target="_blank">{{
+                    link.name | translate
+                }}</a>
+            </ng-container>
         </div>
     </mat-sidenav>
     <mat-sidenav-content class="pl-3 pr-3 sidenav-content">

@@ -1,19 +1,19 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { DeploymentsService } from '../../services/deployments.service';
-import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MatSort, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { getDeploymentBadge } from '../../utils/deployment-badge';
+import { MatTableDataSource } from '@angular/material/table';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
+import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
-    Deployment,
     statusReturn,
+    Deployment,
 } from '@app/shared/interfaces/deployment.interface';
-import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { Subject, timer, takeUntil, switchMap } from 'rxjs';
+import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
 
 export interface TableColumn {
     columnDef: string;
@@ -21,7 +21,7 @@ export interface TableColumn {
     hidden?: boolean;
 }
 
-interface deploymentTableRow {
+interface toolTableRow {
     uuid: string;
     name: string;
     status: string;
@@ -34,11 +34,11 @@ interface deploymentTableRow {
 }
 
 @Component({
-    selector: 'app-deployments-list',
-    templateUrl: './deployments-list.component.html',
-    styleUrls: ['./deployments-list.component.scss'],
+    selector: 'app-tools-table',
+    templateUrl: './tools-table.component.html',
+    styleUrls: ['./tools-table.component.scss'],
 })
-export class DeploymentsListComponent implements OnInit, OnDestroy {
+export class ToolsTableComponent implements OnInit, OnDestroy {
     constructor(
         public dialog: MatDialog,
         private deploymentsService: DeploymentsService,
@@ -62,10 +62,10 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         { columnDef: 'endpoints', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
-    dataset: Array<deploymentTableRow> = [];
+    dataset: Array<toolTableRow> = [];
 
-    dataSource!: MatTableDataSource<deploymentTableRow>;
-    selection = new SelectionModel<deploymentTableRow>(true, []);
+    dataSource!: MatTableDataSource<toolTableRow>;
+    selection = new SelectionModel<toolTableRow>(true, []);
     displayedColumns: string[] = [];
     private unsub = new Subject<void>();
 
@@ -83,11 +83,11 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             : this.dataSource.data.forEach((row) => this.selection.select(row));
     }
 
-    removeDeployment(e: MouseEvent, row: deploymentTableRow) {
+    removeTool(e: MouseEvent, row: toolTableRow) {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `¿Are you sure you want to delete this deployment?`,
+                data: `¿Are you sure you want to delete this tool deployment?`,
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
@@ -106,7 +106,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                                     );
                                     this.dataset.splice(itemIndex, 1);
                                     this.dataSource =
-                                        new MatTableDataSource<deploymentTableRow>(
+                                        new MatTableDataSource<toolTableRow>(
                                             this.dataset
                                         );
                                     this._snackBar.open(
@@ -146,63 +146,25 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             });
     }
 
-    getDeploymentsList() {
-        this.isLoading = true;
-        timer(0, 5000)
-            .pipe(
-                takeUntil(this.unsub),
-                switchMap(() => this.deploymentsService.getDeployments())
-            )
-            .subscribe((deploymentsList: Deployment[]) => {
-                this.dataset = [];
-                this.isLoading = false;
-                deploymentsList.forEach((deployment: Deployment) => {
-                    const row: deploymentTableRow = {
-                        uuid: deployment.job_ID,
-                        name: deployment.title,
-                        status: deployment.status,
-                        containerName: deployment.docker_image,
-                        gpus: '-',
-                        creationTime: deployment.submit_time,
-                        endpoints: deployment.endpoints,
-                        mainEndpoint: deployment.main_endpoint,
-                    };
-                    if (deployment.error_msg) {
-                        row.error_msg = deployment.error_msg;
-                    }
-                    if (
-                        deployment.resources &&
-                        Object.keys(deployment.resources).length !== 0
-                    ) {
-                        row.gpus = deployment.resources.gpu_num;
-                    }
-                    this.dataset.push(row);
-                });
-                this.dataSource = new MatTableDataSource<deploymentTableRow>(
-                    this.dataset
-                );
-            });
-    }
-
-    isDeploymentRunning(row: deploymentTableRow) {
+    isToolRunning(row: toolTableRow) {
         return row.status === 'running';
     }
 
-    getDeploymentEndpoints(row: deploymentTableRow) {
+    getToolEndpoints(row: toolTableRow) {
         return row.endpoints;
     }
 
-    hasDeploymentErrors(row: deploymentTableRow) {
+    hasToolErrors(row: toolTableRow) {
         return row.error_msg;
     }
 
-    returnDeploymentBadge(status: string) {
+    returnToolBadge(status: string) {
         return getDeploymentBadge(status);
     }
 
-    openDeploymentDetailDialog(row: deploymentTableRow): void {
+    openToolDetailDialog(row: toolTableRow): void {
         const dialogRef = this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: row.uuid, isTool: false },
+            data: { uuid: row.uuid, isTool: true },
             width: '650px',
             maxWidth: '650px',
             minWidth: '650px',
@@ -226,20 +188,55 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         }
     }
 
+    getToolsList() {
+        this.isLoading = true;
+
+        timer(0, 5000)
+            .pipe(
+                takeUntil(this.unsub),
+                switchMap(() => this.deploymentsService.getTools())
+            )
+            .subscribe((tools) => {
+                this.dataset = [];
+                this.isLoading = false;
+                tools.forEach((tool: Deployment) => {
+                    const row: toolTableRow = {
+                        uuid: tool.job_ID,
+                        name: tool.title,
+                        status: tool.status,
+                        containerName: tool.docker_image,
+                        gpus: '-',
+                        creationTime: tool.submit_time,
+                        endpoints: tool.endpoints,
+                        mainEndpoint: tool.main_endpoint,
+                    };
+                    if (tool.error_msg) {
+                        row.error_msg = tool.error_msg;
+                    }
+                    if (
+                        tool.resources &&
+                        Object.keys(tool.resources).length !== 0
+                    ) {
+                        row.gpus = tool.resources.gpu_num;
+                    }
+                    this.dataset.push(row);
+                });
+                this.dataSource = new MatTableDataSource<toolTableRow>(
+                    this.dataset
+                );
+            });
+    }
+
     ngOnInit(): void {
         this.dataset = [];
-        this.getDeploymentsList();
-        // set checkbox column
-        //this.displayedColumns.push("select");
+        this.getToolsList();
 
         // set table columns
         this.displayedColumns = this.displayedColumns.concat(
             this.columns.filter((x) => !x.hidden).map((x) => x.columnDef)
         ); // pre-fix static
         // add action column
-        this.dataSource = new MatTableDataSource<deploymentTableRow>(
-            this.dataset
-        );
+        this.dataSource = new MatTableDataSource<toolTableRow>(this.dataset);
 
         // set pagination
         //this.dataSource.paginator = this.paginator;

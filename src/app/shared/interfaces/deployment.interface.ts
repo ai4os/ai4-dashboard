@@ -21,5 +21,5 @@ export interface Deployment {
 export interface statusReturn {
     status: string;
     error_msg?: string;
-    job_id?: string;
+    job_ID?: string;
 }

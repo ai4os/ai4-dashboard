@@ -59,4 +59,9 @@ export class AppConfigService {
         this.checkConfigFileLoaded();
         return this.appConfig.projectUrl;
     }
+
+    get legalLinks() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.legalLinks;
+    }
 }

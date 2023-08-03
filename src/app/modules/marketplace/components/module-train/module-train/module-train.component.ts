@@ -16,8 +16,8 @@ import {
     ModuleStorageConfiguration,
     TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
-import { ModulesService } from '../../services/modules-service/modules.service';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
 
 @Component({
     selector: 'app-module-train',
@@ -66,8 +66,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                 docker_tag:
                     this.generalConfForm.value.generalConfForm.dockerTagSelect,
                 service:
-                    this.generalConfForm.value.generalConfForm
-                        .serviceToRunSelect,
+                    this.generalConfForm.value.generalConfForm.serviceToRunChip,
                 jupyter_password:
                     this.generalConfForm.getRawValue().generalConfForm
                         .jupyterLabPassInput,
@@ -112,7 +111,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                             if (navigated) {
                                 this._snackBar.open(
                                     'Deployment created with ID' +
-                                        result.job_id,
+                                        result.job_ID,
                                     'X',
                                     {
                                         duration: 3000,
@@ -155,7 +154,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngOnInit(): void {
+    loadModule() {
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.deploymentTitle = module.title;
@@ -168,6 +167,10 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     this.storageConfDefaultValues = moduleConf.storage;
                 });
         });
+    }
+
+    ngOnInit(): void {
+        this.loadModule();
     }
 
     ngAfterViewInit() {

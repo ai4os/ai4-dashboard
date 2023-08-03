@@ -1,7 +1,7 @@
 <form [formGroup]="hardwareConfFormGroup" class="hardware-conf-form">
     <h4>{{ 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.TITLE' | translate }}</h4>
     <div class="form-grid">
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="_showFields.cpu_num" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS'
                     | translate
@@ -33,7 +33,7 @@
                 }}
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="_showFields.gpu_num" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-GPUS'
                     | translate
@@ -68,7 +68,7 @@
                 }}
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="_showFields.gpu_type" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.GPU-MODEL' | translate
             }}</mat-label>
@@ -84,7 +84,7 @@
                 _defaultFormValues.gpu_type?.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="_showFields.ram" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.RAM-MEMORY' | translate
             }}</mat-label>
@@ -115,7 +115,7 @@
                 }}
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="_showFields.disk" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.DISK-MEMORY'
                     | translate

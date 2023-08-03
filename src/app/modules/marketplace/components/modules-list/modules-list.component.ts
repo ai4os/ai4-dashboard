@@ -5,6 +5,8 @@ import { ModulesService } from '../../services/modules-service/modules.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Observable, forkJoin } from 'rxjs';
 import { AuthService } from '@app/core/services/auth/auth.service';
+import { ToolsService } from '../../services/tools-service/tools.service';
+import { TagObject } from '@app/data/types/tags';
 
 @Component({
     selector: 'app-modules-list',
@@ -15,6 +17,7 @@ export class ModulesListComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private modulesService: ModulesService,
+        private toolsService: ToolsService,
         private appConfigService: AppConfigService,
         private authService: AuthService
     ) {}
@@ -23,6 +26,7 @@ export class ModulesListComponent implements OnInit {
     isLoading = false;
 
     modules: ModuleSummary[] = [];
+    tools: ModuleSummary[] = [];
 
     moduleType: 'development' | 'model' = 'model';
 
@@ -44,7 +48,7 @@ export class ModulesListComponent implements OnInit {
         if (this.appConfigService.tags) {
             const tags = this.appConfigService.tags;
             const observableList: Observable<ModuleSummary[]>[] = [];
-            tags.forEach((tag: any) => {
+            tags.forEach((tag: TagObject) => {
                 observableList.push(this.modulesService.getModulesSummary(tag));
             });
 
@@ -78,6 +82,15 @@ export class ModulesListComponent implements OnInit {
         }
     }
 
+    getToolsSummary() {
+        this.isLoading = true;
+        this.toolsService
+            .getToolsSummary()
+            .subscribe((tools: ModuleSummary[]) => {
+                this.tools = tools;
+            });
+    }
+
     isLoggedIn(): boolean {
         return this.authService.isAuthenticated();
     }
@@ -85,5 +98,6 @@ export class ModulesListComponent implements OnInit {
     ngOnInit(): void {
         this.initializeForm();
         this.getModulesSummaryFromService();
+        this.getToolsSummary();
     }
 }

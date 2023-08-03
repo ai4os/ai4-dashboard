@@ -7,12 +7,16 @@ import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { SearchPipe } from './pipes/search-card-pipe';
 import { ModuleDetailComponent } from './components/module-detail/module-detail.component';
 import { MarkdownModule } from 'ngx-markdown';
-import { ModuleTrainComponent } from './components/module-train/module-train.component';
 import { GeneralConfFormComponent } from './components/module-train/general-conf-form/general-conf-form.component';
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { DevModuleCardComponent } from './components/modules-list/dev-module-card/dev-module-card.component';
+import { ModuleTrainComponent } from './components/module-train/module-train/module-train.component';
+import { FederatedServerComponent } from './components/module-train/tool-train/federated-server/federated-server.component';
+import { StepperFormComponent } from './components/module-train/stepper-form/stepper-form.component';
+import { FederatedConfFormComponent } from './components/module-train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
+import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +30,10 @@ import { DevModuleCardComponent } from './components/modules-list/dev-module-car
         StorageConfFormComponent,
         ModuleDetailViewComponent,
         DevModuleCardComponent,
+        ToolTrainComponent,
+        FederatedServerComponent,
+        StepperFormComponent,
+        FederatedConfFormComponent,
     ],
     imports: [
         CommonModule,

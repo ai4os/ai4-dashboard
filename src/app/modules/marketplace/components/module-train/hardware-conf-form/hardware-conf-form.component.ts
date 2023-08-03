@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -9,6 +9,14 @@ import {
     ModuleHardwareConfiguration,
     confObjectRange,
 } from '@app/shared/interfaces/module.interface';
+
+export interface showHardwareField {
+    cpu_num: boolean;
+    ram: boolean;
+    disk: boolean;
+    gpu_num: boolean;
+    gpu_type: boolean;
+}
 
 const mockedConfObject: confObjectRange = {
     range: [],
@@ -28,6 +36,17 @@ export class HardwareConfFormComponent implements OnInit {
         private fb: FormBuilder
     ) {}
 
+    _showFields = {
+        cpu_num: true,
+        ram: true,
+        disk: true,
+        gpu_num: true,
+        gpu_type: true,
+    };
+
+    @Input() set showFields(showFields: showHardwareField) {
+        this._showFields = showFields;
+    }
     parentForm!: FormGroup;
 
     protected _defaultFormValues: ModuleHardwareConfiguration = {
@@ -75,9 +94,14 @@ export class HardwareConfFormComponent implements OnInit {
     });
 
     protected _showHelp = false;
+    protected _isFederatedModule = false;
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
+    }
+
+    @Input() set isFederatedModule(isFederatedModule: boolean) {
+        this._isFederatedModule = isFederatedModule;
     }
 
     @Input() set defaultFormValues(
@@ -90,7 +114,7 @@ export class HardwareConfFormComponent implements OnInit {
                 ?.setValue(defaultFormValues.cpu_num.value as string);
             this.hardwareConfFormGroup
                 .get('gpuNumberInput')
-                ?.setValue(defaultFormValues.gpu_num.value as number);
+                ?.setValue(defaultFormValues.gpu_num?.value as number);
             this.hardwareConfFormGroup
                 .get('ramMemoryInput')
                 ?.setValue(defaultFormValues.ram.value as string);

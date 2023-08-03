@@ -1,0 +1,56 @@
+<app-stepper-form
+    [title]="title"
+    [step1]="step1"
+    [step2]="step2"
+    [step3]="step3"
+    [step1Form]="generalConfForm"
+    [step2Form]="hardwareConfForm"
+    [step3Form]="federatedConfForm"
+    [step1Title]="step1Title"
+    [step2Title]="step2Title"
+    [step3Title]="step3Title"
+    (showHelpButtonEvent)="showHelpButtonChange($event)"
+    (submitEvent)="submitTrainingRequest()"
+>
+    <ng-template #step1>
+        <form [formGroup]="generalConfForm">
+            <app-general-conf-form
+                [ngClass]="
+                    showHelp
+                        ? 'child-form-container-show-help'
+                        : 'child-form-container-no-help'
+                "
+                [defaultFormValues]="generalConfDefaultValues"
+                [showHelp]="showHelp"
+                [showFields]="showGeneralFields"
+            ></app-general-conf-form>
+        </form>
+    </ng-template>
+    <ng-template #step2>
+        <form [formGroup]="hardwareConfForm">
+            <app-hardware-conf-form
+                [ngClass]="
+                    showHelp
+                        ? 'child-form-container-show-help'
+                        : 'child-form-container-no-help'
+                "
+                [defaultFormValues]="hardwareConfDefaultValues"
+                [showHelp]="showHelp"
+                [showFields]="showHardwareFields"
+            ></app-hardware-conf-form>
+        </form>
+    </ng-template>
+    <ng-template #step3>
+        <form [formGroup]="federatedConfForm">
+            <app-federated-conf-form
+                [ngClass]="
+                    showHelp
+                        ? 'child-form-container-show-help'
+                        : 'child-form-container-no-help'
+                "
+                [defaultFormValues]="federatedConfDefaultValues"
+                [showHelp]="showHelp"
+            ></app-federated-conf-form>
+        </form>
+    </ng-template>
+</app-stepper-form>
