@@ -168,6 +168,8 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
             width: '650px',
             maxWidth: '650px',
             minWidth: '650px',
+            autoFocus: false,
+            restoreFocus: false,
         });
 
         dialogRef.afterClosed().subscribe((result) => {
