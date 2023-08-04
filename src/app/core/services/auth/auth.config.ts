@@ -16,7 +16,7 @@ export const authCodeFlowConfig: AuthConfig = {
     // set the scope for the permissions the client should request
     // Important: Request offline_access to get a refresh token
     // The eduperson_entitlement scope is needed
-    scope: 'openid profile offline_access eduperson_entitlement',
+    scope: 'openid profile offline_access eduperson_entitlement email',
 
     showDebugInformation: false,
 };
