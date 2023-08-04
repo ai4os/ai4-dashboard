@@ -146,12 +146,12 @@
                                 !isAuthorized() && isAuthorized() !== undefined
                             "
                         >
-                            <ng-template *ngIf="!isTool; else toolButtonText">
+                            <ng-container *ngIf="!isTool; else toolButtonText">
                                 {{
                                     'MODULES.MODULE-DETAIL.TRAIN-MODULE'
                                         | translate
                                 }}
-                            </ng-template>
+                            </ng-container>
                             <ng-template #toolButtonText>
                                 {{
                                     'MODULES.MODULE-DETAIL.LAUNCH-TOOL'
