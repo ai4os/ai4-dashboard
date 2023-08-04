@@ -75,9 +75,7 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     hidePassword = true;
-    rcloneVendorOptions: { value: string; viewValue: string }[] = [
-        { value: '', viewValue: '' },
-    ];
+    rcloneVendorOptions: { value: string; viewValue: string }[] = [];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
