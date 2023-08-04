@@ -1,8 +1,16 @@
 <mat-toolbar class="mb-3 marketplace-toolbar">
-    <span
-        >{{ 'MODULES.MODULE-DETAIL.TITLE' | translate }}
-        <mat-icon>view_in_ar</mat-icon></span
-    >
+    <ng-container *ngIf="!isTool; else toolTitleText">
+        <span class="aligned-with-icon">
+            {{ 'MODULES.MODULE-DETAIL.TITLE' | translate }}
+            <mat-icon>view_in_ar</mat-icon>
+        </span>
+    </ng-container>
+    <ng-template #toolTitleText>
+        <span class="aligned-with-icon">
+            {{ 'MODULES.MODULE-DETAIL.TOOL-TITLE' | translate }}
+            <mat-icon>view_in_ar</mat-icon>
+        </span>
+    </ng-template>
 </mat-toolbar>
 
 <xng-breadcrumb class="mb-3"></xng-breadcrumb>
@@ -138,9 +146,18 @@
                                 !isAuthorized() && isAuthorized() !== undefined
                             "
                         >
-                            {{
-                                'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate
-                            }}
+                            <ng-template *ngIf="!isTool; else toolButtonText">
+                                {{
+                                    'MODULES.MODULE-DETAIL.TRAIN-MODULE'
+                                        | translate
+                                }}
+                            </ng-template>
+                            <ng-template #toolButtonText>
+                                {{
+                                    'MODULES.MODULE-DETAIL.LAUNCH-TOOL'
+                                        | translate
+                                }}
+                            </ng-template>
                         </a>
                     </div>
                 </div>

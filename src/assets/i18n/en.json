@@ -55,6 +55,7 @@
         "NEW-DEPLOYMENT": "New deployment",
         "MODULE-DETAIL": {
             "TITLE": "Module",
+            "TOOL-TITLE": "Tool",
             "BUILD-STATUS": "Build status",
             "LICENSE": "License",
             "CREATED":  "Created",
@@ -63,7 +64,8 @@
             "GET-THE-CODE": "Get the code",
             "GET-THE-DATA": "Get the data",
             "DATASET":"Dataset",
-            "TRAIN-MODULE": "Train module"
+            "TRAIN-MODULE": "Train module",
+            "LAUNCH-TOOL": "Launch tool"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
