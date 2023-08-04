@@ -69,7 +69,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     this.generalConfForm.value.generalConfForm.serviceToRunChip,
                 jupyter_password:
                     this.generalConfForm.getRawValue().generalConfForm
-                        .jupyterLabPassInput,
+                        .serviceToRunPassInput,
                 hostname:
                     this.generalConfForm.getRawValue().generalConfForm
                         .hostnameInput,
