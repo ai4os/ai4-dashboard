@@ -13,6 +13,8 @@ import { StorageConfFormComponent } from './components/module-train/storage-conf
 import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ModuleTryComponent } from './components/module-try/module-try.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { ModuleTryComponent } from './components/module-try/module-try.component
     CommonModule,
     MarketplaceRoutingModule,
     SharedModule,
+    MatProgressBarModule,
+    MatGridListModule,
     MarkdownModule.forChild(),
   ]
 })

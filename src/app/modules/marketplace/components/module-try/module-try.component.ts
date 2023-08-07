@@ -8,6 +8,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Service } from '@app/shared/interfaces/module.interface';
+import { MatTableDataSource } from '@angular/material/table';
+import { TableColumn } from '@app/modules/deployments/components/deployments-list/deployments-list.component';
+
+interface PredictionResult {
+  labels: string[],
+  probabilities: number[],
+  labels_info: string[],
+  links: {
+    [key: string]: string[];
+  }
+}
+
+interface PredictionResultItem {
+  label: string,
+  probability: number,
+  label_info: string,
+  info: string | undefined,
+  images: string | undefined
+}
 
 @Component({
   selector: 'app-module-try',
@@ -18,22 +37,27 @@ export class ModuleTryComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private modulesService: ModulesService,
-
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private router: Router,
     public dialog: MatDialog
   ) {}
 
-  @ViewChild('showHelpToggle', { read: ElementRef }) element: | ElementRef | undefined;
+  @ViewChild('showHelpToggle', { read: ElementRef }) element:
+    | ElementRef
+    | undefined;
 
   deploymentTitle: string = '';
   dockerImageName: string = '';
-  currentFile?: File;
-  fileName = '';
+  fileName: string = '';
   token: string = '';
+  currentFile?: File;
+  predictionData: Array<PredictionResultItem> = [];
+  showProgress = false;
+  showPrediction = false;
   servicesNames: Array<string> = [];
   serviceList: Array<Service> = [];
+  displayedColumns: string[] = ['label', 'probability', 'images', 'info'];
   showHelpForm: FormGroup = this._formBuilder.group({
     showHelpToggleButton: false,
   });
@@ -47,13 +71,15 @@ export class ModuleTryComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.openDialog();
+    this.openTokenDialog();
     this.route.parent?.params.subscribe((params) => {
       this.modulesService.getModule(params['id']).subscribe((module) => {
         this.deploymentTitle = module.title;
       });
 
-      this.modulesService.getModuleConfiguration(params['id']).subscribe((moduleConf) => {
+      this.modulesService
+        .getModuleConfiguration(params['id'])
+        .subscribe((moduleConf) => {
           var moduleGeneral: any = moduleConf.general;
           this.dockerImageName = moduleGeneral.docker_image.value;
           this.trymeFormGroup
@@ -63,7 +89,10 @@ export class ModuleTryComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  /**
+   * Open dialog requesting OSCAR token
+   */
+  openTokenDialog(): void {
     const dialogRef = this.dialog.open(DialogOscarToken, {
       data: {
         token: this.token,
@@ -73,35 +102,72 @@ export class ModuleTryComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       this.token = result;
-      console.log(this.token);
+      this.modulesService.setToken(result);
       this.loadServices();
     });
   }
 
+  /**
+   * On change event that populates the required file value
+   * @param event event
+   */
   selectFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file: File = event.target.files[0];
       this.currentFile = file;
-      this.fileName = this.currentFile.name;
-      if (file != null) {
-        this.trymeFormGroup.get('inputFile')?.setValue(this.currentFile);
+      this.fileName = file.name;
+
+      if (this.currentFile != null) {
+        //this.trymeFormGroup.get('inputFile')?.setValue(this.currentFile);
       }
     } else {
+      this.currentFile = undefined;
       this.fileName = 'Select File';
     }
   }
 
+  /**
+   * Populates the array which has the services that load in the template dropdown.
+   */
   loadServices(): void {
     this.modulesService.getServices().subscribe((services) => {
       this.serviceList = services;
       this.servicesNames = this.serviceList
         .filter((service) => service.image == this.dockerImageName)
         .map((service) => service.name);
-      if (this.servicesNames.length < 0) {
-        this.servicesNames.push('NO OPTION');
+
+      if (this.servicesNames.length <= 0) {
+        this.servicesNames.push('NO OPTIONS');
       }
       this.setIcon();
     });
+  }
+
+  /**
+   * Run existing service sending file and service name.
+   */
+  launchModel(): void {
+    this.showProgress = true;
+    let serviceName = this.trymeFormGroup.controls['serviceNameInput'].value;
+
+    if (this.currentFile) {
+      this.modulesService
+        .runService(serviceName, this.currentFile)
+        .subscribe((res: PredictionResult) => {
+          for (let i = 0; i < res.labels.length; i++) {
+            this.predictionData.push({
+              label: res.labels[i],
+              probability: res.probabilities[i],
+              label_info: res.labels_info[i],
+              info: res.links['Wikipedia'][i],
+              images: res.links['Google Images'][i],
+            });
+          }
+          this.showPrediction = true;
+          this.showProgress = false;
+          console.log('JSON: ', this.predictionData);
+        });
+    }
   }
 
   setIcon() {
