@@ -30,7 +30,7 @@
     max-width: 75px;
 }
 
-.mat-column-actions{
+.mat-column-actions {
     max-width: 140px;
 
     .mdc-button {
@@ -47,15 +47,15 @@
     max-width: 150px;
 }
 
-.mat-column-name{
+.mat-column-name {
     max-width: 300px;
 }
 
-.mat-column-deployedAt{
+.mat-column-deployedAt {
     max-width: 125px;
 }
 
-.mat-column-creationTime{
+.mat-column-creationTime {
     max-width: 200px;
 }
 
@@ -67,32 +67,32 @@
 .mat-mdc-table .mat-mdc-row:hover {
     background-color: var(--accent);
     //cursor: pointer;
-    & .mat-mdc-cell{
+    & .mat-mdc-cell {
         color: var(--white);
     }
 }
 
-.mat-mdc-table .mat-mdc-row:hover #accessIcon{
+.mat-mdc-table .mat-mdc-row:hover #accessIcon {
     color: var(--white);
 }
-.mat-mdc-table .mat-mdc-row:hover  #infoIcon{
+.mat-mdc-table .mat-mdc-row:hover #infoIcon {
     color: var(--white);
 }
 
-.table-container{
+.table-container {
     //overflow-x: scroll;
 }
 
-.no-deployment-message-container{
+.no-deployment-message-container {
     display: flex;
     justify-content: center;
     margin: 1rem 0;
 }
 
-.action-button-in-cell:disabled #accessIcon{
+.action-button-in-cell:disabled #accessIcon {
     color: var(--dark-gray) !important;
 }
-.action-button-in-cell:hover #accessIcon{
+.action-button-in-cell:hover #accessIcon {
     color: var(--dark-gray);
 }
 
@@ -103,4 +103,18 @@
 ::ng-deep .mat-badge-small.mat-badge-after .mat-badge-content {
     right: 0;
     top: -4px;
+}
+
+.aligned-with-icon {
+    display: flex;
+    align-items: center;
+    &.scale-icon-down {
+        .mat-icon {
+            transform: scale(0.7);
+        }
+    }
+}
+
+.smaller-spinner {
+    max-height: 150px !important;
 }

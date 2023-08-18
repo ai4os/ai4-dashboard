@@ -1,92 +1,69 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 
 @Component({
-  selector: 'app-deployment-detail',
-  templateUrl: './deployment-detail.component.html',
-  styleUrls: ['./deployment-detail.component.scss']
+    selector: 'app-deployment-detail',
+    templateUrl: './deployment-detail.component.html',
+    styleUrls: ['./deployment-detail.component.scss'],
 })
 export class DeploymentDetailComponent implements OnInit {
+    constructor(
+        private deploymentsService: DeploymentsService,
+        public confirmationDialog: MatDialog,
+        @Inject(MAT_DIALOG_DATA)
+        public data: { uuid: 'string'; isTool: boolean }
+    ) {}
 
-  constructor(
-    private deploymentsService: DeploymentsService,
-    private route: ActivatedRoute,
-    public confirmationDialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+    deployment: Deployment | undefined;
+    statusBadge = '';
+    isLoading = false;
+    protected deploymentHasError = false;
 
-
-
-  
-
-  deployment: Deployment | undefined;
-  statusBadge: string = '';
-  isLoading: boolean = false;
-  protected deploymentHasError: boolean = false;
-
-  ngOnInit(): void {
-    if (this.data.uuid) {
-      this.isLoading =  true;
-      this.deploymentsService.getDeploymentByUUID(this.data.uuid).subscribe((deployment: Deployment) => {
-        this.isLoading = false;
-        if(deployment.error_msg && deployment.error_msg != ""){
-          this.deploymentHasError = true 
-        }
-        if (deployment.description == '') {
-          deployment.description = '-'
-        }
-        this.statusBadge = getDeploymentBadge(deployment.status)
-        this.deployment = deployment
-      })
-    }
-  }
-
-  deleteDeployment() {
-    this.confirmationDialog.open(ConfirmationDialogComponent, {
-      data: `¿Are you sure you want to delete this deployment?`
-    })
-      .afterClosed()
-      .subscribe((confirmed: Boolean) => {
-        if (confirmed) {
-          let uuid = this.deployment!.job_ID
-          this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
-            next: (response: any) => {
-              if (response && response['status'] == 'success') {
-                this.router.navigate(['/deployments']).then((navigated: boolean) => {
-                  if (navigated) {
-                    this._snackBar.open("Successfully deleted deployment with uuid: " + uuid, "X", {
-                      duration: 3000,
-                      panelClass: ['primary-snackbar']
-                    })
-                  }
-                });
-              } else {
-                this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X", {
-                  duration: 3000,
-                  panelClass: ['red-snackbar']
-                })
-              }
-            },
-            error: () => {
-              this._snackBar.open("Error deleting deployment with uuid: " + uuid, "X", {
-                duration: 3000,
-                panelClass: ['red-snackbar']
-              })
+    ngOnInit(): void {
+        if (this.data.uuid) {
+            this.isLoading = true;
+            if (this.data.isTool) {
+                this.deploymentsService
+                    .getToolByUUID(this.data.uuid)
+                    .subscribe((deployment: Deployment) => {
+                        this.isLoading = false;
+                        if (
+                            deployment.error_msg &&
+                            deployment.error_msg != ''
+                        ) {
+                            this.deploymentHasError = true;
+                        }
+                        if (deployment.description == '') {
+                            deployment.description = '-';
+                        }
+                        this.statusBadge = getDeploymentBadge(
+                            deployment.status
+                        );
+                        this.deployment = deployment;
+                    });
+            } else {
+                this.deploymentsService
+                    .getDeploymentByUUID(this.data.uuid)
+                    .subscribe((deployment: Deployment) => {
+                        this.isLoading = false;
+                        if (
+                            deployment.error_msg &&
+                            deployment.error_msg != ''
+                        ) {
+                            this.deploymentHasError = true;
+                        }
+                        if (deployment.description == '') {
+                            deployment.description = '-';
+                        }
+                        this.statusBadge = getDeploymentBadge(
+                            deployment.status
+                        );
+                        this.deployment = deployment;
+                    });
             }
-          })
         }
-      });
-  }
-  accessDeployment() {
-
-  }
-
+    }
 }

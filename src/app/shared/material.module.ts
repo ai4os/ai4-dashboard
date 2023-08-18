@@ -21,36 +21,36 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSortModule } from '@angular/material/sort';
-
+import { MatChipsModule } from '@angular/material/chips';
 
 const materialModules = [
-  MatButtonModule,
-  MatToolbarModule,
-  MatInputModule,
-  MatSidenavModule,
-  MatCardModule,
-  MatListModule,
-  MatIconModule,
-  MatDividerModule,
-  MatTableModule,
-  MatCheckboxModule,
-  MatMenuModule,
-  MatDialogModule,
-  MatTabsModule,
-  MatStepperModule,
-  MatSelectModule,
-  MatTooltipModule,
-  MatProgressSpinnerModule,
-  MatSnackBarModule,
-  MatSlideToggleModule,
-  MatBadgeModule,
-  MatSortModule
-]
-
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatListModule,
+    MatIconModule,
+    MatDividerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatBadgeModule,
+    MatSortModule,
+    MatChipsModule,
+];
 
 @NgModule({
-  declarations: [],
-  imports: materialModules,
-  exports: materialModules
+    declarations: [],
+    imports: materialModules,
+    exports: materialModules,
 })
 export class MaterialModule {}

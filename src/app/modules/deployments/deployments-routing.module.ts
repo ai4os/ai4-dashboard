@@ -5,21 +5,20 @@ import { DeploymentsListComponent } from './components/deployments-list/deployme
 
 const routes: Routes = [
     {
-      path: '',
-      component: DeploymentsListComponent,
-      data: {
-        breadcrumb: 'Deployments'
-      }
+        path: '',
+        component: DeploymentsListComponent,
+        data: {
+            breadcrumb: 'Deployments',
+        },
     },
     {
-      path: ':uuid',
-      component: DeploymentDetailComponent,
+        path: ':uuid',
+        component: DeploymentDetailComponent,
     },
-    
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class DeploymentsRoutingModule { }
+export class DeploymentsRoutingModule {}

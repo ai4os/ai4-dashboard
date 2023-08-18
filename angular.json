@@ -29,9 +29,10 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            
             "stylePreprocessorOptions": {
-              "includePaths": ["src/theme/exports"]
+              "includePaths": [
+                "src/theme/exports"
+              ]
             },
             "scripts": []
           },
@@ -194,122 +195,122 @@
                 }
               ]
             },
-          "local-ai4eosc": {
-            "buildOptimizer": false,
-            "optimization": false,
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "sourceMap": true,
-            "namedChunks": true,
-            "fileReplacements": [
-              {
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.local.ts"
-              }
-            ],
-            "styles": [
-              "src/theme/ai4eosc/variables.scss",
-              "src/styles.scss"
-            ],
-            "assets": [
-              "src/favicon.ico",
-              {
-                "glob": "**/*",
-                "input": "src/assets/images/ai4eosc",
-                "output": "/assets/images/"
-              },
-              {
-                "glob": "config.json",
-                "input": "src/assets/config/ai4eosc/",
-                "output": "/assets/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets/",
-                "output": "/assets/"
-              }
-            ]
+            "local-ai4eosc": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "styles": [
+                "src/theme/ai4eosc/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/ai4eosc",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "config.json",
+                  "input": "src/assets/config/ai4eosc/",
+                  "output": "/assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
+              ]
+            },
+            "local-imagine": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "styles": [
+                "src/theme/imagine/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/imagine",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "config.json",
+                  "input": "src/assets/config/imagine/",
+                  "output": "/assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
+              ]
+            },
+            "tutorials-ai4eosc": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
+              "styles": [
+                "src/theme/ai4eosc/variables.scss",
+                "src/styles.scss"
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/ai4eosc",
+                  "output": "/assets/images/"
+                },
+                {
+                  "glob": "config.json",
+                  "input": "src/assets/config/tutorials/",
+                  "output": "/assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "output": "/assets/"
+                }
+              ]
+            }
           },
-          "local-imagine": {
-            "buildOptimizer": false,
-            "optimization": false,
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "sourceMap": true,
-            "namedChunks": true,
-            "fileReplacements": [
-              {
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.local.ts"
-              }
-            ],
-            "styles": [
-              "src/theme/imagine/variables.scss",
-              "src/styles.scss"
-            ],
-            "assets": [
-              "src/favicon.ico",
-              {
-                "glob": "**/*",
-                "input": "src/assets/images/imagine",
-                "output": "/assets/images/"
-              },
-              {
-                "glob": "config.json",
-                "input": "src/assets/config/imagine/",
-                "output": "/assets/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets/",
-                "output": "/assets/"
-              }
-            ]
-          },
-          "tutorials-ai4eosc": {
-            "budgets": [
-              {
-                "type": "initial",
-                "maximumWarning": "500kb",
-                "maximumError": "2mb"
-              },
-              {
-                "type": "anyComponentStyle",
-                "maximumWarning": "2kb",
-                "maximumError": "4kb"
-              }
-            ],
-            "outputHashing": "all",
-            "fileReplacements": [
-              {
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.production.ts"
-              }
-            ],
-            "styles": [
-              "src/theme/ai4eosc/variables.scss",
-              "src/styles.scss"
-            ],
-            "assets": [
-              "src/favicon.ico",
-              {
-                "glob": "**/*",
-                "input": "src/assets/images/ai4eosc",
-                "output": "/assets/images/"
-              },
-              {
-                "glob": "config.json",
-                "input": "src/assets/config/tutorials/",
-                "output": "/assets/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets/",
-                "output": "/assets/"
-              }
-            ]
-          }
-        },
           "defaultConfiguration": "production-ai4eosc"
         },
         "serve": {
@@ -366,8 +367,22 @@
               "node_modules/marked/marked.min.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

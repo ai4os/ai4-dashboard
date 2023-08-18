@@ -1,11 +1,19 @@
 .modules-cards-container {
-    display: grid; 
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
-    grid-gap: 1rem; 
- }
-
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+}
 
 .marketplace-toolbar {
     background-color: var(--white);
     justify-content: space-between;
+    & span {
+        display: flex;
+        align-items: center;
+    }
+}
+::ng-deep .mat-mdc-tab-header {
+    width: 200px;
+    margin-left: 0.5em;
+    margin-bottom: 0.5em;
 }

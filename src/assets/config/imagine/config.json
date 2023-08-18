@@ -3,11 +3,11 @@
     "sidenavMenu": [
         {
             "name": "SIDENAV.IAM",
-            "url": "https://aai.egi.eu/"
+            "url": "https://confluence.egi.eu/display/IMPAIP/Getting+Access"
         },
         {
             "name": "SIDENAV.IMAGINE-DOCUMENTATION",
-            "url": "https://docs.ai4eosc.eu/"
+            "url": "https://confluence.egi.eu/display/IMPAIP/User+guide"
         },
         {
             "name": "SIDENAV.PROJECT-PAGE",
@@ -29,5 +29,15 @@
     "voName": "vo.imagine-ai.eu",
     "projectName": "iMagine",
     "projectUrl": "https://www.imagine-ai.eu/",
-    "acknowledgments": "The iMagine platform dashboard is a service provided by CSIC, co-funded by "
+    "acknowledgments": "The iMagine platform dashboard is a service provided by CSIC, co-funded by ",
+    "legalLinks": [
+        {
+            "name": "SIDENAV.TERMS-OF-USE",
+            "url": "https://confluence.egi.eu/display/IMPAIP/Acceptable+Use+Policy"
+        },
+        {
+            "name": "SIDENAV.PRIVACY-POLICY",
+            "url": "https://confluence.egi.eu/display/IMPAIP/Privacy+Policy"
+        }
+    ]
 }

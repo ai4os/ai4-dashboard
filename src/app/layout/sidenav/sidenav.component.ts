@@ -1,91 +1,102 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav } from '@angular/material/sidenav';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from 'src/environments/environment';
 
-
 @Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+    selector: 'app-sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
 })
-export class SidenavComponent implements OnInit{
-  @ViewChild('sidenav', {static:true}) public sidenav!: MatSidenav;
+export class SidenavComponent implements OnInit, AfterViewInit {
+    @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    protected authService: AuthService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private media: MediaMatcher,
-    private sidenavService: SidenavService,
-    private appConfigService: AppConfigService
-  ) {
-    this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener('change', this._mobileQueryListener)
-  }
-
-  protected environment = environment
-
-  options = this._formBuilder.group({
-    bottom: 0,
-    fixed: false,
-    top: 0,
-  });
-
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
-
-  mainLinks = [
-    {
-      name: "SIDENAV.DASHBOARD",
-      url: "/",
-      isRestricted: true, 
-      isDisabled: true,
-    },
-    {
-      name: "SIDENAV.MODULES",
-      url: "/modules"
-    },
-    {
-      name: "SIDENAV.DEPLOYMENTS",
-      url: "/deployments",
-      isRestricted: true
+    constructor(
+        private _formBuilder: FormBuilder,
+        protected authService: AuthService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher,
+        private sidenavService: SidenavService,
+        private appConfigService: AppConfigService
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
-  ]
 
-  otherLinks = [
-    {
-      name: "SIDENAV.IAM",
-      url: "https://aai.egi.eu/"
+    protected environment = environment;
+
+    options = this._formBuilder.group({
+        bottom: 0,
+        fixed: false,
+        top: 0,
+    });
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
+
+    mainLinks = [
+        {
+            name: 'SIDENAV.DASHBOARD',
+            url: '/',
+            isRestricted: true,
+            isDisabled: true,
+        },
+        {
+            name: 'SIDENAV.MODULES',
+            url: '/marketplace',
+        },
+        {
+            name: 'SIDENAV.DEPLOYMENTS',
+            url: '/deployments',
+            isRestricted: true,
+        },
+    ];
+
+    otherLinks = [
+        {
+            name: 'SIDENAV.IAM',
+            url: 'https://aai.egi.eu/',
+        },
+    ];
+
+    acknowledgments = '';
+    projectName = '';
+    projectUrl = '';
+    legalLinks = [
+        {
+            name: '',
+            url: '',
+        },
+    ];
+
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
     }
-  ]
 
-  acknowledgments: string = ''
-  projectName: string = ''
-  projectUrl: string = ''
+    ngOnInit(): void {
+        this.otherLinks = this.appConfigService.sidenavMenu;
+        this.acknowledgments = this.appConfigService.acknowledgments;
+        this.projectName = this.appConfigService.projectName;
+        this.projectUrl = this.appConfigService.projectUrl;
+        this.legalLinks = this.appConfigService.legalLinks;
+    }
 
-  isLoggedIn(): boolean {
-    return this.authService.isAuthenticated();
-  }
+    ngAfterViewInit(): void {
+        this.sidenavService.setSidenav(this.sidenav);
+    }
 
-  ngOnInit(): void {
-    this.otherLinks = this.appConfigService.sidenavMenu
-    this.acknowledgments = this.appConfigService.acknowledgments
-    this.projectName =  this.appConfigService.projectName
-    this.projectUrl = this.appConfigService.projectUrl
-  }
-
-  ngAfterViewInit(): void {
-    this.sidenavService.setSidenav(this.sidenav);
-  }
-
-  toggleSidenav(){
-    this.sidenavService.toggle();
-  }
-
+    toggleSidenav() {
+        this.sidenavService.toggle();
+    }
 }

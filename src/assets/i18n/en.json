@@ -2,7 +2,7 @@
     "HEADQUARTER": "test",
     "SIDENAV" : {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Modules (marketplace)",
+        "MODULES": "Marketplace",
         "DEPLOYMENTS": "Deployments",
         "IAM": "Identity and Access",
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
@@ -19,12 +19,14 @@
     },
     "DEPLOYMENTS": {
         "TITLE": "Deployments",
+        "TOOLS": "Tools",
         "DEPLOYMENT-DETAIL": {
             "TITLE": "Deployment detail",
+            "TOOL-TITLE": "Tool deployment detail",
             "STATUS": "Status",
             "DOCKER-IMAGE": "Docker image",
             "DESCRIPTION": "Description",
-            "CREATION-TIME": "Creation time",
+            "CREATION-TIME": "Creation time (UTC)",
             "DEPLOYMENT-ID": "Deployment ID",
             "RESOURCES-ASSIGNED": "Resources assigned",
             "ENDPOINTS": "Endpoints",
@@ -41,7 +43,7 @@
         "STATUS": "Status",
         "CONTAINER-NAME": "Container name",
         "GPUS": "GPUs",
-        "CREATION-TIME": "Creation time",
+        "CREATION-TIME": "Creation time (UTC)",
         "DEPLOYED-AT": "Deployed at",
         "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
@@ -50,8 +52,10 @@
     },
     "MODULES": {
         "TITLE": "Marketplace",
+        "NEW-DEPLOYMENT": "New deployment",
         "MODULE-DETAIL": {
             "TITLE": "Module",
+            "TOOL-TITLE": "Tool",
             "BUILD-STATUS": "Build status",
             "LICENSE": "License",
             "CREATED":  "Created",
@@ -61,13 +65,15 @@
             "GET-THE-DATA": "Get the data",
             "DATASET":"Dataset",
             "TRAIN-MODULE": "Train module",
-            "TRY-MODULE": "Try me"
+            "TRY-MODULE": "Try me",
+            "LAUNCH-TOOL": "Launch tool"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
             "STORAGE-CONF": "Storage configuration",
+            "FEDERATED-CONF": "Federated configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -82,7 +88,8 @@
                 "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG":  "Docker tag"
+                "DOCKER-TAG":  "Docker tag",
+                "FEDERATED-SECRET": "Federated secret"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -99,6 +106,13 @@
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password"
+            },
+            "FEDERATED-CONF-FORM": {
+                "TITLE":"Federated options",
+                "ROUNDS": "Number of rounds",
+                "METRIC": "Evaluation metric",
+                "MIN-CLIENTS": "Minimal number of clients",
+                "AGG-STRATEGY": "Federated aggregation strategy"
             }
         },
         "MODULE-TRY" : {
@@ -132,7 +146,8 @@
         "NO": "No",
         "BACK": "Back",
         "NEXT": "Next",
-        "SUBMIT": "Submit",    
+        "SUBMIT": "Submit",
+        "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "Github",
         "DOCKERHUB": "Dockerhub"
         

@@ -3,58 +3,65 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AppConfigService {
+    private appConfig: any;
 
-  private appConfig: any;
+    constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  loadAppConfig() {
-    return firstValueFrom(this.http.get('/assets/config.json')).then(config => { this.appConfig = config; })
-  }
-
-  checkConfigFileLoaded() {
-    if (!this.appConfig) {
-      throw Error('Config file not loaded!');
+    loadAppConfig() {
+        return firstValueFrom(this.http.get('/assets/config.json')).then(
+            (config) => {
+                this.appConfig = config;
+            }
+        );
     }
-  }
 
-  // This is an example property ... you can make it however you want.
-  get title() {
-    this.checkConfigFileLoaded();
-    return this.appConfig.title;
-  }
+    checkConfigFileLoaded() {
+        if (!this.appConfig) {
+            throw Error('Config file not loaded!');
+        }
+    }
 
-  get sidenavMenu() {
-    this.checkConfigFileLoaded();
-    return this.appConfig.sidenavMenu
-  }
+    // This is an example property ... you can make it however you want.
+    get title() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.title;
+    }
 
-  get tags() {
-    this.checkConfigFileLoaded();
-    return this.appConfig.tags
-  }
+    get sidenavMenu() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.sidenavMenu;
+    }
 
-  get voName(){
-    this.checkConfigFileLoaded();
-    return this.appConfig.voName
-  }
+    get tags() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.tags;
+    }
 
-  get acknowledgments(){
-    this.checkConfigFileLoaded();
-    return this.appConfig.acknowledgments
-  }
+    get voName() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.voName;
+    }
 
-  get projectName(){
-    this.checkConfigFileLoaded();
-    return this.appConfig.projectName
-  }
+    get acknowledgments() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.acknowledgments;
+    }
 
-  get projectUrl(){
-    this.checkConfigFileLoaded();
-    return this.appConfig.projectUrl
-  }
+    get projectName() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.projectName;
+    }
 
+    get projectUrl() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.projectUrl;
+    }
+
+    get legalLinks() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.legalLinks;
+    }
 }

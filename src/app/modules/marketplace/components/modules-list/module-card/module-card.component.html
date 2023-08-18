@@ -1,30 +1,39 @@
-<mat-card class="module-card" routerLink="{{module.name}}">
-  <mat-card-header class="module-card-header">
-    <mat-card-title>
-      <mat-icon *ngIf="moduleType == 'Model'" matTooltip="Model" color="primary">model_training</mat-icon>
-      <mat-icon *ngIf="moduleType == 'Development'" matTooltip="Development" color="primary">developer_mode</mat-icon>
-      <span>{{module.title}}</span>
-    </mat-card-title>
+<mat-card
+    class="module-card"
+    [routerLink]="[isTool ? 'tools/' + module.name : 'modules/' + module.name]"
+>
+    <mat-card-header class="module-card-header">
+        <mat-card-title>
+            <mat-icon
+                *ngIf="moduleType === 'Model'"
+                matTooltip="Model"
+                color="primary"
+                >model_training</mat-icon
+            >
+            <mat-icon
+                *ngIf="moduleType === 'Development'"
+                matTooltip="Development"
+                color="primary"
+                >developer_mode</mat-icon
+            >
+            <span>{{ module.title }}</span>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-divider></mat-divider>
 
-
-
-  </mat-card-header>
-  <mat-card-content>
-
-    <mat-divider></mat-divider>
-
-    <div class="module-card-content">
-      <p>{{module.summary}}</p>
-    </div>
-
-    
-
-  </mat-card-content>
-  <mat-card-actions align="start">
-      <mat-card-subtitle class="mt-2 mb-2 keywords-container">
-        <span class="keyword-button mr-2" *ngFor="let keyword of displayedKeywords">
-          {{keyword}}
-        </span>
-      </mat-card-subtitle>
-  </mat-card-actions>
+        <div class="module-card-content">
+            <p>{{ module.summary }}</p>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="start">
+        <mat-card-subtitle class="mt-2 mb-2 keywords-container">
+            <span
+                class="keyword-button mr-2"
+                *ngFor="let keyword of displayedKeywords"
+            >
+                {{ keyword }}
+            </span>
+        </mat-card-subtitle>
+    </mat-card-actions>
 </mat-card>

@@ -1,52 +1,88 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { Deployment } from '@app/shared/interfaces/deployment.interface';
-import { TrainModuleRequest, ModuleConfiguration } from '@app/shared/interfaces/module.interface';
+import {
+    Deployment,
+    statusReturn,
+} from '@app/shared/interfaces/deployment.interface';
+import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 const { base, endpoints } = environment.api;
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class DeploymentsService {
+    constructor(
+        private http: HttpClient,
+        private appConfigService: AppConfigService
+    ) {}
 
+    readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    readonly vosArrayParam = new HttpParams().set(
+        'vos',
+        this.appConfigService.voName
+    );
 
-  constructor(
-    private http: HttpClient,
-    private appConfigService: AppConfigService
-  ) { }
+    getDeployments(): Observable<Deployment[]> {
+        const url = `${base}${endpoints.deployments}`;
+        return this.http.get<Array<Deployment>>(url, {
+            params: this.vosArrayParam,
+        });
+    }
 
-  readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
-  readonly vosArrayParam = new HttpParams().set('vos', this.appConfigService.voName);
- 
+    getDeploymentByUUID(deploymentUUID: string): Observable<Deployment> {
+        const url = `${base}${endpoints.deploymentByUUID.replace(
+            ':deploymentUUID',
+            deploymentUUID
+        )}`;
+        return this.http.get<Deployment>(url, { params: this.voParam });
+    }
 
-  getDeployments(): Observable<Deployment[]> {
-    const url = `${base}${endpoints.deployments}`;
-    return this.http.get<Array<Deployment>>(url, { params: this.vosArrayParam });
-  }
+    getToolByUUID(deploymentUUID: string): Observable<Deployment> {
+        const url = `${base}${endpoints.toolByUUID.replace(
+            ':deploymentUUID',
+            deploymentUUID
+        )}`;
+        return this.http.get<Deployment>(url, { params: this.voParam });
+    }
 
-  getDeploymentByUUID(deploymentUUID: string): Observable<Deployment> {
-    const url = `${base}${endpoints.deploymentByUUID.replace(
-      ':deploymentUUID',
-      deploymentUUID
-    )}`;
-    return this.http.get<Deployment>(url, { params: this.voParam });
-  }
+    postTrainModule(moduleConf: TrainModuleRequest): Observable<statusReturn> {
+        const url = `${base}${endpoints.trainModule}`;
+        return this.http.post<statusReturn>(url, moduleConf, {
+            params: this.voParam,
+        });
+    }
 
-  postTrainModule(moduleConf: TrainModuleRequest): Observable<any> {
-    const url = `${base}${endpoints.trainModule}`
-    return this.http.post<ModuleConfiguration>(url, moduleConf, { params: this.voParam });
-  }
+    trainTool(moduleConf: TrainModuleRequest): Observable<statusReturn> {
+        const url = `${base}${endpoints.trainTool}`;
+        return this.http.post<statusReturn>(url, moduleConf, {
+            params: this.voParam,
+        });
+    }
 
-  deleteDeploymentByUUID(deploymentUUID: string): Observable<Object> {
-    const url = `${base}${endpoints.deploymentByUUID.replace(
-      ':deploymentUUID',
-      deploymentUUID
-    )}`;
-    return this.http.delete<Object>(url, { params: this.voParam });
-  }
+    getTools(): Observable<Deployment[]> {
+        const url = `${base}${endpoints.tools}`;
+        return this.http.get<Array<Deployment>>(url, {
+            params: this.vosArrayParam,
+        });
+    }
 
+    deleteDeploymentByUUID(deploymentUUID: string): Observable<statusReturn> {
+        const url = `${base}${endpoints.deploymentByUUID.replace(
+            ':deploymentUUID',
+            deploymentUUID
+        )}`;
+        return this.http.delete<statusReturn>(url, { params: this.voParam });
+    }
+
+    deleteToolByUUID(deploymentUUID: string): Observable<statusReturn> {
+        const url = `${base}${endpoints.toolByUUID.replace(
+            ':deploymentUUID',
+            deploymentUUID
+        )}`;
+        return this.http.delete<statusReturn>(url, { params: this.voParam });
+    }
 }
