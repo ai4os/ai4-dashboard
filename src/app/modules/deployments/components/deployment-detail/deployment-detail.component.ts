@@ -14,7 +14,7 @@ export class DeploymentDetailComponent implements OnInit {
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: 'string'; isTool: boolean }
+        public data: { uuid: string; isTool: boolean }
     ) {}
 
     deployment: Deployment | undefined;
