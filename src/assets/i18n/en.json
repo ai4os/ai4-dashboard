@@ -88,7 +88,8 @@
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG":  "Docker tag",
-                "FEDERATED-SECRET": "Federated secret"
+                "FEDERATED-SECRET": "Federated secret",
+                "HOSTNAME": "Custom domain"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
