@@ -144,7 +144,12 @@
             appearance="fill"
             [ngClass]="{ 'mt-3': _showHelp, 'display-inline': _showHelp }"
         >
-            <mat-label>Hostname</mat-label>
+            <mat-label>
+                {{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.HOSTNAME'
+                        | translate
+                }}</mat-label
+            >
             <input
                 matInput
                 placeholder=""
