@@ -69,20 +69,6 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = [];
     private unsub = new Subject<void>();
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-        this.isAllSelected()
-            ? this.selection.clear()
-            : this.dataSource.data.forEach((row) => this.selection.select(row));
-    }
-
     removeTool(e: MouseEvent, row: toolTableRow) {
         e.stopPropagation();
         this.confirmationDialog
@@ -93,55 +79,48 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
                     const uuid = row.uuid;
-                    this.deploymentsService
-                        .deleteDeploymentByUUID(uuid)
-                        .subscribe({
-                            next: (response: statusReturn) => {
-                                if (
-                                    response &&
-                                    response['status'] == 'success'
-                                ) {
-                                    const itemIndex = this.dataset.findIndex(
-                                        (obj) => obj['uuid'] === uuid
+                    this.deploymentsService.deleteToolByUUID(uuid).subscribe({
+                        next: (response: statusReturn) => {
+                            if (response && response['status'] == 'success') {
+                                const itemIndex = this.dataset.findIndex(
+                                    (obj) => obj['uuid'] === uuid
+                                );
+                                this.dataset.splice(itemIndex, 1);
+                                this.dataSource =
+                                    new MatTableDataSource<toolTableRow>(
+                                        this.dataset
                                     );
-                                    this.dataset.splice(itemIndex, 1);
-                                    this.dataSource =
-                                        new MatTableDataSource<toolTableRow>(
-                                            this.dataset
-                                        );
-                                    this._snackBar.open(
-                                        'Successfully deleted deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['primary-snackbar'],
-                                        }
-                                    );
-                                } else {
-                                    this._snackBar.open(
-                                        'Error deleting deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['red-snackbar'],
-                                        }
-                                    );
-                                }
-                            },
-                            error: () => {
                                 this._snackBar.open(
-                                    'Error deleting deployment with uuid: ' +
+                                    'Successfully deleted tool with uuid: ' +
                                         uuid,
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['primary-snackbar'],
+                                    }
+                                );
+                            } else {
+                                this._snackBar.open(
+                                    'Error deleting tool with uuid: ' + uuid,
                                     'X',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],
                                     }
                                 );
-                            },
-                        });
+                            }
+                        },
+                        error: () => {
+                            this._snackBar.open(
+                                'Error deleting tool with uuid: ' + uuid,
+                                'X',
+                                {
+                                    duration: 3000,
+                                    panelClass: ['red-snackbar'],
+                                }
+                            );
+                        },
+                    });
                 }
             });
     }
