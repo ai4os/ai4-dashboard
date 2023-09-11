@@ -141,16 +141,6 @@ export class GeneralConfFormComponent implements OnInit {
 
     dockerTagOptions: { value: string; viewValue: string }[] = [];
 
-    copyValueToClipboard(value: string | null | undefined) {
-        if (value) {
-            this.clipboard.copy(value);
-            this._snackBar.open('Copied to clipboard!', 'X', {
-                duration: 3000,
-                panelClass: ['primary-snackbar'],
-            });
-        }
-    }
-
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
         this.parentForm.addControl(
