@@ -12,7 +12,8 @@ export interface Deployment {
         memoryMB: number;
         diskMB: number;
     };
-    endpoints?: object;
+    endpoints?: { [index: string]: string };
+    active_endpoints?: [string];
     main_endpoint: string;
     alloc_ID?: string;
     error_msg?: string;

@@ -28,7 +28,7 @@ interface deploymentTableRow {
     containerName: string;
     gpus: string | number;
     creationTime: string;
-    endpoints?: object | undefined;
+    endpoints?: { [index: string]: string } | undefined;
     mainEndpoint: string;
     error_msg?: string;
 }
@@ -192,6 +192,15 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         return row.endpoints;
     }
 
+    getMainEndpoint(row: deploymentTableRow) {
+        const mainEndpoint = row.mainEndpoint;
+        if (row.endpoints && row.endpoints[mainEndpoint]) {
+            return row.endpoints[mainEndpoint];
+        } else {
+            return '';
+        }
+    }
+
     hasDeploymentErrors(row: deploymentTableRow) {
         return row.error_msg;
     }
@@ -201,17 +210,13 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     openDeploymentDetailDialog(row: deploymentTableRow): void {
-        const dialogRef = this.dialog.open(DeploymentDetailComponent, {
+        this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid, isTool: false },
             width: '650px',
             maxWidth: '650px',
             minWidth: '650px',
             autoFocus: false,
             restoreFocus: false,
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log('The dialog was closed', result);
         });
     }
 

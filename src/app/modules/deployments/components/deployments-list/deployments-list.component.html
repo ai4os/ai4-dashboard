@@ -50,7 +50,7 @@
                                 <a
                                     mat-button
                                     [disabled]="!isDeploymentRunning(row)"
-                                    [href]="row.mainEndpoint"
+                                    [href]="getMainEndpoint(row)"
                                     target="_blank"
                                     class="action-button-in-cell"
                                     (click)="$event.stopPropagation()"

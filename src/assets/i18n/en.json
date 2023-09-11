@@ -28,13 +28,14 @@
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
             "DEPLOYMENT-ID": "Deployment ID",
-            "RESOURCES-ASSIGNED": "Resources assigned",
+            "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
             "RESOURCES": {
                 "CPU_NUM": "Number of CPUs",
                 "GPU_NUM": "Number of GPUs",
-                "DISKMB": "Disk memory",
-                "MEMORYMB": "RAM memory"
+                "DISK_MB": "Disk memory",
+                "MEMORY_MB": "RAM memory",
+                "CPU_MHZ": "CPU freq. in MHZ"
             }
         },
         "DEPLOYMENT-NAME": "Name",
@@ -89,7 +90,8 @@
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG":  "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
-                "HOSTNAME": "Custom domain"
+                "CUSTOM-DOMAIN": "Custom domain",
+                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",

@@ -32,7 +32,13 @@
                         <mat-icon color="accent" id="infoIcon">info</mat-icon>
                     </button>
 
-                    <div matTooltip="Quick access">
+                    <div
+                        *ngIf="
+                            !isFederatedServer(row);
+                            else fedServerQuickAccess
+                        "
+                        matTooltip="Quick access"
+                    >
                         <a
                             mat-button
                             [disabled]="!isToolRunning(row)"
@@ -46,6 +52,21 @@
                             >
                         </a>
                     </div>
+
+                    <ng-template #fedServerQuickAccess>
+                        <div matTooltip="Copy to clipboard">
+                            <a
+                                mat-button
+                                [disabled]="!isToolRunning(row)"
+                                class="action-button-in-cell"
+                                [copy-to-clipboard]="row.mainEndpoint"
+                            >
+                                <mat-icon color="accent" id="accessIcon"
+                                    >content_copy</mat-icon
+                                >
+                            </a>
+                        </div>
+                    </ng-template>
 
                     <button
                         mat-button
