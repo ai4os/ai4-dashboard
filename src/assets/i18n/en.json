@@ -33,8 +33,9 @@
             "RESOURCES": {
                 "CPU_NUM": "Number of CPUs",
                 "GPU_NUM": "Number of GPUs",
-                "DISKMB": "Disk memory",
-                "MEMORYMB": "RAM memory"
+                "DISK_MB": "Disk memory",
+                "MEMORY_MB": "RAM memory",
+                "CPU_MHZ": "CPU freq. in MHZ"
             }
         },
         "DEPLOYMENT-NAME": "Name",
