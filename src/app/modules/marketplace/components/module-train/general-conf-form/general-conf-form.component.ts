@@ -135,7 +135,7 @@ export class GeneralConfFormComponent implements OnInit {
         ],
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
-        hostnameInput: [''],
+        hostnameInput: ['', [Validators.pattern('^[a-zA-Z0-9-]+$')]],
         federatedSecretInput: [{ value: '', disabled: true }],
     });
 
