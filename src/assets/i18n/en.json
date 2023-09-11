@@ -28,7 +28,7 @@
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
             "DEPLOYMENT-ID": "Deployment ID",
-            "RESOURCES-ASSIGNED": "Resources assigned",
+            "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
             "RESOURCES": {
                 "CPU_NUM": "Number of CPUs",
