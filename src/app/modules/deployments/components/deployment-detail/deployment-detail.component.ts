@@ -22,6 +22,13 @@ export class DeploymentDetailComponent implements OnInit {
     isLoading = false;
     protected deploymentHasError = false;
 
+    isActiveEndPoint(endpoint: string) {
+        return (
+            this.deployment?.active_endpoints &&
+            this.deployment.active_endpoints.indexOf(endpoint) > -1
+        );
+    }
+
     ngOnInit(): void {
         if (this.data.uuid) {
             this.isLoading = true;
