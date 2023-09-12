@@ -38,7 +38,7 @@ const mockedTool: Deployment = {
     main_endpoint: '',
     description: '',
     error_msg: 'Test error',
-    resources: { cpu_num: 0, gpu_num: 1, memoryMB: 10, diskMB: 20 },
+    resources: { cpu_num: 0, gpu_num: 1, memory_MB: 10, disk_MB: 20 },
 };
 
 const mockedConfigService: any = {};

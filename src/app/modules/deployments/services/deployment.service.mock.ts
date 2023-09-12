@@ -13,8 +13,8 @@ export const toolsList: Array<Deployment> = [
         resources: {
             cpu_num: 2,
             gpu_num: 0,
-            memoryMB: 2000,
-            diskMB: 1000,
+            memory_MB: 2000,
+            disk_MB: 1000,
         },
         endpoints: {
             fedserver:
@@ -40,8 +40,8 @@ export const deploymentsList: Array<Deployment> = [
         resources: {
             cpu_num: 4,
             gpu_num: 0,
-            memoryMB: 8000,
-            diskMB: 10000,
+            memory_MB: 8000,
+            disk_MB: 10000,
         },
         endpoints: {
             api: 'http://deepaas-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
@@ -65,8 +65,8 @@ export const deploymentsList: Array<Deployment> = [
         resources: {
             cpu_num: 4,
             gpu_num: 0,
-            memoryMB: 8000,
-            diskMB: 10000,
+            memory_MB: 8000,
+            disk_MB: 10000,
         },
         endpoints: {
             api: 'http://deepaas-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
