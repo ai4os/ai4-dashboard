@@ -66,7 +66,8 @@
             "GET-THE-DATA": "Get the data",
             "DATASET":"Dataset",
             "TRAIN-MODULE": "Train module",
-            "LAUNCH-TOOL": "Launch tool"
+            "LAUNCH-TOOL": "Launch tool",
+            "DEPLOY-W-IM": "Deploy via the IM"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
