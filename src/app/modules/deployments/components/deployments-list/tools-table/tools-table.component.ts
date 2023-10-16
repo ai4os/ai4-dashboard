@@ -28,7 +28,7 @@ interface toolTableRow {
     containerName: string;
     gpus: string | number;
     creationTime: string;
-    endpoints?: object | undefined;
+    endpoints?: { [index: string]: string } | undefined;
     mainEndpoint: string;
     error_msg?: string;
 }
@@ -152,6 +152,15 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
 
     getToolEndpoints(row: toolTableRow) {
         return row.endpoints;
+    }
+
+    getMainEndpoint(row: toolTableRow) {
+        const mainEndpoint = row.mainEndpoint;
+        if (row.endpoints && row.endpoints[mainEndpoint]) {
+            return row.endpoints[mainEndpoint];
+        } else {
+            return '';
+        }
     }
 
     hasToolErrors(row: toolTableRow) {
