@@ -42,7 +42,7 @@
                         <a
                             mat-button
                             [disabled]="!isToolRunning(row)"
-                            [href]="row.mainEndpoint"
+                            [href]="getMainEndpoint(row)"
                             target="_blank"
                             class="action-button-in-cell"
                             (click)="$event.stopPropagation()"
