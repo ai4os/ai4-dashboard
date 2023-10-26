@@ -100,6 +100,9 @@ export class FederatedServerComponent implements OnInit {
                 hostname:
                     this.generalConfForm.getRawValue().generalConfForm
                         .hostnameInput,
+                federated_secret:
+                    this.generalConfForm.getRawValue().generalConfForm
+                        .federatedSecretInput,
             },
             hardware: {
                 cpu_num:
