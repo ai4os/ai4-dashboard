@@ -135,21 +135,11 @@ export class GeneralConfFormComponent implements OnInit {
         ],
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
-        hostnameInput: [''],
+        hostnameInput: ['', [Validators.pattern('^[a-zA-Z0-9-]+$')]],
         federatedSecretInput: [{ value: '', disabled: true }],
     });
 
     dockerTagOptions: { value: string; viewValue: string }[] = [];
-
-    copyValueToClipboard(value: string | null | undefined) {
-        if (value) {
-            this.clipboard.copy(value);
-            this._snackBar.open('Copied to clipboard!', 'X', {
-                duration: 3000,
-                panelClass: ['primary-snackbar'],
-            });
-        }
-    }
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;

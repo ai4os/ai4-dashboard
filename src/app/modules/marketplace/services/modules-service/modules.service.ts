@@ -40,6 +40,7 @@ export class ModulesService {
 
     getModule(moduleName: string): Observable<Module> {
         const url = `${base}${endpoints.module.replace(':name', moduleName)}`;
+        console.log('URL', url);
         return this.http.get<Module>(url);
     }
 

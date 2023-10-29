@@ -9,10 +9,11 @@ export interface Deployment {
     resources?: {
         cpu_num: number;
         gpu_num: number;
-        memoryMB: number;
-        diskMB: number;
+        memory_MB: number;
+        disk_MB: number;
     };
-    endpoints?: object;
+    endpoints?: { [index: string]: string };
+    active_endpoints?: [string];
     main_endpoint: string;
     alloc_ID?: string;
     error_msg?: string;

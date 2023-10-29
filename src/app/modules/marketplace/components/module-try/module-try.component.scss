@@ -18,11 +18,11 @@
     margin: 0 1rem;
 }
 
-::ng-deep .child-form-container-no-help form {
+::ng-deep .child-form-container-no-help {
     min-height: 450px;
 }
 
-::ng-deep .child-form-container-show-help form {
+::ng-deep .child-form-container-show-help {
     min-height: 575px;
 }
 
@@ -57,27 +57,72 @@
 }
 
 .prediction-container {
-    margin-top: 5px;
     display: flex;
-    align-items: center;
     flex-flow: column;
+    align-items: stretch;
+    margin-top: 5px;
 }
 
 .prediction-title {
-    width: 100%;
-    margin-top: 5px;
-    padding: 2px 2px 2px 2px ;
-    align-content: center;
-    font-size: 1.3em;
+    align-self: flex-start;
+    padding: 2px 2px 2px 2px;
+    font-size: 1.1em;
     color: black;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .prediction-item {
-    width: 90%;
     min-width: 45px;
-    display: inline-flex;
-    flex-basis: fit-content;
+    display: flex;
+    flex-direction: row;
+}
+
+.mat-mdc-header-row {
+    background: var(--light-gray);
+
+    .mat-mdc-header-cell {
+        border: 1px solid var(--border-gray);
+        color: var(--primary);
+        font-weight: bold;
+    }
+}
+
+.mat-mdc-table .mat-mdc-row:hover {
+    background-color: var(--accent);
+    & .mat-mdc-cell {
+        color: var(--white);
+    }
+    & .mat-mdc-cell a {
+        color: var(--white);
+    }
+}
+
+.mat-column-label {
+    max-width: 200px;
+}
+
+.mat-column-probability {
+    max-width: 120px;
+}
+
+.mat-column-label_info {
+    max-width: 200px;
+}
+
+.mat-column-images {
+    max-width: 400px;
+}
+
+.mat-column-images a {
+    inline-size: -webkit-fill-available;
+}
+
+.mat-column-info {
+    max-width: 450px;
+}
+
+.mat-column-info a {
+    inline-size: -webkit-fill-available;
 }
 
 .results-table {
@@ -106,7 +151,7 @@
     text-transform: uppercase;
 }
 
-.result-container {
+.item-result {
     font-size: 18px;
     color: #333;
     text-align: center;
@@ -134,4 +179,15 @@
     font-size: 20px;
     color: #555;
     text-transform: capitalize;
+}
+
+.dialog-button-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
 }

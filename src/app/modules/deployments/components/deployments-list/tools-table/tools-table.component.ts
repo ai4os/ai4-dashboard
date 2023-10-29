@@ -229,6 +229,10 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
             });
     }
 
+    isFederatedServer(row: toolTableRow) {
+        return row.mainEndpoint.includes('fedserver');
+    }
+
     ngOnInit(): void {
         this.dataset = [];
         this.getToolsList();

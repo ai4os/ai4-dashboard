@@ -12,12 +12,8 @@
 
 .train-button-container {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.interact-button:not(:last-child) {
-    margin-right: 10px;
+    align-items: flex-end;
+    justify-content: flex-end;
 }
 
 #module-detail-card-header {

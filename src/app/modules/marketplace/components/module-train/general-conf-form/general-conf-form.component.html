@@ -144,7 +144,12 @@
             appearance="fill"
             [ngClass]="{ 'mt-3': _showHelp, 'display-inline': _showHelp }"
         >
-            <mat-label>Hostname</mat-label>
+            <mat-label>
+                {{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CUSTOM-DOMAIN'
+                        | translate
+                }}</mat-label
+            >
             <input
                 matInput
                 placeholder=""
@@ -157,7 +162,7 @@
                 "
             >
                 {{
-                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED'
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CUSTOM-DOMAIN-PATTERN-ERROR'
                         | translate
                 }}
             </mat-error>
@@ -177,10 +182,8 @@
             <mat-icon
                 matSuffix
                 color="primary"
-                (click)="
-                    copyValueToClipboard(
-                        generalConfFormGroup.get('federatedSecretInput')?.value
-                    )
+                [copy-to-clipboard]="
+                    generalConfFormGroup.get('federatedSecretInput')?.value
                 "
                 class="copy-icon"
             >

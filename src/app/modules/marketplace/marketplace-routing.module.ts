@@ -30,11 +30,11 @@ const routes: Routes = [
                 data: { breadcrumb: 'Train' },
             },
             {
-              path: 'tryme',
-              canActivate: [AuthenticationGuard],
-              component: ModuleTryComponent,
-              data: { breadcrumb: 'Try Me' }
-            }
+                path: 'tryme',
+                canActivate: [AuthenticationGuard],
+                component: ModuleTryComponent,
+                data: { breadcrumb: 'Try Me' },
+            },
         ],
     },
     {
@@ -53,7 +53,7 @@ const routes: Routes = [
                 data: { breadcrumb: 'Train' },
             },
         ],
-    }
+    },
 ];
 
 @NgModule({
