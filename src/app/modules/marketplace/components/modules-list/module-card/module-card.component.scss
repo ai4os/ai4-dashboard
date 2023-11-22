@@ -29,10 +29,9 @@
     color: var(--dark-grey);
 }
 
-.keywords-container {
-    position: absolute;
-    bottom: 5px;
-    left: 1rem;
+.module-card-actions {
+    align-self: center;
+    margin-top: auto;
 }
 
 .keyword-button {
