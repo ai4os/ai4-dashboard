@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
+import { KeyValue } from '@angular/common';
 
 @Component({
     selector: 'app-deployment-detail',
@@ -72,5 +73,13 @@ export class DeploymentDetailComponent implements OnInit {
                     });
             }
         }
+    }
+
+    getResourceValue(resource: KeyValue<string, number>): string {
+        const resourceValue = resource.value.toString();
+        if (resource.key.includes('MB')) {
+            return resourceValue.concat(' MB');
+        }
+        return resourceValue;
     }
 }
