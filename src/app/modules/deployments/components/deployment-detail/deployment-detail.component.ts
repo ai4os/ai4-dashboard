@@ -76,9 +76,11 @@ export class DeploymentDetailComponent implements OnInit {
     }
 
     getResourceValue(resource: KeyValue<string, number>): string {
-        const resourceValue = resource.value.toString();
+        let resourceValue = resource.value.toString();
         if (resource.key.includes('MB')) {
-            return resourceValue.concat(' MB');
+            resourceValue = resourceValue.concat(' MB');
+        } else if (resource.key.includes('MHz')) {
+            resourceValue = resourceValue.concat(' MHz');
         }
         return resourceValue;
     }

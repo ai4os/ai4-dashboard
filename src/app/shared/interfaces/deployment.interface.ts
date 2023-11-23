@@ -7,6 +7,7 @@ export interface Deployment {
     docker_image: string;
     submit_time: string;
     resources?: {
+        cpu_MHz: number;
         cpu_num: number;
         gpu_num: number;
         memory_MB: number;
