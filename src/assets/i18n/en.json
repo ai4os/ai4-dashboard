@@ -135,6 +135,7 @@
     },
     "ERRORS": {
         "SERVICE-ERROR": "Error calling the API, please retry later",
-        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy"
+        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
+        "NOT-FOUND": "Oops, the page you requested could not be found!"
     }
 }
