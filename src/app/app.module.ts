@@ -21,6 +21,7 @@ import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { AppConfigService } from './core/services/app-config/app-config.service';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -91,6 +92,9 @@ renderer.link = (href, title, text) => {
                     sanitize: false,
                 },
             },
+        }),
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
         }),
     ],
     providers: [

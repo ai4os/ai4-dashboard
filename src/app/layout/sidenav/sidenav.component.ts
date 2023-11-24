@@ -48,9 +48,9 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     mainLinks = [
         {
             name: 'SIDENAV.DASHBOARD',
-            url: '/',
+            url: '/dashboard',
             isRestricted: true,
-            isDisabled: true,
+            isDisabled: false,
         },
         {
             name: 'SIDENAV.MODULES',
