@@ -48,6 +48,8 @@ export class StepperFormComponent implements OnInit {
         showHelpToggleButton: false,
     });
     isFormValid = false;
+    isLoading = false;
+
     checkFormValidity(form: FormGroup) {
         return form.valid;
     }
@@ -57,6 +59,7 @@ export class StepperFormComponent implements OnInit {
     }
 
     submitTrainingRequest() {
+        this.isLoading = true;
         this.submitEvent.emit(true);
     }
 }
