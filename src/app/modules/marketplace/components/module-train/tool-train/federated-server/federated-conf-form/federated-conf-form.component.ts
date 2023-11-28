@@ -1,10 +1,15 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Input } from '@angular/core';
 import {
     FormGroupDirective,
     FormBuilder,
     FormGroup,
     Validators,
+    FormControl,
 } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-federated-conf-form',
@@ -15,7 +20,14 @@ export class FederatedConfFormComponent {
     constructor(
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder
-    ) {}
+    ) {
+        this.filteredMetrics = this.metricCtrl.valueChanges.pipe(
+            startWith(null),
+            map((metric: string | null) =>
+                metric ? this._filter(metric) : this.defaultMetrics.slice()
+            )
+        );
+    }
 
     parentForm!: FormGroup;
 
@@ -27,7 +39,7 @@ export class FederatedConfFormComponent {
                 Validators.max(this.defaultFormValues?.rounds.range[1]),
             ],
         ],
-        metricInput: [''],
+        metricInput: [['']],
         minClientsInput: [
             '',
             [
@@ -70,6 +82,12 @@ export class FederatedConfFormComponent {
         }
     }
 
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    metricCtrl = new FormControl('');
+    filteredMetrics: Observable<string[]>;
+    metrics: string[] = ['Accuracy'];
+    defaultMetrics: string[] = ['Accuracy', 'MSE', 'MAE', 'RMSE'];
+
     strategyOptions: any = [];
 
     ngOnInit(): void {
@@ -77,6 +95,51 @@ export class FederatedConfFormComponent {
         this.parentForm.addControl(
             'federatedConfForm',
             this.federatedConfFormGroup
+        );
+    }
+
+    // Chip Input Functions
+
+    add(event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
+
+        if (value && !this.metrics.includes(value)) {
+            this.metrics.push(value);
+            this.federatedConfFormGroup
+                .get('metricInput')
+                ?.setValue(this.metrics);
+        }
+
+        event.chipInput!.clear();
+        this.metricCtrl.setValue(null);
+    }
+
+    remove(input: string): void {
+        const index = this.metrics.indexOf(input);
+
+        if (index >= 0) {
+            this.metrics.splice(index, 1);
+            this.federatedConfFormGroup
+                .get('metricInput')
+                ?.setValue(this.metrics);
+        }
+    }
+
+    selected(event: MatAutocompleteSelectedEvent): void {
+        if (!this.metrics.includes(event.option.viewValue)) {
+            this.metrics.push(event.option.viewValue);
+            this.federatedConfFormGroup
+                .get('metricInput')
+                ?.setValue(this.metrics);
+        }
+        this.metricCtrl.setValue(null);
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.defaultMetrics.filter((metric) =>
+            metric.toLowerCase().includes(filterValue)
         );
     }
 }
