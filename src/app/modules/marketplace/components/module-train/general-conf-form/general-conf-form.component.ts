@@ -166,4 +166,9 @@ export class GeneralConfFormComponent implements OnInit {
                 }
             });
     }
+
+    openDocumentationWeb(): void {
+        let url = 'https://docs.ai4eosc.eu/en/latest/';
+        window.open(url);
+    }
 }

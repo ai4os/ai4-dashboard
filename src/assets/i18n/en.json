@@ -92,7 +92,8 @@
                 "DOCKER-TAG":  "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
+                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
+                "OPEN-DOCUMENTATION": "Open documentation"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
