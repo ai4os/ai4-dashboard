@@ -103,7 +103,10 @@
                                         'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' +
                                             (resource.key | uppercase)
                                             | translate
-                                    }}: {{ resource.value }}</mat-list-item
+                                    }}:
+                                    {{
+                                        getResourceValue(resource)
+                                    }}</mat-list-item
                                 >
                             </ng-container>
                         </mat-list>
