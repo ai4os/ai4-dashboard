@@ -2,7 +2,7 @@
 .module-card {
     //max-width: 500px;
     min-height: 225px;
-    overflow: hidden;
+    width: 100%;
 
     &:hover {
         @include mat.elevation(12);
@@ -31,7 +31,6 @@
 }
 
 .module-card-actions {
-    align-self: flex-start;
     margin-top: auto;
 }
 

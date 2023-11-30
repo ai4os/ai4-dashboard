@@ -2,7 +2,7 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 
 export const authCodeFlowConfig: AuthConfig = {
     // Url of the Identity Provider
-    issuer: 'https://aai-demo.egi.eu/auth/realms/egi',
+    issuer: 'https://aai.egi.eu/auth/realms/egi',
 
     // URL of the SPA to redirect the user to after login
     redirectUri: window.location.origin,
