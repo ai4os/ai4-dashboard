@@ -59,6 +59,7 @@
               ],
               "styles": [
                 "src/theme/ai4eosc/variables.scss",
+                "node_modules/swagger-ui/dist/swagger-ui.css",
                 "src/styles.scss"
               ],
               "assets": [
@@ -138,6 +139,7 @@
               ],
               "styles": [
                 "src/theme/ai4eosc/variables.scss",
+                "node_modules/swagger-ui/dist/swagger-ui.css",
                 "src/styles.scss"
               ],
               "assets": [
@@ -210,6 +212,7 @@
               ],
               "styles": [
                 "src/theme/ai4eosc/variables.scss",
+                "node_modules/swagger-ui/dist/swagger-ui.css",
                 "src/styles.scss"
               ],
               "assets": [
@@ -289,6 +292,7 @@
               ],
               "styles": [
                 "src/theme/ai4eosc/variables.scss",
+                "node_modules/swagger-ui/dist/swagger-ui.css",
                 "src/styles.scss"
               ],
               "assets": [
@@ -361,6 +365,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/swagger-ui/dist/swagger-ui.css",
               "src/styles.scss"
             ],
             "scripts": [

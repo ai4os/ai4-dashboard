@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
@@ -6,13 +12,14 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 import { Module } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
+import SwaggerUI from 'swagger-ui';
 
 @Component({
     selector: 'app-module-detail',
     templateUrl: './module-detail.component.html',
     styleUrls: ['./module-detail.component.scss'],
 })
-export class ModuleDetailComponent implements OnInit {
+export class ModuleDetailComponent implements OnInit, AfterViewInit {
     constructor(
         private modulesService: ModulesService,
         private toolsService: ToolsService,
@@ -34,8 +41,11 @@ export class ModuleDetailComponent implements OnInit {
     userProfile?: UserProfile;
 
     isLoading = false;
-
     isTool = false;
+
+    @ViewChild('swagger', { static: true }) swaggerElement:
+        | ElementRef
+        | undefined;
 
     isLoggedIn() {
         return this.authService.isAuthenticated();
@@ -63,6 +73,13 @@ export class ModuleDetailComponent implements OnInit {
                         this.breadcrumbService.set('@moduleName', module.title);
                     });
             }
+        });
+    }
+
+    ngAfterViewInit(): void {
+        SwaggerUI({
+            domNode: this.swaggerElement?.nativeElement,
+            url: 'https://petstore.swagger.io/v2/swagger.json', // TODO: change to the correct url
         });
     }
 }

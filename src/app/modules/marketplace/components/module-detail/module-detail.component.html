@@ -219,14 +219,7 @@
     <mat-tab label="API">
         <mat-card class="example-card">
             <mat-card-content>
-                <div *ngIf="isLoading" class="spinner">
-                    <mat-progress-spinner color="primary" mode="indeterminate">
-                    </mat-progress-spinner>
-                </div>
-
-                <div class="grid-2-columns-content" *ngIf="!isLoading">
-                    <div #swagger>Swagger UI</div>
-                </div>
+                <div #swagger id="swagger"></div>
             </mat-card-content>
         </mat-card>
     </mat-tab>
