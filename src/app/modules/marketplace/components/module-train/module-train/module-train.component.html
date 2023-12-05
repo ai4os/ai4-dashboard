@@ -42,6 +42,7 @@
                     <button
                         mat-raised-button
                         class="mr-2"
+                        type="button"
                         [disabled]="!generalConfForm.valid"
                         (click)="submitTrainingRequest()"
                     >
@@ -109,6 +110,7 @@
                     <button
                         mat-raised-button
                         color="accent"
+                        type="button"
                         (click)="submitTrainingRequest()"
                     >
                         {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
