@@ -91,6 +91,7 @@ export interface TrainModuleRequest {
         service: string;
         jupyter_password?: string;
         hostname?: string;
+        federated_secret?: string;
     };
     hardware: {
         cpu_num: number;
