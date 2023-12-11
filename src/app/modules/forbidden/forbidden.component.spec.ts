@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ForbiddenComponent } from './forbidden.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 describe('ForbiddenComponent', () => {
     let component: ForbiddenComponent;
@@ -23,10 +24,8 @@ describe('ForbiddenComponent', () => {
     });
 
     it('should show message correctly', () => {
-        const messageElement: HTMLElement = fixture.nativeElement;
-        const message = messageElement.querySelector('h1')!;
-        expect(message.textContent).toEqual(
-            "You don't have the rights to do that!"
-        );
+        const message = fixture.debugElement.query(By.css('h1')).nativeElement
+            .textContent;
+        expect(message).toEqual("You don't have the rights to do that!");
     });
 });
