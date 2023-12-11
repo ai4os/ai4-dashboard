@@ -20,22 +20,22 @@ describe('DeploymentsService', () => {
     let service: DeploymentsService;
     let httpMock: HttpTestingController;
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
+    beforeEach(() => {
+        TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });
+
         service = TestBed.inject(DeploymentsService);
         httpMock = TestBed.inject(HttpTestingController);
-        /*         jest.spyOn(mockedConfigService, 'voName', 'get').mockReturnValue(
-            'test'
-        ) */ jest.mock('./deployments.service', () => ({
+
+        jest.mock('./deployments.service', () => ({
             getDeployments: jest.fn().mockReturnValue(of(deploymentsList)),
             getDeploymentByUUID: jest
                 .fn()
-                .mockReturnValue(of(deploymentsList[0])),
+                .mockReturnValue(of(deploymentsList.at(0))),
             getToolByUUID: jest.fn().mockReturnValue(of(toolsList[0])),
             postTrainModule: jest
                 .fn()
@@ -59,31 +59,43 @@ describe('DeploymentsService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('getDeployments should return a list of deployments that are modules', () => {
+    it('getDeployments should return a list of deployments that are modules', (done) => {
         const url = `${base}/deployments/modules?vos=vo.ai4eosc.eu`;
-        const deploymentLists = service.getDeployments();
-        deploymentLists.subscribe((list) => {
-            expect(list).toBe(deploymentsList);
+
+        service.getDeployments().subscribe((list) => {
+            try {
+                expect(list).toBe(deploymentsList);
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
         req.flush(deploymentsList);
         httpMock.verify();
         expect(req.request.method).toBe('GET');
     });
 
-    it('getDeployments should return a single module by UUID', () => {
+    it('getDeployments should return a single module by UUID', (done) => {
         const url = `${base}/deployments/modules/test?vo=vo.ai4eosc.eu`;
-        const deployment = service.getDeploymentByUUID('test');
-        deployment.subscribe((deployment) => {
-            expect(deployment).toBe(deploymentsList[0]);
+
+        service.getDeploymentByUUID('test').subscribe((deployment) => {
+            try {
+                expect(deployment).toBe(deploymentsList[0]);
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
-        req.flush(deploymentsList);
+        req.flush(deploymentsList[0]);
         httpMock.verify();
         expect(req.request.method).toBe('GET');
     });
 
-    it('should request the training of a module correctly', () => {
+    it('should request the training of a module correctly', (done) => {
         const url = `${base}/deployments/modules?vo=vo.ai4eosc.eu`;
         const request: TrainModuleRequest = {
             general: {
@@ -103,24 +115,36 @@ describe('DeploymentsService', () => {
                 gpu_type: undefined,
             },
         };
-        const requestResponse = service.postTrainModule(request);
-        requestResponse.subscribe((response) => {
-            expect(response).toBe({ status: 'success' });
+
+        service.postTrainModule(request).subscribe((response) => {
+            try {
+                expect(response).toEqual({ status: 'success' });
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
-        req.flush(deploymentsList);
+        req.flush({ status: 'success' });
         httpMock.verify();
         expect(req.request.method).toBe('POST');
     });
 
-    it('should delete a deployment correctly', () => {
+    it('should delete a deployment correctly', (done) => {
         const url = `${base}/deployments/modules/test?vo=vo.ai4eosc.eu`;
-        const requestResponse = service.deleteDeploymentByUUID('test');
-        requestResponse.subscribe((response) => {
-            expect(response).toBe({ status: 'success' });
+
+        service.deleteDeploymentByUUID('test').subscribe((response) => {
+            try {
+                expect(response).toEqual({ status: 'success' });
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
-        req.flush(deploymentsList);
+        req.flush({ status: 'success' });
         httpMock.verify();
         expect(req.request.method).toBe('DELETE');
     });
@@ -129,31 +153,45 @@ describe('DeploymentsService', () => {
      * TOOLS TESTS
      */
 
-    it('getTools should return a list of deployments that are tools', () => {
+    it('getTools should return a list of deployments that are tools', (done) => {
         const url = `${base}/deployments/tools?vos=vo.ai4eosc.eu`;
         const toolsList = service.getTools();
-        toolsList.subscribe((list) => {
-            expect(list).toBe(toolsList);
+
+        service.getTools().subscribe((list) => {
+            try {
+                expect(list).toBe(toolsList);
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
         req.flush(toolsList);
         httpMock.verify();
         expect(req.request.method).toBe('GET');
     });
 
-    it('getDeployments should return a single module by UUID', () => {
+    it('getToolByUUID should return a single tool by UUID', (done) => {
         const url = `${base}/deployments/tools/test?vo=vo.ai4eosc.eu`;
         const tool = service.getToolByUUID('test');
-        tool.subscribe((tool) => {
-            expect(tool).toBe(toolsList[0]);
+
+        service.getToolByUUID('test').subscribe((tool) => {
+            try {
+                expect(tool).toBe(toolsList[0]);
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
-        req.flush(toolsList);
+        req.flush(toolsList[0]);
         httpMock.verify();
         expect(req.request.method).toBe('GET');
     });
 
-    it('should request the training of a module correctly', () => {
+    it('should request the training of a tool correctly', (done) => {
         const url = `${base}/deployments/tools?vo=vo.ai4eosc.eu`;
         const request: TrainModuleRequest = {
             general: {
@@ -173,24 +211,36 @@ describe('DeploymentsService', () => {
                 gpu_type: undefined,
             },
         };
-        const requestResponse = service.trainTool(request);
-        requestResponse.subscribe((response) => {
-            expect(response).toBe({ status: 'success' });
+
+        service.trainTool(request).subscribe((response) => {
+            try {
+                expect(response).toEqual({ status: 'success' });
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
-        req.flush(toolsList);
+        req.flush({ status: 'success' });
         httpMock.verify();
         expect(req.request.method).toBe('POST');
     });
 
-    it('should delete a deployment correctly', () => {
+    it('should delete a tool correctly', (done) => {
         const url = `${base}/deployments/tools/test?vo=vo.ai4eosc.eu`;
-        const requestResponse = service.deleteToolByUUID('test');
-        requestResponse.subscribe((response) => {
-            expect(response).toBe({ status: 'success' });
+
+        service.deleteToolByUUID('test').subscribe((response) => {
+            try {
+                expect(response).toEqual({ status: 'success' });
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
+
         const req = httpMock.expectOne(url);
-        req.flush(toolsList);
+        req.flush({ status: 'success' });
         httpMock.verify();
         expect(req.request.method).toBe('DELETE');
     });
