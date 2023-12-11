@@ -21,4 +21,12 @@ describe('ForbiddenComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should show message correctly', () => {
+        const messageElement: HTMLElement = fixture.nativeElement;
+        const message = messageElement.querySelector('h1')!;
+        expect(message.textContent).toEqual(
+            "You don't have the rights to do that!"
+        );
+    });
 });
