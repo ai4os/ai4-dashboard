@@ -56,7 +56,6 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
     submitTrainingRequest() {
-        console.log('antes de la llamada');
         this.isLoading = true;
 
         const request: TrainModuleRequest = {
@@ -109,7 +108,6 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
         this.deploymentsService.postTrainModule(request).subscribe({
             next: (result: statusReturn) => {
                 this.isLoading = false;
-                console.log('dentro de la llamada');
 
                 if (result && result.status == 'success') {
                     this.router
@@ -142,7 +140,6 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                 }
             },
         });
-        console.log('despues de la llamada');
     }
 
     /**
@@ -165,8 +162,6 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
     }
 
     loadModule() {
-        //this.isLoading = false;
-
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.deploymentTitle = module.title;
