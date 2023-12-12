@@ -9,6 +9,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { toolsSummaryList } from './tools.service.mock';
+import { TagObject } from '@app/data/types/tags';
 
 const { base, endpoints } = environment.api;
 const mockedConfigService: any = {};
@@ -31,7 +32,8 @@ describe('ToolsService', () => {
         jest.mock('./tools.service', () => ({
             getToolsSummary: jest
                 .fn()
-                .mockReturnValue(of(toolsSummaryListMock)),
+                .mockReturnValue(of(toolsSummaryListMock))
+                .mockReturnValue(of(toolsSummaryListMock[0])),
         }));
     });
 
@@ -53,6 +55,25 @@ describe('ToolsService', () => {
 
         const req = httpMock.expectOne(url);
         req.flush(toolsSummaryListMock);
+        httpMock.verify();
+        expect(req.request.method).toBe('GET');
+    });
+
+    it('getModulesSummary should return a list of detailed modules by tag', (done) => {
+        const tag: TagObject = { tags: 'docker' };
+        const url = `${base}${endpoints.toolsSummary}?tags=` + tag.tags;
+
+        service.getToolsSummary(tag).subscribe((asyncData) => {
+            try {
+                expect(asyncData).toBe(toolsSummaryListMock[0]);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+
+        const req = httpMock.expectOne(url);
+        req.flush(toolsSummaryListMock[0]);
         httpMock.verify();
         expect(req.request.method).toBe('GET');
     });

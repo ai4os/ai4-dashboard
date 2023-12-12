@@ -25,6 +25,12 @@ export const toolsSummaryList: Array<ModuleSummary> = [
         name: 'Test',
         title: 'Test',
         summary: '',
+        keywords: ['docker'],
+    },
+    {
+        name: 'Test2',
+        title: 'Test2',
+        summary: '',
         keywords: [],
     },
 ];

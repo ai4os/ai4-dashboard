@@ -25,6 +25,12 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         name: 'Test',
         title: 'Test',
         summary: '',
+        keywords: ['development'],
+    },
+    {
+        name: 'Test2',
+        title: 'Test2',
+        summary: '',
         keywords: [],
     },
 ];

@@ -11,7 +11,6 @@ import { endpoints } from '@environments/endpoints';
 import { module, modulesSummaryList } from './module.service.mock';
 import { of } from 'rxjs';
 import { TagObject } from '@app/data/types/tags';
-import { HttpParams } from '@angular/common/http';
 
 const { base } = environment.api;
 const mockedConfigService: any = {
@@ -37,7 +36,8 @@ describe('ModulesService', () => {
         jest.mock('./modules.service', () => ({
             getModulesSummary: jest
                 .fn()
-                .mockReturnValue(of(modulesSummaryListMock)),
+                .mockReturnValue(of(modulesSummaryListMock))
+                .mockReturnValue(of(modulesSummaryListMock[0])),
             getModule: jest.fn().mockReturnValue(of(moduleMock)),
         }));
     });
@@ -68,26 +68,24 @@ describe('ModulesService', () => {
         expect(req.request.method).toBe('GET');
     });
 
-    // it('getModulesSummary should return a list of detailed modules by tag', (done) => {
-    //     const url = `${base}${endpoints.modulesSummary}`;
-    //     const tag: TagObject = { tags: '' };
-    //     let params = new HttpParams();
-    //     //params = params.set(key, tag.tags);
+    it('getModulesSummary should return a list of detailed modules by tag', (done) => {
+        const tag: TagObject = { tags: 'development' };
+        const url = `${base}${endpoints.modulesSummary}?tags=` + tag.tags;
 
-    //     service.getModulesSummary(tag).subscribe((asyncData) => {
-    //         try {
-    //             expect(asyncData).toBe(modulesSummaryListMock);
-    //             done();
-    //         } catch (error) {
-    //             done(error);
-    //         }
-    //     });
+        service.getModulesSummary(tag).subscribe((asyncData) => {
+            try {
+                expect(asyncData).toBe(modulesSummaryListMock[0]);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
 
-    //     const req = httpMock.expectOne(url);
-    //     req.flush(modulesSummaryListMock);
-    //     httpMock.verify();
-    //     expect(req.request.method).toBe('GET');
-    // });
+        const req = httpMock.expectOne(url);
+        req.flush(modulesSummaryListMock[0]);
+        httpMock.verify();
+        expect(req.request.method).toBe('GET');
+    });
 
     it('getModule should return the metadata of a module', (done) => {
         const moduleName = 'test';
