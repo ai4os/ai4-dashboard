@@ -3,6 +3,6 @@
     <p>{{ message }}</p>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button (click)="closeDialog()">No</button>
-    <button mat-raised-button (click)="confirm()" color="warn">Yes</button>
+    <button id="noBtn" mat-raised-button (click)="closeDialog()">No</button>
+    <button id="yesBtn" mat-raised-button (click)="confirm()" color="warn">Yes</button>
 </div>

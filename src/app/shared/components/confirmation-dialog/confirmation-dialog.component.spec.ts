@@ -6,6 +6,7 @@ import {
     MatDialogModule,
     MatDialogRef,
 } from '@angular/material/dialog';
+import { By } from '@angular/platform-browser';
 
 describe('ConfirmationDialogComponent', () => {
     let component: ConfirmationDialogComponent;
@@ -17,7 +18,10 @@ describe('ConfirmationDialogComponent', () => {
             declarations: [ConfirmationDialogComponent],
             providers: [
                 { provide: MatDialogRef, useValue: {} },
-                { provide: MAT_DIALOG_DATA, useValue: {} },
+                {
+                    provide: MAT_DIALOG_DATA,
+                    useValue: 'This is a test',
+                },
             ],
         }).compileComponents();
 
@@ -28,5 +32,23 @@ describe('ConfirmationDialogComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should show texts correctly', () => {
+        const noMsg =
+            fixture.debugElement.nativeElement.querySelector(
+                '#noBtn'
+            ).textContent;
+        expect(noMsg).toEqual('No');
+
+        const yesMsg =
+            fixture.debugElement.nativeElement.querySelector(
+                '#yesBtn'
+            ).textContent;
+        expect(yesMsg).toEqual('Yes');
+
+        const msg = fixture.debugElement.query(By.css('p')).nativeElement
+            .textContent;
+        expect(msg).toEqual('This is a test');
     });
 });
