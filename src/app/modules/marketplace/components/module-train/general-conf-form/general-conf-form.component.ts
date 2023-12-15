@@ -26,6 +26,7 @@ export interface showGeneralFormField {
     dockerTagSelect: boolean;
     hostnameInput: boolean;
     federated_secret: boolean;
+    infoButton: boolean;
 }
 
 @Component({
@@ -76,6 +77,7 @@ export class GeneralConfFormComponent implements OnInit {
         dockerTagSelect: true,
         hostnameInput: true,
         federated_secret: false,
+        infoButton: false,
     };
 
     @Input() set showFields(showFields: showGeneralFormField) {
