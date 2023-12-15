@@ -139,6 +139,12 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
+            error: (err) => {
+                this.isLoading = false;
+            },
+            complete: () => {
+                this.isLoading = false;
+            },
         });
     }
 
