@@ -62,6 +62,7 @@ export class FederatedServerComponent implements OnInit {
         dockerTagSelect: true,
         hostnameInput: true,
         federated_secret: true,
+        infoButton: true,
     };
 
     loadModule() {
