@@ -35,7 +35,7 @@
                 "GPU_NUM": "Number of GPUs",
                 "DISK_MB": "Disk memory",
                 "MEMORY_MB": "RAM memory",
-                "CPU_MHZ": "CPU freq. in MHZ"
+                "CPU_MHZ": "CPU frequency"
             }
         },
         "DEPLOYMENT-NAME": "Name",
@@ -66,7 +66,8 @@
             "GET-THE-DATA": "Get the data",
             "DATASET":"Dataset",
             "TRAIN-MODULE": "Train module",
-            "LAUNCH-TOOL": "Launch tool"
+            "LAUNCH-TOOL": "Launch tool",
+            "DEPLOY-W-IM": "Deploy via the IM"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
@@ -134,6 +135,7 @@
     },
     "ERRORS": {
         "SERVICE-ERROR": "Error calling the API, please retry later",
-        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy"
+        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
+        "NOT-FOUND": "Oops, the page you requested could not be found!"
     }
 }

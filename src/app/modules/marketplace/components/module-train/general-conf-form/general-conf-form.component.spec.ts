@@ -47,4 +47,98 @@ describe('GeneralConfFormComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('form invalid when empty', () => {
+        expect(component.generalConfFormGroup.valid).toBeFalsy();
+    });
+
+    it('check jupyter valid config', () => {
+        let serviceToRun =
+            component.generalConfFormGroup.controls['serviceToRunChip'];
+        serviceToRun.setValue('jupyter');
+        let title = component.generalConfFormGroup.controls['titleInput'];
+        title.setValue('test');
+        let password =
+            component.generalConfFormGroup.controls['serviceToRunPassInput'];
+        password.setValue('123456789');
+        expect(component.generalConfFormGroup.valid).toBeTruthy();
+    });
+
+    it('check jupyter invalid config', () => {
+        let serviceToRun =
+            component.generalConfFormGroup.controls['serviceToRunChip'];
+        serviceToRun.setValue('jupyter');
+
+        // check required restrictions
+        expect(
+            component.generalConfFormGroup.controls.titleInput.valid
+        ).toBeFalsy();
+        expect(
+            component.generalConfFormGroup.controls.serviceToRunPassInput.valid
+        ).toBeFalsy();
+
+        let title = component.generalConfFormGroup.controls['titleInput'];
+        title.setValue('test');
+        let password =
+            component.generalConfFormGroup.controls['serviceToRunPassInput'];
+        password.setValue('123456');
+
+        // check password length
+        expect(component.generalConfFormGroup.valid).toBeFalsy();
+    });
+
+    it('check vscode valid config', () => {
+        let serviceToRun =
+            component.generalConfFormGroup.controls['serviceToRunChip'];
+        serviceToRun.setValue('vscode');
+        let title = component.generalConfFormGroup.controls['titleInput'];
+        title.setValue('test');
+        let password =
+            component.generalConfFormGroup.controls['serviceToRunPassInput'];
+        password.setValue('123456789');
+        expect(component.generalConfFormGroup.valid).toBeTruthy();
+    });
+
+    it('check vscode invalid config', () => {
+        let serviceToRun =
+            component.generalConfFormGroup.controls['serviceToRunChip'];
+        serviceToRun.setValue('vscode');
+
+        // check required restrictions
+        expect(
+            component.generalConfFormGroup.controls.titleInput.valid
+        ).toBeFalsy();
+        expect(
+            component.generalConfFormGroup.controls.serviceToRunPassInput.valid
+        ).toBeFalsy();
+
+        let title = component.generalConfFormGroup.controls['titleInput'];
+        title.setValue('test');
+        let password =
+            component.generalConfFormGroup.controls['serviceToRunPassInput'];
+        password.setValue('123456');
+
+        // check password length
+        expect(component.generalConfFormGroup.valid).toBeFalsy();
+    });
+
+    it('check fedserver valid config', () => {
+        let serviceToRun =
+            component.generalConfFormGroup.controls['serviceToRunChip'];
+        serviceToRun.setValue('fedserver');
+        let title = component.generalConfFormGroup.controls['titleInput'];
+        title.setValue('test');
+        expect(component.generalConfFormGroup.valid).toBeTruthy();
+    });
+
+    it('check fedserver invalid config', () => {
+        let serviceToRun =
+            component.generalConfFormGroup.controls['serviceToRunChip'];
+        serviceToRun.setValue('fedserver');
+
+        // check required restrictions
+        expect(
+            component.generalConfFormGroup.controls.titleInput.valid
+        ).toBeFalsy();
+    });
 });

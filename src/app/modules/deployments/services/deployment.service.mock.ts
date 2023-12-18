@@ -11,6 +11,7 @@ export const toolsList: Array<Deployment> = [
         docker_command: '',
         submit_time: '2023-08-29 10:55:46',
         resources: {
+            cpu_MHz: 0,
             cpu_num: 2,
             gpu_num: 0,
             memory_MB: 2000,
@@ -38,6 +39,7 @@ export const deploymentsList: Array<Deployment> = [
         docker_command: 'deep-start --vscode',
         submit_time: '2023-08-08 07:57:26',
         resources: {
+            cpu_MHz: 0,
             cpu_num: 4,
             gpu_num: 0,
             memory_MB: 8000,
@@ -63,6 +65,7 @@ export const deploymentsList: Array<Deployment> = [
         docker_command: 'deep-start --jupyter',
         submit_time: '2023-08-04 18:48:28',
         resources: {
+            cpu_MHz: 0,
             cpu_num: 4,
             gpu_num: 0,
             memory_MB: 8000,
