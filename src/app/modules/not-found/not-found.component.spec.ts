@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotFoundComponent } from './not-found.component';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '@app/shared/shared.module';
 
 describe('NotFoundComponent', () => {
     let component: NotFoundComponent;
@@ -10,7 +11,7 @@ describe('NotFoundComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslateModule.forRoot(), SharedModule],
             declarations: [NotFoundComponent],
         }).compileComponents();
 
