@@ -36,6 +36,7 @@ export class StepperFormComponent implements OnInit {
     @Input() step1Title!: string;
     @Input() step2Title!: string;
     @Input() step3Title!: string;
+    @Input() isLoading!: boolean;
 
     @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
     @Output() submitEvent = new EventEmitter<boolean>();
@@ -48,6 +49,7 @@ export class StepperFormComponent implements OnInit {
         showHelpToggleButton: false,
     });
     isFormValid = false;
+
     checkFormValidity(form: FormGroup) {
         return form.valid;
     }

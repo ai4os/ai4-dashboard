@@ -40,6 +40,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
 
     checked = false;
     disabled = false;
+    isLoading = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
@@ -55,6 +56,8 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
     submitTrainingRequest() {
+        this.isLoading = true;
+
         const request: TrainModuleRequest = {
             general: {
                 title: this.generalConfForm.value.generalConfForm.titleInput,
@@ -104,6 +107,8 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
 
         this.deploymentsService.postTrainModule(request).subscribe({
             next: (result: statusReturn) => {
+                this.isLoading = false;
+
                 if (result && result.status == 'success') {
                     this.router
                         .navigate(['/deployments'])
@@ -134,8 +139,16 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
+            error: (err) => {
+                this.isLoading = false;
+            },
+            complete: () => {
+                this.isLoading = false;
+            },
         });
-    } /**
+    }
+
+    /**
      * Change toggle button icon by DOM manipulation
      *
      * @memberof ModuleTrainComponent
