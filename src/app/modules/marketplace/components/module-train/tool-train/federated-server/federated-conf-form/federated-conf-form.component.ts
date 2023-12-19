@@ -83,12 +83,12 @@ export class FederatedConfFormComponent {
     }
 
     separatorKeysCodes: number[] = [ENTER, COMMA];
-    addOnBlur: boolean = true;
+    addOnBlur = true;
 
     metricCtrl = new FormControl('');
     filteredMetrics: Observable<string[]>;
-    metrics: string[] = ['Accuracy'];
-    defaultMetrics: string[] = ['Accuracy', 'MSE', 'MAE', 'RMSE'];
+    metrics: string[] = ['accuracy'];
+    defaultMetrics: string[] = ['accuracy', 'mse', 'mae', 'rmse'];
 
     strategyOptions: any = [];
 
