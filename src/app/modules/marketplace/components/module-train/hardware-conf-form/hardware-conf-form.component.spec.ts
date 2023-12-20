@@ -35,6 +35,14 @@ describe('HardwareConfFormComponent', () => {
         fixture = TestBed.createComponent(HardwareConfFormComponent);
         component = fixture.componentInstance;
         component.defaultFormValues = defaultFormValues;
+        component.showHelp = true;
+        component.showFields = {
+            cpu_num: true,
+            ram: true,
+            disk: true,
+            gpu_num: true,
+            gpu_type: true,
+        };
         fixture.detectChanges();
     });
 

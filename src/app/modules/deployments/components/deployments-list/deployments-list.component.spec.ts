@@ -23,6 +23,8 @@ import { DeploymentsService } from '../../services/deployments.service';
 import { ToolsTableComponent } from './tools-table/tools-table.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
+import { BrowserModule, By } from '@angular/platform-browser';
+import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -61,6 +63,7 @@ const mockedDeleteDeploymentResponse: statusReturn = {
 const mockedConfigService: any = {};
 const mockedDeploymentServices: any = {
     getDeployments: jest.fn().mockReturnValue(of([mockedDeployment])),
+    getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
     deleteDeploymentByUUID: jest
         .fn()
         .mockReturnValue(of(mockedDeleteDeploymentResponse)),
@@ -72,9 +75,14 @@ describe('DeploymentsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DeploymentsListComponent, ToolsTableComponent],
+            declarations: [
+                DeploymentsListComponent,
+                ToolsTableComponent,
+                DeploymentDetailComponent,
+            ],
             imports: [
                 SharedModule,
+                BrowserModule,
                 RouterTestingModule,
                 NoopAnimationsModule,
                 HttpClientTestingModule,
@@ -318,10 +326,9 @@ describe('DeploymentsListComponent', () => {
 
         //open-deployment-detail-button
         jest.spyOn(component, 'openDeploymentDetailDialog');
-        const openDeploymentDetailButton =
-            fixture.debugElement.nativeElement.querySelector(
-                '.action-button-in-cell'
-            );
+        const openDeploymentDetailButton = fixture.debugElement.query(
+            By.css('#infoButton')
+        ).nativeElement;
         openDeploymentDetailButton.click();
         expect(component.openDeploymentDetailDialog).toHaveBeenCalledTimes(1);
         flush();

@@ -8,6 +8,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
+import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
+import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
 
 describe('ModuleTrainComponent', () => {
     let component: ModuleTrainComponent;
@@ -22,7 +25,12 @@ describe('ModuleTrainComponent', () => {
         });
 
         await TestBed.configureTestingModule({
-            declarations: [ModuleTrainComponent],
+            declarations: [
+                ModuleTrainComponent,
+                StorageConfFormComponent,
+                HardwareConfFormComponent,
+                GeneralConfFormComponent,
+            ],
             imports: [
                 SharedModule,
                 TranslateModule.forRoot(),

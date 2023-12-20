@@ -10,6 +10,15 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SidenavComponent } from '@app/layout/sidenav/sidenav.component';
+import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
+
+const mockDefaultFormValues: ModuleGeneralConfiguration = {
+    title: { name: '', value: '', description: '' },
+    docker_image: { name: '', value: '', description: '' },
+    docker_tag: { name: '', value: '', description: '' },
+    service: { name: '', value: '', description: '' },
+};
 
 describe('GeneralConfFormComponent', () => {
     let component: GeneralConfFormComponent;
@@ -23,7 +32,7 @@ describe('GeneralConfFormComponent', () => {
         });
 
         await TestBed.configureTestingModule({
-            declarations: [GeneralConfFormComponent],
+            declarations: [GeneralConfFormComponent, SidenavComponent],
             imports: [
                 SharedModule,
                 TranslateModule.forRoot(),
@@ -41,6 +50,7 @@ describe('GeneralConfFormComponent', () => {
         component.parentForm = new FormGroup({
             x: new FormControl(''),
         });
+        component.defaultFormValues = mockDefaultFormValues;
         fixture.detectChanges();
     });
 

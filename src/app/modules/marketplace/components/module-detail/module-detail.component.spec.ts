@@ -7,7 +7,9 @@ import { AuthService } from '@app/core/services/auth/auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { MaterialModule } from '@app/shared/material.module';
+import { TopNavbarComponent } from '@app/layout/top-navbar/top-navbar.component';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
@@ -20,11 +22,12 @@ describe('ModuleDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ModuleDetailComponent],
+            declarations: [ModuleDetailComponent, TopNavbarComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
                 SharedModule,
+                MaterialModule,
                 TranslateModule.forRoot(),
             ],
             providers: [

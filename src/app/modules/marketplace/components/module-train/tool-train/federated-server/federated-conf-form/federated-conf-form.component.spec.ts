@@ -5,7 +5,7 @@ import { FormGroupDirective, FormBuilder } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { defaultFormValues } from './federated-conf-form.component.mock';
+import { defaultFormValuesMock } from './federated-conf-form.component.mock';
 
 describe('FederatedConfFormComponent', () => {
     let component: FederatedConfFormComponent;
@@ -33,7 +33,8 @@ describe('FederatedConfFormComponent', () => {
 
         fixture = TestBed.createComponent(FederatedConfFormComponent);
         component = fixture.componentInstance;
-        component.defaultFormValues = defaultFormValues;
+        component.defaultFormValues = defaultFormValuesMock;
+        component.showHelp = true;
         fixture.detectChanges();
     });
 

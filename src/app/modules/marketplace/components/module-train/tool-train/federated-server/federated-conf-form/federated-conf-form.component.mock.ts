@@ -1,4 +1,4 @@
-export const defaultFormValues = {
+export const defaultFormValuesMock = {
     rounds: {
         range: [1, 2],
         name: '',

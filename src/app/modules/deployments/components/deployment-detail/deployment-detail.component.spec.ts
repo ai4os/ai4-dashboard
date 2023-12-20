@@ -10,6 +10,8 @@ import { SharedModule } from '@app/shared/shared.module';
 import { DeploymentsService } from '../../services/deployments.service';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
+import { BrowserModule } from '@angular/platform-browser';
+import { MaterialModule } from '@app/shared/material.module';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -42,7 +44,9 @@ describe('DeploymentDetailComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 TranslateModule.forRoot(),
+                MaterialModule,
                 SharedModule,
+                BrowserModule,
             ],
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
