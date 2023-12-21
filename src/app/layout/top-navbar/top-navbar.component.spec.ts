@@ -18,7 +18,6 @@ import { By } from '@angular/platform-browser';
 import { MatButton } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
-import { MatSidenav } from '@angular/material/sidenav';
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),

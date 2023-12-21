@@ -33,7 +33,6 @@ const mockedMediaMatcher: any = {
 describe('SidenavComponent', () => {
     let component: SidenavComponent;
     let fixture: ComponentFixture<SidenavComponent>;
-    let appConfigService: AppConfigService;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({

@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { AppConfigService } from './app-config.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { firstValueFrom, of } from 'rxjs';
 
 const mockedConfig = {
     title: 'AI4EOSC - Dashboard',

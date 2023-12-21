@@ -51,13 +51,13 @@ describe('HardwareConfFormComponent', () => {
     });
 
     it('check valid config', () => {
-        let cpuNumberInput =
+        const cpuNumberInput =
             component.hardwareConfFormGroup.controls['cpuNumberInput'];
         cpuNumberInput.setValue('1');
-        let ramMemoryInput =
+        const ramMemoryInput =
             component.hardwareConfFormGroup.controls['ramMemoryInput'];
         ramMemoryInput.setValue('1');
-        let diskMemoryInput =
+        const diskMemoryInput =
             component.hardwareConfFormGroup.controls['diskMemoryInput'];
         diskMemoryInput.setValue('1');
 
@@ -65,11 +65,11 @@ describe('HardwareConfFormComponent', () => {
         expect(component.hardwareConfFormGroup.valid).toBeTruthy();
 
         // check required restrictions (gpu)
-        let gpuNumberInput =
+        const gpuNumberInput =
             component.hardwareConfFormGroup.controls['gpuNumberInput'];
         gpuNumberInput.setValue(1);
 
-        let gpuModelSelect =
+        const gpuModelSelect =
             component.hardwareConfFormGroup.controls['gpuModelSelect'];
         gpuModelSelect.setValue('Test');
 
@@ -83,15 +83,15 @@ describe('HardwareConfFormComponent', () => {
     });
 
     it('check invalid config', () => {
-        let cpuNumberInput =
+        const cpuNumberInput =
             component.hardwareConfFormGroup.controls['cpuNumberInput'];
         cpuNumberInput.setValue('5');
 
-        let ramMemoryInput =
+        const ramMemoryInput =
             component.hardwareConfFormGroup.controls['ramMemoryInput'];
         ramMemoryInput.setValue('5');
 
-        let diskMemoryInput =
+        const diskMemoryInput =
             component.hardwareConfFormGroup.controls['diskMemoryInput'];
         diskMemoryInput.setValue('5');
 
@@ -99,7 +99,7 @@ describe('HardwareConfFormComponent', () => {
         expect(component.hardwareConfFormGroup.valid).toBeFalsy();
 
         // check required restrictions (gpu)
-        let gpuNumberInput =
+        const gpuNumberInput =
             component.hardwareConfFormGroup.controls['gpuNumberInput'];
         gpuNumberInput.setValue(5);
 

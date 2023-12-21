@@ -43,10 +43,10 @@ describe('FederatedConfFormComponent', () => {
     });
 
     it('check valid config', () => {
-        let roundsInput =
+        const roundsInput =
             component.federatedConfFormGroup.controls['roundsInput'];
         roundsInput.setValue('1');
-        let minClientsInput =
+        const minClientsInput =
             component.federatedConfFormGroup.controls['minClientsInput'];
         minClientsInput.setValue('1');
 
@@ -54,10 +54,10 @@ describe('FederatedConfFormComponent', () => {
     });
 
     it('check invalid config', () => {
-        let roundsInput =
+        const roundsInput =
             component.federatedConfFormGroup.controls['roundsInput'];
         roundsInput.setValue('5');
-        let minClientsInput =
+        const minClientsInput =
             component.federatedConfFormGroup.controls['minClientsInput'];
         minClientsInput.setValue('5');
 

@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
     FormGroupDirective,
     FormBuilder,
@@ -16,7 +16,7 @@ import { Observable, map, startWith } from 'rxjs';
     templateUrl: './federated-conf-form.component.html',
     styleUrls: ['./federated-conf-form.component.scss'],
 })
-export class FederatedConfFormComponent {
+export class FederatedConfFormComponent implements OnInit {
     constructor(
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder

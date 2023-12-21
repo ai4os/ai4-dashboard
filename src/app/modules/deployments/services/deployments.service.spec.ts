@@ -174,7 +174,6 @@ describe('DeploymentsService', () => {
 
     it('getToolByUUID should return a single tool by UUID', (done) => {
         const url = `${base}/deployments/tools/test?vo=vo.ai4eosc.eu`;
-        const tool = service.getToolByUUID('test');
 
         service.getToolByUUID('test').subscribe((tool) => {
             try {

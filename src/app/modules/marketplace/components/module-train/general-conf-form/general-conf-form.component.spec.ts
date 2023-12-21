@@ -63,19 +63,19 @@ describe('GeneralConfFormComponent', () => {
     });
 
     it('check jupyter valid config', () => {
-        let serviceToRun =
+        const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('jupyter');
-        let title = component.generalConfFormGroup.controls['titleInput'];
+        const title = component.generalConfFormGroup.controls['titleInput'];
         title.setValue('test');
-        let password =
+        const password =
             component.generalConfFormGroup.controls['serviceToRunPassInput'];
         password.setValue('123456789');
         expect(component.generalConfFormGroup.valid).toBeTruthy();
     });
 
     it('check jupyter invalid config', () => {
-        let serviceToRun =
+        const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('jupyter');
 
@@ -87,9 +87,9 @@ describe('GeneralConfFormComponent', () => {
             component.generalConfFormGroup.controls.serviceToRunPassInput.valid
         ).toBeFalsy();
 
-        let title = component.generalConfFormGroup.controls['titleInput'];
+        const title = component.generalConfFormGroup.controls['titleInput'];
         title.setValue('test');
-        let password =
+        const password =
             component.generalConfFormGroup.controls['serviceToRunPassInput'];
         password.setValue('123456');
 
@@ -98,19 +98,19 @@ describe('GeneralConfFormComponent', () => {
     });
 
     it('check vscode valid config', () => {
-        let serviceToRun =
+        const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('vscode');
-        let title = component.generalConfFormGroup.controls['titleInput'];
+        const title = component.generalConfFormGroup.controls['titleInput'];
         title.setValue('test');
-        let password =
+        const password =
             component.generalConfFormGroup.controls['serviceToRunPassInput'];
         password.setValue('123456789');
         expect(component.generalConfFormGroup.valid).toBeTruthy();
     });
 
     it('check vscode invalid config', () => {
-        let serviceToRun =
+        const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('vscode');
 
@@ -122,9 +122,9 @@ describe('GeneralConfFormComponent', () => {
             component.generalConfFormGroup.controls.serviceToRunPassInput.valid
         ).toBeFalsy();
 
-        let title = component.generalConfFormGroup.controls['titleInput'];
+        const title = component.generalConfFormGroup.controls['titleInput'];
         title.setValue('test');
-        let password =
+        const password =
             component.generalConfFormGroup.controls['serviceToRunPassInput'];
         password.setValue('123456');
 
@@ -133,16 +133,16 @@ describe('GeneralConfFormComponent', () => {
     });
 
     it('check fedserver valid config', () => {
-        let serviceToRun =
+        const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('fedserver');
-        let title = component.generalConfFormGroup.controls['titleInput'];
+        const title = component.generalConfFormGroup.controls['titleInput'];
         title.setValue('test');
         expect(component.generalConfFormGroup.valid).toBeTruthy();
     });
 
     it('check fedserver invalid config', () => {
-        let serviceToRun =
+        const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('fedserver');
 

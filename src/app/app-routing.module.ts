@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
-import { NotFoundComponent } from './modules/not-found/not-found.component';
 
 const routes: Routes = [
     {

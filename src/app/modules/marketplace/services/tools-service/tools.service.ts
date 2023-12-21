@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TagObject } from '@app/data/types/tags';
 import {
-    FederatedServerConfiguration,
     FederatedServerToolConfiguration,
     Module,
     ModuleSummary,
