@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/ai4os/ai4-dashboard/compare/v1.0.0...v1.0.1) (2023-12-21)
+
+
+### Bug Fixes
+
+* **analytics:** Add plausible script dynamically to header ([a799a49](https://github.com/ai4os/ai4-dashboard/commit/a799a498b8d01c9f60dbb5d0f03b12a607e344c0))
+
 ## 1.0.0 (2023-12-21)
 
 
