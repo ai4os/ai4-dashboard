@@ -39,5 +39,9 @@
             "name": "SIDENAV.PRIVACY-POLICY",
             "url": "https://confluence.egi.eu/display/IMPAIP/Privacy+Policy"
         }
-    ]
+    ],
+    "analytics": {
+        "domain": "dashboard.cloud.imagine-ai.eu",
+        "src": "https://stats.services.ai4os.eu/js/script.js"
+    }
 }

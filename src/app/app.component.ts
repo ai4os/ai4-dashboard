@@ -15,7 +15,21 @@ export class AppComponent implements OnInit {
         private appConfigService: AppConfigService
     ) {}
 
+    addPlausibleScript() {
+        const node = document.createElement('script'); // creates the script tag
+        node.src = this.appConfigService.analytics['src']; // sets the source (insert url in between quotes)
+        node.type = 'text/javascript'; // set the script type
+        node.defer = true;
+        node.setAttribute(
+            'data-domain',
+            this.appConfigService.analytics['domain']
+        );
+        document.getElementsByTagName('head')[0].appendChild(node);
+        console.log('Acabo', node);
+    }
+
     ngOnInit(): void {
         this.titleService.setTitle(this.appConfigService.title);
+        this.addPlausibleScript();
     }
 }
