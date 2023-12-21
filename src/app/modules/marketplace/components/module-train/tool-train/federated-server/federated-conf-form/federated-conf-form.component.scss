@@ -1,5 +1,24 @@
+mat-form-field {
+    height: fit-content;
+}
+
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
+}
+
+.metric-chip-row {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 27px;
+}
+
+:host [id='metric-field'] {
+    ::ng-deep {
+        .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+            .mat-mdc-form-field-infix {
+            padding-bottom: 0px;
+        }
+    }
 }

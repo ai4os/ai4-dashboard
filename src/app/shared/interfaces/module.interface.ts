@@ -36,6 +36,10 @@ export interface confObjectRange extends confObject {
     range: number[];
 }
 
+export interface confObjectStringArray extends confObject {
+    values: string[];
+}
+
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
@@ -65,7 +69,7 @@ export interface ModuleStorageConfiguration {
 
 export interface FederatedServerConfiguration {
     rounds: confObjectRange;
-    metric: confObject;
+    metric: confObjectStringArray;
     min_clients: confObjectRange;
     strategy: confObject;
 }
@@ -109,7 +113,7 @@ export interface TrainModuleRequest {
     };
     configuration?: {
         rounds: number;
-        metric: string;
+        metric: string[];
         min_clients: number;
         strategy: string;
     };

@@ -18,97 +18,105 @@
     </div>
 </form>
 
-<mat-stepper linear #stepper>
-    <mat-step [stepControl]="generalConfForm">
-        <form [formGroup]="generalConfForm">
-            <ng-template matStepLabel>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF' | translate
-            }}</ng-template>
-            <app-general-conf-form
-                [ngClass]="
-                    showHelpForm.get('showHelpToggleButton')?.value
-                        ? 'child-form-container-show-help'
-                        : 'child-form-container-no-help'
-                "
-                [defaultFormValues]="generalConfDefaultValues"
-                [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
-            ></app-general-conf-form>
-            <div class="next-back-buttons">
-                <button
-                    mat-raised-button
-                    class="mr-2"
-                    [disabled]="!generalConfForm.valid"
-                    (click)="submitTrainingRequest()"
-                >
-                    {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
-                </button>
-                <button
-                    type="button"
-                    mat-raised-button
-                    matStepperNext
-                    color="accent"
-                    [disabled]="!generalConfForm.valid"
-                >
-                    {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-                </button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step [stepControl]="hardwareConfForm">
-        <form [formGroup]="hardwareConfForm">
-            <ng-template matStepLabel>{{
-                'MODULES.MODULE-TRAIN.HARDWARE-CONF' | translate
-            }}</ng-template>
-            <app-hardware-conf-form
-                [ngClass]="
-                    showHelpForm.get('showHelpToggleButton')?.value
-                        ? 'child-form-container-show-help'
-                        : 'child-form-container-no-help'
-                "
-                [defaultFormValues]="hardwareConfDefaultValues"
-                [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
-            ></app-hardware-conf-form>
-            <div class="next-back-buttons">
-                <button mat-raised-button matStepperPrevious class="mr-2">
-                    {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                </button>
-                <button
-                    mat-raised-button
-                    matStepperNext
-                    color="accent"
-                    [disabled]="!hardwareConfForm.valid"
-                >
-                    {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-                </button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step [stepControl]="storageConfForm">
-        <form [formGroup]="storageConfForm">
-            <ng-template matStepLabel>{{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF' | translate
-            }}</ng-template>
-            <app-storage-conf-form
-                [ngClass]="
-                    showHelpForm.get('showHelpToggleButton')?.value
-                        ? 'child-form-container-show-help'
-                        : 'child-form-container-no-help'
-                "
-                [defaultFormValues]="storageConfDefaultValues"
-                [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
-            ></app-storage-conf-form>
-            <div class="next-back-buttons">
-                <button mat-raised-button matStepperPrevious class="mr-2">
-                    {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                </button>
-                <button
-                    mat-raised-button
-                    color="accent"
-                    (click)="submitTrainingRequest()"
-                >
-                    {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
-                </button>
-            </div>
-        </form>
-    </mat-step>
-</mat-stepper>
+<div *ngIf="isLoading" class="spinner">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</div>
+<div *ngIf="!isLoading">
+    <mat-stepper linear #stepper>
+        <mat-step [stepControl]="generalConfForm">
+            <form [formGroup]="generalConfForm">
+                <ng-template matStepLabel>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF' | translate
+                }}</ng-template>
+                <app-general-conf-form
+                    [ngClass]="
+                        showHelpForm.get('showHelpToggleButton')?.value
+                            ? 'child-form-container-show-help'
+                            : 'child-form-container-no-help'
+                    "
+                    [defaultFormValues]="generalConfDefaultValues"
+                    [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
+                ></app-general-conf-form>
+                <div class="next-back-buttons">
+                    <button
+                        mat-raised-button
+                        class="mr-2"
+                        type="button"
+                        [disabled]="!generalConfForm.valid"
+                        (click)="submitTrainingRequest()"
+                    >
+                        {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
+                    </button>
+                    <button
+                        type="button"
+                        mat-raised-button
+                        matStepperNext
+                        color="accent"
+                        [disabled]="!generalConfForm.valid"
+                    >
+                        {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="hardwareConfForm">
+            <form [formGroup]="hardwareConfForm">
+                <ng-template matStepLabel>{{
+                    'MODULES.MODULE-TRAIN.HARDWARE-CONF' | translate
+                }}</ng-template>
+                <app-hardware-conf-form
+                    [ngClass]="
+                        showHelpForm.get('showHelpToggleButton')?.value
+                            ? 'child-form-container-show-help'
+                            : 'child-form-container-no-help'
+                    "
+                    [defaultFormValues]="hardwareConfDefaultValues"
+                    [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
+                ></app-hardware-conf-form>
+                <div class="next-back-buttons">
+                    <button mat-raised-button matStepperPrevious class="mr-2">
+                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                    </button>
+                    <button
+                        mat-raised-button
+                        matStepperNext
+                        color="accent"
+                        [disabled]="!hardwareConfForm.valid"
+                    >
+                        {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="storageConfForm">
+            <form [formGroup]="storageConfForm">
+                <ng-template matStepLabel>{{
+                    'MODULES.MODULE-TRAIN.STORAGE-CONF' | translate
+                }}</ng-template>
+                <app-storage-conf-form
+                    [ngClass]="
+                        showHelpForm.get('showHelpToggleButton')?.value
+                            ? 'child-form-container-show-help'
+                            : 'child-form-container-no-help'
+                    "
+                    [defaultFormValues]="storageConfDefaultValues"
+                    [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
+                ></app-storage-conf-form>
+                <div class="next-back-buttons">
+                    <button mat-raised-button matStepperPrevious class="mr-2">
+                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                    </button>
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        type="button"
+                        (click)="submitTrainingRequest()"
+                    >
+                        {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-stepper>
+</div>

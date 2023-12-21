@@ -29,6 +29,10 @@
     max-width: 100%;
 }
 
+::ng-deep .module-description video {
+    max-width: 600px;
+}
+
 .tags span {
     display: inline-block;
     height: 24px;
