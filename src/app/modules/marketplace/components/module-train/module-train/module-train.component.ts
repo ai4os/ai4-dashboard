@@ -139,7 +139,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
-            error: (err) => {
+            error: () => {
                 this.isLoading = false;
             },
             complete: () => {

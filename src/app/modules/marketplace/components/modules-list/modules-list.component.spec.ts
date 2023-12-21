@@ -6,8 +6,12 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { SharedModule } from '@app/shared/shared.module';
 import { SearchPipe } from '../../pipes/search-card-pipe';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthService } from '@app/core/services/auth/auth.service';
 
 const mockedConfigService: any = {};
+const mockedAuthService: any = {
+    isAuthenticated: jest.fn(),
+};
 
 describe('ModulesListComponent', () => {
     let component: ModulesListComponent;
@@ -23,6 +27,7 @@ describe('ModulesListComponent', () => {
             ],
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: AuthService, useValue: mockedAuthService },
             ],
         }).compileComponents();
 

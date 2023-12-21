@@ -33,6 +33,7 @@ describe('StorageConfFormComponent', () => {
 
         fixture = TestBed.createComponent(StorageConfFormComponent);
         component = fixture.componentInstance;
+        component.showHelp = true;
         fixture.detectChanges();
     });
 
