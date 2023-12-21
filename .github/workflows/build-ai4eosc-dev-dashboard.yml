@@ -1,4 +1,4 @@
-name: Build AI4EOSC dashboard docker image
+name: Build AI4EOSC:dev docker image
 
 on:
   push:
