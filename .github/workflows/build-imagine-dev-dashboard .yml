@@ -1,4 +1,4 @@
-name: Build iMagine platform dashboard docker image
+name: Build iMagine:dev docker image
 
 on:
   push:
