@@ -1,3 +1,9 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
 .modules-cards-container {
     display: grid;
     grid-gap: 1rem;
@@ -12,6 +18,22 @@
         align-items: center;
     }
 }
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    row-gap: 0.5em;
+}
+
+.search-form-mobile {
+    width: 100%;
+}
+
+.search-field-mobile {
+    width: 100%;
+}
+
 ::ng-deep .mat-mdc-tab-header {
     width: 200px;
     margin-left: 0.5em;

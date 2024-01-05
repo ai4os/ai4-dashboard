@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
@@ -7,6 +7,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { TagObject } from '@app/data/types/tags';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-modules-list',
@@ -19,9 +20,17 @@ export class ModulesListComponent implements OnInit {
         private modulesService: ModulesService,
         private toolsService: ToolsService,
         private appConfigService: AppConfigService,
-        private authService: AuthService
-    ) {}
+        private authService: AuthService,
+        private media: MediaMatcher,
+        private changeDetectorRef: ChangeDetectorRef
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
+    private _mobileQueryListener: () => void;
+    mobileQuery: MediaQueryList;
     searchFormGroup!: FormGroup;
     isLoading = false;
 
