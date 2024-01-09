@@ -31,7 +31,15 @@
     }
 }
 
-.username {
+.login-btn-mobile {
+    padding: 0;
+    justify-content: flex-end;
+    & mat-icon {
+        margin-right: 0px;
+    }
+}
+
+.user-log {
     margin-left: 8px;
 }
 

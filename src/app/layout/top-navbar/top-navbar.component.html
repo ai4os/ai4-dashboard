@@ -31,7 +31,7 @@
             class="mobileQuery.matches ? profile-button-mobile : profile-button"
         >
             <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
-            <div *ngIf="!mobileQuery.matches" class="username">
+            <div *ngIf="!mobileQuery.matches" class="user-log">
                 {{ userProfile?.name }}
             </div>
         </button>
@@ -54,9 +54,16 @@
     </div>
 
     <ng-template #showSignInLink>
-        <a id="showLoginButton" mat-button (click)="login()">
+        <a
+            id="showLoginButton"
+            mat-button
+            (click)="login()"
+            class="mobileQuery.matches ? login-btn-mobile :"
+        >
             <mat-icon>person</mat-icon>
-            {{ 'TOP-NAVBAR.LOGIN-REGISTER' | translate }}
+            <div *ngIf="!mobileQuery.matches" class="user-log">
+                {{ 'TOP-NAVBAR.LOGIN-REGISTER' | translate }}
+            </div>
         </a>
     </ng-template>
 </mat-toolbar>
