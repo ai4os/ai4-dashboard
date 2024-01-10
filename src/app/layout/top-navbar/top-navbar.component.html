@@ -56,9 +56,9 @@
     <ng-template #showSignInLink>
         <a
             id="showLoginButton"
+            class="mobileQuery.matches ? login-btn-mobile"
             mat-button
             (click)="login()"
-            class="mobileQuery.matches ? login-btn-mobile :"
         >
             <mat-icon>person</mat-icon>
             <div *ngIf="!mobileQuery.matches" class="user-log">
