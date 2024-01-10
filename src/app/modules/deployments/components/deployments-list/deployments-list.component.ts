@@ -233,6 +233,10 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         }
     }
 
+    isSticky(columnDef: string): boolean {
+        return columnDef === 'name' ? true : false;
+    }
+
     ngOnInit(): void {
         this.dataset = [];
         this.getDeploymentsList();

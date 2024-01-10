@@ -221,6 +221,10 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
         return row.mainEndpoint.includes('fedserver');
     }
 
+    isSticky(columnDef: string): boolean {
+        return columnDef === 'name' ? true : false;
+    }
+
     ngOnInit(): void {
         this.dataset = [];
         this.getToolsList();
