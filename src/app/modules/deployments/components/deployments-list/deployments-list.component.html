@@ -29,8 +29,16 @@
                         sortActionDescription="Sort by {column.header}"
                         >{{ column.header | translate }}</mat-header-cell
                     >
-                    <mat-cell *matCellDef="let row" class="content-cell">
-                        <ng-container *ngIf="column.columnDef === 'actions'">
+                    <mat-cell
+                        *matCellDef="let row"
+                        [ngClass]="{
+                            'content-cell': column.columnDef == 'actions'
+                        }"
+                    >
+                        <div
+                            *ngIf="column.columnDef === 'actions'"
+                            class="actions-container"
+                        >
                             <button
                                 id="infoButton"
                                 mat-button
@@ -71,7 +79,7 @@
                             >
                                 <mat-icon color="warn">delete</mat-icon>
                             </button>
-                        </ng-container>
+                        </div>
                         <ng-container *ngIf="column.columnDef === 'status'">
                             <img
                                 src="https://img.shields.io/badge/{{

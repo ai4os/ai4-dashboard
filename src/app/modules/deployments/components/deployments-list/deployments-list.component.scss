@@ -83,12 +83,24 @@
     overflow: auto;
 }
 
+.actions-container {
+    display: flex;
+    padding: 0px 5px;
+}
+
+.content-cell {
+    min-width: 130px;
+}
+
 .no-deployment-message-container {
     display: flex;
     justify-content: center;
     margin: 1rem 0;
 }
 
+.action-button-in-cell {
+    padding: 0px;
+}
 .action-button-in-cell:disabled #accessIcon {
     color: var(--dark-gray) !important;
 }
