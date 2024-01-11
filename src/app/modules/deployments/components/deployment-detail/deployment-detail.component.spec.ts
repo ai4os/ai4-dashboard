@@ -12,6 +12,7 @@ import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '@app/shared/material.module';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -31,6 +32,20 @@ const mockedTranslateService: any = {
 const mockedDeploymentServices: any = {
     getToolByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
     getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
+};
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
 describe('DeploymentDetailComponent', () => {
@@ -55,6 +70,7 @@ describe('DeploymentDetailComponent', () => {
                     provide: DeploymentsService,
                     useValue: mockedDeploymentServices,
                 },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 
