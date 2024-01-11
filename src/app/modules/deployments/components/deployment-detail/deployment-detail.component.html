@@ -33,7 +33,7 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile ': this.mobileQuery.matches
+            'card-content-mobile': this.mobileQuery.matches
         }"
     >
         <div *ngIf="deploymentHasError">
