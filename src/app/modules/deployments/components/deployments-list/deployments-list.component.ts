@@ -1,5 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +20,7 @@ import {
     statusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 export interface TableColumn {
     columnDef: string;
@@ -44,8 +51,14 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
         private _snackBar: MatSnackBar,
-        private _liveAnnouncer: LiveAnnouncer
-    ) {}
+        private _liveAnnouncer: LiveAnnouncer,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     @ViewChild(MatSort) set matSort(sort: MatSort) {
         this.dataSource.sort = sort;
@@ -68,6 +81,9 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     selection = new SelectionModel<deploymentTableRow>(true, []);
     displayedColumns: string[] = [];
     private unsub = new Subject<void>();
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected() {
@@ -210,11 +226,12 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     openDeploymentDetailDialog(row: deploymentTableRow): void {
+        let width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid, isTool: false },
-            width: '650px',
-            maxWidth: '650px',
-            minWidth: '650px',
+            width: width,
+            maxWidth: width,
+            minWidth: width,
             autoFocus: false,
             restoreFocus: false,
         });
