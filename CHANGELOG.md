@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/ai4os/ai4-dashboard/compare/v1.0.1...v1.1.0) (2024-01-11)
+
+
+### Features
+
+* **style:** Improve VO error message style ([155f7a4](https://github.com/ai4os/ai4-dashboard/commit/155f7a44d8074a22e02f1a01bf26a006dc403bc8))
+
 ## [1.0.1](https://github.com/ai4os/ai4-dashboard/compare/v1.0.0...v1.0.1) (2023-12-21)
 
 
