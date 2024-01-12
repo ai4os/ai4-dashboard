@@ -1,7 +1,7 @@
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,10 @@ import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { AppConfigService } from './core/services/app-config/app-config.service';
+
+export function storageFactory(): OAuthStorage {
+    return localStorage;
+}
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -109,6 +113,7 @@ renderer.link = (href, title, text) => {
                 };
             },
         },
+        { provide: OAuthStorage, useFactory: storageFactory },
         Title,
     ],
     bootstrap: [AppComponent],
