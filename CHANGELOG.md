@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/ai4os/ai4-dashboard/compare/v1.1.0...v1.2.0) (2024-01-12)
+
+
+### Features
+
+* **auth:** Improve handling of token and user sessions ([a1b3f4d](https://github.com/ai4os/ai4-dashboard/commit/a1b3f4db8fbcf2b7c19fcbe85977825d4eefa4c5))
+
 ## [1.1.0](https://github.com/ai4os/ai4-dashboard/compare/v1.0.1...v1.1.0) (2024-01-11)
 
 
