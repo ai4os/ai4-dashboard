@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
+import { tap } from 'rxjs';
 
 export const AuthenticationGuard = () => {
     const authService = inject(AuthService);
@@ -10,6 +11,7 @@ export const AuthenticationGuard = () => {
         return true;
     }
 
-    // Redirect to the login page
-    return router.parseUrl('/modules');
+    return authService.canActivateProtectedRoutes$.pipe(
+        tap(() => router.navigate(['/marketplace']))
+    );
 };

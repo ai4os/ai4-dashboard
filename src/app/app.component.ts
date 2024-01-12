@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
             this.appConfigService.analytics['domain']
         );
         document.getElementsByTagName('head')[0].appendChild(node);
-        console.log('Acabo', node);
     }
 
     ngOnInit(): void {
