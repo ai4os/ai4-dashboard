@@ -4,82 +4,94 @@
         <mat-icon>dashboard</mat-icon>
     </span>
 </mat-toolbar>
-<mat-toolbar class="mb-3">
-    <span class="aligned-with-icon">
-        {{ 'DASHBOARD.USERS-AGG' | translate }}
-    </span>
-</mat-toolbar>
-<app-stats-container></app-stats-container>
 
-<mat-toolbar class="mb-3">
-    <span class="aligned-with-icon">
-        {{ 'DASHBOARD.TOTAL-AGG' | translate }}
-    </span>
-</mat-toolbar>
-<app-stats-container></app-stats-container>
+<mat-tab-group>
+    <mat-tab label="Tab 1">
+        <mat-toolbar class="mb-3">
+            <span class="aligned-with-icon">
+                {{ 'DASHBOARD.USERS-AGG' | translate }}
+            </span>
+        </mat-toolbar>
+        <app-stats-container [values]="this.userStats"></app-stats-container>
 
-<mat-tab-group class="graphs-tab-group">
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate }}">
-        <app-time-series-chart
-            id="cpuMhzDataChart"
-            [datesInput]="dates"
-            [dataInput]="cpuMhzData"
-            nameInput="cpuMhzData"
-            class="chartContainer"
-        ></app-time-series-chart
-    ></mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.CPU-NUM' | translate }}">
-        <app-time-series-chart
-            id="cpuNumDataChart"
-            [datesInput]="dates"
-            [dataInput]="cpuNumData"
-            nameInput="cpuNumData"
-            class="chartContainer"
-        ></app-time-series-chart>
+        <mat-toolbar class="mb-3">
+            <span class="aligned-with-icon">
+                {{ 'DASHBOARD.TOTAL-AGG' | translate }}
+            </span>
+        </mat-toolbar>
+        <app-stats-container [values]="this.totalStats"></app-stats-container>
+
+        <mat-tab-group class="graphs-tab-group">
+            <mat-tab
+                label="{{ 'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate }}"
+            >
+                <app-time-series-chart
+                    id="cpuMhzDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="cpuMhzData"
+                    nameInput="cpuMhzData"
+                    class="chartContainer"
+                ></app-time-series-chart
+            ></mat-tab>
+            <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.CPU-NUM' | translate }}">
+                <app-time-series-chart
+                    id="cpuNumDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="cpuNumData"
+                    nameInput="cpuNumData"
+                    class="chartContainer"
+                ></app-time-series-chart>
+            </mat-tab>
+            <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RAM' | translate }}">
+                <app-time-series-chart
+                    id="memoryMBDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="memoryMBData"
+                    nameInput="memoryMBData"
+                    class="chartContainer"
+                ></app-time-series-chart>
+            </mat-tab>
+            <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.DISK' | translate }}">
+                <app-time-series-chart
+                    id="diskMBDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="diskMBData"
+                    nameInput="diskMBData"
+                    class="chartContainer"
+                ></app-time-series-chart>
+            </mat-tab>
+            <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.GPU-NUM' | translate }}">
+                <app-time-series-chart
+                    id="gpuNumDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="gpuNumData"
+                    nameInput="gpuNumData"
+                    class="chartContainer"
+                ></app-time-series-chart>
+            </mat-tab>
+            <mat-tab
+                label="{{ 'DASHBOARD.STATS-VALUES.QUEUED-DATA' | translate }}"
+            >
+                <app-time-series-chart
+                    id="queuedDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="queuedData"
+                    nameInput="queuedData"
+                    class="chartContainer"
+                ></app-time-series-chart>
+            </mat-tab>
+            <mat-tab
+                label="{{ 'DASHBOARD.STATS-VALUES.RUNNING-DATA' | translate }}"
+            >
+                <app-time-series-chart
+                    id="runningDataChart"
+                    [datesInput]="dates"
+                    [dataInput]="runningData"
+                    nameInput="runningData"
+                    class="chartContainer"
+                ></app-time-series-chart>
+            </mat-tab>
+        </mat-tab-group>
     </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RAM' | translate }}">
-        <app-time-series-chart
-            id="memoryMBDataChart"
-            [datesInput]="dates"
-            [dataInput]="memoryMBData"
-            nameInput="memoryMBData"
-            class="chartContainer"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.DISK' | translate }}">
-        <app-time-series-chart
-            id="diskMBDataChart"
-            [datesInput]="dates"
-            [dataInput]="diskMBData"
-            nameInput="diskMBData"
-            class="chartContainer"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.GPU-NUM' | translate }}">
-        <app-time-series-chart
-            id="gpuNumDataChart"
-            [datesInput]="dates"
-            [dataInput]="gpuNumData"
-            nameInput="gpuNumData"
-            class="chartContainer"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.QUEUED-DATA' | translate }}">
-        <app-time-series-chart
-            id="queuedDataChart"
-            [datesInput]="dates"
-            [dataInput]="queuedData"
-            nameInput="queuedData"
-            class="chartContainer"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RUNNING-DATA' | translate }}">
-        <app-time-series-chart
-            id="runningDataChart"
-            [datesInput]="dates"
-            [dataInput]="runningData"
-            nameInput="runningData"
-            class="chartContainer"
-        ></app-time-series-chart>
-    </mat-tab>
+    <mat-tab label="Tab 2"> Content 2 </mat-tab>
 </mat-tab-group>

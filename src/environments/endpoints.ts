@@ -11,5 +11,6 @@ export const endpoints = {
     toolsSummary: '/catalog/tools/detail',
     tool: '/catalog/tools/:name/metadata',
     toolConfiguration: '/catalog/tools/:name/config',
-    stats: '/deployments/stats',
+    userStats: '/deployments/stats/user',
+    clusterStats: '/deployments/stats/cluster',
 };

@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class StatCardComponent {
     @Input() title: string = '';
-    @Input() value: number = 0;
+    @Input() value: string = '0';
     @Input() icon_name: String = '';
 }

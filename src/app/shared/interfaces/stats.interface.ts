@@ -1,4 +1,4 @@
-export interface statsResponse {
+export interface UserStats {
     'full-agg': {
         cpu_num: number;
         cpu_MHz: number;
