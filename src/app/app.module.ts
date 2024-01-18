@@ -16,6 +16,10 @@ import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import {
+    NgcCookieConsentModule,
+    NgcCookieConsentConfig,
+} from 'ngx-cookieconsent';
 import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -30,6 +34,28 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 const { base } = environment.api;
+
+const cookieConfig: NgcCookieConsentConfig = {
+    cookie: {
+        domain: 'not-set-yet', // or 'your.domain.com' // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
+    },
+    content: {
+        link: '',
+    },
+    palette: {
+        popup: {
+            background: 'var(--white-three)',
+            text: 'var(--primary-text)',
+        },
+        button: {
+            background: '#008792',
+        },
+    },
+    mobileForceFloat: true,
+    position: 'bottom-right',
+    theme: 'edgeless',
+    type: 'opt-out',
+};
 
 const renderer = new MarkedRenderer();
 
@@ -96,6 +122,7 @@ renderer.link = (href, title, text) => {
                 },
             },
         }),
+        NgcCookieConsentModule.forRoot(cookieConfig),
     ],
     providers: [
         {
@@ -106,10 +133,18 @@ renderer.link = (href, title, text) => {
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [AppConfigService],
-            useFactory: (appConfigService: AppConfigService) => {
+            deps: [AppConfigService, NgcCookieConsentConfig],
+            useFactory: (
+                appConfigService: AppConfigService,
+                config: NgcCookieConsentConfig
+            ) => {
                 return () => {
-                    return appConfigService.loadAppConfig();
+                    return appConfigService.loadAppConfig().then(() => {
+                        if (config.cookie) {
+                            config.cookie.domain =
+                                appConfigService.analytics.domain;
+                        }
+                    });
                 };
             },
         },

@@ -50,9 +50,13 @@
                                     "with": "src/environments/environment.production.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {
@@ -92,9 +96,13 @@
                                     "with": "src/environments/environment.production.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/imagine/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {
@@ -127,9 +135,13 @@
                                     "with": "src/environments/environment.development.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {
@@ -162,9 +174,13 @@
                                     "with": "src/environments/environment.development.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/imagine/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {
@@ -197,9 +213,13 @@
                                     "with": "src/environments/environment.local.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {
@@ -232,9 +252,13 @@
                                     "with": "src/environments/environment.local.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/imagine/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {
@@ -274,9 +298,13 @@
                                     "with": "src/environments/environment.production.ts"
                                 }
                             ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
-                                "src/styles.scss"
+                                "src/styles.scss",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
                                 {

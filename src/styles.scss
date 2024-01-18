@@ -72,3 +72,8 @@ body {
         }
     }
 }
+
+//Cookie consent border
+.cc-window.cc-floating {
+    border: 1px solid var(--border-gray);
+}
