@@ -40,7 +40,10 @@ const cookieConfig: NgcCookieConsentConfig = {
         domain: 'not-set-yet', // or 'your.domain.com' // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
     },
     content: {
-        link: '',
+        message:
+            'This platform uses cookies to ensure you get the best experience using it.',
+        link: 'Learn more',
+        href: 'not-set-yet',
     },
     palette: {
         popup: {
@@ -143,6 +146,8 @@ renderer.link = (href, title, text) => {
                         if (config.cookie) {
                             config.cookie.domain =
                                 appConfigService.analytics.domain;
+                            config.content!.href =
+                                appConfigService.legalLinks[1].url;
                         }
                     });
                 };
