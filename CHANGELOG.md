@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/ai4os/ai4-dashboard/compare/v1.2.0...v1.3.0) (2024-01-18)
+
+
+### Features
+
+* **privacy:** Add cookie consent banner ([#38](https://github.com/ai4os/ai4-dashboard/issues/38)) ([6369220](https://github.com/ai4os/ai4-dashboard/commit/636922035140a9dd0017c5937d1afd3678505e77))
+
 ## [1.2.0](https://github.com/ai4os/ai4-dashboard/compare/v1.1.0...v1.2.0) (2024-01-12)
 
 
