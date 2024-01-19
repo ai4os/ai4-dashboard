@@ -4,7 +4,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build-ai4eosc-dev": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts && build --configuration development-ai4eosc",
+        "build-ai4eosc-dev": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts && ng build --configuration development-ai4eosc",
         "build-ai4eosc-prod": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts && ng build --configuration production-ai4eosc",
         "build-ai4eosc-tutorials": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts && ng build --configuration tutorials-ai4eosc",
         "build-imagine-dev": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts && ng build --configuration development-imagine",
