@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/ai4os/ai4-dashboard/compare/v1.3.0...v1.4.0) (2024-01-19)
+
+
+### Features
+
+* Show deployed version in dashboard ([#40](https://github.com/ai4os/ai4-dashboard/issues/40)) ([c709051](https://github.com/ai4os/ai4-dashboard/commit/c7090512dc17eea9dc2917e466a717e2ceece4e6))
+
 ## [1.3.0](https://github.com/ai4os/ai4-dashboard/compare/v1.2.0...v1.3.0) (2024-01-18)
 
 
