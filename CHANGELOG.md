@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/ai4os/ai4-dashboard/compare/v1.4.1...v1.4.2) (2024-01-19)
+
+
+### Bug Fixes
+
+* **style:** Add margin to dashboard version ([4e91f11](https://github.com/ai4os/ai4-dashboard/commit/4e91f11315330b9cb1986b4ae7c222004b234517))
+
 ## [1.4.1](https://github.com/ai4os/ai4-dashboard/compare/v1.4.0...v1.4.1) (2024-01-19)
 
 
