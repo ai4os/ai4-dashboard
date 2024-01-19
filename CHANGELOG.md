@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1](https://github.com/ai4os/ai4-dashboard/compare/v1.4.0...v1.4.1) (2024-01-19)
+
+
+### Bug Fixes
+
+* Fix constant name in version file ([744bc09](https://github.com/ai4os/ai4-dashboard/commit/744bc098442bb0340b5e6a9007267cf70bec5348))
+* **package-json:** fix ai4eosc dev build command ([bb5cd4b](https://github.com/ai4os/ai4-dashboard/commit/bb5cd4ba6137a9b0c82b09f3171ae4d7234ef0d4))
+
 ## [1.4.0](https://github.com/ai4os/ai4-dashboard/compare/v1.3.0...v1.4.0) (2024-01-19)
 
 
