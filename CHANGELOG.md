@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.4](https://github.com/ai4os/ai4-dashboard/compare/v1.4.3...v1.4.4) (2024-01-22)
+
+
+### Bug Fixes
+
+* build docker images when a tag is created ([#46](https://github.com/ai4os/ai4-dashboard/issues/46)) ([658e027](https://github.com/ai4os/ai4-dashboard/commit/658e02781a96d3b4529aa10457e156bdece5d636))
+
 ## [1.4.3](https://github.com/ai4os/ai4-dashboard/compare/v1.4.2...v1.4.3) (2024-01-22)
 
 
