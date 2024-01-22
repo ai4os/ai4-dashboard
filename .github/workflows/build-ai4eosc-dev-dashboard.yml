@@ -2,7 +2,8 @@ name: Build AI4EOSC:dev docker image
 
 on:
   push:
-    branches: [ "main" ]
+    tags:
+      - v1.**
   pull_request:
     branches: [ "main" ]
 
