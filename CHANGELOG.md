@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/ai4os/ai4-dashboard/compare/v1.4.2...v1.4.3) (2024-01-22)
+
+
+### Bug Fixes
+
+* remove tags_any from imagine config ([#44](https://github.com/ai4os/ai4-dashboard/issues/44)) ([3616a00](https://github.com/ai4os/ai4-dashboard/commit/3616a002b5547db93fa32ec3decf306f25914ba0))
+
 ## [1.4.2](https://github.com/ai4os/ai4-dashboard/compare/v1.4.1...v1.4.2) (2024-01-19)
 
 
