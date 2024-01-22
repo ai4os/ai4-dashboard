@@ -16,8 +16,7 @@
     ],
     "tags": [
         {
-            "tags": "general purpose",
-            "tags_any": "*image*"
+            "tags": "general purpose"
         },
         {
             "tags": "vo.imagine-ai.eu"
