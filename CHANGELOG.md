@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.5](https://github.com/ai4os/ai4-dashboard/compare/v1.4.4...v1.4.5) (2024-01-22)
+
+
+### Features
+
+* Add new links to sidenav ([#48](https://github.com/ai4os/ai4-dashboard/issues/48)) ([378bea3](https://github.com/ai4os/ai4-dashboard/commit/378bea3e2a01ee00b8ea8750c9e63eaccd026434))
+
 ## [1.4.4](https://github.com/ai4os/ai4-dashboard/compare/v1.4.3...v1.4.4) (2024-01-22)
 
 
