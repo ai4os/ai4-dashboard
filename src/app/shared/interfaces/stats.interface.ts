@@ -41,6 +41,7 @@ export interface ClusterStats {
 }
 
 export interface NodeStats {
+    name: string;
     cpu_total: number;
     cpu_used: number;
     disk_total: number;

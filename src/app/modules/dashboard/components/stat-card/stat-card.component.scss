@@ -1,8 +1,16 @@
 .card {
     border-radius: 25px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .icon {
@@ -13,20 +21,29 @@
     padding: 10px 0px 0px 10px;
 }
 
-.card-text {
+.header-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
 }
 
 .title-text {
     white-space: nowrap;
-    font-size: 1em;
-    margin: 10px 10px;
+    font-size: 1.3em;
+    margin: 10px 10px 5px;
+    text-align: end;
+}
+
+.key-text {
+    white-space: nowrap;
+    font-size: 0.9em;
+    margin: 0px 10px;
+    text-align: end;
 }
 
 .value-text {
-    margin: 0px 10px 10px 10px;
+    margin: 15px 10px 10px 10px;
     font-size: 2em;
+    line-height: normal;
+    text-align: end;
     align-self: end;
 }

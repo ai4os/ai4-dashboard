@@ -19,10 +19,8 @@
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
-        "USERS-AGG": "Users Aggregate",
-        "TOTAL-AGG": "Total Aggregate",
-        "CLUSTER-AGG": "Cluster Aggregate",
-        "CLUSTER-TOTAL": "Total Aggregate",
+        "USERS": "Users",
+        "CLUSTER": "Cluster",
         "NODES": "Nodes",
         "NODES-USED": "Used",
         "NODES-TOTAL": "Total",

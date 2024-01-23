@@ -1,7 +1,10 @@
 <mat-card class="card">
-    <mat-icon class="icon">{{ icon_name }}</mat-icon>
-    <div class="card-text">
-        <p class="title-text">{{ title }}</p>
-        <p class="value-text">{{ value }}</p>
+    <div class="header">
+        <mat-icon class="icon">{{ icon_name }}</mat-icon>
+        <div class="header-text">
+            <p class="title-text">{{ title }}</p>
+            <p class="key-text">Used / Total</p>
+        </div>
     </div>
+    <p class="value-text">{{ value }}</p>
 </mat-card>

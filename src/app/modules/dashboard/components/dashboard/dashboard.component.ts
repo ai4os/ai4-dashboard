@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StatsService } from '../../services/stats-service/stats-service.service';
 import {
     ClusterStats,
+    NodeStats,
     UserStats,
 } from '@app/shared/interfaces/stats.interface';
 
@@ -22,14 +23,14 @@ export class DashboardComponent implements OnInit {
     protected cpuMHzUserAgg = '0';
     protected memoryMBUserAgg = '0';
     protected diskMBUserAgg = '0';
-    protected gpunumUserAgg = '0';
+    protected gpuNumUserAgg = '0';
 
     // Namespace aggregate variables
     protected cpuNumNamespaceAgg = '0';
     protected cpuMHzNamespaceAgg = '0';
     protected memoryMBNamespaceAgg = '0';
     protected diskMBNamespaceAgg = '0';
-    protected gpunumNamespaceAgg = '0';
+    protected gpuNumNamespaceAgg = '0';
 
     // Time series variables
     protected dates: string[] = [];
@@ -43,20 +44,18 @@ export class DashboardComponent implements OnInit {
 
     // Cluster aggregate variables
     protected cpuNumClusterAgg = '0';
-    protected cpuMHzClusterAgg = '0';
     protected memoryMBClusterAgg = '0';
     protected diskMBClusterAgg = '0';
-    protected gpunumClusterAgg = '0';
+    protected gpuNumClusterAgg = '0';
 
     // Cluster total variables
     protected cpuNumClusterTotal = '0';
-    protected cpuMHzClusterTotal = '0';
     protected memoryMBClusterTotal = '0';
     protected diskMBClusterTotal = '0';
-    protected gpunumClusterTotal = '0';
+    protected gpuNumClusterTotal = '0';
 
     // Nodes
-    protected nodes: any;
+    protected nodes: NodeStats[] = [];
 
     ngOnInit(): void {
         this.userStatsLoading = true;
@@ -75,7 +74,7 @@ export class DashboardComponent implements OnInit {
                         statsResponse['users-agg'].memory_MB.toString();
                     this.diskMBUserAgg =
                         statsResponse['users-agg'].disk_MB.toString();
-                    this.gpunumUserAgg =
+                    this.gpuNumUserAgg =
                         statsResponse['users-agg'].gpu_num.toString();
                 }
 
@@ -89,7 +88,7 @@ export class DashboardComponent implements OnInit {
                         statsResponse['full-agg'].memory_MB.toString();
                     this.diskMBNamespaceAgg =
                         statsResponse['full-agg'].memory_MB.toString();
-                    this.gpunumNamespaceAgg =
+                    this.gpuNumNamespaceAgg =
                         statsResponse['full-agg'].memory_MB.toString();
                 }
 
@@ -120,7 +119,7 @@ export class DashboardComponent implements OnInit {
                     this.diskMBClusterAgg = statsResponse['cluster'].disk_used
                         .toFixed(0)
                         .toString();
-                    this.gpunumClusterAgg =
+                    this.gpuNumClusterAgg =
                         statsResponse['cluster'].gpu_used.toString();
                     // Total
                     this.cpuNumClusterTotal =
@@ -135,60 +134,16 @@ export class DashboardComponent implements OnInit {
                     ].disk_total
                         .toFixed(0)
                         .toString();
-                    this.gpunumClusterTotal =
+                    this.gpuNumClusterTotal =
                         statsResponse['cluster'].gpu_total.toString();
                 }
 
                 // Nodes
-                this.nodes = Object.entries(statsResponse['nodes']).map(
-                    (e) => ({ [e[0]]: e[1] })
-                );
+                for (const node in statsResponse['nodes']) {
+                    this.nodes.push(statsResponse['nodes'][node]);
+                }
 
                 this.clusterStatsLoading = false;
             });
-    }
-
-    getNodeId(node: any): string {
-        return Object.getOwnPropertyNames(node)[0];
-    }
-
-    getCpuUsed(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].cpu_used;
-    }
-
-    getMemoryUsed(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].ram_used.toFixed(0);
-    }
-
-    getDiskUsed(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].disk_used.toFixed(0);
-    }
-
-    getGpuUsed(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].gpu_used;
-    }
-
-    getCpuTotal(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].cpu_total;
-    }
-
-    getMemoryTotal(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].ram_total.toFixed(0);
-    }
-
-    getDiskTotal(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].disk_total.toFixed(0);
-    }
-
-    getGpuTotal(node: any): string {
-        let id = Object.getOwnPropertyNames(node)[0];
-        return node[id].gpu_total;
     }
 }
