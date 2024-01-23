@@ -10,7 +10,12 @@ import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { StatsContainerComponent } from './components/stats-container/stats-container.component';
 
 @NgModule({
-    declarations: [TimeSeriesChartComponent, DashboardComponent, StatCardComponent, StatsContainerComponent],
+    declarations: [
+        TimeSeriesChartComponent,
+        DashboardComponent,
+        StatCardComponent,
+        StatsContainerComponent,
+    ],
     imports: [
         CommonModule,
         DashboardRoutingModule,

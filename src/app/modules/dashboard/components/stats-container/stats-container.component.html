@@ -2,26 +2,27 @@
     <app-stat-card
         [title]="'DASHBOARD.STATS-VALUES.CPU-NUM' | translate"
         [icon_name]="'memory'"
-        [value]="values[0]"
+        [value]="this.cpuNum"
     ></app-stat-card>
     <app-stat-card
+        *ngIf="this.cpuMhz"
         [title]="'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate"
         [icon_name]="'graphic_eq'"
-        [value]="values[1]"
+        [value]="this.cpuMhz"
     ></app-stat-card>
     <app-stat-card
         [title]="'DASHBOARD.STATS-VALUES.RAM' | translate"
         [icon_name]="'memory_alt'"
-        [value]="values[2]"
+        [value]="this.memoryMB"
     ></app-stat-card>
     <app-stat-card
         [title]="'DASHBOARD.STATS-VALUES.DISK' | translate"
         [icon_name]="'album'"
-        [value]="values[3]"
+        [value]="this.diskMB"
     ></app-stat-card>
     <app-stat-card
         [title]="'DASHBOARD.STATS-VALUES.GPU-NUM' | translate"
         [icon_name]="'developer_board'"
-        [value]="values[4]"
+        [value]="this.gpuNum"
     ></app-stat-card>
 </div>

@@ -21,6 +21,11 @@
         "TITLE": "Dashboard",
         "USERS-AGG": "Users Aggregate",
         "TOTAL-AGG": "Total Aggregate",
+        "CLUSTER-AGG": "Cluster Aggregate",
+        "CLUSTER-TOTAL": "Total Aggregate",
+        "NODES": "Nodes",
+        "NODES-USED": "Used",
+        "NODES-TOTAL": "Total",
         "STATS-VALUES": {
             "CPU-NUM": "CPU Num",
             "GPU-NUM": "GPU Num",

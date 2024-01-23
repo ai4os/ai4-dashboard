@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 export class StatCardComponent {
     @Input() title: string = '';
     @Input() value: string = '0';
-    @Input() icon_name: String = '';
+    @Input() icon_name: string = '';
 }
