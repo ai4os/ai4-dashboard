@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
@@ -6,6 +6,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 import { Module } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-module-detail',
@@ -19,7 +20,9 @@ export class ModuleDetailComponent implements OnInit {
         private authService: AuthService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
-        public location: Location
+        public location: Location,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
     ) {
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
@@ -27,6 +30,10 @@ export class ModuleDetailComponent implements OnInit {
         if (this.location.path().includes('tools')) {
             this.isTool = true;
         }
+
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
     modulesList = [];
@@ -34,8 +41,10 @@ export class ModuleDetailComponent implements OnInit {
     userProfile?: UserProfile;
 
     isLoading = false;
-
     isTool = false;
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     isLoggedIn() {
         return this.authService.isAuthenticated();
