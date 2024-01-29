@@ -47,7 +47,7 @@
         <div [ngClass]="{ 'mt-3': _showHelp }">
             <div
                 class="service-to-run-container"
-                [ngClass]="{ 'mb-5': _showHelp }"
+                [ngClass]="{ 'mb-5': _showHelp && isPasswodRequired }"
             >
                 <div>
                     <mat-label>{{

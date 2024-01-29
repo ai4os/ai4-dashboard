@@ -96,9 +96,11 @@
                     {{ strategyOption.viewValue }}
                 </mat-option>
             </mat-select>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.strategy.description
-            }}</mat-hint>
+            <mat-hint *ngIf="_showHelp" class="html-tags-div">
+                <div
+                    [innerHTML]="_defaultFormValues?.strategy.description"
+                ></div
+            ></mat-hint>
         </mat-form-field>
     </div>
 </form>
