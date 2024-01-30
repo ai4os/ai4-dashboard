@@ -1,6 +1,11 @@
 <form [formGroup]="hardwareConfFormGroup" class="hardware-conf-form">
     <h4>{{ 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.TITLE' | translate }}</h4>
-    <div class="form-grid">
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches
+        }"
+    >
         <mat-form-field *ngIf="_showFields.cpu_num" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS'

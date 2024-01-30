@@ -30,6 +30,18 @@ body {
     grid-gap: 1rem;
 }
 
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.form-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .mat-icon-filled {
     font-variation-settings:
         'FILL' 1,

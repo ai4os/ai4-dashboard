@@ -3,6 +3,11 @@
     justify-content: flex-end;
 }
 
+.next-back-buttons-mobile {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .arrow-back-button {
     position: relative;
     left: -12px;
@@ -12,6 +17,18 @@
     display: flex;
     justify-content: space-between;
     margin: 0 1rem;
+}
+
+.title {
+    white-space: normal;
+    text-align: center;
+}
+
+.mobile-breadcrumb {
+    padding-top: 10px;
+    font-size: 0.85em;
+    display: flex;
+    justify-content: center;
 }
 
 ::ng-deep .child-form-container-no-help form {
