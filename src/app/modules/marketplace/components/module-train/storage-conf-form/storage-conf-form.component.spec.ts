@@ -5,6 +5,22 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
+import { MediaMatcher } from '@angular/cdk/layout';
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
+};
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;
@@ -28,6 +44,7 @@ describe('StorageConfFormComponent', () => {
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

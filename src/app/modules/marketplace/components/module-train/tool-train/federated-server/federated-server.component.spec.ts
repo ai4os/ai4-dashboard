@@ -11,8 +11,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
 import { HardwareConfFormComponent } from '../../hardware-conf-form/hardware-conf-form.component';
 import { GeneralConfFormComponent } from '../../general-conf-form/general-conf-form.component';
+import { MediaMatcher } from '@angular/cdk/layout';
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
 
 const mockedConfigService: any = {};
+
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
+};
 
 describe('FederatedServerComponent', () => {
     let component: FederatedServerComponent;
@@ -36,6 +52,7 @@ describe('FederatedServerComponent', () => {
             ],
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

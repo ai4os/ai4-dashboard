@@ -12,12 +12,28 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from '@app/layout/sidenav/sidenav.component';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockDefaultFormValues: ModuleGeneralConfiguration = {
     title: { name: '', value: '', description: '' },
     docker_image: { name: '', value: '', description: '' },
     docker_tag: { name: '', value: '', description: '' },
     service: { name: '', value: '', description: '' },
+};
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
 describe('GeneralConfFormComponent', () => {
@@ -42,6 +58,7 @@ describe('GeneralConfFormComponent', () => {
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

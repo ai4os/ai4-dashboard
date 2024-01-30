@@ -13,6 +13,7 @@ import { Module } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { of } from 'rxjs';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
@@ -39,6 +40,17 @@ const mockedModule: Module = {
     tosca: [],
 };
 
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+
 const mockedModuleService: any = {
     getModule: jest.fn().mockReturnValue(of(mockedModule)),
 };
@@ -51,6 +63,10 @@ const mockedMarkdownService: any = {
     reload$: of(),
     parse: jest.fn().mockReturnValue(of('')),
     render: jest.fn().mockImplementation(() => null),
+};
+
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
 describe('ModuleDetailComponent', () => {
@@ -76,6 +92,7 @@ describe('ModuleDetailComponent', () => {
                 { provide: ModulesService, useValue: mockedModuleService },
                 { provide: ToolsService, useValue: mockedToolService },
                 { provide: MarkdownService, useValue: mockedMarkdownService },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 {
                     provide: ActivatedRoute,
                     useValue: {
