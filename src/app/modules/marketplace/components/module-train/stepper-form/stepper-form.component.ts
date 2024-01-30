@@ -1,3 +1,5 @@
+import { MediaMatcher } from '@angular/cdk/layout';
+import { StepperOrientation } from '@angular/cdk/stepper';
 import {
     ChangeDetectorRef,
     Component,
@@ -20,8 +22,15 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 export class StepperFormComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef
-    ) {}
+        private cdr: ChangeDetectorRef,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
+
     ngOnInit(): void {
         this.cdr.detectChanges();
     }
@@ -50,6 +59,9 @@ export class StepperFormComponent implements OnInit {
     });
     isFormValid = false;
 
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
+
     checkFormValidity(form: FormGroup) {
         return form.valid;
     }
@@ -60,5 +72,13 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.submitEvent.emit(true);
+    }
+
+    getStepperOrientation(): StepperOrientation {
+        let orientation = 'horizontal' as StepperOrientation;
+        if (this.mobileQuery.matches) {
+            orientation = 'vertical';
+        }
+        return orientation;
     }
 }

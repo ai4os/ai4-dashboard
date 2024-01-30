@@ -31,10 +31,6 @@
     justify-content: center;
 }
 
-::ng-deep .child-form-container-no-help form {
-    min-height: 450px;
-}
-
 ::ng-deep .child-form-container-show-help form {
     min-height: 575px;
 }

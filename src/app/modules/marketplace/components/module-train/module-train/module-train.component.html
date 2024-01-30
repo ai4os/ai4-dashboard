@@ -34,8 +34,7 @@
     </mat-progress-spinner>
 </div>
 <div *ngIf="!isLoading">
-    <mat-stepper [orientation]="getStepperOrientation()">
-        #stepper>
+    <mat-stepper [orientation]="getStepperOrientation()" linear #stepper>
         <mat-step [stepControl]="generalConfForm">
             <form [formGroup]="generalConfForm">
                 <ng-template matStepLabel>{{
