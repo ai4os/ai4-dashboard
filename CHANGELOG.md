@@ -1,5 +1,76 @@
 # Changelog
 
+## [1.4.5](https://github.com/ai4os/ai4-dashboard/compare/v1.4.4...v1.4.5) (2024-01-22)
+
+
+### Features
+
+* Add new links to sidenav ([#48](https://github.com/ai4os/ai4-dashboard/issues/48)) ([378bea3](https://github.com/ai4os/ai4-dashboard/commit/378bea3e2a01ee00b8ea8750c9e63eaccd026434))
+
+## [1.4.4](https://github.com/ai4os/ai4-dashboard/compare/v1.4.3...v1.4.4) (2024-01-22)
+
+
+### Bug Fixes
+
+* build docker images when a tag is created ([#46](https://github.com/ai4os/ai4-dashboard/issues/46)) ([658e027](https://github.com/ai4os/ai4-dashboard/commit/658e02781a96d3b4529aa10457e156bdece5d636))
+
+## [1.4.3](https://github.com/ai4os/ai4-dashboard/compare/v1.4.2...v1.4.3) (2024-01-22)
+
+
+### Bug Fixes
+
+* remove tags_any from imagine config ([#44](https://github.com/ai4os/ai4-dashboard/issues/44)) ([3616a00](https://github.com/ai4os/ai4-dashboard/commit/3616a002b5547db93fa32ec3decf306f25914ba0))
+
+## [1.4.2](https://github.com/ai4os/ai4-dashboard/compare/v1.4.1...v1.4.2) (2024-01-19)
+
+
+### Bug Fixes
+
+* **style:** Add margin to dashboard version ([4e91f11](https://github.com/ai4os/ai4-dashboard/commit/4e91f11315330b9cb1986b4ae7c222004b234517))
+
+## [1.4.1](https://github.com/ai4os/ai4-dashboard/compare/v1.4.0...v1.4.1) (2024-01-19)
+
+
+### Bug Fixes
+
+* Fix constant name in version file ([744bc09](https://github.com/ai4os/ai4-dashboard/commit/744bc098442bb0340b5e6a9007267cf70bec5348))
+* **package-json:** fix ai4eosc dev build command ([bb5cd4b](https://github.com/ai4os/ai4-dashboard/commit/bb5cd4ba6137a9b0c82b09f3171ae4d7234ef0d4))
+
+## [1.4.0](https://github.com/ai4os/ai4-dashboard/compare/v1.3.0...v1.4.0) (2024-01-19)
+
+
+### Features
+
+* Show deployed version in dashboard ([#40](https://github.com/ai4os/ai4-dashboard/issues/40)) ([c709051](https://github.com/ai4os/ai4-dashboard/commit/c7090512dc17eea9dc2917e466a717e2ceece4e6))
+
+## [1.3.0](https://github.com/ai4os/ai4-dashboard/compare/v1.2.0...v1.3.0) (2024-01-18)
+
+
+### Features
+
+* **privacy:** Add cookie consent banner ([#38](https://github.com/ai4os/ai4-dashboard/issues/38)) ([6369220](https://github.com/ai4os/ai4-dashboard/commit/636922035140a9dd0017c5937d1afd3678505e77))
+
+## [1.2.0](https://github.com/ai4os/ai4-dashboard/compare/v1.1.0...v1.2.0) (2024-01-12)
+
+
+### Features
+
+* **auth:** Improve handling of token and user sessions ([a1b3f4d](https://github.com/ai4os/ai4-dashboard/commit/a1b3f4db8fbcf2b7c19fcbe85977825d4eefa4c5))
+
+## [1.1.0](https://github.com/ai4os/ai4-dashboard/compare/v1.0.1...v1.1.0) (2024-01-11)
+
+
+### Features
+
+* **style:** Improve VO error message style ([155f7a4](https://github.com/ai4os/ai4-dashboard/commit/155f7a44d8074a22e02f1a01bf26a006dc403bc8))
+
+## [1.0.1](https://github.com/ai4os/ai4-dashboard/compare/v1.0.0...v1.0.1) (2023-12-21)
+
+
+### Bug Fixes
+
+* **analytics:** Add plausible script dynamically to header ([a799a49](https://github.com/ai4os/ai4-dashboard/commit/a799a498b8d01c9f60dbb5d0f03b12a607e344c0))
+
 ## 1.0.0 (2023-12-21)
 
 

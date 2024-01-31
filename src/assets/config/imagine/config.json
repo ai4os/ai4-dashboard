@@ -12,12 +12,19 @@
         {
             "name": "SIDENAV.PROJECT-PAGE",
             "url": "https://www.imagine-ai.eu/"
+        },
+        {
+            "name": "Storage",
+            "url": "https://share.services.ai4os.eu/"
+        },
+        {
+            "name": "Status",
+            "url": "https://imagine-ai-project.github.io/status/"
         }
     ],
     "tags": [
         {
-            "tags": "general purpose",
-            "tags_any": "*image*"
+            "tags": "general purpose"
         },
         {
             "tags": "vo.imagine-ai.eu"

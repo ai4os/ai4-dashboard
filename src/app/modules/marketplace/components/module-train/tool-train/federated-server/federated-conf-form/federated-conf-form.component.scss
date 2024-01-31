@@ -16,3 +16,13 @@ mat-form-field {
         }
     }
 }
+
+.html-tags-div {
+    display: flex;
+}
+
+::ng-deep {
+    mat-form-field .mat-mdc-form-field-subscript-wrapper {
+        padding-bottom: 15px;
+    }
+}

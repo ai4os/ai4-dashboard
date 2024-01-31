@@ -2,8 +2,13 @@ import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
-import { OAuthService, OAuthSuccessEvent } from 'angular-oauth2-oidc';
+import {
+    OAuthEvent,
+    OAuthService,
+    OAuthSuccessEvent,
+} from 'angular-oauth2-oidc';
 import { AppConfigService } from '../app-config/app-config.service';
+import { Subject, of } from 'rxjs';
 
 const mockedProfile = {
     info: {
@@ -69,6 +74,7 @@ const mockedOAuthService = {
     logOut: jest.fn(),
     getIdToken: jest.fn().mockReturnValue(Promise.resolve('dasdsad')),
     initLoginFlow: jest.fn(),
+    events: of(Subject<OAuthEvent>),
 };
 
 const mockedConfigService: any = {
@@ -112,7 +118,7 @@ describe('AuthService', () => {
         flush();
     }));
 
-    it('should login correctly', () => {
+    it('shoulds login correctly', () => {
         const spyInitLoginFlow = jest.spyOn(
             service['oauthService'],
             'initLoginFlow'
