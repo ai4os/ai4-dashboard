@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/ai4os/ai4-dashboard/compare/v1.4.5...v1.5.0) (2024-02-01)
+
+
+### Features
+
+* **style:** improve mobile interface ([#34](https://github.com/ai4os/ai4-dashboard/issues/34)) ([bae6f25](https://github.com/ai4os/ai4-dashboard/commit/bae6f2557e37614119b30d08442cf9289b01ff3d))
+
 ## [1.4.5](https://github.com/ai4os/ai4-dashboard/compare/v1.4.4...v1.4.5) (2024-01-22)
 
 
