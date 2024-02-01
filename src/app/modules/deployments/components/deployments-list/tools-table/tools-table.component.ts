@@ -167,7 +167,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
     }
 
     openToolDetailDialog(row: toolTableRow): void {
-        let width = this.mobileQuery.matches ? '300px' : '650px';
+        const width = this.mobileQuery.matches ? '300px' : '650px';
         const dialogRef = this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid, isTool: true },
             width: width,

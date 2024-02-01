@@ -226,7 +226,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     openDeploymentDetailDialog(row: deploymentTableRow): void {
-        let width = this.mobileQuery.matches ? '300px' : '650px';
+        const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid, isTool: false },
             width: width,
