@@ -35,7 +35,12 @@
     </mat-progress-spinner>
 </div>
 <ng-template #stepper>
-    <mat-stepper [orientation]="getStepperOrientation()" linear #stepper>
+    <mat-stepper
+        [orientation]="getStepperOrientation()"
+        linear
+        #stepper
+        class="mb-4"
+    >
         <mat-step [stepControl]="step1Form">
             <ng-template matStepLabel>{{ step1Title | translate }}</ng-template>
             <ng-container [ngTemplateOutlet]="step1"></ng-container>
