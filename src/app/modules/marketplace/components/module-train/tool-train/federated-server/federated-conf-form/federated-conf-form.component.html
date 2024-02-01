@@ -1,6 +1,11 @@
 <form [formGroup]="federatedConfFormGroup" class="federated-conf-form">
     <h4>{{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.TITLE' | translate }}</h4>
-    <div class="form-grid">
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches
+        }"
+    >
         <mat-form-field class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.ROUNDS' | translate

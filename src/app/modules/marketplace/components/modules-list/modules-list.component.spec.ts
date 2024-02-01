@@ -7,10 +7,25 @@ import { SharedModule } from '@app/shared/shared.module';
 import { SearchPipe } from '../../pipes/search-card-pipe';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from '@app/core/services/auth/auth.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
+};
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
 describe('ModulesListComponent', () => {
@@ -28,6 +43,7 @@ describe('ModulesListComponent', () => {
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

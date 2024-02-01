@@ -1,6 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -14,6 +20,7 @@ import {
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 export interface TableColumn {
     columnDef: string;
@@ -44,8 +51,14 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
         private _snackBar: MatSnackBar,
-        private _liveAnnouncer: LiveAnnouncer
-    ) {}
+        private _liveAnnouncer: LiveAnnouncer,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     @ViewChild(MatSort) set matSort(sort: MatSort) {
         this.dataSource.sort = sort;
@@ -68,6 +81,9 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
     selection = new SelectionModel<toolTableRow>(true, []);
     displayedColumns: string[] = [];
     private unsub = new Subject<void>();
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     removeTool(e: MouseEvent, row: toolTableRow) {
         e.stopPropagation();
@@ -151,11 +167,12 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
     }
 
     openToolDetailDialog(row: toolTableRow): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
         const dialogRef = this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid, isTool: true },
-            width: '650px',
-            maxWidth: '650px',
-            minWidth: '650px',
+            width: width,
+            maxWidth: width,
+            minWidth: width,
             autoFocus: false,
             restoreFocus: false,
         });
@@ -219,6 +236,10 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
 
     isFederatedServer(row: toolTableRow) {
         return row.mainEndpoint.includes('fedserver');
+    }
+
+    isSticky(columnDef: string): boolean {
+        return columnDef === 'name' ? true : false;
     }
 
     ngOnInit(): void {

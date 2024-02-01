@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     OnInit,
@@ -18,6 +19,8 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { StepperOrientation } from '@angular/cdk/stepper';
 
 @Component({
     selector: 'app-module-train',
@@ -31,8 +34,14 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
         private deploymentsService: DeploymentsService,
         private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
-        private router: Router
-    ) {}
+        private router: Router,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
         | ElementRef
@@ -54,6 +63,9 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     submitTrainingRequest() {
         this.isLoading = true;
@@ -180,6 +192,14 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     this.storageConfDefaultValues = moduleConf.storage;
                 });
         });
+    }
+
+    getStepperOrientation(): StepperOrientation {
+        let orientation = 'horizontal' as StepperOrientation;
+        if (this.mobileQuery.matches) {
+            orientation = 'vertical';
+        }
+        return orientation;
     }
 
     ngOnInit(): void {

@@ -25,6 +25,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -69,6 +70,20 @@ const mockedDeploymentServices: any = {
         .mockReturnValue(of(mockedDeleteDeploymentResponse)),
 };
 
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
+};
+
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
     let fixture: ComponentFixture<DeploymentsListComponent>;
@@ -94,6 +109,7 @@ describe('DeploymentsListComponent', () => {
                     provide: DeploymentsService,
                     useValue: mockedDeploymentServices,
                 },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

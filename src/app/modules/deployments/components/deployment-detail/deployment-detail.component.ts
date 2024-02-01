@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 import { KeyValue } from '@angular/common';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-deployment-detail',
@@ -15,13 +16,22 @@ export class DeploymentDetailComponent implements OnInit {
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string; isTool: boolean }
-    ) {}
+        public data: { uuid: string; isTool: boolean },
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     deployment: Deployment | undefined;
     statusBadge = '';
     isLoading = false;
     protected deploymentHasError = false;
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     isActiveEndPoint(endpoint: string) {
         return (

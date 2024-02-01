@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="title">
     <h4>
         {{ 'MODULES.MODULE-TRAIN.TITLE' | translate }}:
         <strong>{{ deploymentTitle }}</strong>
@@ -6,9 +6,20 @@
 </mat-toolbar>
 
 <form class="example-form" [formGroup]="showHelpForm" ngNativeValidate>
-    <div class="breadcrumbs-and-help-container">
-        <xng-breadcrumb class="mb-3"></xng-breadcrumb>
+    <div
+        [ngClass]="{
+            'grid-1-column': mobileQuery.matches,
+            'breadcrumbs-and-help-container': !mobileQuery.matches
+        }"
+    >
+        <xng-breadcrumb
+            [ngClass]="{
+                'mobile-breadcrumb': mobileQuery.matches,
+                'mb-3': !mobileQuery.matches
+            }"
+        ></xng-breadcrumb>
         <mat-slide-toggle
+            *ngIf="!mobileQuery.matches"
             color="accent"
             formControlName="showHelpToggleButton"
             #showHelpToggle
@@ -23,7 +34,12 @@
     </mat-progress-spinner>
 </div>
 <div *ngIf="!isLoading">
-    <mat-stepper linear #stepper>
+    <mat-stepper
+        [orientation]="getStepperOrientation()"
+        linear
+        #stepper
+        class="mb-4"
+    >
         <mat-step [stepControl]="generalConfForm">
             <form [formGroup]="generalConfForm">
                 <ng-template matStepLabel>{{
@@ -38,7 +54,12 @@
                     [defaultFormValues]="generalConfDefaultValues"
                     [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
                 ></app-general-conf-form>
-                <div class="next-back-buttons">
+                <div
+                    [ngClass]="{
+                        'next-back-buttons-mobile': mobileQuery.matches,
+                        'next-back-buttons': !mobileQuery.matches
+                    }"
+                >
                     <button
                         mat-raised-button
                         class="mr-2"
@@ -74,7 +95,12 @@
                     [defaultFormValues]="hardwareConfDefaultValues"
                     [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
                 ></app-hardware-conf-form>
-                <div class="next-back-buttons">
+                <div
+                    [ngClass]="{
+                        'next-back-buttons-mobile': mobileQuery.matches,
+                        'next-back-buttons': !mobileQuery.matches
+                    }"
+                >
                     <button mat-raised-button matStepperPrevious class="mr-2">
                         {{ 'GENERAL-BUTTONS.BACK' | translate }}
                     </button>
@@ -103,7 +129,12 @@
                     [defaultFormValues]="storageConfDefaultValues"
                     [showHelp]="showHelpForm.get('showHelpToggleButton')?.value"
                 ></app-storage-conf-form>
-                <div class="next-back-buttons">
+                <div
+                    [ngClass]="{
+                        'next-back-buttons-mobile': mobileQuery.matches,
+                        'next-back-buttons': !mobileQuery.matches
+                    }"
+                >
                     <button mat-raised-button matStepperPrevious class="mr-2">
                         {{ 'GENERAL-BUTTONS.BACK' | translate }}
                     </button>

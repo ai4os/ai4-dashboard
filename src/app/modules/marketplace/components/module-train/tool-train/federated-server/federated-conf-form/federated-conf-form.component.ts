@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
     FormGroupDirective,
     FormBuilder,
@@ -10,6 +10,7 @@ import {
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, map, startWith } from 'rxjs';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-federated-conf-form',
@@ -19,7 +20,9 @@ import { Observable, map, startWith } from 'rxjs';
 export class FederatedConfFormComponent implements OnInit {
     constructor(
         private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
     ) {
         this.filteredMetrics = this.metricCtrl.valueChanges.pipe(
             startWith(null),
@@ -27,6 +30,9 @@ export class FederatedConfFormComponent implements OnInit {
                 metric ? this._filter(metric) : this.defaultMetrics.slice()
             )
         );
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
     parentForm!: FormGroup;
@@ -53,6 +59,9 @@ export class FederatedConfFormComponent implements OnInit {
     protected _defaultFormValues: any;
 
     protected _showHelp = false;
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     @Input() set showHelp(showHelp: any) {
         this._showHelp = showHelp;

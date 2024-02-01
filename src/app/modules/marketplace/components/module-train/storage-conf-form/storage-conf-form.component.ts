@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import {
     ModuleStorageConfiguration,
@@ -19,8 +20,14 @@ const mockedConfObject: confObjectRange = {
 export class StorageConfFormComponent implements OnInit {
     constructor(
         private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder
-    ) {}
+        private fb: FormBuilder,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     parentForm!: FormGroup;
 
@@ -41,6 +48,9 @@ export class StorageConfFormComponent implements OnInit {
     };
 
     protected _showHelp = false;
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;

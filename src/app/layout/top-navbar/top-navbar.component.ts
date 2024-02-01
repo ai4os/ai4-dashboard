@@ -21,15 +21,24 @@ export class TopNavbarComponent {
         private sidenavService: SidenavService,
         protected appConfigService: AppConfigService
     ) {
-        this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
+        this._hideSidebarQueryListener = () =>
+            changeDetectorRef.detectChanges();
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.hideSidebarQuery = this.media.matchMedia('(max-width: 1366px)');
+        this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
+        this.hideSidebarQuery.addEventListener(
+            'change',
+            this._hideSidebarQueryListener
+        );
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
         });
     }
+    private _hideSidebarQueryListener: () => void;
     private _mobileQueryListener: () => void;
     protected environment = environment;
+    hideSidebarQuery: MediaQueryList;
     mobileQuery: MediaQueryList;
     userProfile?: UserProfile;
     isMatMenuOpen = false;

@@ -23,6 +23,7 @@ import { of } from 'rxjs';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockedDeleteToolResponse: statusReturn = {
     status: 'success',
@@ -52,6 +53,20 @@ const mockedDeploymentServices: any = {
     getTools: jest.fn().mockReturnValue(of([mockedTool])),
     getToolByUUID: jest.fn().mockReturnValue(of(mockedTool)),
     deleteToolByUUID: jest.fn().mockReturnValue(of(mockedDeleteToolResponse)),
+};
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
 const toolRow = {
@@ -86,6 +101,7 @@ describe('ToolsTableComponent', () => {
                     provide: DeploymentsService,
                     useValue: mockedDeploymentServices,
                 },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 
