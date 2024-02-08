@@ -23,22 +23,28 @@
     <ng-template #desktop>
         <mat-toolbar class="mb-3 marketplace-toolbar">
             <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
-            <form [formGroup]="searchFormGroup">
-                <mat-form-field subscriptSizing="dynamic">
-                    <mat-icon matPrefix>search</mat-icon>
-                    <mat-label>Search modules</mat-label>
-                    <input
-                        matInput
-                        type="search"
-                        formControlName="search"
-                        placeholder="Enter text to search"
-                    />
-                </mat-form-field>
-            </form>
+            <div class="search-and-results-container">
+                <form [formGroup]="searchFormGroup">
+                    <mat-form-field subscriptSizing="dynamic">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <mat-label>Search modules</mat-label>
+                        <input
+                            matInput
+                            type="search"
+                            formControlName="search"
+                            placeholder="Enter text to search"
+                        />
+                    </mat-form-field>
+                </form>
+                <span class="results-text"
+                    >{{ getNumResults() }}
+                    {{ 'MODULES.NUM-RESULTS' | translate }}</span
+                >
+            </div>
         </mat-toolbar>
     </ng-template>
 
-    <mat-tab-group>
+    <mat-tab-group #tabGroup>
         <mat-tab label="Modules">
             <div *ngIf="isLoading; else modulesList" class="spinner">
                 <mat-progress-spinner color="primary" mode="indeterminate">
@@ -72,7 +78,16 @@
             </div>
             <ng-template #toolsList>
                 <div class="modules-cards-container">
-                    <div *ngFor="let tool of tools" class="m-2">
+                    <div
+                        fxFlex
+                        *ngFor="
+                            let tool of tools
+                                | search
+                                    : this.searchFormGroup.get('search')
+                                          ?.value as tools
+                        "
+                        class="m-2"
+                    >
                         <app-module-card
                             [module]="tool"
                             [isTool]="true"

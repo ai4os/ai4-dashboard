@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
@@ -8,6 +8,7 @@ import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { TagObject } from '@app/data/types/tags';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-modules-list',
@@ -28,6 +29,9 @@ export class ModulesListComponent implements OnInit {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
+
+    @ViewChild('tabGroup')
+    tabGroup!: MatTabGroup;
 
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
@@ -102,6 +106,38 @@ export class ModulesListComponent implements OnInit {
 
     isLoggedIn(): boolean {
         return this.authService.isAuthenticated();
+    }
+
+    getNumResults(): number {
+        let filteredList: ModuleSummary[] = [];
+
+        if (this.tabGroup) {
+            if (this.tabGroup.selectedIndex == 0) {
+                filteredList = this.modules;
+            } else {
+                filteredList = this.tools;
+            }
+
+            filteredList = filteredList.filter(
+                (f) =>
+                    f.title
+                        .toLocaleLowerCase()
+                        .includes(
+                            this.searchFormGroup.controls[
+                                'search'
+                            ].value.toLocaleLowerCase()
+                        ) ||
+                    f.summary
+                        .toLocaleLowerCase()
+                        .includes(
+                            this.searchFormGroup.controls[
+                                'search'
+                            ].value.toLocaleLowerCase()
+                        )
+            );
+        }
+
+        return filteredList.length;
     }
 
     ngOnInit(): void {
