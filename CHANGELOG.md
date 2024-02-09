@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/ai4os/ai4-dashboard/compare/v1.5.0...v1.5.1) (2024-02-09)
+
+
+### Features
+
+* add mlflow link to sidenav ([#52](https://github.com/ai4os/ai4-dashboard/issues/52)) ([ced8771](https://github.com/ai4os/ai4-dashboard/commit/ced87717be02e0919485286a17a02f1a151297fd))
+
 ## [1.5.0](https://github.com/ai4os/ai4-dashboard/compare/v1.4.5...v1.5.0) (2024-02-01)
 
 
