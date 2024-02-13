@@ -127,6 +127,9 @@ renderer.link = (href, title, text) => {
             },
         }),
         NgcCookieConsentModule.forRoot(cookieConfig),
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
+        }),
     ],
     providers: [
         {
