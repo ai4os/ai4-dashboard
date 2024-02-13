@@ -22,6 +22,27 @@
     z-index: 1050;
 }
 
+.profile-button-mobile {
+    z-index: 1050;
+    padding: 0;
+    min-width: fit-content;
+    & mat-icon {
+        margin-right: 0px;
+    }
+}
+
+.login-btn-mobile {
+    padding: 0;
+    justify-content: flex-end;
+    & mat-icon {
+        margin-right: 0px;
+    }
+}
+
+.user-log {
+    margin-left: 8px;
+}
+
 ::ng-deep {
     .mat-mdc-menu-panel.logoutDropdownMenu {
         width: 215px;
@@ -30,6 +51,10 @@
 
 .not-authorized-error {
     margin-left: 25rem;
+    border: 0.15em;
+    border-style: solid;
+    border-block-color: red;
+    padding: 0.3em;
 }
 
 .corner-ribbon {

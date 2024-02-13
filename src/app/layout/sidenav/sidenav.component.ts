@@ -12,6 +12,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from 'src/environments/environment';
+import { gitInfo } from 'src/environments/version';
 
 @Component({
     selector: 'app-sidenav',
@@ -35,6 +36,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     }
 
     protected environment = environment;
+    protected gitInfo = gitInfo;
 
     options = this._formBuilder.group({
         bottom: 0,

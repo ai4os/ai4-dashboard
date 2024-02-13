@@ -12,6 +12,18 @@
         {
             "name": "SIDENAV.PROJECT-PAGE",
             "url": "https://ai4eosc.eu"
+        },
+        {
+            "name": "Storage",
+            "url": "https://share.services.ai4os.eu/"
+        },
+        {
+            "name": "Status",
+            "url": "https://status.ai4eosc.eu "
+        },
+        {
+            "name": "Experiment tracking",
+            "url": "https://mlflow.dev.ai4eosc.eu"
         }
     ],
     "voName": "vo.ai4eosc.eu",
@@ -27,5 +39,9 @@
             "name": "SIDENAV.PRIVACY-POLICY",
             "url": "https://ai4eosc.eu/platform/privacy-policy/"
         }
-    ]
+    ],
+    "analytics": {
+        "domain": "dashboard.cloud.ai4eosc.eu",
+        "src": "https://stats.services.ai4os.eu/js/script.js"
+    }
 }

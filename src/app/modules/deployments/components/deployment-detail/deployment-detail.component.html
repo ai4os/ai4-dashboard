@@ -31,7 +31,11 @@
             </p>
         </mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content
+        [ngClass]="{
+            'card-content-mobile': this.mobileQuery.matches
+        }"
+    >
         <div *ngIf="deploymentHasError">
             <h4>
                 <mat-icon style="vertical-align: bottom" color="warn"
@@ -41,7 +45,12 @@
             </h4>
         </div>
         <ng-container *ngIf="!isLoading; else loading">
-            <div class="deployment-detail-container">
+            <div
+                [ngClass]="{
+                    'deployment-detail-container-mobile': mobileQuery.matches,
+                    'deployment-detail-container': !mobileQuery.matches
+                }"
+            >
                 <div>
                     <h3>
                         {{
@@ -103,7 +112,10 @@
                                         'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' +
                                             (resource.key | uppercase)
                                             | translate
-                                    }}: {{ resource.value }}</mat-list-item
+                                    }}:
+                                    {{
+                                        getResourceValue(resource)
+                                    }}</mat-list-item
                                 >
                             </ng-container>
                         </mat-list>

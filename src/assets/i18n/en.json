@@ -8,7 +8,7 @@
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
         "IMAGINE-DOCUMENTATION": "iMagine AI platform documentation",
         "PROJECT-PAGE": "Project page",
-        "OTHER-LINKS": "Other links",
+        "OTHER-LINKS": "Useful links",
         "TERMS-OF-USE": "Terms of use",
         "PRIVACY-POLICY": "Privacy policy",
         "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by"
@@ -63,7 +63,7 @@
                 "GPU_NUM": "Number of GPUs",
                 "DISK_MB": "Disk memory",
                 "MEMORY_MB": "RAM memory",
-                "CPU_MHZ": "CPU freq. in MHZ"
+                "CPU_MHZ": "CPU frequency"
             }
         },
         "DEPLOYMENT-NAME": "Name",
@@ -120,7 +120,8 @@
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
+                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
+                "OPEN-DOCUMENTATION": "Open documentation"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -162,6 +163,7 @@
     },
     "ERRORS": {
         "SERVICE-ERROR": "Error calling the API, please retry later",
-        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy"
+        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
+        "NOT-FOUND": "Oops, the page you requested could not be found!"
     }
 }

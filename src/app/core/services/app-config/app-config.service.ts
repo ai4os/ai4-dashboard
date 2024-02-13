@@ -64,4 +64,9 @@ export class AppConfigService {
         this.checkConfigFileLoaded();
         return this.appConfig.legalLinks;
     }
+
+    get analytics() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.analytics;
+    }
 }

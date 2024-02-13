@@ -5,8 +5,10 @@ export interface Deployment {
     title: string;
     description?: string;
     docker_image: string;
+    docker_command?: string;
     submit_time: string;
     resources?: {
+        cpu_MHz: number;
         cpu_num: number;
         gpu_num: number;
         memory_MB: number;
