@@ -1,28 +1,36 @@
 <div class="stats-container">
     <app-stat-card
-        [title]="'DASHBOARD.STATS-VALUES.CPU-NUM' | translate"
+        [title]="'DASHBOARD.STATS-TITLES.CPU' | translate"
         [icon_name]="'memory'"
-        [value]="this.cpuNum"
+        [used_value]="this.usedCpuNum"
+        [total_value]="this.totalCpuNum"
     ></app-stat-card>
     <app-stat-card
-        *ngIf="this.cpuMhz"
+        *ngIf="this.usedCpuMhz && this.totalCpuMhz"
         [title]="'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate"
         [icon_name]="'graphic_eq'"
-        [value]="this.cpuMhz"
+        [used_value]="this.usedCpuMhz"
+        [total_value]="this.totalCpuMhz"
     ></app-stat-card>
     <app-stat-card
-        [title]="'DASHBOARD.STATS-VALUES.RAM' | translate"
+        [title]="getMemoryUnit() | translate"
         [icon_name]="'memory_alt'"
-        [value]="this.memoryMB"
+        [used_value]="Math.trunc(this.usedMemory)"
+        [total_value]="Math.trunc(this.totalMemory)"
+        [memory_unit]="this.ramUnit"
     ></app-stat-card>
     <app-stat-card
-        [title]="'DASHBOARD.STATS-VALUES.DISK' | translate"
+        [title]="getDiskUnit() | translate"
         [icon_name]="'album'"
-        [value]="this.diskMB"
+        [used_value]="Math.trunc(this.usedDisk)"
+        [total_value]="Math.trunc(this.totalDisk)"
+        [memory_unit]="this.diskUnit"
     ></app-stat-card>
     <app-stat-card
-        [title]="'DASHBOARD.STATS-VALUES.GPU-NUM' | translate"
+        *ngIf="this.totalGpuNum > 0"
+        [title]="'DASHBOARD.STATS-TITLES.GPU' | translate"
         [icon_name]="'developer_board'"
-        [value]="this.gpuNum"
+        [used_value]="this.usedGpuNum"
+        [total_value]="this.totalGpuNum"
     ></app-stat-card>
 </div>

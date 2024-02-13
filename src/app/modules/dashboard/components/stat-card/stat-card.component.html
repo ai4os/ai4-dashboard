@@ -1,10 +1,7 @@
 <mat-card class="card">
     <div class="header">
+        <p class="title-text">{{ title }}</p>
         <mat-icon class="icon">{{ icon_name }}</mat-icon>
-        <div class="header-text">
-            <p class="title-text">{{ title }}</p>
-            <p class="key-text">Used / Total</p>
-        </div>
     </div>
-    <p class="value-text">{{ value }}</p>
+    <div echarts [options]="chartOptionsCommon" class="pie-graph"></div>
 </mat-card>

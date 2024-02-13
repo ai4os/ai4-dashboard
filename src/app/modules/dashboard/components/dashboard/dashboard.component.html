@@ -13,41 +13,40 @@
 </ng-template>
 
 <ng-container *ngIf="!userStatsLoading && !clusterStatsLoading; else loading">
-    <mat-tab-group class="main-tabs">
+    <mat-tab-group mat-stretch-tabs="false" class="main-tabs">
         <mat-tab label="Tab 1">
-            <mat-toolbar class="mb-3">
-                <span>
-                    {{ 'DASHBOARD.USERS' | translate }}
-                </span>
-            </mat-toolbar>
-            <app-stats-container
-                [cpuNum]="this.cpuNumUserAgg + ' / ' + this.cpuNumNamespaceAgg"
-                [cpuMhz]="this.cpuMHzUserAgg + ' / ' + this.cpuMHzNamespaceAgg"
-                [memoryMB]="
-                    this.memoryMBUserAgg + ' / ' + this.memoryMBNamespaceAgg
-                "
-                [diskMB]="this.diskMBUserAgg + ' / ' + this.diskMBNamespaceAgg"
-                [gpuNum]="this.gpuNumUserAgg + ' / ' + this.gpuNumNamespaceAgg"
-            ></app-stats-container>
-
             <mat-toolbar class="mb-3">
                 <span>
                     {{ 'DASHBOARD.CLUSTER' | translate }}
                 </span>
             </mat-toolbar>
             <app-stats-container
-                [cpuNum]="
-                    this.cpuNumClusterAgg + ' / ' + this.cpuNumClusterTotal
-                "
-                [memoryMB]="
-                    this.memoryMBClusterAgg + ' / ' + this.memoryMBClusterTotal
-                "
-                [diskMB]="
-                    this.diskMBClusterAgg + ' / ' + this.diskMBClusterTotal
-                "
-                [gpuNum]="
-                    this.gpuNumClusterAgg + ' / ' + this.gpuNumClusterTotal
-                "
+                [usedCpuNum]="this.cpuNumClusterAgg"
+                [totalCpuNum]="this.cpuNumClusterTotal"
+                [usedMemory]="this.memoryMBClusterAgg"
+                [totalMemory]="this.memoryMBClusterTotal"
+                [usedDisk]="this.diskMBClusterAgg"
+                [totalDisk]="this.diskMBClusterTotal"
+                [usedGpuNum]="this.gpuNumClusterAgg"
+                [totalGpuNum]="this.gpuNumClusterTotal"
+            ></app-stats-container>
+
+            <mat-toolbar class="mb-3">
+                <span>
+                    {{ 'DASHBOARD.USERS' | translate }}
+                </span>
+            </mat-toolbar>
+            <app-stats-container
+                [usedCpuNum]="this.cpuNumUserAgg"
+                [totalCpuNum]="this.cpuNumNamespaceAgg"
+                [usedCpuMhz]="this.cpuMHzUserAgg"
+                [totalCpuMhz]="this.cpuMHzNamespaceAgg"
+                [usedMemory]="this.memoryMBUserAgg"
+                [totalMemory]="this.memoryMBNamespaceAgg"
+                [usedDisk]="this.diskMBUserAgg"
+                [totalDisk]="this.diskMBNamespaceAgg"
+                [usedGpuNum]="this.gpuNumUserAgg"
+                [totalGpuNum]="this.gpuNumNamespaceAgg"
             ></app-stats-container>
 
             <mat-tab label="Tab 2">
@@ -61,7 +60,7 @@
                     </div>
                 </ng-template>
 
-                <mat-tab-group class="graphs-tab-group">
+                <mat-tab-group mat-stretch-tabs="true" class="graphs-tab-group">
                     <mat-tab
                         label="{{
                             'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate
@@ -89,7 +88,9 @@
                         ></app-time-series-chart>
                     </mat-tab>
                     <mat-tab
-                        label="{{ 'DASHBOARD.STATS-VALUES.RAM' | translate }}"
+                        label="{{
+                            'DASHBOARD.STATS-VALUES.RAM-MB' | translate
+                        }}"
                     >
                         <app-time-series-chart
                             id="memoryMBDataChart"
@@ -100,7 +101,9 @@
                         ></app-time-series-chart>
                     </mat-tab>
                     <mat-tab
-                        label="{{ 'DASHBOARD.STATS-VALUES.DISK' | translate }}"
+                        label="{{
+                            'DASHBOARD.STATS-VALUES.DISK-MB' | translate
+                        }}"
                     >
                         <app-time-series-chart
                             id="diskMBDataChart"
@@ -151,39 +154,53 @@
                     </mat-tab>
                 </mat-tab-group>
 
-                <mat-toolbar class="mb-3">
+                <mat-toolbar class="mb-3 nodes-title">
                     <span>
-                        {{ 'DASHBOARD.NODES' | translate }}
+                        {{ 'DASHBOARD.NODES-CPU' | translate }}
                     </span>
                 </mat-toolbar>
                 <mat-accordion>
-                    <mat-expansion-panel *ngFor="let node of this.nodes">
+                    <mat-expansion-panel *ngFor="let node of this.nodesCpu">
                         <mat-expansion-panel-header>
                             <mat-panel-title class="id-title">
                                 {{ node.name }}
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <app-stats-container
-                            [cpuNum]="
-                                node.cpu_used.toString() +
-                                ' / ' +
-                                node.cpu_total.toString()
-                            "
-                            [memoryMB]="
-                                node.ram_used.toFixed(0).toString() +
-                                ' / ' +
-                                node.ram_total.toFixed(0).toString()
-                            "
-                            [diskMB]="
-                                node.disk_used.toFixed(0).toString() +
-                                ' / ' +
-                                node.disk_total.toFixed(0).toString()
-                            "
-                            [gpuNum]="
-                                node.gpu_used.toString() +
-                                ' / ' +
-                                node.gpu_total.toString()
-                            "
+                            [usedCpuNum]="node.cpu_used"
+                            [totalCpuNum]="node.cpu_total"
+                            [usedMemory]="node.ram_used"
+                            [totalMemory]="node.ram_total"
+                            [usedDisk]="node.disk_used"
+                            [totalDisk]="node.disk_total"
+                            [usedGpuNum]="node.gpu_used"
+                            [totalGpuNum]="node.gpu_total"
+                        ></app-stats-container>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <span></span>
+                <mat-toolbar class="mb-3 nodes-title">
+                    <span>
+                        {{ 'DASHBOARD.NODES-GPU' | translate }}
+                    </span>
+                </mat-toolbar>
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let node of this.nodesGpu">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="id-title">
+                                {{ node.name }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <app-stats-container
+                            [usedCpuNum]="node.cpu_used"
+                            [totalCpuNum]="node.cpu_total"
+                            [usedMemory]="node.ram_used"
+                            [totalMemory]="node.ram_total"
+                            [usedDisk]="node.disk_used"
+                            [totalDisk]="node.disk_total"
+                            [usedGpuNum]="node.gpu_used"
+                            [totalGpuNum]="node.gpu_total"
                         ></app-stats-container>
                     </mat-expansion-panel>
                 </mat-accordion>

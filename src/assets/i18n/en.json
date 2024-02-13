@@ -19,19 +19,30 @@
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
-        "USERS": "Users",
+        "USERS": "User's aggregate per day",
         "CLUSTER": "Cluster",
-        "NODES": "Nodes",
+        "NODES-CPU": "Nodes with CPU",
+        "NODES-GPU": "Nodes with GPU",
         "NODES-USED": "Used",
         "NODES-TOTAL": "Total",
         "STATS-VALUES": {
             "CPU-NUM": "CPU Num",
             "GPU-NUM": "GPU Num",
-            "RAM": "Memory MB",
-            "DISK": "Disk MB",
+            "RAM-MB": "Memory MB",
+            "DISK-MB": "Disk MB",
+            "RAM-MIB": "Memory MiB",
+            "DISK-MIB": "Disk MiB",
+            "RAM-GIB": "Memory GiB",
+            "DISK-GIB": "Disk GiB",
             "CPU-FREQ": "CPU Mhz",
             "QUEUED-DATA": "Queued Data",
             "RUNNING-DATA": "Running Data"
+        },
+        "STATS-TITLES": {
+            "CPU": "CPUs",
+            "GPU": "GPUs",
+            "RAM": "Memory",
+            "DISK": "Disk"
         }
     },
     "DEPLOYMENTS": {
