@@ -49,7 +49,7 @@ export class StatCardComponent implements OnInit {
                 {
                     name: this.title,
                     type: 'pie',
-                    radius: [100],
+                    radius: [60],
                     data: [
                         { value: this.used_value, name: 'Used' },
                         {

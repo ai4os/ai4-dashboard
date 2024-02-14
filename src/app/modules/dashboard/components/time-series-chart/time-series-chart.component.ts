@@ -30,15 +30,11 @@ export class TimeSeriesChartComponent implements OnInit {
 
     @Input() set nameInput(chartNameInput: string) {
         this._chartNameInput = chartNameInput;
-        this.chartOptionsData.title = { text: chartNameInput };
         this.chartOptionsData.series = [{ name: chartNameInput }];
     }
 
     ngOnInit(): void {
         this.chartOptionsCommon = {
-            title: {
-                text: this.nameInput,
-            },
             xAxis: [
                 {
                     type: 'category',
