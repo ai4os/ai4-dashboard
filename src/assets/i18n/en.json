@@ -38,6 +38,10 @@
                 "CPU_MHZ": "CPU frequency"
             }
         },
+        "DEPLOYMENT-SECRETS": {
+            "TITLE": "Manage secrets",
+            "LIST": "List of secrets"
+        },
         "DEPLOYMENT-NAME": "Name",
         "BULK-ACTIONS": "Bulk actions",
         "UUID": "Deployment uuid",
@@ -91,6 +95,7 @@
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
+                "ADD-FEDERATED-SECRET": "Create federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
                 "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
                 "OPEN-DOCUMENTATION": "Open documentation"
