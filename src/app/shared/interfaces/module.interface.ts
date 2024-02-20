@@ -118,3 +118,8 @@ export interface TrainModuleRequest {
         strategy: string;
     };
 }
+
+export interface Secret {
+    token: string;
+    erasable?: boolean;
+}

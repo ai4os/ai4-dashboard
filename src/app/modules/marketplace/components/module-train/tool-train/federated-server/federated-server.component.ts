@@ -12,9 +12,9 @@ import {
 import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
 import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 
 @Component({
     selector: 'app-federated-server',
