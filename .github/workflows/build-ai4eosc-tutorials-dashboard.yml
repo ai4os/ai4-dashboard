@@ -38,3 +38,4 @@ jobs:
                   push: true
                   tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:tutorials, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:tutorials
                   file: docker/ai4eosc/tutorials/Dockerfile
+
