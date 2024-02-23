@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GlobalStats } from '@app/shared/interfaces/stats.interface';
+import { GlobalStats, GpuStats } from '@app/shared/interfaces/stats.interface';
 
 @Component({
     selector: 'app-overview-tab',
@@ -11,4 +11,5 @@ export class OverviewTabComponent {
     clusterGlobalStats!: GlobalStats;
     @Input()
     userGlobalStats!: GlobalStats;
+    @Input() gpuPerModelCluster!: GpuStats[];
 }

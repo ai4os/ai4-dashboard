@@ -34,6 +34,7 @@ export interface ClusterStats {
         disk_used: number;
         gpu_total: number;
         gpu_used: number;
+        gpu_per_model: GpuStats[];
         ram_total: number;
         ram_used: number;
     };
@@ -50,4 +51,22 @@ export interface NodeStats {
     gpu_used: number;
     ram_total: number;
     ram_used: number;
+}
+
+export interface GpuStats {
+    gpu_total: number;
+    gpu_used: number;
+}
+
+export interface GlobalStats {
+    cpuNumAgg: number;
+    cpuNumTotal: number;
+    cpuMHzAgg?: number;
+    cpuMHzTotal?: number;
+    memoryMBAgg: number;
+    memoryMBTotal: number;
+    diskMBAgg: number;
+    diskMBTotal: number;
+    gpuNumAgg: number;
+    gpuNumTotal: number;
 }

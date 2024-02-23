@@ -1,4 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { GpuStats } from '@app/shared/interfaces/stats.interface';
+import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.component';
 
 @Component({
     selector: 'app-stats-container',
@@ -16,10 +20,25 @@ export class StatsContainerComponent {
     @Input() usedDisk: number = 0;
     @Input() totalGpuNum: number = 0;
     @Input() usedGpuNum: number = 0;
+    @Input() gpuPerModelCluster?: GpuStats[];
+
+    constructor(
+        public dialog: MatDialog,
+        public confirmationDialog: MatDialog,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     Math = Math;
     ramUnit = 'MiB';
     diskUnit = 'MiB';
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     getMemoryUnit(): string {
         if (this.totalMemory > 1000) {
@@ -39,5 +58,17 @@ export class StatsContainerComponent {
             this.totalDisk = this.totalDisk / Math.pow(2, 10);
         }
         return 'DASHBOARD.STATS-TITLES.DISK';
+    }
+
+    openDetailGpuStats(): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+        this.dialog.open(GpuStatsDetailComponent, {
+            data: { gpuStats: this.gpuPerModelCluster },
+            width: width,
+            maxWidth: width,
+            minWidth: width,
+            autoFocus: false,
+            restoreFocus: false,
+        });
     }
 }

@@ -11,6 +11,7 @@ import { StatsContainerComponent } from './components/stats-container/stats-cont
 import { OverviewTabComponent } from './components/tabs/overview-tab/overview-tab.component';
 import { GraphsTabComponent } from './components/tabs/graphs-tab/graphs-tab.component';
 import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.component';
+import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.compone
         OverviewTabComponent,
         GraphsTabComponent,
         NodesTabComponent,
+        GpuStatsDetailComponent,
     ],
     imports: [
         CommonModule,

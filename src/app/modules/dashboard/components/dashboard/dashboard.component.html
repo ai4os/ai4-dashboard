@@ -20,8 +20,9 @@
     >
         <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
             <app-overview-tab
-                [clusterGlobalStats]="this.clusterGlobalStats"
-                [userGlobalStats]="this.userGlobalStats"
+                [clusterGlobalStats]="clusterGlobalStats"
+                [userGlobalStats]="userGlobalStats"
+                [gpuPerModelCluster]="gpuPerModelCluster"
             ></app-overview-tab>
         </mat-tab>
         <mat-tab label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}">

@@ -27,6 +27,7 @@
         "USAGE": "Use over time (last 3 months)",
         "CLUSTER-INFO": "Total cluster usage",
         "USERS-INFO": "Aggregate usage per day and vo compared to the total usage of said vo",
+        "GPU-PER-MODEL": "GPU Stats per model",
         "NODES-CPU": "Nodes with CPU",
         "NODES-GPU": "Nodes with GPU",
         "NODES-USED": "Used",

@@ -32,5 +32,9 @@
         [icon_name]="'developer_board'"
         [used_value]="this.usedGpuNum"
         [total_value]="this.totalGpuNum"
+        (click)="gpuPerModelCluster && openDetailGpuStats()"
+        [ngClass]="{
+            click_enabled: gpuPerModelCluster
+        }"
     ></app-stat-card>
 </div>
