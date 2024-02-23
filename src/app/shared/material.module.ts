@@ -24,6 +24,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const materialModules = [
     MatButtonModule,
@@ -50,6 +51,7 @@ const materialModules = [
     MatChipsModule,
     MatExpansionModule,
     MatAutocompleteModule,
+    MatPaginatorModule,
 ];
 
 @NgModule({

@@ -5,8 +5,8 @@
 </mat-toolbar>
 <mat-accordion>
     <mat-expansion-panel
-        *ngFor="let node of this.nodesCpu"
-        [expanded]="node === nodesCpu[0]"
+        *ngFor="let node of paginatedNodesCpu"
+        [expanded]="node === paginatedNodesCpu[0]"
     >
         <mat-expansion-panel-header>
             <mat-panel-title class="id-title">
@@ -25,6 +25,17 @@
         ></app-stats-container>
     </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+    #paginator
+    (page)="handleCpuPageEvent($event)"
+    [length]="lengthCpu"
+    [pageSize]="pageSize"
+    [disabled]="false"
+    [showFirstLastButtons]="true"
+    [hidePageSize]="false"
+    [pageIndex]="pageIndex"
+>
+</mat-paginator>
 
 <span></span>
 <mat-toolbar class="mb-3 nodes-title">
@@ -33,7 +44,7 @@
     </span>
 </mat-toolbar>
 <mat-accordion>
-    <mat-expansion-panel *ngFor="let node of this.nodesGpu">
+    <mat-expansion-panel *ngFor="let node of paginatedNodesGpu">
         <mat-expansion-panel-header>
             <mat-panel-title class="id-title">
                 {{ node.name }}
@@ -51,3 +62,14 @@
         ></app-stats-container>
     </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+    #paginator
+    (page)="handleGpuPageEvent($event)"
+    [length]="lengthGpu"
+    [pageSize]="pageSize"
+    [disabled]="false"
+    [showFirstLastButtons]="true"
+    [hidePageSize]="false"
+    [pageIndex]="pageIndex"
+>
+</mat-paginator>
