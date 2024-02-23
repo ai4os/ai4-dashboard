@@ -19,207 +19,29 @@
         class="main-tabs"
     >
         <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
-            <mat-toolbar>
-                <span>
-                    {{ 'DASHBOARD.CLUSTER' | translate }}
-                </span>
-                <mat-icon
-                    class="ml-2"
-                    color="accent"
-                    matTooltip="{{ 'DASHBOARD.CLUSTER-INFO' | translate }}"
-                    [matTooltipPosition]="'right'"
-                    >help</mat-icon
-                >
-            </mat-toolbar>
-            <app-stats-container
-                [usedCpuNum]="this.cpuNumClusterAgg"
-                [totalCpuNum]="this.cpuNumClusterTotal"
-                [usedMemory]="this.memoryMBClusterAgg"
-                [totalMemory]="this.memoryMBClusterTotal"
-                [usedDisk]="this.diskMBClusterAgg"
-                [totalDisk]="this.diskMBClusterTotal"
-                [usedGpuNum]="this.gpuNumClusterAgg"
-                [totalGpuNum]="this.gpuNumClusterTotal"
-            ></app-stats-container>
-
-            <mat-toolbar>
-                <span>
-                    {{ 'DASHBOARD.USERS' | translate }}
-                </span>
-                <mat-icon
-                    class="ml-2"
-                    color="accent"
-                    matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
-                    [matTooltipPosition]="'right'"
-                    >help</mat-icon
-                >
-            </mat-toolbar>
-            <app-stats-container
-                [usedCpuNum]="this.cpuNumUserAgg"
-                [totalCpuNum]="this.cpuNumNamespaceAgg"
-                [usedCpuMhz]="this.cpuMHzUserAgg"
-                [totalCpuMhz]="this.cpuMHzNamespaceAgg"
-                [usedMemory]="this.memoryMBUserAgg"
-                [totalMemory]="this.memoryMBNamespaceAgg"
-                [usedDisk]="this.diskMBUserAgg"
-                [totalDisk]="this.diskMBNamespaceAgg"
-                [usedGpuNum]="this.gpuNumUserAgg"
-                [totalGpuNum]="this.gpuNumNamespaceAgg"
-            ></app-stats-container>
+            <app-overview-tab
+                [clusterGlobalStats]="this.clusterGlobalStats"
+                [userGlobalStats]="this.userGlobalStats"
+            ></app-overview-tab>
         </mat-tab>
         <mat-tab label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}">
-            <ng-template #loading>
-                <div class="spinner">
-                    <mat-progress-spinner color="primary" mode="indeterminate">
-                    </mat-progress-spinner>
-                </div>
-            </ng-template>
-            <mat-toolbar>
-                <span>
-                    {{ 'DASHBOARD.USAGE' | translate }}
-                </span>
-            </mat-toolbar>
-            <mat-tab-group mat-stretch-tabs="true">
-                <mat-tab
-                    label="{{
-                        'DASHBOARD.STATS-VALUES.RUNNING-DATA' | translate
-                    }}"
-                >
-                    <app-time-series-chart
-                        id="runningDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="runningData"
-                        nameInput="runningData"
-                        class="chartContainer"
-                    ></app-time-series-chart>
-                </mat-tab>
-                <mat-tab
-                    label="{{
-                        'DASHBOARD.STATS-VALUES.QUEUED-DATA' | translate
-                    }}"
-                >
-                    <app-time-series-chart
-                        id="queuedDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="queuedData"
-                        nameInput="queuedData"
-                        class="chartContainer"
-                    ></app-time-series-chart>
-                </mat-tab>
-                <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.CPU' | translate }}">
-                    <app-time-series-chart
-                        id="cpuNumDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="cpuNumData"
-                        nameInput="cpuNumData"
-                        class="chartContainer"
-                    ></app-time-series-chart>
-                </mat-tab>
-                <mat-tab
-                    label="{{ 'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate }}"
-                >
-                    <app-time-series-chart
-                        id="cpuMhzDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="cpuMhzData"
-                        nameInput="cpuMhzData"
-                        class="chartContainer"
-                    ></app-time-series-chart
-                ></mat-tab>
-                <mat-tab
-                    label="{{ 'DASHBOARD.STATS-VALUES.RAM-MB' | translate }}"
-                >
-                    <app-time-series-chart
-                        id="memoryMBDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="memoryMBData"
-                        nameInput="memoryMBData"
-                        class="chartContainer"
-                    ></app-time-series-chart>
-                </mat-tab>
-                <mat-tab
-                    label="{{ 'DASHBOARD.STATS-VALUES.DISK-MB' | translate }}"
-                >
-                    <app-time-series-chart
-                        id="diskMBDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="diskMBData"
-                        nameInput="diskMBData"
-                        class="chartContainer"
-                    ></app-time-series-chart>
-                </mat-tab>
-                <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.GPU' | translate }}">
-                    <app-time-series-chart
-                        id="gpuNumDataChart"
-                        [datesInput]="dates"
-                        [dataInput]="gpuNumData"
-                        nameInput="gpuNumData"
-                        class="chartContainer"
-                    ></app-time-series-chart>
-                </mat-tab>
-            </mat-tab-group>
+            <app-graphs-tab
+                [dates]="dates"
+                [cpuMhzData]="cpuMhzData"
+                [cpuNumData]="cpuNumData"
+                [memoryMBData]="memoryMBData"
+                [diskMBData]="diskMBData"
+                [gpuNumData]="gpuNumData"
+                [queuedData]="queuedData"
+                [runningData]="runningData"
+            ></app-graphs-tab>
         </mat-tab>
 
         <mat-tab label="{{ 'DASHBOARD.NODES-TAB' | translate }}">
-            <ng-template #loading>
-                <div class="spinner">
-                    <mat-progress-spinner color="primary" mode="indeterminate">
-                    </mat-progress-spinner>
-                </div>
-            </ng-template>
-            <mat-toolbar>
-                <span>
-                    {{ 'DASHBOARD.NODES-CPU' | translate }}
-                </span>
-            </mat-toolbar>
-            <mat-accordion>
-                <mat-expansion-panel
-                    *ngFor="let node of this.nodesCpu"
-                    [expanded]="node === nodesCpu[0]"
-                >
-                    <mat-expansion-panel-header>
-                        <mat-panel-title class="id-title">
-                            {{ node.name }}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <app-stats-container
-                        [usedCpuNum]="node.cpu_used"
-                        [totalCpuNum]="node.cpu_total"
-                        [usedMemory]="node.ram_used"
-                        [totalMemory]="node.ram_total"
-                        [usedDisk]="node.disk_used"
-                        [totalDisk]="node.disk_total"
-                        [usedGpuNum]="node.gpu_used"
-                        [totalGpuNum]="node.gpu_total"
-                    ></app-stats-container>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <span></span>
-            <mat-toolbar class="mb-3 nodes-title">
-                <span>
-                    {{ 'DASHBOARD.NODES-GPU' | translate }}
-                </span>
-            </mat-toolbar>
-            <mat-accordion>
-                <mat-expansion-panel *ngFor="let node of this.nodesGpu">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title class="id-title">
-                            {{ node.name }}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <app-stats-container
-                        [usedCpuNum]="node.cpu_used"
-                        [totalCpuNum]="node.cpu_total"
-                        [usedMemory]="node.ram_used"
-                        [totalMemory]="node.ram_total"
-                        [usedDisk]="node.disk_used"
-                        [totalDisk]="node.disk_total"
-                        [usedGpuNum]="node.gpu_used"
-                        [totalGpuNum]="node.gpu_total"
-                    ></app-stats-container>
-                </mat-expansion-panel>
-            </mat-accordion>
+            <app-nodes-tab
+                [nodesCpu]="nodesCpu"
+                [nodesGpu]="nodesGpu"
+            ></app-nodes-tab>
         </mat-tab>
     </mat-tab-group>
 </ng-container>

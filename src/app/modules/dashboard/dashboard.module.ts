@@ -8,6 +8,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { StatsContainerComponent } from './components/stats-container/stats-container.component';
+import { OverviewTabComponent } from './components/tabs/overview-tab/overview-tab.component';
+import { GraphsTabComponent } from './components/tabs/graphs-tab/graphs-tab.component';
+import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.component';
 
 @NgModule({
     declarations: [
@@ -15,6 +18,9 @@ import { StatsContainerComponent } from './components/stats-container/stats-cont
         DashboardComponent,
         StatCardComponent,
         StatsContainerComponent,
+        OverviewTabComponent,
+        GraphsTabComponent,
+        NodesTabComponent,
     ],
     imports: [
         CommonModule,

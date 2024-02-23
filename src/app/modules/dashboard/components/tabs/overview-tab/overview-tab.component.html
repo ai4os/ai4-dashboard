@@ -1,0 +1,45 @@
+<mat-toolbar>
+    <span>
+        {{ 'DASHBOARD.CLUSTER' | translate }}
+    </span>
+    <mat-icon
+        class="ml-2"
+        color="accent"
+        matTooltip="{{ 'DASHBOARD.CLUSTER-INFO' | translate }}"
+        [matTooltipPosition]="'right'"
+        >help</mat-icon
+    >
+</mat-toolbar>
+<app-stats-container
+    [usedCpuNum]="this.clusterGlobalStats.cpuNumAgg"
+    [totalCpuNum]="this.clusterGlobalStats.cpuNumTotal"
+    [usedMemory]="this.clusterGlobalStats.memoryMBAgg"
+    [totalMemory]="this.clusterGlobalStats.memoryMBTotal"
+    [usedDisk]="this.clusterGlobalStats.diskMBAgg"
+    [totalDisk]="this.clusterGlobalStats.diskMBTotal"
+    [usedGpuNum]="this.clusterGlobalStats.gpuNumAgg"
+    [totalGpuNum]="this.clusterGlobalStats.gpuNumTotal"
+></app-stats-container>
+
+<mat-toolbar>
+    <span>
+        {{ 'DASHBOARD.USERS' | translate }}
+    </span>
+    <mat-icon
+        class="ml-2"
+        color="accent"
+        matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
+        [matTooltipPosition]="'right'"
+        >help</mat-icon
+    >
+</mat-toolbar>
+<app-stats-container
+    [usedCpuNum]="this.userGlobalStats.cpuNumAgg"
+    [totalCpuNum]="this.userGlobalStats.cpuNumTotal"
+    [usedMemory]="this.userGlobalStats.memoryMBAgg"
+    [totalMemory]="this.userGlobalStats.memoryMBTotal"
+    [usedDisk]="this.userGlobalStats.diskMBAgg"
+    [totalDisk]="this.userGlobalStats.diskMBTotal"
+    [usedGpuNum]="this.userGlobalStats.gpuNumAgg"
+    [totalGpuNum]="this.userGlobalStats.gpuNumTotal"
+></app-stats-container>

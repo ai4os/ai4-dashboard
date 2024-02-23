@@ -1,0 +1,53 @@
+<mat-toolbar>
+    <span>
+        {{ 'DASHBOARD.NODES-CPU' | translate }}
+    </span>
+</mat-toolbar>
+<mat-accordion>
+    <mat-expansion-panel
+        *ngFor="let node of this.nodesCpu"
+        [expanded]="node === nodesCpu[0]"
+    >
+        <mat-expansion-panel-header>
+            <mat-panel-title class="id-title">
+                {{ node.name }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-stats-container
+            [usedCpuNum]="node.cpu_used"
+            [totalCpuNum]="node.cpu_total"
+            [usedMemory]="node.ram_used"
+            [totalMemory]="node.ram_total"
+            [usedDisk]="node.disk_used"
+            [totalDisk]="node.disk_total"
+            [usedGpuNum]="node.gpu_used"
+            [totalGpuNum]="node.gpu_total"
+        ></app-stats-container>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<span></span>
+<mat-toolbar class="mb-3 nodes-title">
+    <span>
+        {{ 'DASHBOARD.NODES-GPU' | translate }}
+    </span>
+</mat-toolbar>
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let node of this.nodesGpu">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="id-title">
+                {{ node.name }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-stats-container
+            [usedCpuNum]="node.cpu_used"
+            [totalCpuNum]="node.cpu_total"
+            [usedMemory]="node.ram_used"
+            [totalMemory]="node.ram_total"
+            [usedDisk]="node.disk_used"
+            [totalDisk]="node.disk_total"
+            [usedGpuNum]="node.gpu_used"
+            [totalGpuNum]="node.gpu_total"
+        ></app-stats-container>
+    </mat-expansion-panel>
+</mat-accordion>

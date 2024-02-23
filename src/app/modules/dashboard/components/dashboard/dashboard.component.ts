@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { StatsService } from '../../services/stats-service/stats-service.service';
 import {
+    GlobalStats,
     ClusterStats,
+    GpuStats,
     NodeStats,
     UserStats,
 } from '@app/shared/interfaces/stats.interface';
@@ -17,6 +19,20 @@ export class DashboardComponent implements OnInit {
     panelOpenState = false;
     userStatsLoading = false;
     clusterStatsLoading = false;
+
+    // User global variable
+    protected userGlobalStats: GlobalStats = {
+        cpuNumAgg: 0,
+        cpuNumTotal: 0,
+        cpuMHzAgg: 0,
+        cpuMHzTotal: 0,
+        memoryMBAgg: 0,
+        memoryMBTotal: 0,
+        diskMBAgg: 0,
+        diskMBTotal: 0,
+        gpuNumAgg: 0,
+        gpuNumTotal: 0,
+    };
 
     // User aggregate variables
     protected cpuNumUserAgg = 0;
@@ -42,6 +58,9 @@ export class DashboardComponent implements OnInit {
     protected queuedData: number[] = [];
     protected runningData: number[] = [];
 
+    // Cluster global variable
+    protected clusterGlobalStats!: GlobalStats;
+
     // Cluster aggregate variables
     protected cpuNumClusterAgg = 0;
     protected memoryMBClusterAgg = 0;
@@ -53,6 +72,9 @@ export class DashboardComponent implements OnInit {
     protected memoryMBClusterTotal = 0;
     protected diskMBClusterTotal = 0;
     protected gpuNumClusterTotal = 0;
+
+    // Cluster GPUs per model
+    protected gpuPerModelCluster: GpuStats[] = [];
 
     // Nodes
     protected nodesCpu: NodeStats[] = [];
@@ -78,6 +100,12 @@ export class DashboardComponent implements OnInit {
                         statsResponse['users-agg'].disk_MB
                     );
                     this.gpuNumUserAgg = statsResponse['users-agg'].gpu_num;
+
+                    this.userGlobalStats.cpuNumAgg = this.cpuNumUserAgg;
+                    this.userGlobalStats.cpuMHzAgg = this.cpuMHzUserAgg;
+                    this.userGlobalStats.memoryMBAgg = this.memoryMBUserAgg;
+                    this.userGlobalStats.diskMBAgg = this.diskMBUserAgg;
+                    this.userGlobalStats.gpuNumAgg = this.gpuNumNamespaceAgg;
                 }
 
                 // Namespace aggregate variables
@@ -91,6 +119,13 @@ export class DashboardComponent implements OnInit {
                     );
                     this.diskMBNamespaceAgg = statsResponse['full-agg'].disk_MB;
                     this.gpuNumNamespaceAgg = statsResponse['full-agg'].gpu_num;
+
+                    this.userGlobalStats.cpuNumTotal = this.cpuNumNamespaceAgg;
+                    this.userGlobalStats.cpuMHzTotal = this.cpuMHzNamespaceAgg;
+                    this.userGlobalStats.memoryMBTotal =
+                        this.memoryMBNamespaceAgg;
+                    this.userGlobalStats.diskMBTotal = this.diskMBNamespaceAgg;
+                    this.userGlobalStats.gpuNumTotal = this.gpuNumNamespaceAgg;
                 }
 
                 // Timeseries
@@ -131,6 +166,19 @@ export class DashboardComponent implements OnInit {
                     );
                     this.gpuNumClusterTotal =
                         statsResponse['cluster'].gpu_total;
+                    this.gpuPerModelCluster =
+                        statsResponse['cluster'].gpu_per_model;
+
+                    this.clusterGlobalStats = {
+                        cpuNumAgg: this.cpuNumClusterAgg,
+                        cpuNumTotal: this.cpuNumClusterTotal,
+                        memoryMBAgg: this.memoryMBClusterAgg,
+                        memoryMBTotal: this.memoryMBClusterTotal,
+                        diskMBAgg: this.diskMBClusterAgg,
+                        diskMBTotal: this.diskMBClusterTotal,
+                        gpuNumAgg: this.gpuNumClusterAgg,
+                        gpuNumTotal: this.gpuNumClusterTotal,
+                    };
                 }
 
                 // Nodes
