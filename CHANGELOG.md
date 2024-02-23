@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.2](https://github.com/ai4os/ai4-dashboard/compare/v1.5.1...v1.5.2) (2024-02-23)
+
+
+### Bug Fixes
+
+* add license year/owner ([#58](https://github.com/ai4os/ai4-dashboard/issues/58)) ([c66ff21](https://github.com/ai4os/ai4-dashboard/commit/c66ff215ccce8d443797722ebb0528480a096765))
+* update ai4eosc mlflow link ([#61](https://github.com/ai4os/ai4-dashboard/issues/61)) ([b6d2d08](https://github.com/ai4os/ai4-dashboard/commit/b6d2d086fb46f6b26e296904b846d98b548633da))
+
 ## [1.5.1](https://github.com/ai4os/ai4-dashboard/compare/v1.5.0...v1.5.1) (2024-02-09)
 
 
