@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="title">
     <h4>
         {{ 'MODULES.MODULE-TRAIN.TITLE' | translate }}:
         <strong>{{ title }}</strong>
@@ -6,9 +6,20 @@
 </mat-toolbar>
 
 <form class="example-form" [formGroup]="showHelpForm" ngNativeValidate>
-    <div class="breadcrumbs-and-help-container">
-        <xng-breadcrumb class="mb-3"></xng-breadcrumb>
+    <div
+        [ngClass]="{
+            'grid-1-column': mobileQuery.matches,
+            'breadcrumbs-and-help-container': !mobileQuery.matches
+        }"
+    >
+        <xng-breadcrumb
+            [ngClass]="{
+                'mobile-breadcrumb': mobileQuery.matches,
+                'mb-3': !mobileQuery.matches
+            }"
+        ></xng-breadcrumb>
         <mat-slide-toggle
+            *ngIf="!mobileQuery.matches"
             color="accent"
             formControlName="showHelpToggleButton"
             #showHelpToggle
@@ -19,57 +30,83 @@
     </div>
 </form>
 
-<mat-stepper linear #stepper>
-    <mat-step [stepControl]="step1Form">
-        <ng-template matStepLabel>{{ step1Title | translate }}</ng-template>
-        <ng-container [ngTemplateOutlet]="step1"></ng-container>
-        <div class="next-back-buttons">
-            <button
-                mat-raised-button
-                class="mr-2"
-                (click)="submitTrainingRequest()"
-                [disabled]="!checkFormValidity(step1Form)"
+<div *ngIf="isLoading; else stepper" class="spinner">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</div>
+<ng-template #stepper>
+    <mat-stepper
+        [orientation]="getStepperOrientation()"
+        linear
+        #stepper
+        class="mb-4"
+    >
+        <mat-step [stepControl]="step1Form">
+            <ng-template matStepLabel>{{ step1Title | translate }}</ng-template>
+            <ng-container [ngTemplateOutlet]="step1"></ng-container>
+            <div
+                [ngClass]="{
+                    'next-back-buttons-mobile': mobileQuery.matches,
+                    'next-back-buttons': !mobileQuery.matches
+                }"
             >
-                {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
-            </button>
-            <button
-                type="button"
-                mat-raised-button
-                matStepperNext
-                color="accent"
-                [disabled]="!step1Form.valid"
+                <button
+                    mat-raised-button
+                    class="mr-2"
+                    (click)="submitTrainingRequest()"
+                    [disabled]="!checkFormValidity(step1Form)"
+                >
+                    {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
+                </button>
+                <button
+                    type="button"
+                    mat-raised-button
+                    matStepperNext
+                    color="accent"
+                    [disabled]="!step1Form.valid"
+                >
+                    {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                </button>
+            </div>
+        </mat-step>
+        <mat-step [stepControl]="step2Form">
+            <ng-template matStepLabel>{{ step2Title | translate }}</ng-template>
+            <ng-container [ngTemplateOutlet]="step2"></ng-container>
+            <div
+                [ngClass]="{
+                    'next-back-buttons-mobile': mobileQuery.matches,
+                    'next-back-buttons': !mobileQuery.matches
+                }"
             >
-                {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-            </button>
-        </div>
-    </mat-step>
-    <mat-step [stepControl]="step2Form">
-        <ng-template matStepLabel>{{ step2Title | translate }}</ng-template>
-        <ng-container [ngTemplateOutlet]="step2"></ng-container>
-        <div class="next-back-buttons">
-            <button mat-raised-button matStepperPrevious class="mr-2">
-                {{ 'GENERAL-BUTTONS.BACK' | translate }}
-            </button>
+                <button mat-raised-button matStepperPrevious class="mr-2">
+                    {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                </button>
 
-            <button mat-raised-button matStepperNext color="accent">
-                {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-            </button>
-        </div>
-    </mat-step>
-    <mat-step [stepControl]="step3Form">
-        <ng-template matStepLabel>{{ step3Title | translate }}</ng-template>
-        <ng-container [ngTemplateOutlet]="step3"></ng-container>
-        <div class="next-back-buttons">
-            <button mat-raised-button matStepperPrevious class="mr-2">
-                {{ 'GENERAL-BUTTONS.BACK' | translate }}
-            </button>
-            <button
-                mat-raised-button
-                color="accent"
-                (click)="submitTrainingRequest()"
+                <button mat-raised-button matStepperNext color="accent">
+                    {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                </button>
+            </div>
+        </mat-step>
+        <mat-step [stepControl]="step3Form">
+            <ng-template matStepLabel>{{ step3Title | translate }}</ng-template>
+            <ng-container [ngTemplateOutlet]="step3"></ng-container>
+            <div
+                [ngClass]="{
+                    'next-back-buttons-mobile': mobileQuery.matches,
+                    'next-back-buttons': !mobileQuery.matches
+                }"
             >
-                {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
-            </button>
-        </div>
-    </mat-step>
-</mat-stepper>
+                <button mat-raised-button matStepperPrevious class="mr-2">
+                    {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                </button>
+                <button
+                    mat-raised-button
+                    color="accent"
+                    (click)="submitTrainingRequest()"
+                >
+                    {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                </button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</ng-template>

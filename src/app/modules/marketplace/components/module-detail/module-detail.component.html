@@ -15,9 +15,14 @@
 
 <xng-breadcrumb class="mb-3"></xng-breadcrumb>
 
-<mat-card class="example-card">
+<mat-card class="detail-card">
     <mat-card-header id="module-detail-card-header" *ngIf="!isLoading">
-        <div class="grid-2-columns">
+        <div
+            [ngClass]="{
+                'grid-1-column': mobileQuery.matches,
+                'grid-2-columns': !mobileQuery.matches
+            }"
+        >
             <div>
                 <h1 style="color: var(--primary-text)">{{ module.title }}</h1>
                 <p>{{ module.summary }}</p>
@@ -69,7 +74,13 @@
             </mat-progress-spinner>
         </div>
 
-        <div class="grid-2-columns-content" *ngIf="!isLoading">
+        <div
+            [ngClass]="{
+                'grid-1-column': mobileQuery.matches,
+                'grid-2-columns-content': !mobileQuery.matches
+            }"
+            *ngIf="!isLoading"
+        >
             <div>
                 <markdown
                     [data]="module.description"

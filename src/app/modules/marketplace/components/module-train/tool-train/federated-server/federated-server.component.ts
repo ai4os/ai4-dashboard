@@ -37,6 +37,7 @@ export class FederatedServerComponent implements OnInit {
     step3Title = 'MODULES.MODULE-TRAIN.FEDERATED-CONF';
 
     showHelp = false;
+    showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
@@ -62,6 +63,7 @@ export class FederatedServerComponent implements OnInit {
         dockerTagSelect: true,
         hostnameInput: true,
         federated_secret: true,
+        infoButton: true,
     };
 
     loadModule() {
@@ -82,6 +84,8 @@ export class FederatedServerComponent implements OnInit {
     }
 
     submitTrainingRequest() {
+        this.showLoader = true;
+
         const request: TrainModuleRequest = {
             general: {
                 title: this.generalConfForm.value.generalConfForm.titleInput,
@@ -100,6 +104,9 @@ export class FederatedServerComponent implements OnInit {
                 hostname:
                     this.generalConfForm.getRawValue().generalConfForm
                         .hostnameInput,
+                federated_secret:
+                    this.generalConfForm.getRawValue().generalConfForm
+                        .federatedSecretInput,
             },
             hardware: {
                 cpu_num:
@@ -129,6 +136,7 @@ export class FederatedServerComponent implements OnInit {
 
         this.deploymentsService.trainTool(request).subscribe({
             next: (result: statusReturn) => {
+                this.showLoader = false;
                 if (result && result.status == 'success') {
                     this.router
                         .navigate(['/deployments'])
@@ -159,10 +167,21 @@ export class FederatedServerComponent implements OnInit {
                     }
                 }
             },
+            error: () => {
+                this.showLoader = false;
+            },
+            complete: () => {
+                this.showLoader = false;
+            },
         });
     }
+
     showHelpButtonChange(event: MatSlideToggleChange) {
         this.showHelp = event.checked;
+    }
+
+    isLoading(): boolean {
+        return this.showLoader;
     }
 
     ngOnInit(): void {

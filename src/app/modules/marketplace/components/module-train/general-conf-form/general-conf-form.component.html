@@ -1,6 +1,11 @@
 <form [formGroup]="generalConfFormGroup" class="general-conf-form">
     <h4>{{ 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TITLE' | translate }}</h4>
-    <div class="form-grid">
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches
+        }"
+    >
         <mat-form-field appearance="fill">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE'
@@ -46,44 +51,66 @@
         </mat-form-field>
         <div [ngClass]="{ 'mt-3': _showHelp }">
             <div
-                class="service-to-run-container"
-                [ngClass]="{ 'mb-5': _showHelp }"
+                [ngClass]="{
+                    'form-flex': mobileQuery.matches,
+                    'service-to-run-container': !mobileQuery.matches,
+                    'mb-5': _showHelp && isPasswodRequired
+                }"
             >
                 <div>
                     <mat-label>{{
                         'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
                             | translate
                     }}</mat-label>
-
-                    <mat-chip-listbox
-                        aria-label="Fish selection"
-                        formControlName="serviceToRunChip"
-                        multiple="false"
-                    >
-                        <mat-chip-option
-                            #chipOption
-                            *ngFor="
-                                let serviceToRunOption of serviceToRunOptions
-                            "
-                            color="accent"
-                            class="service-to-run-chip"
-                            [value]="serviceToRunOption.value"
-                            [selected]="
-                                _defaultFormValues.service.value ===
-                                serviceToRunOption.value
-                            "
-                            [selectable]="chipOption.selected ? false : true"
-                            >{{
-                                serviceToRunOption.viewValue | titlecase
-                            }}</mat-chip-option
+                    <div class="service-to-run-chips">
+                        <mat-chip-listbox
+                            aria-label="Fish selection"
+                            formControlName="serviceToRunChip"
+                            multiple="false"
                         >
-                    </mat-chip-listbox>
+                            <mat-chip-option
+                                #chipOption
+                                *ngFor="
+                                    let serviceToRunOption of serviceToRunOptions
+                                "
+                                color="accent"
+                                class="service-to-run-chip"
+                                [value]="serviceToRunOption.value"
+                                [selected]="
+                                    _defaultFormValues.service.value ===
+                                    serviceToRunOption.value
+                                "
+                                [selectable]="
+                                    chipOption.selected ? false : true
+                                "
+                                >{{
+                                    serviceToRunOption.viewValue | titlecase
+                                }}</mat-chip-option
+                            >
+                        </mat-chip-listbox>
+                        <button
+                            *ngIf="_showFields.infoButton"
+                            mat-icon-button
+                            matTooltip="{{
+                                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.OPEN-DOCUMENTATION'
+                                    | translate
+                            }}"
+                            [matTooltipPosition]="'above'"
+                            (click)="openDocumentationWeb()"
+                        >
+                            <mat-icon color="accent">help</mat-icon>
+                        </button>
+                    </div>
                 </div>
+
                 <mat-form-field
                     appearance="fill"
-                    class="password-input-field"
+                    [ngClass]="{
+                        'password-input-field-mobile': mobileQuery.matches,
+                        'password-input-field': !mobileQuery.matches,
+                        'mt-2': _showHelp
+                    }"
                     [@inOutAnimation]
-                    [ngClass]="{ 'mt-2': _showHelp }"
                     *ngIf="isPasswodRequired"
                 >
                     <mat-label>{{
@@ -201,7 +228,12 @@
         }}
     </h4>
     <mat-divider class="mt-3 mb-3"></mat-divider>
-    <div class="form-grid">
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches
+        }"
+    >
         <mat-form-field class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
-import { NotFoundComponent } from './modules/not-found/not-found.component';
 
 const routes: Routes = [
     {
@@ -46,7 +45,10 @@ const routes: Routes = [
             },
             {
                 path: '**',
-                component: NotFoundComponent,
+                loadChildren: () =>
+                    import('@modules/not-found/not-found.module').then(
+                        (m) => m.NotFoundModule
+                    ),
             },
         ],
     },

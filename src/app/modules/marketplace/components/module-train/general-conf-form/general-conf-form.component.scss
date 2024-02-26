@@ -1,23 +1,26 @@
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1rem;
-}
 .service-to-run-container {
     display: flex;
     justify-content: space-between;
 }
+
 .password-input-field {
     width: 50%;
 }
+
+.password-input-field-mobile {
+    width: 100%;
+}
+
 .service-to-run-chip.mdc-evolution-chip--selected {
     ::ng-deep .mdc-evolution-chip__text-label {
         color: white;
     }
 }
+
 .copy-icon {
     cursor: pointer;
 }
+
 .mat-hint-text {
     -webkit-font-smoothing: antialiased;
     font-family: var(
@@ -44,6 +47,17 @@
     text-decoration: var(--mdc-typography-caption-text-decoration, inherit);
     text-transform: var(--mdc-typography-caption-text-transform, none);
 }
+
 .display-inline {
     display: inline;
+}
+
+.service-to-run-chips {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+:host ::ng-deep .mat-mdc-form-field-error-wrapper {
+    padding: 0 10px;
 }

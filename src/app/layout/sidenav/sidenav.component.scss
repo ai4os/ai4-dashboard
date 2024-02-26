@@ -20,6 +20,11 @@
 ::ng-deep .sidenav .mat-drawer-inner-container {
     overflow: hidden !important;
 }
+@media (max-width: 1250px) {
+    ::ng-deep .sidenav .mat-drawer-inner-container {
+        overflow: scroll !important;
+    }
+}
 
 .header {
     position: fixed;
@@ -68,7 +73,11 @@
 
 .sidenav-footer {
     position: absolute;
-    bottom: 1rem;
+    bottom: 0;
+}
+
+.sidenav-footer-mobile {
+    position: relative;
 }
 
 .dashboard-logo-container {
@@ -108,4 +117,9 @@
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
     z-index: 1000;
+}
+.dashboard-version {
+    display: flex;
+    justify-content: center;
+    margin-right: 1.5em;
 }

@@ -1,5 +1,5 @@
 <mat-toolbar class="top-navbar-container">
-    <div *ngIf="mobileQuery.matches" class="dashboard-logo-container">
+    <div *ngIf="hideSidebarQuery.matches" class="dashboard-logo-container">
         <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
         <button mat-icon-button (click)="toggleSidenav()" style="z-index: 99">
             <mat-icon>menu</mat-icon>
@@ -28,10 +28,12 @@
             #menuTrigger="matMenuTrigger"
             (mouseenter)="buttonEnter(menuTrigger)"
             (mouseleave)="buttonLeave(menuTrigger, button)"
-            class="profile-button"
+            class="mobileQuery.matches ? profile-button-mobile : profile-button"
         >
             <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
-            {{ userProfile?.name }}
+            <div *ngIf="!mobileQuery.matches" class="user-log">
+                {{ userProfile?.name }}
+            </div>
         </button>
 
         <mat-menu
@@ -52,9 +54,16 @@
     </div>
 
     <ng-template #showSignInLink>
-        <a mat-button (click)="login()">
+        <a
+            id="showLoginButton"
+            class="mobileQuery.matches ? login-btn-mobile"
+            mat-button
+            (click)="login()"
+        >
             <mat-icon>person</mat-icon>
-            {{ 'TOP-NAVBAR.LOGIN-REGISTER' | translate }}
+            <div *ngIf="!mobileQuery.matches" class="user-log">
+                {{ 'TOP-NAVBAR.LOGIN-REGISTER' | translate }}
+            </div>
         </a>
     </ng-template>
 </mat-toolbar>

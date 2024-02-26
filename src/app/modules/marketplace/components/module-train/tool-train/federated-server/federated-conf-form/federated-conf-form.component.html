@@ -1,6 +1,11 @@
 <form [formGroup]="federatedConfFormGroup" class="federated-conf-form">
     <h4>{{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.TITLE' | translate }}</h4>
-    <div class="form-grid">
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches
+        }"
+    >
         <mat-form-field class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.ROUNDS' | translate
@@ -18,20 +23,50 @@
                 _defaultFormValues?.rounds.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+
+        <mat-form-field id="metric-field" class="example-full-width">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.METRIC' | translate
             }}</mat-label>
-            <input
-                type="text"
-                matInput
-                placeholder=""
-                value=""
-                formControlName="metricInput"
-            />
+            <mat-chip-grid #chipGrid aria-label="Metric selection">
+                <div *ngFor="let metric of metrics">
+                    <mat-chip-row
+                        class="metric-chip-row"
+                        (removed)="remove(metric)"
+                    >
+                        {{ metric }}
+                        <button
+                            matChipRemove
+                            [attr.aria-label]="'remove ' + metric"
+                        >
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip-row>
+                </div>
+
+                <input
+                    placeholder="New Metric..."
+                    formControlName="metricInput"
+                    #input
+                    [formControl]="metricCtrl"
+                    [matChipInputFor]="chipGrid"
+                    [matAutocomplete]="auto"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)"
+                />
+            </mat-chip-grid>
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues?.metric.description
             }}</mat-hint>
+            <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="selected($event)"
+            >
+                <div *ngFor="let metric of defaultMetrics">
+                    <mat-option [value]="metric">{{ metric }}</mat-option>
+                </div>
+            </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -66,9 +101,11 @@
                     {{ strategyOption.viewValue }}
                 </mat-option>
             </mat-select>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.strategy.description
-            }}</mat-hint>
+            <mat-hint *ngIf="_showHelp" class="html-tags-div">
+                <div
+                    [innerHTML]="_defaultFormValues?.strategy.description"
+                ></div
+            ></mat-hint>
         </mat-form-field>
     </div>
 </form>

@@ -36,6 +36,10 @@ export interface confObjectRange extends confObject {
     range: number[];
 }
 
+export interface confObjectStringArray extends confObject {
+    values: string[];
+}
+
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
@@ -65,7 +69,7 @@ export interface ModuleStorageConfiguration {
 
 export interface FederatedServerConfiguration {
     rounds: confObjectRange;
-    metric: confObject;
+    metric: confObjectStringArray;
     min_clients: confObjectRange;
     strategy: confObject;
 }
@@ -91,6 +95,7 @@ export interface TrainModuleRequest {
         service: string;
         jupyter_password?: string;
         hostname?: string;
+        federated_secret?: string;
     };
     hardware: {
         cpu_num: number;
@@ -108,7 +113,7 @@ export interface TrainModuleRequest {
     };
     configuration?: {
         rounds: number;
-        metric: string;
+        metric: string[];
         min_clients: number;
         strategy: string;
     };
@@ -117,107 +122,107 @@ export interface TrainModuleRequest {
 // OSCAR MODELS
 
 export interface Service {
-    name: string,
-    cluster_id: string,
-    memory: string
-    cpu: string,
-    enable_gpu: boolean,
-    total_mem: string
+    name: string;
+    cluster_id: string;
+    memory: string;
+    cpu: string;
+    enable_gpu: boolean;
+    total_mem: string;
     synchronous: {
-        min_scale: number,
-        max_scale: number
-    }
-    replicas: Array<Replica>,
-    rescheduler_threshold: number
-    token: string,
-    log_level: string,
-    image: string,
-    alpine: boolean,
-    script: string,
-    image_pull_secrets: Array<String>,
+        min_scale: number;
+        max_scale: number;
+    };
+    replicas: Array<Replica>;
+    rescheduler_threshold: number;
+    token: string;
+    log_level: string;
+    image: string;
+    alpine: boolean;
+    script: string;
+    image_pull_secrets: Array<string>;
     environment: {
         Variables: {
             [key: string]: string;
-        }
-    },
+        };
+    };
     annotations: {
         [key: string]: string;
-    },
+    };
     labels: {
         [key: string]: string;
-    },
-    input: Array<StorageIOConfig>,
-    output: Array<StorageIOConfig>,
-    storage_providers: StorageProviders,
-    clusters: Clusters
+    };
+    input: Array<StorageIOConfig>;
+    output: Array<StorageIOConfig>;
+    storage_providers: StorageProviders;
+    clusters: Clusters;
 }
 
 interface Clusters {
     id: {
-        endpoint: string,
-        auth_user: string,
-        auth_password: string,
-        ssl_verify: boolean
-    }
+        endpoint: string;
+        auth_user: string;
+        auth_password: string;
+        ssl_verify: boolean;
+    };
 }
 
 interface Replica {
-    type: string,
-    cluster_id: string,
-    service_name: string,
-    url: string,
-    ssl_verify: boolean,
-    priority: number,
+    type: string;
+    cluster_id: string;
+    service_name: string;
+    url: string;
+    ssl_verify: boolean;
+    priority: number;
     headers: {
         [key: string]: string;
-    },
+    };
 }
 
 interface StorageIOConfig {
-    storage_provider: string,
-    path: string
-    suffix: Array<String>,
-    prefix: Array<String>
+    storage_provider: string;
+    path: string;
+    suffix: Array<string>;
+    prefix: Array<string>;
 }
 
 interface StorageProviders {
     s3: {
         id: {
-            access_key: string,
-            secret_key: string,
-            region: string
-        }
-    },
+            access_key: string;
+            secret_key: string;
+            region: string;
+        };
+    };
     minio: {
-        id: MiniIOProvider
-    },
+        id: MiniIOProvider;
+    };
     onedata: {
         id: {
-            oneprovider_host: string,
-            token: string,
-            space: string
-        }
-    },
+            oneprovider_host: string;
+            token: string;
+            space: string;
+        };
+    };
     webdav: {
         id: {
-            hostname: string,
-            login: string,
-            password: string
-        }
-    }
+            hostname: string;
+            login: string;
+            password: string;
+        };
+    };
 }
 
 interface MiniIOProvider {
-    endpoint: string,
-    region: string,
-    access_key: string,
-    secret_key: string,
-    verify: boolean
+    endpoint: string;
+    region: string;
+    access_key: string;
+    secret_key: string;
+    verify: boolean;
 }
 
 export interface JobInfo {
-    status: string,
-    creation_time: string,
-    start_time: string,
-    finish_time: string
+    status: string;
+    creation_time: string;
+    start_time: string;
+    finish_time: string;
 }

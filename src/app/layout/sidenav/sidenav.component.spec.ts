@@ -5,10 +5,16 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
+import { MaterialModule } from '@app/shared/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
+import { of } from 'rxjs';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
+    userProfileSubject: of({}),
 };
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -27,12 +33,16 @@ const mockedMediaMatcher: any = {
 describe('SidenavComponent', () => {
     let component: SidenavComponent;
     let fixture: ComponentFixture<SidenavComponent>;
-    let appConfigService: AppConfigService;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SidenavComponent],
-            imports: [TranslateModule.forRoot()],
+            declarations: [SidenavComponent, TopNavbarComponent],
+            imports: [
+                TranslateModule.forRoot(),
+                MaterialModule,
+                BrowserAnimationsModule,
+                RouterModule.forRoot([]),
+            ],
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },

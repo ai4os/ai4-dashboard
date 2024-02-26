@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     OnInit,
@@ -18,6 +19,8 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { StepperOrientation } from '@angular/cdk/stepper';
 
 @Component({
     selector: 'app-module-train',
@@ -31,8 +34,14 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
         private deploymentsService: DeploymentsService,
         private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
-        private router: Router
-    ) {}
+        private router: Router,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
         | ElementRef
@@ -40,6 +49,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
 
     checked = false;
     disabled = false;
+    isLoading = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
@@ -54,7 +64,12 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
+
     submitTrainingRequest() {
+        this.isLoading = true;
+
         const request: TrainModuleRequest = {
             general: {
                 title: this.generalConfForm.value.generalConfForm.titleInput,
@@ -104,6 +119,8 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
 
         this.deploymentsService.postTrainModule(request).subscribe({
             next: (result: statusReturn) => {
+                this.isLoading = false;
+
                 if (result && result.status == 'success') {
                     this.router
                         .navigate(['/deployments'])
@@ -134,8 +151,16 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
+            error: () => {
+                this.isLoading = false;
+            },
+            complete: () => {
+                this.isLoading = false;
+            },
         });
-    } /**
+    }
+
+    /**
      * Change toggle button icon by DOM manipulation
      *
      * @memberof ModuleTrainComponent
@@ -167,6 +192,14 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                     this.storageConfDefaultValues = moduleConf.storage;
                 });
         });
+    }
+
+    getStepperOrientation(): StepperOrientation {
+        let orientation = 'horizontal' as StepperOrientation;
+        if (this.mobileQuery.matches) {
+            orientation = 'vertical';
+        }
+        return orientation;
     }
 
     ngOnInit(): void {

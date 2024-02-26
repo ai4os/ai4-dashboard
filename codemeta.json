@@ -1,0 +1,14 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "@type": "SoftwareSourceCode",
+    "name": "AI4EOSC - Dashboard",
+    "description": "The AI4OS dashboard allows users to access computing resources to deploy, perform inference, and train modules hosted at the Marketplace. The Dashboard simplifies the deployment and hides some of the technical parts that most users do not need to worry about.",
+    "author": [
+        {
+            "@type": "Organization",
+            "name": "AI4EOSC collaboration",
+            "email": "ai4eosc-support@listas.csic.es",
+            "url":  "https://ai4os.eu/"
+        }
+    ]
+}

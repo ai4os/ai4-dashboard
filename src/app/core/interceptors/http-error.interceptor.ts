@@ -13,13 +13,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError } from 'rxjs';
 
 import { retry, catchError } from 'rxjs/operators';
+import { AuthService } from '../services/auth/auth.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
         private readonly injector: Injector,
         private _snackBar: MatSnackBar,
-        private router: Router
+        private router: Router,
+        private authService: AuthService
     ) {}
 
     intercept(
@@ -45,6 +47,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                             'forbidden',
                             { errorMessage: errorMessage },
                         ]);
+                        this.authService.logout();
                     }
                     try {
                         const translateService =

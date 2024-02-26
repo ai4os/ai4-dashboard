@@ -1,6 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -14,6 +20,7 @@ import {
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 export interface TableColumn {
     columnDef: string;
@@ -28,7 +35,7 @@ interface toolTableRow {
     containerName: string;
     gpus: string | number;
     creationTime: string;
-    endpoints?: object | undefined;
+    endpoints?: { [index: string]: string } | undefined;
     mainEndpoint: string;
     error_msg?: string;
 }
@@ -44,8 +51,14 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
         private _snackBar: MatSnackBar,
-        private _liveAnnouncer: LiveAnnouncer
-    ) {}
+        private _liveAnnouncer: LiveAnnouncer,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     @ViewChild(MatSort) set matSort(sort: MatSort) {
         this.dataSource.sort = sort;
@@ -69,19 +82,8 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = [];
     private unsub = new Subject<void>();
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-        this.isAllSelected()
-            ? this.selection.clear()
-            : this.dataSource.data.forEach((row) => this.selection.select(row));
-    }
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     removeTool(e: MouseEvent, row: toolTableRow) {
         e.stopPropagation();
@@ -93,55 +95,48 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
                     const uuid = row.uuid;
-                    this.deploymentsService
-                        .deleteDeploymentByUUID(uuid)
-                        .subscribe({
-                            next: (response: statusReturn) => {
-                                if (
-                                    response &&
-                                    response['status'] == 'success'
-                                ) {
-                                    const itemIndex = this.dataset.findIndex(
-                                        (obj) => obj['uuid'] === uuid
+                    this.deploymentsService.deleteToolByUUID(uuid).subscribe({
+                        next: (response: statusReturn) => {
+                            if (response && response['status'] == 'success') {
+                                const itemIndex = this.dataset.findIndex(
+                                    (obj) => obj['uuid'] === uuid
+                                );
+                                this.dataset.splice(itemIndex, 1);
+                                this.dataSource =
+                                    new MatTableDataSource<toolTableRow>(
+                                        this.dataset
                                     );
-                                    this.dataset.splice(itemIndex, 1);
-                                    this.dataSource =
-                                        new MatTableDataSource<toolTableRow>(
-                                            this.dataset
-                                        );
-                                    this._snackBar.open(
-                                        'Successfully deleted deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['primary-snackbar'],
-                                        }
-                                    );
-                                } else {
-                                    this._snackBar.open(
-                                        'Error deleting deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['red-snackbar'],
-                                        }
-                                    );
-                                }
-                            },
-                            error: () => {
                                 this._snackBar.open(
-                                    'Error deleting deployment with uuid: ' +
+                                    'Successfully deleted tool with uuid: ' +
                                         uuid,
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['primary-snackbar'],
+                                    }
+                                );
+                            } else {
+                                this._snackBar.open(
+                                    'Error deleting tool with uuid: ' + uuid,
                                     'X',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],
                                     }
                                 );
-                            },
-                        });
+                            }
+                        },
+                        error: () => {
+                            this._snackBar.open(
+                                'Error deleting tool with uuid: ' + uuid,
+                                'X',
+                                {
+                                    duration: 3000,
+                                    panelClass: ['red-snackbar'],
+                                }
+                            );
+                        },
+                    });
                 }
             });
     }
@@ -154,6 +149,15 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
         return row.endpoints;
     }
 
+    getMainEndpoint(row: toolTableRow) {
+        const mainEndpoint = row.mainEndpoint;
+        if (row.endpoints && row.endpoints[mainEndpoint]) {
+            return row.endpoints[mainEndpoint];
+        } else {
+            return '';
+        }
+    }
+
     hasToolErrors(row: toolTableRow) {
         return row.error_msg;
     }
@@ -163,11 +167,12 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
     }
 
     openToolDetailDialog(row: toolTableRow): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
         const dialogRef = this.dialog.open(DeploymentDetailComponent, {
             data: { uuid: row.uuid, isTool: true },
-            width: '650px',
-            maxWidth: '650px',
-            minWidth: '650px',
+            width: width,
+            maxWidth: width,
+            minWidth: width,
             autoFocus: false,
             restoreFocus: false,
         });
@@ -231,6 +236,10 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
 
     isFederatedServer(row: toolTableRow) {
         return row.mainEndpoint.includes('fedserver');
+    }
+
+    isSticky(columnDef: string): boolean {
+        return columnDef === 'name' ? true : false;
     }
 
     ngOnInit(): void {

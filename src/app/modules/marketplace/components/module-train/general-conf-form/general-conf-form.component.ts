@@ -6,7 +6,7 @@ import {
     animateChild,
     query,
 } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -16,6 +16,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 export interface showGeneralFormField {
     descriptionInput: boolean;
@@ -26,6 +27,7 @@ export interface showGeneralFormField {
     dockerTagSelect: boolean;
     hostnameInput: boolean;
     federated_secret: boolean;
+    infoButton: boolean;
 }
 
 @Component({
@@ -57,8 +59,14 @@ export class GeneralConfFormComponent implements OnInit {
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private clipboard: Clipboard,
-        private _snackBar: MatSnackBar
-    ) {}
+        private _snackBar: MatSnackBar,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
 
     parentForm!: FormGroup;
 
@@ -66,6 +74,9 @@ export class GeneralConfFormComponent implements OnInit {
     protected _showHelp = false;
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     _showFields = {
         descriptionInput: true,
@@ -76,6 +87,7 @@ export class GeneralConfFormComponent implements OnInit {
         dockerTagSelect: true,
         hostnameInput: true,
         federated_secret: false,
+        infoButton: false,
     };
 
     @Input() set showFields(showFields: showGeneralFormField) {
@@ -165,5 +177,11 @@ export class GeneralConfFormComponent implements OnInit {
                         ?.disable();
                 }
             });
+    }
+
+    openDocumentationWeb(): void {
+        const url =
+            'https://docs.ai4eosc.eu/en/latest/user/howto/tools/federated-server.html';
+        window.open(url);
     }
 }
