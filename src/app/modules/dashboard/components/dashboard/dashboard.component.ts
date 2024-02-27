@@ -181,8 +181,6 @@ export class DashboardComponent implements OnInit {
                     };
                 }
 
-                console.log(this.gpuPerModelCluster);
-
                 // Nodes
                 for (const node in statsResponse['nodes']) {
                     if (statsResponse['nodes'][node].gpu_total > 0) {
