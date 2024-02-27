@@ -12,7 +12,7 @@ export class TimeSeriesChartComponent implements OnInit {
 
     chartOptionsCommon: EChartsOption = {};
     chartOptionsData: EChartsOption = {};
-    colorPalette = ['#008792', '#d9d9d9'];
+    colorPalette: string[] = [];
 
     protected _datesInput: string[] = [];
     protected _dataInput: string[] | number[] = [];
@@ -34,6 +34,8 @@ export class TimeSeriesChartComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.setColours();
+
         this.chartOptionsCommon = {
             xAxis: [
                 {
@@ -68,5 +70,11 @@ export class TimeSeriesChartComponent implements OnInit {
                 },
             ],
         };
+    }
+
+    setColours(): void {
+        var r = document.querySelector(':root');
+        var rs = getComputedStyle(r!);
+        this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
     }
 }

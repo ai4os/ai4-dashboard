@@ -20,11 +20,7 @@
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">
-            <div class="secrets-list">
-                <h3>
-                    {{ 'DEPLOYMENTS.DEPLOYMENT-SECRETS.LIST' | translate }}
-                </h3>
-            </div>
+            <div echarts [options]="chartOptionsCommon"></div>
         </ng-container>
     </mat-card-content>
     <mat-card-actions align="end">

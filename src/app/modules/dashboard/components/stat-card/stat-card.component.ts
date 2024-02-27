@@ -14,7 +14,7 @@ export class StatCardComponent implements OnInit {
     @Input() memory_unit?: string;
 
     chartOptionsCommon: EChartsOption = {};
-    colorPalette = ['#008792', '#d9d9d9'];
+    colorPalette: string[] = [];
 
     getUnit(): string {
         let unit = '';
@@ -25,6 +25,8 @@ export class StatCardComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.setColours();
+
         this.chartOptionsCommon = {
             title: {
                 subtext:
@@ -70,5 +72,11 @@ export class StatCardComponent implements OnInit {
                 },
             ],
         };
+    }
+
+    setColours(): void {
+        var r = document.querySelector(':root');
+        var rs = getComputedStyle(r!);
+        this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
     }
 }

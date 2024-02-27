@@ -167,7 +167,7 @@ export class DashboardComponent implements OnInit {
                     this.gpuNumClusterTotal =
                         statsResponse['cluster'].gpu_total;
                     this.gpuPerModelCluster =
-                        statsResponse['cluster'].gpu_per_model;
+                        statsResponse['cluster'].gpu_models;
 
                     this.clusterGlobalStats = {
                         cpuNumAgg: this.cpuNumClusterAgg,
@@ -180,6 +180,8 @@ export class DashboardComponent implements OnInit {
                         gpuNumTotal: this.gpuNumClusterTotal,
                     };
                 }
+
+                console.log(this.gpuPerModelCluster);
 
                 // Nodes
                 for (const node in statsResponse['nodes']) {

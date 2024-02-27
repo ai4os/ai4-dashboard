@@ -34,7 +34,7 @@ export interface ClusterStats {
         disk_used: number;
         gpu_total: number;
         gpu_used: number;
-        gpu_per_model: GpuStats[];
+        gpu_models: GpuStats[];
         ram_total: number;
         ram_used: number;
     };
