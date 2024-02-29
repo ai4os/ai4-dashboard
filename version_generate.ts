@@ -17,4 +17,8 @@ async function createVersionsFile(filename: string) {
     writeFileSync(filename, content, { encoding: 'utf8' });
 }
 
-createVersionsFile('src/environments/version.ts');
+if (process.argv[2] != 'NOVERSION') {
+    createVersionsFile('src/environments/version.ts');
+} else {
+    console.info('Version file not generated in this run');
+}
