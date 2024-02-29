@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -7,6 +7,9 @@ import { Module } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
+import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-module-detail',
@@ -18,11 +21,14 @@ export class ModuleDetailComponent implements OnInit {
         private modulesService: ModulesService,
         private toolsService: ToolsService,
         private authService: AuthService,
-        private route: ActivatedRoute,
+        private deploymentsService: DeploymentsService,
         private breadcrumbService: BreadcrumbService,
         public location: Location,
         private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
+        private media: MediaMatcher,
+        private route: ActivatedRoute,
+        private router: Router,
+        private _snackBar: MatSnackBar
     ) {
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
@@ -73,5 +79,52 @@ export class ModuleDetailComponent implements OnInit {
                     });
             }
         });
+    }
+
+    launchTool() {
+        if (this.module.title === 'Federated learning server') {
+            this.router.navigate(['train']);
+        } else {
+            this.deploymentsService.trainTool(undefined).subscribe({
+                next: (result: statusReturn) => {
+                    this.isLoading = false;
+                    if (result && result.status == 'success') {
+                        this.router
+                            .navigate(['/deployments'])
+                            .then((navigated: boolean) => {
+                                if (navigated) {
+                                    this._snackBar.open(
+                                        'Deployment created with ID' +
+                                            result.job_ID,
+                                        'X',
+                                        {
+                                            duration: 3000,
+                                            panelClass: ['primary-snackbar'],
+                                        }
+                                    );
+                                }
+                            });
+                    } else {
+                        if (result && result.status == 'fail') {
+                            this._snackBar.open(
+                                'Error while creating the deployment' +
+                                    result.error_msg,
+                                'X',
+                                {
+                                    duration: 3000,
+                                    panelClass: ['red-snackbar'],
+                                }
+                            );
+                        }
+                    }
+                },
+                error: () => {
+                    this.isLoading = false;
+                },
+                complete: () => {
+                    this.isLoading = false;
+                },
+            });
+        }
     }
 }

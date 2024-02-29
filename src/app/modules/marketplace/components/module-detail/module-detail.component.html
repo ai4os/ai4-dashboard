@@ -109,9 +109,10 @@
                 </h4>
 
                 <p>{{ 'MODULES.MODULE-DETAIL.GET-THE-CODE' | translate }}</p>
-                <div class="mr-3">
+                <div class="mr-3 code-buttons">
                     <a
                         mat-raised-button
+                        disabled="{{ module.sources.code === '' }}"
                         href="{{ module.sources.code }}"
                         target="_blank"
                         class="mr-2"
@@ -125,6 +126,9 @@
                     >
                     <a
                         mat-raised-button
+                        disabled="{{
+                            module.sources.docker_registry_repo === ''
+                        }}"
                         href="https://hub.docker.com/r/{{
                             module.sources.docker_registry_repo
                         }}"
@@ -140,7 +144,11 @@
                 </div>
                 <p>{{ 'MODULES.MODULE-DETAIL.GET-THE-DATA' | translate }}</p>
 
-                <a mat-raised-button href="{{ module.dataset_url }}">
+                <a
+                    mat-raised-button
+                    disabled="{{ !module.dataset_url }}"
+                    href="{{ module.dataset_url }}"
+                >
                     <mat-icon>database</mat-icon>
                     {{ 'MODULES.MODULE-DETAIL.DATASET' | translate }}</a
                 >
@@ -175,7 +183,7 @@
                         <a
                             class="mb-3 train-button"
                             mat-raised-button
-                            routerLink="train"
+                            (click)="launchTool()"
                             color="accent"
                             [disabled]="
                                 !isAuthorized() && isAuthorized() !== undefined
