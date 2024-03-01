@@ -90,8 +90,8 @@ export class GpuStatsDetailComponent implements OnInit {
     }
 
     setColours(): void {
-        var r = document.querySelector(':root');
-        var rs = getComputedStyle(r!);
+        const r = document.querySelector(':root');
+        const rs = getComputedStyle(r!);
         this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
     }
 
@@ -109,7 +109,7 @@ export class GpuStatsDetailComponent implements OnInit {
 
     getFreeGpus(): any[] {
         return this.mappedStats.map((s) => {
-            let free = s.value.gpu_total - s.value.gpu_used;
+            const free = s.value.gpu_total - s.value.gpu_used;
             return free != 0 ? free : '-';
         });
     }

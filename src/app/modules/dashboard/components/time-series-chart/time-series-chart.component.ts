@@ -73,8 +73,8 @@ export class TimeSeriesChartComponent implements OnInit {
     }
 
     setColours(): void {
-        var r = document.querySelector(':root');
-        var rs = getComputedStyle(r!);
+        const r = document.querySelector(':root');
+        const rs = getComputedStyle(r!);
         this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
     }
 }

@@ -7,9 +7,7 @@ import { GlobalStats, GpuStats } from '@app/shared/interfaces/stats.interface';
     styleUrls: ['./overview-tab.component.scss'],
 })
 export class OverviewTabComponent {
-    @Input()
-    clusterGlobalStats!: GlobalStats;
-    @Input()
-    userGlobalStats!: GlobalStats;
+    @Input() clusterGlobalStats!: GlobalStats;
+    @Input() userGlobalStats!: GlobalStats;
     @Input() gpuPerModelCluster!: GpuStats[];
 }

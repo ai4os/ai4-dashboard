@@ -7,16 +7,16 @@ import { GpuStats } from '@app/shared/interfaces/stats.interface';
     styleUrls: ['./stats-container.component.scss'],
 })
 export class StatsContainerComponent implements OnInit {
-    @Input() totalCpuNum: number = 0;
-    @Input() usedCpuNum: number = 0;
-    @Input() totalCpuMhz?: number = 0;
-    @Input() usedCpuMhz?: number = 0;
-    @Input() totalMemory: number = 0;
-    @Input() usedMemory: number = 0;
-    @Input() totalDisk: number = 0;
-    @Input() usedDisk: number = 0;
-    @Input() totalGpuNum: number = 0;
-    @Input() usedGpuNum: number = 0;
+    @Input() totalCpuNum = 0;
+    @Input() usedCpuNum = 0;
+    @Input() totalCpuMhz? = 0;
+    @Input() usedCpuMhz? = 0;
+    @Input() totalMemory = 0;
+    @Input() usedMemory = 0;
+    @Input() totalDisk = 0;
+    @Input() usedDisk = 0;
+    @Input() totalGpuNum = 0;
+    @Input() usedGpuNum = 0;
     @Input() gpuPerModelCluster?: GpuStats[];
 
     Math = Math;

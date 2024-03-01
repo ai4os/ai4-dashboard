@@ -30,14 +30,14 @@ export class NodesTabComponent implements OnInit {
 
     handleCpuPageEvent(e: PageEvent) {
         this.lengthCpu = this.nodesCpu.length;
-        let firstCut = e.pageIndex * e.pageSize;
-        let secondCut = firstCut + e.pageSize;
+        const firstCut = e.pageIndex * e.pageSize;
+        const secondCut = firstCut + e.pageSize;
         this.paginatedNodesCpu = this.nodesCpu.slice(firstCut, secondCut);
     }
 
     handleGpuPageEvent(e: PageEvent) {
-        let firstCut = e.pageIndex * e.pageSize;
-        let secondCut = firstCut + e.pageSize;
+        const firstCut = e.pageIndex * e.pageSize;
+        const secondCut = firstCut + e.pageSize;
         this.paginatedNodesGpu = this.nodesGpu.slice(firstCut, secondCut);
     }
 }

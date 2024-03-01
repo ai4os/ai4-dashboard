@@ -11,10 +11,10 @@ import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.co
     styleUrls: ['./stat-card.component.scss'],
 })
 export class StatCardComponent implements OnInit {
-    @Input() title: string = '';
-    @Input() used_value: number = 0;
-    @Input() total_value: number = 0;
-    @Input() icon_name: string = '';
+    @Input() title = '';
+    @Input() used_value = 0;
+    @Input() total_value = 0;
+    @Input() icon_name = '';
     @Input() memory_unit?: string;
     @Input() gpuPerModelCluster?: GpuStats[];
 
@@ -94,8 +94,8 @@ export class StatCardComponent implements OnInit {
     }
 
     setColours(): void {
-        var r = document.querySelector(':root');
-        var rs = getComputedStyle(r!);
+        const r = document.querySelector(':root');
+        const rs = getComputedStyle(r!);
         this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
     }
 
