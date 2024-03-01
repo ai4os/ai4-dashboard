@@ -21,7 +21,7 @@ export class SecretsService {
 
     getSecrets(subpath: string): Observable<Secret[]> {
         const url = `${base}${endpoints.secrets}`;
-        let params = new HttpParams()
+        const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('subpath', subpath);
 
@@ -32,7 +32,7 @@ export class SecretsService {
 
     createSecret(secret: Secret, secretPath: string): Observable<statusReturn> {
         const url = `${base}${endpoints.secrets}`;
-        let params = new HttpParams()
+        const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', secretPath);
 
@@ -43,7 +43,7 @@ export class SecretsService {
 
     deleteSecret(secretPath: string): Observable<statusReturn> {
         const url = `${base}${endpoints.secrets}`;
-        let params = new HttpParams()
+        const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', secretPath);
 

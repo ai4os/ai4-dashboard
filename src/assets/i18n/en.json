@@ -40,7 +40,9 @@
         },
         "DEPLOYMENT-SECRETS": {
             "TITLE": "Manage secrets",
-            "LIST": "List of secrets"
+            "LIST": "List of secrets",
+            "DELETE": "Are you sure you want to delete this secret?",
+            "DELETE-LAST-SECRET": "Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work"
         },
         "DEPLOYMENT-NAME": "Name",
         "BULK-ACTIONS": "Bulk actions",

@@ -121,5 +121,4 @@ export interface TrainModuleRequest {
 
 export interface Secret {
     token: string;
-    erasable?: boolean;
 }
