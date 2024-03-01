@@ -2,37 +2,37 @@
     <app-stat-card
         [title]="'DASHBOARD.STATS-TITLES.CPU' | translate"
         [icon_name]="'memory'"
-        [used_value]="this.usedCpuNum"
-        [total_value]="this.totalCpuNum"
+        [used_value]="usedCpuNum"
+        [total_value]="totalCpuNum"
     ></app-stat-card>
     <app-stat-card
-        *ngIf="this.usedCpuMhz && this.totalCpuMhz"
+        *ngIf="usedCpuMhz && totalCpuMhz"
         [title]="'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate"
         [icon_name]="'graphic_eq'"
-        [used_value]="this.usedCpuMhz"
-        [total_value]="this.totalCpuMhz"
+        [used_value]="usedCpuMhz"
+        [total_value]="totalCpuMhz"
     ></app-stat-card>
     <app-stat-card
-        [title]="getMemoryUnit() | translate"
+        [title]="'DASHBOARD.STATS-TITLES.RAM' | translate"
         [icon_name]="'memory_alt'"
-        [used_value]="Math.trunc(this.usedMemory)"
-        [total_value]="Math.trunc(this.totalMemory)"
-        [memory_unit]="this.ramUnit"
+        [used_value]="Math.trunc(usedMemory)"
+        [total_value]="Math.trunc(totalMemory)"
+        [memory_unit]="ramUnit"
     ></app-stat-card>
     <app-stat-card
-        [title]="getDiskUnit() | translate"
+        [title]="'DASHBOARD.STATS-TITLES.DISK' | translate"
         [icon_name]="'album'"
-        [used_value]="Math.trunc(this.usedDisk)"
-        [total_value]="Math.trunc(this.totalDisk)"
+        [used_value]="Math.trunc(usedDisk)"
+        [total_value]="Math.trunc(totalDisk)"
         [memory_unit]="this.diskUnit"
     ></app-stat-card>
     <app-stat-card
-        *ngIf="this.totalGpuNum > 0"
+        *ngIf="totalGpuNum > 0"
         [title]="'DASHBOARD.STATS-TITLES.GPU' | translate"
         [icon_name]="'developer_board'"
-        [used_value]="this.usedGpuNum"
-        [total_value]="this.totalGpuNum"
-        (click)="gpuPerModelCluster && openDetailGpuStats()"
+        [used_value]="usedGpuNum"
+        [total_value]="totalGpuNum"
+        [gpuPerModelCluster]="gpuPerModelCluster"
         [ngClass]="{
             click_enabled: gpuPerModelCluster
         }"

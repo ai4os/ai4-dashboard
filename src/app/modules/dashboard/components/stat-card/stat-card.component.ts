@@ -1,5 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
+import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.component';
 
 @Component({
     selector: 'app-stat-card',
@@ -12,6 +16,21 @@ export class StatCardComponent implements OnInit {
     @Input() total_value: number = 0;
     @Input() icon_name: string = '';
     @Input() memory_unit?: string;
+    @Input() gpuPerModelCluster?: GpuStats[];
+
+    constructor(
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher,
+        public dialog: MatDialog,
+        public confirmationDialog: MatDialog
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     chartOptionsCommon: EChartsOption = {};
     colorPalette: string[] = [];
@@ -78,5 +97,17 @@ export class StatCardComponent implements OnInit {
         var r = document.querySelector(':root');
         var rs = getComputedStyle(r!);
         this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
+    }
+
+    openDetailGpuStats(): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+        this.dialog.open(GpuStatsDetailComponent, {
+            data: { gpuStats: this.gpuPerModelCluster },
+            width: width,
+            maxWidth: width,
+            minWidth: width,
+            autoFocus: false,
+            restoreFocus: false,
+        });
     }
 }
