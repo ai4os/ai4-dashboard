@@ -14,6 +14,7 @@ import { Secret } from '@app/shared/interfaces/module.interface';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
+import cryptoRandomString from 'crypto-random-string';
 
 export interface SecretField {
     name: string;
@@ -91,7 +92,7 @@ export class SecretManagementDetailComponent implements OnInit {
         this.isLoading = true;
         const secretPath =
             '/deployments/' + this.data.uuid + '/federated/' + name;
-        const secret: Secret = { token: 'None' };
+        const secret: Secret = { token: cryptoRandomString({ length: 64 }) };
 
         if (this.secretNameValid(name)) {
             this.secretsService.createSecret(secret, secretPath).subscribe({
@@ -130,11 +131,11 @@ export class SecretManagementDetailComponent implements OnInit {
                 data:
                     this.secrets.length == 1
                         ? this.translateService.instant(
-                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
-                        )
+                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
+                          )
                         : this.translateService.instant(
-                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
-                        ),
+                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
+                          ),
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

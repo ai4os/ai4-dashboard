@@ -14,5 +14,14 @@ module.exports = {
         "@shared(.*)": "<rootDir>/src/app/shared/$1",
         "@environments(.*)": "<rootDir>/src/environments/$1",
         "@data(.*)": "<rootDir>/src/app/data/$1",
-      }
+      },
+      //transformIgnorePatterns: ['/node_modules\/(?!crypto-random-string)(.*)']
+      transform: {
+        '^.+\\.(ts|html)$': 'ts-jest',
+        '^.+\\.js$': 'babel-jest',
+      },
+      transformIgnorePatterns: [
+        "node_modules/(?!crypto-random-string)",
+    ],
+
 };
