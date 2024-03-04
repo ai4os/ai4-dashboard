@@ -15,6 +15,7 @@ import { AppConfigService } from '../app-config/app-config.service';
 export interface UserProfile {
     name: string;
     isAuthorized: boolean;
+    isMember: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -166,6 +167,7 @@ export class AuthService {
             const userProfile: UserProfile = {
                 name: profile['info']['name'],
                 isAuthorized: false,
+                isMember: false,
             };
             if (
                 profile['info']['eduperson_entitlement'] &&
@@ -177,6 +179,14 @@ export class AuthService {
                 vos.forEach((vo) => {
                     if (vo.includes(this.appConfigService.voName)) {
                         userProfile.isAuthorized = true;
+                    }
+                });
+                const roles: string[] = this.parseRolesFromProfile(
+                    profile['info']['eduperson_entitlement']
+                );
+                roles.forEach((role) => {
+                    if (role.includes('member')) {
+                        userProfile.isMember = true;
                     }
                 });
             }
@@ -238,5 +248,15 @@ export class AuthService {
             }
         });
         return foundVos;
+    }
+
+    parseRolesFromProfile(entitlements: string[]): string[] {
+        const foundRoles: string[] = [];
+        entitlements.forEach((role) => {
+            if (role.match('role=(.+)#')?.[0]) {
+                foundRoles.push(role.match('role=(.+)#')![0]);
+            }
+        });
+        return foundRoles;
     }
 }

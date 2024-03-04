@@ -38,7 +38,10 @@
             ></app-graphs-tab>
         </mat-tab>
 
-        <mat-tab label="{{ 'DASHBOARD.NODES-TAB' | translate }}">
+        <mat-tab
+            *ngIf="userProfile?.isMember"
+            label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
+        >
             <app-nodes-tab
                 [nodesCpu]="nodesCpu"
                 [nodesGpu]="nodesGpu"

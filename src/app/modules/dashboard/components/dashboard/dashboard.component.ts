@@ -7,6 +7,7 @@ import {
     NodeStats,
     UserStats,
 } from '@app/shared/interfaces/stats.interface';
+import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,7 +15,15 @@ import {
     styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-    constructor(private statsService: StatsService) {}
+    constructor(
+        private statsService: StatsService,
+        private readonly authService: AuthService
+    ) {
+        authService.userProfileSubject.subscribe((profile) => {
+            this.userProfile = profile;
+        });
+    }
+    userProfile?: UserProfile;
 
     panelOpenState = false;
     userStatsLoading = false;
