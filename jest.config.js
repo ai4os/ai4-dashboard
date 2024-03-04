@@ -15,13 +15,4 @@ module.exports = {
         "@environments(.*)": "<rootDir>/src/environments/$1",
         "@data(.*)": "<rootDir>/src/app/data/$1",
       },
-      //transformIgnorePatterns: ['/node_modules\/(?!crypto-random-string)(.*)']
-      transform: {
-        '^.+\\.(ts|html)$': 'ts-jest',
-        '^.+\\.js$': 'babel-jest',
-      },
-      transformIgnorePatterns: [
-        "node_modules/(?!crypto-random-string)",
-    ],
-
-};
+      transformIgnorePatterns: ['<rootDir>/node_modules/(?!@angular|crypto-random-string|ngx-cookieconsent|angular-oauth2-oidc|@ngx-translate/core|xng-breadcrumb|ngx-markdown)']};
