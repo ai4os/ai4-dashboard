@@ -83,7 +83,7 @@ export class ModuleDetailComponent implements OnInit {
 
     launchTool() {
         if (this.module.title === 'Federated learning server') {
-            this.router.navigate(['train']);
+            this.router.navigate(['./train'], { relativeTo: this.route });
         } else {
             this.deploymentsService.trainTool(undefined).subscribe({
                 next: (result: statusReturn) => {
