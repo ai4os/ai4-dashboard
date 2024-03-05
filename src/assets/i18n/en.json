@@ -101,7 +101,8 @@
                 "NUMBER-OF-GPUS": "Number of GPUs",
                 "GPU-MODEL": "GPU model",
                 "RAM-MEMORY": "RAM memory (in MB)",
-                "DISK-MEMORY": "Disk memory (in MB)"
+                "DISK-MEMORY": "Disk memory (in MB)",
+                "NUMBER-OF-INSTANCES": "Number of instances"
             },
             "STORAGE-CONF-FORM": {
                 "TITLE": "Storage options",

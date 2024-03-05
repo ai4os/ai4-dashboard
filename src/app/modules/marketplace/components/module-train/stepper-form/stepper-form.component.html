@@ -82,12 +82,26 @@
                     {{ 'GENERAL-BUTTONS.BACK' | translate }}
                 </button>
 
-                <button mat-raised-button matStepperNext color="accent">
+                <button
+                    *ngIf="step3Form; else submitButton"
+                    mat-raised-button
+                    matStepperNext
+                    color="accent"
+                >
                     {{ 'GENERAL-BUTTONS.NEXT' | translate }}
                 </button>
+                <ng-template #submitButton>
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="submitTrainingRequest()"
+                    >
+                        {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                    </button>
+                </ng-template>
             </div>
         </mat-step>
-        <mat-step [stepControl]="step3Form">
+        <mat-step *ngIf="step3Form" [stepControl]="step3Form">
             <ng-template matStepLabel>{{ step3Title | translate }}</ng-template>
             <ng-container [ngTemplateOutlet]="step3"></ng-container>
             <div

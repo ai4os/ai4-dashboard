@@ -17,6 +17,7 @@ import { FederatedServerComponent } from './components/module-train/tool-train/f
 import { StepperFormComponent } from './components/module-train/stepper-form/stepper-form.component';
 import { FederatedConfFormComponent } from './components/module-train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
+import { KafkaServerComponent } from './components/module-train/tool-train/kafka-server/kafka-server.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { ToolTrainComponent } from './views/tool-train-view/tool-train.component
         FederatedServerComponent,
         StepperFormComponent,
         FederatedConfFormComponent,
+        KafkaServerComponent,
     ],
     imports: [
         CommonModule,

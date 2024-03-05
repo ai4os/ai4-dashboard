@@ -17,6 +17,7 @@ export interface showHardwareField {
     disk: boolean;
     gpu_num: boolean;
     gpu_type: boolean;
+    instances_num: boolean;
 }
 
 const mockedConfObject: confObjectRange = {
@@ -49,6 +50,7 @@ export class HardwareConfFormComponent implements OnInit {
         disk: true,
         gpu_num: true,
         gpu_type: true,
+        instances_num: true,
     };
 
     @Input() set showFields(showFields: showHardwareField) {
@@ -98,6 +100,7 @@ export class HardwareConfFormComponent implements OnInit {
                 Validators.max(this.defaultFormValues?.disk.range[1]),
             ],
         ],
+        instanceNumberInput: [{ value: '', disabled: true }],
     });
 
     protected _showHelp = false;
@@ -140,6 +143,9 @@ export class HardwareConfFormComponent implements OnInit {
             this.hardwareConfFormGroup
                 .get('gpuModelSelect')
                 ?.setValue(defaultFormValues.gpu_type?.value as string);
+            this.hardwareConfFormGroup
+                .get('instanceNumberInput')
+                ?.setValue(defaultFormValues.instances_num?.value as string);
         }
     }
 

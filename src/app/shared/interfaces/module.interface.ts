@@ -57,6 +57,7 @@ export interface ModuleHardwareConfiguration {
     disk: confObjectRange;
     gpu_num: confObjectRange;
     gpu_type?: confObject;
+    instances_num?: confObjectRange;
 }
 
 export interface ModuleStorageConfiguration {
@@ -86,13 +87,18 @@ export interface FederatedServerToolConfiguration {
     configuration: FederatedServerConfiguration;
 }
 
+export interface KafkaServerToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
         desc?: string;
         docker_image: string;
         docker_tag: string;
-        service: string;
+        service?: string;
         jupyter_password?: string;
         hostname?: string;
         federated_secret?: string;
@@ -101,8 +107,9 @@ export interface TrainModuleRequest {
         cpu_num: number;
         ram: number;
         disk: number;
-        gpu_num: number;
+        gpu_num?: number;
         gpu_type?: string;
+        instance_num?: string;
     };
     storage?: {
         rclone_conf: string;

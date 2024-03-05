@@ -108,7 +108,7 @@ export class GeneralConfFormComponent implements OnInit {
                 ?.setValue(defaultFormValues.docker_image.value as string);
             this.generalConfFormGroup
                 .get('serviceToRunChip')
-                ?.setValue(defaultFormValues.service.value as string);
+                ?.setValue(defaultFormValues.service?.value as string);
             if (defaultFormValues.service) {
                 defaultFormValues.service.options?.forEach(
                     (service: string) => {

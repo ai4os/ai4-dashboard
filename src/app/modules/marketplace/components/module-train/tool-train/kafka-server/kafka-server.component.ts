@@ -1,27 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToolsService } from '@app/modules/marketplace/services/tools-service/tools.service';
 import {
-    FederatedServerConfiguration,
-    FederatedServerToolConfiguration,
+    KafkaServerToolConfiguration,
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
 import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToolsService } from '@app/modules/marketplace/services/tools-service/tools.service';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
-    selector: 'app-federated-server',
-    templateUrl: './federated-server.component.html',
-    styleUrls: ['./federated-server.component.scss'],
+    selector: 'app-kafka-server',
+    templateUrl: './kafka-server.component.html',
+    styleUrls: ['./kafka-server.component.scss'],
 })
-export class FederatedServerComponent implements OnInit {
+export class KafkaServerComponent {
     constructor(
         private _formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -34,32 +33,20 @@ export class FederatedServerComponent implements OnInit {
     title = '';
     step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
     step2Title = 'MODULES.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'MODULES.MODULE-TRAIN.FEDERATED-CONF';
 
     showHelp = false;
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
-    federatedConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
-    federatedConfDefaultValues!: FederatedServerConfiguration;
-
-    showHardwareFields: showHardwareField = {
-        cpu_num: true,
-        ram: true,
-        disk: true,
-        gpu_num: false,
-        gpu_type: false,
-        instances_num: false,
-    };
 
     showGeneralFields: showGeneralFormField = {
         descriptionInput: true,
-        serviceToRunChip: true,
+        serviceToRunChip: false,
         titleInput: true,
-        serviceToRunPassInput: true,
+        serviceToRunPassInput: false,
         dockerImageInput: true,
         dockerTagSelect: true,
         hostnameInput: true,
@@ -67,19 +54,31 @@ export class FederatedServerComponent implements OnInit {
         infoButton: true,
     };
 
+    showHardwareFields: showHardwareField = {
+        cpu_num: true,
+        ram: true,
+        disk: true,
+        gpu_num: false,
+        gpu_type: false,
+        instances_num: true,
+    };
+
+    ngOnInit(): void {
+        this.loadModule();
+    }
+
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
-            this.toolsService
-                .getTool(params['id'])
-                .subscribe((federatedServer) => {
-                    this.title = federatedServer.title;
-                });
+            this.toolsService.getTool(params['id']).subscribe((kafkaServer) => {
+                this.title = kafkaServer.title;
+            });
             this.toolsService
                 .getFederatedServerConfiguration(params['id'])
-                .subscribe((moduleConf: FederatedServerToolConfiguration) => {
+                .subscribe((moduleConf: KafkaServerToolConfiguration) => {
                     this.generalConfDefaultValues = moduleConf.general;
                     this.hardwareConfDefaultValues = moduleConf.hardware;
-                    this.federatedConfDefaultValues = moduleConf.configuration;
+                    console.log(moduleConf.hardware);
+                    console.log(this.hardwareConfDefaultValues);
                 });
         });
     }
@@ -97,11 +96,6 @@ export class FederatedServerComponent implements OnInit {
                         .dockerImageInput,
                 docker_tag:
                     this.generalConfForm.value.generalConfForm.dockerTagSelect,
-                service:
-                    this.generalConfForm.value.generalConfForm.serviceToRunChip,
-                jupyter_password:
-                    this.generalConfForm.getRawValue().generalConfForm
-                        .serviceToRunPassInput,
                 hostname:
                     this.generalConfForm.getRawValue().generalConfForm
                         .hostnameInput,
@@ -116,25 +110,11 @@ export class FederatedServerComponent implements OnInit {
                     .ramMemoryInput,
                 disk: this.hardwareConfForm.value.hardwareConfForm
                     .diskMemoryInput,
-                gpu_num:
-                    this.hardwareConfForm.value.hardwareConfForm.gpuNumberInput,
-                gpu_type:
-                    this.hardwareConfForm.value.hardwareConfForm.gpuModelSelect,
-            },
-            configuration: {
-                rounds: this.federatedConfForm.value.federatedConfForm
-                    .roundsInput,
-                metric: this.federatedConfForm.value.federatedConfForm
-                    .metricInput,
-                min_clients:
-                    this.federatedConfForm.value.federatedConfForm
-                        .minClientsInput,
-                strategy:
-                    this.federatedConfForm.value.federatedConfForm
-                        .strategyOptionsSelect,
+                instance_num:
+                    this.hardwareConfForm.value.hardwareConfForm.instance_num,
             },
         };
-
+        console.log(request);
         this.deploymentsService.trainTool(request).subscribe({
             next: (result: statusReturn) => {
                 this.showLoader = false;
@@ -183,9 +163,5 @@ export class FederatedServerComponent implements OnInit {
 
     isLoading(): boolean {
         return this.showLoader;
-    }
-
-    ngOnInit(): void {
-        this.loadModule();
     }
 }

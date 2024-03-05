@@ -154,5 +154,18 @@
                 }}
             </mat-error>
         </mat-form-field>
+        <mat-form-field *ngIf="_showFields.instances_num">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-INSTANCES'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value="3"
+                type="number"
+                formControlName="instanceNumberInput"
+            />
+        </mat-form-field>
     </div>
 </form>
