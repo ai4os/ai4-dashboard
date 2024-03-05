@@ -1,3 +1,6 @@
 .main-tabs {
     margin-bottom: 20px;
 }
+::ng-deep .mat-mdc-tab-header {
+    min-width: fit-content;
+}
