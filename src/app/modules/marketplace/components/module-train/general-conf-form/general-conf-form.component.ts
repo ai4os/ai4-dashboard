@@ -26,7 +26,7 @@ export interface showGeneralFormField {
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
     hostnameInput: boolean;
-    federated_secret: boolean;
+    secret: boolean;
     infoButton: boolean;
 }
 
@@ -86,7 +86,7 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         hostnameInput: true,
-        federated_secret: false,
+        secret: false,
         infoButton: false,
     };
 
@@ -106,10 +106,10 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('dockerImageInput')
                 ?.setValue(defaultFormValues.docker_image.value as string);
-            this.generalConfFormGroup
-                .get('serviceToRunChip')
-                ?.setValue(defaultFormValues.service?.value as string);
             if (defaultFormValues.service) {
+                this.generalConfFormGroup
+                    .get('serviceToRunChip')
+                    ?.setValue(defaultFormValues.service.value as string);
                 defaultFormValues.service.options?.forEach(
                     (service: string) => {
                         this.serviceToRunOptions.push({
@@ -129,8 +129,8 @@ export class GeneralConfFormComponent implements OnInit {
                 .get('dockerTagSelect')
                 ?.setValue(defaultFormValues.docker_tag.value as string);
             this.generalConfFormGroup
-                .get('federatedSecretInput')
-                ?.setValue(defaultFormValues.federated_secret?.value as string);
+                .get('secretInput')
+                ?.setValue(defaultFormValues.secret?.value as string);
         }
     }
 
@@ -148,7 +148,7 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
         hostnameInput: ['', [Validators.pattern('^[a-zA-Z0-9-]+$')]],
-        federatedSecretInput: [{ value: '', disabled: true }],
+        secretInput: [{ value: '', disabled: true }],
     });
 
     dockerTagOptions: { value: string; viewValue: string }[] = [];

@@ -50,7 +50,7 @@ export class KafkaServerComponent {
         dockerImageInput: true,
         dockerTagSelect: true,
         hostnameInput: true,
-        federated_secret: true,
+        secret: true,
         infoButton: true,
     };
 
@@ -77,8 +77,6 @@ export class KafkaServerComponent {
                 .subscribe((moduleConf: KafkaServerToolConfiguration) => {
                     this.generalConfDefaultValues = moduleConf.general;
                     this.hardwareConfDefaultValues = moduleConf.hardware;
-                    console.log(moduleConf.hardware);
-                    console.log(this.hardwareConfDefaultValues);
                 });
         });
     }
@@ -99,9 +97,8 @@ export class KafkaServerComponent {
                 hostname:
                     this.generalConfForm.getRawValue().generalConfForm
                         .hostnameInput,
-                federated_secret:
-                    this.generalConfForm.getRawValue().generalConfForm
-                        .federatedSecretInput,
+                secret: this.generalConfForm.getRawValue().generalConfForm
+                    .secretInput,
             },
             hardware: {
                 cpu_num:
@@ -111,7 +108,8 @@ export class KafkaServerComponent {
                 disk: this.hardwareConfForm.value.hardwareConfForm
                     .diskMemoryInput,
                 instance_num:
-                    this.hardwareConfForm.value.hardwareConfForm.instance_num,
+                    this.hardwareConfForm.value.hardwareConfForm
+                        .instanceNumberInput,
             },
         };
         console.log(request);

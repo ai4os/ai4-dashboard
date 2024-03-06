@@ -59,6 +59,7 @@ describe('HardwareConfFormComponent', () => {
             disk: true,
             gpu_num: true,
             gpu_type: true,
+            instances_num: true,
         };
         fixture.detectChanges();
     });

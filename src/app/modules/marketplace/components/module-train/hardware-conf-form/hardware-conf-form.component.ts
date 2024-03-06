@@ -64,6 +64,7 @@ export class HardwareConfFormComponent implements OnInit {
         disk: mockedConfObject,
         gpu_num: mockedConfObject,
         gpu_type: mockedConfObject,
+        instances_num: mockedConfObject,
     };
 
     isGpuModelSelectDisabled = true;

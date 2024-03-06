@@ -90,7 +90,7 @@
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
-                "FEDERATED-SECRET": "Federated secret",
+                "SECRET": "Secret",
                 "CUSTOM-DOMAIN": "Custom domain",
                 "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
                 "OPEN-DOCUMENTATION": "Open documentation"

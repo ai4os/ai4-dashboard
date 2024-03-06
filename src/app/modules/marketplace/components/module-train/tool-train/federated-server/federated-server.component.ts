@@ -63,7 +63,7 @@ export class FederatedServerComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         hostnameInput: true,
-        federated_secret: true,
+        secret: true,
         infoButton: true,
     };
 
@@ -105,9 +105,8 @@ export class FederatedServerComponent implements OnInit {
                 hostname:
                     this.generalConfForm.getRawValue().generalConfForm
                         .hostnameInput,
-                federated_secret:
-                    this.generalConfForm.getRawValue().generalConfForm
-                        .federatedSecretInput,
+                secret: this.generalConfForm.getRawValue().generalConfForm
+                    .secretInput,
             },
             hardware: {
                 cpu_num:

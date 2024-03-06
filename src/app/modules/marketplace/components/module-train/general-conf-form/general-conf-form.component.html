@@ -32,7 +32,7 @@
             }}</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION'
                     | translate
@@ -200,27 +200,23 @@
                 _defaultFormValues.hostname?.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-form-field
-            class="example-full-width"
-            *ngIf="_showFields.federated_secret"
-        >
+        <mat-form-field *ngIf="_showFields.secret">
             <mat-label>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.FEDERATED-SECRET'
-                    | translate
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SECRET' | translate
             }}</mat-label>
-            <input matInput formControlName="federatedSecretInput" />
+            <input matInput formControlName="secretInput" />
             <mat-icon
                 matSuffix
                 color="primary"
                 [copy-to-clipboard]="
-                    generalConfFormGroup.get('federatedSecretInput')?.value
+                    generalConfFormGroup.get('secretInput')?.value
                 "
                 class="copy-icon"
             >
                 content_copy</mat-icon
             >
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.federated_secret?.description
+                _defaultFormValues.secret?.description
             }}</mat-hint>
         </mat-form-field>
     </div>
@@ -237,7 +233,7 @@
             'form-grid': !mobileQuery.matches
         }"
     >
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
                     | translate
@@ -247,7 +243,7 @@
                 _defaultFormValues.docker_image.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG' | translate
             }}</mat-label>
