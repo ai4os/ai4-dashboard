@@ -145,11 +145,11 @@ export class SecretManagementDetailComponent implements OnInit {
                 data:
                     this.secrets.length == 1
                         ? this.translateService.instant(
-                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
-                          )
+                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
+                        )
                         : this.translateService.instant(
-                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
-                          ),
+                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
+                        ),
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
