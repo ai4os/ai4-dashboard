@@ -11,7 +11,7 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { Secret } from '@app/shared/interfaces/module.interface';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 import cryptoRandomString from 'crypto-random-string';
@@ -36,7 +36,8 @@ export class SecretManagementDetailComponent implements OnInit {
         public data: { uuid: string; name: string },
         private _snackBar: MatSnackBar,
         private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
+        private media: MediaMatcher,
+        private fb: FormBuilder
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -45,7 +46,9 @@ export class SecretManagementDetailComponent implements OnInit {
 
     secrets: SecretField[] = [];
     paginatedSecrets: SecretField[] = [];
-    newSecretFormControl = new FormControl('');
+    secretFormGroup = this.fb.group({
+        secret: ['', [Validators.required]],
+    });
 
     isLoading = false;
     translateService!: TranslateService;
@@ -88,13 +91,13 @@ export class SecretManagementDetailComponent implements OnInit {
         });
     }
 
-    addSecret(name: string) {
+    addSecret() {
         this.isLoading = true;
+        const name = this.secretFormGroup.get('secret')?.getRawValue();
         const secretPath =
             '/deployments/' + this.data.uuid + '/federated/' + name;
         const secret: Secret = { token: cryptoRandomString({ length: 64 }) };
-
-        if (this.secretNameValid(name)) {
+        if (this.secretNameValid()) {
             this.secretsService.createSecret(secret, secretPath).subscribe({
                 next: () => {
                     this.getSecrets();
@@ -119,7 +122,7 @@ export class SecretManagementDetailComponent implements OnInit {
                     );
                 },
                 complete: () => {
-                    this.newSecretFormControl.setValue('');
+                    this.secretFormGroup.get('secret')?.setValue('');
                 },
             });
         }
@@ -131,11 +134,11 @@ export class SecretManagementDetailComponent implements OnInit {
                 data:
                     this.secrets.length == 1
                         ? this.translateService.instant(
-                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
-                        )
+                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
+                          )
                         : this.translateService.instant(
-                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
-                        ),
+                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
+                          ),
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
@@ -184,8 +187,9 @@ export class SecretManagementDetailComponent implements OnInit {
             });
     }
 
-    secretNameValid(name: string): boolean {
-        if (this.secrets.find((s) => s.name === name) || name === '') {
+    secretNameValid(): boolean {
+        const name = this.secretFormGroup.get('secret')?.getRawValue();
+        if (this.secrets.find((s) => s.name === name)) {
             return false;
         }
         return true;
