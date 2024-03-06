@@ -100,7 +100,18 @@ export class SecretManagementDetailComponent implements OnInit {
         if (this.secretNameValid()) {
             this.secretsService.createSecret(secret, secretPath).subscribe({
                 next: () => {
-                    this.getSecrets();
+                    this.secretFormGroup.markAsUntouched();
+                    this.secrets.push({
+                        name: name,
+                        value: secret.token,
+                        hide: true,
+                    });
+                    this.paginatedSecrets = this.secrets.slice(
+                        0,
+                        this.pageSize
+                    );
+                    this.length = this.secrets.length;
+                    this.isLoading = false;
                     this._snackBar.open(
                         'Successfully created secret with name: ' + name,
                         'X',
@@ -144,19 +155,20 @@ export class SecretManagementDetailComponent implements OnInit {
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
                     this.isLoading = true;
-                    this.secrets = this.secrets.filter((s) => s.name !== name);
-
-                    const pageEvent: PageEvent = {
-                        pageIndex: this.pageIndex,
-                        pageSize: this.pageSize,
-                        length: this.secrets.length,
-                    };
-                    this.handlePageEvent(pageEvent);
-
                     const secretPath =
                         '/deployments/' + this.data.uuid + '/federated/' + name;
                     this.secretsService.deleteSecret(secretPath).subscribe({
                         next: () => {
+                            this.secrets = this.secrets.filter(
+                                (s) => s.name !== name
+                            );
+                            this.secretFormGroup.markAsUntouched();
+                            const pageEvent: PageEvent = {
+                                pageIndex: this.pageIndex,
+                                pageSize: this.pageSize,
+                                length: this.secrets.length,
+                            };
+                            this.handlePageEvent(pageEvent);
                             this.isLoading = false;
                             this._snackBar.open(
                                 'Successfully deleted secret with name: ' +
