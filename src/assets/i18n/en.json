@@ -41,6 +41,7 @@
         "DEPLOYMENT-SECRETS": {
             "TITLE": "Manage secrets",
             "LIST": "List of secrets",
+            "EMPTY-LIST": "No secrets found.",
             "REQUIRED-FIELD-ERROR": "You must enter a secret name",
             "UNIQUE-NAME-ERROR": "Secret names must be unique",
             "DELETE": "Are you sure you want to delete this secret?",
