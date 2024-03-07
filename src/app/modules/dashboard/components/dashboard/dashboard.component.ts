@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
         private statsService: StatsService,
         private readonly authService: AuthService
     ) {
+        authService.loadUserProfile();
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
         });

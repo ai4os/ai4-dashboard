@@ -15,7 +15,7 @@ import { AppConfigService } from '../app-config/app-config.service';
 export interface UserProfile {
     name: string;
     isAuthorized: boolean;
-    isMember: boolean;
+    isOperator: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -167,7 +167,7 @@ export class AuthService {
             const userProfile: UserProfile = {
                 name: profile['info']['name'],
                 isAuthorized: false,
-                isMember: false,
+                isOperator: false,
             };
             if (
                 profile['info']['eduperson_entitlement'] &&
@@ -185,8 +185,8 @@ export class AuthService {
                     profile['info']['eduperson_entitlement']
                 );
                 roles.forEach((role) => {
-                    if (role.includes('member')) {
-                        userProfile.isMember = true;
+                    if (role.includes('vm_operator')) {
+                        userProfile.isOperator = true;
                     }
                 });
             }

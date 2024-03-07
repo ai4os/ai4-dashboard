@@ -12,7 +12,12 @@
     </div>
 </ng-template>
 
-<ng-container *ngIf="!userStatsLoading && !clusterStatsLoading; else loading">
+<ng-container
+    *ngIf="
+        !userStatsLoading && !clusterStatsLoading && userProfile !== undefined;
+        else loading
+    "
+>
     <mat-tab-group
         mat-stretch-tabs="false"
         disablePagination="true"
@@ -39,7 +44,7 @@
         </mat-tab>
 
         <mat-tab
-            *ngIf="userProfile?.isMember"
+            *ngIf="userProfile.isOperator"
             label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
         >
             <app-nodes-tab
