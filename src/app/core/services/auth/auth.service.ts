@@ -222,7 +222,10 @@ export class AuthService {
     }
 
     logout() {
-        this.oauthService.logOut();
+        if (this.oauthService.hasValidIdToken()) {
+            this.oauthService.logOut(true);
+        }
+        this.router.navigateByUrl('/marketplace');
         localStorage.clear();
     }
 
