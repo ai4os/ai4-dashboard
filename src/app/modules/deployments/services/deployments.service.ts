@@ -56,9 +56,7 @@ export class DeploymentsService {
         });
     }
 
-    trainTool(
-        moduleConf: TrainModuleRequest | undefined
-    ): Observable<statusReturn> {
+    trainTool(moduleConf: TrainModuleRequest): Observable<statusReturn> {
         const url = `${base}${endpoints.trainTool}`;
         return this.http.post<statusReturn>(url, moduleConf, {
             params: this.voParam,

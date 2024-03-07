@@ -112,7 +112,7 @@ export class KafkaServerComponent {
                         .instanceNumberInput,
             },
         };
-        console.log(request);
+
         this.deploymentsService.trainTool(request).subscribe({
             next: (result: statusReturn) => {
                 this.showLoader = false;
