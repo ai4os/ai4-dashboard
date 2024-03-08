@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.4](https://github.com/ai4os/ai4-dashboard/compare/v1.5.3...v1.5.4) (2024-03-07)
+
+
+### Bug Fixes
+
+* **auth:** EGI logout only when valid id token, redirect to marketplace. ([832c046](https://github.com/ai4os/ai4-dashboard/commit/832c046f07af0b58ccb847d5b65dd1681aad6e0f))
+
 ## [1.5.3](https://github.com/ai4os/ai4-dashboard/compare/v1.5.2...v1.5.3) (2024-02-29)
 
 
