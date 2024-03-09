@@ -123,38 +123,39 @@ export interface TrainModuleRequest {
 
 export interface Service {
     name: string;
-    cluster_id: string;
+    cluster_id?: string;
     memory: string;
     cpu: string;
     enable_gpu: boolean;
-    total_mem: string;
-    synchronous: {
+    total_memory: string;
+    total_cpu: string;
+    synchronous?: {
         min_scale: number;
         max_scale: number;
     };
-    replicas: Array<Replica>;
-    rescheduler_threshold: number;
-    token: string;
+    replicas?: Array<Replica>;
+    rescheduler_threshold?: number;
+    token?: string;
     log_level: string;
     image: string;
-    alpine: boolean;
-    script: string;
-    image_pull_secrets: Array<string>;
-    environment: {
+    alpine?: boolean;
+    script?: string;
+    image_pull_secrets?: Array<string>;
+    environment?: {
         Variables: {
             [key: string]: string;
         };
     };
-    annotations: {
+    annotations?: {
         [key: string]: string;
     };
-    labels: {
+    labels?: {
         [key: string]: string;
     };
-    input: Array<StorageIOConfig>;
-    output: Array<StorageIOConfig>;
-    storage_providers: StorageProviders;
-    clusters: Clusters;
+    input?: Array<StorageIOConfig>;
+    output?: Array<StorageIOConfig>;
+    storage_providers?: StorageProviders;
+    clusters?: Clusters;
 }
 
 interface Clusters {

@@ -1,3 +1,4 @@
+import { module } from './../tools-service/tools.service.mock';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
@@ -7,11 +8,11 @@ import {
     ModuleSummary,
     Service,
 } from '@app/shared/interfaces/module.interface';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { TagObject } from '@app/data/types/tags';
-
-const { base, clusterBase, endpoints } = environment.api;
+import { Client } from '@grycap/oscar-js';
+import { OAuthStorage } from 'angular-oauth2-oidc';
+const { base, endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -19,11 +20,11 @@ const { base, clusterBase, endpoints } = environment.api;
 export class ModulesService {
     constructor(
         private http: HttpClient,
-        private appConfigService: AppConfigService
+        private appConfigService: AppConfigService,
+        private authStorage: OAuthStorage
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
-    bearerToken: string | undefined;
 
     getModulesSummary(tags?: any): Observable<ModuleSummary[]> {
         const url = `${base}${endpoints.modulesSummary}`;
@@ -40,7 +41,6 @@ export class ModulesService {
 
     getModule(moduleName: string): Observable<Module> {
         const url = `${base}${endpoints.module.replace(':name', moduleName)}`;
-        console.log('URL', url);
         return this.http.get<Module>(url);
     }
 
@@ -56,36 +56,68 @@ export class ModulesService {
         });
     }
 
-    //OSCAR cluster
-    setToken(token: string) {
-        this.bearerToken = token;
+    getAccessToken() {
+        const oidc_token = this.authStorage.getItem('access_token');
+        if (!oidc_token) {
+            throw new Error('Authorization error. the token cannot be null.');
+        }
+        return oidc_token;
     }
 
+    //OSCAR cluster
     /**
      * Get list of services in OSCAR
      * @returns Service list
      */
-    getServices(): Observable<Service[]> {
-        const url = `${clusterBase}${endpoints.services}`;
-        const headers = new HttpHeaders().set(
-            'Authorization',
-            `Bearer ${this.bearerToken}`
-        );
-        return this.http.get<Service[]>(url, { headers });
+    getServices(oscar_endpoint: string): Promise<Service[]> {
+        const oidc_token = this.getAccessToken();
+        const client: Client = new Client({
+            clusterId: '1',
+            oscar_endpoint,
+            oidc_token,
+        });
+        return client.getServices();
     }
 
-    runService(serviceName: string, file: File): Observable<any> {
-        const formData = new FormData();
-        formData.append('file', file);
+    /**
+     * Run service in OSCAR usign sync inovoation
+     * @param oscar_endpoint oscar endpoint
+     * @param serviceName module name
+     * @param file file to run
+     * @returns response with the result of the service.
+     */
+    runService(
+        oscar_endpoint: string,
+        serviceName: string,
+        file: string
+    ): Promise<any> {
+        const oidc_token = this.getAccessToken();
+        const client: Client = new Client({
+            clusterId: '1',
+            oscar_endpoint,
+            oidc_token,
+        });
 
-        const url = `${clusterBase}${endpoints.runService.replace(
-            ':name',
-            serviceName
-        )}`;
-        const headers = new HttpHeaders().set(
-            'Authorization',
-            `Bearer ${this.bearerToken}`
-        );
-        return this.http.post(url, formData, { headers });
+        return client.runService(serviceName, file);
+    }
+
+    /**
+     * Create new service in OSCAR
+     * @param oscar_endpoint oscare endpoint
+     * @param service service object to create
+     * @returns service created
+     */
+    createService(oscar_endpoint: string, service: Service) {
+        const oidc_token = this.getAccessToken();
+        const client: Client = new Client({
+            clusterId: '1',
+            oscar_endpoint,
+            oidc_token,
+        });
+
+        const request: any = {
+            ...service,
+        };
+        return client.createService(request);
     }
 }

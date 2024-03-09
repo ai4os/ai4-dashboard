@@ -6,6 +6,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { OAuthStorage } from 'angular-oauth2-oidc';
 
 const mockedConfigService: any = {};
 
@@ -23,6 +24,7 @@ describe('DevModuleCardComponent', () => {
                 TranslateModule.forRoot(),
             ],
             providers: [
+                { provide: OAuthStorage, useValue: {} },
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();

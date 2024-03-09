@@ -7,6 +7,7 @@ import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { SearchPipe } from './pipes/search-card-pipe';
 import { ModuleDetailComponent } from './components/module-detail/module-detail.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { GeneralConfFormComponent } from './components/module-train/general-conf-form/general-conf-form.component';
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
@@ -20,6 +21,10 @@ import { ToolTrainComponent } from './views/tool-train-view/tool-train.component
 import { ModuleTryComponent } from './components/module-try/module-try.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ModuleOscarDeployComponent } from './components/module-oscar-deploy/module-oscar-deploy.component';
+import { ComputeConfFormComponent } from './components/module-oscar-deploy/compute-conf-form/compute-conf-form.component';
+import { GeneralConfigFormComponent } from './components/module-oscar-deploy/general-config-form/general-config-form.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -38,14 +43,18 @@ import { MatGridListModule } from '@angular/material/grid-list';
         StepperFormComponent,
         FederatedConfFormComponent,
         ModuleTryComponent,
+        ModuleOscarDeployComponent,
+        GeneralConfigFormComponent,
+        ComputeConfFormComponent,
     ],
     imports: [
         CommonModule,
         MarketplaceRoutingModule,
         SharedModule,
         MatProgressBarModule,
-        MatGridListModule,
+        MatExpansionModule,
         MarkdownModule.forChild(),
+        FormsModule,
     ],
 })
 export class MarketplaceModule {}

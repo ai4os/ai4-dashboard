@@ -12,18 +12,16 @@ import {
     Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModulesService } from '../../services/modules-service/modules.service';
+import { ModulesService } from '@modules/marketplace/services/modules-service/modules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogModule,
-    MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Service } from '@app/shared/interfaces/module.interface';
+import {
+    ModuleConfiguration,
+    Service,
+} from '@app/shared/interfaces/module.interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '@app/modules/deployments/components/deployments-list/deployments-list.component';
 
@@ -51,6 +49,10 @@ interface PredictionResultItem {
     styleUrls: ['./module-try.component.scss'],
 })
 export class ModuleTryComponent implements OnInit {
+    @ViewChild('showHelpToggle', { read: ElementRef }) element:
+        | ElementRef
+        | undefined;
+
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
@@ -60,18 +62,20 @@ export class ModuleTryComponent implements OnInit {
         public dialog: MatDialog
     ) {}
 
-    @ViewChild('showHelpToggle', { read: ElementRef }) element:
-        | ElementRef
-        | undefined;
+    oscar_endpoint = '';
+    imageUrl = '';
+    videoUrl = '';
+    audioUrl = '';
+    fileContent = '';
 
     deploymentTitle = '';
-    dockerImageName = '';
+    dockerImageName: string | number = '';
     fileName = '';
-    token = '';
     currentFile?: File;
     predictionData: Array<PredictionResultItem> = [];
     showProgress = false;
     showPrediction = false;
+    showTable = false;
     servicesNames: Array<string> = [];
     serviceList: Array<Service> = [];
     displayedColumns: string[] = ['label', 'probability', 'images', 'info'];
@@ -81,14 +85,12 @@ export class ModuleTryComponent implements OnInit {
 
     trymeFormGroup: FormGroup = this._formBuilder.group({
         dockerImageInput: [{ value: '', disabled: true }],
-        serviceNameInput: [{ disable: true }],
+        serviceNameInput: ['', Validators.required],
         inputFile: [''],
         inputText: [''],
-        outputType: ['', Validators.required],
     });
 
     ngOnInit(): void {
-        this.openTokenDialog();
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.deploymentTitle = module.title;
@@ -96,31 +98,13 @@ export class ModuleTryComponent implements OnInit {
 
             this.modulesService
                 .getModuleConfiguration(params['id'])
-                .subscribe((moduleConf) => {
-                    const moduleGeneral: any = moduleConf.general;
+                .subscribe((moduleConf: ModuleConfiguration) => {
+                    const moduleGeneral = moduleConf.general;
                     this.dockerImageName = moduleGeneral.docker_image.value;
                     this.trymeFormGroup
                         .get('dockerImageInput')
                         ?.setValue(this.dockerImageName);
                 });
-        });
-    }
-
-    /**
-     * Open dialog requesting OSCAR token
-     */
-    openTokenDialog(): void {
-        const dialogRef = this.dialog.open(DialogOscarTokenComponent, {
-            data: {
-                token: this.token,
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log('The dialog was closed');
-            this.token = result;
-            this.modulesService.setToken(result);
-            this.loadServices();
         });
     }
 
@@ -146,18 +130,45 @@ export class ModuleTryComponent implements OnInit {
     /**
      * Populates the array which has the services that load in the template dropdown.
      */
-    loadServices(): void {
-        this.modulesService.getServices().subscribe((services) => {
-            this.serviceList = services;
-            this.servicesNames = this.serviceList
-                .filter((service) => service.image == this.dockerImageName)
-                .map((service) => service.name);
+    async loadServices() {
+        this.modulesService
+            .getServices(this.oscar_endpoint)
+            .then((services) => {
+                this.enableInputFields();
+                this.serviceList = services;
+                this.servicesNames = this.serviceList
+                    .filter((service) => service.image == this.dockerImageName)
+                    .map((service) => service.name);
 
-            if (this.servicesNames.length <= 0) {
-                this.servicesNames.push('NO OPTIONS');
-            }
-            this.setIcon();
-        });
+                if (this.servicesNames.length <= 0) {
+                    this.servicesNames.push('NO OPTIONS');
+                }
+                this.setIcon();
+            })
+            .catch((error) => {
+                this._snackBar.open('Invalid url:  ' + error, 'close', {
+                    duration: 5000,
+                    panelClass: ['red-snackbar'],
+                });
+            });
+    }
+
+    onBlur() {
+        this.serviceList = [];
+        this.servicesNames = [];
+        this.loadServices();
+    }
+
+    disableInputFieds() {
+        this.trymeFormGroup.get('inputFile')?.disable();
+        this.trymeFormGroup.get('inputText')?.disable();
+        this.trymeFormGroup.get('serviceNameInput')?.disable();
+    }
+
+    enableInputFields() {
+        this.trymeFormGroup.get('inputFile')?.enable();
+        this.trymeFormGroup.get('inputText')?.enable();
+        this.trymeFormGroup.get('serviceNameInput')?.enable();
     }
 
     /**
@@ -167,32 +178,139 @@ export class ModuleTryComponent implements OnInit {
         this.showProgress = true;
         const serviceName =
             this.trymeFormGroup.controls['serviceNameInput'].value;
-
         if (this.currentFile) {
-            this.runService(serviceName, this.currentFile);
+            this.runService(this.oscar_endpoint, serviceName, this.currentFile);
         }
     }
 
-    runService(serviceName: string, file: File) {
-        this.modulesService
-            .runService(serviceName, file)
-            .subscribe((res: any) => {
-                const response = res.predictions;
-                console.log(response);
+    async runService(oscar_endpoint: string, serviceName: string, file: File) {
+        try {
+            const stringBase64 = await this.encodeFileToBase64(file);
+            const response = await this.modulesService.runService(
+                oscar_endpoint,
+                serviceName,
+                stringBase64
+            );
+            const { mime, data } = response;
+            console.log('MIME TYPE', mime);
 
-                for (let i = 0; i < response.labels.length; i++) {
-                    this.predictionData.push({
-                        label: response.labels[i],
-                        probability: response.probabilities[i],
-                        label_info: response.labels_info[i],
-                        info: response.links['Wikipedia'][i],
-                        images: response.links['Google Images'][i],
-                    });
-                }
-                this.showPrediction = true;
-                this.showProgress = false;
-                console.log('JSON: ', this.predictionData);
+            switch (mime) {
+                case 'application/zip':
+                    this.handleZip(data);
+                    break;
+                case 'image/png':
+                case 'image/gif':
+                case 'image/jpeg':
+                    this.handleImage(mime, data);
+                    break;
+                case 'audio/wav':
+                case 'audio/mpeg':
+                    this.handleAudio(mime, data);
+                    break;
+                case 'video/mp4':
+                    this.handleVideo(mime, data);
+                    break;
+                case 'application/octet-stream':
+                    this.handleJson(data);
+                    break;
+                default:
+                    console.error('MIME TYPE NOT FOUND', mime);
+                    break;
+            }
+        } catch (error) {
+            console.error('Error ocurred executing service!!', error);
+        }
+    }
+
+    handleZip(data: string) {
+        this.fileContent = data;
+        this.showPrediction = true;
+        this.showProgress = false;
+    }
+
+    handleImage(mime: string, data: string) {
+        this.imageUrl = `data:${mime};base64,${data}`;
+        this.showPrediction = true;
+        this.showProgress = false;
+    }
+
+    handleAudio(mime: string, data: string) {
+        this.audioUrl = `data:${mime};base64,${data}`;
+        this.showPrediction = true;
+        this.showProgress = false;
+    }
+
+    handleVideo(mime: string, data: string) {
+        this.videoUrl = `data:${mime};base64,${data}`;
+        this.showPrediction = true;
+        this.showProgress = false;
+    }
+
+    handleJson(data: string) {
+        try {
+            const decodedData = atob(data);
+            const jsonData = JSON.parse(decodedData.replace(/'/g, '"'));
+            this.setPredictionData(jsonData);
+        } catch (error) {
+            console.error('Error parsing JSON:', error + ' ' + data);
+        }
+    }
+
+    setPredictionData(data: any) {
+        // Get the first element of the array.
+        if (Array.isArray(data)) {
+            data = data[0];
+        }
+
+        // If the data is an object, then use it.
+        else if (typeof data == 'object') {
+            data = data;
+        }
+
+        for (let i = 0; i < data.labels.length; i++) {
+            this.predictionData.push({
+                label: data.labels[i],
+                probability: data.probabilities[i],
+                label_info: data.labels_info[i],
+                info: data.links['Wikipedia'][i],
+                images: data.links['Google Images'][i],
             });
+        }
+        this.showTable = true;
+        this.showPrediction = true;
+        this.showProgress = false;
+        console.log('Prediction Data ', JSON.stringify(this.predictionData));
+    }
+
+    downloadZip(): void {
+        const decodedData = atob(this.fileContent);
+        const blob = new Blob([decodedData], { type: 'application/zip' });
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'inference-result.zip';
+        link.click();
+
+        window.URL.revokeObjectURL(url);
+        link.remove();
+    }
+
+    async encodeFileToBase64(file: File): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                const base64String = reader.result as string;
+                resolve(base64String.split(',')[1]);
+            };
+
+            reader.onerror = () => {
+                reject(new Error('Error al leer el archivo.'));
+            };
+
+            reader.readAsDataURL(file);
+        });
     }
 
     setIcon() {
@@ -208,31 +326,8 @@ export class ModuleTryComponent implements OnInit {
                 .firstChild.setAttribute('d', help);
         }
     }
-}
 
-// Dialog token component (temporal)
-@Component({
-    selector: 'app-dialog-oscar-token',
-    templateUrl: 'dialog-oscar-token.html',
-    standalone: true,
-    styleUrls: ['./module-try.component.scss'],
-    imports: [
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatButtonModule,
-    ],
-})
-export class DialogOscarTokenComponent {
-    constructor(
-        public dialogRef: MatDialogRef<DialogOscarTokenComponent>,
-        private router: Router,
-        @Inject(MAT_DIALOG_DATA) public data: any
-    ) {}
-
-    onNoClick(): void {
-        this.dialogRef.close();
-        this.router.navigate(['/modules']);
+    ngAfterViewInit(): void {
+        this.setIcon();
     }
 }
