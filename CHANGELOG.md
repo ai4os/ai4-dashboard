@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.4](https://github.com/ai4os/ai4-dashboard/compare/v1.5.3...v1.5.4) (2024-03-07)
+
+
+### Bug Fixes
+
+* **auth:** EGI logout only when valid id token, redirect to marketplace. ([832c046](https://github.com/ai4os/ai4-dashboard/commit/832c046f07af0b58ccb847d5b65dd1681aad6e0f))
+
+## [1.5.3](https://github.com/ai4os/ai4-dashboard/compare/v1.5.2...v1.5.3) (2024-02-29)
+
+
+### Bug Fixes
+
+* **links:** Update iMagine MLFlow link in sidenav ([#62](https://github.com/ai4os/ai4-dashboard/issues/62)) ([7cef67f](https://github.com/ai4os/ai4-dashboard/commit/7cef67fdcd13ec1c70a9f20f08f29659240bcaab))
+
 ## [1.5.2](https://github.com/ai4os/ai4-dashboard/compare/v1.5.1...v1.5.2) (2024-02-23)
 
 

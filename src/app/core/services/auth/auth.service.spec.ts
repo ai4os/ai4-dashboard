@@ -9,6 +9,7 @@ import {
 } from 'angular-oauth2-oidc';
 import { AppConfigService } from '../app-config/app-config.service';
 import { Subject, of } from 'rxjs';
+import { MarketplaceModule } from '@app/modules/marketplace/marketplace.module';
 
 const mockedProfile = {
     info: {
@@ -73,6 +74,7 @@ const mockedOAuthService = {
     tryLoginImplicitFlow: jest.fn().mockReturnValue(Promise.resolve(false)),
     logOut: jest.fn(),
     getIdToken: jest.fn().mockReturnValue(Promise.resolve('dasdsad')),
+    hasValidIdToken: jest.fn().mockReturnValue(Promise.resolve(true)),
     initLoginFlow: jest.fn(),
     events: of(Subject<OAuthEvent>),
 };
@@ -86,7 +88,12 @@ describe('AuthService', () => {
     let service: AuthService;
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule, RouterTestingModule],
+            imports: [
+                HttpClientTestingModule,
+                RouterTestingModule.withRoutes([
+                    { path: 'marketplace', component: MarketplaceModule },
+                ]),
+            ],
             providers: [
                 AuthService,
                 { provide: OAuthService, useValue: mockedOAuthService },
@@ -95,6 +102,10 @@ describe('AuthService', () => {
         });
 
         service = TestBed.inject(AuthService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it('should be created', () => {
@@ -128,11 +139,29 @@ describe('AuthService', () => {
         expect(spyInitLoginFlow).toReturn;
     });
 
-    it('should logout correctly', () => {
+    it('should logout correctly when user has a valid id token', () => {
         const spyLogOut = jest.spyOn(service['oauthService'], 'logOut');
+        const spyHasValidIdToken = jest.spyOn(
+            service['oauthService'],
+            'hasValidIdToken'
+        );
         localStorage.setItem('test-key', 'test-value');
         service.logout();
+        expect(spyHasValidIdToken).toBeCalledTimes(1);
         expect(spyLogOut).toBeCalledTimes(1);
+        expect(spyLogOut).toReturn;
+        expect(localStorage).toMatchObject({});
+    });
+
+    it('should logout correctly when user DOES NOT have a valid id token', () => {
+        const spyLogOut = jest.spyOn(service['oauthService'], 'logOut');
+        const spyHasValidIdToken = jest
+            .spyOn(service['oauthService'], 'hasValidIdToken')
+            .mockReturnValue(false);
+        localStorage.setItem('test-key', 'test-value');
+        service.logout();
+        expect(spyHasValidIdToken).toBeCalledTimes(1);
+        expect(spyLogOut).toBeCalledTimes(0);
         expect(spyLogOut).toReturn;
         expect(localStorage).toMatchObject({});
     });
