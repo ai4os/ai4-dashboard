@@ -283,10 +283,7 @@ export class ModuleTryComponent implements OnInit {
     }
 
     downloadZip(): void {
-        const decodedData = atob(this.fileContent);
-        const blob = new Blob([decodedData], { type: 'application/zip' });
-
-        const url = window.URL.createObjectURL(blob);
+        const url = 'data:text/zip;base64,' + this.fileContent;
         const link = document.createElement('a');
         link.href = url;
         link.download = 'inference-result.zip';
