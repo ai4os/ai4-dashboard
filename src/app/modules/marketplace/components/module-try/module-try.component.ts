@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     Component,
     ElementRef,
     Inject,
@@ -48,7 +49,7 @@ interface PredictionResultItem {
     templateUrl: './module-try.component.html',
     styleUrls: ['./module-try.component.scss'],
 })
-export class ModuleTryComponent implements OnInit {
+export class ModuleTryComponent implements OnInit, AfterViewInit {
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
         | ElementRef
         | undefined;
@@ -195,27 +196,27 @@ export class ModuleTryComponent implements OnInit {
             console.log('MIME TYPE', mime);
 
             switch (mime) {
-                case 'application/zip':
-                    this.handleZip(data);
-                    break;
-                case 'image/png':
-                case 'image/gif':
-                case 'image/jpeg':
-                    this.handleImage(mime, data);
-                    break;
-                case 'audio/wav':
-                case 'audio/mpeg':
-                    this.handleAudio(mime, data);
-                    break;
-                case 'video/mp4':
-                    this.handleVideo(mime, data);
-                    break;
-                case 'application/octet-stream':
-                    this.handleJson(data);
-                    break;
-                default:
-                    console.error('MIME TYPE NOT FOUND', mime);
-                    break;
+            case 'application/zip':
+                this.handleZip(data);
+                break;
+            case 'image/png':
+            case 'image/gif':
+            case 'image/jpeg':
+                this.handleImage(mime, data);
+                break;
+            case 'audio/wav':
+            case 'audio/mpeg':
+                this.handleAudio(mime, data);
+                break;
+            case 'video/mp4':
+                this.handleVideo(mime, data);
+                break;
+            case 'application/octet-stream':
+                this.handleJson(data);
+                break;
+            default:
+                console.error('MIME TYPE NOT FOUND', mime);
+                break;
             }
         } catch (error) {
             console.error('Error ocurred executing service!!', error);
