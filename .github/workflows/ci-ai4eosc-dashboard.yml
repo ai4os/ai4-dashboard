@@ -24,9 +24,9 @@ jobs:
             - run: npm run lint
             - run: npm test
             - uses: actions/checkout@v2
-                with:
-                    fetch-depth: 0
+              with:
+                  fetch-depth: 0
             - uses: sonarsource/sonarqube-scan-action@master
               env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
