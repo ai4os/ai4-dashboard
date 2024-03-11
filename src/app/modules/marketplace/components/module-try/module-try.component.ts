@@ -263,8 +263,19 @@ export class ModuleTryComponent implements OnInit {
         }
 
         // If the data is an object, then use it.
-        else if (typeof data == 'object') {
-            data = data;
+        if (typeof data !== 'object') {
+            console.error('Invalid data format for prediction.');
+            return;
+        }
+
+        if (
+            !data.labels ||
+            !data.probabilities ||
+            !data.labels_info ||
+            !data.links
+        ) {
+            console.error('Data structure is incomplete for prediction.');
+            return;
         }
 
         for (let i = 0; i < data.labels.length; i++) {
