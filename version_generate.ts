@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { promisify } from 'util';
 import * as child from 'child_process';
-import dedent from 'dedent';
+import * as dedent from 'dedent';
 const exec = promisify(child.exec);
 
 async function createVersionsFile(filename: string) {
