@@ -5,7 +5,7 @@ import * as dedent from 'dedent';
 const exec = promisify(child.exec);
 
 async function createVersionsFile(filename: string) {
-    const version = (await exec('git describe --tags HEAD')).stdout
+    const version = (await exec('git describe --abbrev=0 --tags HEAD')).stdout
         .toString()
         .trim();
     const content = dedent`
