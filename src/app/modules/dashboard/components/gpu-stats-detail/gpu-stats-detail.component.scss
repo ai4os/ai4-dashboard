@@ -1,0 +1,10 @@
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.card-content-mobile {
+    overflow: scroll;
+    max-height: 450px;
+}

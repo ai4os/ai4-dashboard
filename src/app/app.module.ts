@@ -25,6 +25,7 @@ import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { AppConfigService } from './core/services/app-config/app-config.service';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -126,6 +127,9 @@ renderer.link = (href, title, text) => {
             },
         }),
         NgcCookieConsentModule.forRoot(cookieConfig),
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
+        }),
     ],
     providers: [
         {

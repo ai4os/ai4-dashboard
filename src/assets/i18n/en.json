@@ -17,6 +17,39 @@
         "LOGOUT": "Log out",
         "LOGIN-REGISTER": "Login - Register"
     },
+    "DASHBOARD": {
+        "TITLE": "Dashboard",
+        "OVERVIEW-TAB": "Overview",
+        "GRAPHS-TAB": "Graphs",
+        "NODES-TAB": "Nodes",
+        "USERS": "User's aggregate per day",
+        "CLUSTER": "Cluster",
+        "USAGE": "Use over time (last 3 months)",
+        "CLUSTER-INFO": "Total cluster usage",
+        "USERS-INFO": "Aggregate usage per day and vo compared to the total usage of said vo",
+        "GPU-PER-MODEL": "GPU Stats per model",
+        "NODES-CPU": "Nodes with CPU",
+        "NODES-GPU": "Nodes with GPU",
+        "NODES-USED": "Used",
+        "NODES-TOTAL": "Total",
+        "STATS-VALUES": {
+            "RAM-MB": "Memory MB",
+            "DISK-MB": "Disk MB",
+            "RAM-MIB": "Memory MiB",
+            "DISK-MIB": "Disk MiB",
+            "RAM-GIB": "Memory GiB",
+            "DISK-GIB": "Disk GiB",
+            "CPU-FREQ": "CPU Mhz",
+            "QUEUED-DATA": "Queued deployments",
+            "RUNNING-DATA": "Running deployments"
+        },
+        "STATS-TITLES": {
+            "CPU": "CPUs",
+            "GPU": "GPUs",
+            "RAM": "Memory",
+            "DISK": "Disk"
+        }
+    },
     "DEPLOYMENTS": {
         "TITLE": "Deployments",
         "TOOLS": "Tools",

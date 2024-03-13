@@ -1,0 +1,63 @@
+<mat-toolbar>
+    <span>
+        {{ 'DASHBOARD.USAGE' | translate }}
+    </span>
+</mat-toolbar>
+<mat-tab-group mat-stretch-tabs="true">
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RUNNING-DATA' | translate }}">
+        <app-time-series-chart
+            id="runningDataChart"
+            [datesInput]="dates"
+            [dataInput]="runningData"
+            nameInput="runningData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.QUEUED-DATA' | translate }}">
+        <app-time-series-chart
+            id="queuedDataChart"
+            [datesInput]="dates"
+            [dataInput]="queuedData"
+            nameInput="queuedData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.CPU' | translate }}">
+        <app-time-series-chart
+            id="cpuNumDataChart"
+            [datesInput]="dates"
+            [dataInput]="cpuNumData"
+            nameInput="cpuNumData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate }}">
+        <app-time-series-chart
+            id="cpuMhzDataChart"
+            [datesInput]="dates"
+            [dataInput]="cpuMhzData"
+            nameInput="cpuMhzData"
+        ></app-time-series-chart
+    ></mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RAM-MB' | translate }}">
+        <app-time-series-chart
+            id="memoryMBDataChart"
+            [datesInput]="dates"
+            [dataInput]="memoryMBData"
+            nameInput="memoryMBData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.DISK-MB' | translate }}">
+        <app-time-series-chart
+            id="diskMBDataChart"
+            [datesInput]="dates"
+            [dataInput]="diskMBData"
+            nameInput="diskMBData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.GPU' | translate }}">
+        <app-time-series-chart
+            id="gpuNumDataChart"
+            [datesInput]="dates"
+            [dataInput]="gpuNumData"
+            nameInput="gpuNumData"
+        ></app-time-series-chart>
+    </mat-tab>
+</mat-tab-group>

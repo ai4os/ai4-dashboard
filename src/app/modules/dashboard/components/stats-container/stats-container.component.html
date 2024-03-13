@@ -1,0 +1,40 @@
+<div class="stats-container">
+    <app-stat-card
+        [title]="'DASHBOARD.STATS-TITLES.CPU' | translate"
+        [icon_name]="'memory'"
+        [used_value]="usedCpuNum"
+        [total_value]="totalCpuNum"
+    ></app-stat-card>
+    <app-stat-card
+        *ngIf="usedCpuMhz && totalCpuMhz"
+        [title]="'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate"
+        [icon_name]="'graphic_eq'"
+        [used_value]="usedCpuMhz"
+        [total_value]="totalCpuMhz"
+    ></app-stat-card>
+    <app-stat-card
+        [title]="'DASHBOARD.STATS-TITLES.RAM' | translate"
+        [icon_name]="'memory_alt'"
+        [used_value]="Math.trunc(usedMemory)"
+        [total_value]="Math.trunc(totalMemory)"
+        [memory_unit]="ramUnit"
+    ></app-stat-card>
+    <app-stat-card
+        [title]="'DASHBOARD.STATS-TITLES.DISK' | translate"
+        [icon_name]="'album'"
+        [used_value]="Math.trunc(usedDisk)"
+        [total_value]="Math.trunc(totalDisk)"
+        [memory_unit]="this.diskUnit"
+    ></app-stat-card>
+    <app-stat-card
+        *ngIf="totalGpuNum > 0"
+        [title]="'DASHBOARD.STATS-TITLES.GPU' | translate"
+        [icon_name]="'developer_board'"
+        [used_value]="usedGpuNum"
+        [total_value]="totalGpuNum"
+        [gpuPerModelCluster]="gpuPerModelCluster"
+        [ngClass]="{
+            click_enabled: gpuPerModelCluster
+        }"
+    ></app-stat-card>
+</div>

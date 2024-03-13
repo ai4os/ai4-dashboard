@@ -22,7 +22,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSortModule } from '@angular/material/sort';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const materialModules = [
     MatButtonModule,
@@ -47,7 +49,9 @@ const materialModules = [
     MatBadgeModule,
     MatSortModule,
     MatChipsModule,
+    MatExpansionModule,
     MatAutocompleteModule,
+    MatPaginatorModule,
 ];
 
 @NgModule({
