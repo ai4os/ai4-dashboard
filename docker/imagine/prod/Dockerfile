@@ -2,7 +2,8 @@
 FROM node:20.5.1 as node
 WORKDIR /app
 COPY . .
-RUN npm install
+RUN npm ci
+RUN npm run generate-version-file
 RUN npm run build-imagine-prod
 #stage 2
 FROM nginx:alpine

@@ -23,6 +23,6 @@ jobs:
               env: 
                     NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}    
             - run: npm ci
-            - run: npm run build-ai4eosc-prod -- NOVERSION
+            - run: npm run build-ai4eosc-prod
             - run: npm run lint
             - run: npm test
