@@ -3,6 +3,7 @@ FROM node:20.5.1 as node
 WORKDIR /app
 COPY . .
 RUN npm ci
+RUN npm run generate-version-file
 RUN npm run build-ai4eosc-tutorials
 #stage 2
 FROM nginx:alpine
