@@ -5,22 +5,17 @@
 }
 .grid-action-buttons {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 4px 8px;
-    justify-items: end;
+    gap: 1em;
 }
 
-.train-button-container {
+.action-button {
     display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-
-.train-button-container a + a {
-    margin-right: 5px;
+    height: auto;
+    width: auto;
+    text-align: center;
+    padding: 5px 16px;
 }
 
 .detail-card {

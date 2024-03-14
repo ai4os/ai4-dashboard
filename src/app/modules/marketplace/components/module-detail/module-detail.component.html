@@ -150,7 +150,7 @@
                     <div class="grid-action-buttons">
                         <a
                             *ngIf="isInferenceModule"
-                            class="mb-3 train-button"
+                            class="action-button"
                             mat-raised-button
                             routerLink="oscar-deploy"
                             [disabled]="
@@ -162,17 +162,6 @@
                                     | translate
                             }}
                         </a>
-                        <a
-                            *ngIf="isInferenceModule"
-                            class="mb-3 train-button"
-                            mat-raised-button
-                            routerLink="tryme"
-                            [disabled]="
-                                !isAuthorized() && isAuthorized() !== undefined
-                            "
-                        >
-                            {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
-                        </a>
 
                         <ng-container
                             *ngIf="
@@ -180,7 +169,7 @@
                             "
                         >
                             <a
-                                class="mb-3 train-button"
+                                class="action-button"
                                 mat-raised-button
                                 target="_blank"
                                 [href]="
@@ -198,8 +187,21 @@
                                 }}
                             </a>
                         </ng-container>
+
                         <a
-                            class="mb-3 train-button"
+                            *ngIf="isInferenceModule"
+                            class="action-button"
+                            mat-raised-button
+                            routerLink="tryme"
+                            [disabled]="
+                                !isAuthorized() && isAuthorized() !== undefined
+                            "
+                        >
+                            {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
+                        </a>
+
+                        <a
+                            class="action-button"
                             mat-raised-button
                             routerLink="train"
                             color="accent"
