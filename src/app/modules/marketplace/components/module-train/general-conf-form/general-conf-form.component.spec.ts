@@ -13,6 +13,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from '@app/layout/sidenav/sidenav.component';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { OAuthStorage } from 'angular-oauth2-oidc';
 
 const mockDefaultFormValues: ModuleGeneralConfiguration = {
     title: { name: '', value: '', description: '' },
@@ -57,6 +58,7 @@ describe('GeneralConfFormComponent', () => {
             providers: [
                 FormGroupDirective,
                 FormBuilder,
+                { provide: OAuthStorage, useValue: {} },
                 { provide: FormGroupDirective, useValue: formGroupDirective },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],

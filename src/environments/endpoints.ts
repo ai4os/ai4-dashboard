@@ -11,4 +11,9 @@ export const endpoints = {
     toolsSummary: '/catalog/tools/detail',
     tool: '/catalog/tools/:name/metadata',
     toolConfiguration: '/catalog/tools/:name/config',
+
+    //OSCAR endpoints
+    services: '/services',
+    serviceByName: '/services/:name',
+    runService: '/run/:name',
 };
