@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/ai4os/ai4-dashboard/compare/v1.5.4...v1.6.0) (2024-03-14)
+
+
+### Features
+
+* New oscar deployment module and try module finished ([7350f45](https://github.com/ai4os/ai4-dashboard/commit/7350f4599ba7f4802ec72e906fb20b1a001109d2))
+
+
+### Bug Fixes
+
+* **CI:** add PAT to GHA so that oscar-js can be installed ([d16e73f](https://github.com/ai4os/ai4-dashboard/commit/d16e73fc77ea139a01f577ab82ea28de6b57d88c))
+* **CI:** add registry url to GHA ([e164de7](https://github.com/ai4os/ai4-dashboard/commit/e164de72f158ebbc80287c7e93771cba5a1ca96a))
+* Dashboard workflow linter issues ([b756ea1](https://github.com/ai4os/ai4-dashboard/commit/b756ea1db92f6a6c8ad8eea8ea7b2be1d9397d81))
+
 ## [1.5.4](https://github.com/ai4os/ai4-dashboard/compare/v1.5.3...v1.5.4) (2024-03-07)
 
 
