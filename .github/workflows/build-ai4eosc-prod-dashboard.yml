@@ -29,6 +29,10 @@ jobs:
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      
+      - name: "Create .npmrc"
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc  
         
       - name: Build and push
         uses: docker/build-push-action@v3
@@ -37,3 +41,5 @@ jobs:
           push: true
           tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:prod, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:prod
           file: docker/ai4eosc/prod/Dockerfile
+          secret-files: |
+            npmrc=/home/runner/.npmrc
