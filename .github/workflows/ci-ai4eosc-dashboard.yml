@@ -22,7 +22,7 @@ jobs:
             - run: npm ci
             - run: npm run build-ai4eosc-prod -- NOVERSION
             - run: npm run lint
-            - run: npm test
+            - run: npm test:coverage
             - uses: actions/checkout@v2
               with:
                   fetch-depth: 0
