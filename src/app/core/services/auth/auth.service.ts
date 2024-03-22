@@ -122,6 +122,8 @@ export class AuthService {
                                     // 3. ASK FOR LOGIN:
                                     this.login(state);
                                     return Promise.resolve();
+                                } else {
+                                    this.logout();
                                 }
                                 return Promise.reject(result);
                             });
