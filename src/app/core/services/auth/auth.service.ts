@@ -122,6 +122,8 @@ export class AuthService {
                                     // 3. ASK FOR LOGIN:
                                     this.login(state);
                                     return Promise.resolve();
+                                } else {
+                                    this.logout();
                                 }
                                 return Promise.reject(result);
                             });
@@ -222,7 +224,10 @@ export class AuthService {
     }
 
     logout() {
-        this.oauthService.logOut();
+        if (this.oauthService.hasValidIdToken()) {
+            this.oauthService.logOut(true);
+        }
+        this.router.navigateByUrl('/marketplace');
         localStorage.clear();
     }
 

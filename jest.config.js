@@ -2,10 +2,7 @@ module.exports = {
     preset: 'jest-preset-angular',
     setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
     globalSetup: 'jest-preset-angular/global-setup',
-    modulePaths: [
-        "<rootDir>",
-        "/home/some/other/path"
-      ],
+    modulePaths: ['<rootDir>', '/home/some/other/path'],
     moduleNameMapper: {
         "^~(.*)$": "<rootDir>/src/$1",
         "@app(.*)": "<rootDir>/src/app/$1",
@@ -14,5 +11,7 @@ module.exports = {
         "@shared(.*)": "<rootDir>/src/app/shared/$1",
         "@environments(.*)": "<rootDir>/src/environments/$1",
         "@data(.*)": "<rootDir>/src/app/data/$1",
+        '^@grycap/oscar-js$':
+            '<rootDir>/src/app/modules/marketplace/services/modules-service/oscar-module.mock.ts',
       },
       transformIgnorePatterns: ['<rootDir>/node_modules/(?!@angular|crypto-random-string|ngx-cookieconsent|angular-oauth2-oidc|@ngx-translate/core|xng-breadcrumb|ngx-markdown)']};

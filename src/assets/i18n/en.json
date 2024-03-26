@@ -77,7 +77,9 @@
             "DATASET": "Dataset",
             "TRAIN-MODULE": "Train module",
             "LAUNCH-TOOL": "Launch tool",
-            "DEPLOY-W-IM": "Deploy via the IM"
+            "TRY-MODULE": "Try module",
+            "DEPLOY-W-IM": "Deploy via the IM",
+            "DEPLOY-W-OSCAR": "Deploy via OSCAR"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
@@ -129,6 +131,73 @@
                 "MIN-CLIENTS": "Minimal number of clients",
                 "AGG-STRATEGY": "Federated aggregation strategy"
             }
+        },
+        "MODULE-TRY": {
+            "TITLE": "Configure test parameters",
+            "TRYME-FORM": {
+                "CLUSTER-OPTIONS": "Cluster options",
+                "OSCAR-ENDPOINT": "OSCAR Endpoint*",
+                "LAUNCH-OPTIONS": "Launch options",
+                "SERVICE-NAME": "Service name",
+                "INPUT-OPTIONS": "Input options",
+                "INPUT-FILE": "Input file",
+                "INPUT-FILE-LABEL": "Choose file",
+                "INPUT-TEXT": "Input text",
+                "INPUT-TEXT-LABEL": "Input as text",
+                "OUTPUT-OPTIONS": "Output options",
+                "OUTPUT-TYPES": {
+                    "LABEL": "Output types",
+                    "IMAGE": "Image",
+                    "AUDIO": "Audio",
+                    "TEXT": "Text",
+                    "VIDEO": "Video",
+                    "ZIP": "Zip"
+                },
+                "LAUNCH-BUTTON": "Launch service"
+            }
+        },
+        "OSCAR-DEPLOY": {
+            "TITLE": "Deploy OSCAR service",
+            "GENERAL-CONF": "General configuration",
+            "COMPUTE-CONF": "Compute configuration",
+            "CONFIRMATION": "Confirmation",
+            "GENERAL-CONF-FORM": {
+                "CLUSTER-OPTIONS": "Cluster options",
+                "OSCAR-ENDPOINT": "OSCAR Endpoint",
+                "TITLE": "Service options",
+                "SERVICE-TITLE": "Service title",
+                "SERVICE-TITLE-REQUIRED": "Please add a title for the service",
+                "SERVICE-DESCRIPTION": "Service description",
+                "SERVICE-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active services",
+                "DOCKER-IMAGE": "Docker image",
+                "DOCKER-TAG": "Docker tag",
+                "ENVIRONMENT-VARIABLES": "Environment variables",
+                "ENVIRONMENT-KEY": "variable name",
+                "ENVIRONMENT-VALUE": "variable value",
+                "LABELS": "Labels",
+                "LABEL-KEY": "label name",
+                "LABEL-VALUE": "label value",
+                "SERVICE-SCRIPT": "Service script",
+                "SERVICE-SCRIPT-LABEL": "Choose file",
+                "SERVICE-SCRIPT-REQUIRED": "Please add a script file to the service"
+            },
+            "COMPUTE-CONF-FORM": {
+                "TITLE": "Compute options",
+                "CPU-NUMBER": "CPUs",
+                "CPU-NUMBER-REQUIRED": "Please indicate the number of CPUs usage",
+                "CPU-MAX-NUMBER": "Max CPUs",
+                "CPU-MAX-NUMBER-REQUIRED": "Please indicate the maximum number of CPUs usage",
+                "MEMORY-SIZE": "RAM",
+                "MEMORY-SIZE-REQUIRED": "Please indicate the size of memory",
+                "MEMORY-MAX-SIZE": "Max RAM",
+                "MEMORY-MAX-SIZE-REQUIRED": "Please indicate the maximum size of memory",
+                "LOG-LEVEL": "Log level",
+                "LOG-LEVEL-REQUIRED": "Please indicate the log level for the service",
+                "ENABLE-GPU": "Enable GPU"
+            },
+            "CONFIRMATION-FORM": {
+                "TITLE": "Overview"
+            }
         }
     },
     "GENERAL-BUTTONS": {
@@ -147,7 +216,8 @@
         "DOCKERHUB": "Dockerhub"
     },
     "ERRORS": {
-        "SERVICE-ERROR": "Error calling the API, please retry later",
+        "API-ERROR": "Error calling the API, please retry later",
+        "TOKEN-EXPIRED": "Token expired, logging out",
         "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
         "NOT-FOUND": "Oops, the page you requested could not be found!"
     }

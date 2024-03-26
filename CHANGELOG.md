@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.6.1](https://github.com/ai4os/ai4-dashboard/compare/v1.6.0...v1.6.1) (2024-03-22)
+
+
+### Bug Fixes
+
+* Logout user when token is expired and can't be refreshed. Show snackbar with custom message for this. ([#71](https://github.com/ai4os/ai4-dashboard/issues/71)) ([4b5f555](https://github.com/ai4os/ai4-dashboard/commit/4b5f555a8e29665ca5ff6f0ffb1c5d33ec0f9a7f))
+
+## [1.6.0](https://github.com/ai4os/ai4-dashboard/compare/v1.5.4...v1.6.0) (2024-03-14)
+
+
+### Features
+
+* New oscar deployment module and try module finished ([7350f45](https://github.com/ai4os/ai4-dashboard/commit/7350f4599ba7f4802ec72e906fb20b1a001109d2))
+
+
+### Bug Fixes
+
+* **CI:** add PAT to GHA so that oscar-js can be installed ([d16e73f](https://github.com/ai4os/ai4-dashboard/commit/d16e73fc77ea139a01f577ab82ea28de6b57d88c))
+* **CI:** add registry url to GHA ([e164de7](https://github.com/ai4os/ai4-dashboard/commit/e164de72f158ebbc80287c7e93771cba5a1ca96a))
+* Dashboard workflow linter issues ([b756ea1](https://github.com/ai4os/ai4-dashboard/commit/b756ea1db92f6a6c8ad8eea8ea7b2be1d9397d81))
+
+## [1.5.4](https://github.com/ai4os/ai4-dashboard/compare/v1.5.3...v1.5.4) (2024-03-07)
+
+
+### Bug Fixes
+
+* **auth:** EGI logout only when valid id token, redirect to marketplace. ([832c046](https://github.com/ai4os/ai4-dashboard/commit/832c046f07af0b58ccb847d5b65dd1681aad6e0f))
+
+## [1.5.3](https://github.com/ai4os/ai4-dashboard/compare/v1.5.2...v1.5.3) (2024-02-29)
+
+
+### Bug Fixes
+
+* **links:** Update iMagine MLFlow link in sidenav ([#62](https://github.com/ai4os/ai4-dashboard/issues/62)) ([7cef67f](https://github.com/ai4os/ai4-dashboard/commit/7cef67fdcd13ec1c70a9f20f08f29659240bcaab))
+
+## [1.5.2](https://github.com/ai4os/ai4-dashboard/compare/v1.5.1...v1.5.2) (2024-02-23)
+
+
+### Bug Fixes
+
+* add license year/owner ([#58](https://github.com/ai4os/ai4-dashboard/issues/58)) ([c66ff21](https://github.com/ai4os/ai4-dashboard/commit/c66ff215ccce8d443797722ebb0528480a096765))
+* update ai4eosc mlflow link ([#61](https://github.com/ai4os/ai4-dashboard/issues/61)) ([b6d2d08](https://github.com/ai4os/ai4-dashboard/commit/b6d2d086fb46f6b26e296904b846d98b548633da))
+
 ## [1.5.1](https://github.com/ai4os/ai4-dashboard/compare/v1.5.0...v1.5.1) (2024-02-09)
 
 

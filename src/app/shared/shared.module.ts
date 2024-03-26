@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from './material.module';
@@ -12,7 +12,7 @@ import { CopyToClipboardDirective } from './directives/copy-to-clipboard-directi
 
 @NgModule({
     declarations: [ConfirmationDialogComponent, CopyToClipboardDirective],
-    imports: [CommonModule, MaterialModule],
+    imports: [CommonModule, MaterialModule, FormsModule],
     exports: [
         ReactiveFormsModule,
         MaterialModule,

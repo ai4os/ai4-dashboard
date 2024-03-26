@@ -3,11 +3,19 @@
     grid-template-columns: 3fr 1fr;
     grid-gap: 5rem;
 }
+.grid-action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1em;
+}
 
-.train-button-container {
+.action-button {
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+    height: auto;
+    width: auto;
+    text-align: center;
+    padding: 5px 16px;
 }
 
 .detail-card {

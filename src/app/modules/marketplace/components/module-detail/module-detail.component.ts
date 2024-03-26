@@ -41,6 +41,7 @@ export class ModuleDetailComponent implements OnInit {
     userProfile?: UserProfile;
 
     isLoading = false;
+    isInferenceModule = false;
     isTool = false;
 
     mobileQuery: MediaQueryList;
@@ -70,6 +71,8 @@ export class ModuleDetailComponent implements OnInit {
                         this.isLoading = false;
                         this.module = module;
                         this.breadcrumbService.set('@moduleName', module.title);
+                        this.isInferenceModule =
+                            module.keywords.includes('inference');
                     });
             }
         });
