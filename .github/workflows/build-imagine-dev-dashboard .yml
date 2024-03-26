@@ -40,7 +40,7 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: ${{ secrets.HARBOR_URL }}/ai4os/imagine-dashboard:dev, ${{ secrets.DOCKERHUB_USERNAME }}/imagine-dashboard:dev
+                  tags: ${{ secrets.HARBOR_URL }}/ai4os/imagine-dashboard:${{ github.ref_name}}-dev, ${{ secrets.DOCKERHUB_USERNAME }}/imagine-dashboard:${{ github.ref_name}}-dev
                   file: docker/imagine/dev/Dockerfile
                   secret-files: |
                     npmrc=/home/runner/.npmrc

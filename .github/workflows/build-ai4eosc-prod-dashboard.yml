@@ -1,6 +1,12 @@
 name: Build AI4EOSC:prod docker image
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag'
+        required: true
+        default: 'prod'
 
 jobs:
 
@@ -39,7 +45,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:prod, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:prod
+          tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:${{ github.event.inputs.image_tag }}, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:${{ github.event.inputs.image_tag }}
           file: docker/ai4eosc/prod/Dockerfile
           secret-files: |
             npmrc=/home/runner/.npmrc

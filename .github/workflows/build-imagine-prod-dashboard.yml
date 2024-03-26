@@ -1,6 +1,13 @@
 name: Build iMagine:prod docker image
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag'
+        required: true
+        default: 'prod'
+
 
 jobs:
 
@@ -39,7 +46,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.HARBOR_URL }}/ai4os/imagine-dashboard:prod, ${{ secrets.DOCKERHUB_USERNAME }}/imagine-dashboard:prod
+          tags: ${{ secrets.HARBOR_URL }}/ai4os/imagine-dashboard:${{ github.event.inputs.image_tag }}, ${{ secrets.DOCKERHUB_USERNAME }}/imagine-dashboard:${{ github.event.inputs.image_tag }}
           file: docker/imagine/prod/Dockerfile
           secret-files: |
             npmrc=/home/runner/.npmrc
