@@ -39,7 +39,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:prod, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:prod
+          tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:${{ github.ref_name}}-prod, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:${{ github.ref_name}}-prod
           file: docker/ai4eosc/prod/Dockerfile
           secret-files: |
             npmrc=/home/runner/.npmrc
