@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/ai4os/ai4-dashboard/compare/v1.6.0...v1.6.1) (2024-03-22)
+
+
+### Bug Fixes
+
+* Logout user when token is expired and can't be refreshed. Show snackbar with custom message for this. ([#71](https://github.com/ai4os/ai4-dashboard/issues/71)) ([4b5f555](https://github.com/ai4os/ai4-dashboard/commit/4b5f555a8e29665ca5ff6f0ffb1c5d33ec0f9a7f))
+
 ## [1.6.0](https://github.com/ai4os/ai4-dashboard/compare/v1.5.4...v1.6.0) (2024-03-14)
 
 
