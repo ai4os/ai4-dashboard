@@ -41,6 +41,22 @@
                         <mat-icon color="accent" id="infoIcon">info</mat-icon>
                     </button>
 
+                    <button
+                        mat-button
+                        matTooltip="Manage secrets"
+                        matBadgeOverlap="false"
+                        matBadgeSize="small"
+                        [matBadgeHidden]="!hasToolErrors(row)"
+                        matBadge="priority_high"
+                        matBadgeColor="warn"
+                        class="action-button-in-cell"
+                        (click)="openToolSecretsDialog(row)"
+                    >
+                        <mat-icon color="accent" id="keysIcon"
+                            >vpn_key</mat-icon
+                        >
+                    </button>
+
                     <div
                         *ngIf="
                             !isFederatedServer(row);

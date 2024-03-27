@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
-import { DeploymentsService } from '../../services/deployments.service';
+import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 import { KeyValue } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
