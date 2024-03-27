@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/ai4os/ai4-dashboard/compare/v1.6.1...v1.7.0) (2024-03-27)
+
+
+### Features
+
+* Add federated secrets ([#64](https://github.com/ai4os/ai4-dashboard/issues/64)) ([315c9f2](https://github.com/ai4os/ai4-dashboard/commit/315c9f2cfdd876c7254f65503d306f6950bac236))
+
 ## [1.6.1](https://github.com/ai4os/ai4-dashboard/compare/v1.6.0...v1.6.1) (2024-03-22)
 
 
