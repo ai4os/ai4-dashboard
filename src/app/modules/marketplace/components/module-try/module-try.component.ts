@@ -2,29 +2,18 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    Inject,
     OnInit,
     ViewChild,
 } from '@angular/core';
-import {
-    FormBuilder,
-    FormGroup,
-    FormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@modules/marketplace/services/modules-service/modules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import {
     ModuleConfiguration,
     Service,
 } from '@app/shared/interfaces/module.interface';
-import { MatTableDataSource } from '@angular/material/table';
-import { TableColumn } from '@app/modules/deployments/components/deployments-list/deployments-list.component';
 
 interface PredictionResult {
     status: string;
@@ -63,7 +52,7 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
         public dialog: MatDialog
     ) {}
 
-    oscar_endpoint = '';
+    oscar_endpoint = 'https://inference.cloud.ai4eosc.eu';
     imageUrl = '';
     videoUrl = '';
     audioUrl = '';
@@ -75,8 +64,10 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
     currentFile?: File;
     predictionData: Array<PredictionResultItem> = [];
     showProgress = false;
+    showPartialSpinner = false;
     showPrediction = false;
     showTable = false;
+    noServicesAvailable = false;
     servicesNames: Array<string> = [];
     serviceList: Array<Service> = [];
     displayedColumns: string[] = ['label', 'probability', 'images', 'info'];
@@ -92,6 +83,7 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
     });
 
     ngOnInit(): void {
+        this.disableInputFieds();
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.deploymentTitle = module.title;
@@ -113,15 +105,12 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
      * On change event that populates the required file value
      * @param event event
      */
-    selectFile(event: any): void {
-        if (event.target.files && event.target.files[0]) {
-            const file: File = event.target.files[0];
+    selectFile(event: Event): void {
+        const fileInput = event.target as HTMLInputElement;
+        if (fileInput.files && fileInput.files[0]) {
+            const file: File = fileInput.files[0];
             this.currentFile = file;
             this.fileName = file.name;
-
-            if (this.currentFile != null) {
-                //this.trymeFormGroup.get('inputFile')?.setValue(this.currentFile);
-            }
         } else {
             this.currentFile = undefined;
             this.fileName = 'Select File';
@@ -132,9 +121,12 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
      * Populates the array which has the services that load in the template dropdown.
      */
     async loadServices() {
+        this.trymeFormGroup.get('serviceNameInput')?.markAsUntouched();
+        this.showPartialSpinner = true;
         this.modulesService
             .getServices(this.oscar_endpoint)
             .then((services) => {
+                this.showPartialSpinner = false;
                 this.enableInputFields();
                 this.serviceList = services;
                 this.servicesNames = this.serviceList
@@ -142,19 +134,25 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
                     .map((service) => service.name);
 
                 if (this.servicesNames.length <= 0) {
-                    this.servicesNames.push('NO OPTIONS');
+                    this.trymeFormGroup
+                        .get('serviceNameInput')
+                        ?.markAsTouched();
+                    this.noServicesAvailable = true;
+                } else {
+                    this.noServicesAvailable = false;
                 }
                 this.setIcon();
             })
             .catch((error) => {
-                this._snackBar.open('Invalid url:  ' + error, 'close', {
+                this.showPartialSpinner = false;
+                this._snackBar.open('Invalid url:  ' + error, 'X', {
                     duration: 5000,
                     panelClass: ['red-snackbar'],
                 });
             });
     }
 
-    onBlur() {
+    checkOscarEnpoint() {
         this.serviceList = [];
         this.servicesNames = [];
         this.loadServices();
@@ -193,63 +191,63 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
                 stringBase64
             );
             const { mime, data } = response;
-            console.log('MIME TYPE', mime);
 
             switch (mime) {
-            case 'application/zip':
-                this.handleZip(data);
-                break;
-            case 'image/png':
-            case 'image/gif':
-            case 'image/jpeg':
-                this.handleImage(mime, data);
-                break;
-            case 'audio/wav':
-            case 'audio/mpeg':
-                this.handleAudio(mime, data);
-                break;
-            case 'video/mp4':
-                this.handleVideo(mime, data);
-                break;
-            case 'application/octet-stream':
-                this.handleJson(data);
-                break;
-            default:
-                console.error('MIME TYPE NOT FOUND', mime);
-                break;
+                case 'application/zip':
+                    this.handleZip(data);
+                    break;
+                case 'image/png':
+                case 'image/gif':
+                case 'image/jpeg':
+                    this.handleImage(mime, data);
+                    break;
+                case 'audio/wav':
+                case 'audio/mpeg':
+                    this.handleAudio(mime, data);
+                    break;
+                case 'video/mp4':
+                    this.handleVideo(mime, data);
+                    break;
+                case 'application/octet-stream':
+                    this.handleJson(data);
+                    break;
+                default:
+                    console.error('MIME TYPE NOT FOUND', mime);
+                    break;
             }
+            this.showProgress = false;
         } catch (error) {
-            console.error('Error ocurred executing service!!', error);
+            this.showProgress = false;
+            this._snackBar.open('Error while calling the OSCAR service', 'X', {
+                duration: 5000,
+                panelClass: ['red-snackbar'],
+            });
         }
     }
 
     handleZip(data: string) {
         this.fileContent = data;
         this.showPrediction = true;
-        this.showProgress = false;
     }
 
     handleImage(mime: string, data: string) {
         this.imageUrl = `data:${mime};base64,${data}`;
         this.showPrediction = true;
-        this.showProgress = false;
     }
 
     handleAudio(mime: string, data: string) {
         this.audioUrl = `data:${mime};base64,${data}`;
         this.showPrediction = true;
-        this.showProgress = false;
     }
 
     handleVideo(mime: string, data: string) {
         this.videoUrl = `data:${mime};base64,${data}`;
         this.showPrediction = true;
-        this.showProgress = false;
     }
 
     handleJson(data: string) {
         try {
-            const decodedData = atob(data);
+            const decodedData = window.atob(data);
             const jsonData = JSON.parse(decodedData.replace(/'/g, '"'));
             this.setPredictionData(jsonData);
         } catch (error) {
@@ -291,7 +289,6 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
         this.showTable = true;
         this.showPrediction = true;
         this.showProgress = false;
-        console.log('Prediction Data ', JSON.stringify(this.predictionData));
     }
 
     downloadZip(): void {

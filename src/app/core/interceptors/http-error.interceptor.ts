@@ -66,6 +66,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         error.error.error === 'invalid_grant'
                     ) {
                         this.showSnackbar('ERRORS.TOKEN-EXPIRED', errorMessage);
+                        this.authService.logout();
                         return throwError(() => errorMessage);
                     }
                     if (error.status === 401 || error.status === 403) {

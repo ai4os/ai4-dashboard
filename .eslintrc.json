@@ -32,7 +32,7 @@
             "style": "kebab-case"
           }
         ],
-        "indent": "error"
+        "indent": ["error",  4, { "SwitchCase": 1 }]
       }
     },
     {

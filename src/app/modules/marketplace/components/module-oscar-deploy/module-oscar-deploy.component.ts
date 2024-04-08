@@ -8,7 +8,10 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Service } from '@app/shared/interfaces/module.interface';
+import {
+    ModuleConfiguration,
+    Service,
+} from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '@modules/marketplace/services/modules-service/modules.service';
 
 @Component({
@@ -22,7 +25,8 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
         private modulesService: ModulesService,
         private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
-        private router: Router
+        private router: Router,
+        
     ) {}
 
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
@@ -43,7 +47,7 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
         enable_gpu: false,
     };
 
-    overview: any;
+    overview: FormGroup = this._formBuilder.group({});
     moduleTitle = '';
     dockerImageName = '';
     oscar_endpoint = '';
@@ -67,9 +71,9 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
 
             this.modulesService
                 .getModuleConfiguration(params['id'])
-                .subscribe((moduleConf: any) => {
-                    this.dockerImageName =
-                        moduleConf.general.docker_image.value;
+                .subscribe((moduleConf: ModuleConfiguration) => {
+                    this.dockerImageName = moduleConf.general.docker_image
+                        .value as string;
 
                     this.generalConfigDefaultValues = {
                         ...this.generalConfigDefaultValues,
@@ -78,21 +82,21 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
                 });
         });
     }
+    
+
 
     submitCreateService() {
-        console.log('Request', this.serviceRequest);
-
         this.showProgress = true;
         this.modulesService
             .createService(this.oscar_endpoint, this.serviceRequest)
-            .then((res: any) => {
+            .then((createdService: Service) => {
                 this.router
                     .navigate(['../'], { relativeTo: this.route })
                     .then((navigated: boolean) => {
                         if (navigated) {
                             this._snackBar.open(
                                 'Service ' +
-                                    res.name.toUpperCase() +
+                                    createdService.name.toUpperCase() +
                                     ' successfully created',
                                 'X',
                                 {
@@ -141,8 +145,10 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
             name: serviceNameInput,
             script: script,
             image: dockerImageInput,
-            labels: this.parseLabels(labelItems),
-            environment: this.parseEnvironmentVariables(environmentVariables),
+            labels: this.parseKeyValueInput(labelItems),
+            environment: {
+                Variables: this.parseKeyValueInput(environmentVariables),
+            },
             cpu: cpuInput.toString(),
             total_cpu: cpuTotalInput.toString(),
             memory: memoryInput + 'Mi',
@@ -154,20 +160,14 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
         this.serviceRequest = { ...request };
     }
 
-    parseLabels(labelsItems: []) {
-        return labelsItems.reduce((obj: any, item: any) => {
-            obj[item.keyInput] = item.valueInput;
-            return obj;
-        }, {});
-    }
-
-    parseEnvironmentVariables(environmentVariables: []) {
-        return {
-            Variables: environmentVariables.reduce((obj: any, item: any) => {
+    parseKeyValueInput(labelsItems: []) {
+        return labelsItems.reduce(
+            (obj, item: { keyInput: string; valueInput: string }) => {
                 obj[item.keyInput] = item.valueInput;
                 return obj;
-            }, {}),
-        };
+            },
+            {} as Record<string, string>
+        );
     }
 
     setIcon() {

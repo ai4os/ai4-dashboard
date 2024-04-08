@@ -24,26 +24,46 @@
             {{ 'MODULES.MODULE-TRY.TRYME-FORM.CLUSTER-OPTIONS' | translate }}
         </h4>
         <div class="form-grid">
-            <mat-form-field>
-                <mat-label>{{
-                    'MODULES.MODULE-TRY.TRYME-FORM.OSCAR-ENDPOINT' | translate
-                }}</mat-label>
-                <input
-                    matInput
-                    placeholder="https://my-oscar-cluster"
-                    [(ngModel)]="oscar_endpoint"
-                    (blur)="onBlur()"
-                    (focus)="disableInputFieds()"
-                />
-                <mat-hint
-                    *ngIf="showHelpForm.get('showHelpToggleButton')?.value"
-                >
-                    Enter the URL assigned to your OSCAR cluster. More info
-                    <a href="https://docs.oscar.grycap.net/deploy-im-dashboard/"
-                        >https://docs.oscar.grycap.net/deploy-im-dashboard</a
+            <div>
+                <mat-form-field class="form-field-full-width">
+                    <mat-label>{{
+                        'MODULES.MODULE-TRY.TRYME-FORM.OSCAR-ENDPOINT'
+                            | translate
+                    }}</mat-label>
+                    <input
+                        matInput
+                        type="text"
+                        [(ngModel)]="oscar_endpoint"
+                        (focus)="disableInputFieds()"
+                    />
+
+                    <mat-hint
+                        *ngIf="showHelpForm.get('showHelpToggleButton')?.value"
                     >
-                </mat-hint>
-            </mat-form-field>
+                        Enter the URL assigned to your OSCAR cluster. More info
+                        <a
+                            href="https://docs.oscar.grycap.net/deploy-im-dashboard/"
+                            >https://docs.oscar.grycap.net/deploy-im-dashboard</a
+                        >
+                    </mat-hint>
+                </mat-form-field>
+                <div class="checkOscarButtonContainer">
+                    <button
+                        mat-raised-button
+                        aria-label="Check Endpoint"
+                        (click)="checkOscarEnpoint()"
+                        class="checkOscarButton"
+                    >
+                        <mat-icon
+                            color="accent"
+                            id="checkEnpointButton"
+                            style="transform: scale(1.4)"
+                            >search_check</mat-icon
+                        >
+                        Check
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -56,6 +76,10 @@
         [formGroup]="trymeFormGroup"
         *ngIf="!showPrediction"
     >
+        <div class="spinner-partial-overlay" *ngIf="showPartialSpinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
         <mat-divider class="mt-3 mb-3"></mat-divider>
         <h4>
             {{ 'MODULES.MODULE-TRY.TRYME-FORM.LAUNCH-OPTIONS' | translate }}
@@ -78,6 +102,9 @@
                 >
                     Available deployed services for this model are shown.
                 </mat-hint>
+                <mat-error *ngIf="noServicesAvailable"
+                    >There are no OSCAR services available for this module
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
@@ -99,7 +126,9 @@
             </mat-form-field>
         </div>
 
-        <h4>{{ 'MODULES.MODULE-TRY.TRYME-FORM.INPUT-OPTIONS' | translate }}</h4>
+        <h4>
+            {{ 'MODULES.MODULE-TRY.TRYME-FORM.INPUT-OPTIONS' | translate }}
+        </h4>
         <mat-divider class="mt-3 mb-3"></mat-divider>
         <div class="form-grid">
             <mat-form-field class="form-field-full-width">
@@ -111,18 +140,26 @@
                     [value]="fileName"
                     class="upload-file-icon"
                     (click)="inputFile.click()"
+                    formControlName="inputFile"
                     readonly
+                    [ngClass]="{
+                        disabled: trymeFormGroup.controls['inputFile'].disabled
+                    }"
                 />
                 <mat-icon
                     matIconSuffix
+                    color="accent"
                     (click)="inputFile.click()"
                     class="upload-file-icon"
+                    [ngClass]="{
+                        'upload-file-icon-disabled':
+                            trymeFormGroup.controls['inputFile'].disabled
+                    }"
                 >
                     attach_file_add</mat-icon
                 >
                 <input
                     type="file"
-                    class="input-file"
                     #inputFile
                     (change)="selectFile($event)"
                     formControlName="inputFile"
@@ -162,7 +199,11 @@
                 mat-raised-button
                 color="accent"
                 (click)="launchModel()"
-                [disabled]="!trymeFormGroup.valid || oscar_endpoint === ''"
+                [disabled]="
+                    !trymeFormGroup.valid ||
+                    oscar_endpoint === '' ||
+                    noServicesAvailable
+                "
             >
                 {{ 'MODULES.MODULE-TRY.TRYME-FORM.LAUNCH-BUTTON' | translate }}
             </a>
@@ -206,7 +247,6 @@
                 class="prediction-title aligned-with-icon scale-icon-down ml-3 mt-1 mb-1"
             >
                 <p>Inference results</p>
-                <mat-icon>rotate_left</mat-icon>
             </div>
             <mat-card-content>
                 <div class="table-container">

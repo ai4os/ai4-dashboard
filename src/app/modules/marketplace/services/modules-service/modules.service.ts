@@ -1,4 +1,3 @@
-import { module } from './../tools-service/tools.service.mock';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
@@ -10,7 +9,7 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { Client } from '@grycap/oscar-js';
+import { Client as OscarClient } from '@grycap/oscar-js';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 const { base, endpoints } = environment.api;
 
@@ -71,7 +70,7 @@ export class ModulesService {
      */
     getServices(oscar_endpoint: string): Promise<Service[]> {
         const oidc_token = this.getAccessToken();
-        const client: Client = new Client({
+        const client: OscarClient = new OscarClient({
             clusterId: '1',
             oscar_endpoint,
             oidc_token,
@@ -92,7 +91,7 @@ export class ModulesService {
         file: string
     ): Promise<any> {
         const oidc_token = this.getAccessToken();
-        const client: Client = new Client({
+        const client: OscarClient = new OscarClient({
             clusterId: '1',
             oscar_endpoint,
             oidc_token,
@@ -109,7 +108,7 @@ export class ModulesService {
      */
     createService(oscar_endpoint: string, service: Service) {
         const oidc_token = this.getAccessToken();
-        const client: Client = new Client({
+        const client: OscarClient = new OscarClient({
             clusterId: '1',
             oscar_endpoint,
             oidc_token,
