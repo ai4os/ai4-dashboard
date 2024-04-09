@@ -39,7 +39,15 @@ export class GeneralConfigFormComponent implements OnInit {
     oscar_endpoint = '';
 
     generalConfigFormGroup = this.fb.group({
-        oscarUri: ['', Validators.required],
+        oscarUri: [
+            '',
+            [
+                Validators.required,
+                Validators.pattern(
+                    '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'
+                ),
+            ],
+        ],
         serviceNameInput: ['', [Validators.required, Validators.maxLength(45)]],
         dockerImageInput: [{ value: '', disabled: true }],
         script: ['', [Validators.required]],

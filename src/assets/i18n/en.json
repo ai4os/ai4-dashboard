@@ -153,6 +153,8 @@
             "GENERAL-CONF-FORM": {
                 "CLUSTER-OPTIONS": "Cluster options",
                 "OSCAR-ENDPOINT": "OSCAR Endpoint",
+                "OSCAR-ENDPOINT-REQUIRED": "Add an endopoint for the service",
+                "OSCAR-ENDPOINT-PATTERN": "This URL is not valid",
                 "TITLE": "Service options",
                 "SERVICE-TITLE": "Service title",
                 "SERVICE-TITLE-REQUIRED": "Please add a title for the service",

@@ -53,6 +53,7 @@
                         aria-label="Check Endpoint"
                         (click)="checkOscarEnpoint()"
                         class="checkOscarButton"
+                        [disabled]="this.showPartialSpinner"
                     >
                         <mat-icon
                             color="accent"
