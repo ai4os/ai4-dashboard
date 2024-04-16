@@ -38,6 +38,15 @@ export interface ClusterStats {
         ram_total: number;
         ram_used: number;
     };
+    datacenters: DatacenterStats[];
+}
+
+export interface DatacenterStats {
+    lat: string;
+    lon: number;
+    cpu_used: number;
+    PUE: number;
+    energy_quality: number;
     nodes: NodeStats[];
 }
 

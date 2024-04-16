@@ -192,11 +192,22 @@ export class DashboardComponent implements OnInit {
                 }
 
                 // Nodes
-                for (const node in statsResponse['nodes']) {
-                    if (statsResponse['nodes'][node].gpu_total > 0) {
-                        this.nodesGpu.push(statsResponse['nodes'][node]);
-                    } else {
-                        this.nodesCpu.push(statsResponse['nodes'][node]);
+                for (const dc in statsResponse['datacenters']) {
+                    for (const node in statsResponse['datacenters'][dc][
+                        'nodes'
+                    ]) {
+                        if (
+                            statsResponse['datacenters'][dc]['nodes'][node]
+                                .gpu_total > 0
+                        ) {
+                            this.nodesGpu.push(
+                                statsResponse['datacenters'][dc]['nodes'][node]
+                            );
+                        } else {
+                            this.nodesCpu.push(
+                                statsResponse['datacenters'][dc]['nodes'][node]
+                            );
+                        }
                     }
                 }
 

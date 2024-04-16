@@ -56,6 +56,7 @@
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -102,6 +103,7 @@
                             "styles": [
                                 "src/theme/imagine/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -141,6 +143,7 @@
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -180,6 +183,7 @@
                             "styles": [
                                 "src/theme/imagine/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -219,6 +223,7 @@
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -258,6 +263,7 @@
                             "styles": [
                                 "src/theme/imagine/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -304,6 +310,7 @@
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
+                                "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
                             ],
                             "assets": [
@@ -370,6 +377,7 @@
         }
     },
     "cli": {
-        "schematicCollections": ["@angular-eslint/schematics"]
+        "schematicCollections": ["@angular-eslint/schematics"],
+        "analytics": false
     }
 }

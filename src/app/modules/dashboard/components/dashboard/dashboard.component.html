@@ -30,6 +30,13 @@
                 [gpuPerModelCluster]="gpuPerModelCluster"
             ></app-overview-tab>
         </mat-tab>
+
+        <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
+            <ng-template matTabContent>
+                <app-datacenters-tab></app-datacenters-tab>
+            </ng-template>
+        </mat-tab>
+
         <mat-tab label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}">
             <app-graphs-tab
                 [dates]="dates"
