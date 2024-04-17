@@ -6,6 +6,7 @@ import {
     GpuStats,
     NodeStats,
     UserStats,
+    DatacenterStats,
 } from '@app/shared/interfaces/stats.interface';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 
@@ -89,6 +90,9 @@ export class DashboardComponent implements OnInit {
     // Nodes
     protected nodesCpu: NodeStats[] = [];
     protected nodesGpu: NodeStats[] = [];
+
+    // Datacenters
+    protected datacentersStats: DatacenterStats[] = [];
 
     ngOnInit(): void {
         this.userStatsLoading = true;
@@ -209,6 +213,20 @@ export class DashboardComponent implements OnInit {
                             );
                         }
                     }
+                }
+
+                // Datacenters
+                for (const dc in statsResponse['datacenters']) {
+                    const datacenter: DatacenterStats = {
+                        name: dc,
+                        lat: statsResponse['datacenters'][dc]['lat'],
+                        lon: statsResponse['datacenters'][dc]['lon'],
+                        PUE: statsResponse['datacenters'][dc]['PUE'],
+                        energy_quality:
+                            statsResponse['datacenters'][dc]['energy_quality'],
+                        nodes: statsResponse['datacenters'][dc]['nodes'],
+                    };
+                    this.datacentersStats.push(datacenter);
                 }
 
                 this.clusterStatsLoading = false;

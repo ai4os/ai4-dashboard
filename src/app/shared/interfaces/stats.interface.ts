@@ -42,9 +42,9 @@ export interface ClusterStats {
 }
 
 export interface DatacenterStats {
-    lat: string;
+    name: string;
+    lat: number;
     lon: number;
-    cpu_used: number;
     PUE: number;
     energy_quality: number;
     nodes: NodeStats[];
