@@ -119,6 +119,9 @@ export interface TrainModuleRequest {
     };
 }
 
+export interface Secret {
+    token: string;
+}
 // OSCAR MODELS
 
 export interface Service {

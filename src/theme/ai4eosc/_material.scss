@@ -1,5 +1,11 @@
 @use '@angular/material' as mat;
-//@import 'exports/variables';
+@use '@material/textfield';
+
+// show label for more dense inputs as well
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+    .mat-mdc-floating-label {
+    display: inline !important;
+}
 
 @include mat.core();
 

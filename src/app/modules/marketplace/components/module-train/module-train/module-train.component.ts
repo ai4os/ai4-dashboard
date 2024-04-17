@@ -9,7 +9,6 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import {
     ModuleConfiguration,
     ModuleGeneralConfiguration,
@@ -21,6 +20,7 @@ import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 
 @Component({
     selector: 'app-module-train',

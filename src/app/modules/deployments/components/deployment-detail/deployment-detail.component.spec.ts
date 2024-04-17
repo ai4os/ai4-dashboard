@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
-import { DeploymentsService } from '../../services/deployments.service';
+import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
 import { BrowserModule } from '@angular/platform-browser';

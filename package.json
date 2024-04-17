@@ -34,6 +34,7 @@
         "@ngx-translate/http-loader": "^7.0.0",
         "angular-oauth2-oidc": "^15.0.1",
         "cookieconsent": "^3.1.1",
+        "crypto-random-string": "^5.0.0",
         "marked": "^4.2.12",
         "ngx-cookieconsent": "^5.0.0",
         "ngx-markdown": "^15.1.2",

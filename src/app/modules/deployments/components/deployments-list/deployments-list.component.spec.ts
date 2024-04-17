@@ -19,7 +19,7 @@ import {
     statusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
-import { DeploymentsService } from '../../services/deployments.service';
+import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { ToolsTableComponent } from './tools-table/tools-table.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
