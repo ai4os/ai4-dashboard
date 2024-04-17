@@ -126,8 +126,17 @@
     -webkit-transform: rotate(-45deg);
     z-index: 1000;
 }
+
 .dashboard-version {
     display: flex;
+    justify-content: center;
+    margin-right: 1.5em;
+}
+
+.powered-by-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
     margin-right: 1.5em;
 }

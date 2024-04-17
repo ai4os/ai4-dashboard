@@ -104,6 +104,16 @@
                     >{{ gitInfo.version }}</a
                 >
             </div>
+            <div *ngIf="projectName === 'iMagine'" class="powered-by-container">
+                <p class="acknowledgments">
+                    {{ 'SIDENAV.POWERED-BY' | translate }}
+                </p>
+                <img
+                    src="../../../assets/images/ai4-logo.png"
+                    width="100"
+                    class="mb-1"
+                />
+            </div>
         </div>
     </mat-sidenav>
     <mat-sidenav-content
