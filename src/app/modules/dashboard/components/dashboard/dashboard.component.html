@@ -1,4 +1,8 @@
-<mat-toolbar class="mb-3">
+<mat-toolbar
+    [ngClass]="{
+        'mb-3': !mobileQuery.matches
+    }"
+>
     <span class="aligned-with-icon">
         {{ 'DASHBOARD.TITLE' | translate }}
         <mat-icon>dashboard</mat-icon>
@@ -20,8 +24,11 @@
 >
     <mat-tab-group
         mat-stretch-tabs="false"
-        disablePagination="true"
         class="main-tabs"
+        [ngClass]="{
+            'main-tabs-mobile': mobileQuery.matches,
+            'main-tabs': !mobileQuery.matches
+        }"
     >
         <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
             <app-overview-tab

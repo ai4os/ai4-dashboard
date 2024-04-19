@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { StatsService } from '../../services/stats-service/stats-service.service';
 import {
     GlobalStats,
@@ -9,6 +9,7 @@ import {
     DatacenterStats,
 } from '@app/shared/interfaces/stats.interface';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-dashboard',
@@ -18,14 +19,22 @@ import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 export class DashboardComponent implements OnInit {
     constructor(
         private statsService: StatsService,
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
     ) {
         authService.loadUserProfile();
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
         });
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     userProfile?: UserProfile;
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     panelOpenState = false;
     userStatsLoading = false;

@@ -36,6 +36,8 @@
     gap: 0.5em;
     flex-direction: column;
     justify-content: space-around;
+    height: fit-content;
+    overflow: scroll;
 }
 
 .card {
