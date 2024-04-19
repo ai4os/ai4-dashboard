@@ -1,10 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
-import FullScreen from 'ol/control/FullScreen';
-import Attribution from 'ol/control/Attribution';
 import OsmSource from 'ol/source/OSM';
 import { transform } from 'ol/proj';
 import { defaults as defaultControls } from 'ol/control';
@@ -14,6 +12,7 @@ import { Point, SimpleGeometry } from 'ol/geom';
 import VectorSource from 'ol/source/Vector';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 import { Coordinate } from 'ol/coordinate';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
     selector: 'app-datacenters-tab',
@@ -26,6 +25,22 @@ export class DatacentersTabComponent implements OnInit {
     }
 
     @Input() datacentersStats: DatacenterStats[] = [];
+    @ViewChild('drawer')
+    drawer!: MatDrawer;
+
+    Math = Math;
+    selectedDatacenter: DatacenterStats | undefined;
+    ramUnit = 'MiB';
+    diskUnit = 'MiB';
+    totalCpuNum = 0;
+    usedCpuNum = 0;
+    totalMemory = 0;
+    usedMemory = 0;
+    totalDisk = 0;
+    usedDisk = 0;
+    totalGpuNum = 0;
+    usedGpuNum = 0;
+    jobsNum = 0;
 
     private map!: Map;
     private tileLayer: TileLayer<OsmSource> = new TileLayer();
@@ -43,7 +58,7 @@ export class DatacentersTabComponent implements OnInit {
                 features: markers,
             }),
             style: {
-                'circle-radius': 5,
+                'circle-radius': 6,
                 'circle-fill-color': rs.getPropertyValue('--primary'),
             },
         });
@@ -70,10 +85,7 @@ export class DatacentersTabComponent implements OnInit {
                 center: transform([9, 53], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4,
             }),
-            controls: defaultControls().extend([
-                new Attribution(),
-                new FullScreen(),
-            ]),
+            controls: defaultControls(),
         });
 
         // show dc info popup
@@ -85,21 +97,26 @@ export class DatacentersTabComponent implements OnInit {
                     const coordinate = geometry.getCoordinates();
                     if (coordinate) {
                         coordinate.map(Number);
-                        const datacenter = this.getDatacenter(coordinate);
+                        this.selectedDatacenter =
+                            this.getDatacenter(coordinate);
                         content!.innerHTML =
-                            '<p><b>Datacenter:</b> ' +
-                            datacenter.name +
-                            '</p><p><b>PUE:</b> ' +
-                            datacenter.PUE +
-                            '</p><p><b>Energy quality:</b> ' +
-                            datacenter.energy_quality +
-                            '</p>';
+                            '<p>' + this.selectedDatacenter.name + '</p>';
                         overlay.setPosition(coordinate);
+                        this.drawer.open();
                     }
                 }
             } else {
                 overlay.setPosition(undefined);
+                this.drawer.close();
             }
+        });
+
+        // show cursor pointer on markers
+        this.map.on('pointermove', (event) => {
+            const type = this.map.hasFeatureAtPixel(event.pixel)
+                ? 'pointer'
+                : 'inherit';
+            this.map.getViewport().style.cursor = type;
         });
 
         this.updateSize();
@@ -108,6 +125,42 @@ export class DatacentersTabComponent implements OnInit {
     updateSize(target = 'map'): void {
         this.map.setTarget(target);
         this.map.updateSize();
+    }
+
+    setMemoryConfig() {
+        if (this.totalMemory > 1000) {
+            // use GiB
+            this.ramUnit = 'GiB';
+            this.usedMemory = this.usedMemory / Math.pow(2, 10);
+            this.totalMemory = this.totalMemory / Math.pow(2, 10);
+        }
+    }
+
+    setDiskConfig() {
+        if (this.totalDisk > 1000) {
+            // use GiB
+            this.diskUnit = 'GiB';
+            this.usedDisk = this.usedDisk / Math.pow(2, 10);
+            this.totalDisk = this.totalDisk / Math.pow(2, 10);
+        }
+    }
+
+    getMarkers(): Feature[] {
+        const features = [];
+        for (const dc in this.datacentersStats) {
+            const point = new Point(
+                transform(
+                    [
+                        this.datacentersStats[dc].lon,
+                        this.datacentersStats[dc].lat,
+                    ],
+                    'EPSG:4326',
+                    'EPSG:3857'
+                )
+            );
+            features.push(new Feature(point));
+        }
+        return features;
     }
 
     getDatacenter(coords: Coordinate): DatacenterStats {
@@ -130,24 +183,36 @@ export class DatacentersTabComponent implements OnInit {
                 datacenter = this.datacentersStats[dc];
             }
         }
+
+        this.loadDatacenterStats(datacenter);
+
         return datacenter;
     }
 
-    getMarkers(): Feature[] {
-        const features = [];
-        for (const dc in this.datacentersStats) {
-            const point = new Point(
-                transform(
-                    [
-                        this.datacentersStats[dc].lon,
-                        this.datacentersStats[dc].lat,
-                    ],
-                    'EPSG:4326',
-                    'EPSG:3857'
-                )
-            );
-            features.push(new Feature(point));
+    loadDatacenterStats(datacenter: DatacenterStats) {
+        this.totalCpuNum = 0;
+        this.usedCpuNum = 0;
+        this.totalMemory = 0;
+        this.usedMemory = 0;
+        this.totalDisk = 0;
+        this.usedDisk = 0;
+        this.totalGpuNum = 0;
+        this.usedGpuNum = 0;
+        this.jobsNum = 0;
+
+        for (const node in datacenter.nodes) {
+            this.totalCpuNum += datacenter.nodes[node].cpu_total;
+            this.usedCpuNum += datacenter.nodes[node].cpu_used;
+            this.totalMemory += datacenter.nodes[node].ram_total;
+            this.usedMemory += datacenter.nodes[node].ram_used;
+            this.totalDisk += datacenter.nodes[node].disk_total;
+            this.usedDisk += datacenter.nodes[node].disk_used;
+            this.totalGpuNum += datacenter.nodes[node].gpu_total;
+            this.usedGpuNum += datacenter.nodes[node].gpu_used;
+            this.jobsNum += datacenter.nodes[node].jobs_num;
         }
-        return features;
+
+        this.setMemoryConfig();
+        this.setDiskConfig();
     }
 }

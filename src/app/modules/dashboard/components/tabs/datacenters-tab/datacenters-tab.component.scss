@@ -1,16 +1,92 @@
+.main-container {
+    display: flex;
+    flex-flow: row;
+}
+
 .map {
     height: 75vh;
-    padding: 10px;
+    width: 100%;
 }
 
 .ol-popup {
     position: absolute;
     background-color: white;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    padding: 10px 15px;
+    padding: 0px 10px;
     border-radius: 10px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--primary);
     bottom: 12px;
     left: -50px;
-    min-width: 200px;
+    min-width: max-content;
+}
+
+.drawer {
+    padding: 10px;
+    width: 250px;
+    margin: 0.5em;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.75);
+    box-shadow:
+        rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+        rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+::ng-deep .drawer .mat-drawer-inner-container {
+    display: flex;
+    gap: 0.5em;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 0.5em;
+}
+
+.icon {
+    color: var(--primary);
+    font-size: 1.8em;
+    width: 30px;
+    height: 30px;
+}
+
+.help-icon {
+    font-size: 1.3em;
+    right: 0.5em;
+    position: absolute;
+}
+
+.title {
+    justify-content: center;
+    height: auto;
+    padding-top: 10px;
+    background-color: unset;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #e0e0e0;
+}
+
+.stat-text {
+    white-space: nowrap;
+    font-size: 1em;
+    margin: 5px;
+    text-align: end;
+}
+
+.value {
+    align-self: center;
+    color: dimgray;
+    margin: 0;
+    padding: 5px 10px 10px 10px;
+    font-size: 1.2em;
 }

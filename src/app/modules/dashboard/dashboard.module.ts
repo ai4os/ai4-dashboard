@@ -13,6 +13,7 @@ import { GraphsTabComponent } from './components/tabs/graphs-tab/graphs-tab.comp
 import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.component';
 import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
 import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datacenters-tab.component';
+import { SmallStatsCardComponent } from './components/small-stats-card/small-stats-card.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datac
         NodesTabComponent,
         GpuStatsDetailComponent,
         DatacentersTabComponent,
+        SmallStatsCardComponent,
     ],
     imports: [
         CommonModule,

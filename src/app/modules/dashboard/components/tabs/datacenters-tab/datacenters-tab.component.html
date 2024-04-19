@@ -1,4 +1,87 @@
-<div id="map" class="map"></div>
-<div id="popup" class="ol-popup">
-    <div id="popup-content"></div>
+<div class="main-container">
+    <div id="map" class="map"></div>
+    <div id="popup" class="ol-popup">
+        <div id="popup-content"></div>
+    </div>
+
+    <mat-drawer #drawer class="drawer" mode="side" position="end">
+        <mat-toolbar class="title">
+            {{ 'DASHBOARD.DATACENTER-STATS' | translate }}
+        </mat-toolbar>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.PUE' | translate }}
+                </p>
+                <mat-icon class="icon">bolt</mat-icon>
+                <mat-icon
+                    class="help-icon"
+                    color="accent"
+                    matTooltip="{{ 'DASHBOARD.PUE-INFO' | translate }}"
+                    [matTooltipPosition]="'above'"
+                    >help</mat-icon
+                >
+            </div>
+            <p class="value">{{ this.selectedDatacenter?.PUE }}</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate }}
+                </p>
+                <mat-icon class="icon">eco</mat-icon>
+                <mat-icon
+                    class="help-icon"
+                    color="accent"
+                    matTooltip="{{ 'DASHBOARD.ENERGY-INFO' | translate }}"
+                    [matTooltipPosition]="'above'"
+                    >help</mat-icon
+                >
+            </div>
+            <p class="value">{{ this.selectedDatacenter?.energy_quality }}</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate }}
+                </p>
+                <mat-icon class="icon">task</mat-icon>
+            </div>
+            <p class="value">{{ this.jobsNum }}</p>
+        </mat-card>
+
+        <app-small-stats-card
+            [title]="'DASHBOARD.STATS-TITLES.CPU' | translate"
+            [icon_name]="'memory'"
+            [used_value]="usedCpuNum"
+            [total_value]="totalCpuNum"
+        ></app-small-stats-card>
+
+        <app-small-stats-card
+            [title]="'DASHBOARD.STATS-TITLES.RAM' | translate"
+            [icon_name]="'memory_alt'"
+            [used_value]="Math.trunc(usedMemory)"
+            [total_value]="Math.trunc(totalMemory)"
+            [memory_unit]="ramUnit"
+        ></app-small-stats-card>
+
+        <app-small-stats-card
+            [title]="'DASHBOARD.STATS-TITLES.DISK' | translate"
+            [icon_name]="'album'"
+            [used_value]="Math.trunc(usedDisk)"
+            [total_value]="Math.trunc(totalDisk)"
+            [memory_unit]="diskUnit"
+        ></app-small-stats-card>
+
+        <app-small-stats-card
+            *ngIf="totalGpuNum > 0"
+            [title]="'DASHBOARD.STATS-TITLES.GPU' | translate"
+            [icon_name]="'developer_board'"
+            [used_value]="usedGpuNum"
+            [total_value]="totalGpuNum"
+        ></app-small-stats-card>
+    </mat-drawer>
 </div>

@@ -25,9 +25,12 @@
         "NODES-TAB": "Nodes",
         "USERS": "User's aggregate per day",
         "CLUSTER": "Cluster",
+        "DATACENTER-STATS": "Datacenter Stats",
         "USAGE": "Use over time (last 3 months)",
         "CLUSTER-INFO": "Total cluster usage",
         "USERS-INFO": "Aggregate usage per day and vo compared to the total usage of said vo",
+        "PUE-INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)",
+        "ENERGY-INFO": "How carbon-intensive is the grid the datacenter is plugged to (the lower the better)",
         "GPU-PER-MODEL": "GPU Stats per model",
         "NODES-CPU": "Nodes with CPU",
         "NODES-GPU": "Nodes with GPU",
@@ -48,7 +51,12 @@
             "CPU": "CPUs",
             "GPU": "GPUs",
             "RAM": "Memory",
-            "DISK": "Disk"
+            "DISK": "Disk",
+            "PUE": "PUE",
+            "ENERGY-QUALITY": "Energy Quality",
+            "USED": "Used",
+            "OF": "of",
+            "JOBS-NUM": "Number of Jobs"
         }
     },
     "DEPLOYMENTS": {
