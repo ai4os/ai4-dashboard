@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StatsService } from '../../services/stats-service/stats-service.service';
+import { StatsService } from '../../services/stats/stats.service';
 import { EChartsOption } from 'echarts';
 
 @Component({

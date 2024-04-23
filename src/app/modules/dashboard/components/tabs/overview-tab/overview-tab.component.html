@@ -1,8 +1,9 @@
 <mat-toolbar>
-    <span>
+    <span id="title-cluster">
         {{ 'DASHBOARD.CLUSTER' | translate }}
     </span>
     <mat-icon
+        id="help-cluster"
         class="ml-2"
         color="accent"
         matTooltip="{{ 'DASHBOARD.CLUSTER-INFO' | translate }}"
@@ -11,6 +12,7 @@
     >
 </mat-toolbar>
 <app-stats-container
+    id="cluster-stats"
     [usedCpuNum]="clusterGlobalStats.cpuNumAgg"
     [totalCpuNum]="clusterGlobalStats.cpuNumTotal"
     [usedMemory]="clusterGlobalStats.memoryMBAgg"
@@ -23,10 +25,11 @@
 ></app-stats-container>
 
 <mat-toolbar>
-    <span>
+    <span id="title-users">
         {{ 'DASHBOARD.USERS' | translate }}
     </span>
     <mat-icon
+        id="help-users"
         class="ml-2"
         color="accent"
         matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
@@ -35,6 +38,7 @@
     >
 </mat-toolbar>
 <app-stats-container
+    id="user-stats"
     [usedCpuNum]="this.userGlobalStats.cpuNumAgg"
     [totalCpuNum]="this.userGlobalStats.cpuNumTotal"
     [usedMemory]="this.userGlobalStats.memoryMBAgg"

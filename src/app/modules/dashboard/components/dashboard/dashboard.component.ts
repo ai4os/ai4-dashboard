@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { StatsService } from '../../services/stats-service/stats-service.service';
+import { StatsService } from '../../services/stats/stats.service';
 import {
     GlobalStats,
     ClusterStats,

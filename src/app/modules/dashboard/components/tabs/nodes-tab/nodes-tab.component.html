@@ -1,9 +1,9 @@
 <mat-toolbar>
-    <span>
+    <span id="nodes-cpu-title">
         {{ 'DASHBOARD.NODES-CPU' | translate }}
     </span>
 </mat-toolbar>
-<mat-accordion>
+<mat-accordion id="cpu-accordion">
     <mat-expansion-panel
         *ngFor="let node of paginatedNodesCpu"
         [expanded]="node === paginatedNodesCpu[0]"
@@ -39,11 +39,11 @@
 
 <span></span>
 <mat-toolbar class="mb-3 nodes-title">
-    <span>
+    <span id="nodes-gpu-title">
         {{ 'DASHBOARD.NODES-GPU' | translate }}
     </span>
 </mat-toolbar>
-<mat-accordion>
+<mat-accordion id="gpu-accordion">
     <mat-expansion-panel *ngFor="let node of paginatedNodesGpu">
         <mat-expansion-panel-header>
             <mat-panel-title class="id-title">

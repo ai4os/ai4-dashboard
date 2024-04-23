@@ -4,13 +4,20 @@ import { DashboardComponent } from './dashboard.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-    OAuthEvent,
-    OAuthService,
-    OAuthSuccessEvent,
-} from 'angular-oauth2-oidc';
+import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
 import { Subject, of } from 'rxjs';
 import { AuthService } from '@app/core/services/auth/auth.service';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { By } from '@angular/platform-browser';
+import { SharedModule } from '@app/shared/shared.module';
+import { MatTabGroup } from '@angular/material/tabs';
+import { StatsService } from '../../services/stats/stats.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import {
+    mockedClusterStats,
+    mockedUserStats,
+} from '../../services/stats/stats.service.mock';
 
 const mockedConfigService: any = {};
 
@@ -52,34 +59,42 @@ const mockedProfile = {
 const mockedOAuthService = {
     configure: jest.fn().mockReturnValue(void 0),
     hasValidAccessToken: jest.fn().mockReturnValue(true),
-    loadDiscoveryDocument: jest
-        .fn()
-        .mockReturnValue(
-            Promise.resolve(new OAuthSuccessEvent('discovery_document_loaded'))
-        ),
-    loadDiscoveryDocumentAndLogin: jest
-        .fn()
-        .mockReturnValue(Promise.resolve(false)),
-    loadDiscoveryDocumentAndTryLogin: jest
-        .fn()
-        .mockReturnValue(Promise.resolve(true)),
     loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
-    restartSessionChecksIfStillLoggedIn: jest.fn().mockReturnValue(void 0),
     setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
-    silentRefresh: jest
-        .fn()
-        .mockReturnValue(
-            Promise.resolve(new OAuthSuccessEvent('silently_refreshed'))
-        ),
-    stopAutomaticRefresh: jest.fn().mockReturnValue(void 0),
-    tryLogin: jest.fn().mockReturnValue(Promise.resolve(false)),
-    tryLoginCodeFlow: jest.fn().mockReturnValue(Promise.resolve(void 0)),
-    tryLoginImplicitFlow: jest.fn().mockReturnValue(Promise.resolve(false)),
-    logOut: jest.fn(),
-    getIdToken: jest.fn().mockReturnValue(Promise.resolve('dasdsad')),
-    initLoginFlow: jest.fn(),
     events: of(Subject<OAuthEvent>),
 };
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
+};
+
+const mockedStatsService: any = {
+    getUserStats: jest.fn().mockReturnValue(of(mockedUserStats)),
+    getClusterStats: jest.fn().mockReturnValue(of(mockedClusterStats)),
+};
+
+@Component({ standalone: true, selector: 'app-overview-tab', template: '' })
+class OverviewTabStubComponent {}
+
+@Component({ standalone: true, selector: 'app-datacenters-tab', template: '' })
+class DatacentersTabStubComponent {}
+
+@Component({ standalone: true, selector: 'app-graphs-tab', template: '' })
+class GraphsTabStubComponent {}
+
+@Component({ standalone: true, selector: 'app-nodes-tab', template: '' })
+class NodesTabStubComponent {}
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
@@ -88,12 +103,24 @@ describe('DashboardComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [DashboardComponent],
-            imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+            imports: [
+                HttpClientTestingModule,
+                TranslateModule.forRoot(),
+                SharedModule,
+                BrowserAnimationsModule,
+                OverviewTabStubComponent,
+                GraphsTabStubComponent,
+                NodesTabStubComponent,
+                DatacentersTabStubComponent,
+            ],
             providers: [
                 AuthService,
                 { provide: OAuthService, useValue: mockedOAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: StatsService, useValue: mockedStatsService },
             ],
+            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(DashboardComponent);
@@ -104,4 +131,61 @@ describe('DashboardComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should show title', () => {
+        const compiled = fixture.nativeElement as HTMLElement;
+        const title = compiled.querySelector('#title')?.textContent;
+
+        expect(title).toContain('DASHBOARD');
+    });
+
+    it('should show tabs', () => {
+        component.ngOnInit();
+
+        // first tab is selected
+        checkSelectedIndex(0, fixture);
+
+        // select the second tab
+        let tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[1];
+        tabLabel.nativeElement.click();
+        checkSelectedIndex(1, fixture);
+
+        // select the third tab
+        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[2];
+        tabLabel.nativeElement.click();
+        checkSelectedIndex(2, fixture);
+
+        // select the fourth tab
+        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[3];
+        tabLabel.nativeElement.click();
+        checkSelectedIndex(3, fixture);
+    });
 });
+
+/**
+ * Checks that the `selectedIndex` has been updated; checks that the label and body have their
+ * respective `active` classes
+ */
+function checkSelectedIndex(
+    expectedIndex: number,
+    fixture: ComponentFixture<any>
+) {
+    fixture.detectChanges();
+
+    let tabComponent: MatTabGroup = fixture.debugElement.query(
+        By.css('mat-tab-group')
+    ).componentInstance;
+    expect(tabComponent.selectedIndex).toBe(expectedIndex);
+
+    let tabLabelElement = fixture.debugElement.query(
+        By.css(`.mat-mdc-tab:nth-of-type(${expectedIndex + 1})`)
+    ).nativeElement;
+    expect(tabLabelElement.classList.contains('mdc-tab--active')).toBe(true);
+
+    let tabContentElement = fixture.debugElement.query(
+        By.css(`mat-tab-body:nth-of-type(${expectedIndex + 1})`)
+    ).nativeElement;
+    expect(
+        tabContentElement.classList.contains('mat-mdc-tab-body-active')
+    ).toBe(true);
+}

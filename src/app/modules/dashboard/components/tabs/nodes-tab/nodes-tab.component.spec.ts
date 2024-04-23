@@ -21,4 +21,15 @@ describe('NodesTabComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should show titles and accordions', () => {
+        const compiled = fixture.nativeElement as HTMLElement;
+        let title = compiled.querySelector('#nodes-cpu-title')?.textContent;
+        expect(title).toContain('NODES-CPU');
+        expect(compiled.querySelector('#cpu-accordion')).toBeTruthy();
+
+        title = compiled.querySelector('#nodes-gpu-title')?.textContent;
+        expect(title).toContain('NODES-GPU');
+        expect(compiled.querySelector('#gpu-accordion')).toBeTruthy();
+    });
 });
