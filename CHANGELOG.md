@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/ai4os/ai4-dashboard/compare/v1.7.0...v1.7.1) (2024-04-23)
+
+
+### Bug Fixes
+
+* Improve styles ([#74](https://github.com/ai4os/ai4-dashboard/issues/74)) ([8ff05f7](https://github.com/ai4os/ai4-dashboard/commit/8ff05f717315c60c882e95fa54f129fe9660cb2c))
+
 ## [1.7.0](https://github.com/ai4os/ai4-dashboard/compare/v1.6.1...v1.7.0) (2024-03-27)
 
 
