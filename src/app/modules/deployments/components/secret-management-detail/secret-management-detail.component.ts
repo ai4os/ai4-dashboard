@@ -111,6 +111,7 @@ export class SecretManagementDetailComponent implements OnInit {
                         value: secret.token,
                         hide: true,
                     });
+                    this.secrets.sort((a, b) => a.name.localeCompare(b.name));
                     this.paginatedSecrets = this.secrets.slice(
                         0,
                         this.pageSize
