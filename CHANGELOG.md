@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2](https://github.com/ai4os/ai4-dashboard/compare/v1.7.1...v1.7.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* **secrets:** Improve secrets ([b016114](https://github.com/ai4os/ai4-dashboard/commit/b0161149aa540ebcf058f3f2dcaba5bc25b74427))
+
 ## [1.7.1](https://github.com/ai4os/ai4-dashboard/compare/v1.7.0...v1.7.1) (2024-04-23)
 
 
