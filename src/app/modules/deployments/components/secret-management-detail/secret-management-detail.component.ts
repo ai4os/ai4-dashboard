@@ -74,20 +74,25 @@ export class SecretManagementDetailComponent implements OnInit {
         const subpath = '/deployments/' + this.data.uuid + '/federated/';
         this.secrets = [];
 
-        this.secretsService.getSecrets(subpath).subscribe((secrets) => {
-            for (let i = 0; i < Object.values(secrets).length; i++) {
-                const secret: SecretField = {
-                    name: Object.keys(secrets)[i].substring(
-                        Object.keys(secrets)[i].lastIndexOf('/') + 1
-                    ),
-                    value: Object.values(secrets)[i].token,
-                    hide: true,
-                };
-                this.secrets.push(secret);
-            }
-            this.paginatedSecrets = this.secrets.slice(0, this.pageSize);
-            this.length = this.secrets.length;
-            this.isLoading = false;
+        this.secretsService.getSecrets(subpath).subscribe({
+            next: (secrets) => {
+                for (let i = 0; i < Object.values(secrets).length; i++) {
+                    const secret: SecretField = {
+                        name: Object.keys(secrets)[i].substring(
+                            Object.keys(secrets)[i].lastIndexOf('/') + 1
+                        ),
+                        value: Object.values(secrets)[i].token,
+                        hide: true,
+                    };
+                    this.secrets.push(secret);
+                }
+                this.paginatedSecrets = this.secrets.slice(0, this.pageSize);
+                this.length = this.secrets.length;
+                this.isLoading = false;
+            },
+            error: () => {
+                this.isLoading = false;
+            },
         });
     }
 
@@ -106,6 +111,7 @@ export class SecretManagementDetailComponent implements OnInit {
                         value: secret.token,
                         hide: true,
                     });
+                    this.secrets.sort((a, b) => a.name.localeCompare(b.name));
                     this.paginatedSecrets = this.secrets.slice(
                         0,
                         this.pageSize
