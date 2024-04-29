@@ -30,6 +30,8 @@ export class StatsService {
 
     getClusterStats(): Observable<ClusterStats> {
         const url = `${base}${endpoints.clusterStats}`;
-        return this.http.get<ClusterStats>(url);
+        return this.http.get<ClusterStats>(url, {
+            params: this.voParam,
+        });
     }
 }
