@@ -18,6 +18,7 @@ import {
     mockedClusterStats,
     mockedUserStats,
 } from '../../services/stats/stats.service.mock';
+import { expect } from '@jest/globals';
 
 const mockedConfigService: any = {};
 

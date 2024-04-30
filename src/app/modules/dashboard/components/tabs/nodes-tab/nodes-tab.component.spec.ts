@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NodesTabComponent } from './nodes-tab.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { expect } from '@jest/globals';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('NodesTabComponent', () => {
     let component: NodesTabComponent;
@@ -11,6 +13,7 @@ describe('NodesTabComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [NodesTabComponent],
             imports: [TranslateModule.forRoot()],
+            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(NodesTabComponent);

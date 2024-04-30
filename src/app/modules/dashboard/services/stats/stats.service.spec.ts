@@ -9,6 +9,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { mockedClusterStats, mockedUserStats } from './stats.service.mock';
+import { expect } from '@jest/globals';
 
 const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',
@@ -63,7 +64,7 @@ describe('StatsServiceService', () => {
     });
 
     it('getClusterStats should return the stats of the cluster', (done) => {
-        const url = `${base}/deployments/stats/cluster`;
+        const url = `${base}/deployments/stats/cluster?vo=vo.ai4eosc.eu`;
 
         service.getClusterStats().subscribe((stats) => {
             try {

@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverviewTabComponent } from './overview-tab.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { GlobalStats } from '@app/shared/interfaces/stats.interface';
+import { expect } from '@jest/globals';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 const mockedClusterStats: GlobalStats = {
     cpuNumAgg: 14,
@@ -33,6 +35,7 @@ describe('OverviewTabComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [OverviewTabComponent],
             imports: [TranslateModule.forRoot()],
+            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(OverviewTabComponent);
