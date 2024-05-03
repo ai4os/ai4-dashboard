@@ -18,6 +18,8 @@ export class StatsContainerComponent implements OnInit {
     @Input() totalGpuNum = 0;
     @Input() usedGpuNum = 0;
     @Input() gpuPerModelCluster?: GpuStats[];
+    @Input() usedLabel? = 'Used';
+    @Input() freeLabel? = 'Free';
 
     Math = Math;
     ramUnit = 'MiB';

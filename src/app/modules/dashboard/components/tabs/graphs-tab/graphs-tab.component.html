@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="title-toolbar">
     <span id="title">
         {{ 'DASHBOARD.USAGE' | translate }}
     </span>
@@ -61,3 +61,29 @@
         ></app-time-series-chart>
     </mat-tab>
 </mat-tab-group>
+<mat-toolbar>
+    <span id="title-users">
+        {{ 'DASHBOARD.USERS-OVER-TIME' | translate }}
+    </span>
+    <mat-icon
+        id="help-users"
+        class="ml-2"
+        color="accent"
+        matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
+        [matTooltipPosition]="'right'"
+        >help</mat-icon
+    >
+</mat-toolbar>
+<app-stats-container
+    id="user-stats"
+    [usedCpuNum]="this.userGlobalStats.cpuNumAgg"
+    [totalCpuNum]="this.userGlobalStats.cpuNumTotal"
+    [usedMemory]="this.userGlobalStats.memoryMBAgg"
+    [totalMemory]="this.userGlobalStats.memoryMBTotal"
+    [usedDisk]="this.userGlobalStats.diskMBAgg"
+    [totalDisk]="this.userGlobalStats.diskMBTotal"
+    [usedGpuNum]="this.userGlobalStats.gpuNumAgg"
+    [totalGpuNum]="this.userGlobalStats.gpuNumTotal"
+    [usedLabel]="getUsername()"
+    [freeLabel]="getVO()"
+></app-stats-container>

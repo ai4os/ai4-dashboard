@@ -1,38 +1,48 @@
 <div class="stats-container">
     <app-stat-card
         [title]="'DASHBOARD.STATS-TITLES.CPU' | translate"
-        [icon_name]="'memory'"
-        [used_value]="usedCpuNum"
-        [total_value]="totalCpuNum"
+        [iconName]="'memory'"
+        [usedValue]="usedCpuNum"
+        [totalValue]="totalCpuNum"
+        [usedLabel]="usedLabel"
+        [freeLabel]="freeLabel"
     ></app-stat-card>
     <app-stat-card
         *ngIf="usedCpuMhz && totalCpuMhz"
         [title]="'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate"
-        [icon_name]="'graphic_eq'"
-        [used_value]="usedCpuMhz"
-        [total_value]="totalCpuMhz"
+        [iconName]="'graphic_eq'"
+        [usedValue]="usedCpuMhz"
+        [totalValue]="totalCpuMhz"
+        [usedLabel]="usedLabel"
+        [freeLabel]="freeLabel"
     ></app-stat-card>
     <app-stat-card
         [title]="'DASHBOARD.STATS-TITLES.RAM' | translate"
-        [icon_name]="'memory_alt'"
-        [used_value]="Math.trunc(usedMemory)"
-        [total_value]="Math.trunc(totalMemory)"
-        [memory_unit]="ramUnit"
+        [iconName]="'memory_alt'"
+        [usedValue]="Math.trunc(usedMemory)"
+        [totalValue]="Math.trunc(totalMemory)"
+        [memoryUnit]="ramUnit"
+        [usedLabel]="usedLabel"
+        [freeLabel]="freeLabel"
     ></app-stat-card>
     <app-stat-card
         [title]="'DASHBOARD.STATS-TITLES.DISK' | translate"
-        [icon_name]="'album'"
-        [used_value]="Math.trunc(usedDisk)"
-        [total_value]="Math.trunc(totalDisk)"
-        [memory_unit]="this.diskUnit"
+        [iconName]="'album'"
+        [usedValue]="Math.trunc(usedDisk)"
+        [totalValue]="Math.trunc(totalDisk)"
+        [memoryUnit]="this.diskUnit"
+        [usedLabel]="usedLabel"
+        [freeLabel]="freeLabel"
     ></app-stat-card>
     <app-stat-card
         *ngIf="totalGpuNum > 0"
         [title]="'DASHBOARD.STATS-TITLES.GPU' | translate"
-        [icon_name]="'developer_board'"
-        [used_value]="usedGpuNum"
-        [total_value]="totalGpuNum"
+        [iconName]="'developer_board'"
+        [usedValue]="usedGpuNum"
+        [totalValue]="totalGpuNum"
         [gpuPerModelCluster]="gpuPerModelCluster"
+        [usedLabel]="usedLabel"
+        [freeLabel]="freeLabel"
         [ngClass]="{
             click_enabled: gpuPerModelCluster
         }"

@@ -13,6 +13,9 @@ import VectorSource from 'ol/source/Vector';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 import { Coordinate } from 'ol/coordinate';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Cluster } from 'ol/source';
+
+import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 
 @Component({
     selector: 'app-datacenters-tab',
@@ -53,13 +56,52 @@ export class DatacentersTabComponent implements OnInit {
 
         // markers
         const markers = this.getMarkers();
-        this.vectorLayer = new VectorLayer({
+        var clusterSource = new Cluster({
+            distance: 50,
             source: new VectorSource({
                 features: markers,
             }),
-            style: {
-                'circle-radius': 6,
-                'circle-fill-color': rs.getPropertyValue('--primary'),
+        });
+
+        this.vectorLayer = new VectorLayer({
+            source: clusterSource,
+            style: function (feature) {
+                var size = feature.get('features').length;
+                if (size > 1) {
+                    var style = new Style({
+                        image: new CircleStyle({
+                            radius: 14,
+                            stroke: new Stroke({
+                                color: rs.getPropertyValue('--primary'),
+                            }),
+                            fill: new Fill({
+                                color: rs.getPropertyValue('--primary'),
+                            }),
+                        }),
+                        text: new Text({
+                            text: size.toString(),
+                            fill: new Fill({
+                                color: '#fff',
+                            }),
+                            stroke: new Stroke({
+                                color: '#fff',
+                            }),
+                        }),
+                    });
+                } else {
+                    var style = new Style({
+                        image: new CircleStyle({
+                            radius: 7,
+                            stroke: new Stroke({
+                                color: rs.getPropertyValue('--primary'),
+                            }),
+                            fill: new Fill({
+                                color: rs.getPropertyValue('--primary'),
+                            }),
+                        }),
+                    });
+                }
+                return style;
             },
         });
 
@@ -96,13 +138,15 @@ export class DatacentersTabComponent implements OnInit {
                 if (geometry instanceof SimpleGeometry) {
                     const coordinate = geometry.getCoordinates();
                     if (coordinate) {
-                        coordinate.map(Number);
                         this.selectedDatacenter =
                             this.getDatacenter(coordinate);
-                        content!.innerHTML =
-                            '<p>' + this.selectedDatacenter.name + '</p>';
-                        overlay.setPosition(coordinate);
-                        this.drawer.open();
+                        coordinate.map(Number);
+                        if (this.selectedDatacenter?.name != 'Unknown') {
+                            content!.innerHTML =
+                                '<p>' + this.selectedDatacenter.name + '</p>';
+                            overlay.setPosition(coordinate);
+                            this.drawer.open();
+                        }
                     }
                 }
             } else {

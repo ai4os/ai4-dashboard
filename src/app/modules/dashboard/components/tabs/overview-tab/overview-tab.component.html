@@ -1,50 +1,94 @@
-<mat-toolbar>
-    <span id="title-cluster">
-        {{ 'DASHBOARD.CLUSTER' | translate }}
-    </span>
-    <mat-icon
-        id="help-cluster"
-        class="ml-2"
-        color="accent"
-        matTooltip="{{ 'DASHBOARD.CLUSTER-INFO' | translate }}"
-        [matTooltipPosition]="'right'"
-        >help</mat-icon
-    >
-</mat-toolbar>
-<app-stats-container
-    id="cluster-stats"
-    [usedCpuNum]="clusterGlobalStats.cpuNumAgg"
-    [totalCpuNum]="clusterGlobalStats.cpuNumTotal"
-    [usedMemory]="clusterGlobalStats.memoryMBAgg"
-    [totalMemory]="clusterGlobalStats.memoryMBTotal"
-    [usedDisk]="clusterGlobalStats.diskMBAgg"
-    [totalDisk]="clusterGlobalStats.diskMBTotal"
-    [usedGpuNum]="clusterGlobalStats.gpuNumAgg"
-    [totalGpuNum]="clusterGlobalStats.gpuNumTotal"
-    [gpuPerModelCluster]="gpuPerModelCluster"
-></app-stats-container>
+<ng-template #loading>
+    <div class="spinner">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+</ng-template>
 
-<mat-toolbar>
-    <span id="title-users">
-        {{ 'DASHBOARD.USERS' | translate }}
-    </span>
-    <mat-icon
-        id="help-users"
-        class="ml-2"
-        color="accent"
-        matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
-        [matTooltipPosition]="'right'"
-        >help</mat-icon
-    >
-</mat-toolbar>
-<app-stats-container
-    id="user-stats"
-    [usedCpuNum]="this.userGlobalStats.cpuNumAgg"
-    [totalCpuNum]="this.userGlobalStats.cpuNumTotal"
-    [usedMemory]="this.userGlobalStats.memoryMBAgg"
-    [totalMemory]="this.userGlobalStats.memoryMBTotal"
-    [usedDisk]="this.userGlobalStats.diskMBAgg"
-    [totalDisk]="this.userGlobalStats.diskMBTotal"
-    [usedGpuNum]="this.userGlobalStats.gpuNumAgg"
-    [totalGpuNum]="this.userGlobalStats.gpuNumTotal"
-></app-stats-container>
+<ng-container *ngIf="!isLoading; else loading">
+    <mat-toolbar>
+        <span id="title-cluster">
+            {{ 'DASHBOARD.CLUSTER' | translate }}
+        </span>
+    </mat-toolbar>
+    <app-stats-container
+        id="cluster-stats"
+        [usedCpuNum]="clusterGlobalStats.cpuNumAgg"
+        [totalCpuNum]="clusterGlobalStats.cpuNumTotal"
+        [usedMemory]="clusterGlobalStats.memoryMBAgg"
+        [totalMemory]="clusterGlobalStats.memoryMBTotal"
+        [usedDisk]="clusterGlobalStats.diskMBAgg"
+        [totalDisk]="clusterGlobalStats.diskMBTotal"
+        [usedGpuNum]="clusterGlobalStats.gpuNumAgg"
+        [totalGpuNum]="clusterGlobalStats.gpuNumTotal"
+        [gpuPerModelCluster]="gpuPerModelCluster"
+    ></app-stats-container>
+
+    <mat-toolbar>
+        <span>
+            {{ 'DASHBOARD.USERS' | translate }}
+        </span>
+    </mat-toolbar>
+
+    <div class="user-jobs-stats">
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate }}
+                </p>
+                <mat-icon class="icon">task</mat-icon>
+            </div>
+            <p class="value">{{ jobsNum }}</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.CPU' | translate }}
+                </p>
+                <mat-icon class="icon">memory</mat-icon>
+            </div>
+            <p class="value">{{ usedCpuNum }}</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.CPU-FREQ' | translate }}
+                </p>
+                <mat-icon class="icon">graphic_eq</mat-icon>
+            </div>
+            <p class="value">{{ usedCpuMhz }} Mhz</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.RAM' | translate }}
+                </p>
+                <mat-icon class="icon">memory_alt</mat-icon>
+            </div>
+            <p class="value">{{ Math.trunc(usedMemory) }} {{ ramUnit }}</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.DISK' | translate }}
+                </p>
+                <mat-icon class="icon">album</mat-icon>
+            </div>
+            <p class="value">{{ Math.trunc(usedDisk) }} {{ diskUnit }}</p>
+        </mat-card>
+
+        <mat-card class="card">
+            <div class="header">
+                <p class="stat-text">
+                    {{ 'DASHBOARD.STATS-TITLES.GPU' | translate }}
+                </p>
+                <mat-icon class="icon">developer_board</mat-icon>
+            </div>
+            <p class="value">{{ usedGpuNum }}</p>
+        </mat-card>
+    </div>
+</ng-container>

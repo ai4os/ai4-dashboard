@@ -12,11 +12,13 @@ import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.co
 })
 export class StatCardComponent implements OnInit {
     @Input() title = '';
-    @Input() used_value = 0;
-    @Input() total_value = 0;
-    @Input() icon_name = '';
-    @Input() memory_unit?: string;
+    @Input() usedValue = 0;
+    @Input() totalValue = 0;
+    @Input() iconName = '';
+    @Input() memoryUnit?: string;
     @Input() gpuPerModelCluster?: GpuStats[];
+    @Input() usedLabel? = 'Used';
+    @Input() freeLabel? = 'Free';
 
     constructor(
         private changeDetectorRef: ChangeDetectorRef,
@@ -37,8 +39,8 @@ export class StatCardComponent implements OnInit {
 
     getUnit(): string {
         let unit = '';
-        if (this.memory_unit) {
-            unit = this.memory_unit;
+        if (this.memoryUnit) {
+            unit = this.memoryUnit;
         }
         return unit;
     }
@@ -50,10 +52,10 @@ export class StatCardComponent implements OnInit {
             title: {
                 subtext:
                     'Used ' +
-                    this.used_value +
+                    this.usedValue +
                     this.getUnit() +
                     ' of ' +
-                    this.total_value +
+                    this.totalValue +
                     this.getUnit(),
                 left: 'center',
                 subtextStyle: {
@@ -72,10 +74,10 @@ export class StatCardComponent implements OnInit {
                     type: 'pie',
                     radius: [60],
                     data: [
-                        { value: this.used_value, name: 'Used' },
+                        { value: this.usedValue, name: this.usedLabel },
                         {
-                            value: this.total_value - this.used_value,
-                            name: 'Free',
+                            value: this.totalValue - this.usedValue,
+                            name: this.freeLabel,
                         },
                     ],
                     emphasis: {

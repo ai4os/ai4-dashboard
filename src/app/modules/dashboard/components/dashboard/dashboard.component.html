@@ -33,7 +33,6 @@
         <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
             <app-overview-tab
                 [clusterGlobalStats]="clusterGlobalStats"
-                [userGlobalStats]="userGlobalStats"
                 [gpuPerModelCluster]="gpuPerModelCluster"
             ></app-overview-tab>
         </mat-tab>
@@ -48,6 +47,7 @@
 
         <mat-tab label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}">
             <app-graphs-tab
+                [userProfile]="userProfile"
                 [dates]="dates"
                 [cpuMhzData]="cpuMhzData"
                 [cpuNumData]="cpuNumData"
@@ -56,6 +56,7 @@
                 [gpuNumData]="gpuNumData"
                 [queuedData]="queuedData"
                 [runningData]="runningData"
+                [userGlobalStats]="userGlobalStats"
             ></app-graphs-tab>
         </mat-tab>
 
