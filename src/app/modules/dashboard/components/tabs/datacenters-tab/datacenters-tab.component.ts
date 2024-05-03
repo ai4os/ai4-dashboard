@@ -16,6 +16,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Cluster } from 'ol/source';
 
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
+import { createEmpty, extend } from 'ol/extent';
 
 @Component({
     selector: 'app-datacenters-tab',
@@ -72,7 +73,7 @@ export class DatacentersTabComponent implements OnInit {
                         image: new CircleStyle({
                             radius: 14,
                             stroke: new Stroke({
-                                color: rs.getPropertyValue('--primary'),
+                                color: rs.getPropertyValue('--secondary'),
                             }),
                             fill: new Fill({
                                 color: rs.getPropertyValue('--primary'),
@@ -93,7 +94,7 @@ export class DatacentersTabComponent implements OnInit {
                         image: new CircleStyle({
                             radius: 7,
                             stroke: new Stroke({
-                                color: rs.getPropertyValue('--primary'),
+                                color: rs.getPropertyValue('--secondary'),
                             }),
                             fill: new Fill({
                                 color: rs.getPropertyValue('--primary'),
@@ -130,17 +131,16 @@ export class DatacentersTabComponent implements OnInit {
             controls: defaultControls(),
         });
 
-        // show dc info popup
+        // show dc info popup or zoom in cluster
         this.map.on('click', (evt) => {
             const feature = this.map.getFeaturesAtPixel(evt.pixel)[0];
-            if (feature) {
+            if (feature && feature.getProperties().features.length == 1) {
                 const geometry = feature.getGeometry();
                 if (geometry instanceof SimpleGeometry) {
                     const coordinate = geometry.getCoordinates();
                     if (coordinate) {
                         this.selectedDatacenter =
                             this.getDatacenter(coordinate);
-                        coordinate.map(Number);
                         if (this.selectedDatacenter?.name != 'Unknown') {
                             content!.innerHTML =
                                 '<p>' + this.selectedDatacenter.name + '</p>';
@@ -149,6 +149,18 @@ export class DatacentersTabComponent implements OnInit {
                         }
                     }
                 }
+            } else if (feature && feature.getProperties().features.length > 1) {
+                const view = this.map.getView();
+                const extent = createEmpty();
+                feature
+                    .getProperties()
+                    .features.forEach((feature: any) =>
+                        extend(extent, feature.getGeometry().getExtent())
+                    );
+                view.fit(extent, {
+                    duration: 500,
+                    maxZoom: 20,
+                });
             } else {
                 overlay.setPosition(undefined);
                 this.drawer.close();

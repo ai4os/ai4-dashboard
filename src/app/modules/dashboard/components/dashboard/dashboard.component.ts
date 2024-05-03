@@ -128,7 +128,7 @@ export class DashboardComponent implements OnInit {
                     this.userGlobalStats.cpuMHzAgg = this.cpuMHzUserAgg;
                     this.userGlobalStats.memoryMBAgg = this.memoryMBUserAgg;
                     this.userGlobalStats.diskMBAgg = this.diskMBUserAgg;
-                    this.userGlobalStats.gpuNumAgg = this.gpuNumNamespaceAgg;
+                    this.userGlobalStats.gpuNumAgg = this.gpuNumUserAgg;
                 }
 
                 // Namespace aggregate variables
