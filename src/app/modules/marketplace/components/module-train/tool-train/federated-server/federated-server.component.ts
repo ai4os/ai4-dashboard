@@ -148,7 +148,7 @@ export class FederatedServerComponent implements OnInit {
                                     'X',
                                     {
                                         duration: 3000,
-                                        panelClass: ['primary-snackbar'],
+                                        panelClass: ['success-snackbar'],
                                     }
                                 );
                             }
