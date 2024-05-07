@@ -173,17 +173,17 @@ function checkSelectedIndex(
 ) {
     fixture.detectChanges();
 
-    let tabComponent: MatTabGroup = fixture.debugElement.query(
+    const tabComponent: MatTabGroup = fixture.debugElement.query(
         By.css('mat-tab-group')
     ).componentInstance;
     expect(tabComponent.selectedIndex).toBe(expectedIndex);
 
-    let tabLabelElement = fixture.debugElement.query(
+    const tabLabelElement = fixture.debugElement.query(
         By.css(`.mat-mdc-tab:nth-of-type(${expectedIndex + 1})`)
     ).nativeElement;
     expect(tabLabelElement.classList.contains('mdc-tab--active')).toBe(true);
 
-    let tabContentElement = fixture.debugElement.query(
+    const tabContentElement = fixture.debugElement.query(
         By.css(`mat-tab-body:nth-of-type(${expectedIndex + 1})`)
     ).nativeElement;
     expect(

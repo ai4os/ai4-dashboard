@@ -30,7 +30,7 @@ export class DatacentersTabComponent implements OnInit {
 
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
-    drawer!: MatDrawer;
+        drawer!: MatDrawer;
 
     Math = Math;
     selectedDatacenter: DatacenterStats | undefined;
@@ -57,7 +57,7 @@ export class DatacentersTabComponent implements OnInit {
 
         // markers
         const markers = this.getMarkers();
-        var clusterSource = new Cluster({
+        const clusterSource = new Cluster({
             distance: 50,
             source: new VectorSource({
                 features: markers,
@@ -67,9 +67,10 @@ export class DatacentersTabComponent implements OnInit {
         this.vectorLayer = new VectorLayer({
             source: clusterSource,
             style: function (feature) {
-                var size = feature.get('features').length;
+                const size = feature.get('features').length;
+                let style: any = {};
                 if (size > 1) {
-                    var style = new Style({
+                    style = new Style({
                         image: new CircleStyle({
                             radius: 14,
                             stroke: new Stroke({
@@ -90,7 +91,7 @@ export class DatacentersTabComponent implements OnInit {
                         }),
                     });
                 } else {
-                    var style = new Style({
+                    style = new Style({
                         image: new CircleStyle({
                             radius: 7,
                             stroke: new Stroke({
@@ -125,8 +126,8 @@ export class DatacentersTabComponent implements OnInit {
             overlays: [overlay],
             view: new View({
                 constrainResolution: true,
-                center: transform([9, 53], 'EPSG:4326', 'EPSG:3857'),
-                zoom: 4,
+                center: transform([9, 46], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 4.5,
             }),
             controls: defaultControls(),
         });

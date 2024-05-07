@@ -10,7 +10,7 @@ import { GlobalStats } from '@app/shared/interfaces/stats.interface';
 })
 export class GraphsTabComponent implements OnInit {
     @Input()
-    userProfile!: UserProfile;
+        userProfile!: UserProfile;
     @Input() dates: string[] = [];
     @Input() cpuMhzData: number[] = [];
     @Input() cpuNumData: number[] = [];
@@ -23,7 +23,7 @@ export class GraphsTabComponent implements OnInit {
 
     constructor(private appConfigService: AppConfigService) {}
 
-    projectName: string = '';
+    projectName = '';
 
     ngOnInit(): void {
         this.projectName = this.appConfigService.projectName;

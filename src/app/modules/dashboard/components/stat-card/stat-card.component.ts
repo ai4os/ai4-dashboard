@@ -36,6 +36,36 @@ export class StatCardComponent implements OnInit {
 
     chartOptionsCommon: EChartsOption = {};
     colorPalette: string[] = [];
+    subtext = '';
+    padding = [0, 0, 0, 0];
+
+    getSubtextStyle(): string {
+        if (
+            this.usedLabel?.includes('Used') &&
+            this.freeLabel?.includes('Free')
+        ) {
+            this.subtext =
+                'Used ' +
+                this.usedValue +
+                this.getUnit() +
+                ' of ' +
+                this.totalValue +
+                this.getUnit();
+        } else {
+            this.subtext =
+                'Your total: ' +
+                this.usedValue +
+                this.getUnit() +
+                '\n\n' +
+                this.freeLabel +
+                ' total: ' +
+                this.totalValue +
+                this.getUnit();
+
+            this.padding = [0, 0, 0, 10];
+        }
+        return this.subtext;
+    }
 
     getUnit(): string {
         let unit = '';
@@ -50,17 +80,12 @@ export class StatCardComponent implements OnInit {
 
         this.chartOptionsCommon = {
             title: {
-                subtext:
-                    'Used ' +
-                    this.usedValue +
-                    this.getUnit() +
-                    ' of ' +
-                    this.totalValue +
-                    this.getUnit(),
+                subtext: this.getSubtextStyle(),
                 left: 'center',
                 subtextStyle: {
                     fontSize: '0.9em',
                 },
+                padding: this.padding,
             },
             tooltip: {
                 trigger: 'item',
