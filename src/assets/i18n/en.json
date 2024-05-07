@@ -76,6 +76,7 @@
             "ADDITIONAL-RESOURCES": "Additional Resources",
             "GET-THE-CODE": "Get the code",
             "GET-THE-DATA": "Get the data",
+            "FOUND-ISSUE": "Found an issue?",
             "DATASET": "Dataset",
             "TRAIN-MODULE": "Train module",
             "LAUNCH-TOOL": "Launch tool",
@@ -215,7 +216,8 @@
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "Github",
-        "DOCKERHUB": "Dockerhub"
+        "DOCKERHUB": "Dockerhub",
+        "REPORT-ISSUE": "Report issue"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",
