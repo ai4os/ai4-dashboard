@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/ai4os/ai4-dashboard/compare/v1.7.2...v2.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added new dashboard section
+
+### Features
+
+* Added new dashboard section ([4cfda38](https://github.com/ai4os/ai4-dashboard/commit/4cfda3869855d8b3765453dc2663875bd4154b76))
+
 ## [1.7.2](https://github.com/ai4os/ai4-dashboard/compare/v1.7.1...v1.7.2) (2024-04-26)
 
 
