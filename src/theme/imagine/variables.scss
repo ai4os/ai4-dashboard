@@ -86,5 +86,11 @@
             --mdc-snackbar-supporting-text-color: var(--white);
             white-space: pre-wrap;
         }
+        &.success-snackbar {
+            --mdc-snackbar-container-color: var(--success-green);
+            --mat-mdc-snack-bar-button-color: var(--white);
+            --mdc-snackbar-supporting-text-color: var(--white);
+            white-space: pre-wrap;
+        }
     }
 }

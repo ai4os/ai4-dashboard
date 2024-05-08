@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { GlobalStats, GpuStats } from '@app/shared/interfaces/stats.interface';
 import { forkJoin } from 'rxjs';

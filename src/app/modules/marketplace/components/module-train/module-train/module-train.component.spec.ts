@@ -12,6 +12,7 @@ import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form
 import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
 import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { OAuthStorage } from 'angular-oauth2-oidc';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -57,6 +58,7 @@ describe('ModuleTrainComponent', () => {
             providers: [
                 FormGroupDirective,
                 FormBuilder,
+                OAuthStorage,
                 { provide: FormGroupDirective, useValue: formGroupDirective },
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

@@ -20,10 +20,10 @@ import {
     statusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
-import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 
 const mockedDeleteToolResponse: statusReturn = {
     status: 'success',

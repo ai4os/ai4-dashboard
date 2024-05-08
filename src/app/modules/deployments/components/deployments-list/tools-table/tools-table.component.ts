@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DeploymentsService } from '@app/modules/deployments/services/deployments.service';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
@@ -21,6 +20,8 @@ import {
 import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { SecretManagementDetailComponent } from '../../secret-management-detail/secret-management-detail.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 
 export interface TableColumn {
     columnDef: string;
@@ -179,6 +180,18 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe((result) => {
             console.log('The dialog was closed', result);
+        });
+    }
+
+    openToolSecretsDialog(row: toolTableRow): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+        const dialogRef = this.dialog.open(SecretManagementDetailComponent, {
+            data: { uuid: row.uuid, name: row.name },
+            width: width,
+            maxWidth: width,
+            minWidth: width,
+            autoFocus: false,
+            restoreFocus: false,
         });
     }
 

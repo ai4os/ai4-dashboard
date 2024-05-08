@@ -15,6 +15,14 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 
+interface EGICheckinError {
+    error: string;
+    error_description: string;
+}
+
+const isEGICheckinError = (value: EGICheckinError): value is EGICheckinError =>
+    !!value?.error;
+
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
@@ -23,6 +31,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         private router: Router,
         private authService: AuthService
     ) {}
+
+    showSnackbar(messageStringKey: string, errorMessage: string) {
+        const translateService = this.injector.get(TranslateService);
+        translateService.get(messageStringKey).subscribe((value: any) => {
+            this._snackBar.open(value + '\n ' + errorMessage, 'X', {
+                duration: 10000,
+                panelClass: ['red-snackbar'],
+            });
+        });
+    }
 
     intercept(
         request: HttpRequest<unknown>,
@@ -41,7 +59,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     if (error.error.detail) {
                         errorMessage = `Error: ${error.error.detail}`;
                     }
-
+                    // EGI error, token expired. User will be logged-out.
+                    if (
+                        error.status == 400 &&
+                        isEGICheckinError(error.error) &&
+                        error.error.error === 'invalid_grant'
+                    ) {
+                        this.showSnackbar('ERRORS.TOKEN-EXPIRED', errorMessage);
+                        return throwError(() => errorMessage);
+                    }
                     if (error.status === 401 || error.status === 403) {
                         this.router.navigate([
                             'forbidden',
@@ -49,30 +75,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         ]);
                         this.authService.logout();
                     }
-                    try {
-                        const translateService =
-                            this.injector.get(TranslateService);
-                        this._snackBar.open(
-                            translateService.instant('ERRORS.SERVICE-ERROR') +
-                                '\n ' +
-                                errorMessage,
-                            'X',
-                            {
-                                duration: 10000,
-                                panelClass: ['red-snackbar'],
-                            }
-                        );
-                    } catch {
-                        // log without translation translation service is not yet available
-                        this._snackBar.open(
-                            'Error calling the API, please retry later',
-                            'X',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
-                        );
-                    }
+                    this.showSnackbar('ERRORS.API-ERROR', errorMessage);
 
                     return throwError(() => errorMessage);
                 })

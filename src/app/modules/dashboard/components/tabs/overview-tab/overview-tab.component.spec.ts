@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { GlobalStats } from '@app/shared/interfaces/stats.interface';
 import { expect } from '@jest/globals';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 const mockedClusterStats: GlobalStats = {
     cpuNumAgg: 14,
@@ -34,14 +35,13 @@ describe('OverviewTabComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [OverviewTabComponent],
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslateModule.forRoot(), HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(OverviewTabComponent);
         component = fixture.componentInstance;
         component.clusterGlobalStats = mockedClusterStats;
-        component.userGlobalStats = mockedUserStats;
         fixture.detectChanges();
     });
 
@@ -52,16 +52,10 @@ describe('OverviewTabComponent', () => {
     it('should show titles and help icons', () => {
         const compiled = fixture.nativeElement as HTMLElement;
 
-        let title = compiled.querySelector('#title-cluster')?.textContent;
+        const title = compiled.querySelector('#title-cluster')?.textContent;
         expect(title).toContain('DASHBOARD.CLUSTER');
 
-        title = compiled.querySelector('#title-users')?.textContent;
-        expect(title).toContain('DASHBOARD.USERS');
-
-        let helpIcon = compiled.querySelector('#help-cluster');
-        expect(helpIcon).toBeTruthy();
-
-        helpIcon = compiled.querySelector('#help-users');
+        const helpIcon = compiled.querySelector('#help-cluster');
         expect(helpIcon).toBeTruthy();
     });
 
@@ -69,6 +63,5 @@ describe('OverviewTabComponent', () => {
         const compiled = fixture.nativeElement as HTMLElement;
 
         expect(compiled.querySelector('#cluster-stats')).toBeTruthy();
-        expect(compiled.querySelector('#user-stats')).toBeTruthy();
     });
 });

@@ -8,6 +8,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('GraphsTabComponent', () => {
     let component: GraphsTabComponent;
@@ -20,6 +21,7 @@ describe('GraphsTabComponent', () => {
                 TranslateModule.forRoot(),
                 SharedModule,
                 BrowserAnimationsModule,
+                HttpClientTestingModule,
             ],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();

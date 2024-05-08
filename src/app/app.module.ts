@@ -52,7 +52,7 @@ const cookieConfig: NgcCookieConsentConfig = {
             text: 'var(--primary-text)',
         },
         button: {
-            background: '#008792',
+            background: 'var(--accent)',
         },
     },
     mobileForceFloat: true,
