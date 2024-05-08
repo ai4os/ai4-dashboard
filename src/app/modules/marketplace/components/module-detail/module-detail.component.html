@@ -148,21 +148,6 @@
                 <div *ngIf="isLoggedIn()">
                     <mat-divider class="mt-3 mb-3"></mat-divider>
                     <div class="grid-action-buttons">
-                        <a
-                            *ngIf="isInferenceModule"
-                            class="action-button"
-                            mat-raised-button
-                            routerLink="oscar-deploy"
-                            [disabled]="
-                                !isAuthorized() && isAuthorized() !== undefined
-                            "
-                        >
-                            {{
-                                'MODULES.MODULE-DETAIL.DEPLOY-W-OSCAR'
-                                    | translate
-                            }}
-                        </a>
-
                         <ng-container
                             *ngIf="
                                 !isTool && module.sources.docker_registry_repo
@@ -189,22 +174,13 @@
                         </ng-container>
 
                         <a
-                            *ngIf="isInferenceModule"
-                            class="action-button"
-                            mat-raised-button
-                            routerLink="tryme"
-                            [disabled]="
-                                !isAuthorized() && isAuthorized() !== undefined
-                            "
-                        >
-                            {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
-                        </a>
-
-                        <a
                             class="action-button"
                             mat-raised-button
                             routerLink="train"
                             color="accent"
+                            [ngClass]="{
+                                'launch-tool-button': isTool
+                            }"
                             [disabled]="
                                 !isAuthorized() && isAuthorized() !== undefined
                             "

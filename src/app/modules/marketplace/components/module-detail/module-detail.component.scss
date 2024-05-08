@@ -18,6 +18,14 @@
     padding: 5px 16px;
 }
 
+.launch-tool-button {
+    grid-column-start: -1;
+}
+
+::ng-deep .launch-tool-button span {
+    padding: 5px 16px;
+}
+
 .detail-card {
     margin-bottom: 15px;
 }
