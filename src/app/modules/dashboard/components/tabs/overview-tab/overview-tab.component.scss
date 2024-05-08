@@ -1,0 +1,44 @@
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 0.5em;
+}
+
+.icon {
+    color: var(--primary);
+    font-size: 1.8em;
+    width: 30px;
+    height: 30px;
+}
+
+.stat-text {
+    white-space: nowrap;
+    font-size: 1em;
+    margin: 5px;
+    text-align: end;
+}
+
+.value {
+    align-self: center;
+    color: dimgray;
+    margin: 0;
+    padding: 5px 10px 10px 10px;
+    font-size: 1.2em;
+}
+
+.user-jobs-stats {
+    display: grid;
+    grid-gap: 1rem 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+    margin-bottom: 2rem;
+}

@@ -1,0 +1,75 @@
+<mat-toolbar>
+    <span id="nodes-cpu-title">
+        {{ 'DASHBOARD.NODES-CPU' | translate }}
+    </span>
+</mat-toolbar>
+<mat-accordion id="cpu-accordion">
+    <mat-expansion-panel
+        *ngFor="let node of paginatedNodesCpu"
+        [expanded]="node === paginatedNodesCpu[0]"
+    >
+        <mat-expansion-panel-header>
+            <mat-panel-title class="id-title">
+                {{ node.name }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-stats-container
+            [usedCpuNum]="node.cpu_used"
+            [totalCpuNum]="node.cpu_total"
+            [usedMemory]="node.ram_used"
+            [totalMemory]="node.ram_total"
+            [usedDisk]="node.disk_used"
+            [totalDisk]="node.disk_total"
+            [usedGpuNum]="node.gpu_used"
+            [totalGpuNum]="node.gpu_total"
+        ></app-stats-container>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-paginator
+    #paginator
+    (page)="handleCpuPageEvent($event)"
+    [length]="lengthCpu"
+    [pageSize]="pageSize"
+    [disabled]="false"
+    [showFirstLastButtons]="true"
+    [hidePageSize]="false"
+    [pageIndex]="pageIndex"
+>
+</mat-paginator>
+
+<span></span>
+<mat-toolbar class="mb-3 nodes-title">
+    <span id="nodes-gpu-title">
+        {{ 'DASHBOARD.NODES-GPU' | translate }}
+    </span>
+</mat-toolbar>
+<mat-accordion id="gpu-accordion">
+    <mat-expansion-panel *ngFor="let node of paginatedNodesGpu">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="id-title">
+                {{ node.name }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-stats-container
+            [usedCpuNum]="node.cpu_used"
+            [totalCpuNum]="node.cpu_total"
+            [usedMemory]="node.ram_used"
+            [totalMemory]="node.ram_total"
+            [usedDisk]="node.disk_used"
+            [totalDisk]="node.disk_total"
+            [usedGpuNum]="node.gpu_used"
+            [totalGpuNum]="node.gpu_total"
+        ></app-stats-container>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-paginator
+    #paginator
+    (page)="handleGpuPageEvent($event)"
+    [length]="lengthGpu"
+    [pageSize]="pageSize"
+    [disabled]="false"
+    [showFirstLastButtons]="true"
+    [hidePageSize]="false"
+    [pageIndex]="pageIndex"
+>
+</mat-paginator>

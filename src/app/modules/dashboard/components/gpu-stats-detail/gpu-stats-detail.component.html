@@ -1,0 +1,29 @@
+<mat-toolbar>
+    <span class="title">
+        {{ 'DASHBOARD.GPU-PER-MODEL' | translate }}
+
+        <mat-icon>developer_board</mat-icon></span
+    >
+</mat-toolbar>
+
+<mat-card>
+    <ng-template #loading>
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    </ng-template>
+
+    <mat-card-content
+        [ngClass]="{
+            'card-content-mobile': this.mobileQuery.matches
+        }"
+    >
+        <ng-container *ngIf="!isLoading; else loading">
+            <div echarts [options]="chartOptionsCommon"></div>
+        </ng-container>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-raised-button mat-dialog-close color="accent">Ok</button>
+    </mat-card-actions>
+</mat-card>

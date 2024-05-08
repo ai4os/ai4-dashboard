@@ -1,0 +1,89 @@
+<mat-toolbar class="title-toolbar">
+    <span id="title">
+        {{ 'DASHBOARD.USAGE' | translate }}
+    </span>
+</mat-toolbar>
+<mat-tab-group mat-stretch-tabs="true">
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RUNNING-DATA' | translate }}">
+        <app-time-series-chart
+            id="runningDataChart"
+            [datesInput]="dates"
+            [dataInput]="runningData"
+            nameInput="runningData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.QUEUED-DATA' | translate }}">
+        <app-time-series-chart
+            id="queuedDataChart"
+            [datesInput]="dates"
+            [dataInput]="queuedData"
+            nameInput="queuedData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.CPU' | translate }}">
+        <app-time-series-chart
+            id="cpuNumDataChart"
+            [datesInput]="dates"
+            [dataInput]="cpuNumData"
+            nameInput="cpuNumData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate }}">
+        <app-time-series-chart
+            id="cpuMhzDataChart"
+            [datesInput]="dates"
+            [dataInput]="cpuMhzData"
+            nameInput="cpuMhzData"
+        ></app-time-series-chart
+    ></mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RAM-MB' | translate }}">
+        <app-time-series-chart
+            id="memoryMBDataChart"
+            [datesInput]="dates"
+            [dataInput]="memoryMBData"
+            nameInput="memoryMBData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.DISK-MB' | translate }}">
+        <app-time-series-chart
+            id="diskMBDataChart"
+            [datesInput]="dates"
+            [dataInput]="diskMBData"
+            nameInput="diskMBData"
+        ></app-time-series-chart>
+    </mat-tab>
+    <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.GPU' | translate }}">
+        <app-time-series-chart
+            id="gpuNumDataChart"
+            [datesInput]="dates"
+            [dataInput]="gpuNumData"
+            nameInput="gpuNumData"
+        ></app-time-series-chart>
+    </mat-tab>
+</mat-tab-group>
+<mat-toolbar>
+    <span id="title-users">
+        {{ 'DASHBOARD.USERS-OVER-TIME' | translate }}
+    </span>
+    <mat-icon
+        id="help-users"
+        class="ml-2"
+        color="accent"
+        matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
+        [matTooltipPosition]="'right'"
+        >help</mat-icon
+    >
+</mat-toolbar>
+<app-stats-container
+    id="user-stats"
+    [usedCpuNum]="this.userGlobalStats.cpuNumAgg"
+    [totalCpuNum]="this.userGlobalStats.cpuNumTotal"
+    [usedMemory]="this.userGlobalStats.memoryMBAgg"
+    [totalMemory]="this.userGlobalStats.memoryMBTotal"
+    [usedDisk]="this.userGlobalStats.diskMBAgg"
+    [totalDisk]="this.userGlobalStats.diskMBTotal"
+    [usedGpuNum]="this.userGlobalStats.gpuNumAgg"
+    [totalGpuNum]="this.userGlobalStats.gpuNumTotal"
+    [usedLabel]="getUsername()"
+    [freeLabel]="getVO()"
+></app-stats-container>

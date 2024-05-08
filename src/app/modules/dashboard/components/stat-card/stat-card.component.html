@@ -1,0 +1,25 @@
+<mat-card class="card">
+    <div class="header">
+        <p class="title-text">{{ title }}</p>
+        <mat-icon class="icon">{{ iconName }}</mat-icon>
+    </div>
+
+    <button
+        *ngIf="gpuPerModelCluster"
+        mat-icon-button
+        matTooltip="{{ 'DASHBOARD.GPU-PER-MODEL' | translate }}"
+        [matTooltipPosition]="'above'"
+        (click)="openDetailGpuStats()"
+    >
+        <mat-icon color="accent"
+            ><span class="material-symbols-outlined">
+                <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined">
+                        search_insights
+                    </span></span
+                >
+            </span></mat-icon
+        >
+    </button>
+    <div echarts [options]="chartOptionsCommon" class="pie-graph"></div>
+</mat-card>
