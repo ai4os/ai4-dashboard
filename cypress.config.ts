@@ -7,6 +7,7 @@ export default defineConfig({
     viewportHeight: 800,
     e2e: {
         experimentalStudio: true,
+        testIsolation: false,
     },
     env: {
         auth0_username: process.env.AUTH0_USERNAME,
