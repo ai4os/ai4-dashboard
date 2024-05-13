@@ -16,7 +16,8 @@
         "test:coverage": "jest --coverage",
         "lint": "ng lint",
         "format": "npx prettier \"src/**/*.{js,jsx,ts,tsx,html,css,scss}\" --write",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "cy:open": "cypress open"
     },
     "private": true,
     "dependencies": {
