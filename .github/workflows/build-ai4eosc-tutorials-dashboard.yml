@@ -3,7 +3,7 @@ name: Build AI4EOSC:tutorials docker image
 on:
     push:
         tags:
-            - v1.**
+            - v2.**
 
 jobs:
     build:
@@ -30,10 +30,10 @@ jobs:
 
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
-            
-            - name: "Create .npmrc"
+
+            - name: 'Create .npmrc'
               run: |
-                echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc  
+                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc
 
             - name: Build and push
               uses: docker/build-push-action@v3
@@ -43,5 +43,4 @@ jobs:
                   tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:${{ github.ref_name}}-tutorials, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:${{ github.ref_name}}-tutorials
                   file: docker/ai4eosc/tutorials/Dockerfile
                   secret-files: |
-                    npmrc=/home/runner/.npmrc
-
+                      npmrc=/home/runner/.npmrc
