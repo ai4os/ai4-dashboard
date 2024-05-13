@@ -123,7 +123,7 @@ export class SecretManagementDetailComponent implements OnInit {
                         'X',
                         {
                             duration: 3000,
-                            panelClass: ['primary-snackbar'],
+                            panelClass: ['success-snackbar'],
                         }
                     );
                 },
@@ -182,7 +182,7 @@ export class SecretManagementDetailComponent implements OnInit {
                                 'X',
                                 {
                                     duration: 3000,
-                                    panelClass: ['primary-snackbar'],
+                                    panelClass: ['success-snackbar'],
                                 }
                             );
                         },
