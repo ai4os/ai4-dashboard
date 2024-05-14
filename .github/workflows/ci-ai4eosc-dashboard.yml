@@ -33,6 +33,8 @@ jobs:
               with:
                   build: npm run build-ai4eosc-prod
                   start: npm start
+                  wait-on: 'http://localhost:8080'
+                  wait-on-timeout: 300
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
