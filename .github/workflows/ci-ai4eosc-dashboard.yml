@@ -20,9 +20,17 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   registry-url: 'https://npm.pkg.github.com'
                   cache: 'npm'
-              env: 
-                    NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}    
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
             - run: npm test
+            - name: Cypress run
+              uses: cypress-io/github-action@v6
+              with:
+                  build: npm run build
+                  start: npm start
+              env:
+                  CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
+                  CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
