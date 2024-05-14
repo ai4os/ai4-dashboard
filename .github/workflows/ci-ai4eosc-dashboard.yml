@@ -31,7 +31,6 @@ jobs:
             - name: Cypress run
               uses: cypress-io/github-action@v6
               with:
-                  build: npm run build
                   start: npm start
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
