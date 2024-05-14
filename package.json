@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve -p 8080 -c production-ai4eosc",
+        "start": "ng serve --port 8080 -c production-ai4eosc",
         "build-ai4eosc-dev": "ng build --configuration development-ai4eosc",
         "build-ai4eosc-prod": "ng build --configuration production-ai4eosc",
         "build-ai4eosc-tutorials": "ng build --configuration tutorials-ai4eosc",

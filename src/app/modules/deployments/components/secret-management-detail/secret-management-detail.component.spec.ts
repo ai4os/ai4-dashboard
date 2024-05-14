@@ -35,8 +35,8 @@ const mockedMediaMatcher: any = {
 
 const mockedSecretsService: any = {
     getSecrets: jest.fn().mockReturnValue(of(mockedSecrets)),
-    createSecret: jest.fn(),
-    deleteSecret: jest.fn(),
+    createSecret: jest.fn().mockReturnValue(of({})),
+    deleteSecret: jest.fn().mockReturnValue(of({})),
 };
 
 describe('SecretManagementDetailComponent', () => {
@@ -98,27 +98,33 @@ describe('SecretManagementDetailComponent', () => {
         expect(secretValue.nativeElement.value).toBe('1234');
     });
 
-    // it('create new secret', () => {
-    //     component.ngOnInit();
-    //     fixture.detectChanges();
+    it('create new secret', () => {
+        component.ngOnInit();
+        fixture.detectChanges();
 
-    //     let button = fixture.debugElement.query(By.css('#add-button'));
+        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        const button = fixture.debugElement.query(By.css('#add-button'));
+        const input = fixture.debugElement.query(By.css('#input'));
+        const el = input.nativeElement;
+        expect(el.value).toBe('');
+        expect(button.nativeElement.disabled).toBeTruthy();
 
-    //     let input = fixture.debugElement.query(By.css('#input'));
-    //     let el = input.nativeElement;
+        component.secretFormGroup.setValue({ secret: 'client1' });
+        fixture.detectChanges();
+        expect(el.value).toBe('client1');
+        expect(button.nativeElement.disabled).toBeFalsy();
 
-    //     expect(el.value).toBe('');
-    //     expect(button.nativeElement.disabled).toBeTruthy();
-
-    //     component.secretFormGroup.setValue({ secret: 'client1' });
-    //     expect(el.value).toBe('client1');
-
-    //     expect(button.nativeElement.disabled).toBeFalsy();
-
-    //     button.nativeElement.click();
-
-    //     console.log(fixture.componentInstance.secrets);
-    // });
+        button.nativeElement.click();
+        fixture.detectChanges();
+        expect(spySnackBar).toHaveBeenCalledWith(
+            'Successfully created secret with name: client1',
+            'X',
+            expect.objectContaining({
+                duration: 3000,
+                panelClass: ['success-snackbar'],
+            })
+        );
+    });
 
     it('create duplicated secret', () => {
         component.ngOnInit();
@@ -131,8 +137,8 @@ describe('SecretManagementDetailComponent', () => {
         expect(el.value).toBe('');
         expect(button.nativeElement.disabled).toBeTruthy();
 
-        component.secretFormGroup.setValue({ secret: '' });
-        expect(el.value).toBe('');
+        component.secretFormGroup.setValue({ secret: 'default' });
+        expect(el.value).toBe('default');
         expect(button.nativeElement.disabled).toBeTruthy();
     });
 
@@ -152,6 +158,7 @@ describe('SecretManagementDetailComponent', () => {
             mockedSecretsService,
             'deleteSecret'
         );
+
         component.deleteSecret('default');
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteSecret).toHaveBeenCalledTimes(0);
@@ -160,35 +167,35 @@ describe('SecretManagementDetailComponent', () => {
         ]);
     });
 
-    // it('should delete a secret if user confirms it', () => {
-    //     component.ngOnInit();
-    //     fixture.detectChanges();
+    it('should delete a secret if user confirms it', () => {
+        component.ngOnInit();
+        fixture.detectChanges();
 
-    //     // let button = fixture.debugElement.query(By.css('#delete-button'));
-    //     // button.nativeElement.click();
+        const button = fixture.debugElement.query(By.css('#delete-button'));
+        button.nativeElement.click();
 
-    //     const spyConfirmationDialog = jest
-    //         .spyOn(component.confirmationDialog, 'open')
-    //         .mockReturnValue({ afterClosed: () => of(true) } as MatDialogRef<
-    //             typeof component
-    //         >);
-    //     const spyDeleteSecret = jest.spyOn(
-    //         mockedSecretsService,
-    //         'deleteSecret'
-    //     );
-    //     const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
-    //     component.deleteSecret('default');
-    //     expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
-    //     expect(spyDeleteSecret).toHaveBeenCalledTimes(1);
-    //     expect(spySnackBar).toHaveBeenCalledWith(
-    //         'Successfully deleted secret with name: default',
-    //         'X',
-    //         expect.objectContaining({
-    //             duration: 3000,
-    //             panelClass: ['primary-snackbar'],
-    //         })
-    //     );
-    //     console.log(fixture.componentInstance.secrets);
-    //     expect(fixture.componentInstance.secrets).toBe([]);
-    // });
+        const spyConfirmationDialog = jest
+            .spyOn(component.confirmationDialog, 'open')
+            .mockReturnValue({ afterClosed: () => of(true) } as MatDialogRef<
+                typeof component
+            >);
+        const spyDeleteSecret = jest.spyOn(
+            mockedSecretsService,
+            'deleteSecret'
+        );
+        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        component.deleteSecret('default');
+
+        expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
+        expect(spyDeleteSecret).toHaveBeenCalledTimes(1);
+        expect(spySnackBar).toHaveBeenCalledWith(
+            'Successfully deleted secret with name: default',
+            'X',
+            expect.objectContaining({
+                duration: 3000,
+                panelClass: ['success-snackbar'],
+            })
+        );
+        expect(fixture.componentInstance.secrets).toEqual([]);
+    });
 });
