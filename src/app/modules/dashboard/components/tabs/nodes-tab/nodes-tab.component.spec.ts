@@ -30,6 +30,9 @@ describe('NodesTabComponent', () => {
         let title = compiled.querySelector('#nodes-cpu-title')?.textContent;
         expect(title).toContain('NODES-CPU');
         expect(compiled.querySelector('#cpu-accordion')).toBeTruthy();
+        let statsContainer =
+            compiled.querySelector('#nodes-cpu-title')?.textContent;
+        expect(statsContainer).toBeTruthy();
 
         title = compiled.querySelector('#nodes-gpu-title')?.textContent;
         expect(title).toContain('NODES-GPU');
