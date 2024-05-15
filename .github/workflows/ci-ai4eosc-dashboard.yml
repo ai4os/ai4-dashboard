@@ -27,6 +27,7 @@ jobs:
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
+            - run: npm install
             - name: Cypress run
               uses: cypress-io/github-action@v6
               with:
@@ -36,7 +37,6 @@ jobs:
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
-            - run: npm install
             - run: npm run test
             - uses: sonarsource/sonarqube-scan-action@master
               env:
