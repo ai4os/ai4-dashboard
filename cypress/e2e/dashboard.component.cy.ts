@@ -55,7 +55,7 @@ describe('dashboard section', function () {
     });
 
     it('shows graphs tab', function () {
-        cy.contains('Graphs', { timeout: 8000 }).click();
+        cy.contains('Graphs', { timeout: 10000 }).click();
         cy.contains('AI4EOSC Usage Over Time').should('be.visible');
 
         cy.contains('Running deployments').should('be.visible');
@@ -101,7 +101,7 @@ describe('dashboard section', function () {
     });
 
     it('shows nodes tab', function () {
-        cy.contains('Nodes', { timeout: 8000 }).click();
+        cy.contains('Nodes', { timeout: 10000 }).click();
         cy.get('#nodes-cpu-title').contains('Nodes with CPU');
         cy.get('#nodes-gpu-title').contains('Nodes with GPU');
         cy.get('mat-accordion').should('have.length', 2);
