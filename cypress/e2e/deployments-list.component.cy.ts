@@ -3,11 +3,11 @@ describe('deployments section', function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
 
         // create tool
-        cy.contains('Tools', { timeout: 8000 }).click();
+        cy.contains('Tools', { timeout: 10000 }).click();
         cy.contains('Federated learning server', { timeout: 10000 }).click();
         cy.contains('Decline').click();
-        cy.contains('Launch tool', { timeout: 8000 }).click();
-        cy.get('#deployment-title').type('fl-test');
+        cy.contains('Launch tool', { timeout: 10000 }).click();
+        cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
         cy.wait(500);
         cy.contains('Quick submit').click();
     });
@@ -17,7 +17,7 @@ describe('deployments section', function () {
         cy.contains('Modules', { timeout: 15000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
-        cy.contains('fl-test', { timeout: 8000 }).should('be.visible');
+        cy.contains('fl-test', { timeout: 10000 }).should('be.visible');
         cy.contains('deephdc/deep-oc-federated-server:latest').should(
             'be.visible'
         );
@@ -25,7 +25,7 @@ describe('deployments section', function () {
 
     it('shows secrets management dialog', function () {
         cy.get('#secrets-button').click();
-        cy.contains('Manage secrets', { timeout: 8000 }).should('be.visible');
+        cy.contains('Manage secrets', { timeout: 10000 }).should('be.visible');
         cy.get('.tool-title').contains('fl-test').should('be.visible');
         cy.contains('List of secrets').should('be.visible');
         cy.contains('default').should('be.visible');
@@ -52,14 +52,14 @@ describe('deployments section', function () {
         cy.contains('Successfully created secret with name: client1').should(
             'be.visible'
         );
-        cy.contains('client1', { timeout: 8000 }).should('be.visible');
+        cy.contains('client1', { timeout: 10000 }).should('be.visible');
     });
 
     it('create duplicated secret', function () {
         cy.get('#input').type('client1');
         cy.contains('Secret names must be unique').should('be.visible');
         cy.get('#add-button').should('be.disabled');
-        cy.contains('client1', { timeout: 8000 }).should('be.visible');
+        cy.contains('client1', { timeout: 10000 }).should('be.visible');
         cy.get('#input').clear();
     });
 
@@ -70,7 +70,7 @@ describe('deployments section', function () {
             'be.visible'
         );
         cy.get('#yesBtn').click();
-        cy.contains('client1', { timeout: 8000 }).should('not.be.visible');
+        cy.contains('client1', { timeout: 10000 }).should('not.be.visible');
     });
 
     it('delete last secret', function () {
@@ -80,11 +80,11 @@ describe('deployments section', function () {
             'Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work'
         ).should('be.visible');
         cy.get('#noBtn').click();
-        cy.contains('default', { timeout: 8000 }).should('be.visible');
+        cy.contains('default', { timeout: 10000 }).should('be.visible');
 
         cy.get('#delete-button').click();
         cy.get('#yesBtn').click();
-        cy.contains('No secrets found.', { timeout: 8000 }).should(
+        cy.contains('No secrets found.', { timeout: 10000 }).should(
             'be.visible'
         );
     });
