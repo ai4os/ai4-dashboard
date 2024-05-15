@@ -132,7 +132,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
                                     'X',
                                     {
                                         duration: 3000,
-                                        panelClass: ['primary-snackbar'],
+                                        panelClass: ['success-snackbar'],
                                     }
                                 );
                             }

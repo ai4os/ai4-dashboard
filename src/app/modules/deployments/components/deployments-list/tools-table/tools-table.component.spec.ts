@@ -187,7 +187,7 @@ describe('ToolsTableComponent', () => {
             'X',
             expect.objectContaining({
                 duration: 3000,
-                panelClass: ['primary-snackbar'],
+                panelClass: ['success-snackbar'],
             })
         );
         expect(component.dataset).toEqual(expectedDataset);

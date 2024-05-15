@@ -138,11 +138,26 @@
                         {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}</a
                     >
                 </div>
-                <p>{{ 'MODULES.MODULE-DETAIL.GET-THE-DATA' | translate }}</p>
 
+                <p>{{ 'MODULES.MODULE-DETAIL.GET-THE-DATA' | translate }}</p>
                 <a mat-raised-button href="{{ module.dataset_url }}">
                     <mat-icon>database</mat-icon>
                     {{ 'MODULES.MODULE-DETAIL.DATASET' | translate }}</a
+                >
+
+                <p>{{ 'MODULES.MODULE-DETAIL.FOUND-ISSUE' | translate }}</p>
+                <a
+                    mat-raised-button
+                    href="{{ module.sources.code }}/issues"
+                    target="_blank"
+                    class="mr-2"
+                >
+                    <img
+                        src="../../../../../assets/images/github-mark.svg"
+                        width="16"
+                        height="16"
+                    />
+                    {{ 'GENERAL-BUTTONS.REPORT-ISSUE' | translate }}</a
                 >
 
                 <div *ngIf="isLoggedIn()">
