@@ -31,7 +31,6 @@ jobs:
             - name: Cypress run
               uses: cypress-io/github-action@v6
               with:
-                  build: npm run build-ai4eosc-prod
                   start: npm start
                   wait-on: 'http://localhost:8080'
                   wait-on-timeout: 300
