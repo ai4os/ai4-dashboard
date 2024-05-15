@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/ai4os/ai4-dashboard/compare/v2.0.0...v2.1.0) (2024-05-13)
+
+
+### Features
+
+* **ModuleDetail:** add report issue button ([#87](https://github.com/ai4os/ai4-dashboard/issues/87)) ([9c2a0f4](https://github.com/ai4os/ai4-dashboard/commit/9c2a0f451a3a709c7bbba42ca01d09550ad2779b))
+
+
+### Bug Fixes
+
+* **style:** Snackbar colors [#84](https://github.com/ai4os/ai4-dashboard/issues/84) ([9d79362](https://github.com/ai4os/ai4-dashboard/commit/9d7936253fb2f97893b746a368e69ebfa0196f20))
+
 ## [2.0.0](https://github.com/ai4os/ai4-dashboard/compare/v1.7.2...v2.0.0) (2024-05-08)
 
 

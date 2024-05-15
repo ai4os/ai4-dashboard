@@ -131,7 +131,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                                         'X',
                                         {
                                             duration: 3000,
-                                            panelClass: ['primary-snackbar'],
+                                            panelClass: ['success-snackbar'],
                                         }
                                     );
                                 } else {
