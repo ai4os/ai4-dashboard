@@ -66,6 +66,10 @@ export class FederatedServerComponent implements OnInit {
         infoButton: true,
     };
 
+    ngOnInit(): void {
+        this.loadModule();
+    }
+
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
             this.toolsService
@@ -137,6 +141,7 @@ export class FederatedServerComponent implements OnInit {
         this.deploymentsService.trainTool(request).subscribe({
             next: (result: statusReturn) => {
                 this.showLoader = false;
+
                 if (result && result.status == 'success') {
                     this.router
                         .navigate(['/deployments'])
@@ -178,13 +183,5 @@ export class FederatedServerComponent implements OnInit {
 
     showHelpButtonChange(event: MatSlideToggleChange) {
         this.showHelp = event.checked;
-    }
-
-    isLoading(): boolean {
-        return this.showLoader;
-    }
-
-    ngOnInit(): void {
-        this.loadModule();
     }
 }
