@@ -38,6 +38,7 @@ const mockedTool: Deployment = {
     submit_time: '',
     main_endpoint: '',
     description: '',
+    datacenter: '',
     error_msg: 'Test error',
     resources: {
         cpu_MHz: 0,
