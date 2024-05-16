@@ -11,7 +11,7 @@
         "build-imagine-prod": "ng build --configuration production-imagine",
         "generate-version-file": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts",
         "watch": "ng build --watch --configuration development",
-        "test": "jest --verbose",
+        "test": "jest --verbose --coverage",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
         "lint": "ng lint",
