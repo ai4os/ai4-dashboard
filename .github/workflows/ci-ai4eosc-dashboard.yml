@@ -22,13 +22,12 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   registry-url: 'https://npm.pkg.github.com'
                   cache: 'npm'
-              env: 
-                    NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}    
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
             - run: npm test
-            - run: npm install
             - run: npm run test:coverage
             - uses: sonarsource/sonarqube-scan-action@master
               env:
