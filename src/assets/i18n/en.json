@@ -126,7 +126,10 @@
             "LAUNCH-TOOL": "Launch tool",
             "TRY-MODULE": "Try module",
             "DEPLOY-W-IM": "Deploy via the IM",
-            "DEPLOY-W-OSCAR": "Deploy via OSCAR"
+            "DEPLOY-W-OSCAR": "Deploy via OSCAR",
+            "NOMAD": "Nomad",
+            "IM": "IM",
+            "OSCAR": "OSCAR"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",

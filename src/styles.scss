@@ -91,6 +91,18 @@ body {
     }
 }
 
+.aligned-with-icon-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row-reverse;
+    &.scale-icon-down {
+        .mat-icon {
+            transform: scale(0.7);
+        }
+    }
+}
+
 //Cookie consent border
 .cc-window.cc-floating {
     border: 1px solid var(--border-gray);

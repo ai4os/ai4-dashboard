@@ -50,10 +50,25 @@
 
             <mat-menu #tryMenu="matMenu">
                 <button mat-menu-item routerLink="train">
-                    <span>Nomad</span>
+                    <span class="aligned-with-icon-left">
+                        {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                        <img
+                            src="../../../../../assets/images/nomad-icon.svg"
+                            width="16"
+                            height="16"
+                        />
+                    </span>
                 </button>
                 <button mat-menu-item>
-                    <span>Oscar</span>
+                    <span class="aligned-with-icon-left">
+                        {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
+
+                        <img
+                            src="../../../../../assets/images/oscar-logo.png"
+                            width="16"
+                            height="16"
+                        />
+                    </span>
                 </button>
             </mat-menu>
             <ng-container *ngIf="isLoggedIn()">
@@ -73,7 +88,14 @@
 
                 <mat-menu #trainMenu="matMenu">
                     <button mat-menu-item routerLink="train">
-                        <span>Nomad</span>
+                        <span class="aligned-with-icon-left">
+                            {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                            <img
+                                src="../../../../../assets/images/nomad-icon.svg"
+                                width="16"
+                                height="16"
+                            />
+                        </span>
                     </button>
                 </mat-menu>
 
@@ -92,15 +114,50 @@
                 </a>
 
                 <mat-menu #deployMenu="matMenu">
-                    <button mat-menu-item routerLink="train">
-                        <span>Nomad</span>
+                    <button
+                        mat-menu-item
+                        class="action-button sub-button"
+                        routerLink="train"
+                    >
+                        <span class="aligned-with-icon-left">
+                            {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                            <img
+                                src="../../../../../assets/images/nomad-icon.svg"
+                                width="16"
+                                height="16"
+                            />
+                        </span>
                     </button>
-                    <button mat-menu-item>
-                        <span>Oscar</span>
+                    <button class="action-button sub-button" mat-menu-item>
+                        <span class="aligned-with-icon-left">
+                            {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
+
+                            <img
+                                src="../../../../../assets/images/oscar-logo.png"
+                                width="16"
+                                height="16"
+                            />
+                        </span>
                     </button>
-                    <button mat-menu-item>
-                        <span>IM</span>
-                    </button>
+                    <a
+                        class="action-button sub-button"
+                        mat-menu-item
+                        target="_blank"
+                        [href]="
+                            'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
+                            module.sources.docker_registry_repo
+                        "
+                    >
+                        <span class="aligned-with-icon-left">
+                            {{ 'MODULES.MODULE-DETAIL.IM' | translate }}
+
+                            <img
+                                src="../../../../../assets/images/im-logo.png"
+                                width="16"
+                                height="16"
+                            />
+                        </span>
+                    </a>
                 </mat-menu>
             </ng-container>
         </div>
