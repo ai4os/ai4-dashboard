@@ -83,6 +83,7 @@ body {
 .aligned-with-icon {
     display: flex;
     align-items: center;
+    gap: 10px;
     &.scale-icon-down {
         .mat-icon {
             transform: scale(0.7);
