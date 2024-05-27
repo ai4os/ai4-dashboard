@@ -36,7 +36,6 @@ jobs:
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
-            - run: npm install
             - run: npm run test
             - uses: sonarsource/sonarqube-scan-action@master
               env:
