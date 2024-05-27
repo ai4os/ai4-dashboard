@@ -71,7 +71,6 @@ describe('SecretManagementDetailComponent', () => {
     });
 
     it('show default secret', () => {
-        component.ngOnInit();
         const compiled = fixture.debugElement;
 
         const title =
@@ -99,9 +98,6 @@ describe('SecretManagementDetailComponent', () => {
     });
 
     it('create new secret', () => {
-        component.ngOnInit();
-        fixture.detectChanges();
-
         const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
         const button = fixture.debugElement.query(By.css('#add-button'));
         const input = fixture.debugElement.query(By.css('#input'));
@@ -127,9 +123,6 @@ describe('SecretManagementDetailComponent', () => {
     });
 
     it('create duplicated secret', () => {
-        component.ngOnInit();
-        fixture.detectChanges();
-
         const button = fixture.debugElement.query(By.css('#add-button'));
         const input = fixture.debugElement.query(By.css('#input'));
         const el = input.nativeElement;
@@ -143,9 +136,6 @@ describe('SecretManagementDetailComponent', () => {
     });
 
     it('should NOT delete a secret if user does not confirm it', () => {
-        component.ngOnInit();
-        fixture.detectChanges();
-
         const button = fixture.debugElement.query(By.css('#delete-button'));
         button.nativeElement.click();
 
@@ -168,12 +158,6 @@ describe('SecretManagementDetailComponent', () => {
     });
 
     it('should delete a secret if user confirms it', () => {
-        component.ngOnInit();
-        fixture.detectChanges();
-
-        const button = fixture.debugElement.query(By.css('#delete-button'));
-        button.nativeElement.click();
-
         const spyConfirmationDialog = jest
             .spyOn(component.confirmationDialog, 'open')
             .mockReturnValue({ afterClosed: () => of(true) } as MatDialogRef<
@@ -184,7 +168,9 @@ describe('SecretManagementDetailComponent', () => {
             'deleteSecret'
         );
         const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
-        component.deleteSecret('default');
+
+        const button = fixture.debugElement.query(By.css('#delete-button'));
+        button.nativeElement.click();
 
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteSecret).toHaveBeenCalledTimes(1);
