@@ -43,6 +43,4 @@
     "./cypress.config.ts",
     "cypress/**/*.ts",
   ]
-  
-
 }

@@ -10,6 +10,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
     log.snapshot('before');
     const args = { username, password };
+
     cy.session(
         `auth-${username}`,
         () => {

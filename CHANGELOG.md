@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/ai4os/ai4-dashboard/compare/v2.1.0...v2.2.0) (2024-05-27)
+
+
+### Features
+
+* update en.json ([#100](https://github.com/ai4os/ai4-dashboard/issues/100)) ([3664b0e](https://github.com/ai4os/ai4-dashboard/commit/3664b0e9193c828863aa5f3b9db69d7a66a21b72))
+
 ## [2.1.0](https://github.com/ai4os/ai4-dashboard/compare/v2.0.0...v2.1.0) (2024-05-13)
 
 

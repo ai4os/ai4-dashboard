@@ -85,7 +85,7 @@ describe('dashboard section', function () {
         cy.contains('GPUs').click();
         cy.get('canvas').should('be.visible');
 
-        cy.get('#title-aggregate').contains('Aggregate Resource Usage');
+        cy.get('#title-aggregate').contains('Historical Aggregate Usage');
         cy.get('app-stat-card')
             .find('.header p:contains("CPUs")')
             .should('have.length', 1);
