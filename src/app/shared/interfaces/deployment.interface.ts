@@ -3,6 +3,7 @@ export interface Deployment {
     status: string;
     owner: string;
     title: string;
+    datacenter: string;
     description?: string;
     docker_image: string;
     docker_command?: string;
