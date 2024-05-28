@@ -13,7 +13,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { MatTabGroup } from '@angular/material/tabs';
 import { StatsService } from '../../services/stats/stats.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
     mockedClusterStats,
     mockedUserStats,
@@ -85,18 +85,6 @@ const mockedStatsService: any = {
     getClusterStats: jest.fn().mockReturnValue(of(mockedClusterStats)),
 };
 
-@Component({ standalone: true, selector: 'app-overview-tab', template: '' })
-class OverviewTabStubComponent {}
-
-@Component({ standalone: true, selector: 'app-datacenters-tab', template: '' })
-class DatacentersTabStubComponent {}
-
-@Component({ standalone: true, selector: 'app-graphs-tab', template: '' })
-class GraphsTabStubComponent {}
-
-@Component({ standalone: true, selector: 'app-nodes-tab', template: '' })
-class NodesTabStubComponent {}
-
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
     let fixture: ComponentFixture<DashboardComponent>;
@@ -109,10 +97,6 @@ describe('DashboardComponent', () => {
                 TranslateModule.forRoot(),
                 SharedModule,
                 BrowserAnimationsModule,
-                OverviewTabStubComponent,
-                GraphsTabStubComponent,
-                NodesTabStubComponent,
-                DatacentersTabStubComponent,
             ],
             providers: [
                 AuthService,
@@ -126,6 +110,7 @@ describe('DashboardComponent', () => {
 
         fixture = TestBed.createComponent(DashboardComponent);
         component = fixture.componentInstance;
+
         fixture.detectChanges();
     });
 

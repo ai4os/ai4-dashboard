@@ -24,6 +24,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { DeploymentDetailComponent } from '../../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SecretManagementDetailComponent } from '../../secret-management-detail/secret-management-detail.component';
 
 const mockedDeleteToolResponse: statusReturn = {
     status: 'success',
@@ -326,5 +327,23 @@ describe('ToolsTableComponent', () => {
         //Announce sorted cleared
         component.announceSortChange(sortState);
         expect(spyAnnounce).toHaveBeenCalledWith('Sorting cleared');
+    }));
+
+    it('should open tool secrets dialog correctly', fakeAsync(() => {
+        component.displayedColumns = [];
+        component.ngOnInit();
+        tick(100);
+        fixture.detectChanges();
+
+        jest.spyOn(component, 'openToolSecretsDialog');
+        jest.spyOn(component.dialog, 'open').mockReturnValue({
+            afterClosed: () => of(true),
+        } as MatDialogRef<typeof SecretManagementDetailComponent>);
+        const openToolSecretsButton =
+            fixture.debugElement.nativeElement.querySelector('#secrets-button');
+        openToolSecretsButton.click();
+        expect(component.openToolSecretsDialog).toHaveBeenCalledTimes(1);
+        flush();
+        discardPeriodicTasks();
     }));
 });
