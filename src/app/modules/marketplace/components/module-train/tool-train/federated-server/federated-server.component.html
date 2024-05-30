@@ -9,18 +9,13 @@
     [step1Title]="step1Title"
     [step2Title]="step2Title"
     [step3Title]="step3Title"
-    [isLoading]="isLoading()"
+    [isLoading]="showLoader"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
-    (submitEvent)="submitTrainingRequest()"
 >
     <ng-template #step1>
         <form [formGroup]="generalConfForm">
             <app-general-conf-form
-                [ngClass]="
-                    showHelp
-                        ? 'child-form-container-show-help'
-                        : 'child-form-container-no-help'
-                "
+                class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
                 [showHelp]="showHelp"
                 [showFields]="showGeneralFields"
@@ -30,11 +25,7 @@
     <ng-template #step2>
         <form [formGroup]="hardwareConfForm">
             <app-hardware-conf-form
-                [ngClass]="
-                    showHelp
-                        ? 'child-form-container-show-help'
-                        : 'child-form-container-no-help'
-                "
+                class="child-form-container"
                 [defaultFormValues]="hardwareConfDefaultValues"
                 [showHelp]="showHelp"
                 [showFields]="showHardwareFields"
@@ -44,11 +35,7 @@
     <ng-template #step3>
         <form [formGroup]="federatedConfForm">
             <app-federated-conf-form
-                [ngClass]="
-                    showHelp
-                        ? 'child-form-container-show-help'
-                        : 'child-form-container-no-help'
-                "
+                class="child-form-container"
                 [defaultFormValues]="federatedConfDefaultValues"
                 [showHelp]="showHelp"
             ></app-federated-conf-form>

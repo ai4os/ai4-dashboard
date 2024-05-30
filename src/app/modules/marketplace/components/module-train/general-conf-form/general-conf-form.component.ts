@@ -13,9 +13,7 @@ import {
     FormGroupDirective,
     Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 export interface showGeneralFormField {
@@ -26,7 +24,6 @@ export interface showGeneralFormField {
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
     hostnameInput: boolean;
-    federated_secret: boolean;
     infoButton: boolean;
 }
 
@@ -58,8 +55,6 @@ export class GeneralConfFormComponent implements OnInit {
     constructor(
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
-        private clipboard: Clipboard,
-        private _snackBar: MatSnackBar,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -86,7 +81,6 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         hostnameInput: true,
-        federated_secret: false,
         infoButton: false,
     };
 
@@ -128,9 +122,6 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('dockerTagSelect')
                 ?.setValue(defaultFormValues.docker_tag.value as string);
-            this.generalConfFormGroup
-                .get('federatedSecretInput')
-                ?.setValue(defaultFormValues.federated_secret?.value as string);
         }
     }
 

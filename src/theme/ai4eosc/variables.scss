@@ -12,7 +12,7 @@
     --white-three: #f8f8f8;
     --warm-grey: #7b7b7b;
     --greyish-brown: #4a4a49;
-    --neon-red: #ff0447;
+    --neon-red: #ff0000;
     --pumpkin-orange: #ff6e1c;
     --greyish-brown-two: #545453;
     --warm-grey-opacity: rgba(var(--warm-grey), 0.8);
@@ -25,6 +25,7 @@
     --primary-text: #151515;
     --accent: #008792;
     --warn: #f44336;
+    --secondary: #962c43;
 
     /*IMAGINE
   --primary: #EF7D17;
@@ -89,6 +90,12 @@
         }
         &.primary-snackbar {
             --mdc-snackbar-container-color: var(--primary);
+            --mat-mdc-snack-bar-button-color: var(--white);
+            --mdc-snackbar-supporting-text-color: var(--white);
+            white-space: pre-wrap;
+        }
+        &.success-snackbar {
+            --mdc-snackbar-container-color: var(--success-green);
             --mat-mdc-snack-bar-button-color: var(--white);
             --mdc-snackbar-supporting-text-color: var(--white);
             white-space: pre-wrap;

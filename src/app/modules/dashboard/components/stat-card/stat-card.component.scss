@@ -1,0 +1,44 @@
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 270px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 0.5em;
+}
+
+.icon {
+    color: var(--primary);
+    font-size: 2em;
+    width: 30px;
+    height: 30px;
+}
+
+.title-text {
+    white-space: nowrap;
+    font-size: 1.3em;
+    margin: 10px 10px 5px;
+    text-align: end;
+}
+
+.pie-graph {
+    height: 335px !important;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    padding-bottom: 0.5em;
+}
+
+button {
+    position: absolute;
+    right: 0;
+    margin-right: 0.2em;
+    margin-top: 0.2em;
+}

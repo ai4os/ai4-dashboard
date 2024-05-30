@@ -20,6 +20,10 @@
         {
             "name": "Status",
             "url": "https://status.ai4eosc.eu "
+        },
+        {
+            "name": "Experiment tracking",
+            "url": "https://mlflow.cloud.ai4eosc.eu"
         }
     ],
     "voName": "vo.ai4eosc.eu",

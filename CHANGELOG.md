@@ -1,5 +1,113 @@
 # Changelog
 
+## [2.3.0](https://github.com/ai4os/ai4-dashboard/compare/v2.2.0...v2.3.0) (2024-05-30)
+
+
+### Features
+
+* **DeploymentDetails:** add datacenter info in deployment details([#98](https://github.com/ai4os/ai4-dashboard/issues/98)) ([0b2970e](https://github.com/ai4os/ai4-dashboard/commit/0b2970ec1d2f83e4444e9df962e4acd5d30e7834))
+
+## [2.2.0](https://github.com/ai4os/ai4-dashboard/compare/v2.1.0...v2.2.0) (2024-05-27)
+
+
+### Features
+
+* update en.json ([#100](https://github.com/ai4os/ai4-dashboard/issues/100)) ([3664b0e](https://github.com/ai4os/ai4-dashboard/commit/3664b0e9193c828863aa5f3b9db69d7a66a21b72))
+
+## [2.1.0](https://github.com/ai4os/ai4-dashboard/compare/v2.0.0...v2.1.0) (2024-05-13)
+
+
+### Features
+
+* **ModuleDetail:** add report issue button ([#87](https://github.com/ai4os/ai4-dashboard/issues/87)) ([9c2a0f4](https://github.com/ai4os/ai4-dashboard/commit/9c2a0f451a3a709c7bbba42ca01d09550ad2779b))
+
+
+### Bug Fixes
+
+* **style:** Snackbar colors [#84](https://github.com/ai4os/ai4-dashboard/issues/84) ([9d79362](https://github.com/ai4os/ai4-dashboard/commit/9d7936253fb2f97893b746a368e69ebfa0196f20))
+
+## [2.0.0](https://github.com/ai4os/ai4-dashboard/compare/v1.7.2...v2.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added new dashboard section
+
+### Features
+
+* Added new dashboard section ([4cfda38](https://github.com/ai4os/ai4-dashboard/commit/4cfda3869855d8b3765453dc2663875bd4154b76))
+
+## [1.7.2](https://github.com/ai4os/ai4-dashboard/compare/v1.7.1...v1.7.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* **secrets:** Improve secrets ([b016114](https://github.com/ai4os/ai4-dashboard/commit/b0161149aa540ebcf058f3f2dcaba5bc25b74427))
+
+## [1.7.1](https://github.com/ai4os/ai4-dashboard/compare/v1.7.0...v1.7.1) (2024-04-23)
+
+
+### Bug Fixes
+
+* Improve styles ([#74](https://github.com/ai4os/ai4-dashboard/issues/74)) ([8ff05f7](https://github.com/ai4os/ai4-dashboard/commit/8ff05f717315c60c882e95fa54f129fe9660cb2c))
+
+## [1.7.0](https://github.com/ai4os/ai4-dashboard/compare/v1.6.1...v1.7.0) (2024-03-27)
+
+
+### Features
+
+* Add federated secrets ([#64](https://github.com/ai4os/ai4-dashboard/issues/64)) ([315c9f2](https://github.com/ai4os/ai4-dashboard/commit/315c9f2cfdd876c7254f65503d306f6950bac236))
+
+## [1.6.1](https://github.com/ai4os/ai4-dashboard/compare/v1.6.0...v1.6.1) (2024-03-22)
+
+
+### Bug Fixes
+
+* Logout user when token is expired and can't be refreshed. Show snackbar with custom message for this. ([#71](https://github.com/ai4os/ai4-dashboard/issues/71)) ([4b5f555](https://github.com/ai4os/ai4-dashboard/commit/4b5f555a8e29665ca5ff6f0ffb1c5d33ec0f9a7f))
+
+## [1.6.0](https://github.com/ai4os/ai4-dashboard/compare/v1.5.4...v1.6.0) (2024-03-14)
+
+
+### Features
+
+* New oscar deployment module and try module finished ([7350f45](https://github.com/ai4os/ai4-dashboard/commit/7350f4599ba7f4802ec72e906fb20b1a001109d2))
+
+
+### Bug Fixes
+
+* **CI:** add PAT to GHA so that oscar-js can be installed ([d16e73f](https://github.com/ai4os/ai4-dashboard/commit/d16e73fc77ea139a01f577ab82ea28de6b57d88c))
+* **CI:** add registry url to GHA ([e164de7](https://github.com/ai4os/ai4-dashboard/commit/e164de72f158ebbc80287c7e93771cba5a1ca96a))
+* Dashboard workflow linter issues ([b756ea1](https://github.com/ai4os/ai4-dashboard/commit/b756ea1db92f6a6c8ad8eea8ea7b2be1d9397d81))
+
+## [1.5.4](https://github.com/ai4os/ai4-dashboard/compare/v1.5.3...v1.5.4) (2024-03-07)
+
+
+### Bug Fixes
+
+* **auth:** EGI logout only when valid id token, redirect to marketplace. ([832c046](https://github.com/ai4os/ai4-dashboard/commit/832c046f07af0b58ccb847d5b65dd1681aad6e0f))
+
+## [1.5.3](https://github.com/ai4os/ai4-dashboard/compare/v1.5.2...v1.5.3) (2024-02-29)
+
+
+### Bug Fixes
+
+* **links:** Update iMagine MLFlow link in sidenav ([#62](https://github.com/ai4os/ai4-dashboard/issues/62)) ([7cef67f](https://github.com/ai4os/ai4-dashboard/commit/7cef67fdcd13ec1c70a9f20f08f29659240bcaab))
+
+## [1.5.2](https://github.com/ai4os/ai4-dashboard/compare/v1.5.1...v1.5.2) (2024-02-23)
+
+
+### Bug Fixes
+
+* add license year/owner ([#58](https://github.com/ai4os/ai4-dashboard/issues/58)) ([c66ff21](https://github.com/ai4os/ai4-dashboard/commit/c66ff215ccce8d443797722ebb0528480a096765))
+* update ai4eosc mlflow link ([#61](https://github.com/ai4os/ai4-dashboard/issues/61)) ([b6d2d08](https://github.com/ai4os/ai4-dashboard/commit/b6d2d086fb46f6b26e296904b846d98b548633da))
+
+## [1.5.1](https://github.com/ai4os/ai4-dashboard/compare/v1.5.0...v1.5.1) (2024-02-09)
+
+
+### Features
+
+* add mlflow link to sidenav ([#52](https://github.com/ai4os/ai4-dashboard/issues/52)) ([ced8771](https://github.com/ai4os/ai4-dashboard/commit/ced87717be02e0919485286a17a02f1a151297fd))
+
 ## [1.5.0](https://github.com/ai4os/ai4-dashboard/compare/v1.4.5...v1.5.0) (2024-02-01)
 
 

@@ -15,6 +15,7 @@ import { AppConfigService } from '../app-config/app-config.service';
 export interface UserProfile {
     name: string;
     isAuthorized: boolean;
+    isOperator: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -122,6 +123,8 @@ export class AuthService {
                                     // 3. ASK FOR LOGIN:
                                     this.login(state);
                                     return Promise.resolve();
+                                } else {
+                                    this.logout();
                                 }
                                 return Promise.reject(result);
                             });
@@ -166,6 +169,7 @@ export class AuthService {
             const userProfile: UserProfile = {
                 name: profile['info']['name'],
                 isAuthorized: false,
+                isOperator: false,
             };
             if (
                 profile['info']['eduperson_entitlement'] &&
@@ -177,6 +181,14 @@ export class AuthService {
                 vos.forEach((vo) => {
                     if (vo.includes(this.appConfigService.voName)) {
                         userProfile.isAuthorized = true;
+                    }
+                });
+                const roles: string[] = this.parseRolesFromProfile(
+                    profile['info']['eduperson_entitlement']
+                );
+                roles.forEach((role) => {
+                    if (role.includes('vm_operator')) {
+                        userProfile.isOperator = true;
                     }
                 });
             }
@@ -222,7 +234,10 @@ export class AuthService {
     }
 
     logout() {
-        this.oauthService.logOut();
+        if (this.oauthService.hasValidIdToken()) {
+            this.oauthService.logOut(true);
+        }
+        this.router.navigateByUrl('/marketplace');
         localStorage.clear();
     }
 
@@ -238,5 +253,15 @@ export class AuthService {
             }
         });
         return foundVos;
+    }
+
+    parseRolesFromProfile(entitlements: string[]): string[] {
+        const foundRoles: string[] = [];
+        entitlements.forEach((role) => {
+            if (role.match('role=(.+)#')?.[0]) {
+                foundRoles.push(role.match('role=(.+)#')![0]);
+            }
+        });
+        return foundRoles;
     }
 }

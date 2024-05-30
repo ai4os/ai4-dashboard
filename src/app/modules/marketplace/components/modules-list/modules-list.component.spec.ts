@@ -8,6 +8,8 @@ import { SearchPipe } from '../../pipes/search-card-pipe';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { ModulesService } from '../../services/modules-service/modules.service';
+import { OAuthStorage } from 'angular-oauth2-oidc';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
@@ -41,6 +43,7 @@ describe('ModulesListComponent', () => {
                 NoopAnimationsModule,
             ],
             providers: [
+                OAuthStorage,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

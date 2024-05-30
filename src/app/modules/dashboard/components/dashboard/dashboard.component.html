@@ -1,0 +1,73 @@
+<mat-toolbar
+    [ngClass]="{
+        'mb-3': !mobileQuery.matches
+    }"
+>
+    <span id="title" class="aligned-with-icon">
+        {{ 'DASHBOARD.TITLE' | translate }}
+        <mat-icon>dashboard</mat-icon>
+    </span>
+</mat-toolbar>
+
+<ng-template #loading>
+    <div class="spinner">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+</ng-template>
+
+<ng-container
+    *ngIf="
+        !userStatsLoading && !clusterStatsLoading && userProfile !== undefined;
+        else loading
+    "
+>
+    <mat-tab-group
+        mat-stretch-tabs="false"
+        class="main-tabs"
+        [ngClass]="{
+            'main-tabs-mobile': mobileQuery.matches,
+            'main-tabs': !mobileQuery.matches
+        }"
+    >
+        <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
+            <app-overview-tab
+                [clusterGlobalStats]="clusterGlobalStats"
+                [gpuPerModelCluster]="gpuPerModelCluster"
+            ></app-overview-tab>
+        </mat-tab>
+
+        <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
+            <ng-template matTabContent>
+                <app-datacenters-tab
+                    [datacentersStats]="datacentersStats"
+                ></app-datacenters-tab>
+            </ng-template>
+        </mat-tab>
+
+        <mat-tab label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}">
+            <app-graphs-tab
+                [userProfile]="userProfile"
+                [dates]="dates"
+                [cpuMhzData]="cpuMhzData"
+                [cpuNumData]="cpuNumData"
+                [memoryMBData]="memoryMBData"
+                [diskMBData]="diskMBData"
+                [gpuNumData]="gpuNumData"
+                [queuedData]="queuedData"
+                [runningData]="runningData"
+                [userGlobalStats]="userGlobalStats"
+            ></app-graphs-tab>
+        </mat-tab>
+
+        <mat-tab
+            *ngIf="userProfile.isOperator"
+            label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
+        >
+            <app-nodes-tab
+                [nodesCpu]="nodesCpu"
+                [nodesGpu]="nodesGpu"
+            ></app-nodes-tab>
+        </mat-tab>
+    </mat-tab-group>
+</ng-container>

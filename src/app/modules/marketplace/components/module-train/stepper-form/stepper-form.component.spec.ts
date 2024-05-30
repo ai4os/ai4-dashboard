@@ -7,6 +7,8 @@ import { SharedModule } from '@app/shared/shared.module';
 import { FormGroupDirective, FormBuilder, FormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -23,6 +25,8 @@ const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
+const mockedConfigService: any = {};
+
 describe('StepperFormComponent', () => {
     let component: StepperFormComponent;
     let fixture: ComponentFixture<StepperFormComponent>;
@@ -36,12 +40,14 @@ describe('StepperFormComponent', () => {
                 TranslateModule.forRoot(),
                 NoopAnimationsModule,
                 RouterTestingModule,
+                HttpClientTestingModule,
             ],
             providers: [
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 

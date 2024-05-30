@@ -19,7 +19,7 @@ import {
     statusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
-import { DeploymentsService } from '../../services/deployments.service';
+import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { ToolsTableComponent } from './tools-table/tools-table.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
@@ -36,6 +36,7 @@ const mockedDeployment: Deployment = {
     submit_time: '',
     main_endpoint: '',
     description: '',
+    datacenter: '',
     error_msg: 'Test error',
     resources: {
         cpu_MHz: 0,
@@ -228,7 +229,7 @@ describe('DeploymentsListComponent', () => {
             'X',
             expect.objectContaining({
                 duration: 3000,
-                panelClass: ['primary-snackbar'],
+                panelClass: ['success-snackbar'],
             })
         );
         expect(component.dataset).toEqual(expectedDataset);

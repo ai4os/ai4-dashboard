@@ -1,0 +1,45 @@
+name: CI AI4EOSC
+
+on:
+    pull_request:
+        branches: ['main']
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [18.x]
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  registry-url: 'https://npm.pkg.github.com'
+                  cache: 'npm'
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}
+            - run: npm ci
+            - run: npm run build-ai4eosc-prod
+            - run: npm run lint
+            - name: Cypress
+              uses: cypress-io/github-action@v6
+              with:
+                  start: npm start
+                  wait-on: 'http://localhost:8080'
+                  wait-on-timeout: 300
+              env:
+                  CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
+                  CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
+            - run: npm run test
+            - name: SonarQube
+              uses: sonarsource/sonarqube-scan-action@master
+              env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

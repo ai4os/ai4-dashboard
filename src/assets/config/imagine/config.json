@@ -20,6 +20,10 @@
         {
             "name": "Status",
             "url": "https://imagine-ai-project.github.io/status/"
+        },
+        {
+            "name": "Experiment tracking",
+            "url": "https://mlflow.cloud.imagine-ai.eu"
         }
     ],
     "tags": [

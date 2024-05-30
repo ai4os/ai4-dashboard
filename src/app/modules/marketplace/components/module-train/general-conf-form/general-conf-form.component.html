@@ -12,6 +12,7 @@
                     | translate
             }}</mat-label>
             <input
+                id="deployment-title"
                 matInput
                 placeholder=""
                 formControlName="titleInput"
@@ -195,29 +196,6 @@
             </mat-error>
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues.hostname?.description
-            }}</mat-hint>
-        </mat-form-field>
-        <mat-form-field
-            class="example-full-width"
-            *ngIf="_showFields.federated_secret"
-        >
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.FEDERATED-SECRET'
-                    | translate
-            }}</mat-label>
-            <input matInput formControlName="federatedSecretInput" />
-            <mat-icon
-                matSuffix
-                color="primary"
-                [copy-to-clipboard]="
-                    generalConfFormGroup.get('federatedSecretInput')?.value
-                "
-                class="copy-icon"
-            >
-                content_copy</mat-icon
-            >
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.federated_secret?.description
             }}</mat-hint>
         </mat-form-field>
     </div>

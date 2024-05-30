@@ -138,23 +138,38 @@
                         {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}</a
                     >
                 </div>
-                <p>{{ 'MODULES.MODULE-DETAIL.GET-THE-DATA' | translate }}</p>
 
+                <p>{{ 'MODULES.MODULE-DETAIL.GET-THE-DATA' | translate }}</p>
                 <a mat-raised-button href="{{ module.dataset_url }}">
                     <mat-icon>database</mat-icon>
                     {{ 'MODULES.MODULE-DETAIL.DATASET' | translate }}</a
                 >
 
+                <p>{{ 'MODULES.MODULE-DETAIL.FOUND-ISSUE' | translate }}</p>
+                <a
+                    mat-raised-button
+                    href="{{ module.sources.code }}/issues"
+                    target="_blank"
+                    class="mr-2"
+                >
+                    <img
+                        src="../../../../../assets/images/github-mark.svg"
+                        width="16"
+                        height="16"
+                    />
+                    {{ 'GENERAL-BUTTONS.REPORT-ISSUE' | translate }}</a
+                >
+
                 <div *ngIf="isLoggedIn()">
                     <mat-divider class="mt-3 mb-3"></mat-divider>
-                    <div class="train-button-container mr-3">
+                    <div class="grid-action-buttons">
                         <ng-container
                             *ngIf="
                                 !isTool && module.sources.docker_registry_repo
                             "
                         >
                             <a
-                                class="mb-3 train-button mr-2"
+                                class="action-button"
                                 mat-raised-button
                                 target="_blank"
                                 [href]="
@@ -172,11 +187,15 @@
                                 }}
                             </a>
                         </ng-container>
+
                         <a
-                            class="mb-3 train-button"
+                            class="action-button"
                             mat-raised-button
                             routerLink="train"
                             color="accent"
+                            [ngClass]="{
+                                'launch-tool-button': isTool
+                            }"
                             [disabled]="
                                 !isAuthorized() && isAuthorized() !== undefined
                             "

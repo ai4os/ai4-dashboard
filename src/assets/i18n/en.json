@@ -8,14 +8,60 @@
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
         "IMAGINE-DOCUMENTATION": "iMagine AI platform documentation",
         "PROJECT-PAGE": "Project page",
-        "OTHER-LINKS": "Other links",
+        "OTHER-LINKS": "Useful links",
         "TERMS-OF-USE": "Terms of use",
         "PRIVACY-POLICY": "Privacy policy",
-        "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by"
+        "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by",
+        "POWERED-BY": "Powered by",
+        "AI4OS": "AI4OS"
     },
     "TOP-NAVBAR": {
         "LOGOUT": "Log out",
         "LOGIN-REGISTER": "Login - Register"
+    },
+    "DASHBOARD": {
+        "TITLE": "Dashboard",
+        "OVERVIEW-TAB": "Overview",
+        "DATACENTERS-TAB": "Datacenters",
+        "GRAPHS-TAB": "Graphs",
+        "NODES-TAB": "Nodes",
+        "USERS-OVER-TIME": "Historical Aggregate Usage",
+        "USERS": "Your Usage",
+        "CLUSTER": "Cluster Usage Overview",
+        "DATACENTER-STATS": "Datacenter Stats",
+        "USAGE": "AI4EOSC Usage Over Time",
+        "CLUSTER-INFO": "Total cluster usage",
+        "USERS-INFO": "These graphs represent your historical aggregate usage compared to the total aggregate usage of your VO. Units: <resource> / day",
+        "PUE-INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)",
+        "ENERGY-INFO": "How carbon-intensive is the grid the datacenter is plugged to (the lower the better)",
+        "GPU-PER-MODEL": "GPU Stats per model",
+        "NODES-CPU": "Nodes with CPU",
+        "NODES-GPU": "Nodes with GPU",
+        "NODES-USED": "Used",
+        "NODES-TOTAL": "Total",
+        "STATS-VALUES": {
+            "RAM-MB": "Memory MB",
+            "DISK-MB": "Disk MB",
+            "RAM-MIB": "Memory MiB",
+            "DISK-MIB": "Disk MiB",
+            "RAM-GIB": "Memory GiB",
+            "DISK-GIB": "Disk GiB",
+            "CPU-FREQ": "CPU Mhz",
+            "QUEUED-DATA": "Queued deployments",
+            "RUNNING-DATA": "Running deployments"
+        },
+        "STATS-TITLES": {
+            "CPU": "CPUs",
+            "CPU-FREQ": "CPU Frequency",
+            "GPU": "GPUs",
+            "RAM": "Memory",
+            "DISK": "Disk",
+            "PUE": "PUE",
+            "ENERGY-QUALITY": "Energy Quality",
+            "USED": "Used",
+            "OF": "of",
+            "JOBS-NUM": "Number of Jobs"
+        }
     },
     "DEPLOYMENTS": {
         "TITLE": "Deployments",
@@ -28,6 +74,7 @@
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
             "DEPLOYMENT-ID": "Deployment ID",
+            "DATACENTER": "Datacenter",
             "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
             "RESOURCES": {
@@ -37,6 +84,16 @@
                 "MEMORY_MB": "RAM memory",
                 "CPU_MHZ": "CPU frequency"
             }
+        },
+        "DEPLOYMENT-SECRETS": {
+            "TITLE": "Manage secrets",
+            "LIST": "List of secrets",
+            "EMPTY-LIST": "No secrets found.",
+            "REQUIRED-FIELD-ERROR": "You must enter a secret name",
+            "UNIQUE-NAME-ERROR": "Secret names must be unique",
+            "DELETE": "Are you sure you want to delete this secret?",
+            "DELETE-LAST-SECRET": "Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work",
+            "NEW-SECRET-NAME": "New secret name"
         },
         "DEPLOYMENT-NAME": "Name",
         "BULK-ACTIONS": "Bulk actions",
@@ -65,10 +122,13 @@
             "ADDITIONAL-RESOURCES": "Additional Resources",
             "GET-THE-CODE": "Get the code",
             "GET-THE-DATA": "Get the data",
+            "FOUND-ISSUE": "Found an issue?",
             "DATASET": "Dataset",
             "TRAIN-MODULE": "Train module",
             "LAUNCH-TOOL": "Launch tool",
-            "DEPLOY-W-IM": "Deploy via the IM"
+            "TRY-MODULE": "Try module",
+            "DEPLOY-W-IM": "Deploy via the IM",
+            "DEPLOY-W-OSCAR": "Deploy via OSCAR"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
@@ -92,6 +152,7 @@
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
+                "ADD-FEDERATED-SECRET": "Create federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
                 "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
                 "OPEN-DOCUMENTATION": "Open documentation"
@@ -119,6 +180,73 @@
                 "MIN-CLIENTS": "Minimal number of clients",
                 "AGG-STRATEGY": "Federated aggregation strategy"
             }
+        },
+        "MODULE-TRY": {
+            "TITLE": "Configure test parameters",
+            "TRYME-FORM": {
+                "CLUSTER-OPTIONS": "Cluster options",
+                "OSCAR-ENDPOINT": "OSCAR Endpoint*",
+                "LAUNCH-OPTIONS": "Launch options",
+                "SERVICE-NAME": "Service name",
+                "INPUT-OPTIONS": "Input options",
+                "INPUT-FILE": "Input file",
+                "INPUT-FILE-LABEL": "Choose file",
+                "INPUT-TEXT": "Input text",
+                "INPUT-TEXT-LABEL": "Input as text",
+                "OUTPUT-OPTIONS": "Output options",
+                "OUTPUT-TYPES": {
+                    "LABEL": "Output types",
+                    "IMAGE": "Image",
+                    "AUDIO": "Audio",
+                    "TEXT": "Text",
+                    "VIDEO": "Video",
+                    "ZIP": "Zip"
+                },
+                "LAUNCH-BUTTON": "Launch service"
+            }
+        },
+        "OSCAR-DEPLOY": {
+            "TITLE": "Deploy OSCAR service",
+            "GENERAL-CONF": "General configuration",
+            "COMPUTE-CONF": "Compute configuration",
+            "CONFIRMATION": "Confirmation",
+            "GENERAL-CONF-FORM": {
+                "CLUSTER-OPTIONS": "Cluster options",
+                "OSCAR-ENDPOINT": "OSCAR Endpoint",
+                "TITLE": "Service options",
+                "SERVICE-TITLE": "Service title",
+                "SERVICE-TITLE-REQUIRED": "Please add a title for the service",
+                "SERVICE-DESCRIPTION": "Service description",
+                "SERVICE-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active services",
+                "DOCKER-IMAGE": "Docker image",
+                "DOCKER-TAG": "Docker tag",
+                "ENVIRONMENT-VARIABLES": "Environment variables",
+                "ENVIRONMENT-KEY": "variable name",
+                "ENVIRONMENT-VALUE": "variable value",
+                "LABELS": "Labels",
+                "LABEL-KEY": "label name",
+                "LABEL-VALUE": "label value",
+                "SERVICE-SCRIPT": "Service script",
+                "SERVICE-SCRIPT-LABEL": "Choose file",
+                "SERVICE-SCRIPT-REQUIRED": "Please add a script file to the service"
+            },
+            "COMPUTE-CONF-FORM": {
+                "TITLE": "Compute options",
+                "CPU-NUMBER": "CPUs",
+                "CPU-NUMBER-REQUIRED": "Please indicate the number of CPUs usage",
+                "CPU-MAX-NUMBER": "Max CPUs",
+                "CPU-MAX-NUMBER-REQUIRED": "Please indicate the maximum number of CPUs usage",
+                "MEMORY-SIZE": "RAM",
+                "MEMORY-SIZE-REQUIRED": "Please indicate the size of memory",
+                "MEMORY-MAX-SIZE": "Max RAM",
+                "MEMORY-MAX-SIZE-REQUIRED": "Please indicate the maximum size of memory",
+                "LOG-LEVEL": "Log level",
+                "LOG-LEVEL-REQUIRED": "Please indicate the log level for the service",
+                "ENABLE-GPU": "Enable GPU"
+            },
+            "CONFIRMATION-FORM": {
+                "TITLE": "Overview"
+            }
         }
     },
     "GENERAL-BUTTONS": {
@@ -127,15 +255,19 @@
         "ACCESS": "Access",
         "YES": "Yes",
         "NO": "No",
+        "CLOSE": "Close",
+        "ADD": "Add",
         "BACK": "Back",
         "NEXT": "Next",
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "Github",
-        "DOCKERHUB": "Dockerhub"
+        "DOCKERHUB": "Dockerhub",
+        "REPORT-ISSUE": "Report issue"
     },
     "ERRORS": {
-        "SERVICE-ERROR": "Error calling the API, please retry later",
+        "API-ERROR": "Error calling the API, please retry later",
+        "TOKEN-EXPIRED": "Token expired, logging out",
         "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
         "NOT-FOUND": "Oops, the page you requested could not be found!"
     }

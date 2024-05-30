@@ -1,0 +1,256 @@
+<form [formGroup]="generalConfigFormGroup" class="general-conf-form">
+    <h4>
+        {{
+            'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.CLUSTER-OPTIONS' | translate
+        }}
+    </h4>
+    <div class="form-grid">
+        <mat-form-field>
+            <mat-label>{{
+                'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.OSCAR-ENDPOINT'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder="https://my-oscar-cluster"
+                formControlName="oscarUri"
+            />
+            <mat-hint *ngIf="_showHelp">
+                Enter the URL assigned to your OSCAR cluster. More info
+                <a href="https://docs.oscar.grycap.net/deploy-im-dashboard/"
+                    >https://docs.oscar.grycap.net/deploy-im-dashboard</a
+                >
+            </mat-hint>
+        </mat-form-field>
+    </div>
+    <mat-divider class="mt-3 mb-3"></mat-divider>
+    <h4>{{ 'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.TITLE' | translate }}</h4>
+    <div class="form-grid">
+        <mat-form-field class="form-field-full-width">
+            <mat-label>{{
+                'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.SERVICE-TITLE'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                formControlName="serviceNameInput"
+                maxlength="45"
+            />
+            <mat-error
+                *ngIf="
+                    generalConfigFormGroup.get('serviceNameInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.SERVICE-TITLE-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
+            <mat-hint *ngIf="_showHelp">
+                Unique name for the service. This name will be used to identify
+                the service
+            </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+            <mat-label>{{
+                'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.DOCKER-IMAGE'
+                    | translate
+            }}</mat-label>
+            <input matInput placeholder="" formControlName="dockerImageInput" />
+            <mat-hint *ngIf="_showHelp">
+                Docker image with which you have created the service for
+                testing. It is the image of the inference model.
+            </mat-hint>
+        </mat-form-field>
+    </div>
+
+    <h4>
+        {{
+            'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.SERVICE-SCRIPT' | translate
+        }}
+    </h4>
+    <div class="form-grid">
+        <mat-form-field class="form-field-full-width">
+            <mat-label for="input-script">{{
+                'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.SERVICE-SCRIPT-LABEL'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                [value]="fileName"
+                class="upload-file-icon"
+                (click)="inputFile.click()"
+                readonly
+            />
+            <mat-icon
+                matIconSuffix
+                (click)="inputFile.click()"
+                class="upload-file-icon"
+            >
+                attach_file_add</mat-icon
+            >
+            <input
+                id="input-script"
+                type="file"
+                class="input-file"
+                #inputFile
+                (change)="selectFile($event)"
+                hidden
+            />
+            <mat-error
+                *ngIf="
+                    generalConfigFormGroup.get('script')?.errors?.['required']
+                "
+            >
+                {{
+                    'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.SERVICE-SCRIPT-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
+            <mat-hint *ngIf="_showHelp">
+                Use a script to be able to run the inference model inside the
+                container.
+            </mat-hint>
+            <!--mat-hint *ngIf="showHelpForm.get('showHelpToggleButton')?.value">
+                Load a file to test the execution of the chosen inference
+                service. The execution of the service will depend on the data in
+                the input file selected in this field.
+            </mat-hint-->
+        </mat-form-field>
+
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel
+                style="background-color: whitesmoke"
+                *ngIf="fileContent"
+            >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-label> File content </mat-label>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Check the uploaded script
+                        <mat-icon>Draft</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <ng-template matExpansionPanelContent>
+                    <pre><code>{{ fileContent }}</code></pre>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <div class="form-grid">
+        <div class="container-dynamic-inputs">
+            <h4>
+                {{
+                    'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.ENVIRONMENT-VARIABLES'
+                        | translate
+                }}
+            </h4>
+            <section formArrayName="environmentVariables">
+                <button
+                    mat-raised-button
+                    color="accent"
+                    (click)="addEnvironmentItem()"
+                >
+                    + Add
+                </button>
+                <div
+                    class="container-dynamic-inputs-items"
+                    *ngFor="
+                        let variable of environmentVariablesItems.controls;
+                        let i = index
+                    "
+                    [formGroupName]="i"
+                >
+                    <mat-form-field>
+                        <mat-label>{{
+                            'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.ENVIRONMENT-KEY'
+                                | translate
+                        }}</mat-label>
+                        <input
+                            matInput
+                            placeholder=""
+                            formControlName="keyInput"
+                        />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{
+                            'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.ENVIRONMENT-VALUE'
+                                | translate
+                        }}</mat-label>
+                        <input
+                            matInput
+                            placeholder=""
+                            formControlName="valueInput"
+                        />
+                    </mat-form-field>
+                    <button
+                        class="delete-item-button"
+                        mat-icon-button
+                        (click)="deleteEnvironmentItem(i)"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <div class="container-dynamic-inputs">
+            <h4>
+                {{
+                    'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.LABELS' | translate
+                }}
+            </h4>
+            <section formArrayName="labelItems">
+                <button
+                    mat-raised-button
+                    color="accent"
+                    (click)="addLabelItem()"
+                >
+                    + Add
+                </button>
+                <div
+                    *ngFor="let item of labelItems.controls; let i = index"
+                    [formGroupName]="i"
+                    class="container-dynamic-inputs-items"
+                >
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{
+                            'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.LABEL-KEY'
+                                | translate
+                        }}</mat-label>
+                        <input
+                            matInput
+                            placeholder=""
+                            formControlName="keyInput"
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{
+                            'MODULES.OSCAR-DEPLOY.GENERAL-CONF-FORM.LABEL-VALUE'
+                                | translate
+                        }}</mat-label>
+                        <input
+                            matInput
+                            placeholder=""
+                            formControlName="valueInput"
+                        />
+                    </mat-form-field>
+                    <button
+                        class="delete-item-button"
+                        mat-icon-button
+                        (click)="deleteLabelItem(i)"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+</form>
