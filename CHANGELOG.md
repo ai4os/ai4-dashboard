@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/ai4os/ai4-dashboard/compare/v2.2.0...v2.3.0) (2024-05-30)
+
+
+### Features
+
+* **DeploymentDetails:** add datacenter info in deployment details([#98](https://github.com/ai4os/ai4-dashboard/issues/98)) ([0b2970e](https://github.com/ai4os/ai4-dashboard/commit/0b2970ec1d2f83e4444e9df962e4acd5d30e7834))
+
 ## [2.2.0](https://github.com/ai4os/ai4-dashboard/compare/v2.1.0...v2.2.0) (2024-05-27)
 
 
