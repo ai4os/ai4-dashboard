@@ -1,188 +1,50 @@
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
     ModuleConfiguration,
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     ModuleStorageConfiguration,
-    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { StepperOrientation } from '@angular/cdk/stepper';
-import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'app-module-train',
     templateUrl: './module-train.component.html',
     styleUrls: ['./module-train.component.scss'],
 })
-export class ModuleTrainComponent implements OnInit, AfterViewInit {
+export class ModuleTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
-        private deploymentsService: DeploymentsService,
-        private route: ActivatedRoute,
-        private _snackBar: MatSnackBar,
-        private router: Router,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
-        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
+        private route: ActivatedRoute
+    ) {}
 
-    @ViewChild('showHelpToggle', { read: ElementRef }) element:
-        | ElementRef
-        | undefined;
+    title = '';
+    step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
+    step2Title = 'MODULES.MODULE-TRAIN.HARDWARE-CONF';
+    step3Title = 'MODULES.MODULE-TRAIN.STORAGE-CONF';
 
-    checked = false;
-    disabled = false;
-    isLoading = false;
+    showHelp = false;
+    showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
     storageConfForm: FormGroup = this._formBuilder.group({});
-    showHelpForm: FormGroup = this._formBuilder.group({
-        showHelpToggleButton: false,
-    });
-
-    deploymentTitle = '';
-
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
-    mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-
-    submitTrainingRequest() {
-        this.isLoading = true;
-
-        const request: TrainModuleRequest = {
-            general: {
-                title: this.generalConfForm.value.generalConfForm.titleInput,
-                desc: this.generalConfForm.value.generalConfForm
-                    .descriptionInput,
-                docker_image:
-                    this.generalConfForm.getRawValue().generalConfForm
-                        .dockerImageInput,
-                docker_tag:
-                    this.generalConfForm.value.generalConfForm.dockerTagSelect,
-                service:
-                    this.generalConfForm.value.generalConfForm.serviceToRunChip,
-                jupyter_password:
-                    this.generalConfForm.getRawValue().generalConfForm
-                        .serviceToRunPassInput,
-                hostname:
-                    this.generalConfForm.getRawValue().generalConfForm
-                        .hostnameInput,
-            },
-            hardware: {
-                cpu_num:
-                    this.hardwareConfForm.value.hardwareConfForm.cpuNumberInput,
-                ram: this.hardwareConfForm.value.hardwareConfForm
-                    .ramMemoryInput,
-                disk: this.hardwareConfForm.value.hardwareConfForm
-                    .diskMemoryInput,
-                gpu_num:
-                    this.hardwareConfForm.value.hardwareConfForm.gpuNumberInput,
-                gpu_type:
-                    this.hardwareConfForm.value.hardwareConfForm.gpuModelSelect,
-            },
-            storage: {
-                rclone_conf:
-                    this.storageConfForm.value.storageConfForm.rcloneConfInput,
-                rclone_url:
-                    this.storageConfForm.value.storageConfForm.storageUrlInput,
-                rclone_vendor:
-                    this.storageConfForm.value.storageConfForm
-                        .rcloneVendorSelect,
-                rclone_user:
-                    this.storageConfForm.value.storageConfForm.rcloneUserInput,
-                rclone_password:
-                    this.storageConfForm.value.storageConfForm
-                        .rclonePasswordInput,
-            },
-        };
-
-        this.deploymentsService.postTrainModule(request).subscribe({
-            next: (result: statusReturn) => {
-                this.isLoading = false;
-
-                if (result && result.status == 'success') {
-                    this.router
-                        .navigate(['/deployments'])
-                        .then((navigated: boolean) => {
-                            if (navigated) {
-                                this._snackBar.open(
-                                    'Deployment created with ID' +
-                                        result.job_ID,
-                                    'X',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['success-snackbar'],
-                                    }
-                                );
-                            }
-                        });
-                } else {
-                    if (result && result.status == 'fail') {
-                        this._snackBar.open(
-                            'Error while creating the deployment' +
-                                result.error_msg,
-                            'X',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
-                        );
-                    }
-                }
-            },
-            error: () => {
-                this.isLoading = false;
-            },
-            complete: () => {
-                this.isLoading = false;
-            },
-        });
-    }
-
-    /**
-     * Change toggle button icon by DOM manipulation
-     *
-     * @memberof ModuleTrainComponent
-     */
-    setIcon() {
-        const help =
-            'M12.094 17.461q.375 0 .633-.258t.258-.633q0-.375-.258-.633t-.633-.258q-.375 0-.633.258t-.258.633q0 .375.258 .633t.633.258Zm-.82-3.422h1.383q0-.609.152-1.113T13.758 11.766q.727-.609 1.031-1.195t.305-1.289q0-1.242-.809-1.992T12.141 6.539q-1.148 0-2.027.574T8.836 8.695l1.242.469q.258-.656.773-1.02t1.219-.363q.797 0 1.289.434t.492 1.113q0 .516-.305.973T12.656 11.25q-.703.609-1.043 1.207T11.273 14.039Zm.727 7.336q-1.922 0-3.633-.738t-2.988-2.016Q4.102 17.344 3.363 15.633T2.625 12q0-1.945.738-3.656t2.016-2.977Q6.656 4.102 8.367 3.363T12 2.625q1.945 0 3.656.738T18.633 5.367q1.266 1.266 2.004 2.977T21.375 12q0 1.922-.738 3.633T18.633 18.621q-1.266 1.277-2.977 2.016T12 21.375Zm0-1.406q3.328 0 5.648-2.332T19.969 12q0-3.328-2.32-5.648t-5.648-2.32q-3.305 0-5.637 2.32T4.031 12q0 3.305 2.332 5.637T12 19.969Zm0-7.969Z';
-
-        if (this.element) {
-            this.element.nativeElement
-                .querySelector('.mdc-switch__icon--on')
-                .firstChild.setAttribute('d', help);
-            this.element.nativeElement
-                .querySelector('.mdc-switch__icon--off')
-                .firstChild.setAttribute('d', help);
-        }
+    ngOnInit(): void {
+        this.loadModule();
     }
 
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
-                this.deploymentTitle = module.title;
+                this.title = module.title;
             });
             this.modulesService
                 .getModuleConfiguration(params['id'])
@@ -194,19 +56,7 @@ export class ModuleTrainComponent implements OnInit, AfterViewInit {
         });
     }
 
-    getStepperOrientation(): StepperOrientation {
-        let orientation = 'horizontal' as StepperOrientation;
-        if (this.mobileQuery.matches) {
-            orientation = 'vertical';
-        }
-        return orientation;
-    }
-
-    ngOnInit(): void {
-        this.loadModule();
-    }
-
-    ngAfterViewInit() {
-        this.setIcon();
+    showHelpButtonChange(event: MatSlideToggleChange) {
+        this.showHelp = event.checked;
     }
 }

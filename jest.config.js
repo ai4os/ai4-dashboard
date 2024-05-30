@@ -14,4 +14,4 @@ module.exports = {
         '^@grycap/oscar-js$':
             '<rootDir>/src/app/modules/marketplace/services/modules-service/oscar-module.mock.ts',
       },
-      transformIgnorePatterns: ['<rootDir>/node_modules/(?!@angular|crypto-random-string|ngx-cookieconsent|angular-oauth2-oidc|@ngx-translate/core|xng-breadcrumb|ngx-markdown)']};
+      transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$|ol|quick-lru|lodash-es|color-(space|parse|rgba|name)|crypto-random-string/)']};

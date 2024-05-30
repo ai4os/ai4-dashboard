@@ -19,6 +19,7 @@ const mockedDeployment: Deployment = {
     status: '',
     owner: '',
     title: '',
+    datacenter: 'ai-ifca',
     docker_image: '',
     submit_time: '',
     main_endpoint: '',

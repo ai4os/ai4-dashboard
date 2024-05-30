@@ -20,10 +20,17 @@
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">
-            <div echarts [options]="chartOptionsCommon"></div>
+            <div id="canvas" echarts [options]="chartOptionsCommon"></div>
         </ng-container>
     </mat-card-content>
     <mat-card-actions align="end">
-        <button mat-raised-button mat-dialog-close color="accent">Ok</button>
+        <button
+            id="ok-button"
+            mat-raised-button
+            mat-dialog-close
+            color="accent"
+        >
+            Ok
+        </button>
     </mat-card-actions>
 </mat-card>
