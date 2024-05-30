@@ -210,7 +210,11 @@
                     <h4>
                         {{ 'MODULES.MODULE-DETAIL.LICENSE' | translate }}
                     </h4>
-                    <p>{{ module.license }}</p>
+                    <a
+                        href="{{ module.sources.code }}/blob/-/LICENSE"
+                        target="_blank"
+                        >{{ module.license }}
+                    </a>
                 </div>
                 <div class="module-header-info">
                     <h4>
