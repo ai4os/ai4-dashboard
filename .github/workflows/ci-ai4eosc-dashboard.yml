@@ -13,7 +13,8 @@ jobs:
                 node-version: [18.x]
 
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout
+              uses: actions/checkout@v3
               with:
                   fetch-depth: 0
             - name: Use Node.js ${{ matrix.node-version }}
@@ -27,7 +28,7 @@ jobs:
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
-            - name: Cypress run
+            - name: Cypress
               uses: cypress-io/github-action@v6
               with:
                   start: npm start
@@ -37,7 +38,8 @@ jobs:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
             - run: npm run test
-            - uses: sonarsource/sonarqube-scan-action@master
+            - name: SonarQube
+              uses: sonarsource/sonarqube-scan-action@master
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
