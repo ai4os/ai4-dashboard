@@ -12,6 +12,14 @@ describe('deployments section', function () {
         cy.contains('Quick submit').click();
     });
 
+    after(function () {
+        cy.get('#close-button', { timeout: 10000 }).click();
+        cy.get(
+            ':nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target'
+        ).click();
+        cy.get('#yesBtn').click();
+    });
+
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 15000 }).should('be.visible');
         cy.contains('Modules', { timeout: 15000 }).should('be.visible');
@@ -60,6 +68,16 @@ describe('deployments section', function () {
         cy.contains('Secret names must be unique').should('be.visible');
         cy.get('#add-button').should('be.disabled');
         cy.contains('client1', { timeout: 10000 }).should('be.visible');
+        cy.get('#input').clear();
+    });
+
+    it('create whitespaces secret', function () {
+        cy.get('#input').type('    ');
+        cy.get(
+            '.new-secret-item > .mat-mdc-form-field > .mat-mdc-form-field-subscript-wrapper'
+        ).click();
+        cy.contains('Secret names cannot be whitespaces').should('be.visible');
+        cy.get('#add-button').should('be.disabled');
         cy.get('#input').clear();
     });
 
