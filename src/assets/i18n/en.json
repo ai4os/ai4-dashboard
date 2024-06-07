@@ -91,6 +91,7 @@
             "EMPTY-LIST": "No secrets found.",
             "REQUIRED-FIELD-ERROR": "You must enter a secret name",
             "UNIQUE-NAME-ERROR": "Secret names must be unique",
+            "WHITESPACES-ERROR": "Secret names cannot be whitespaces",
             "DELETE": "Are you sure you want to delete this secret?",
             "DELETE-LAST-SECRET": "Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work",
             "NEW-SECRET-NAME": "New secret name"
