@@ -8,28 +8,6 @@
     }
 }
 
-.deployment-actions {
-    display: flex;
-    justify-content: right;
-}
-
-.menu-item-w-icon {
-    display: flex;
-    align-items: center;
-
-    span {
-        color: var(--warn);
-    }
-
-    .mat-icon {
-        margin-bottom: 6px;
-    }
-}
-
-.selection-checkbox {
-    max-width: 75px;
-}
-
 .mat-column-actions {
     max-width: 140px;
 
@@ -66,7 +44,6 @@
 
 .mat-mdc-table .mat-mdc-row:hover {
     background-color: var(--accent);
-    //cursor: pointer;
     & .mat-mdc-cell {
         color: var(--white);
     }
