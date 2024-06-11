@@ -146,6 +146,54 @@ describe('DashboardComponent', () => {
         tabLabel.nativeElement.click();
         checkSelectedIndex(3, fixture);
     });
+
+    it('should show message when stats are not available', () => {
+        jest.spyOn(mockedStatsService, 'getClusterStats').mockImplementation(
+            () => {
+                return of(null);
+            }
+        );
+        jest.spyOn(mockedStatsService, 'getUserStats').mockImplementation(
+            () => {
+                return of(null);
+            }
+        );
+        const compiled = fixture.nativeElement as HTMLElement;
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const message = compiled.querySelector('#error')?.textContent;
+        expect(message).toContain('NO-DATA');
+    });
+
+    it('should show message when userstats are not available', () => {
+        jest.spyOn(mockedStatsService, 'getUserStats').mockImplementation(
+            () => {
+                return of(null);
+            }
+        );
+        const compiled = fixture.nativeElement as HTMLElement;
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const message = compiled.querySelector('#error')?.textContent;
+        expect(message).toContain('NO-DATA');
+    });
+
+    it('should show message when cluster stats are not available', () => {
+        jest.spyOn(mockedStatsService, 'getClusterStats').mockImplementation(
+            () => {
+                return of(null);
+            }
+        );
+
+        const compiled = fixture.nativeElement as HTMLElement;
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        const message = compiled.querySelector('#error')?.textContent;
+        expect(message).toContain('NO-DATA');
+    });
 });
 
 /**
