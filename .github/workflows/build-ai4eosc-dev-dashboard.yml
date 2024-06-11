@@ -49,7 +49,7 @@ jobs:
                   SECRET: ${{ secrets.WEBHOOK_SECRET }}
               run: |
                   HASH=$(echo -n "$PAYLOAD" | openssl dgst -sha1 -hmac "$SECRET" | sed 's/^.* //')
-                  curl -X POST https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard \
+                  curl -X POST https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-dev \
                   -H 'Content-Type: application/json' \
                   -H "X-Hub-Signature: sha1=$HASH" \
                   -d '{"ref": "refs/heads/master"}'

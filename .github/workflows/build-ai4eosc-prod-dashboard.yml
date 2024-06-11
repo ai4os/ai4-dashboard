@@ -1,51 +1,58 @@
 name: Build AI4EOSC:prod docker image
 
 on:
-  workflow_dispatch:
-    inputs:
-      image_tag:
-        description: 'Image tag'
-        required: true
-        default: 'prod'
+    workflow_dispatch:
+        inputs:
+            image_tag:
+                description: 'Image tag'
+                required: true
+                default: 'prod'
 
 jobs:
+    build:
+        runs-on: ubuntu-latest
 
-  build:
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
-    runs-on: ubuntu-latest
+            - name: Login to Harbor
+              uses: docker/login-action@v2
+              with:
+                  registry: ${{ secrets.HARBOR_URL  }}
+                  username: ${{ secrets.HARBOR_USERNAME  }}
+                  password: ${{ secrets.HARBOR_TOKEN }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      
-      - name: Login to Harbor
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.HARBOR_URL  }}
-          username: ${{ secrets.HARBOR_USERNAME  }}
-          password: ${{ secrets.HARBOR_TOKEN }}
+            - name: Login to Docker Hub
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      
-      - name: "Create .npmrc"
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc  
-        
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:${{ github.event.inputs.image_tag }}, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:${{ github.event.inputs.image_tag }}
-          file: docker/ai4eosc/prod/Dockerfile
-          secret-files: |
-            npmrc=/home/runner/.npmrc
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: 'Create .npmrc'
+              run: |
+                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc
+
+            - name: Build and push
+              uses: docker/build-push-action@v3
+              with:
+                  context: .
+                  push: true
+                  tags: ${{ secrets.HARBOR_URL }}/ai4os/ai4eosc-dashboard:${{ github.event.inputs.image_tag }}, ${{ secrets.DOCKERHUB_USERNAME }}/ai4eosc-dashboard:${{ github.event.inputs.image_tag }}
+                  file: docker/ai4eosc/prod/Dockerfile
+                  secret-files: |
+                      npmrc=/home/runner/.npmrc
+            - name: Send Webhook to Deploy Dashboard
+              env:
+                  SECRET: ${{ secrets.WEBHOOK_SECRET }}
+              run: |
+                  HASH=$(echo -n "$PAYLOAD" | openssl dgst -sha1 -hmac "$SECRET" | sed 's/^.* //')
+                  curl -X POST https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-prod \
+                  -H 'Content-Type: application/json' \
+                  -H "X-Hub-Signature: sha1=$HASH" \
+                  -d '{"ref": "refs/heads/master"}'
