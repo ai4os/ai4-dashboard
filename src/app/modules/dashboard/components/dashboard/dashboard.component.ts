@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
     panelOpenState = false;
     userStatsLoading = false;
     clusterStatsLoading = false;
+    dataAvailable = false;
 
     // User global variable
     protected userGlobalStats: GlobalStats = {
@@ -164,81 +165,99 @@ export class DashboardComponent implements OnInit {
                 this.userStatsLoading = false;
             });
 
-        this.statsService
-            .getClusterStats()
-            .subscribe((statsResponse: ClusterStats) => {
-                // Cluster
-                if (statsResponse['cluster']) {
-                    // Aggregate
-                    this.cpuNumClusterAgg = statsResponse['cluster'].cpu_used;
-                    this.memoryMBClusterAgg = Math.trunc(
-                        statsResponse['cluster'].ram_used
-                    );
-                    this.diskMBClusterAgg = Math.trunc(
-                        statsResponse['cluster'].disk_used
-                    );
-                    this.gpuNumClusterAgg = statsResponse['cluster'].gpu_used;
-                    // Total
-                    this.cpuNumClusterTotal =
-                        statsResponse['cluster'].cpu_total;
-                    this.memoryMBClusterTotal = Math.trunc(
-                        statsResponse['cluster'].ram_total
-                    );
-                    this.diskMBClusterTotal = Math.trunc(
-                        statsResponse['cluster'].disk_total
-                    );
-                    this.gpuNumClusterTotal =
-                        statsResponse['cluster'].gpu_total;
-                    this.gpuPerModelCluster =
-                        statsResponse['cluster'].gpu_models;
+        this.statsService.getClusterStats().subscribe({
+            next: (statsResponse: ClusterStats) => {
+                if (statsResponse == null) {
+                    this.dataAvailable = false;
+                    this.clusterStatsLoading = false;
+                } else {
+                    // Cluster
+                    if (statsResponse['cluster']) {
+                        // Aggregate
+                        this.cpuNumClusterAgg =
+                            statsResponse['cluster'].cpu_used;
+                        this.memoryMBClusterAgg = Math.trunc(
+                            statsResponse['cluster'].ram_used
+                        );
+                        this.diskMBClusterAgg = Math.trunc(
+                            statsResponse['cluster'].disk_used
+                        );
+                        this.gpuNumClusterAgg =
+                            statsResponse['cluster'].gpu_used;
+                        // Total
+                        this.cpuNumClusterTotal =
+                            statsResponse['cluster'].cpu_total;
+                        this.memoryMBClusterTotal = Math.trunc(
+                            statsResponse['cluster'].ram_total
+                        );
+                        this.diskMBClusterTotal = Math.trunc(
+                            statsResponse['cluster'].disk_total
+                        );
+                        this.gpuNumClusterTotal =
+                            statsResponse['cluster'].gpu_total;
+                        this.gpuPerModelCluster =
+                            statsResponse['cluster'].gpu_models;
 
-                    this.clusterGlobalStats = {
-                        cpuNumAgg: this.cpuNumClusterAgg,
-                        cpuNumTotal: this.cpuNumClusterTotal,
-                        memoryMBAgg: this.memoryMBClusterAgg,
-                        memoryMBTotal: this.memoryMBClusterTotal,
-                        diskMBAgg: this.diskMBClusterAgg,
-                        diskMBTotal: this.diskMBClusterTotal,
-                        gpuNumAgg: this.gpuNumClusterAgg,
-                        gpuNumTotal: this.gpuNumClusterTotal,
-                    };
-                }
+                        this.clusterGlobalStats = {
+                            cpuNumAgg: this.cpuNumClusterAgg,
+                            cpuNumTotal: this.cpuNumClusterTotal,
+                            memoryMBAgg: this.memoryMBClusterAgg,
+                            memoryMBTotal: this.memoryMBClusterTotal,
+                            diskMBAgg: this.diskMBClusterAgg,
+                            diskMBTotal: this.diskMBClusterTotal,
+                            gpuNumAgg: this.gpuNumClusterAgg,
+                            gpuNumTotal: this.gpuNumClusterTotal,
+                        };
+                    }
 
-                // Nodes
-                for (const dc in statsResponse['datacenters']) {
-                    for (const node in statsResponse['datacenters'][dc][
-                        'nodes'
-                    ]) {
-                        if (
-                            statsResponse['datacenters'][dc]['nodes'][node]
-                                .gpu_total > 0
-                        ) {
-                            this.nodesGpu.push(
+                    // Nodes
+                    for (const dc in statsResponse['datacenters']) {
+                        for (const node in statsResponse['datacenters'][dc][
+                            'nodes'
+                        ]) {
+                            if (
                                 statsResponse['datacenters'][dc]['nodes'][node]
-                            );
-                        } else {
-                            this.nodesCpu.push(
-                                statsResponse['datacenters'][dc]['nodes'][node]
-                            );
+                                    .gpu_total > 0
+                            ) {
+                                this.nodesGpu.push(
+                                    statsResponse['datacenters'][dc]['nodes'][
+                                        node
+                                    ]
+                                );
+                            } else {
+                                this.nodesCpu.push(
+                                    statsResponse['datacenters'][dc]['nodes'][
+                                        node
+                                    ]
+                                );
+                            }
                         }
                     }
-                }
 
-                // Datacenters
-                for (const dc in statsResponse['datacenters']) {
-                    const datacenter: DatacenterStats = {
-                        name: dc,
-                        lat: statsResponse['datacenters'][dc]['lat'],
-                        lon: statsResponse['datacenters'][dc]['lon'],
-                        PUE: statsResponse['datacenters'][dc]['PUE'],
-                        energy_quality:
-                            statsResponse['datacenters'][dc]['energy_quality'],
-                        nodes: statsResponse['datacenters'][dc]['nodes'],
-                    };
-                    this.datacentersStats.push(datacenter);
-                }
+                    // Datacenters
+                    for (const dc in statsResponse['datacenters']) {
+                        const datacenter: DatacenterStats = {
+                            name: dc,
+                            lat: statsResponse['datacenters'][dc]['lat'],
+                            lon: statsResponse['datacenters'][dc]['lon'],
+                            PUE: statsResponse['datacenters'][dc]['PUE'],
+                            energy_quality:
+                                statsResponse['datacenters'][dc][
+                                    'energy_quality'
+                                ],
+                            nodes: statsResponse['datacenters'][dc]['nodes'],
+                        };
+                        this.datacentersStats.push(datacenter);
+                    }
 
+                    this.dataAvailable = true;
+                    this.clusterStatsLoading = false;
+                }
+            },
+            error: () => {
+                this.dataAvailable = false;
                 this.clusterStatsLoading = false;
-            });
+            },
+        });
     }
 }
