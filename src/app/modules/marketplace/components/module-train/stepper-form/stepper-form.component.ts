@@ -135,6 +135,8 @@ export class StepperFormComponent implements OnInit {
                     this.step3Form.value.storageConfForm.rclonePasswordInput,
                 zenodo_record_id:
                     this.step3Form.value.storageConfForm.zenodoDatasetSelect,
+                zenodo_force_pull:
+                    this.step3Form.value.storageConfForm.zenodoForcePullToggle,
             };
             request = this.deploymentsService.postTrainModule(data);
         }

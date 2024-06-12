@@ -27,7 +27,7 @@ export interface Module {
 
 export interface confObject {
     name: string;
-    value: string | number;
+    value: string | number | boolean;
     description: string;
     options?: string[];
 }
@@ -65,6 +65,7 @@ export interface ModuleStorageConfiguration {
     rclone_user: confObject;
     rclone_password: confObject;
     zenodo_record_id: confObject;
+    zenodo_force_pull: confObject;
 }
 
 export interface FederatedServerConfiguration {
@@ -110,6 +111,7 @@ export interface TrainModuleRequest {
         rclone_user: string;
         rclone_password: string;
         zenodo_record_id: string;
+        zenodo_force_pull: boolean;
     };
     configuration?: {
         rounds: number;

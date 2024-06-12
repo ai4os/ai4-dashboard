@@ -11,11 +11,10 @@ import { ZenodoService } from '@app/modules/marketplace/services/zenodo-service/
 import { ZenodoDataset } from '@app/shared/interfaces/dataset.interface';
 import {
     ModuleStorageConfiguration,
-    confObjectRange,
+    confObject,
 } from '@app/shared/interfaces/module.interface';
 
-const mockedConfObject: confObjectRange = {
-    range: [],
+const mockedConfObject: confObject = {
     name: '',
     value: '',
     description: '',
@@ -49,7 +48,10 @@ export class StorageConfFormComponent implements OnInit {
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: [''],
         zenodoRecordIdInput: [''],
-        zenodoForcePullToggle: [''],
+        zenodoForcePullToggle: new FormControl({
+            value: false,
+            disabled: true,
+        }),
     });
 
     protected _defaultFormValues: ModuleStorageConfiguration = {
@@ -59,6 +61,7 @@ export class StorageConfFormComponent implements OnInit {
         rclone_user: mockedConfObject,
         rclone_password: mockedConfObject,
         zenodo_record_id: mockedConfObject,
+        zenodo_force_pull: mockedConfObject,
     };
 
     protected _showHelp = false;
@@ -103,6 +106,12 @@ export class StorageConfFormComponent implements OnInit {
                 .get('zenodoDatasetSelect')
                 ?.setValue(defaultFormValues.zenodo_record_id.value as string);
             this.setZenodoDatasetOptions();
+
+            this.storageConfFormGroup
+                .get('zenodoForcePullToggle')
+                ?.setValue(
+                    defaultFormValues.zenodo_force_pull.value as boolean
+                );
         }
     }
 
@@ -132,9 +141,11 @@ export class StorageConfFormComponent implements OnInit {
         if (datasetSelect.value) {
             rcloneUser.setValidators([Validators.required]);
             rclonePassword.setValidators([Validators.required]);
+            this.storageConfFormGroup.get('zenodoForcePullToggle')?.enable();
         } else {
             rcloneUser.setValidators(null);
             rclonePassword.setValidators(null);
+            this.storageConfFormGroup.get('zenodoForcePullToggle')?.disable();
         }
 
         rcloneUser.updateValueAndValidity();

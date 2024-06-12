@@ -176,7 +176,8 @@
                 "ZENODO-DATASET": "Zenodo dataset",
                 "ZENODO-DATASET-EMPTY": "No datasets available",
                 "ZENODO-VERSION": "Dataset version",
-                "ZENODO-RECORD": "Zenodo Record ID"
+                "ZENODO-RECORD": "Zenodo Record ID",
+                "FORCE-PULL": "Force pull"
             },
             "FEDERATED-CONF-FORM": {
                 "TITLE": "Federated options",

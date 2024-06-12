@@ -70,7 +70,7 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
     fileContent = '';
 
     deploymentTitle = '';
-    dockerImageName: string | number = '';
+    dockerImageName: string | number | boolean = '';
     fileName = '';
     currentFile?: File;
     predictionData: Array<PredictionResultItem> = [];
