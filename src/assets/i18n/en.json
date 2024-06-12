@@ -165,12 +165,18 @@
                 "DISK-MEMORY": "Disk memory (in MB)"
             },
             "STORAGE-CONF-FORM": {
-                "TITLE": "Storage options",
+                "RCLONE-TITLE": "RCLONE options",
                 "RCLONE-CONF": "RCLONE configuration",
                 "STORAGE-URL": "Storage URL",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
-                "RCLONE-PASS": "RCLONE password"
+                "RCLONE-PASS": "RCLONE password",
+                "RCLONE-REQUIRED": "You must specify a RCLONE account",
+                "ZENODO-TITLE": "Zenodo options",
+                "ZENODO-DATASET": "Zenodo dataset",
+                "ZENODO-DATASET-EMPTY": "No datasets available",
+                "ZENODO-VERSION": "Dataset version",
+                "ZENODO-RECORD": "Zenodo Record ID"
             },
             "FEDERATED-CONF-FORM": {
                 "TITLE": "Federated options",

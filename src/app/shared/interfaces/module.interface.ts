@@ -64,6 +64,7 @@ export interface ModuleStorageConfiguration {
     rclone_vendor: confObject;
     rclone_user: confObject;
     rclone_password: confObject;
+    zenodo_record_id: confObject;
 }
 
 export interface FederatedServerConfiguration {
@@ -108,6 +109,7 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
+        zenodo_record_id: string;
     };
     configuration?: {
         rounds: number;

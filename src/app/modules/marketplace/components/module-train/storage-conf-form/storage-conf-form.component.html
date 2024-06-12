@@ -1,5 +1,7 @@
 <form [formGroup]="storageConfFormGroup" class="storage-conf-form">
-    <h4>{{ 'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.TITLE' | translate }}</h4>
+    <h4>
+        {{ 'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-TITLE' | translate }}
+    </h4>
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
@@ -64,6 +66,18 @@
                 type="text"
                 formControlName="rcloneUserInput"
             />
+            <mat-error
+                *ngIf="
+                    storageConfFormGroup.get('rcloneUserInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues.rclone_user.description
             }}</mat-hint>
@@ -87,8 +101,57 @@
             >
                 {{ hidePassword ? 'visibility_off' : 'visibility' }}
             </mat-icon>
+            <mat-error
+                *ngIf="
+                    storageConfFormGroup.get('rclonePasswordInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues.rclone_password.description
+            }}</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <h4>
+        {{ 'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-TITLE' | translate }}
+    </h4>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches
+        }"
+    >
+        <mat-form-field class="example-full-width">
+            <mat-label *ngIf="datasetsLength !== 0; else noDatasetsAvailable">{{
+                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-DATASET'
+                    | translate
+            }}</mat-label>
+            <ng-template #noDatasetsAvailable>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-DATASET-EMPTY'
+                        | translate
+                }}</mat-label></ng-template
+            >
+            <mat-select
+                formControlName="zenodoDatasetSelect"
+                (selectionChange)="datasetSelectChange()"
+            >
+                <mat-option
+                    *ngFor="let zenodoDatasetOption of zenodoDatasetOptions"
+                    [value]="zenodoDatasetOption.value"
+                >
+                    {{ zenodoDatasetOption.viewValue }}
+                </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.zenodo_record_id.description
             }}</mat-hint>
         </mat-form-field>
     </div>
