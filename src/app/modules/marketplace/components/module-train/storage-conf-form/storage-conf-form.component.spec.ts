@@ -6,6 +6,7 @@ import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -39,6 +40,7 @@ describe('StorageConfFormComponent', () => {
                 SharedModule,
                 TranslateModule.forRoot(),
                 NoopAnimationsModule,
+                HttpClientTestingModule,
             ],
             providers: [
                 FormGroupDirective,
