@@ -6,7 +6,7 @@ import {
     HttpTestingController,
 } from '@angular/common/http/testing';
 import { environment } from '@environments/environment';
-import { datasets } from './zenodo.service.mock';
+import { datasets, versions } from './zenodo.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { of } from 'rxjs';
 
@@ -14,6 +14,7 @@ const { base, endpoints } = environment.api;
 
 const mockedConfigService: any = {};
 const datasetListMock = datasets;
+const datasetVersionsListMock = versions;
 
 describe('ZenodoService', () => {
     let service: ZenodoService;
@@ -51,6 +52,24 @@ describe('ZenodoService', () => {
 
         const req = httpMock.expectOne(url);
         req.flush(datasetListMock);
+        httpMock.verify();
+        expect(req.request.method).toBe('POST');
+    });
+
+    it('getDatasetVersions should return a list of versions', (done) => {
+        const url = `${base}${endpoints.zenodo}?api_route=records/1234/versions`;
+
+        service.getDatasetVersions('1234').subscribe((asyncData) => {
+            try {
+                expect(asyncData).toBe(datasetVersionsListMock);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+
+        const req = httpMock.expectOne(url);
+        req.flush(datasetVersionsListMock);
         httpMock.verify();
         expect(req.request.method).toBe('POST');
     });

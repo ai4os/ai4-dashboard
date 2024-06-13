@@ -1,4 +1,7 @@
-import { ZenodoDataset } from '@app/shared/interfaces/dataset.interface';
+import {
+    ZenodoDataset,
+    ZenodoDatasetVersion,
+} from '@app/shared/interfaces/dataset.interface';
 
 export const datasets: ZenodoDataset[] = [
     {
@@ -22,5 +25,22 @@ export const datasets: ZenodoDataset[] = [
         creators: ['Baños Castelló, Pol', 'Prat Bayarri, Oriol'],
         keywords: ['underwater pictures', 'marine species'],
         communities: ['imagine-project', 'eu'],
+    },
+];
+
+export const versions: ZenodoDatasetVersion[] = [
+    {
+        id: '10777412',
+        title: 'EyeOnWater training dataset for assessing the inclusion of water images',
+        doi: '10.5281/zenodo.10777441',
+        version: '2',
+        lastest: false,
+    },
+    {
+        id: '10777441',
+        title: 'EyeOnWater training dataset for assessing the inclusion of water images',
+        doi: '10.5281/zenodo.10777441',
+        version: '1',
+        lastest: true,
     },
 ];
