@@ -1,7 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { ZenodoDataset } from '@app/shared/interfaces/dataset.interface';
+import {
+    ZenodoDataset,
+    ZenodoDatasetVersion,
+} from '@app/shared/interfaces/dataset.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -28,6 +31,18 @@ export class ZenodoService {
         );
         const body = { q: 'resource_type.type:dataset' };
         return this.http.post<Array<ZenodoDataset>>(url, body, {
+            params: params,
+        });
+    }
+
+    getDatasetVersions(id: string): Observable<ZenodoDatasetVersion[]> {
+        const url = `${base}${endpoints.zenodo}`;
+        const params = new HttpParams().set(
+            'api_route',
+            'records/' + id + '/versions'
+        );
+        const body = {};
+        return this.http.post<Array<ZenodoDatasetVersion>>(url, body, {
             params: params,
         });
     }

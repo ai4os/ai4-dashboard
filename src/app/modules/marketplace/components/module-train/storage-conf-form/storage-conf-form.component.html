@@ -119,16 +119,32 @@
         </mat-form-field>
     </div>
 
-    <h4>
-        {{ 'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-TITLE' | translate }}
-    </h4>
+    <div class="zenodo-options-container">
+        <h4>
+            {{
+                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-TITLE'
+                    | translate
+            }}
+        </h4>
+        <mat-slide-toggle
+            [disabled]="
+                storageConfFormGroup.get('zenodoDatasetSelect')?.value === ''
+            "
+            formControlName="zenodoForcePullToggle"
+        >
+            {{
+                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.FORCE-PULL' | translate
+            }}
+        </mat-slide-toggle>
+    </div>
+
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
             'form-grid': !mobileQuery.matches
         }"
     >
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label *ngIf="datasetsLength !== 0; else noDatasetsAvailable">{{
                 'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-DATASET'
                     | translate
@@ -154,16 +170,21 @@
                 _defaultFormValues.zenodo_record_id.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-slide-toggle
-            [disabled]="
-                storageConfFormGroup.get('zenodoDatasetSelect')?.value === ''
-            "
-            formControlName="zenodoForcePullToggle"
-            class="toggle"
-        >
-            {{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.FORCE-PULL' | translate
-            }}
-        </mat-slide-toggle>
+
+        <mat-form-field>
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.ZENODO-VERSION'
+                    | translate
+            }}</mat-label>
+
+            <mat-select formControlName="zenodoVersionSelect">
+                <mat-option
+                    *ngFor="let zenodoDatasetVersion of zenodoDatasetVersions"
+                    [value]="zenodoDatasetVersion.value"
+                >
+                    {{ zenodoDatasetVersion.viewValue }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 </form>
