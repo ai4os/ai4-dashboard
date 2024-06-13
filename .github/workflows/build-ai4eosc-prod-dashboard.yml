@@ -6,7 +6,7 @@ on:
             image_tag:
                 description: 'Image tag'
                 required: true
-                default: $GITHUB_REF_NAME
+                default: '${{ github.ref_name}}-prod'
 
 jobs:
     build:
