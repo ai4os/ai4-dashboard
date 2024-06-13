@@ -24,9 +24,9 @@ jobs:
 
             - name: Set tag based on selected option
               run: |
-                  if [[ "${{ github.event.inputs.option }}" == "production" ]]; then
+                  if [[ "${{ github.event.inputs.select-env }}" == "production" ]]; then
                     echo "TAG=${{ github.ref_name }}-prod" >> $GITHUB_ENV
-                  elif [[ "${{ github.event.inputs.option }}" == "staging" ]]; then
+                  elif [[ "${{ github.event.inputs.select-env }}" == "staging" ]]; then
                     echo "TAG=${{ github.ref_name }}-stage" >> $GITHUB_ENV
                   fi
 
