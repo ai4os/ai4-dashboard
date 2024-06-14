@@ -44,27 +44,28 @@
                 }"
                 [disabled]="!isAuthorized() && isAuthorized() !== undefined"
             >
-                Try me
+                {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
+
                 <mat-icon> keyboard_arrow_down </mat-icon>
             </a>
 
             <mat-menu #tryMenu="matMenu">
-                <button mat-menu-item routerLink="train">
+                <button mat-menu-item [disabled]="true">
                     <span class="aligned-with-icon-left">
-                        {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                        {{ 'MODULES.MODULE-DETAIL.OSCAR-SWAGGER' | translate }}
+
                         <img
-                            src="../../../../../assets/images/nomad-icon.svg"
+                            src="../../../../../assets/images/oscar-logo.png"
                             width="16"
                             height="16"
                         />
                     </span>
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item [disabled]="true">
                     <span class="aligned-with-icon-left">
-                        {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
-
+                        {{ 'MODULES.MODULE-DETAIL.NOMAD-GRADIO' | translate }}
                         <img
-                            src="../../../../../assets/images/oscar-logo.png"
+                            src="../../../../../assets/images/nomad-icon.svg"
                             width="16"
                             height="16"
                         />
@@ -109,12 +110,29 @@
                     }"
                     [disabled]="!isAuthorized() && isAuthorized() !== undefined"
                 >
-                    Deploy
+                    {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
+
                     <mat-icon> keyboard_arrow_down </mat-icon>
                 </a>
 
                 <mat-menu #deployMenu="matMenu">
                     <button
+                        [disabled]="true"
+                        class="action-button sub-button"
+                        mat-menu-item
+                    >
+                        <span class="aligned-with-icon-left">
+                            {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
+
+                            <img
+                                src="../../../../../assets/images/oscar-logo.png"
+                                width="16"
+                                height="16"
+                            />
+                        </span>
+                    </button>
+                    <button
+                        [disabled]="true"
                         mat-menu-item
                         class="action-button sub-button"
                         routerLink="train"
@@ -123,17 +141,6 @@
                             {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
                             <img
                                 src="../../../../../assets/images/nomad-icon.svg"
-                                width="16"
-                                height="16"
-                            />
-                        </span>
-                    </button>
-                    <button class="action-button sub-button" mat-menu-item>
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
-
-                            <img
-                                src="../../../../../assets/images/oscar-logo.png"
                                 width="16"
                                 height="16"
                             />
