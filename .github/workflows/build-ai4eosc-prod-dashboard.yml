@@ -59,6 +59,7 @@ jobs:
                   file: docker/ai4eosc/prod/Dockerfile
                   secret-files: |
                       npmrc=/home/runner/.npmrc
+
             - name: Send Webhook to Deploy Dashboard
               env:
                   SECRET: ${{ secrets.WEBHOOK_SECRET }}
