@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/ai4os/ai4-dashboard/compare/v2.3.1...v2.4.0) (2024-06-18)
+
+
+### Features
+
+* improve build webhooks ([#113](https://github.com/ai4os/ai4-dashboard/issues/113)) ([857c40d](https://github.com/ai4os/ai4-dashboard/commit/857c40d769f2659159994a6328a68966667af894))
+
 ## [2.3.0](https://github.com/ai4os/ai4-dashboard/compare/v2.2.0...v2.3.0) (2024-05-30)
 
 
