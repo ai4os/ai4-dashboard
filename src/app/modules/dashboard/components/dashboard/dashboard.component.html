@@ -23,6 +23,7 @@
     "
 >
     <mat-tab-group
+        *ngIf="dataAvailable; else noData"
         mat-stretch-tabs="false"
         class="main-tabs"
         [ngClass]="{
@@ -70,4 +71,10 @@
             ></app-nodes-tab>
         </mat-tab>
     </mat-tab-group>
+
+    <ng-template #noData>
+        <p id="error" class="no-data-text">
+            {{ 'DASHBOARD.NO-DATA' | translate }}
+        </p>
+    </ng-template>
 </ng-container>

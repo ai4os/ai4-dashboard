@@ -107,4 +107,22 @@ describe('dashboard section', function () {
         cy.get('mat-accordion').should('have.length', 2);
         cy.get('mat-paginator').should('have.length', 2);
     });
+
+    it('shows message when stats are not available', function () {
+        cy.intercept('/v1/deployments/stats/cluster?vo=vo.ai4eosc.eu');
+        cy.intercept('GET', '/v1/deployments/stats/cluster?vo=vo.ai4eosc.eu', {
+            fixture: null,
+        });
+        cy.intercept('/v1/deployments/stats/user?vo=vo.ai4eosc.eu');
+        cy.intercept('GET', '/v1/deployments/stats/user?vo=vo.ai4eosc.eu', {
+            fixture: null,
+        });
+
+        cy.visit('http://localhost:8080/dashboard');
+        cy.reload();
+
+        cy.contains('Statistics are not available at the moment', {
+            timeout: 10000,
+        }).should('be.visible');
+    });
 });

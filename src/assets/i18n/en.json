@@ -39,6 +39,7 @@
         "NODES-GPU": "Nodes with GPU",
         "NODES-USED": "Used",
         "NODES-TOTAL": "Total",
+        "NO-DATA": "Statistics are not available at the moment",
         "STATS-VALUES": {
             "RAM-MB": "Memory MB",
             "DISK-MB": "Disk MB",
