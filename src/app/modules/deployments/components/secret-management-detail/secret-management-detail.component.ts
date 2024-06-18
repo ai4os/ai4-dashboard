@@ -102,7 +102,10 @@ export class SecretManagementDetailComponent implements OnInit {
         const secretPath =
             '/deployments/' + this.data.uuid + '/federated/' + name;
         const secret: Secret = { token: cryptoRandomString({ length: 64 }) };
-        if (this.secretNameIsUnique() && this.secretNamehasNoWhitespaces()) {
+        if (
+            this.secretNameIsUnique() &&
+            this.secretNameIsNotJustWhitespaces()
+        ) {
             this.secretsService.createSecret(secret, secretPath).subscribe({
                 next: () => {
                     this.secretFormGroup.markAsUntouched();
@@ -214,13 +217,9 @@ export class SecretManagementDetailComponent implements OnInit {
         return valid;
     }
 
-    secretNamehasNoWhitespaces(): boolean {
-        let valid = true;
+    secretNameIsNotJustWhitespaces(): boolean {
         const name = this.secretFormGroup.get('secret')?.getRawValue().trim();
-        if (name.length === 0) {
-            valid = false;
-        }
-        return valid;
+        return name.length > 0;
     }
 
     handlePageEvent(e: PageEvent) {
