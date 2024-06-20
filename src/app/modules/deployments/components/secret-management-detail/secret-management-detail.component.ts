@@ -209,12 +209,8 @@ export class SecretManagementDetailComponent implements OnInit {
     }
 
     secretNameIsUnique(): boolean {
-        let valid = true;
         const name = this.secretFormGroup.get('secret')?.getRawValue().trim();
-        if (this.secrets.find((s) => s.name === name)) {
-            valid = false;
-        }
-        return valid;
+        return !this.secrets.some((s) => s.name === name);
     }
 
     secretNameIsNotJustWhitespaces(): boolean {
