@@ -98,11 +98,14 @@ export class SecretManagementDetailComponent implements OnInit {
 
     addSecret() {
         this.isLoading = true;
-        const name = this.secretFormGroup.get('secret')?.getRawValue();
+        const name = this.secretFormGroup.get('secret')?.getRawValue().trim();
         const secretPath =
             '/deployments/' + this.data.uuid + '/federated/' + name;
         const secret: Secret = { token: cryptoRandomString({ length: 64 }) };
-        if (this.secretNameValid()) {
+        if (
+            this.secretNameIsUnique() &&
+            this.secretNameIsNotJustWhitespaces()
+        ) {
             this.secretsService.createSecret(secret, secretPath).subscribe({
                 next: () => {
                     this.secretFormGroup.markAsUntouched();
@@ -205,12 +208,14 @@ export class SecretManagementDetailComponent implements OnInit {
             });
     }
 
-    secretNameValid(): boolean {
-        const name = this.secretFormGroup.get('secret')?.getRawValue();
-        if (this.secrets.find((s) => s.name === name)) {
-            return false;
-        }
-        return true;
+    secretNameIsUnique(): boolean {
+        const name = this.secretFormGroup.get('secret')?.getRawValue().trim();
+        return !this.secrets.some((s) => s.name === name);
+    }
+
+    secretNameIsNotJustWhitespaces(): boolean {
+        const name = this.secretFormGroup.get('secret')?.getRawValue().trim();
+        return name.length > 0;
     }
 
     handlePageEvent(e: PageEvent) {

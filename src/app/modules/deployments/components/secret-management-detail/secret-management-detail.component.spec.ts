@@ -122,7 +122,7 @@ describe('SecretManagementDetailComponent', () => {
         );
     });
 
-    it('create duplicated secret', () => {
+    it('should NOT create duplicated secret', () => {
         const button = fixture.debugElement.query(By.css('#add-button'));
         const input = fixture.debugElement.query(By.css('#input'));
         const el = input.nativeElement;
@@ -132,6 +132,19 @@ describe('SecretManagementDetailComponent', () => {
 
         component.secretFormGroup.setValue({ secret: 'default' });
         expect(el.value).toBe('default');
+        expect(button.nativeElement.disabled).toBeTruthy();
+    });
+
+    it('should NOT create empty secret (whitespaces)', () => {
+        const button = fixture.debugElement.query(By.css('#add-button'));
+        const input = fixture.debugElement.query(By.css('#input'));
+        const el = input.nativeElement;
+
+        expect(el.value).toBe('');
+        expect(button.nativeElement.disabled).toBeTruthy();
+
+        component.secretFormGroup.setValue({ secret: '    ' });
+        expect(el.value).toBe('    ');
         expect(button.nativeElement.disabled).toBeTruthy();
     });
 
