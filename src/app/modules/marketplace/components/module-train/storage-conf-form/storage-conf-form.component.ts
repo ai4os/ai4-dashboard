@@ -7,21 +7,24 @@ import {
     FormGroupDirective,
     Validators,
 } from '@angular/forms';
-import { ZenodoService } from '@app/modules/marketplace/services/zenodo-service/zenodo.service';
-import {
-    ZenodoDataset,
-    ZenodoDatasetVersion,
-} from '@app/shared/interfaces/dataset.interface';
 import {
     ModuleStorageConfiguration,
     confObject,
+    confObjectStringBoolean,
 } from '@app/shared/interfaces/module.interface';
+import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 
 const mockedConfObject: confObject = {
     name: '',
     value: '',
     description: '',
 };
+const mockedConfObjectStringBoolean: confObjectStringBoolean = {
+    name: '',
+    value: { stringValue: '', booleanValue: false },
+    description: '',
+};
+
 @Component({
     selector: 'app-storage-conf-form',
     templateUrl: './storage-conf-form.component.html',
@@ -32,8 +35,7 @@ export class StorageConfFormComponent implements OnInit {
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private zenodoService: ZenodoService
+        private media: MediaMatcher
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -48,13 +50,10 @@ export class StorageConfFormComponent implements OnInit {
         rcloneVendorSelect: [''],
         rcloneUserInput: [''],
         rclonePasswordInput: [''],
+        zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
-        //zenodoRecordIdInput: [''],
-        zenodoForcePullToggle: new FormControl({
-            value: false,
-            disabled: true,
-        }),
+        doiInput: [''],
     });
 
     protected _defaultFormValues: ModuleStorageConfiguration = {
@@ -63,14 +62,8 @@ export class StorageConfFormComponent implements OnInit {
         rclone_vendor: mockedConfObject,
         rclone_user: mockedConfObject,
         rclone_password: mockedConfObject,
-        zenodo_record_id: mockedConfObject,
-        zenodo_force_pull: mockedConfObject,
+        datasets: mockedConfObjectStringBoolean,
     };
-
-    protected _showHelp = false;
-
-    mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
@@ -104,32 +97,16 @@ export class StorageConfFormComponent implements OnInit {
                     });
                 }
             );
-
-            this.storageConfFormGroup
-                .get('zenodoDatasetSelect')
-                ?.setValue(defaultFormValues.zenodo_record_id.value as string);
-            this.setZenodoDatasetOptions();
-
-            this.storageConfFormGroup.get('zenodoVersionSelect')?.setValue('');
-
-            this.storageConfFormGroup
-                .get('zenodoForcePullToggle')
-                ?.setValue(
-                    defaultFormValues.zenodo_force_pull.value as boolean
-                );
         }
     }
 
-    datasetsLength = 0;
-    datasets: ZenodoDataset[] = [];
-    versionsLength = 0;
-    versions: ZenodoDatasetVersion[] = [];
+    protected _showHelp = false;
+    private _mobileQueryListener: () => void;
+    mobileQuery: MediaQueryList;
 
     hidePassword = true;
-
     rcloneVendorOptions: { value: string; viewValue: string }[] = [];
-    zenodoDatasetOptions: { value: string; viewValue: string }[] = [];
-    zenodoDatasetVersions: { value: string; viewValue: string }[] = [];
+    datasets: { doi: string; forcePull: boolean }[] = [];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -139,130 +116,32 @@ export class StorageConfFormComponent implements OnInit {
         );
     }
 
-    datasetSelectChange() {
-        const datasetSelect = this.storageConfFormGroup.get(
-            'zenodoDatasetSelect'
-        )!;
+    addDataset(dataset: ZenodoSimpleDataset): void {
         const rcloneUser = this.storageConfFormGroup.get('rcloneUserInput')!;
         const rclonePassword = this.storageConfFormGroup.get(
             'rclonePasswordInput'
         )!;
-
-        if (datasetSelect.value) {
-            rcloneUser.setValidators([Validators.required]);
-            rclonePassword.setValidators([Validators.required]);
-            this.storageConfFormGroup.get('zenodoForcePullToggle')?.enable();
-            this.storageConfFormGroup.get('zenodoVersionSelect')?.enable();
-            this.setZenodoDatasetVersions(datasetSelect.value);
-        } else {
-            rcloneUser.setValidators(null);
-            rclonePassword.setValidators(null);
-            this.storageConfFormGroup.get('zenodoForcePullToggle')?.disable();
-            this.storageConfFormGroup.get('zenodoVersionSelect')?.disable();
-        }
-
+        rcloneUser.setValidators([Validators.required]);
+        rclonePassword.setValidators([Validators.required]);
         rcloneUser.updateValueAndValidity();
         rclonePassword.updateValueAndValidity();
+
+        this.datasets.push({ doi: dataset.id, forcePull: false });
     }
 
-    setZenodoDatasetOptions() {
-        this.zenodoService.getDatasets().subscribe({
-            next: (datasets) => {
-                this.convertToSimpleDatasets(datasets);
-                this.zenodoDatasetOptions.push({
-                    value: '',
-                    viewValue: 'None',
-                });
-                this.datasets.forEach((option: ZenodoDataset) => {
-                    this.zenodoDatasetOptions.push({
-                        value: option.id,
-                        viewValue: option.title,
-                    });
-                });
-            },
-            error: () => {
-                this.storageConfFormGroup.get('zenodoDatasetSelect')?.disable();
-            },
-        });
-    }
+    deleteDataset(dataset: ZenodoSimpleDataset): void {
+        this.datasets = this.datasets.filter((d) => d.doi !== dataset.id);
 
-    convertToSimpleDatasets(datasets: any) {
-        this.datasetsLength = datasets.hits.total;
-        if (this.datasetsLength != 0) {
-            this.storageConfFormGroup.get('zenodoDatasetSelect')?.enable();
-            datasets.hits.hits.forEach((hit: any) => {
-                const dataset: ZenodoDataset = {
-                    id: hit.id,
-                    created: hit.created,
-                    doi_url: hit.doi_url,
-                    title: hit.title,
-                    doi: hit.doi,
-                    description: hit.metadata.description,
-                    creators: this.setCreators(hit.metadata.creators),
-                    keywords: hit.metadata.keywords,
-                    communities: this.setCommunities(hit.metadata.communities),
-                };
-                this.datasets.push(dataset);
-            });
-        } else {
-            this.storageConfFormGroup.get('zenodoDatasetSelect')?.disable();
-        }
-    }
-
-    setCreators(creators: any): string[] {
-        const creatorsList: string[] = [];
-        creators.forEach((c: any) => {
-            creatorsList.push(c.name);
-        });
-        return creatorsList;
-    }
-
-    setCommunities(communities: any): string[] {
-        const communitiesList: string[] = [];
-        communities.forEach((c: any) => {
-            communitiesList.push(c.id);
-        });
-        return communitiesList;
-    }
-
-    setZenodoDatasetVersions(id: string) {
-        this.zenodoService.getDatasetVersions(id).subscribe({
-            next: (versions) => {
-                this.versions = [];
-                this.zenodoDatasetVersions = [];
-                this.convertToSimpleVersions(versions);
-                this.versions.forEach((version: ZenodoDatasetVersion) => {
-                    this.zenodoDatasetVersions.push({
-                        value: version.id,
-                        viewValue: version.version,
-                    });
-                });
-                this.storageConfFormGroup
-                    .get('zenodoVersionSelect')
-                    ?.setValue(this.zenodoDatasetVersions[0].value);
-            },
-            error: () => {
-                this.storageConfFormGroup.get('zenodoVersionSelect')?.disable();
-            },
-        });
-    }
-
-    convertToSimpleVersions(versions: any) {
-        this.versionsLength = versions.hits.total;
-        if (this.datasetsLength != 0) {
-            versions.hits.hits.forEach((hit: any) => {
-                const datasetVersion: ZenodoDatasetVersion = {
-                    id: hit.id,
-                    version: hit.metadata.version,
-                    title: hit.title,
-                    doi: hit.doi,
-                    lastest: hit.metadata.relations.version[0].is_last,
-                };
-                this.versions.push(datasetVersion);
-                this.storageConfFormGroup.get('zenodoVersionSelect')?.enable();
-            });
-        } else {
-            this.storageConfFormGroup.get('zenodoVersionSelect')?.disable();
+        if (this.datasets.length == 0) {
+            const rcloneUser =
+                this.storageConfFormGroup.get('rcloneUserInput')!;
+            const rclonePassword = this.storageConfFormGroup.get(
+                'rclonePasswordInput'
+            )!;
+            rcloneUser.setValidators(null);
+            rclonePassword.setValidators(null);
+            rcloneUser.updateValueAndValidity();
+            rclonePassword.updateValueAndValidity();
         }
     }
 }

@@ -1,0 +1,203 @@
+<mat-toolbar>
+    <span class="title">
+        {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASETS' | translate }}
+
+        <mat-icon>dataset</mat-icon></span
+    >
+</mat-toolbar>
+
+<mat-card class="example-card">
+    <ng-template #loading>
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    </ng-template>
+
+    <mat-card-content
+        [ngClass]="{
+            'card-content-mobile': this.mobileQuery.matches
+        }"
+    >
+        <ng-container *ngIf="!dialogLoading; else loading">
+            <div
+                [ngClass]="{
+                    'deployment-detail-container-mobile': mobileQuery.matches,
+                    'deployment-detail-container': !mobileQuery.matches
+                }"
+            >
+                <mat-tab-group
+                    disablePagination="true"
+                    mat-stretch-tabs="false"
+                    mat-align-tabs="start"
+                    #tabGroup
+                    (selectedTabChange)="tabChanged($event)"
+                >
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <img
+                                class="fit-image"
+                                src="../../../../../assets/images/zenodo-logo.png"
+                            />
+                        </ng-template>
+                        <form
+                            [formGroup]="zenodoFormGroup"
+                            class="tab-content"
+                            [ngClass]="{
+                                'form-flex': mobileQuery.matches,
+                                'grid-1-column': !mobileQuery.matches
+                            }"
+                        >
+                            <mat-form-field subscriptSizing="dynamic">
+                                <mat-label>{{
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-COMMUNITY'
+                                        | translate
+                                }}</mat-label>
+                                <input
+                                    type="text"
+                                    placeholder="Pick one"
+                                    aria-label="Number"
+                                    matInput
+                                    formControlName="zenodoCommunitySelect"
+                                    [matAutocomplete]="auto"
+                                />
+                                <mat-autocomplete
+                                    autoActiveFirstOption
+                                    #auto="matAutocomplete"
+                                    (optionSelected)="communitySelectChange()"
+                                >
+                                    <mat-option
+                                        *ngFor="
+                                            let option of filteredCommunityOptions
+                                                | async
+                                        "
+                                        [value]="option.viewValue"
+                                    >
+                                        {{ option.viewValue }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <mat-form-field subscriptSizing="dynamic">
+                                <mat-label
+                                    *ngIf="
+                                        this.zenodoFormGroup.get(
+                                            'zenodoCommunitySelect'
+                                        )?.value === '' || datasetsLength !== 0;
+                                        else noDatasetsAvailable
+                                    "
+                                    >{{
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-DATASET'
+                                            | translate
+                                    }}</mat-label
+                                >
+
+                                <ng-template #noDatasetsAvailable>
+                                    <mat-label>{{
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-DATASET-EMPTY'
+                                            | translate
+                                    }}</mat-label></ng-template
+                                >
+
+                                <mat-select
+                                    formControlName="zenodoDatasetSelect"
+                                    (selectionChange)="datasetSelectChange()"
+                                >
+                                    <mat-option
+                                        *ngFor="
+                                            let zenodoDatasetOption of zenodoDatasetOptions
+                                        "
+                                        [value]="zenodoDatasetOption.value"
+                                    >
+                                        {{ zenodoDatasetOption.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-spinner
+                                    *ngIf="datasetsLoading"
+                                    matSuffix
+                                    [diameter]="18"
+                                    style="float: right; margin-left: 8px"
+                                ></mat-spinner>
+                            </mat-form-field>
+
+                            <mat-form-field subscriptSizing="dynamic">
+                                <mat-label>{{
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-VERSION'
+                                        | translate
+                                }}</mat-label>
+                                <mat-select
+                                    formControlName="zenodoVersionSelect"
+                                >
+                                    <mat-option
+                                        *ngFor="
+                                            let zenodoDatasetVersion of zenodoDatasetVersions
+                                        "
+                                        [value]="zenodoDatasetVersion.value"
+                                    >
+                                        {{ zenodoDatasetVersion.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-spinner
+                                    *ngIf="versionsLoading"
+                                    matSuffix
+                                    [diameter]="18"
+                                    style="float: right; margin-left: 8px"
+                                ></mat-spinner>
+                            </mat-form-field>
+                        </form>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <img
+                                class="fit-image"
+                                src="../../../../../assets/images/doi-logo.png"
+                            />
+                        </ng-template>
+                        <form [formGroup]="doiFormGroup" class="tab-content">
+                            <mat-form-field>
+                                <mat-label>{{
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-TITLE'
+                                        | translate
+                                }}</mat-label>
+                                <input
+                                    matInput
+                                    placeholder=""
+                                    value=""
+                                    formControlName="doiInput"
+                                />
+                                <mat-error
+                                    *ngIf="
+                                        doiFormGroup
+                                            .get('doiInput')
+                                            ?.hasError('invalidDOI')
+                                    "
+                                >
+                                    {{
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-ERROR'
+                                            | translate
+                                    }}
+                                </mat-error>
+                            </mat-form-field>
+                        </form>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </ng-container>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button
+            mat-raised-button
+            color="accent"
+            class="mr-2 ml-2"
+            (click)="addDataset()"
+            [disabled]="!formsAreValid() || dialogLoading"
+        >
+            <mat-icon iconPositionEnd>add_circle</mat-icon>
+            {{ 'GENERAL-BUTTONS.ADD' | translate }}
+        </button>
+        <button mat-raised-button mat-dialog-close>
+            {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+        </button>
+    </mat-card-actions>
+</mat-card>

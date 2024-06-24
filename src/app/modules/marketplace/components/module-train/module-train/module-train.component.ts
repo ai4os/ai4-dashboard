@@ -25,7 +25,7 @@ export class ModuleTrainComponent implements OnInit {
     title = '';
     step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
     step2Title = 'MODULES.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'MODULES.MODULE-TRAIN.STORAGE-CONF';
+    step3Title = 'MODULES.MODULE-TRAIN.DATA-CONF';
 
     showHelp = false;
     showLoader = false;

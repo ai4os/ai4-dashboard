@@ -40,6 +40,13 @@ export interface confObjectStringArray extends confObject {
     values: string[];
 }
 
+export interface confObjectStringBoolean {
+    name: string;
+    value: { stringValue: string; booleanValue: boolean };
+    description: string;
+    options?: string[];
+}
+
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
@@ -64,8 +71,7 @@ export interface ModuleStorageConfiguration {
     rclone_vendor: confObject;
     rclone_user: confObject;
     rclone_password: confObject;
-    zenodo_record_id: confObject;
-    zenodo_force_pull: confObject;
+    datasets: confObjectStringBoolean;
 }
 
 export interface FederatedServerConfiguration {
@@ -110,8 +116,7 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
-        zenodo_record_id: string;
-        zenodo_force_pull: boolean;
+        datasets: Dataset[];
     };
     configuration?: {
         rounds: number;
@@ -121,11 +126,16 @@ export interface TrainModuleRequest {
     };
 }
 
+export interface Dataset {
+    doi: string;
+    force_pull: boolean;
+}
+
 export interface Secret {
     token: string;
 }
-// OSCAR MODELS
 
+// OSCAR MODELS
 export interface Service {
     name: string;
     cluster_id?: string;

@@ -133,7 +133,7 @@
             "TITLE": "Configure training",
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
-            "STORAGE-CONF": "Storage configuration",
+            "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
@@ -164,20 +164,34 @@
                 "RAM-MEMORY": "RAM memory (in MB)",
                 "DISK-MEMORY": "Disk memory (in MB)"
             },
-            "STORAGE-CONF-FORM": {
-                "RCLONE-TITLE": "RCLONE options",
-                "RCLONE-CONF": "RCLONE configuration",
+            "DATA-CONF-FORM": {
+                "STORAGE-CONF": "Storage configuration",
+                "DATASET-CONF": "Dataset configuration",
+                "DATASET-LIST": "Datasets list",
+                "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
                 "RCLONE-REQUIRED": "You must specify a RCLONE account",
-                "ZENODO-TITLE": "Zenodo options",
+                "ADVANCED-SETTINGS": "Advanced settings",
+                "ZENODO-TITLE": "Zenodo",
+                "ZENODO-COMMUNITY": "Zenodo community",
                 "ZENODO-DATASET": "Zenodo dataset",
                 "ZENODO-DATASET-EMPTY": "No datasets available",
                 "ZENODO-VERSION": "Dataset version",
                 "ZENODO-RECORD": "Zenodo Record ID",
-                "FORCE-PULL": "Force pull"
+                "FORCE-PULL": "Force pull",
+                "DOI-TITLE": "DOI",
+                "DOI-ERROR": "Invalid DOI format",
+                "ADD-DATASET": "Add dataset",
+                "DATASETS": "Datasets",
+                "TABLE": {
+                    "NAME": "Name",
+                    "SOURCE": "Source",
+                    "ACTIONS": "Actions",
+                    "FORCE-PULL": "Force pull"
+                }
             },
             "FEDERATED-CONF-FORM": {
                 "TITLE": "Federated options",

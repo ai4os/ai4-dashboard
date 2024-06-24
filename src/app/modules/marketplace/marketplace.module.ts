@@ -9,7 +9,6 @@ import { ModuleDetailComponent } from './components/module-detail/module-detail.
 import { MarkdownModule } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GeneralConfFormComponent } from './components/module-train/general-conf-form/general-conf-form.component';
-import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from './components/module-train/hardware-conf-form/hardware-conf-form.component';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { DevModuleCardComponent } from './components/modules-list/dev-module-card/dev-module-card.component';
@@ -25,6 +24,9 @@ import { ModuleOscarDeployComponent } from './components/module-oscar-deploy/mod
 import { ComputeConfFormComponent } from './components/module-oscar-deploy/compute-conf-form/compute-conf-form.component';
 import { GeneralConfigFormComponent } from './components/module-oscar-deploy/general-config-form/general-config-form.component';
 import { FormsModule } from '@angular/forms';
+import { DatasetCreationDetailComponent } from './components/module-train/datasets/dataset-creation-detail-component/dataset-creation-detail.component';
+import { DatasetsListComponent } from './components/module-train/datasets/datasets-list/datasets-list.component';
+import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +48,8 @@ import { FormsModule } from '@angular/forms';
         ModuleOscarDeployComponent,
         GeneralConfigFormComponent,
         ComputeConfFormComponent,
+        DatasetsListComponent,
+        DatasetCreationDetailComponent,
     ],
     imports: [
         CommonModule,

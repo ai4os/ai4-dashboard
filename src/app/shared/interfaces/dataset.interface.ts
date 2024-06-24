@@ -17,3 +17,15 @@ export interface ZenodoDatasetVersion {
     doi: string;
     lastest: boolean;
 }
+
+export interface ZenodoCommunity {
+    id: string;
+    title: string;
+    link: string;
+}
+
+export interface ZenodoSimpleDataset {
+    id: string;
+    title: string;
+    source: string;
+}
