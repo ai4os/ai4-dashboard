@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { DatasetCreationDetailComponent } from './components/module-train/datasets/dataset-creation-detail-component/dataset-creation-detail.component';
 import { DatasetsListComponent } from './components/module-train/datasets/datasets-list/datasets-list.component';
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { StorageConfFormComponent } from './components/module-train/storage-conf
         MatExpansionModule,
         MarkdownModule.forChild(),
         FormsModule,
+        ScrollingModule,
     ],
 })
 export class MarketplaceModule {}

@@ -6,7 +6,7 @@
     >
 </mat-toolbar>
 
-<mat-card class="example-card">
+<mat-card class="card-container">
     <ng-template #loading>
         <div class="spinner">
             <mat-progress-spinner color="primary" mode="indeterminate">
@@ -66,15 +66,22 @@
                                     #auto="matAutocomplete"
                                     (optionSelected)="communitySelectChange()"
                                 >
-                                    <mat-option
-                                        *ngFor="
-                                            let option of filteredCommunityOptions
-                                                | async
-                                        "
-                                        [value]="option.viewValue"
+                                    <cdk-virtual-scroll-viewport
+                                        [ngStyle]="{
+                                            height: '192px'
+                                        }"
+                                        itemSize="48"
                                     >
-                                        {{ option.viewValue }}
-                                    </mat-option>
+                                        <mat-option
+                                            *cdkVirtualFor="
+                                                let option of filteredCommunityOptions
+                                                    | async
+                                            "
+                                            [value]="option.viewValue"
+                                        >
+                                            {{ option.viewValue }}
+                                        </mat-option>
+                                    </cdk-virtual-scroll-viewport>
                                 </mat-autocomplete>
                             </mat-form-field>
 

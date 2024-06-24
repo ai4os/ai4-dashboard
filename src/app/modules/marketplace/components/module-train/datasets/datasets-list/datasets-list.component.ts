@@ -117,11 +117,12 @@ export class DatasetsListComponent implements OnInit {
 
     openAddDatasetDialog(): void {
         const width = this.mobileQuery.matches ? '300px' : '800px';
+        const height = this.mobileQuery.matches ? '300px' : '446px';
+
         const dialogRef = this.dialog.open(DatasetCreationDetailComponent, {
             data: { storageConfFormGroup: this.storageConfFormGroup },
             width: width,
-            maxWidth: width,
-            minWidth: width,
+            height: height,
             autoFocus: false,
             restoreFocus: false,
         });
