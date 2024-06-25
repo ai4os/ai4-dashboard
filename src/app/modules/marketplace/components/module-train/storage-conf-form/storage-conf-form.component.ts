@@ -54,6 +54,7 @@ export class StorageConfFormComponent implements OnInit {
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
         doiInput: [''],
+        datasetsList: [[{ doi: '', force_pull: false }]],
     });
 
     protected _defaultFormValues: ModuleStorageConfiguration = {
@@ -106,7 +107,7 @@ export class StorageConfFormComponent implements OnInit {
 
     hidePassword = true;
     rcloneVendorOptions: { value: string; viewValue: string }[] = [];
-    datasets: { doi: string; forcePull: boolean }[] = [];
+    datasets: { doi: string; force_pull: boolean }[] = [];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -126,11 +127,12 @@ export class StorageConfFormComponent implements OnInit {
         rcloneUser.updateValueAndValidity();
         rclonePassword.updateValueAndValidity();
 
-        this.datasets.push({ doi: dataset.id, forcePull: false });
+        this.datasets.push({ doi: String(dataset.doi), force_pull: false });
+        this.storageConfFormGroup.get('datasetsList')!.setValue(this.datasets);
     }
 
     deleteDataset(dataset: ZenodoSimpleDataset): void {
-        this.datasets = this.datasets.filter((d) => d.doi !== dataset.id);
+        this.datasets = this.datasets.filter((d) => d.doi !== dataset.doi);
 
         if (this.datasets.length == 0) {
             const rcloneUser =
@@ -142,6 +144,13 @@ export class StorageConfFormComponent implements OnInit {
             rclonePassword.setValidators(null);
             rcloneUser.updateValueAndValidity();
             rclonePassword.updateValueAndValidity();
+        }
+    }
+
+    updateDataset(dataset: ZenodoSimpleDataset): void {
+        const d = this.datasets.find((d) => d.doi === dataset.doi);
+        if (d) {
+            d.force_pull = dataset.force_pull;
         }
     }
 }

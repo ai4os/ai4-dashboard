@@ -15,7 +15,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { Subject } from 'rxjs';
 import { DatasetCreationDetailComponent } from '../dataset-creation-detail-component/dataset-creation-detail.component';
 import { FormGroup } from '@angular/forms';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
@@ -28,7 +27,7 @@ export interface TableColumn {
 }
 
 export interface DatasetTableRow {
-    id: string;
+    doi: string;
     source: string;
     name: string;
     forcePull: boolean;
@@ -62,8 +61,7 @@ export class DatasetsListComponent implements OnInit {
 
     @Output() onDatasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() onDatasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
-
-    isLoading = false;
+    @Output() onDatasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
     columns: Array<TableColumn> = [
         { columnDef: 'id', header: '', hidden: true },
@@ -90,6 +88,7 @@ export class DatasetsListComponent implements OnInit {
     selection = new SelectionModel<DatasetTableRow>(true, []);
     displayedColumns: string[] = [];
 
+    isLoading = false;
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
@@ -109,7 +108,9 @@ export class DatasetsListComponent implements OnInit {
 
     announceSortChange(sortState: Sort) {
         if (sortState.direction) {
-            this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+            this._liveAnnouncer.announce(
+                `Sorted ${sortState.direction} ending`
+            );
         } else {
             this._liveAnnouncer.announce('Sorting cleared');
         }
@@ -142,14 +143,21 @@ export class DatasetsListComponent implements OnInit {
     }
 
     changeForcePull(event: MatCheckboxChange, row: DatasetTableRow) {
-        const d = this.datasets.find((d) => d.id === row.id);
-        d!.forcePull = event.checked;
+        const dataset = this.datasets.find((d) => d.doi === row.doi);
+        dataset!.forcePull = event.checked;
+        const d: ZenodoSimpleDataset = {
+            doi: dataset!.doi,
+            title: dataset!.name,
+            source: dataset!.source,
+            force_pull: dataset!.forcePull,
+        };
+        this.onDatasetPullChanged.emit(d);
     }
 
     addDataset(dataset: ZenodoSimpleDataset) {
-        if (this.datasets.find((d) => d.id === dataset.id)) {
+        if (this.datasets.find((d) => d.doi === dataset.doi)) {
             this._snackBar.open(
-                'Dataset with DOI ' + dataset.id + ' already exists',
+                'Dataset with DOI ' + dataset.doi + ' already exists',
                 'X',
                 {
                     duration: 3000,
@@ -167,16 +175,16 @@ export class DatasetsListComponent implements OnInit {
             );
         } else {
             this.datasets.push({
-                id: dataset.id,
+                doi: dataset.doi,
                 source: dataset.source,
                 name: dataset.title,
-                forcePull: false,
+                forcePull: dataset.force_pull,
             });
             this.dataSource = new MatTableDataSource<DatasetTableRow>(
                 this.datasets
             );
             this.onDatasetAdded.emit(dataset);
-            this._snackBar.open('Dataset added with DOI ' + dataset.id, 'X', {
+            this._snackBar.open('Dataset added with DOI ' + dataset.doi, 'X', {
                 duration: 3000,
                 panelClass: ['success-snackbar'],
             });
@@ -192,17 +200,18 @@ export class DatasetsListComponent implements OnInit {
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    const id = row.id;
+                    const doi = row.doi;
                     this.dataSource = new MatTableDataSource<DatasetTableRow>(
                         this.datasets
                     );
                     const itemIndex = this.datasets.findIndex(
-                        (obj) => obj['id'] === id
+                        (obj) => obj['doi'] === doi
                     );
                     const d: ZenodoSimpleDataset = {
-                        id: this.datasets[itemIndex].id,
-                        title: this.datasets[itemIndex].name,
-                        source: this.datasets[itemIndex].source,
+                        doi: row.doi,
+                        title: row.name,
+                        source: row.source,
+                        force_pull: row.forcePull,
                     };
                     this.onDatasetDeleted.emit(d);
                     this.datasets.splice(itemIndex, 1);

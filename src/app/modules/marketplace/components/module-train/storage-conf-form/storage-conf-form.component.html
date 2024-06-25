@@ -147,5 +147,6 @@
         [storageConfFormGroup]="storageConfFormGroup"
         (onDatasetAdded)="addDataset($event)"
         (onDatasetDeleted)="deleteDataset($event)"
+        (onDatasetPullChanged)="updateDataset($event)"
     ></app-datasets-list>
 </form>
