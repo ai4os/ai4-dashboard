@@ -41,7 +41,7 @@ describe('ZenodoService', () => {
     it('getDatasets should return a list of datasets', (done) => {
         const url = `${base}${endpoints.zenodo}?api_route=communities/ai4eosc/records`;
 
-        service.getDatasets().subscribe((asyncData) => {
+        service.getDatasets('ai4eosc').subscribe((asyncData) => {
             try {
                 expect(asyncData).toBe(datasetListMock);
                 done();
