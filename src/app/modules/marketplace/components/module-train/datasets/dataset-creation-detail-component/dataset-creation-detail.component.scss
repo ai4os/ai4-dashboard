@@ -32,6 +32,11 @@
     flex-direction: column;
 }
 
+.input-spinner {
+    float: right;
+    margin: 0px 8px;
+}
+
 ::ng-deep .mdc-tab-card {
     height: inherit;
 }
