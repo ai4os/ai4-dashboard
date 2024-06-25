@@ -145,8 +145,8 @@
     </div>
     <app-datasets-list
         [storageConfFormGroup]="storageConfFormGroup"
-        (onDatasetAdded)="addDataset($event)"
-        (onDatasetDeleted)="deleteDataset($event)"
-        (onDatasetPullChanged)="updateDataset($event)"
+        (datasetAdded)="addDataset($event)"
+        (datasetDeleted)="deleteDataset($event)"
+        (datasetPullChanged)="updateDataset($event)"
     ></app-datasets-list>
 </form>

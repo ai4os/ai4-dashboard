@@ -19,6 +19,7 @@ import {
     MatDialog,
     MatDialogRef,
 } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ZenodoService } from '@app/modules/marketplace/services/zenodo-service/zenodo.service';
 import {
@@ -50,6 +51,7 @@ export class DatasetCreationDetailComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private fb: FormBuilder,
+        private _snackBar: MatSnackBar,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: ZenodoSimpleDataset
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
@@ -176,6 +178,10 @@ export class DatasetCreationDetailComponent implements OnInit {
             },
             error: () => {
                 this.zenodoFormGroup.get('zenodoDatasetSelect')?.disable();
+                this._snackBar.open('Error retrieving datasets', 'X', {
+                    duration: 3000,
+                    panelClass: ['red-snackbar'],
+                });
             },
         });
     }
@@ -253,6 +259,10 @@ export class DatasetCreationDetailComponent implements OnInit {
             },
             error: () => {
                 this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
+                this._snackBar.open('Error retrieving dataset versions', 'X', {
+                    duration: 3000,
+                    panelClass: ['red-snackbar'],
+                });
             },
         });
     }
@@ -278,14 +288,14 @@ export class DatasetCreationDetailComponent implements OnInit {
     addDataset() {
         this.dialogLoading = true;
         let source = '';
-        let id = '0';
+        let id = '';
 
         if (this.selectedTab == 0) {
             source = 'zenodo';
-            id = this.zenodoFormGroup.get('zenodoVersionSelect')?.value!;
+            id = this.zenodoFormGroup.get('zenodoVersionSelect')?.value ?? '';
         } else if (this.selectedTab == 1) {
             source = 'doi';
-            id = this.doiFormGroup.get('doiInput')?.value!;
+            id = this.doiFormGroup.get('doiInput')?.value ?? '';
             const regex = /^(?:[^.]*\.){2}(\d+)/;
             const match = id.match(regex);
             const numero = match![1];
@@ -306,6 +316,14 @@ export class DatasetCreationDetailComponent implements OnInit {
             error: () => {
                 this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
                 this.dialogLoading = false;
+                this._snackBar.open(
+                    'Error retrieving dataset information',
+                    'X',
+                    {
+                        duration: 3000,
+                        panelClass: ['red-snackbar'],
+                    }
+                );
             },
         });
     }

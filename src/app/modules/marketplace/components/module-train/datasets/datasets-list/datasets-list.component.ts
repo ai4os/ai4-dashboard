@@ -57,11 +57,11 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-    storageConfFormGroup!: FormGroup;
+        storageConfFormGroup!: FormGroup;
 
-    @Output() onDatasetAdded = new EventEmitter<ZenodoSimpleDataset>();
-    @Output() onDatasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
-    @Output() onDatasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
+    @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
+    @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
+    @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
     columns: Array<TableColumn> = [
         { columnDef: 'id', header: '', hidden: true },
@@ -151,7 +151,7 @@ export class DatasetsListComponent implements OnInit {
             source: dataset!.source,
             force_pull: dataset!.forcePull,
         };
-        this.onDatasetPullChanged.emit(d);
+        this.datasetPullChanged.emit(d);
     }
 
     addDataset(dataset: ZenodoSimpleDataset) {
@@ -183,7 +183,7 @@ export class DatasetsListComponent implements OnInit {
             this.dataSource = new MatTableDataSource<DatasetTableRow>(
                 this.datasets
             );
-            this.onDatasetAdded.emit(dataset);
+            this.datasetAdded.emit(dataset);
             this._snackBar.open('Dataset added with DOI ' + dataset.doi, 'X', {
                 duration: 3000,
                 panelClass: ['success-snackbar'],
@@ -213,7 +213,7 @@ export class DatasetsListComponent implements OnInit {
                         source: row.source,
                         force_pull: row.forcePull,
                     };
-                    this.onDatasetDeleted.emit(d);
+                    this.datasetDeleted.emit(d);
                     this.datasets.splice(itemIndex, 1);
                     this.dataSource = new MatTableDataSource<DatasetTableRow>(
                         this.datasets
