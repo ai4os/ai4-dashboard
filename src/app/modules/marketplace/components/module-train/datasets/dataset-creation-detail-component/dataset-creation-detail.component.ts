@@ -71,28 +71,22 @@ export class DatasetCreationDetailComponent implements OnInit {
 
     selectedTab = 0;
     dialogLoading = false;
-    datasetsLoading = false;
-    versionsLoading = false;
+    protected datasetsLoading = false;
+    protected versionsLoading = false;
 
-    datasetsLength = 0;
-    datasets: ZenodoDataset[] = [];
-    versionsLength = 0;
-    versions: ZenodoDatasetVersion[] = [];
-    communities: ZenodoCommunity[] = [];
+    protected datasetsLength = 0;
+    private datasets: ZenodoDataset[] = [];
+    private versions: ZenodoDatasetVersion[] = [];
+    private communities: ZenodoCommunity[] = [];
 
-    zenodoCommunitiesOptions: { value: string; viewValue: string }[] = [];
-    filteredCommunityOptions!: Observable<
+    protected zenodoCommunitiesOptions: { value: string; viewValue: string }[] =
+        [];
+    protected filteredCommunityOptions!: Observable<
         { value: string; viewValue: string }[]
     >;
-    zenodoDatasetOptions: { value: string; viewValue: string }[] = [];
-    zenodoDatasetVersions: { value: string; viewValue: string }[] = [];
-
-    selectedDataset: ZenodoSimpleDataset = {
-        doi: '',
-        title: '',
-        source: '',
-        force_pull: false,
-    };
+    protected zenodoDatasetOptions: { value: string; viewValue: string }[] = [];
+    protected zenodoDatasetVersions: { value: string; viewValue: string }[] =
+        [];
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -268,7 +262,6 @@ export class DatasetCreationDetailComponent implements OnInit {
     }
 
     convertToSimpleVersions(versions: any) {
-        this.versionsLength = versions.hits.total;
         if (this.datasetsLength != 0) {
             versions.hits.hits.forEach((hit: any) => {
                 const datasetVersion: ZenodoDatasetVersion = {

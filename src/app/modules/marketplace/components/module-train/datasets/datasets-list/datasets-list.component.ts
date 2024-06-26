@@ -1,5 +1,4 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { SelectionModel } from '@angular/cdk/collections';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
     ChangeDetectorRef,
@@ -57,13 +56,13 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-        storageConfFormGroup!: FormGroup;
+    storageConfFormGroup!: FormGroup;
 
     @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
-    columns: Array<TableColumn> = [
+    protected columns: Array<TableColumn> = [
         { columnDef: 'id', header: '', hidden: true },
         {
             columnDef: 'name',
@@ -83,12 +82,10 @@ export class DatasetsListComponent implements OnInit {
         },
     ];
 
-    datasets: Array<DatasetTableRow> = [];
-    dataSource!: MatTableDataSource<DatasetTableRow>;
-    selection = new SelectionModel<DatasetTableRow>(true, []);
-    displayedColumns: string[] = [];
+    private datasets: Array<DatasetTableRow> = [];
+    protected dataSource!: MatTableDataSource<DatasetTableRow>;
+    protected displayedColumns: string[] = [];
 
-    isLoading = false;
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
