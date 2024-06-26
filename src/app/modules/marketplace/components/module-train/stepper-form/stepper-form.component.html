@@ -103,6 +103,7 @@
                     mat-raised-button
                     color="accent"
                     (click)="submitTrainingRequest()"
+                    [disabled]="!checkFormValidity(step3Form)"
                 >
                     {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
                 </button>

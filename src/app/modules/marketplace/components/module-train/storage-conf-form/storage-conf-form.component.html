@@ -1,61 +1,16 @@
 <form [formGroup]="storageConfFormGroup" class="storage-conf-form">
-    <h4>{{ 'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.TITLE' | translate }}</h4>
+    <h4>
+        {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
+    </h4>
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
             'form-grid': !mobileQuery.matches
         }"
     >
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>{{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-CONF' | translate
-            }}</mat-label>
-            <input
-                matInput
-                placeholder=""
-                value=""
-                formControlName="rcloneConfInput"
-            />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.rclone_conf.description
-            }}</mat-hint>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.STORAGE-URL' | translate
-            }}</mat-label>
-            <input
-                type="text"
-                matInput
-                placeholder=""
-                value=""
-                formControlName="storageUrlInput"
-            />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.rclone_url.description
-            }}</mat-hint>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-VENDOR'
-                    | translate
-            }}</mat-label>
-            <mat-select formControlName="rcloneVendorSelect">
-                <mat-option
-                    *ngFor="let rcloneVendorOption of rcloneVendorOptions"
-                    [value]="rcloneVendorOption.value"
-                >
-                    {{ rcloneVendorOption.viewValue }}
-                </mat-option>
-            </mat-select>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.rclone_vendor.description
-            }}</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-USER' | translate
+                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-USER' | translate
             }}</mat-label>
             <input
                 matInput
@@ -64,6 +19,18 @@
                 type="text"
                 formControlName="rcloneUserInput"
             />
+            <mat-error
+                *ngIf="
+                    storageConfFormGroup.get('rcloneUserInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues.rclone_user.description
             }}</mat-hint>
@@ -71,7 +38,7 @@
 
         <mat-form-field appearance="fill">
             <mat-label>{{
-                'MODULES.MODULE-TRAIN.STORAGE-CONF-FORM.RCLONE-PASS' | translate
+                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-PASS' | translate
             }}</mat-label>
             <input
                 [type]="hidePassword ? 'password' : 'text'"
@@ -87,9 +54,99 @@
             >
                 {{ hidePassword ? 'visibility_off' : 'visibility' }}
             </mat-icon>
+            <mat-error
+                *ngIf="
+                    storageConfFormGroup.get('rclonePasswordInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues.rclone_password.description
             }}</mat-hint>
         </mat-form-field>
+
+        <mat-expansion-panel class="advanced-settings-row">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.ADVANCED-SETTINGS'
+                            | translate
+                    }}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="form-grid">
+                <mat-form-field>
+                    <mat-label>{{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-CONF'
+                            | translate
+                    }}</mat-label>
+                    <input
+                        matInput
+                        placeholder=""
+                        value=""
+                        formControlName="rcloneConfInput"
+                    />
+                    <mat-hint *ngIf="_showHelp">{{
+                        _defaultFormValues.rclone_conf.description
+                    }}</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>{{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-URL'
+                            | translate
+                    }}</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        placeholder=""
+                        value=""
+                        formControlName="storageUrlInput"
+                    />
+                    <mat-hint *ngIf="_showHelp">{{
+                        _defaultFormValues.rclone_url.description
+                    }}</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>{{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-VENDOR'
+                            | translate
+                    }}</mat-label>
+                    <mat-select formControlName="rcloneVendorSelect">
+                        <mat-option
+                            *ngFor="
+                                let rcloneVendorOption of rcloneVendorOptions
+                            "
+                            [value]="rcloneVendorOption.value"
+                        >
+                            {{ rcloneVendorOption.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint *ngIf="_showHelp">{{
+                        _defaultFormValues.rclone_vendor.description
+                    }}</mat-hint>
+                </mat-form-field>
+            </div>
+        </mat-expansion-panel>
     </div>
+
+    <div class="dataset-options-container">
+        <h4>
+            {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF' | translate }}
+        </h4>
+    </div>
+    <app-datasets-list
+        [storageConfFormGroup]="storageConfFormGroup"
+        (datasetAdded)="addDataset($event)"
+        (datasetDeleted)="deleteDataset($event)"
+        (datasetPullChanged)="updateDataset($event)"
+    ></app-datasets-list>
 </form>

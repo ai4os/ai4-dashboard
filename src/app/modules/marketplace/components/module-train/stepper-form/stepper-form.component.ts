@@ -71,7 +71,10 @@ export class StepperFormComponent implements OnInit {
     private _mobileQueryListener: () => void;
 
     checkFormValidity(form: FormGroup) {
-        return form.valid;
+        if (form) {
+            return form.valid;
+        }
+        return false;
     }
 
     showHelpButtonChange(event: MatSlideToggleChange) {
@@ -130,6 +133,7 @@ export class StepperFormComponent implements OnInit {
                     this.step3Form.value.storageConfForm.rcloneUserInput,
                 rclone_password:
                     this.step3Form.value.storageConfForm.rclonePasswordInput,
+                datasets: this.step3Form.value.storageConfForm.datasetsList,
             };
             request = this.deploymentsService.postTrainModule(data);
         }
