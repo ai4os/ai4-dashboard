@@ -84,7 +84,7 @@ export class DatasetCreationDetailComponent implements OnInit {
     private datasets: ZenodoDataset[] = [];
     private versions: ZenodoDatasetVersion[] = [];
     private communities: ZenodoCommunity[] = [];
-    private community: string = '';
+    private community = '';
 
     protected zenodoCommunitiesOptions: { value: string; viewValue: string }[] =
         [];
