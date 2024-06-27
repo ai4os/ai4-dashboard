@@ -184,6 +184,7 @@
                 "ZENODO-VERSION": "Dataset version",
                 "ZENODO-RECORD": "Zenodo Record ID",
                 "FORCE-PULL": "Force pull",
+                "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "DOI-TITLE": "DOI",
                 "DOI-ERROR": "Invalid DOI format",
                 "ADD-DATASET": "Add dataset",

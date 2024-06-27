@@ -122,6 +122,8 @@ export class StorageConfFormComponent implements OnInit {
         const rclonePassword = this.storageConfFormGroup.get(
             'rclonePasswordInput'
         )!;
+        rcloneUser.markAllAsTouched();
+        rclonePassword.markAllAsTouched();
         rcloneUser.setValidators([Validators.required]);
         rclonePassword.setValidators([Validators.required]);
         rcloneUser.updateValueAndValidity();

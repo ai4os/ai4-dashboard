@@ -21,6 +21,7 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ZenodoService } from '@app/modules/marketplace/services/zenodo-service/zenodo.service';
 import {
     ZenodoCommunity,
@@ -48,6 +49,7 @@ export class DatasetCreationDetailComponent implements OnInit {
         private zenodoService: ZenodoService,
         public dialogRef: MatDialogRef<DatasetCreationDetailComponent>,
         public confirmationDialog: MatDialog,
+        private appConfigService: AppConfigService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private fb: FormBuilder,
@@ -57,6 +59,10 @@ export class DatasetCreationDetailComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+        this.community =
+            this.appConfigService.voName == 'vo.imagine-ai.eu'
+                ? 'iMagine project'
+                : 'Artificial Intelligence for the European Open Science Cloud (AI4EOSC)';
     }
 
     zenodoFormGroup = this.fb.group({
@@ -78,6 +84,7 @@ export class DatasetCreationDetailComponent implements OnInit {
     private datasets: ZenodoDataset[] = [];
     private versions: ZenodoDatasetVersion[] = [];
     private communities: ZenodoCommunity[] = [];
+    private community: string = '';
 
     protected zenodoCommunitiesOptions: { value: string; viewValue: string }[] =
         [];
@@ -122,6 +129,15 @@ export class DatasetCreationDetailComponent implements OnInit {
                     });
                 });
                 this.zenodoFormGroup.get('zenodoCommunitySelect')?.enable();
+                const selectedOption = this.zenodoCommunitiesOptions.find(
+                    (option) => option.viewValue === this.community
+                );
+                if (selectedOption) {
+                    this.zenodoFormGroup
+                        .get('zenodoCommunitySelect')
+                        ?.setValue(selectedOption.viewValue);
+                    this.communitySelectChange();
+                }
                 this.dialogLoading = false;
             });
     }
@@ -281,44 +297,47 @@ export class DatasetCreationDetailComponent implements OnInit {
     addDataset() {
         this.dialogLoading = true;
         let source = '';
-        let id = '';
 
         if (this.selectedTab == 0) {
             source = 'zenodo';
-            id = this.zenodoFormGroup.get('zenodoVersionSelect')?.value ?? '';
+            const id =
+                this.zenodoFormGroup.get('zenodoVersionSelect')?.value ?? '';
+            this.zenodoService.getDataset(id).subscribe({
+                next: (dataset) => {
+                    const d = this.convertToSimpleDataset(dataset);
+                    d.source = source;
+                    this.onSubmitDataset.emit(d);
+                    this.doiFormGroup.get('doiInput')?.setValue('');
+                    this.doiFormGroup.markAsUntouched();
+                },
+                error: () => {
+                    this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
+                    this.dialogLoading = false;
+                    this._snackBar.open(
+                        'Error retrieving dataset information',
+                        'X',
+                        {
+                            duration: 3000,
+                            panelClass: ['red-snackbar'],
+                        }
+                    );
+                },
+            });
         } else if (this.selectedTab == 1) {
             source = 'doi';
-            id = this.doiFormGroup.get('doiInput')?.value ?? '';
-            const regex = /^(?:[^.]*\.){2}(\d+)/;
-            const match = id.match(regex);
-            const numero = match![1];
-            id = numero;
-
+            const doi = this.doiFormGroup.get('doiInput')?.value ?? '';
             this.zenodoFormGroup.get('zenodoCommunitySelect')?.setValue('');
             this.clearZenodoForm();
+            const d: ZenodoSimpleDataset = {
+                doi: doi,
+                title: doi,
+                source: source,
+                force_pull: false,
+            };
+            this.onSubmitDataset.emit(d);
+            this.doiFormGroup.get('doiInput')?.setValue('');
+            this.doiFormGroup.markAsUntouched();
         }
-
-        this.zenodoService.getDataset(id).subscribe({
-            next: (dataset) => {
-                const d = this.convertToSimpleDataset(dataset);
-                d.source = source;
-                this.onSubmitDataset.emit(d);
-                this.doiFormGroup.get('doiInput')?.setValue('');
-                this.doiFormGroup.markAsUntouched();
-            },
-            error: () => {
-                this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
-                this.dialogLoading = false;
-                this._snackBar.open(
-                    'Error retrieving dataset information',
-                    'X',
-                    {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    }
-                );
-            },
-        });
     }
 
     convertToSimpleDataset(d: any) {

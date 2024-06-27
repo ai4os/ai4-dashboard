@@ -12,6 +12,12 @@
     width: 40%;
 }
 
+.help-icon {
+    font-size: 1.3em;
+    padding-left: 0.3em;
+    place-content: center;
+}
+
 .table-container {
     overflow: auto;
 }
@@ -59,7 +65,7 @@
 
 .mat-column-forcePull {
     justify-content: center;
-    max-width: 120px;
+    max-width: 150px;
 }
 
 .mat-mdc-table .mat-mdc-row:hover {

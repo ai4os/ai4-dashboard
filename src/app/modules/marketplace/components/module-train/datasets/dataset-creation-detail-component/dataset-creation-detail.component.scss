@@ -26,15 +26,19 @@
     max-height: 450px;
 }
 
+.input-spinner {
+    float: right;
+    margin: 0px 8px;
+}
+
+p {
+    color: black;
+}
+
 :host {
     height: inherit;
     display: flex;
     flex-direction: column;
-}
-
-.input-spinner {
-    float: right;
-    margin: 0px 8px;
 }
 
 ::ng-deep .mdc-tab-card {
@@ -51,5 +55,5 @@
 }
 
 ::ng-deep .mat-mdc-tab-header {
-    width: fit-content;
+    width: 100%;
 }

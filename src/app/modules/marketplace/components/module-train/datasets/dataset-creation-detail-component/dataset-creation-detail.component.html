@@ -163,7 +163,7 @@
                         <form [formGroup]="doiFormGroup" class="tab-content">
                             <mat-form-field>
                                 <mat-label>{{
-                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-TITLE'
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.TITLE'
                                         | translate
                                 }}</mat-label>
                                 <input
@@ -180,12 +180,55 @@
                                     "
                                 >
                                     {{
-                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-ERROR'
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.ERROR'
                                             | translate
                                     }}
                                 </mat-error>
                             </mat-form-field>
                         </form>
+
+                        <mat-divider></mat-divider>
+
+                        <p>
+                            {{
+                                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.SUPPORT'
+                                    | translate
+                            }}
+                            <a href="https://zenodo.org/" target="_blank"
+                                >zenodo</a
+                            >,
+                            <a href="https://figshare.com/" target="_blank"
+                                >figshare</a
+                            >,
+                            <a href="https://github.com/" target="_blank"
+                                >GitHub</a
+                            >,
+                            <a href="https://datadryad.org/" target="_blank"
+                                >DRYAD</a
+                            >,
+                            <a href="https://huggingface.co/" target="_blank"
+                                >Hugging Face</a
+                            >,
+                            <a href="https://osf.io/" target="_blank"
+                                >Open Science Framework (OSF)</a
+                            >,
+                            <a href="https://data.mendeley.com/" target="_blank"
+                                >Mendeley Data</a
+                            >
+                            {{
+                                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.AND'
+                                    | translate
+                            }}
+                            <a
+                                href="https://j535d165.github.io/datahugger/repositories/"
+                                target="_blank"
+                            >
+                                {{
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.MORE'
+                                        | translate
+                                }}</a
+                            >!
+                        </p>
                     </mat-tab>
                 </mat-tab-group>
             </div>
