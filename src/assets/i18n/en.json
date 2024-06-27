@@ -200,7 +200,11 @@
                 "ROUNDS": "Number of rounds",
                 "METRIC": "Evaluation metric",
                 "MIN-CLIENTS": "Minimal number of clients",
-                "AGG-STRATEGY": "Federated aggregation strategy"
+                "AGG-STRATEGY": "Federated aggregation strategy",
+                "MU": "MU",
+                "FL": "FL",
+                "MOMENTUM": "MOMENTUM",
+                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this."
             }
         },
         "MODULE-TRY": {

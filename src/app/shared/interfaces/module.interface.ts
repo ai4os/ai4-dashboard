@@ -123,6 +123,9 @@ export interface TrainModuleRequest {
         metric: string[];
         min_clients: number;
         strategy: string;
+        mu: number;
+        fl: number;
+        momentum: number;
     };
 }
 

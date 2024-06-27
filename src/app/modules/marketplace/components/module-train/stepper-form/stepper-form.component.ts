@@ -119,6 +119,9 @@ export class StepperFormComponent implements OnInit {
                 strategy:
                     this.step3Form.value.federatedConfForm
                         .strategyOptionsSelect,
+                mu: this.step3Form.value.federatedConfForm.muInput,
+                fl: this.step3Form.value.federatedConfForm.flInput,
+                momentum: this.step3Form.value.federatedConfForm.momentumInput,
             };
             request = this.deploymentsService.trainTool(data);
         } else {

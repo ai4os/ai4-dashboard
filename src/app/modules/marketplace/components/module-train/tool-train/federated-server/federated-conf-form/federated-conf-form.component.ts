@@ -54,11 +54,15 @@ export class FederatedConfFormComponent implements OnInit {
             ],
         ],
         strategyOptionsSelect: [''],
+        muInput: [''],
+        flInput: [''],
+        momentumInput: [''],
     });
 
     protected _defaultFormValues: any;
 
     protected _showHelp = false;
+    protected showStrategiesInfo = false;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -88,6 +92,15 @@ export class FederatedConfFormComponent implements OnInit {
                     viewValue: option,
                 });
             });
+            this.federatedConfFormGroup
+                .get('muInput')
+                ?.setValue(defaultFormValues.mu?.value);
+            this.federatedConfFormGroup
+                .get('flInput')
+                ?.setValue(defaultFormValues.fl?.value);
+            this.federatedConfFormGroup
+                .get('momentumInput')
+                ?.setValue(defaultFormValues.momentum?.value);
         }
     }
 
@@ -98,7 +111,6 @@ export class FederatedConfFormComponent implements OnInit {
     filteredMetrics: Observable<string[]>;
     metrics: string[] = ['accuracy'];
     defaultMetrics: string[] = ['accuracy', 'mse', 'mae', 'rmse'];
-
     strategyOptions: any = [];
 
     ngOnInit(): void {
@@ -152,5 +164,21 @@ export class FederatedConfFormComponent implements OnInit {
         return this.defaultMetrics.filter((metric) =>
             metric.toLowerCase().includes(filterValue)
         );
+    }
+
+    checkStrategy(): void {
+        const strategy = this.federatedConfFormGroup.get(
+            'strategyOptionsSelect'
+        )?.value;
+        const strategies = [
+            'Federated Optimization',
+            'Federated Optimization with Adam',
+            'Adaptive Federated Optimization using Yogi',
+        ];
+        if (strategy && strategies.includes(strategy)) {
+            this.showStrategiesInfo = true;
+        } else {
+            this.showStrategiesInfo = false;
+        }
     }
 }
