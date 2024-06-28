@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/ai4os/ai4-dashboard/compare/v2.4.0...v2.5.0) (2024-06-28)
+
+
+### Features
+
+* **Datasets:** improvements dataset configuration ([#119](https://github.com/ai4os/ai4-dashboard/issues/119)) ([036b3d8](https://github.com/ai4os/ai4-dashboard/commit/036b3d8f90faff08459e0411d5d0cdb8ce350363))
+
 ## [2.4.0](https://github.com/ai4os/ai4-dashboard/compare/v2.3.1...v2.4.0) (2024-06-18)
 
 
