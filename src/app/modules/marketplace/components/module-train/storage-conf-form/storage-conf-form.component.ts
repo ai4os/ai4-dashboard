@@ -98,6 +98,7 @@ export class StorageConfFormComponent implements OnInit {
                     });
                 }
             );
+            this.storageConfFormGroup.get('datasetsList')!.setValue([]);
         }
     }
 
@@ -135,6 +136,7 @@ export class StorageConfFormComponent implements OnInit {
 
     deleteDataset(dataset: ZenodoSimpleDataset): void {
         this.datasets = this.datasets.filter((d) => d.doi !== dataset.doi);
+        this.storageConfFormGroup.get('datasetsList')!.setValue(this.datasets);
 
         if (this.datasets.length == 0) {
             const rcloneUser =

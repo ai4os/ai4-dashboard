@@ -133,11 +133,7 @@ export class StepperFormComponent implements OnInit {
                     this.step3Form.value.storageConfForm.rcloneUserInput,
                 rclone_password:
                     this.step3Form.value.storageConfForm.rclonePasswordInput,
-                datasets:
-                    this.step3Form.value.storageConfForm.datasetsList[0].doi ===
-                    ''
-                        ? []
-                        : this.step3Form.value.storageConfForm.datasetsList,
+                datasets: this.step3Form.value.storageConfForm.datasetsList,
             };
             request = this.deploymentsService.postTrainModule(data);
         }
