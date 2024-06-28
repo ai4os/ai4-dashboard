@@ -191,9 +191,8 @@
                 "DOI": {
                     "TITLE": "DOI",
                     "ERROR": "Invalid DOI format",
-                    "SUPPORT": "We support DOIs from",
-                    "MORE": "many more",
-                    "AND": "and"
+                    "SUPPORT": "We support DOIs from these repositories and ",
+                    "MORE": "many more"
                 },
                 "TABLE": {
                     "NAME": "Name",

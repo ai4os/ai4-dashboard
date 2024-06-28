@@ -9,6 +9,12 @@
     height: 100%;
 }
 
+.small-logo {
+    height: 50%;
+    width: 100%;
+    object-fit: contain;
+}
+
 .tab-content {
     padding-top: 2em;
     align-items: center;
@@ -31,8 +37,25 @@
     margin: 0px 8px;
 }
 
+.logos-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    justify-items: center;
+    padding: 0px 0.5rem;
+}
+
+.footer {
+    padding-top: 4.5em;
+}
+
 p {
     color: black;
+    margin-bottom: 0;
+}
+
+a {
+    align-content: end;
 }
 
 :host {
