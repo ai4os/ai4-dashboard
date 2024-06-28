@@ -98,7 +98,7 @@ export class StorageConfFormComponent implements OnInit {
                     });
                 }
             );
-            this.storageConfFormGroup.get('datasetsList')!.setValue([]);
+            this.storageConfFormGroup.get('datasetsList')?.setValue([]);
         }
     }
 
@@ -119,35 +119,34 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     addDataset(dataset: ZenodoSimpleDataset): void {
-        const rcloneUser = this.storageConfFormGroup.get('rcloneUserInput')!;
+        const rcloneUser = this.storageConfFormGroup.get('rcloneUserInput');
         const rclonePassword = this.storageConfFormGroup.get(
             'rclonePasswordInput'
-        )!;
-        rcloneUser.markAllAsTouched();
-        rclonePassword.markAllAsTouched();
-        rcloneUser.setValidators([Validators.required]);
-        rclonePassword.setValidators([Validators.required]);
-        rcloneUser.updateValueAndValidity();
-        rclonePassword.updateValueAndValidity();
+        );
+        rcloneUser?.markAllAsTouched();
+        rclonePassword?.markAllAsTouched();
+        rcloneUser?.setValidators([Validators.required]);
+        rclonePassword?.setValidators([Validators.required]);
+        rcloneUser?.updateValueAndValidity();
+        rclonePassword?.updateValueAndValidity();
 
         this.datasets.push({ doi: String(dataset.doi), force_pull: false });
-        this.storageConfFormGroup.get('datasetsList')!.setValue(this.datasets);
+        this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
     }
 
     deleteDataset(dataset: ZenodoSimpleDataset): void {
         this.datasets = this.datasets.filter((d) => d.doi !== dataset.doi);
-        this.storageConfFormGroup.get('datasetsList')!.setValue(this.datasets);
+        this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
 
         if (this.datasets.length == 0) {
-            const rcloneUser =
-                this.storageConfFormGroup.get('rcloneUserInput')!;
+            const rcloneUser = this.storageConfFormGroup.get('rcloneUserInput');
             const rclonePassword = this.storageConfFormGroup.get(
                 'rclonePasswordInput'
-            )!;
-            rcloneUser.setValidators(null);
-            rclonePassword.setValidators(null);
-            rcloneUser.updateValueAndValidity();
-            rclonePassword.updateValueAndValidity();
+            );
+            rcloneUser?.setValidators(null);
+            rclonePassword?.setValidators(null);
+            rcloneUser?.updateValueAndValidity();
+            rclonePassword?.updateValueAndValidity();
         }
     }
 
