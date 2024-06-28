@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,16 +26,13 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { TranslateHttpLoaderVersions } from './shared/services/translate-http-loader-versions';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
 }
 
-export function createTranslateLoader(
-    http: HttpClient
-): TranslateHttpLoaderVersions {
-    return new TranslateHttpLoaderVersions(http);
+export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 const { base } = environment.api;
 

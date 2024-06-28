@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --port 8080 --extra-webpack-config webpack.config.js -c production-ai4eosc",
+        "start": "ng serve --port 8080 -c production-ai4eosc",
         "build-ai4eosc-dev": "ng build --configuration development-ai4eosc",
         "build-ai4eosc-prod": "ng build --configuration production-ai4eosc",
         "build-ai4eosc-tutorials": "ng build --configuration tutorials-ai4eosc",
@@ -41,6 +41,7 @@
         "dotenv": "^16.4.5",
         "echarts": "^5.4.3",
         "marked": "^4.2.12",
+        "ngx-build-plus": "^15.0.0",
         "ngx-cookieconsent": "^5.0.0",
         "ngx-echarts": "^15.0.3",
         "ngx-markdown": "^15.1.2",
