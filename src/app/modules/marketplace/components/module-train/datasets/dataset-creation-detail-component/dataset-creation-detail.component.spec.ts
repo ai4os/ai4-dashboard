@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -22,7 +23,9 @@ const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
-describe('DatasetCreationDetailComponentComponent', () => {
+const mockedConfigService: any = {};
+
+describe('DatasetCreationDetailComponent', () => {
     let component: DatasetCreationDetailComponent;
     let fixture: ComponentFixture<DatasetCreationDetailComponent>;
 
@@ -38,6 +41,7 @@ describe('DatasetCreationDetailComponentComponent', () => {
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 
