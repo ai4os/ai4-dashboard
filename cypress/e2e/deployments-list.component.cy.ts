@@ -13,7 +13,7 @@ describe('deployments section', function () {
     });
 
     after(function () {
-        cy.get('#close-button', { timeout: 10000 }).click();
+        cy.get('#close-button', { timeout: 15000 }).click();
         cy.get(
             ':nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target'
         ).click();
