@@ -71,7 +71,7 @@
 
         <mat-form-field>
             <mat-label>{{
-                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MIN-CLIENTS'
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MIN-FIT-CLIENTS'
                     | translate
             }}</mat-label>
             <input
@@ -79,12 +79,31 @@
                 matInput
                 placeholder=""
                 value=""
-                formControlName="minClientsInput"
-                min="{{ _defaultFormValues?.min_clients?.range[0] }}"
-                max="{{ _defaultFormValues?.min_clients?.range[1] }}"
+                formControlName="minFitClientsInput"
+                min="{{ _defaultFormValues?.min_fit_clients?.range[0] }}"
+                max="{{ _defaultFormValues?.min_fit_clients?.range[1] }}"
             />
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.min_clients.description
+                _defaultFormValues?.min_fit_clients.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MIN-AVAILABLE-CLIENTS'
+                    | translate
+            }}</mat-label>
+            <input
+                type="number"
+                matInput
+                placeholder=""
+                value=""
+                formControlName="minAvailableClientsInput"
+                min="{{ _defaultFormValues?.min_available_clients?.range[0] }}"
+                max="{{ _defaultFormValues?.min_available_clients?.range[1] }}"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues?.min_available_clients.description
             }}</mat-hint>
         </mat-form-field>
 
@@ -130,10 +149,13 @@
             }}</mat-label>
             <input
                 type="number"
+                step="0.1"
                 matInput
                 placeholder=""
                 value=""
                 formControlName="muInput"
+                min="{{ _defaultFormValues?.mu?.range[0] }}"
+                max="{{ _defaultFormValues?.mu?.range[1] }}"
             />
             <mat-hint *ngIf="_showHelp">{{
                 _defaultFormValues?.mu.description
@@ -152,10 +174,13 @@
                 }}</mat-label>
                 <input
                     type="number"
+                    step="0.1"
                     matInput
                     placeholder=""
                     value=""
                     formControlName="flInput"
+                    min="{{ _defaultFormValues?.fl?.range[0] }}"
+                    max="{{ _defaultFormValues?.fl?.range[1] }}"
                 />
                 <mat-hint *ngIf="_showHelp">{{
                     _defaultFormValues?.fl.description
@@ -169,10 +194,13 @@
                 }}</mat-label>
                 <input
                     type="number"
+                    step="0.1"
                     matInput
                     placeholder=""
                     value=""
                     formControlName="momentumInput"
+                    min="{{ _defaultFormValues?.momentum?.range[0] }}"
+                    max="{{ _defaultFormValues?.momentum.range[1] }}"
                 />
                 <mat-hint *ngIf="_showHelp">{{
                     _defaultFormValues?.momentum.description

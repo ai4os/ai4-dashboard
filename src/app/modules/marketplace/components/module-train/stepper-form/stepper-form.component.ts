@@ -114,14 +114,31 @@ export class StepperFormComponent implements OnInit {
             data.configuration = {
                 rounds: this.step3Form.value.federatedConfForm.roundsInput,
                 metric: this.step3Form.value.federatedConfForm.metricInput,
-                min_clients:
-                    this.step3Form.value.federatedConfForm.minClientsInput,
+                min_fit_clients:
+                    this.step3Form.value.federatedConfForm.minFitClientsInput,
+                min_available_clients:
+                    this.step3Form.value.federatedConfForm
+                        .minAvailableClientsInput,
                 strategy:
                     this.step3Form.value.federatedConfForm
                         .strategyOptionsSelect,
-                mu: this.step3Form.value.federatedConfForm.muInput,
-                fl: this.step3Form.value.federatedConfForm.flInput,
-                momentum: this.step3Form.value.federatedConfForm.momentumInput,
+                mu:
+                    this.step3Form.value.federatedConfForm
+                        .strategyOptionsSelect === 'Federated Optimization'
+                        ? this.step3Form.value.federatedConfForm.muInput
+                        : null,
+                fl:
+                    this.step3Form.value.federatedConfForm
+                        .strategyOptionsSelect ===
+                    'Federated Averaging with Momentum'
+                        ? this.step3Form.value.federatedConfForm.flInput
+                        : null,
+                momentum:
+                    this.step3Form.value.federatedConfForm
+                        .strategyOptionsSelect ===
+                    'Federated Averaging with Momentum'
+                        ? this.step3Form.value.federatedConfForm.momentumInput
+                        : null,
             };
             request = this.deploymentsService.trainTool(data);
         } else {

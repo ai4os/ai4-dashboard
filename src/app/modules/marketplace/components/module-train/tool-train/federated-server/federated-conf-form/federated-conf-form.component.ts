@@ -46,17 +46,50 @@ export class FederatedConfFormComponent implements OnInit {
             ],
         ],
         metricInput: [['']],
-        minClientsInput: [
+        minFitClientsInput: [
             '',
             [
-                Validators.min(this.defaultFormValues?.min_clients.range[0]),
-                Validators.max(this.defaultFormValues?.min_clients.range[1]),
+                Validators.min(
+                    this.defaultFormValues?.min_fit_clients.range[0]
+                ),
+                Validators.max(
+                    this.defaultFormValues?.min_fit_clients.range[1]
+                ),
+            ],
+        ],
+        minAvailableClientsInput: [
+            '',
+            [
+                Validators.min(
+                    this.defaultFormValues?.min_available_clients.range[0]
+                ),
+                Validators.max(
+                    this.defaultFormValues?.min_available_clients.range[1]
+                ),
             ],
         ],
         strategyOptionsSelect: [''],
-        muInput: [''],
-        flInput: [''],
-        momentumInput: [''],
+        muInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.mu.range[0]),
+                Validators.max(this.defaultFormValues?.mu.range[1]),
+            ],
+        ],
+        flInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.fl.range[0]),
+                Validators.max(this.defaultFormValues?.fl.range[1]),
+            ],
+        ],
+        momentumInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.momentum.range[0]),
+                Validators.max(this.defaultFormValues?.momentum.range[1]),
+            ],
+        ],
     });
 
     protected _defaultFormValues: any;
@@ -81,8 +114,11 @@ export class FederatedConfFormComponent implements OnInit {
                 .get('metricInput')
                 ?.setValue(defaultFormValues.metric?.value);
             this.federatedConfFormGroup
-                .get('minClientsInput')
-                ?.setValue(defaultFormValues.min_clients?.value);
+                .get('minFitClientsInput')
+                ?.setValue(defaultFormValues.min_fit_clients?.value);
+            this.federatedConfFormGroup
+                .get('minAvailableClientsInput')
+                ?.setValue(defaultFormValues.min_available_clients?.value);
             this.federatedConfFormGroup
                 .get('strategyOptionsSelect')
                 ?.setValue(defaultFormValues.strategy?.value);
@@ -121,8 +157,23 @@ export class FederatedConfFormComponent implements OnInit {
         );
     }
 
-    // Chip Input Functions
+    checkStrategy(): void {
+        const strategy = this.federatedConfFormGroup.get(
+            'strategyOptionsSelect'
+        )?.value;
+        const strategies = [
+            'Federated Optimization',
+            'Federated Optimization with Adam',
+            'Adaptive Federated Optimization using Yogi',
+        ];
+        if (strategy && strategies.includes(strategy)) {
+            this.showStrategiesInfo = true;
+        } else {
+            this.showStrategiesInfo = false;
+        }
+    }
 
+    // Chip Input Functions
     add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
 
@@ -164,21 +215,5 @@ export class FederatedConfFormComponent implements OnInit {
         return this.defaultMetrics.filter((metric) =>
             metric.toLowerCase().includes(filterValue)
         );
-    }
-
-    checkStrategy(): void {
-        const strategy = this.federatedConfFormGroup.get(
-            'strategyOptionsSelect'
-        )?.value;
-        const strategies = [
-            'Federated Optimization',
-            'Federated Optimization with Adam',
-            'Adaptive Federated Optimization using Yogi',
-        ];
-        if (strategy && strategies.includes(strategy)) {
-            this.showStrategiesInfo = true;
-        } else {
-            this.showStrategiesInfo = false;
-        }
     }
 }
