@@ -162,9 +162,9 @@ export class FederatedConfFormComponent implements OnInit {
             'strategyOptionsSelect'
         )?.value;
         const strategies = [
-            'Federated Optimization',
-            'Federated Optimization with Adam',
-            'Adaptive Federated Optimization using Yogi',
+            'Adaptive Federated Optimization (FedOpt)',
+            'Federated Optimization with Adam (FedAdam)',
+            'Adaptive Federated Optimization using Yogi (FedYogi)',
         ];
         if (strategy && strategies.includes(strategy)) {
             this.showStrategiesInfo = true;

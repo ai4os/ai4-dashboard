@@ -124,19 +124,19 @@ export class StepperFormComponent implements OnInit {
                         .strategyOptionsSelect,
                 mu:
                     this.step3Form.value.federatedConfForm
-                        .strategyOptionsSelect === 'Federated Optimization'
+                        .strategyOptionsSelect === 'FedProx strategy (FedProx)'
                         ? this.step3Form.value.federatedConfForm.muInput
                         : null,
                 fl:
                     this.step3Form.value.federatedConfForm
                         .strategyOptionsSelect ===
-                    'Federated Averaging with Momentum'
+                    'Federated Averaging with Momentum (FedAvgM)'
                         ? this.step3Form.value.federatedConfForm.flInput
                         : null,
                 momentum:
                     this.step3Form.value.federatedConfForm
                         .strategyOptionsSelect ===
-                    'Federated Averaging with Momentum'
+                    'Federated Averaging with Momentum (FedAvgM)'
                         ? this.step3Form.value.federatedConfForm.momentumInput
                         : null,
             };
