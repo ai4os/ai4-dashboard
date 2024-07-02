@@ -141,7 +141,7 @@
         <mat-form-field
             *ngIf="
                 this.federatedConfFormGroup.get('strategyOptionsSelect')
-                    ?.value === 'Federated Optimization'
+                    ?.value === 'FedProx strategy (FedProx)'
             "
         >
             <mat-label>{{
@@ -165,7 +165,7 @@
         <ng-container
             *ngIf="
                 this.federatedConfFormGroup.get('strategyOptionsSelect')
-                    ?.value === 'Federated Averaging with Momentum'
+                    ?.value === 'Federated Averaging with Momentum (FedAvgM)'
             "
         >
             <mat-form-field>
