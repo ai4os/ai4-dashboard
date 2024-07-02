@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/ai4os/ai4-dashboard/compare/v2.6.0...v2.7.0) (2024-07-02)
+
+
+### Features
+
+* update federated learning server creation form ([#126](https://github.com/ai4os/ai4-dashboard/issues/126)) ([671e504](https://github.com/ai4os/ai4-dashboard/commit/671e504a40fba5a809d1584ef97cd75fff8b3312))
+
 ## [2.6.0](https://github.com/ai4os/ai4-dashboard/compare/v2.5.0...v2.6.0) (2024-07-02)
 
 
