@@ -37,6 +37,12 @@ jobs:
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
+            - name: Upload screenshots
+              uses: actions/upload-artifact@v3
+              if: failure()
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
             - run: npm run test
             - name: SonarQube
               uses: sonarsource/sonarqube-scan-action@master
