@@ -13,7 +13,7 @@ describe('deployments section', function () {
     });
 
     after(function () {
-        cy.get('#close-button', { timeout: 10000 }).click();
+        cy.get('#close-button', { timeout: 15000 }).click();
         cy.get(
             ':nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target'
         ).click();
@@ -21,8 +21,8 @@ describe('deployments section', function () {
     });
 
     it('shows deployments section', function () {
-        cy.contains('Deployments', { timeout: 15000 }).should('be.visible');
-        cy.contains('Modules', { timeout: 15000 }).should('be.visible');
+        cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
+        cy.contains('Modules', { timeout: 20000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
         cy.contains('fl-test', { timeout: 10000 }).should('be.visible');

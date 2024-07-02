@@ -6,7 +6,7 @@
             'form-grid': !mobileQuery.matches
         }"
     >
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.ROUNDS' | translate
             }}</mat-label>
@@ -24,7 +24,7 @@
             }}</mat-hint>
         </mat-form-field>
 
-        <mat-form-field id="metric-field" class="example-full-width">
+        <mat-form-field id="metric-field">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.METRIC' | translate
             }}</mat-label>
@@ -69,9 +69,9 @@
             </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <mat-label>{{
-                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MIN-CLIENTS'
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MIN-FIT-CLIENTS'
                     | translate
             }}</mat-label>
             <input
@@ -79,21 +79,43 @@
                 matInput
                 placeholder=""
                 value=""
-                formControlName="minClientsInput"
-                min="{{ _defaultFormValues?.min_clients?.range[0] }}"
-                max="{{ _defaultFormValues?.min_clients?.range[1] }}"
+                formControlName="minFitClientsInput"
+                min="{{ _defaultFormValues?.min_fit_clients?.range[0] }}"
+                max="{{ _defaultFormValues?.min_fit_clients?.range[1] }}"
             />
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.min_clients.description
+                _defaultFormValues?.min_fit_clients.description
             }}</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MIN-AVAILABLE-CLIENTS'
+                    | translate
+            }}</mat-label>
+            <input
+                type="number"
+                matInput
+                placeholder=""
+                value=""
+                formControlName="minAvailableClientsInput"
+                min="{{ _defaultFormValues?.min_available_clients?.range[0] }}"
+                max="{{ _defaultFormValues?.min_available_clients?.range[1] }}"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues?.min_available_clients.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.AGG-STRATEGY'
                     | translate
             }}</mat-label>
-            <mat-select formControlName="strategyOptionsSelect">
+            <mat-select
+                formControlName="strategyOptionsSelect"
+                (selectionChange)="checkStrategy()"
+            >
                 <mat-option
                     *ngFor="let strategyOption of strategyOptions"
                     [value]="strategyOption.value"
@@ -106,6 +128,84 @@
                     [innerHTML]="_defaultFormValues?.strategy.description"
                 ></div
             ></mat-hint>
+            <mat-hint
+                *ngIf="!_showHelp && showStrategiesInfo"
+                class="html-tags-div"
+                >{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.NOTE-AGG-STRAT'
+                        | translate
+                }}</mat-hint
+            >
         </mat-form-field>
+
+        <mat-form-field
+            *ngIf="
+                this.federatedConfFormGroup.get('strategyOptionsSelect')
+                    ?.value === 'Federated Optimization'
+            "
+        >
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MU' | translate
+            }}</mat-label>
+            <input
+                type="number"
+                step="0.1"
+                matInput
+                placeholder=""
+                value=""
+                formControlName="muInput"
+                min="{{ _defaultFormValues?.mu?.range[0] }}"
+                max="{{ _defaultFormValues?.mu?.range[1] }}"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues?.mu.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <ng-container
+            *ngIf="
+                this.federatedConfFormGroup.get('strategyOptionsSelect')
+                    ?.value === 'Federated Averaging with Momentum'
+            "
+        >
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.FL' | translate
+                }}</mat-label>
+                <input
+                    type="number"
+                    step="0.1"
+                    matInput
+                    placeholder=""
+                    value=""
+                    formControlName="flInput"
+                    min="{{ _defaultFormValues?.fl?.range[0] }}"
+                    max="{{ _defaultFormValues?.fl?.range[1] }}"
+                />
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues?.fl.description
+                }}</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MOMENTUM'
+                        | translate
+                }}</mat-label>
+                <input
+                    type="number"
+                    step="0.1"
+                    matInput
+                    placeholder=""
+                    value=""
+                    formControlName="momentumInput"
+                    min="{{ _defaultFormValues?.momentum?.range[0] }}"
+                    max="{{ _defaultFormValues?.momentum.range[1] }}"
+                />
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues?.momentum.description
+                }}</mat-hint>
+            </mat-form-field>
+        </ng-container>
     </div>
 </form>

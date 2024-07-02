@@ -10,13 +10,37 @@ export const defaultFormValuesMock = {
         value: '',
         description: '',
     },
-    min_clients: {
-        range: [1, 2],
+    min_fit_clients: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
+    min_available_clients: {
+        range: [2, null],
         name: '',
         value: '',
         description: '',
     },
     strategy: {
+        name: '',
+        value: '',
+        description: '',
+    },
+    mu: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
+    fl: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
+    momentum: {
+        range: [2, null],
         name: '',
         value: '',
         description: '',
