@@ -169,6 +169,7 @@
             "DATA-CONF-FORM": {
                 "STORAGE-CONF": "Storage configuration",
                 "DATASET-CONF": "Dataset configuration",
+                "RCLONE-CONF": "RCLONE configuration",
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
@@ -184,10 +185,16 @@
                 "ZENODO-VERSION": "Dataset version",
                 "ZENODO-RECORD": "Zenodo Record ID",
                 "FORCE-PULL": "Force pull",
-                "DOI-TITLE": "DOI",
-                "DOI-ERROR": "Invalid DOI format",
+                "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
+
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
+                "DOI": {
+                    "TITLE": "DOI",
+                    "ERROR": "Invalid DOI format",
+                    "SUPPORT": "We support DOIs from these repositories and ",
+                    "MORE": "many more"
+                },
                 "TABLE": {
                     "NAME": "Name",
                     "SOURCE": "Source",

@@ -17,8 +17,19 @@
                         *matHeaderCellDef
                         mat-sort-header
                         sortActionDescription="Sort by {column.header}"
-                        >{{ column.header | translate }}</mat-header-cell
-                    >
+                        >{{ column.header | translate }}
+                        <mat-icon
+                            *ngIf="column.columnDef === 'forcePull'"
+                            class="help-icon"
+                            color="accent"
+                            matTooltip="{{
+                                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.FORCE-PULL-INFO'
+                                    | translate
+                            }}"
+                            [matTooltipPosition]="'above'"
+                            >help</mat-icon
+                        >
+                    </mat-header-cell>
                     <mat-cell
                         *matCellDef="let row"
                         [ngClass]="{
