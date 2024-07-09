@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/ai4os/ai4-dashboard/compare/v2.7.0...v2.7.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* **datasets:** Add check for undefined doi ([f4412d0](https://github.com/ai4os/ai4-dashboard/commit/f4412d0e2995b9d3b262335320f9f8ba316c64db))
+
 ## [2.7.0](https://github.com/ai4os/ai4-dashboard/compare/v2.6.0...v2.7.0) (2024-07-02)
 
 
