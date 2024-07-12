@@ -1,0 +1,109 @@
+.no-datasets-message-container {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.fit-image-zenodo {
+    width: 100%;
+}
+
+.fit-image-doi {
+    width: 40%;
+}
+
+.help-icon {
+    font-size: 1.3em;
+    padding-left: 0.3em;
+    place-content: center;
+}
+
+.table-container {
+    overflow: auto;
+}
+
+.actions-container {
+    display: flex;
+    padding: 0px 5px;
+}
+
+.action-button-in-cell {
+    padding: 0px;
+}
+
+.action-button-in-cell:disabled #accessIcon {
+    color: var(--dark-gray) !important;
+}
+
+.action-button-in-cell:hover #accessIcon {
+    color: var(--dark-gray);
+}
+
+.mat-mdc-header-row {
+    background: var(--light-gray);
+
+    .mat-mdc-header-cell {
+        border: 1px solid var(--border-gray);
+        color: var(--primary);
+        font-weight: bold;
+    }
+}
+
+.mat-column-actions {
+    justify-content: center;
+    max-width: 110px;
+
+    .mdc-button {
+        min-width: 40px;
+    }
+}
+
+.mat-column-source {
+    justify-content: center;
+    max-width: 100px;
+}
+
+.mat-column-forcePull {
+    justify-content: center;
+    max-width: 150px;
+}
+
+.mat-mdc-table .mat-mdc-row:hover {
+    background-color: var(--accent);
+    & .mat-mdc-cell {
+        color: var(--white);
+    }
+}
+
+.mat-mdc-table .mat-mdc-row:hover #accessIcon {
+    color: var(--white);
+}
+
+.mat-mdc-table .mat-mdc-row:hover #infoIcon {
+    color: var(--white);
+}
+
+::ng-deep .mat-mdc-card-content {
+    padding: 16px !important;
+
+    flex-grow: 1;
+    overflow: auto;
+}
+
+::ng-deep .mat-card {
+    display: flex;
+    flex-direction: column;
+}
+
+::ng-deep .mat-card-header {
+    flex-shrink: 0;
+}
+
+::ng-deep .mat-badge-content {
+    font-family: 'Material Icons';
+}
+
+::ng-deep .mat-badge-small.mat-badge-after .mat-badge-content {
+    right: 0;
+    top: -4px;
+}

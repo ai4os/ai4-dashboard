@@ -122,6 +122,16 @@
                     </ng-container>
                 </div>
                 <div>
+                    <div class="datacenter-info">
+                        <h3>
+                            {{
+                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DATACENTER'
+                                    | translate
+                            }}
+                        </h3>
+                        <p>{{ deployment?.datacenter }}</p>
+                    </div>
+
                     <h3>
                         {{
                             'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS'

@@ -27,7 +27,7 @@ export interface Module {
 
 export interface confObject {
     name: string;
-    value: string | number;
+    value: string | number | boolean;
     description: string;
     options?: string[];
 }
@@ -40,6 +40,13 @@ export interface confObjectStringArray extends confObject {
     values: string[];
 }
 
+export interface confObjectStringBoolean {
+    name: string;
+    value: { stringValue: string; booleanValue: boolean };
+    description: string;
+    options?: string[];
+}
+
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
@@ -48,7 +55,6 @@ export interface ModuleGeneralConfiguration {
     service: confObject;
     jupyter_password?: confObject;
     hostname?: confObject;
-    federated_secret?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -65,6 +71,7 @@ export interface ModuleStorageConfiguration {
     rclone_vendor: confObject;
     rclone_user: confObject;
     rclone_password: confObject;
+    datasets: confObjectStringBoolean;
 }
 
 export interface FederatedServerConfiguration {
@@ -95,7 +102,6 @@ export interface TrainModuleRequest {
         service: string;
         jupyter_password?: string;
         hostname?: string;
-        federated_secret?: string;
     };
     hardware: {
         cpu_num: number;
@@ -110,20 +116,30 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
+        datasets: Dataset[];
     };
     configuration?: {
         rounds: number;
         metric: string[];
-        min_clients: number;
+        min_fit_clients: number;
+        min_available_clients: number;
         strategy: string;
+        mu: number;
+        fl: number;
+        momentum: number;
     };
+}
+
+export interface Dataset {
+    doi: string;
+    force_pull: boolean;
 }
 
 export interface Secret {
     token: string;
 }
-// OSCAR MODELS
 
+// OSCAR MODELS
 export interface Service {
     name: string;
     cluster_id?: string;

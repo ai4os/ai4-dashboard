@@ -13,7 +13,8 @@ jobs:
                 node-version: [18.x]
 
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout
+              uses: actions/checkout@v3
               with:
                   fetch-depth: 0
             - name: Use Node.js ${{ matrix.node-version }}
@@ -22,15 +23,29 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   registry-url: 'https://npm.pkg.github.com'
                   cache: 'npm'
-              env: 
-                    NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}    
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.AI4_DASHBOARD_TOKEN }}
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
-            - run: npm test
-            - run: npm install
-            - run: npm run test:coverage
-            - uses: sonarsource/sonarqube-scan-action@master
+            - name: Cypress
+              uses: cypress-io/github-action@v6
+              with:
+                  start: npm start
+                  wait-on: 'http://localhost:8080'
+                  wait-on-timeout: 300
+              env:
+                  CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
+                  CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
+            - name: Upload screenshots
+              uses: actions/upload-artifact@v3
+              if: failure()
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+            - run: npm run test
+            - name: SonarQube
+              uses: sonarsource/sonarqube-scan-action@master
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

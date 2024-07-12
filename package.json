@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "ng serve --port 8080 -c production-ai4eosc",
         "build-ai4eosc-dev": "ng build --configuration development-ai4eosc",
         "build-ai4eosc-prod": "ng build --configuration production-ai4eosc",
         "build-ai4eosc-tutorials": "ng build --configuration tutorials-ai4eosc",
@@ -11,12 +11,13 @@
         "build-imagine-prod": "ng build --configuration production-imagine",
         "generate-version-file": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts",
         "watch": "ng build --watch --configuration development",
-        "test": "jest --verbose",
+        "test": "jest --verbose --coverage",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
         "lint": "ng lint",
         "format": "npx prettier \"src/**/*.{js,jsx,ts,tsx,html,css,scss}\" --write",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "cy:open": "cypress open"
     },
     "private": true,
     "dependencies": {
@@ -37,6 +38,7 @@
         "ci": "^2.3.0",
         "cookieconsent": "^3.1.1",
         "crypto-random-string": "^5.0.0",
+        "dotenv": "^16.4.5",
         "echarts": "^5.4.3",
         "marked": "^4.2.12",
         "ngx-cookieconsent": "^5.0.0",
@@ -62,6 +64,7 @@
         "@types/marked": "^4.0.8",
         "@typescript-eslint/eslint-plugin": "5.48.2",
         "@typescript-eslint/parser": "5.48.2",
+        "cypress": "^13.9.0",
         "eslint": "^8.33.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^5.0.0",

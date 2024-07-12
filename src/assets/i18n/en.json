@@ -25,13 +25,13 @@
         "DATACENTERS-TAB": "Datacenters",
         "GRAPHS-TAB": "Graphs",
         "NODES-TAB": "Nodes",
-        "USERS-OVER-TIME": "Aggregate Resource Usage",
+        "USERS-OVER-TIME": "Historical Aggregate Usage",
         "USERS": "Your Usage",
         "CLUSTER": "Cluster Usage Overview",
         "DATACENTER-STATS": "Datacenter Stats",
         "USAGE": "AI4EOSC Usage Over Time",
         "CLUSTER-INFO": "Total cluster usage",
-        "USERS-INFO": "These graphs represent your aggregate usage compared to the total aggregate usage of your vo",
+        "USERS-INFO": "These graphs represent your historical aggregate usage compared to the total aggregate usage of your VO. Units: <resource> / day",
         "PUE-INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)",
         "ENERGY-INFO": "How carbon-intensive is the grid the datacenter is plugged to (the lower the better)",
         "GPU-PER-MODEL": "GPU Stats per model",
@@ -39,6 +39,7 @@
         "NODES-GPU": "Nodes with GPU",
         "NODES-USED": "Used",
         "NODES-TOTAL": "Total",
+        "NO-DATA": "Statistics are not available at the moment",
         "STATS-VALUES": {
             "RAM-MB": "Memory MB",
             "DISK-MB": "Disk MB",
@@ -74,6 +75,7 @@
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
             "DEPLOYMENT-ID": "Deployment ID",
+            "DATACENTER": "Datacenter",
             "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
             "RESOURCES": {
@@ -90,6 +92,7 @@
             "EMPTY-LIST": "No secrets found.",
             "REQUIRED-FIELD-ERROR": "You must enter a secret name",
             "UNIQUE-NAME-ERROR": "Secret names must be unique",
+            "WHITESPACES-ERROR": "Secret names cannot be whitespaces",
             "DELETE": "Are you sure you want to delete this secret?",
             "DELETE-LAST-SECRET": "Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work",
             "NEW-SECRET-NAME": "New secret name"
@@ -138,7 +141,7 @@
             "TITLE": "Configure training",
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
-            "STORAGE-CONF": "Storage configuration",
+            "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
@@ -169,20 +172,53 @@
                 "RAM-MEMORY": "RAM memory (in MB)",
                 "DISK-MEMORY": "Disk memory (in MB)"
             },
-            "STORAGE-CONF-FORM": {
-                "TITLE": "Storage options",
+            "DATA-CONF-FORM": {
+                "STORAGE-CONF": "Storage configuration",
+                "DATASET-CONF": "Dataset configuration",
                 "RCLONE-CONF": "RCLONE configuration",
+                "DATASET-LIST": "Datasets list",
+                "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
-                "RCLONE-PASS": "RCLONE password"
+                "RCLONE-PASS": "RCLONE password",
+                "RCLONE-REQUIRED": "You must specify a RCLONE account",
+                "ADVANCED-SETTINGS": "Advanced settings",
+                "ZENODO-TITLE": "Zenodo",
+                "ZENODO-COMMUNITY": "Zenodo community",
+                "ZENODO-DATASET": "Zenodo dataset",
+                "ZENODO-DATASET-EMPTY": "No datasets available",
+                "ZENODO-VERSION": "Dataset version",
+                "ZENODO-RECORD": "Zenodo Record ID",
+                "FORCE-PULL": "Force pull",
+                "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
+
+                "ADD-DATASET": "Add dataset",
+                "DATASETS": "Datasets",
+                "DOI": {
+                    "TITLE": "DOI",
+                    "ERROR": "Invalid DOI format",
+                    "SUPPORT": "We support DOIs from these repositories and ",
+                    "MORE": "many more"
+                },
+                "TABLE": {
+                    "NAME": "Name",
+                    "SOURCE": "Source",
+                    "ACTIONS": "Actions",
+                    "FORCE-PULL": "Force pull"
+                }
             },
             "FEDERATED-CONF-FORM": {
                 "TITLE": "Federated options",
                 "ROUNDS": "Number of rounds",
                 "METRIC": "Evaluation metric",
-                "MIN-CLIENTS": "Minimal number of clients",
-                "AGG-STRATEGY": "Federated aggregation strategy"
+                "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
+                "MIN-AVAILABLE-CLIENTS": "Number of minumum clients (available)",
+                "AGG-STRATEGY": "Federated aggregation strategy",
+                "MU": "Mu",
+                "FL": "Server-side learning rate",
+                "MOMENTUM": "Server-side momentum",
+                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this."
             }
         },
         "MODULE-TRY": {

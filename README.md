@@ -1,4 +1,10 @@
-# Ai4Dashboard
+<div align="center">
+  <img src="https://ai4eosc.eu/wp-content/uploads/sites/10/2022/09/horizontal-transparent.png" alt="logo" width="500"/>
+</div>
+
+# AI4EOSC - Dashboard
+
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
 

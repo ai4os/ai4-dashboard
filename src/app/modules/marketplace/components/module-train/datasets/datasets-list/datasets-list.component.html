@@ -1,0 +1,107 @@
+<mat-card class="mb-4">
+    <mat-card-content>
+        <div class="table-container">
+            <table
+                mat-table
+                [dataSource]="dataSource"
+                class="mat-elevation-z8"
+                matSort
+                (matSortChange)="announceSortChange($event)"
+            >
+                <ng-container
+                    *ngFor="let column of columns"
+                    [matColumnDef]="column.columnDef"
+                    [sticky]="isSticky(column.columnDef)"
+                >
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        sortActionDescription="Sort by {column.header}"
+                        >{{ column.header | translate }}
+                        <mat-icon
+                            *ngIf="column.columnDef === 'forcePull'"
+                            class="help-icon"
+                            color="accent"
+                            matTooltip="{{
+                                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.FORCE-PULL-INFO'
+                                    | translate
+                            }}"
+                            [matTooltipPosition]="'above'"
+                            >help</mat-icon
+                        >
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let row"
+                        [ngClass]="{
+                            'content-cell': column.columnDef !== 'name'
+                        }"
+                        ><ng-container *ngIf="column.columnDef === 'name'">
+                            {{ row[column.columnDef] }}
+                        </ng-container>
+                        <ng-container *ngIf="column.columnDef === 'source'">
+                            <img
+                                [ngClass]="{
+                                    'fit-image-doi':
+                                        row[column.columnDef] === 'doi',
+                                    'fit-image-zenodo':
+                                        row[column.columnDef] === 'zenodo'
+                                }"
+                                src="../../../../../assets/images/{{
+                                    row[column.columnDef]
+                                }}-logo.png"
+                            />
+                        </ng-container>
+                        <div
+                            *ngIf="column.columnDef === 'forcePull'"
+                            class="actions-container"
+                        >
+                            <mat-checkbox
+                                #checkbox
+                                matTooltip="Force pull"
+                                (change)="changeForcePull($event, row)"
+                            ></mat-checkbox>
+                        </div>
+                        <div
+                            *ngIf="column.columnDef === 'actions'"
+                            class="actions-container"
+                        >
+                            <button
+                                mat-button
+                                matTooltip="Delete"
+                                class="action-button-in-cell"
+                                (click)="removeDataset($event, row)"
+                            >
+                                <mat-icon color="warn">delete</mat-icon>
+                            </button>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></mat-row>
+
+                <div *matNoDataRow class="no-datasets-message-container">
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.NO-DATASETS'
+                            | translate
+                    }}
+                </div>
+            </table>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <a
+            mat-raised-button
+            aria-label=""
+            color="accent"
+            class="mt-2 mr-2 mb-2"
+            (click)="openAddDatasetDialog()"
+        >
+            {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.ADD-DATASET' | translate }}
+        </a>
+    </mat-card-actions>
+</mat-card>

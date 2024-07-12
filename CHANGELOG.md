@@ -1,5 +1,54 @@
 # Changelog
 
+## [2.7.1](https://github.com/ai4os/ai4-dashboard/compare/v2.7.0...v2.7.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* **datasets:** Add check for undefined doi ([f4412d0](https://github.com/ai4os/ai4-dashboard/commit/f4412d0e2995b9d3b262335320f9f8ba316c64db))
+
+## [2.7.0](https://github.com/ai4os/ai4-dashboard/compare/v2.6.0...v2.7.0) (2024-07-02)
+
+
+### Features
+
+* update federated learning server creation form ([#126](https://github.com/ai4os/ai4-dashboard/issues/126)) ([671e504](https://github.com/ai4os/ai4-dashboard/commit/671e504a40fba5a809d1584ef97cd75fff8b3312))
+
+## [2.6.0](https://github.com/ai4os/ai4-dashboard/compare/v2.5.0...v2.6.0) (2024-07-02)
+
+
+### Features
+
+* update federated learning server creation form ([#124](https://github.com/ai4os/ai4-dashboard/issues/124)) ([3a2f7ac](https://github.com/ai4os/ai4-dashboard/commit/3a2f7ac4248fc25b3fd83dcaceb1d1b71b3991d7))
+
+## [2.5.0](https://github.com/ai4os/ai4-dashboard/compare/v2.4.0...v2.5.0) (2024-06-28)
+
+
+### Features
+
+* **Datasets:** improvements dataset configuration ([#119](https://github.com/ai4os/ai4-dashboard/issues/119)) ([036b3d8](https://github.com/ai4os/ai4-dashboard/commit/036b3d8f90faff08459e0411d5d0cdb8ce350363))
+
+## [2.4.0](https://github.com/ai4os/ai4-dashboard/compare/v2.3.1...v2.4.0) (2024-06-18)
+
+
+### Features
+
+* improve build webhooks ([#113](https://github.com/ai4os/ai4-dashboard/issues/113)) ([857c40d](https://github.com/ai4os/ai4-dashboard/commit/857c40d769f2659159994a6328a68966667af894))
+
+## [2.3.0](https://github.com/ai4os/ai4-dashboard/compare/v2.2.0...v2.3.0) (2024-05-30)
+
+
+### Features
+
+* **DeploymentDetails:** add datacenter info in deployment details([#98](https://github.com/ai4os/ai4-dashboard/issues/98)) ([0b2970e](https://github.com/ai4os/ai4-dashboard/commit/0b2970ec1d2f83e4444e9df962e4acd5d30e7834))
+
+## [2.2.0](https://github.com/ai4os/ai4-dashboard/compare/v2.1.0...v2.2.0) (2024-05-27)
+
+
+### Features
+
+* update en.json ([#100](https://github.com/ai4os/ai4-dashboard/issues/100)) ([3664b0e](https://github.com/ai4os/ai4-dashboard/commit/3664b0e9193c828863aa5f3b9db69d7a66a21b72))
+
 ## [2.1.0](https://github.com/ai4os/ai4-dashboard/compare/v2.0.0...v2.1.0) (2024-05-13)
 
 
