@@ -56,13 +56,13 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-        storageConfFormGroup!: FormGroup;
+    storageConfFormGroup!: FormGroup;
 
     @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
-    protected columns: Array<TableColumn> = [
+    columns: Array<TableColumn> = [
         { columnDef: 'id', header: '', hidden: true },
         {
             columnDef: 'name',
@@ -82,9 +82,9 @@ export class DatasetsListComponent implements OnInit {
         },
     ];
 
-    private datasets: Array<DatasetTableRow> = [];
-    protected dataSource!: MatTableDataSource<DatasetTableRow>;
-    protected displayedColumns: string[] = [];
+    datasets: Array<DatasetTableRow> = [];
+    dataSource!: MatTableDataSource<DatasetTableRow>;
+    displayedColumns: string[] = [];
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
