@@ -63,9 +63,14 @@ describe('FederatedConfFormComponent', () => {
         const roundsInput =
             component.federatedConfFormGroup.controls['roundsInput'];
         roundsInput.setValue('1');
-        const minClientsInput =
-            component.federatedConfFormGroup.controls['minClientsInput'];
-        minClientsInput.setValue('1');
+        const minFitClientsInput =
+            component.federatedConfFormGroup.controls['minFitClientsInput'];
+        minFitClientsInput.setValue('2');
+        const minAvailableClientsInput =
+            component.federatedConfFormGroup.controls[
+                'minAvailableClientsInput'
+            ];
+        minAvailableClientsInput.setValue('2');
 
         expect(component.federatedConfFormGroup.valid).toBeTruthy();
     });
@@ -74,9 +79,14 @@ describe('FederatedConfFormComponent', () => {
         const roundsInput =
             component.federatedConfFormGroup.controls['roundsInput'];
         roundsInput.setValue('5');
-        const minClientsInput =
-            component.federatedConfFormGroup.controls['minClientsInput'];
-        minClientsInput.setValue('5');
+        const minFitClientsInput =
+            component.federatedConfFormGroup.controls['minFitClientsInput'];
+        minFitClientsInput.setValue('1');
+        const minAvailableClientsInput =
+            component.federatedConfFormGroup.controls[
+                'minAvailableClientsInput'
+            ];
+        minAvailableClientsInput.setValue('1');
 
         expect(component.federatedConfFormGroup.valid).toBeFalsy();
     });

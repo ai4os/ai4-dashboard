@@ -2,11 +2,12 @@
     margin-bottom: 20px;
 }
 
-.main-tabs ::ng-deep .mat-mdc-tab-header {
-    min-width: fit-content;
-}
-
 .no-data-text {
     text-align: center;
     padding-top: 15em;
+}
+
+::ng-deep .mat-mdc-tab-header {
+    width: inherit !important;
+    margin: 0.5em;
 }

@@ -121,8 +121,12 @@ export interface TrainModuleRequest {
     configuration?: {
         rounds: number;
         metric: string[];
-        min_clients: number;
+        min_fit_clients: number;
+        min_available_clients: number;
         strategy: string;
+        mu: number;
+        fl: number;
+        momentum: number;
     };
 }
 

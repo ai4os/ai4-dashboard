@@ -169,6 +169,7 @@
             "DATA-CONF-FORM": {
                 "STORAGE-CONF": "Storage configuration",
                 "DATASET-CONF": "Dataset configuration",
+                "RCLONE-CONF": "RCLONE configuration",
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
@@ -205,8 +206,13 @@
                 "TITLE": "Federated options",
                 "ROUNDS": "Number of rounds",
                 "METRIC": "Evaluation metric",
-                "MIN-CLIENTS": "Minimal number of clients",
-                "AGG-STRATEGY": "Federated aggregation strategy"
+                "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
+                "MIN-AVAILABLE-CLIENTS": "Number of minumum clients (available)",
+                "AGG-STRATEGY": "Federated aggregation strategy",
+                "MU": "Mu",
+                "FL": "Server-side learning rate",
+                "MOMENTUM": "Server-side momentum",
+                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this."
             }
         },
         "MODULE-TRY": {

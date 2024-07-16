@@ -114,11 +114,31 @@ export class StepperFormComponent implements OnInit {
             data.configuration = {
                 rounds: this.step3Form.value.federatedConfForm.roundsInput,
                 metric: this.step3Form.value.federatedConfForm.metricInput,
-                min_clients:
-                    this.step3Form.value.federatedConfForm.minClientsInput,
+                min_fit_clients:
+                    this.step3Form.value.federatedConfForm.minFitClientsInput,
+                min_available_clients:
+                    this.step3Form.value.federatedConfForm
+                        .minAvailableClientsInput,
                 strategy:
                     this.step3Form.value.federatedConfForm
                         .strategyOptionsSelect,
+                mu:
+                    this.step3Form.value.federatedConfForm
+                        .strategyOptionsSelect === 'FedProx strategy (FedProx)'
+                        ? this.step3Form.value.federatedConfForm.muInput
+                        : null,
+                fl:
+                    this.step3Form.value.federatedConfForm
+                        .strategyOptionsSelect ===
+                    'Federated Averaging with Momentum (FedAvgM)'
+                        ? this.step3Form.value.federatedConfForm.flInput
+                        : null,
+                momentum:
+                    this.step3Form.value.federatedConfForm
+                        .strategyOptionsSelect ===
+                    'Federated Averaging with Momentum (FedAvgM)'
+                        ? this.step3Form.value.federatedConfForm.momentumInput
+                        : null,
             };
             request = this.deploymentsService.trainTool(data);
         } else {
@@ -133,7 +153,11 @@ export class StepperFormComponent implements OnInit {
                     this.step3Form.value.storageConfForm.rcloneUserInput,
                 rclone_password:
                     this.step3Form.value.storageConfForm.rclonePasswordInput,
-                datasets: this.step3Form.value.storageConfForm.datasetsList,
+                datasets:
+                    this.step3Form.value.storageConfForm.datasetsList[0]
+                        ?.doi === ''
+                        ? []
+                        : this.step3Form.value.storageConfForm.datasetsList,
             };
             request = this.deploymentsService.postTrainModule(data);
         }

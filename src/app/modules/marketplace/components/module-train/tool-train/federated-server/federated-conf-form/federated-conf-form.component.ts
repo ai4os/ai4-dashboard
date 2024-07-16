@@ -46,19 +46,56 @@ export class FederatedConfFormComponent implements OnInit {
             ],
         ],
         metricInput: [['']],
-        minClientsInput: [
+        minFitClientsInput: [
             '',
             [
-                Validators.min(this.defaultFormValues?.min_clients.range[0]),
-                Validators.max(this.defaultFormValues?.min_clients.range[1]),
+                Validators.min(
+                    this.defaultFormValues?.min_fit_clients.range[0]
+                ),
+                Validators.max(
+                    this.defaultFormValues?.min_fit_clients.range[1]
+                ),
+            ],
+        ],
+        minAvailableClientsInput: [
+            '',
+            [
+                Validators.min(
+                    this.defaultFormValues?.min_available_clients.range[0]
+                ),
+                Validators.max(
+                    this.defaultFormValues?.min_available_clients.range[1]
+                ),
             ],
         ],
         strategyOptionsSelect: [''],
+        muInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.mu.range[0]),
+                Validators.max(this.defaultFormValues?.mu.range[1]),
+            ],
+        ],
+        flInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.fl.range[0]),
+                Validators.max(this.defaultFormValues?.fl.range[1]),
+            ],
+        ],
+        momentumInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.momentum.range[0]),
+                Validators.max(this.defaultFormValues?.momentum.range[1]),
+            ],
+        ],
     });
 
     protected _defaultFormValues: any;
 
     protected _showHelp = false;
+    protected showStrategiesInfo = false;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -77,8 +114,11 @@ export class FederatedConfFormComponent implements OnInit {
                 .get('metricInput')
                 ?.setValue(defaultFormValues.metric?.value);
             this.federatedConfFormGroup
-                .get('minClientsInput')
-                ?.setValue(defaultFormValues.min_clients?.value);
+                .get('minFitClientsInput')
+                ?.setValue(defaultFormValues.min_fit_clients?.value);
+            this.federatedConfFormGroup
+                .get('minAvailableClientsInput')
+                ?.setValue(defaultFormValues.min_available_clients?.value);
             this.federatedConfFormGroup
                 .get('strategyOptionsSelect')
                 ?.setValue(defaultFormValues.strategy?.value);
@@ -88,6 +128,15 @@ export class FederatedConfFormComponent implements OnInit {
                     viewValue: option,
                 });
             });
+            this.federatedConfFormGroup
+                .get('muInput')
+                ?.setValue(defaultFormValues.mu?.value);
+            this.federatedConfFormGroup
+                .get('flInput')
+                ?.setValue(defaultFormValues.fl?.value);
+            this.federatedConfFormGroup
+                .get('momentumInput')
+                ?.setValue(defaultFormValues.momentum?.value);
         }
     }
 
@@ -98,7 +147,6 @@ export class FederatedConfFormComponent implements OnInit {
     filteredMetrics: Observable<string[]>;
     metrics: string[] = ['accuracy'];
     defaultMetrics: string[] = ['accuracy', 'mse', 'mae', 'rmse'];
-
     strategyOptions: any = [];
 
     ngOnInit(): void {
@@ -109,8 +157,23 @@ export class FederatedConfFormComponent implements OnInit {
         );
     }
 
-    // Chip Input Functions
+    checkStrategy(): void {
+        const strategy = this.federatedConfFormGroup.get(
+            'strategyOptionsSelect'
+        )?.value;
+        const strategies = [
+            'Adaptive Federated Optimization (FedOpt)',
+            'Federated Optimization with Adam (FedAdam)',
+            'Adaptive Federated Optimization using Yogi (FedYogi)',
+        ];
+        if (strategy && strategies.includes(strategy)) {
+            this.showStrategiesInfo = true;
+        } else {
+            this.showStrategiesInfo = false;
+        }
+    }
 
+    // Chip Input Functions
     add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
 

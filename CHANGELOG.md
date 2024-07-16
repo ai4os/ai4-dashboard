@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.7.1](https://github.com/ai4os/ai4-dashboard/compare/v2.7.0...v2.7.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* **datasets:** Add check for undefined doi ([f4412d0](https://github.com/ai4os/ai4-dashboard/commit/f4412d0e2995b9d3b262335320f9f8ba316c64db))
+
+## [2.7.0](https://github.com/ai4os/ai4-dashboard/compare/v2.6.0...v2.7.0) (2024-07-02)
+
+
+### Features
+
+* update federated learning server creation form ([#126](https://github.com/ai4os/ai4-dashboard/issues/126)) ([671e504](https://github.com/ai4os/ai4-dashboard/commit/671e504a40fba5a809d1584ef97cd75fff8b3312))
+
+## [2.6.0](https://github.com/ai4os/ai4-dashboard/compare/v2.5.0...v2.6.0) (2024-07-02)
+
+
+### Features
+
+* update federated learning server creation form ([#124](https://github.com/ai4os/ai4-dashboard/issues/124)) ([3a2f7ac](https://github.com/ai4os/ai4-dashboard/commit/3a2f7ac4248fc25b3fd83dcaceb1d1b71b3991d7))
+
 ## [2.5.0](https://github.com/ai4os/ai4-dashboard/compare/v2.4.0...v2.5.0) (2024-06-28)
 
 
