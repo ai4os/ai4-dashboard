@@ -54,6 +54,7 @@
                                         | translate
                                 }}</mat-label>
                                 <input
+                                    id="community"
                                     type="text"
                                     placeholder="Pick one"
                                     aria-label="Number"
@@ -107,6 +108,7 @@
                                 >
 
                                 <mat-select
+                                    id="dataset"
                                     formControlName="zenodoDatasetSelect"
                                     (selectionChange)="datasetSelectChange()"
                                 >
@@ -133,6 +135,7 @@
                                         | translate
                                 }}</mat-label>
                                 <mat-select
+                                    id="version"
                                     formControlName="zenodoVersionSelect"
                                 >
                                     <mat-option
@@ -254,6 +257,7 @@
 
     <mat-card-actions align="end">
         <button
+            id="add-button"
             mat-raised-button
             color="accent"
             class="mr-2 ml-2"
