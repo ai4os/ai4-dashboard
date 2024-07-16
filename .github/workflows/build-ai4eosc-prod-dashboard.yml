@@ -69,4 +69,4 @@ jobs:
                   curl -X POST https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-prod \
                   -H 'Content-Type: application/json' \
                   -H "X-Hub-Signature: sha1=$HASH" \
-                  -d $PAYLOAD
+                  -d "$PAYLOAD"
