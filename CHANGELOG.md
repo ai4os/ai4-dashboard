@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/ai4os/ai4-dashboard/compare/v2.7.1...v2.7.2) (2024-07-15)
+
+
+### Bug Fixes
+
+* improve tabs view in mobile ([#133](https://github.com/ai4os/ai4-dashboard/issues/133)) ([0279dc9](https://github.com/ai4os/ai4-dashboard/commit/0279dc963d8bf168d352b2cece6597e80dde643d))
+
 ## [2.7.1](https://github.com/ai4os/ai4-dashboard/compare/v2.7.0...v2.7.1) (2024-07-09)
 
 
