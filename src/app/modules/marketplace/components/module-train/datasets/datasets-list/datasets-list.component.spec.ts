@@ -72,7 +72,7 @@ describe('DatasetsListComponent', () => {
         const compiled = fixture.nativeElement as HTMLElement;
 
         // Header row
-        let tableHeaderRow =
+        const tableHeaderRow =
             fixture.debugElement.nativeElement.querySelectorAll(
                 'mat-header-row'
             );
@@ -87,7 +87,7 @@ describe('DatasetsListComponent', () => {
         expect(headerColumns.length).toBe(4);
 
         // Content rows
-        let tableRows = fixture.nativeElement.querySelectorAll('mat-row');
+        const tableRows = fixture.nativeElement.querySelectorAll('mat-row');
         expect(tableRows.length).toBe(0);
         expect(
             compiled.querySelector('.no-datasets-message-container')
