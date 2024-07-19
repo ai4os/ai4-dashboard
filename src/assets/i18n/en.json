@@ -4,6 +4,7 @@
         "DASHBOARD": "Dashboard",
         "MODULES": "Marketplace",
         "DEPLOYMENTS": "Deployments",
+        "INFERENCE": "Inference",
         "IAM": "Identity and Access",
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
         "IMAGINE-DOCUMENTATION": "iMagine AI platform documentation",
@@ -109,6 +110,23 @@
         "NAMESPACE": "Namespace",
         "NEW-DEPLOYMENT": "New deployment",
         "NO-DEPLOYMENTS": "Nothing deployed yet"
+    },
+    "INFERENCE": {
+        "TITLE": "Inference",
+        "OSCAR": "OSCAR",
+        "NAME": "Name",
+        "IMAGE": "Image",
+        "ACTIONS": "Actions",
+        "NO-INFERENCES": "Nothing deployed yet",
+        "INFERENCE-DETAIL": {
+            "TITLE": "Inference detail",
+            "NAME": "Name",
+            "DOCKER-IMAGE": "Docker image",
+            "CPU": "CPUs",
+            "MEMORY": "Memory",
+            "ENDPOINT": "Endpoint",
+            "TOKEN": "Token"
+        }
     },
     "MODULES": {
         "TITLE": "Marketplace",

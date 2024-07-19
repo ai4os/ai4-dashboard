@@ -1,0 +1,148 @@
+<mat-toolbar class="mb-3">
+    <span>
+        {{ 'INFERENCE.INFERENCE-DETAIL.TITLE' | translate }}
+
+        <mat-icon>view_in_ar</mat-icon></span
+    >
+</mat-toolbar>
+
+<mat-card>
+    <ng-template #loading>
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    </ng-template>
+
+    <mat-card-header>
+        <mat-card-title class="service-detail-title">
+            <h2>{{ service?.name }}</h2>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content
+        [ngClass]="{
+            'card-content-mobile': this.mobileQuery.matches
+        }"
+    >
+        <ng-container *ngIf="!isLoading; else loading">
+            <div>
+                <div class="mb-3">
+                    <h3>
+                        {{
+                            'INFERENCE.INFERENCE-DETAIL.DOCKER-IMAGE'
+                                | translate
+                        }}
+                    </h3>
+                    <p>{{ service?.image }}</p>
+                </div>
+
+                <div class="mt-3">
+                    <h3>
+                        {{ 'INFERENCE.INFERENCE-DETAIL.ENDPOINT' | translate }}
+                    </h3>
+                    <div class="token-container">
+                        <mat-form-field
+                            class="full-width mr-3"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                disabled="true"
+                                value="{{ service?.endpoint }}"
+                            />
+                        </mat-form-field>
+                        <button
+                            mat-icon-button
+                            matTooltip="Copy"
+                            [copy-to-clipboard]="service?.endpoint"
+                        >
+                            <mat-icon matSuffix color="accent">
+                                content_copy</mat-icon
+                            >
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <h3>
+                        {{ 'INFERENCE.INFERENCE-DETAIL.TOKEN' | translate }}
+                    </h3>
+                    <div class="token-container">
+                        <mat-form-field
+                            class="full-width mr-3"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                [type]="secretField.hide ? 'password' : 'text'"
+                                disabled="true"
+                                value="{{ secretField.value }}"
+                            />
+
+                            <button
+                                mat-icon-button
+                                matSuffix
+                                [matTooltip]="
+                                    secretField.hide ? 'Show' : 'Hide'
+                                "
+                                (click)="secretField.hide = !secretField.hide"
+                                [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="secretField.hide"
+                            >
+                                <mat-icon color="accent">{{
+                                    secretField.hide
+                                        ? 'visibility_off'
+                                        : 'visibility'
+                                }}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <button
+                            mat-icon-button
+                            matTooltip="Copy"
+                            [copy-to-clipboard]="secretField.value"
+                        >
+                            <mat-icon matSuffix color="accent">
+                                content_copy</mat-icon
+                            >
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid-2-columns">
+                    <div>
+                        <h3>
+                            {{
+                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
+                                    | translate
+                            }}
+                        </h3>
+                        <mat-list>
+                            <mat-list-item
+                                >{{
+                                    'INFERENCE.INFERENCE-DETAIL.CPU'
+                                        | translate
+                                }}:
+
+                                {{ service?.cpu }}
+                            </mat-list-item>
+                            <mat-list-item>
+                                {{
+                                    'INFERENCE.INFERENCE-DETAIL.MEMORY'
+                                        | translate
+                                }}:
+
+                                {{ service?.memory }}B
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button mat-raised-button mat-dialog-close>
+            {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+        </button>
+    </mat-card-actions>
+</mat-card>

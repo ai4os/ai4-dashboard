@@ -1,0 +1,28 @@
+.token-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mat-mdc-card-header {
+    display: block;
+    padding: 16px 16px 0;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.mcd-list {
+    padding: 0 !important;
+}
+
+.service-detail-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-content-mobile {
+    overflow: scroll;
+    max-height: 450px;
+}

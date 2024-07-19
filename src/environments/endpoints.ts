@@ -15,6 +15,8 @@ export const endpoints = {
     userStats: '/deployments/stats/user',
     clusterStats: '/deployments/stats/cluster',
     zenodo: '/datasets/zenodo',
+    oscarServices: '/inference/oscar/services',
+    oscarServiceByName: '/inference/oscar/services/:serviceName',
     //OSCAR endpoints
     services: '/services',
     serviceByName: '/services/:name',

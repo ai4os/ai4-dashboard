@@ -37,6 +37,14 @@ const routes: Routes = [
                     ),
             },
             {
+                path: 'inference',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () =>
+                    import('@app/modules/inference/inference.module').then(
+                        (m) => m.InferenceModule
+                    ),
+            },
+            {
                 path: 'forbidden',
                 loadChildren: () =>
                     import('@modules/forbidden/forbidden.module').then(
