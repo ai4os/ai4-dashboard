@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/ai4os/ai4-dashboard/compare/v2.7.2...v2.8.0) (2024-07-19)
+
+
+### Features
+
+* update dev module ([#145](https://github.com/ai4os/ai4-dashboard/issues/145)) ([14b2863](https://github.com/ai4os/ai4-dashboard/commit/14b286378c419927961570e9a1f13dd0f34ad415))
+
 ## [2.7.2](https://github.com/ai4os/ai4-dashboard/compare/v2.7.1...v2.7.2) (2024-07-15)
 
 
