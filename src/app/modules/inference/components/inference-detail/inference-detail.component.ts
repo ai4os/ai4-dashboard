@@ -47,6 +47,7 @@ export class InferenceDetailComponent implements OnInit {
         this.oscarInferenceService.getServiceByName(this.data.name).subscribe({
             next: (service: OscarService) => {
                 this.service = service;
+                this.service.title = service.environment.Variables.PAPI_TITLE;
                 this.secretField.value = service.token;
                 this.isLoading = false;
             },

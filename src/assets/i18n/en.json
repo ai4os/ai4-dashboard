@@ -112,9 +112,10 @@
         "NO-DEPLOYMENTS": "Nothing deployed yet"
     },
     "INFERENCE": {
-        "TITLE": "Inference",
+        "TITLE-HEADER": "Inference",
         "OSCAR": "OSCAR",
         "NAME": "Name",
+        "TITLE": "Title",
         "IMAGE": "Image",
         "ACTIONS": "Actions",
         "NO-INFERENCES": "Nothing deployed yet",
