@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { Subscription } from 'rxjs';
@@ -6,6 +6,11 @@ import {
     NgcCookieConsentService,
     NgcStatusChangeEvent,
 } from 'ngx-cookieconsent';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupComponent } from './shared/components/popup/popup/popup.component';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { PlatformStatusService } from './shared/services/platform-status/platform-status.service';
+import { PlatformStatus } from './shared/interfaces/platform-status.interface';
 
 @Component({
     selector: 'app-root',
@@ -19,9 +24,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         private titleService: Title,
+        private platformStatusService: PlatformStatusService,
         private appConfigService: AppConfigService,
-        private cookieService: NgcCookieConsentService
-    ) {}
+        private cookieService: NgcCookieConsentService,
+        public dialog: MatDialog,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher
+    ) {
+        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
+
+    mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     cookieConsentHandler() {
         // Check if the "cookieconsent_status" cookie is set to allow, needed for loading the script after reloading the page
@@ -61,9 +77,32 @@ export class AppComponent implements OnInit, OnDestroy {
         scriptElement?.parentElement?.removeChild(scriptElement);
     }
 
+    openPopup(message: string) {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+        this.dialog.open(PopupComponent, {
+            data: { message: message },
+            width: width,
+            maxWidth: width,
+            minWidth: width,
+            autoFocus: false,
+            restoreFocus: false,
+        });
+    }
+
+    checkPlatformStatus() {
+        this.platformStatusService
+            .getPlatformStatus()
+            .subscribe((status: PlatformStatus[]) => {
+                if (status.length > 0) {
+                    this.openPopup(status[0].title);
+                }
+            });
+    }
+
     ngOnInit(): void {
         this.titleService.setTitle(this.appConfigService.title);
         this.cookieConsentHandler();
+        this.checkPlatformStatus();
     }
 
     ngOnDestroy() {
