@@ -17,7 +17,7 @@ export class DevModuleCardComponent implements OnInit {
         public dialog: MatDialog
     ) {}
 
-    devModuleName = 'deep-oc-generic-dev';
+    devModuleName = 'ai4os-dev-env';
 
     // This property is bound using its original name.
     module: Module | undefined;
