@@ -6,7 +6,8 @@ describe('deployments section', function () {
         cy.contains('Tools', { timeout: 10000 }).click();
         cy.contains('Federated learning server', { timeout: 10000 }).click();
         cy.contains('Decline').click();
-        cy.contains('Launch tool', { timeout: 10000 }).click();
+        cy.contains('Train', { timeout: 10000 }).click();
+        cy.contains('Nomad', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
         cy.wait(500);
         cy.contains('Quick submit').click();

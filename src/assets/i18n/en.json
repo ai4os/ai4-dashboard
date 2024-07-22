@@ -125,11 +125,17 @@
             "GET-THE-DATA": "Get the data",
             "FOUND-ISSUE": "Found an issue?",
             "DATASET": "Dataset",
-            "TRAIN-MODULE": "Train module",
+            "TRAIN-MODULE": "Train",
             "LAUNCH-TOOL": "Launch tool",
-            "TRY-MODULE": "Try module",
+            "TRY-MODULE": "Try",
+            "DEPLOY-MODULE": "Deploy",
             "DEPLOY-W-IM": "Deploy via the IM",
-            "DEPLOY-W-OSCAR": "Deploy via OSCAR"
+            "DEPLOY-W-OSCAR": "Deploy via OSCAR",
+            "NOMAD": "Nomad",
+            "NOMAD-GRADIO": "Nomad (Gradio)",
+            "IM": "IM",
+            "OSCAR": "OSCAR",
+            "OSCAR-SWAGGER": "OSCAR (Swagger)"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
