@@ -43,6 +43,13 @@
     margin-left: 8px;
 }
 
+.login-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
 ::ng-deep {
     .mat-mdc-menu-panel.logoutDropdownMenu {
         width: 215px;

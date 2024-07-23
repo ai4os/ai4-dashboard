@@ -94,7 +94,11 @@ export class AppComponent implements OnInit, OnDestroy {
             .getPlatformStatus()
             .subscribe((status: PlatformStatus[]) => {
                 if (status.length > 0) {
-                    this.openPopup(status[0].title);
+                    var popup = localStorage.getItem('statusPopup');
+                    if (!popup) {
+                        this.openPopup(status[0].title);
+                        localStorage.setItem('statusPopup', 'seen');
+                    }
                 }
             });
     }
@@ -107,6 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         // unsubscribe to cookieconsent observables to prevent memory leaks
+        localStorage.removeItem('statusPopup');
         this.statusChangeSubscription.unsubscribe();
     }
 }
