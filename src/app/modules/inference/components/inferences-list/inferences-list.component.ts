@@ -120,6 +120,8 @@ export class InferencesListComponent {
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
+                    this.isLoading = true;
+                    this.dataSource = new MatTableDataSource<ServiceTableRow>();
                     const name = row.name;
                     this.oscarInferenceService
                         .deleteServiceByName(name)
@@ -134,6 +136,7 @@ export class InferencesListComponent {
                                         new MatTableDataSource<ServiceTableRow>(
                                             this.dataset
                                         );
+                                    this.isLoading = false;
                                     this._snackBar.open(
                                         'Successfully deleted service with name: ' +
                                             name,
@@ -144,6 +147,11 @@ export class InferencesListComponent {
                                         }
                                     );
                                 } else {
+                                    this.dataSource =
+                                        new MatTableDataSource<ServiceTableRow>(
+                                            this.dataset
+                                        );
+                                    this.isLoading = false;
                                     this._snackBar.open(
                                         'Error deleting service with name: ' +
                                             name,
@@ -156,6 +164,11 @@ export class InferencesListComponent {
                                 }
                             },
                             error: () => {
+                                this.dataSource =
+                                    new MatTableDataSource<ServiceTableRow>(
+                                        this.dataset
+                                    );
+                                this.isLoading = false;
                                 this._snackBar.open(
                                     'Error deleting service with name: ' + name,
                                     'X',
