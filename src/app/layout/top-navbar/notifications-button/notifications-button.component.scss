@@ -3,31 +3,5 @@ mat-accordion {
 }
 
 ::ng-deep .mat-mdc-menu-panel {
-    //width: inherit !important;
     max-width: 400px !important;
 }
-
-// .notifications-menu {
-//     & ::ng-deep .mat-mdc-menu-panel {
-//         width: inherit !important;
-//         max-width: 400px !important;
-//     }
-// }
-
-// .notifications-menu {
-//     & ::ng-deep .cdk-overlay-pane {
-//         width: 400px !important;
-//     }
-// }
-
-// .notifications-menu {
-//     & ::ng-deep .cdk-overlay-pane {
-//         width: 400px !important;
-//     }
-// }
-
-// .notifications-menu {
-//     & ::ng-deep .mdc-list {
-//         padding: 0px;
-//     }
-// }
