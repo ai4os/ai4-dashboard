@@ -1,0 +1,32 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon
+        ><span class="material-symbols-outlined"> notifications </span>
+    </mat-icon>
+</button>
+
+<mat-menu class="notifications-menu" #menu="matMenu">
+    <mat-accordion
+        *ngIf="displayedNotifications.length === 0; else notificationList"
+        mat-menu-item
+        disabled
+    >
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title> No notifications</mat-panel-title>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <ng-template #notificationList>
+        <mat-accordion mat-menu-item>
+            <mat-expansion-panel
+                *ngFor="let notification of displayedNotifications"
+            >
+                <mat-expansion-panel-header (click)="$event.stopPropagation()">
+                    <mat-panel-title> {{ notification.title }}</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ notification.summary }}</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </ng-template>
+</mat-menu>

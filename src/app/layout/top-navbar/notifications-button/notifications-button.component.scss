@@ -1,0 +1,7 @@
+mat-accordion {
+    padding: 0px;
+}
+
+::ng-deep .mat-mdc-menu-panel {
+    max-width: 400px !important;
+}

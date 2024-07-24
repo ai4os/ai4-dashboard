@@ -20,7 +20,9 @@
         }}
     </mat-error>
     <span class="spacer"></span>
-    <div *ngIf="isLoggedIn(); else showSignInLink">
+    <div *ngIf="isLoggedIn(); else showSignInLink" class="login-container">
+        <app-notifications-button></app-notifications-button>
+
         <button
             #button
             mat-button
