@@ -16,8 +16,21 @@
         "AI4OS": "AI4OS"
     },
     "TOP-NAVBAR": {
+        "PROFILE": "Profile",
         "LOGOUT": "Log out",
         "LOGIN-REGISTER": "Login - Register"
+    },
+    "PROFILE": {
+        "TITLE": "Profile",
+        "DETAILS": "Personal information",
+        "VOS": "Virtual organizations",
+        "LINKED-SERVICES": "Linked services",
+        "SYNC": "Sync",
+        "RESYNC": "Resync",
+        "NEXTCLOUD": {
+            "AI4OS": "AI4OS Nextcloud",
+            "CUSTOM": "Custom Nextcloud"
+        }
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",

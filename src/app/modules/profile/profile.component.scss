@@ -1,0 +1,86 @@
+.grid {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: 1.5em;
+}
+
+.grid-mobile {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr;
+    padding-bottom: 1rem;
+}
+
+.content {
+    padding: 0 16px;
+}
+
+.vo-name {
+    text-align: center;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: row;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vos-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: fit-content;
+}
+
+.card-footer {
+    padding: 16px;
+}
+
+.full-width {
+    width: 700px;
+}
+
+.service-name {
+    width: 150px;
+}
+
+.grey-text {
+    color: var(--warm-grey);
+}
+
+.input-url {
+    width: 420px;
+}
+
+.small-logo {
+    height: 50%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.list-element {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    height: 70px;
+}
+
+.buttons {
+    min-width: fit-content;
+}
+
+mat-list {
+    width: 100%;
+}
