@@ -10,7 +10,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from './shared/components/popup/popup/popup.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { PlatformStatusService } from './shared/services/platform-status/platform-status.service';
-import { PlatformStatus } from './shared/interfaces/platform-status.interface';
+import {
+    PlatformStatus,
+    StatusNotification,
+} from './shared/interfaces/platform-status.interface';
 
 @Component({
     selector: 'app-root',
@@ -89,15 +92,52 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
+    parseStatusString(eventString: string): StatusNotification {
+        let eventLines = eventString.trim().split('\n');
+
+        const eventObject: any = {};
+        eventLines = eventLines.slice(1, 6);
+
+        eventLines.forEach((line) => {
+            const [key, value] = line.split(': ');
+
+            eventObject[key.trim()] = value !== undefined ? value.trim() : '';
+        });
+
+        return eventObject;
+    }
+
     checkPlatformStatus() {
+        const now = new Date().getTime();
+
         this.platformStatusService
-            .getPlatformStatus()
+            .getPlatformPopup()
             .subscribe((status: PlatformStatus[]) => {
                 if (status.length > 0) {
                     var popup = localStorage.getItem('statusPopup');
-                    if (!popup) {
-                        this.openPopup(status[0].title);
-                        localStorage.setItem('statusPopup', 'seen');
+                    if (!popup && status[0].body != null) {
+                        const processedStatus = this.parseStatusString(
+                            status[0].body
+                        );
+                        let notification: StatusNotification = {
+                            title: processedStatus.title,
+                            summary: processedStatus.summary,
+                            vo: processedStatus.vo ?? '',
+                            start: processedStatus.start,
+                            end: processedStatus.end,
+                        };
+                        if (notification.start && notification.end) {
+                            notification.start = new Date(notification.start);
+                            notification.end = new Date(notification.end);
+                            console.log(notification);
+                            if (
+                                notification.start.getTime() <= now &&
+                                notification.end.getTime() > now
+                            ) {
+                                this.openPopup(status[0].title);
+                                localStorage.setItem('statusPopup', 'seen');
+                            }
+                        }
                     }
                 }
             });

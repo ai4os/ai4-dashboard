@@ -26,7 +26,7 @@ export class NotificationsButtonComponent implements OnInit {
     }
 
     getNotifications() {
-        this.platformStatusService.getPlatformStatus().subscribe({
+        this.platformStatusService.getPlatformNotifications().subscribe({
             next: (platformStatus: PlatformStatus[]) => {
                 if (platformStatus.length > 0) {
                     platformStatus.forEach((status) => {
