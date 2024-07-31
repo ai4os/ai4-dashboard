@@ -1,3 +1,13 @@
+.element-icon {
+    transform: scale(0.7);
+    margin-right: 16px;
+}
+
+::ng-deep .material-symbols-outlined {
+    font-size: 22px !important;
+    align-content: center;
+}
+
 mat-accordion {
     padding: 0px;
 }

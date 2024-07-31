@@ -12,8 +12,4 @@ export class PopupComponent {
         @Inject(MAT_DIALOG_DATA)
         public data: { message: string }
     ) {}
-
-    closeDialog(): void {
-        this.dialogRef.close();
-    }
 }

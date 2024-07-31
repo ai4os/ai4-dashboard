@@ -1,10 +1,10 @@
 <h1 mat-dialog-title class="aligned-with-icon">
-    <mat-icon class="mr-2">warning</mat-icon>
+    <mat-icon class="mr-2 warn-color">warning</mat-icon>
     {{ 'ERRORS.UNDER-MAINTENANCE-POPUP.TITLE' | translate }}
 </h1>
 <div mat-dialog-content>
     <p>{{ data.message }}</p>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-button (click)="closeDialog()">Close</button>
+    <button mat-raised-button mat-dialog-close>Close</button>
 </div>
