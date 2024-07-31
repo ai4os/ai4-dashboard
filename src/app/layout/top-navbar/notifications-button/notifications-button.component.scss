@@ -5,3 +5,11 @@ mat-accordion {
 ::ng-deep .mat-mdc-menu-panel {
     max-width: 400px !important;
 }
+
+::ng-deep .mat-mdc-menu-content {
+    padding: 0 !important;
+}
+
+::ng-deep .mdc-list {
+    padding: 0 !important;
+}
