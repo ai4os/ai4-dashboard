@@ -77,11 +77,12 @@ export class NotificationsButtonComponent implements OnInit {
 
     filterByDateAndVo(notifications: StatusNotification[]) {
         const now = new Date().getTime();
-
         notifications.forEach((n) => {
+            console.log(n);
+
             // filter by vo
             if (
-                (n.vo !== '' && n.vo === this.appConfigService.projectName) ||
+                (n.vo !== '' && n.vo === this.appConfigService.voName) ||
                 n.vo === ''
             ) {
                 // filter by date

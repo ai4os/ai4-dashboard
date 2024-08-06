@@ -119,23 +119,30 @@ export class AppComponent implements OnInit, OnDestroy {
                         const processedStatus = this.parseStatusString(
                             status[0].body
                         );
-                        let notification: StatusNotification = {
+                        let n: StatusNotification = {
                             title: processedStatus.title,
                             summary: processedStatus.summary,
                             vo: processedStatus.vo ?? '',
                             start: processedStatus.start,
                             end: processedStatus.end,
                         };
-                        if (notification.start && notification.end) {
-                            notification.start = new Date(notification.start);
-                            notification.end = new Date(notification.end);
-                            console.log(notification);
-                            if (
-                                notification.start.getTime() <= now &&
-                                notification.end.getTime() > now
-                            ) {
-                                this.openPopup(status[0].title);
-                                localStorage.setItem('statusPopup', 'seen');
+                        // filter by vo
+                        if (
+                            (n.vo !== '' &&
+                                n.vo === this.appConfigService.voName) ||
+                            n.vo === ''
+                        ) {
+                            // filter by date
+                            if (n.start && n.end) {
+                                n.start = new Date(n.start);
+                                n.end = new Date(n.end);
+                                if (
+                                    n.start.getTime() <= now &&
+                                    n.end.getTime() > now
+                                ) {
+                                    this.openPopup(status[0].title);
+                                    localStorage.setItem('statusPopup', 'seen');
+                                }
                             }
                         }
                     }
