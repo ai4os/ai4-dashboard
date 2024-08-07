@@ -27,6 +27,7 @@
         "LINKED-SERVICES": "Linked services",
         "SYNC": "Sync",
         "RESYNC": "Resync",
+        "LOGIN": "Log in in the the pop-up window",
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud"

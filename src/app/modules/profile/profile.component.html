@@ -10,9 +10,10 @@
 </mat-toolbar>
 
 <ng-template #loading>
-    <div class="spinner">
+    <div class="spinner spinner-with-text">
         <mat-progress-spinner color="primary" mode="indeterminate">
         </mat-progress-spinner>
+        <span *ngIf="isLoginLoading"> {{ 'PROFILE.LOGIN' | translate }}</span>
     </div>
 </ng-template>
 
@@ -31,12 +32,12 @@
             </mat-card-header>
 
             <mat-card-content class="info-container">
-                <div class="info-element">
+                <div>
                     <p class="grey-text">Full name</p>
                     <p>{{ this.name }}</p>
                 </div>
 
-                <div class="info-element">
+                <div>
                     <p class="grey-text">Email</p>
                     <p>{{ this.email }}</p>
                 </div>
@@ -49,14 +50,25 @@
             </mat-card-header>
 
             <mat-card-content class="info-container">
-                <div *ngFor="let vo of vos" class="info-element">
+                <mat-list role="list">
+                    <mat-list-item role="listitem" *ngFor="let vo of vos"
+                        >{{ vo.name }}
+                        <mat-chip
+                            *ngFor="let role of vo.roles"
+                            class="ml-2 mr-2"
+                            >{{ role }}</mat-chip
+                        >
+                    </mat-list-item>
+                </mat-list>
+
+                <!-- <div *ngFor="let vo of vos" class="info-element">
                     <p class="vo-name">{{ vo.name }}</p>
                     <mat-chip-set>
                         <mat-chip *ngFor="let role of vo.roles">{{
                             role
                         }}</mat-chip>
                     </mat-chip-set>
-                </div>
+                </div> -->
             </mat-card-content>
         </mat-card>
     </div>
@@ -88,21 +100,26 @@
                         </mat-form-field>
 
                         <button
+                            *ngIf="!serviceCredentialsExist[0]; else resync"
                             class="buttons"
                             mat-raised-button
                             color="accent"
                             (click)="syncRclone()"
                         >
                             {{ 'PROFILE.SYNC' | translate }}
+                            <mat-icon>sync</mat-icon>
                         </button>
-                        <button
-                            class="buttons"
-                            mat-raised-button
-                            color="accent"
-                            (click)="syncRclone()"
+                        <ng-template #resync
+                            ><button
+                                class="buttons"
+                                mat-raised-button
+                                color="accent"
+                                (click)="syncRclone()"
+                            >
+                                {{ 'PROFILE.RESYNC' | translate }}
+                                <mat-icon>sync</mat-icon>
+                            </button></ng-template
                         >
-                            {{ 'PROFILE.RESYNC' | translate }}
-                        </button>
                     </div>
                 </mat-list-item>
 
@@ -110,7 +127,7 @@
 
                 <mat-list-item>
                     <mat-icon matListItemIcon>folder</mat-icon>
-                    <div matListItemTitle class="list-element">
+                    <div matListItemTitle>
                         <p class="service-name">
                             {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
                         </p>
@@ -122,21 +139,26 @@
                         </mat-form-field>
 
                         <button
+                            *ngIf="!serviceCredentialsExist[1]; else resync"
                             class="buttons"
                             mat-raised-button
                             color="accent"
                             (click)="syncRclone()"
                         >
                             {{ 'PROFILE.SYNC' | translate }}
+                            <mat-icon>sync</mat-icon>
                         </button>
-                        <button
-                            class="buttons"
-                            mat-raised-button
-                            color="accent"
-                            (click)="syncRclone()"
-                        >
-                            {{ 'PROFILE.RESYNC' | translate }}
-                        </button>
+                        <ng-template #resync>
+                            <button
+                                class="buttons"
+                                mat-raised-button
+                                color="accent"
+                                (click)="syncRclone()"
+                            >
+                                {{ 'PROFILE.RESYNC' | translate }}
+                                <mat-icon>sync</mat-icon>
+                            </button>
+                        </ng-template>
                     </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>

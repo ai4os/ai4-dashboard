@@ -1,3 +1,9 @@
+.spinner-with-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
 .grid {
     display: grid;
     grid-gap: 1rem 2rem;
@@ -12,12 +18,12 @@
     padding-bottom: 1rem;
 }
 
-.content {
-    padding: 0 16px;
-}
-
-.vo-name {
-    text-align: center;
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    // min-width: fit-content;
 }
 
 .info-container {
@@ -28,44 +34,8 @@
     align-items: center;
 }
 
-.vos-container {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-}
-
-.card {
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: fit-content;
-}
-
-.card-footer {
-    padding: 16px;
-}
-
-.full-width {
-    width: 700px;
-}
-
-.service-name {
-    width: 150px;
-}
-
 .grey-text {
     color: var(--warm-grey);
-}
-
-.input-url {
-    width: 420px;
-}
-
-.small-logo {
-    height: 50%;
-    width: 100%;
-    object-fit: contain;
 }
 
 .list-element {
@@ -77,10 +47,28 @@
     height: 70px;
 }
 
+.service-name {
+    width: 100%;
+    max-width: 150px;
+    padding-left: 20px;
+}
+
+.full-width {
+    width: 100%;
+    max-width: 900px;
+}
+
 .buttons {
     min-width: fit-content;
+    gap: 0.7em;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 mat-list {
     width: 100%;
+}
+
+mat-icon {
+    margin: 0 !important;
 }
