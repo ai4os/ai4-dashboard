@@ -17,7 +17,8 @@
     },
     "TOP-NAVBAR": {
         "LOGOUT": "Log out",
-        "LOGIN-REGISTER": "Login - Register"
+        "LOGIN-REGISTER": "Login - Register",
+        "NO-NOTIFICATIONS": "No notifications"
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
