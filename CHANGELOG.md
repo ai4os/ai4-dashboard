@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.0](https://github.com/ai4os/ai4-dashboard/compare/v2.9.0...v2.10.0) (2024-08-08)
+
+
+### Features
+
+* Feature 140 popup when dashboard is under maintenance (WIP)  ([#150](https://github.com/ai4os/ai4-dashboard/issues/150)) ([c1f1c40](https://github.com/ai4os/ai4-dashboard/commit/c1f1c40bb05c2d079e474d538355b5839031613d))
+
 ## [2.9.0](https://github.com/ai4os/ai4-dashboard/compare/v2.8.0...v2.9.0) (2024-07-22)
 
 
