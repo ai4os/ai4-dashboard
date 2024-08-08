@@ -22,6 +22,7 @@ interface ServiceTableRow {
     name: string;
     title: string;
     image: string;
+    creationTime: string;
 }
 
 @Component({
@@ -52,6 +53,7 @@ export class InferencesListComponent {
         { columnDef: 'name', header: 'INFERENCE.NAME', hidden: true },
         { columnDef: 'title', header: 'INFERENCE.TITLE' },
         { columnDef: 'image', header: 'INFERENCE.IMAGE' },
+        { columnDef: 'creationTime', header: 'INFERENCE.CREATION-TIME' },
         { columnDef: 'actions', header: 'INFERENCE.ACTIONS' },
     ];
     dataset: Array<ServiceTableRow> = [];
@@ -93,10 +95,13 @@ export class InferencesListComponent {
                 this.dataset = [];
                 servicesList.forEach((service: OscarService) => {
                     service.title = service.environment.Variables.PAPI_TITLE;
+                    service.submit_time =
+                        service.environment.Variables.PAPI_CREATED;
                     const row: ServiceTableRow = {
                         name: service.name,
                         title: service.title,
                         image: service.image,
+                        creationTime: service.submit_time,
                     };
                     this.dataset.push(row);
                 });

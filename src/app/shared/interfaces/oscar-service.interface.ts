@@ -9,6 +9,7 @@ export interface OscarService {
     image: string;
     token: string;
     endpoint: string;
+    submit_time: string;
 }
 
 export interface OscarServiceRequest {

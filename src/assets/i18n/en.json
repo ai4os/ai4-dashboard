@@ -114,15 +114,16 @@
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
         "OSCAR": "OSCAR",
-        "NAME": "Name",
         "TITLE": "Title",
         "IMAGE": "Image",
+        "CREATION-TIME": "Creation time (UTC)",
         "ACTIONS": "Actions",
         "NO-INFERENCES": "Nothing deployed yet",
         "INFERENCE-DETAIL": {
             "TITLE": "Inference detail",
-            "NAME": "Name",
+            "DEPLOYMENT-ID": "Deployment ID",
             "DOCKER-IMAGE": "Docker image",
+            "CREATION-TIME": "Creation time (UTC)",
             "CPU": "CPUs",
             "MEMORY": "Memory",
             "ENDPOINT": "Endpoint",

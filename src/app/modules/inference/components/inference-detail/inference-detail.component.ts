@@ -48,6 +48,8 @@ export class InferenceDetailComponent implements OnInit {
             next: (service: OscarService) => {
                 this.service = service;
                 this.service.title = service.environment.Variables.PAPI_TITLE;
+                this.service.submit_time =
+                    service.environment.Variables.PAPI_CREATED;
                 this.secretField.value = service.token;
                 this.isLoading = false;
             },
