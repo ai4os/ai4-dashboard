@@ -330,6 +330,53 @@
                                     "output": "/assets/"
                                 }
                             ]
+                        },
+                        "ai4life-ai4eosc": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "2mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.production.ts"
+                                }
+                            ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                            ],
+                            "styles": [
+                                "src/theme/ai4eosc/variables.scss",
+                                "src/styles.scss",
+                                "node_modules/ol/ol.css",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                            ],
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/images/ai4eosc",
+                                    "output": "/assets/images/"
+                                },
+                                {
+                                    "glob": "config.json",
+                                    "input": "src/assets/config/ai4life/",
+                                    "output": "/assets/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/",
+                                    "output": "/assets/"
+                                }
+                            ]
                         }
                     },
                     "defaultConfiguration": "production-ai4eosc"
@@ -357,6 +404,9 @@
                         },
                         "tutorials-ai4eosc": {
                             "browserTarget": "ai4-dashboard:build:tutorials-ai4eosc"
+                        },
+                        "ai4life-ai4eosc": {
+                            "browserTarget": "ai4-dashboard:build:ai4life-ai4eosc"
                         }
                     },
                     "defaultConfiguration": "local-ai4eosc"
