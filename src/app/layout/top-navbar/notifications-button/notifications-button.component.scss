@@ -11,6 +11,13 @@
     justify-content: center !important;
 }
 
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .accordion {
     display: block;
     width: 300px;
@@ -29,6 +36,7 @@
     display: flex;
     align-content: center;
     justify-content: flex-start;
+    align-items: center;
 }
 
 .accordion-item-description {

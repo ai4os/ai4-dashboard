@@ -114,12 +114,12 @@ export class AppComponent implements OnInit, OnDestroy {
             .getPlatformPopup()
             .subscribe((status: PlatformStatus[]) => {
                 if (status.length > 0) {
-                    var popup = localStorage.getItem('statusPopup');
+                    const popup = localStorage.getItem('statusPopup');
                     if (!popup && status[0].body != null) {
                         const processedStatus = this.parseStatusString(
                             status[0].body
                         );
-                        let n: StatusNotification = {
+                        const n: StatusNotification = {
                             title: processedStatus.title,
                             summary: processedStatus.summary,
                             vo: processedStatus.vo ?? '',
