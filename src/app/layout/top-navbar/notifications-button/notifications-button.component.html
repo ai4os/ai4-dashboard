@@ -58,13 +58,15 @@
                     >
                         info
                     </mat-icon>
-                    {{ notification.title }}
-                    <span
-                        *ngIf="notification.summary !== ''"
-                        class="example-accordion-item-description"
-                    >
-                        <mat-icon> keyboard_arrow_down </mat-icon>
-                    </span>
+                    <div class="title-container">
+                        {{ notification.title }}
+                        <span
+                            *ngIf="notification.summary !== ''"
+                            class="example-accordion-item-description"
+                        >
+                            <mat-icon> keyboard_arrow_down </mat-icon>
+                        </span>
+                    </div>
                 </div>
                 <div
                     *ngIf="notification.summary !== ''"

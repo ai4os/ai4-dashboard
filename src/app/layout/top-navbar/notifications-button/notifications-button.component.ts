@@ -34,7 +34,7 @@ export class NotificationsButtonComponent implements OnInit {
                             const processedStatus = this.parseStatusString(
                                 status.body
                             );
-                            let notification: StatusNotification = {
+                            const notification: StatusNotification = {
                                 title: processedStatus.title,
                                 summary: processedStatus.summary,
                                 vo: processedStatus.vo ?? '',
@@ -43,7 +43,7 @@ export class NotificationsButtonComponent implements OnInit {
                             };
                             this.notifications.push(notification);
                         } else {
-                            let notification: StatusNotification = {
+                            const notification: StatusNotification = {
                                 title: status.title,
                             };
                             this.notifications.push(notification);

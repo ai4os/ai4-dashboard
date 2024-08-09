@@ -55,8 +55,8 @@ export class ProfileComponent implements OnInit {
         login: '',
     };
 
-    protected name: string = '';
-    protected email: string = '';
+    protected name = '';
+    protected email = '';
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint =
         'https://share.services.ai4os.eu/index.php/login/v2';
@@ -86,11 +86,11 @@ export class ProfileComponent implements OnInit {
             voName = voName.substring(0, voName.length - 3);
             const role = roleMatch ? roleMatch[1] : '';
 
-            let index = this.vos.findIndex((v) => v.name === voName);
+            const index = this.vos.findIndex((v) => v.name === voName);
             if (index !== -1) {
                 this.vos[index].roles.push(role);
             } else {
-                let newVo = { name: voName, roles: [role] };
+                const newVo = { name: voName, roles: [role] };
                 this.vos.push(newVo);
             }
         });
