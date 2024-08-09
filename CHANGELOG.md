@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.0](https://github.com/ai4os/ai4-dashboard/compare/v2.11.0...v2.12.0) (2024-08-09)
+
+
+### Features
+
+* popup when dashboard is under maintenance ([#155](https://github.com/ai4os/ai4-dashboard/issues/155)) ([46d65f9](https://github.com/ai4os/ai4-dashboard/commit/46d65f9486c039f58c1efa665bbde920ce171e1c))
+
 ## [2.11.0](https://github.com/ai4os/ai4-dashboard/compare/v2.10.0...v2.11.0) (2024-08-08)
 
 
