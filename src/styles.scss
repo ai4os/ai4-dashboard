@@ -83,6 +83,19 @@ body {
 .aligned-with-icon {
     display: flex;
     align-items: center;
+    gap: 10px;
+    &.scale-icon-down {
+        .mat-icon {
+            transform: scale(0.7);
+        }
+    }
+}
+
+.aligned-with-icon-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row-reverse;
     &.scale-icon-down {
         .mat-icon {
             transform: scale(0.7);

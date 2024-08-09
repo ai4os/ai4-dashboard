@@ -16,9 +16,23 @@
         "AI4OS": "AI4OS"
     },
     "TOP-NAVBAR": {
+        "PROFILE": "Profile",
         "LOGOUT": "Log out",
         "LOGIN-REGISTER": "Login - Register",
         "NO-NOTIFICATIONS": "No notifications"
+    },
+    "PROFILE": {
+        "TITLE": "Profile",
+        "DETAILS": "Personal information",
+        "VOS": "Virtual organizations",
+        "LINKED-SERVICES": "Linked services",
+        "SYNC": "Sync",
+        "RESYNC": "Resync",
+        "LOGIN": "Log in in the the pop-up window",
+        "NEXTCLOUD": {
+            "AI4OS": "AI4OS Nextcloud",
+            "CUSTOM": "Custom Nextcloud"
+        }
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -126,11 +140,17 @@
             "GET-THE-DATA": "Get the data",
             "FOUND-ISSUE": "Found an issue?",
             "DATASET": "Dataset",
-            "TRAIN-MODULE": "Train module",
+            "TRAIN-MODULE": "Train",
             "LAUNCH-TOOL": "Launch tool",
-            "TRY-MODULE": "Try module",
+            "TRY-MODULE": "Try",
+            "DEPLOY-MODULE": "Deploy",
             "DEPLOY-W-IM": "Deploy via the IM",
-            "DEPLOY-W-OSCAR": "Deploy via OSCAR"
+            "DEPLOY-W-OSCAR": "Deploy via OSCAR",
+            "NOMAD": "Nomad",
+            "NOMAD-GRADIO": "Nomad (Gradio)",
+            "IM": "IM",
+            "OSCAR": "OSCAR",
+            "OSCAR-SWAGGER": "OSCAR (Swagger)"
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",

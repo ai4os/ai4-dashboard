@@ -1,0 +1,74 @@
+.spinner-with-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: 1.5em;
+}
+
+.grid-mobile {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr;
+    padding-bottom: 1rem;
+}
+
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    // min-width: fit-content;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: row;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grey-text {
+    color: var(--warm-grey);
+}
+
+.list-element {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    height: 70px;
+}
+
+.service-name {
+    width: 100%;
+    max-width: 150px;
+    padding-left: 20px;
+}
+
+.full-width {
+    width: 100%;
+    max-width: 900px;
+}
+
+.buttons {
+    min-width: fit-content;
+    gap: 0.7em;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+mat-list {
+    width: 100%;
+}
+
+mat-icon {
+    margin: 0 !important;
+}

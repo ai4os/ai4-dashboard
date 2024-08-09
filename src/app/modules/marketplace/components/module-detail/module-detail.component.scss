@@ -3,19 +3,40 @@
     grid-template-columns: 3fr 1fr;
     grid-gap: 5rem;
 }
-.grid-action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+
+.action-buttons-container {
+    display: flex;
+    justify-content: flex-end;
     gap: 1em;
+}
+
+.action-buttons-container-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    padding-top: 15px;
+}
+
+.grid-resources {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 1em;
+    width: 100%;
 }
 
 .action-button {
     display: flex;
-    height: auto;
-    width: auto;
-    text-align: center;
     padding: 5px 16px;
+    align-self: center;
+    text-align: center;
+    flex-direction: row-reverse;
+    column-gap: 5px;
+    width: 100%;
+    min-width: 110px;
+}
+
+.sub-button {
+    justify-content: flex-end;
 }
 
 .launch-tool-button {
@@ -30,12 +51,31 @@
     margin-bottom: 15px;
 }
 
-#module-detail-card-header {
-    display: block;
+.module-detail-card-header {
+    display: flex;
+    padding: 16px;
+    justify-content: space-between;
+}
+
+.module-detail-card-header-mobile {
+    display: flex;
+    padding: 16px;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .module-header-info {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-start;
 }
 
 ::ng-deep .module-description img {
@@ -94,4 +134,8 @@
     background: #fff;
     -webkit-box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
     box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
+}
+
+::ng-deep mat-icon {
+    margin-right: 0px !important;
 }

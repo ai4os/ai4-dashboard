@@ -37,7 +37,7 @@ export const deploymentsList: Array<Deployment> = [
         title: 'Test title 1',
         description: '',
         datacenter: 'ai-ifca',
-        docker_image: 'deephdc/deep-oc-generic-dev:latest',
+        docker_image: 'deephdc/ai4os-dev-env:latest',
         docker_command: 'deep-start --vscode',
         submit_time: '2023-08-08 07:57:26',
         resources: {
@@ -64,7 +64,7 @@ export const deploymentsList: Array<Deployment> = [
         title: 'Test tittle 2',
         description: '',
         datacenter: 'ai-ifca',
-        docker_image: 'deephdc/deep-oc-generic-dev:latest',
+        docker_image: 'deephdc/ai4os-dev-env:latest',
         docker_command: 'deep-start --jupyter',
         submit_time: '2023-08-04 18:48:28',
         resources: {
