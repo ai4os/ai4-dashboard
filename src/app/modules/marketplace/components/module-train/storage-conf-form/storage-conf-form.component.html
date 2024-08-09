@@ -13,6 +13,7 @@
                 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-USER' | translate
             }}</mat-label>
             <input
+                id="rcloneUser"
                 matInput
                 placeholder=""
                 value=""
@@ -41,6 +42,7 @@
                 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-PASS' | translate
             }}</mat-label>
             <input
+                id="rclonePassword"
                 [type]="hidePassword ? 'password' : 'text'"
                 matInput
                 placeholder="At least 9 characters"
