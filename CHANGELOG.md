@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.0](https://github.com/ai4os/ai4-dashboard/compare/v2.13.1-pre...v2.14.0) (2024-08-09)
+
+
+### Features
+
+* add support for oscar services ([#154](https://github.com/ai4os/ai4-dashboard/issues/154)) ([31d3b96](https://github.com/ai4os/ai4-dashboard/commit/31d3b96e213b26606035a51bfa73bfb8584a2106))
+
 ## [2.13.0](https://github.com/ai4os/ai4-dashboard/compare/v2.12.0...v2.13.0) (2024-08-09)
 
 
