@@ -1,10 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import {
-    RequestLoginResponse,
-    ProfileService,
-} from './services/profile.service';
+
 import {
     catchError,
     finalize,
@@ -16,6 +13,12 @@ import {
     timer,
 } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, Validators } from '@angular/forms';
+import {
+    RcloneCredential,
+    RequestLoginResponse,
+} from '@app/shared/interfaces/profile.interface';
+import { ProfileService } from './services/profile.service';
 
 export interface VoInfo {
     name: string;
@@ -33,7 +36,8 @@ export class ProfileComponent implements OnInit {
         private profileService: ProfileService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private fb: FormBuilder
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -61,9 +65,15 @@ export class ProfileComponent implements OnInit {
     protected ai4osEndpoint =
         'https://share.services.ai4os.eu/index.php/login/v2';
     protected customEndpoint = 'https://<your.domain>/index.php/login/v2';
+    customEndpointFormGroup = this.fb.group({
+        value: [
+            'https://<your.domain>/index.php/login/v2',
+            [Validators.required],
+        ],
+    });
 
     // TODO: turn this into an array
-    protected serviceCredentialsExist: boolean[] = [];
+    protected serviceCredentials: RcloneCredential[] = [];
 
     ngOnInit(): void {
         this.authService.userProfileSubject.subscribe((profile) => {
@@ -72,7 +82,7 @@ export class ProfileComponent implements OnInit {
             this.getVoInfo(profile.eduperson_entitlement);
             this.isLoading = false;
         });
-        this.serviceCredentialsExist = [false, false];
+        this.serviceCredentials = this.getExistingRcloneCredentials();
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -96,11 +106,15 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    syncRclone() {
+    getExistingRcloneCredentials(): RcloneCredential[] {
+        throw new Error('Method not implemented.');
+    }
+
+    syncRclone(url: string) {
         this.isLoading = true;
         this.isLoginLoading = true;
-        console.log(new Date());
-        this.profileService.initLogin('share.services.ai4os.eu').subscribe({
+        console.log(url);
+        this.profileService.initLogin(url).subscribe({
             next: (response) => {
                 this.loginResponse = response;
                 window.open(response.login, '_blank');

@@ -100,11 +100,11 @@
                         </mat-form-field>
 
                         <button
-                            *ngIf="!serviceCredentialsExist[0]; else resync"
+                            *ngIf="serviceCredentials.length === 0; else resync"
                             class="buttons"
                             mat-raised-button
                             color="accent"
-                            (click)="syncRclone()"
+                            (click)="syncRclone(ai4osEndpoint)"
                         >
                             {{ 'PROFILE.SYNC' | translate }}
                             <mat-icon>sync</mat-icon>
@@ -114,7 +114,7 @@
                                 class="buttons"
                                 mat-raised-button
                                 color="accent"
-                                (click)="syncRclone()"
+                                (click)="syncRclone(ai4osEndpoint)"
                             >
                                 {{ 'PROFILE.RESYNC' | translate }}
                                 <mat-icon>sync</mat-icon>
@@ -127,7 +127,11 @@
 
                 <mat-list-item>
                     <mat-icon matListItemIcon>folder</mat-icon>
-                    <div matListItemTitle>
+                    <div
+                        matListItemTitle
+                        class="list-element"
+                        [formGroup]="customEndpointFormGroup"
+                    >
                         <p class="service-name">
                             {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
                         </p>
@@ -135,32 +139,30 @@
                             class="full-width"
                             subscriptSizing="dynamic"
                         >
-                            <input matInput value="{{ customEndpoint }}" />
+                            <input
+                                matInput
+                                formControlName="value"
+                                value="{{ customEndpoint }}"
+                            />
                         </mat-form-field>
 
                         <button
-                            *ngIf="!serviceCredentialsExist[1]; else resync"
                             class="buttons"
                             mat-raised-button
                             color="accent"
-                            (click)="syncRclone()"
+                            (click)="
+                                syncRclone(
+                                    customEndpointFormGroup.get('value')
+                                        ?.value ?? ''
+                                )
+                            "
                         >
                             {{ 'PROFILE.SYNC' | translate }}
                             <mat-icon>sync</mat-icon>
                         </button>
-                        <ng-template #resync>
-                            <button
-                                class="buttons"
-                                mat-raised-button
-                                color="accent"
-                                (click)="syncRclone()"
-                            >
-                                {{ 'PROFILE.RESYNC' | translate }}
-                                <mat-icon>sync</mat-icon>
-                            </button>
-                        </ng-template>
                     </div>
                 </mat-list-item>
+
                 <mat-divider></mat-divider>
             </mat-list>
         </mat-card-content>

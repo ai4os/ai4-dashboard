@@ -1,20 +1,10 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+    RequestLoginResponse,
+    CompleteLoginResponse,
+} from '@app/shared/interfaces/profile.interface';
 import { Observable } from 'rxjs';
-
-export interface RequestLoginResponse {
-    poll: {
-        token: string;
-        endpoint: string;
-    };
-    login: string;
-}
-
-export interface CompleteLoginResponse {
-    server: string;
-    loginName: string;
-    appPassword: string;
-}
 
 @Injectable({
     providedIn: 'root',
@@ -22,8 +12,8 @@ export interface CompleteLoginResponse {
 export class ProfileService {
     constructor(private http: HttpClient) {}
 
-    initLogin(domain: string): Observable<RequestLoginResponse> {
-        const url = 'https://' + domain + '/index.php/login/v2';
+    initLogin(url: string): Observable<RequestLoginResponse> {
+        //const url = 'https://' + domain + '/index.php/login/v2';
         const body = {};
         return this.http.post<RequestLoginResponse>(url, body);
     }
