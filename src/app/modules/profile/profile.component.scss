@@ -50,7 +50,7 @@
 .service-name {
     width: 100%;
     max-width: 150px;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .full-width {
@@ -63,6 +63,16 @@
     gap: 0.7em;
     display: flex;
     flex-direction: row-reverse;
+}
+
+.icon-button {
+    background: none;
+    padding: 0;
+    border: 0;
+}
+
+.icon-button .icon {
+    width: 28px;
 }
 
 mat-list {

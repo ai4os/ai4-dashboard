@@ -83,8 +83,13 @@
         <mat-card-content class="info-container">
             <mat-list>
                 <mat-list-item>
-                    <mat-icon matListItemIcon>folder</mat-icon>
                     <div matListItemTitle class="list-element">
+                        <button class="icon-button">
+                            <img
+                                class="icon"
+                                src="../../../../../assets/images/nextcloud-logo.png"
+                            />
+                        </button>
                         <p class="service-name">
                             {{ 'PROFILE.NEXTCLOUD.AI4OS' | translate }}
                         </p>
@@ -126,12 +131,17 @@
                 <mat-divider></mat-divider>
 
                 <mat-list-item>
-                    <mat-icon matListItemIcon>folder</mat-icon>
                     <div
                         matListItemTitle
                         class="list-element"
                         [formGroup]="customEndpointFormGroup"
                     >
+                        <button class="icon-button" disabled>
+                            <img
+                                class="icon"
+                                src="../../../../../assets/images/nextcloud-logo.png"
+                            />
+                        </button>
                         <p class="service-name">
                             {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
                         </p>
@@ -142,6 +152,7 @@
                             <input
                                 matInput
                                 formControlName="value"
+                                placeholder="Custom domain"
                                 value="{{ customEndpoint }}"
                             />
                         </mat-form-field>

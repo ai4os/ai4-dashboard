@@ -46,7 +46,7 @@
             >
                 {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
 
-                <mat-icon> keyboard_arrow_down </mat-icon>
+                <mat-icon class="mr-0"> keyboard_arrow_down </mat-icon>
             </a>
 
             <mat-menu #tryMenu="matMenu">
@@ -84,7 +84,7 @@
                     [disabled]="!isAuthorized() && isAuthorized() !== undefined"
                 >
                     {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
-                    <mat-icon> keyboard_arrow_down </mat-icon>
+                    <mat-icon class="mr-0"> keyboard_arrow_down </mat-icon>
                 </a>
 
                 <mat-menu #trainMenu="matMenu">
@@ -112,7 +112,7 @@
                 >
                     {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
 
-                    <mat-icon> keyboard_arrow_down </mat-icon>
+                    <mat-icon class="mr-0"> keyboard_arrow_down </mat-icon>
                 </a>
 
                 <mat-menu #deployMenu="matMenu">

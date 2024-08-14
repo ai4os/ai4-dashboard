@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 export class ProfileService {
     constructor(private http: HttpClient) {}
 
-    initLogin(url: string): Observable<RequestLoginResponse> {
-        //const url = 'https://' + domain + '/index.php/login/v2';
+    initLogin(domain: string): Observable<RequestLoginResponse> {
+        const url = 'https://' + domain + '/index.php/login/v2';
         const body = {};
         return this.http.post<RequestLoginResponse>(url, body);
     }

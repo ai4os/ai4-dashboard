@@ -62,14 +62,10 @@ export class ProfileComponent implements OnInit {
     protected name: string = '';
     protected email: string = '';
     protected vos: VoInfo[] = [];
-    protected ai4osEndpoint =
-        'https://share.services.ai4os.eu/index.php/login/v2';
-    protected customEndpoint = 'https://<your.domain>/index.php/login/v2';
+    protected ai4osEndpoint = 'share.services.ai4os.eu';
+    protected customEndpoint = '';
     customEndpointFormGroup = this.fb.group({
-        value: [
-            'https://<your.domain>/index.php/login/v2',
-            [Validators.required],
-        ],
+        value: ['', [Validators.required]],
     });
 
     // TODO: turn this into an array
