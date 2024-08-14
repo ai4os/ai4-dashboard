@@ -27,7 +27,7 @@ describe('deployments section', function () {
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
         cy.contains('fl-test', { timeout: 10000 }).should('be.visible');
-        cy.contains('deephdc/deep-oc-federated-server:latest').should(
+        cy.contains('ai4oshub/ai4os-federated-server:latest').should(
             'be.visible'
         );
     });
