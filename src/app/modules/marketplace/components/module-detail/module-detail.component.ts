@@ -3,13 +3,29 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
-import { Module } from '@app/shared/interfaces/module.interface';
+import {
+    Module,
+    GradioCreateResponse as GradioCreateResponse,
+    GradioDeployment as GradioDeployment,
+} from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import {
+    catchError,
+    finalize,
+    interval,
+    of,
+    switchMap,
+    takeUntil,
+    takeWhile,
+    timer,
+} from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-module-detail',
@@ -22,8 +38,10 @@ export class ModuleDetailComponent implements OnInit {
         private toolsService: ToolsService,
         private oscarInferenceService: OscarInferenceService,
         private authService: AuthService,
+        private appConfigService: AppConfigService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
+        public translateService: TranslateService,
         public location: Location,
         private router: Router,
         private _snackBar: MatSnackBar,
@@ -32,6 +50,7 @@ export class ModuleDetailComponent implements OnInit {
     ) {
         authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
+            this.belongsToVo = this.checkVos();
         });
         if (this.location.path().includes('tools')) {
             this.isTool = true;
@@ -45,21 +64,16 @@ export class ModuleDetailComponent implements OnInit {
     modulesList = [];
     module!: Module;
     userProfile?: UserProfile;
+    spinnerText = '';
 
     isLoading = false;
     isInferenceModule = false;
     isTool = false;
+    belongsToVo = false;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
-
-    isLoggedIn() {
-        return this.authService.isAuthenticated();
-    }
-
-    isAuthorized() {
-        return this.userProfile?.isAuthorized;
-    }
+    private stopPolling$ = timer(180000);
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
@@ -82,6 +96,29 @@ export class ModuleDetailComponent implements OnInit {
                     });
             }
         });
+    }
+
+    isLoggedIn() {
+        return this.authService.isAuthenticated();
+    }
+
+    isAuthorized() {
+        return this.userProfile?.isAuthorized;
+    }
+
+    checkVos(): boolean {
+        let belongs = false;
+        const vos = this.authService.parseVosFromProfile(
+            this.userProfile!.eduperson_entitlement
+        );
+        if (
+            vos.find((vo) => vo.includes(this.appConfigService.voName)) !==
+            undefined
+        ) {
+            belongs = true;
+        }
+
+        return belongs;
     }
 
     createOscarService() {
@@ -129,5 +166,94 @@ export class ModuleDetailComponent implements OnInit {
                 this.isLoading = false;
             },
         });
+    }
+
+    createGradioDeployment() {
+        this.isLoading = true;
+        const moduleName =
+            this.module.sources.docker_registry_repo.split('/')[1];
+        this.modulesService.createDeploymentGradio(moduleName).subscribe({
+            next: (response: GradioCreateResponse) => {
+                if (response.status === 'success') {
+                    this.pollGradioDeploymentStatus(response.job_ID);
+                } else {
+                    this.isLoading = false;
+                    this.spinnerText = '';
+                    this._snackBar.open(
+                        'Error initializing the deployment.',
+                        'X',
+                        {
+                            duration: 3000,
+                            panelClass: ['red-snackbar'],
+                        }
+                    );
+                }
+            },
+            error: () => {
+                this.isLoading = false;
+                this.spinnerText = '';
+            },
+        });
+    }
+
+    pollGradioDeploymentStatus(jobId: string) {
+        interval(2000) // Intervalo de 2 segundos
+            .pipe(
+                switchMap(() =>
+                    this.modulesService.getDeploymentGradio(jobId).pipe(
+                        catchError((error) => {
+                            return of(error);
+                        })
+                    )
+                ),
+                takeUntil(this.stopPolling$),
+                takeWhile(
+                    (response) => response.active_endpoints.length === 0,
+                    true
+                ),
+                finalize(() => {
+                    this.spinnerText = '';
+                    if (this.isLoading === true) {
+                        this._snackBar.open(
+                            'Error initializing the deployment.',
+                            'X',
+                            {
+                                duration: 3000,
+                                panelClass: ['red-snackbar'],
+                            }
+                        );
+                    }
+                })
+            )
+            .subscribe({
+                next: (response: GradioDeployment) => {
+                    if (response.active_endpoints.length !== 0) {
+                        this.isLoading = false;
+                        window.open(response.endpoints.ui, '_blank');
+                    } else {
+                        if (response.status !== 'running') {
+                            this.spinnerText = this.translateService.instant(
+                                'MODULES.MODULE-DETAIL.INIT-STATUS-GRADIO'
+                            );
+                        } else {
+                            this.spinnerText = this.translateService.instant(
+                                'MODULES.MODULE-DETAIL.ACTIVATING-STATUS-GRADIO'
+                            );
+                        }
+                    }
+                },
+                error: () => {
+                    this.isLoading = false;
+                    this.spinnerText = '';
+                    this._snackBar.open(
+                        'Error initializing the deployment.',
+                        'X',
+                        {
+                            duration: 3000,
+                            panelClass: ['red-snackbar'],
+                        }
+                    );
+                },
+            });
     }
 }
