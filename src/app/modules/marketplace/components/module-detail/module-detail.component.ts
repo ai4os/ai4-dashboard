@@ -51,7 +51,6 @@ export class ModuleDetailComponent implements OnInit {
         if (this.location.path().includes('tools')) {
             this.isTool = true;
         }
-        authService.loadUserProfile();
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
