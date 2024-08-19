@@ -48,14 +48,10 @@ export class ModuleDetailComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
-        authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
-            this.belongsToVo = this.checkVos();
-        });
         if (this.location.path().includes('tools')) {
             this.isTool = true;
         }
-
+        authService.loadUserProfile();
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -78,6 +74,11 @@ export class ModuleDetailComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.isLoading = true;
+            this.authService.userProfileSubject.subscribe((profile) => {
+                this.userProfile = profile;
+                this.belongsToVo = this.checkVos(profile);
+            });
+
             if (this.isTool) {
                 this.toolsService.getTool(params['id']).subscribe((tool) => {
                     this.isLoading = false;
@@ -106,10 +107,10 @@ export class ModuleDetailComponent implements OnInit {
         return this.userProfile?.isAuthorized;
     }
 
-    checkVos(): boolean {
+    checkVos(profile: UserProfile): boolean {
         let belongs = false;
         const vos = this.authService.parseVosFromProfile(
-            this.userProfile!.eduperson_entitlement
+            profile.eduperson_entitlement
         );
         if (
             vos.find((vo) => vo.includes(this.appConfigService.voName)) !==
