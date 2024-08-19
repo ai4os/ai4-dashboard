@@ -51,7 +51,7 @@
             </a>
 
             <mat-menu #tryMenu="matMenu">
-                <button mat-menu-item [disabled]="true">
+                <button *ngIf="belongsToVo" mat-menu-item [disabled]="true">
                     <span class="aligned-with-icon-left">
                         {{ 'MODULES.MODULE-DETAIL.OSCAR-SWAGGER' | translate }}
 

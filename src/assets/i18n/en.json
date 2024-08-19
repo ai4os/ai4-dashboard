@@ -173,7 +173,7 @@
             "OSCAR-SWAGGER": "OSCAR (Swagger)",
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment. This might take some time.",
-            "ACTIVATING-STATUS-GRADIO": "Activating the endpoint. This might take some time."
+            "ACTIVATING-STATUS-GRADIO": "Launching the UI..."
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
