@@ -43,7 +43,6 @@
                 [ngClass]="{
                     'launch-tool-button': isTool
                 }"
-                [disabled]="!isAuthorized() && isAuthorized() !== undefined"
             >
                 {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
 
@@ -51,7 +50,7 @@
             </a>
 
             <mat-menu #tryMenu="matMenu">
-                <button *ngIf="belongsToVo" mat-menu-item [disabled]="true">
+                <button *ngIf="isAuthorized()" mat-menu-item [disabled]="true">
                     <span class="aligned-with-icon-left">
                         {{ 'MODULES.MODULE-DETAIL.OSCAR-SWAGGER' | translate }}
 
@@ -81,10 +80,7 @@
                 [ngClass]="{
                     'launch-tool-button': isTool
                 }"
-                [disabled]="
-                    (!isAuthorized() && isAuthorized() !== undefined) ||
-                    !belongsToVo
-                "
+                [disabled]="!isAuthorized() && isAuthorized() !== undefined"
             >
                 {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
                 <mat-icon> keyboard_arrow_down </mat-icon>
@@ -111,7 +107,6 @@
                 [ngClass]="{
                     'launch-tool-button': isTool
                 }"
-                [disabled]="!isAuthorized() && isAuthorized() !== undefined"
             >
                 {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
 
@@ -120,7 +115,7 @@
 
             <mat-menu #deployMenu="matMenu">
                 <button
-                    *ngIf="belongsToVo"
+                    *ngIf="isAuthorized()"
                     class="action-button sub-button"
                     mat-menu-item
                     (click)="createOscarService()"
@@ -136,7 +131,7 @@
                     </span>
                 </button>
                 <button
-                    *ngIf="belongsToVo"
+                    *ngIf="isAuthorized()"
                     [disabled]="true"
                     mat-menu-item
                     class="action-button sub-button"

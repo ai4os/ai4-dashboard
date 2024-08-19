@@ -67,7 +67,6 @@ export class ModuleDetailComponent implements OnInit {
     isLoading = false;
     isInferenceModule = false;
     isTool = false;
-    belongsToVo = false;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -78,7 +77,6 @@ export class ModuleDetailComponent implements OnInit {
             this.isLoading = true;
             this.authService.userProfileSubject.subscribe((profile) => {
                 this.userProfile = profile;
-                this.belongsToVo = this.checkVos(profile);
             });
 
             if (this.isTool) {
@@ -107,21 +105,6 @@ export class ModuleDetailComponent implements OnInit {
 
     isAuthorized() {
         return this.userProfile?.isAuthorized;
-    }
-
-    checkVos(profile: UserProfile): boolean {
-        let belongs = false;
-        const vos = this.authService.parseVosFromProfile(
-            profile.eduperson_entitlement
-        );
-        if (
-            vos.find((vo) => vo.includes(this.appConfigService.voName)) !==
-            undefined
-        ) {
-            belongs = true;
-        }
-
-        return belongs;
     }
 
     createOscarService() {
