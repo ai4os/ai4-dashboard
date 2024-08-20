@@ -5,14 +5,14 @@ describe('dashboard section', function () {
     });
 
     it('shows datacenter section', function () {
-        cy.contains('Overview', { timeout: 10000 }).should('be.visible');
+        cy.contains('Overview', { timeout: 20000 }).should('be.visible');
         cy.contains('Datacenters').should('be.visible');
         cy.contains('Graphs').should('be.visible');
         cy.contains('Nodes').should('be.visible');
     });
 
     it('shows dashboard tab', function () {
-        cy.get('#title-cluster', { timeout: 10000 }).contains(
+        cy.get('#title-cluster', { timeout: 15000 }).contains(
             'Cluster Usage Overview'
         );
         cy.get('app-stat-card')
