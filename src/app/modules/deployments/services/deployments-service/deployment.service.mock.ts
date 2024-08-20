@@ -8,7 +8,7 @@ export const toolsList: Array<Deployment> = [
         title: 'Testing federated',
         description: '',
         datacenter: 'ai-ifca',
-        docker_image: 'deephdc/deep-oc-federated-server:latest',
+        docker_image: 'ai4oshub/ai4os-federated-server:latest',
         docker_command: '',
         submit_time: '2023-08-29 10:55:46',
         resources: {
