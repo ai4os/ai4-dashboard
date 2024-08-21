@@ -20,17 +20,21 @@
         }}
     </mat-error>
     <span class="spacer"></span>
-    <div *ngIf="isLoggedIn(); else showSignInLink">
+    <div *ngIf="isLoggedIn(); else showSignInLink" class="login-container">
+        <app-notifications-button></app-notifications-button>
+
         <button
             #button
             mat-button
             [matMenuTriggerFor]="loginMenuAccess"
             #menuTrigger="matMenuTrigger"
-            (mouseenter)="buttonEnter(menuTrigger)"
-            (mouseleave)="buttonLeave(menuTrigger, button)"
             class="mobileQuery.matches ? profile-button-mobile : profile-button"
         >
-            <mat-icon color="accent" class="mat-icon-filled">person</mat-icon>
+            <mat-icon color="accent" class="mat-icon">
+                <span class="material-symbols-outlined" color="accent">
+                    person
+                </span>
+            </mat-icon>
             <div *ngIf="!mobileQuery.matches" class="user-log">
                 {{ userProfile?.name }}
             </div>
@@ -39,14 +43,13 @@
         <mat-menu
             #loginMenuAccess="matMenu"
             class="logoutDropdownMenu"
-            hasBackdrop="false"
+            hasBackdrop="true"
         >
-            <button
-                mat-menu-item
-                (click)="logout()"
-                (mouseenter)="menuenter()"
-                (mouseleave)="menuLeave(menuTrigger, button)"
-            >
+            <!-- <button mat-menu-item routerLink="profile">
+                <mat-icon>person</mat-icon>
+                {{ 'TOP-NAVBAR.PROFILE' | translate }}
+            </button> -->
+            <button mat-menu-item (click)="logout()">
                 <mat-icon>logout</mat-icon>
                 {{ 'TOP-NAVBAR.LOGOUT' | translate }}
             </button>

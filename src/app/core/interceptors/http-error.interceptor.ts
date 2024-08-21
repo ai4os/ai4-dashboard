@@ -75,6 +75,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         ]);
                         this.authService.logout();
                     }
+                    // Polling error (sync account)
+                    if (
+                        error.status == 404 &&
+                        request.url.includes('/index.php/login/v2/poll')
+                    ) {
+                        return throwError(() => errorMessage);
+                    }
+
                     this.showSnackbar('ERRORS.API-ERROR', errorMessage);
 
                     return throwError(() => errorMessage);

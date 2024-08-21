@@ -54,12 +54,13 @@
                 <div>
                     <h3>
                         {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID'
                                 | translate
                         }}
                     </h3>
-                    <p>{{ deployment?.docker_image }}</p>
+                    <p>{{ deployment?.job_ID }}</p>
                 </div>
+
                 <div>
                     <h3>
                         {{
@@ -69,6 +70,17 @@
                     </h3>
                     <p>{{ deployment?.description }}</p>
                 </div>
+
+                <div>
+                    <h3>
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                                | translate
+                        }}
+                    </h3>
+                    <p>{{ deployment?.docker_image }}</p>
+                </div>
+
                 <div>
                     <h3>
                         {{
@@ -77,15 +89,6 @@
                         }}
                     </h3>
                     <p>{{ deployment?.submit_time }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.job_ID }}</p>
                 </div>
                 <div>
                     <h3>

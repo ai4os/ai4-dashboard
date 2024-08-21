@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { Subscription, of } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SharedModule } from './shared/shared.module';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 const mockedConfigService: any = {
     analytics: {
@@ -12,9 +15,25 @@ const mockedConfigService: any = {
         src: 'http://locahost/js/script.js',
     },
 };
+
 const mockedCookieConsentService: any = {
     hasConsented: jest.fn().mockReturnValue(true),
     statusChange$: of('test'),
+};
+
+const mockedMediaQueryList: MediaQueryList = {
+    matches: true,
+    media: 'test',
+    onchange: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+    removeEventListener: jest.fn(),
+};
+
+const mockedMediaMatcher: any = {
+    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
 describe('AppComponent', () => {
@@ -27,7 +46,7 @@ describe('AppComponent', () => {
         statusChangeSubscription = new Subscription();
 
         await TestBed.configureTestingModule({
-            imports: [RouterTestingModule, HttpClientModule],
+            imports: [RouterTestingModule, HttpClientModule, SharedModule],
             declarations: [AppComponent],
             providers: [
                 { provide: AppConfigService, useValue: mockedConfigService },
@@ -35,6 +54,8 @@ describe('AppComponent', () => {
                     provide: NgcCookieConsentService,
                     useValue: mockedCookieConsentService,
                 },
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

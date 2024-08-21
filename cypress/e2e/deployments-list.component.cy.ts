@@ -6,7 +6,8 @@ describe('deployments section', function () {
         cy.contains('Tools', { timeout: 10000 }).click();
         cy.contains('Federated learning server', { timeout: 10000 }).click();
         cy.contains('Decline').click();
-        cy.contains('Launch tool', { timeout: 10000 }).click();
+        cy.contains('Train', { timeout: 10000 }).click();
+        cy.contains('Nomad', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
         cy.wait(500);
         cy.contains('Quick submit').click();
@@ -22,11 +23,11 @@ describe('deployments section', function () {
 
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
-        cy.contains('Modules', { timeout: 20000 }).should('be.visible');
+        cy.contains('Modules', { timeout: 25000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
         cy.contains('fl-test', { timeout: 10000 }).should('be.visible');
-        cy.contains('deephdc/deep-oc-federated-server:latest').should(
+        cy.contains('ai4oshub/ai4os-federated-server:latest').should(
             'be.visible'
         );
     });

@@ -14,6 +14,8 @@ import { AppConfigService } from '../app-config/app-config.service';
 
 export interface UserProfile {
     name: string;
+    email: string;
+    eduperson_entitlement: string[];
     isAuthorized: boolean;
     isOperator: boolean;
 }
@@ -170,6 +172,8 @@ export class AuthService {
                 name: profile['info']['name'],
                 isAuthorized: false,
                 isOperator: false,
+                email: profile['info']['email'],
+                eduperson_entitlement: profile['info']['eduperson_entitlement'],
             };
             if (
                 profile['info']['eduperson_entitlement'] &&

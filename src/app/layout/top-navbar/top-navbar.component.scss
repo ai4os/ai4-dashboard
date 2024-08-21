@@ -28,6 +28,8 @@
     min-width: fit-content;
     & mat-icon {
         margin-right: 0px;
+        height: 100%;
+        width: 100%;
     }
 }
 
@@ -41,6 +43,13 @@
 
 .user-log {
     margin-left: 8px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
 }
 
 ::ng-deep {

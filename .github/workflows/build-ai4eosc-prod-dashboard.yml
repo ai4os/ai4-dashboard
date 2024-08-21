@@ -63,9 +63,10 @@ jobs:
             - name: Send Webhook to Deploy Dashboard
               env:
                   SECRET: ${{ secrets.WEBHOOK_SECRET }}
+                  PAYLOAD: ${{ secrets.WEBHOOK_PAYLOAD }}
               run: |
                   HASH=$(echo -n "$PAYLOAD" | openssl dgst -sha1 -hmac "$SECRET" | sed 's/^.* //')
                   curl -X POST https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-prod \
                   -H 'Content-Type: application/json' \
                   -H "X-Hub-Signature: sha1=$HASH" \
-                  -d '{"ref": "refs/heads/master"}'
+                  -d "$PAYLOAD"
