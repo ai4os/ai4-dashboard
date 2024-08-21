@@ -12,7 +12,8 @@ export interface CompleteLoginResponse {
     appPassword: string;
 }
 
-export interface RcloneCredential {
+export interface StorageCredential {
+    vendor: string;
     server: string;
     loginName: string;
     appPassword: string;

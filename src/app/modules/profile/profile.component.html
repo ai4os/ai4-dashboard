@@ -60,15 +60,6 @@
                         >
                     </mat-list-item>
                 </mat-list>
-
-                <!-- <div *ngFor="let vo of vos" class="info-element">
-                    <p class="vo-name">{{ vo.name }}</p>
-                    <mat-chip-set>
-                        <mat-chip *ngFor="let role of vo.roles">{{
-                            role
-                        }}</mat-chip>
-                    </mat-chip-set>
-                </div> -->
             </mat-card-content>
         </mat-card>
     </div>
@@ -81,101 +72,99 @@
         </mat-card-header>
 
         <mat-card-content class="info-container">
-            <mat-list>
-                <mat-list-item>
-                    <div matListItemTitle class="list-element">
-                        <button class="icon-button">
-                            <img
-                                class="icon"
-                                src="../../../../../assets/images/nextcloud-logo.png"
-                            />
-                        </button>
-                        <p class="service-name">
-                            {{ 'PROFILE.NEXTCLOUD.AI4OS' | translate }}
-                        </p>
-                        <mat-form-field
-                            class="full-width"
-                            subscriptSizing="dynamic"
-                        >
-                            <input
-                                matInput
-                                disabled="true"
-                                value="{{ ai4osEndpoint }}"
-                            />
-                        </mat-form-field>
+            <div class="services-grid">
+                <button class="icon-button">
+                    <img
+                        class="icon"
+                        src="../../../../../assets/images/nextcloud-logo.png"
+                    />
+                </button>
+                <p class="service-name">
+                    {{ 'PROFILE.NEXTCLOUD.AI4OS' | translate }}
+                </p>
+                <mat-form-field class="full-width" subscriptSizing="dynamic">
+                    <input
+                        matInput
+                        disabled="true"
+                        value="{{ ai4osEndpoint }}"
+                    />
+                </mat-form-field>
 
-                        <button
-                            *ngIf="serviceCredentials.length === 0; else resync"
-                            class="buttons"
-                            mat-raised-button
-                            color="accent"
-                            (click)="syncRclone(ai4osEndpoint)"
-                        >
-                            {{ 'PROFILE.SYNC' | translate }}
-                            <mat-icon>sync</mat-icon>
-                        </button>
-                        <ng-template #resync
-                            ><button
-                                class="buttons"
-                                mat-raised-button
-                                color="accent"
-                                (click)="syncRclone(ai4osEndpoint)"
-                            >
-                                {{ 'PROFILE.RESYNC' | translate }}
-                                <mat-icon>sync</mat-icon>
-                            </button></ng-template
-                        >
-                    </div>
-                </mat-list-item>
-
-                <mat-divider></mat-divider>
-
-                <mat-list-item>
-                    <div
-                        matListItemTitle
-                        class="list-element"
-                        [formGroup]="customEndpointFormGroup"
+                <button
+                    *ngIf="!credentialsExist(ai4osEndpoint); else resync"
+                    class="buttons"
+                    mat-raised-button
+                    color="accent"
+                    (click)="syncRclone(ai4osEndpoint)"
+                >
+                    {{ 'PROFILE.SYNC' | translate }}
+                    <mat-icon>sync</mat-icon>
+                </button>
+                <ng-template #resync
+                    ><button
+                        class="buttons"
+                        mat-raised-button
+                        color="accent"
+                        (click)="syncRclone(ai4osEndpoint)"
                     >
-                        <button class="icon-button" disabled>
-                            <img
-                                class="icon"
-                                src="../../../../../assets/images/nextcloud-logo.png"
-                            />
-                        </button>
-                        <p class="service-name">
-                            {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
-                        </p>
-                        <mat-form-field
-                            class="full-width"
-                            subscriptSizing="dynamic"
-                        >
-                            <input
-                                matInput
-                                formControlName="value"
-                                placeholder="Custom domain"
-                                value="{{ customEndpoint }}"
-                            />
-                        </mat-form-field>
+                        {{ 'PROFILE.RESYNC' | translate }}
+                        <mat-icon>sync</mat-icon>
+                    </button></ng-template
+                >
 
-                        <button
-                            class="buttons"
-                            mat-raised-button
-                            color="accent"
-                            (click)="
-                                syncRclone(
-                                    customEndpointFormGroup.get('value')
-                                        ?.value ?? ''
-                                )
-                            "
-                        >
-                            {{ 'PROFILE.SYNC' | translate }}
-                            <mat-icon>sync</mat-icon>
-                        </button>
-                    </div>
-                </mat-list-item>
+                <button class="icon-button" disabled>
+                    <img
+                        class="icon"
+                        src="../../../../../assets/images/nextcloud-logo.png"
+                    />
+                </button>
+                <span class="aligned-with-icon">
+                    <p class="service-name">
+                        {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
+                    </p>
 
-                <mat-divider></mat-divider>
-            </mat-list>
+                    <button
+                        mat-icon-button
+                        matTooltip="{{
+                            'PROFILE.NEXTCLOUD.OPEN-DOCUMENTATION' | translate
+                        }}"
+                        [matTooltipPosition]="'above'"
+                        (click)="openCustomNextcloudDocumentationWeb()"
+                    >
+                        <mat-icon color="accent">help</mat-icon>
+                    </button>
+                </span>
+
+                <form [formGroup]="customEndpointFormGroup">
+                    <mat-form-field
+                        class="full-width"
+                        subscriptSizing="dynamic"
+                    >
+                        <input
+                            matInput
+                            formControlName="value"
+                            placeholder="Custom domain"
+                            value="{{ customEndpoint }}"
+                        />
+                    </mat-form-field>
+                </form>
+                <button
+                    class="buttons"
+                    mat-raised-button
+                    color="accent"
+                    [disabled]="
+                        customEndpointFormGroup.get('value')?.value === ''
+                    "
+                    (click)="
+                        syncRclone(
+                            customEndpointFormGroup.get('value')?.value ?? ''
+                        )
+                    "
+                >
+                    {{ 'PROFILE.SYNC' | translate }}
+                    <mat-icon>sync</mat-icon>
+                </button>
+            </div>
         </mat-card-content>
     </mat-card>
 </ng-container>

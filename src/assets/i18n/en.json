@@ -30,7 +30,8 @@
         "LOGIN": "Log in in the the pop-up window",
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
-            "CUSTOM": "Custom Nextcloud"
+            "CUSTOM": "Custom Nextcloud",
+            "OPEN-DOCUMENTATION": "Open documentation"
         }
     },
     "DASHBOARD": {
@@ -193,6 +194,8 @@
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
+                "STORAGE-SERVICE": "Storage service",
+                "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your profile section.",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
@@ -206,7 +209,6 @@
                 "ZENODO-RECORD": "Zenodo Record ID",
                 "FORCE-PULL": "Force pull",
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
-
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
                 "DOI": {
