@@ -62,7 +62,7 @@ export class ModuleDetailComponent implements OnInit {
     modulesList = [];
     module!: Module;
     userProfile?: UserProfile;
-    spinnerText = '';
+    popupWindow: Window | undefined | null;
 
     isLoading = false;
     isInferenceModule = false;
@@ -155,16 +155,27 @@ export class ModuleDetailComponent implements OnInit {
     }
 
     createGradioDeployment() {
-        this.isLoading = true;
         const moduleName =
             this.module.sources.docker_registry_repo.split('/')[1];
+
+        this.popupWindow = window.open();
+        if (this.popupWindow) {
+            const loadingText = this.translateService.instant(
+                'MODULES.MODULE-DETAIL.INIT-STATUS-GRADIO'
+            );
+            this.popupWindow.document.write(
+                '<h1 id="loadingMessage" style="text-align: center; height: 100%; width: 100%; align-content: center; font-family:sans-serif;">' +
+                    loadingText +
+                    '</h1>'
+            );
+            this.popupWindow.document.title = this.module.title;
+        }
+
         this.modulesService.createDeploymentGradio(moduleName).subscribe({
             next: (response: GradioCreateResponse) => {
                 if (response.status === 'success') {
                     this.pollGradioDeploymentStatus(response.job_ID);
                 } else {
-                    this.isLoading = false;
-                    this.spinnerText = '';
                     this._snackBar.open(
                         'Error initializing the deployment.',
                         'X',
@@ -176,8 +187,7 @@ export class ModuleDetailComponent implements OnInit {
                 }
             },
             error: () => {
-                this.isLoading = false;
-                this.spinnerText = '';
+                this.popupWindow?.close();
             },
         });
     }
@@ -198,7 +208,6 @@ export class ModuleDetailComponent implements OnInit {
                     true
                 ),
                 finalize(() => {
-                    this.spinnerText = '';
                     if (this.isLoading === true) {
                         this._snackBar.open(
                             'Error initializing the deployment.',
@@ -214,23 +223,34 @@ export class ModuleDetailComponent implements OnInit {
             .subscribe({
                 next: (response: GradioDeployment) => {
                     if (response.active_endpoints.length !== 0) {
-                        this.isLoading = false;
-                        window.open(response.endpoints.ui, '_blank');
+                        if (this.popupWindow) {
+                            this.popupWindow.location.href =
+                                response.endpoints.ui;
+                        }
                     } else {
+                        const loadingMessageElement =
+                            this.popupWindow?.document.getElementById(
+                                'loadingMessage'
+                            );
                         if (response.status !== 'running') {
-                            this.spinnerText = this.translateService.instant(
-                                'MODULES.MODULE-DETAIL.INIT-STATUS-GRADIO'
-                            );
+                            if (loadingMessageElement) {
+                                loadingMessageElement.innerText =
+                                    this.translateService.instant(
+                                        'MODULES.MODULE-DETAIL.INIT-STATUS-GRADIO'
+                                    );
+                            }
                         } else {
-                            this.spinnerText = this.translateService.instant(
-                                'MODULES.MODULE-DETAIL.ACTIVATING-STATUS-GRADIO'
-                            );
+                            if (loadingMessageElement) {
+                                loadingMessageElement.innerText =
+                                    this.translateService.instant(
+                                        'MODULES.MODULE-DETAIL.ACTIVATING-STATUS-GRADIO'
+                                    );
+                            }
                         }
                     }
                 },
                 error: () => {
-                    this.isLoading = false;
-                    this.spinnerText = '';
+                    this.popupWindow?.close();
                     this._snackBar.open(
                         'Error initializing the deployment.',
                         'X',
