@@ -1,0 +1,18 @@
+.aligned-with-icon {
+    display: flex;
+    align-items: center;
+    padding: 9px 24px;
+    &.scale-icon-down {
+        .mat-icon {
+            transform: scale(0.7);
+        }
+    }
+}
+
+p {
+    text-align: justify;
+}
+
+.warn-color {
+    color: var(--warning-orange);
+}

@@ -1,5 +1,40 @@
 # Changelog
 
+## [2.14.0](https://github.com/ai4os/ai4-dashboard/compare/v2.13.1-pre...v2.14.0) (2024-08-09)
+
+
+### Features
+
+* add support for oscar services ([#154](https://github.com/ai4os/ai4-dashboard/issues/154)) ([31d3b96](https://github.com/ai4os/ai4-dashboard/commit/31d3b96e213b26606035a51bfa73bfb8584a2106))
+
+## [2.13.0](https://github.com/ai4os/ai4-dashboard/compare/v2.12.0...v2.13.0) (2024-08-09)
+
+
+### Features
+
+* popup when dashboard is under maintenance ([#157](https://github.com/ai4os/ai4-dashboard/issues/157)) ([f2ca2f1](https://github.com/ai4os/ai4-dashboard/commit/f2ca2f16adcb44f0b75ab04db5238dea2ca42805))
+
+## [2.12.0](https://github.com/ai4os/ai4-dashboard/compare/v2.11.0...v2.12.0) (2024-08-09)
+
+
+### Features
+
+* popup when dashboard is under maintenance ([#155](https://github.com/ai4os/ai4-dashboard/issues/155)) ([46d65f9](https://github.com/ai4os/ai4-dashboard/commit/46d65f9486c039f58c1efa665bbde920ce171e1c))
+
+## [2.11.0](https://github.com/ai4os/ai4-dashboard/compare/v2.10.0...v2.11.0) (2024-08-08)
+
+
+### Features
+
+* Feature 136 add profile section (WIP) ([#152](https://github.com/ai4os/ai4-dashboard/issues/152)) ([c063071](https://github.com/ai4os/ai4-dashboard/commit/c063071b9d7e3ccc56e955dd6e2e1b1931cc318b))
+
+## [2.10.0](https://github.com/ai4os/ai4-dashboard/compare/v2.9.0...v2.10.0) (2024-08-08)
+
+
+### Features
+
+* Feature 140 popup when dashboard is under maintenance (WIP)  ([#150](https://github.com/ai4os/ai4-dashboard/issues/150)) ([c1f1c40](https://github.com/ai4os/ai4-dashboard/commit/c1f1c40bb05c2d079e474d538355b5839031613d))
+
 ## [2.9.0](https://github.com/ai4os/ai4-dashboard/compare/v2.8.0...v2.9.0) (2024-07-22)
 
 

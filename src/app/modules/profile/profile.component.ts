@@ -1,7 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
-
 import {
     catchError,
     finalize,

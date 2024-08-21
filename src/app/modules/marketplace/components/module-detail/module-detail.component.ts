@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -7,6 +7,9 @@ import { Module } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
 
 @Component({
     selector: 'app-module-detail',
@@ -17,10 +20,13 @@ export class ModuleDetailComponent implements OnInit {
     constructor(
         private modulesService: ModulesService,
         private toolsService: ToolsService,
+        private oscarInferenceService: OscarInferenceService,
         private authService: AuthService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
         public location: Location,
+        private router: Router,
+        private _snackBar: MatSnackBar,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -75,6 +81,53 @@ export class ModuleDetailComponent implements OnInit {
                             module.keywords.includes('inference');
                     });
             }
+        });
+    }
+
+    createOscarService() {
+        this.isLoading = true;
+        const requestBody: OscarServiceRequest = {
+            allowed_users: [],
+            cpu: 2,
+            image: this.module.sources.docker_registry_repo,
+            memory: 3000,
+            title: this.module.title,
+        };
+
+        this.oscarInferenceService.createService(requestBody).subscribe({
+            next: (serviceName: string) => {
+                this.isLoading = false;
+                if (serviceName != '') {
+                    this.router
+                        .navigate(['/inference'])
+                        .then((navigated: boolean) => {
+                            if (navigated) {
+                                this._snackBar.open(
+                                    'Oscar service created with name ' +
+                                        serviceName,
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['success-snackbar'],
+                                    }
+                                );
+                            } else {
+                                this._snackBar.open(
+                                    'Error while creating service with name ' +
+                                        serviceName,
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['red-snackbar'],
+                                    }
+                                );
+                            }
+                        });
+                }
+            },
+            error: () => {
+                this.isLoading = false;
+            },
         });
     }
 }

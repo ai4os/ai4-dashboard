@@ -63,6 +63,11 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             url: '/deployments',
             isRestricted: true,
         },
+        {
+            name: 'SIDENAV.INFERENCE',
+            url: '/inference',
+            isRestricted: true,
+        },
     ];
 
     otherLinks = [

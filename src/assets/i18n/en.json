@@ -4,6 +4,7 @@
         "DASHBOARD": "Dashboard",
         "MODULES": "Marketplace",
         "DEPLOYMENTS": "Deployments",
+        "INFERENCE": "Inference",
         "IAM": "Identity and Access",
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
         "IMAGINE-DOCUMENTATION": "iMagine AI platform documentation",
@@ -18,7 +19,21 @@
     "TOP-NAVBAR": {
         "PROFILE": "Profile",
         "LOGOUT": "Log out",
-        "LOGIN-REGISTER": "Login - Register"
+        "LOGIN-REGISTER": "Login - Register",
+        "NO-NOTIFICATIONS": "No notifications"
+    },
+    "PROFILE": {
+        "TITLE": "Profile",
+        "DETAILS": "Personal information",
+        "VOS": "Virtual organizations",
+        "LINKED-SERVICES": "Linked services",
+        "SYNC": "Sync",
+        "RESYNC": "Resync",
+        "LOGIN": "Log in in the the pop-up window",
+        "NEXTCLOUD": {
+            "AI4OS": "AI4OS Nextcloud",
+            "CUSTOM": "Custom Nextcloud"
+        }
     },
     "PROFILE": {
         "TITLE": "Profile",
@@ -124,6 +139,25 @@
         "NAMESPACE": "Namespace",
         "NEW-DEPLOYMENT": "New deployment",
         "NO-DEPLOYMENTS": "Nothing deployed yet"
+    },
+    "INFERENCE": {
+        "TITLE-HEADER": "Inference",
+        "OSCAR": "OSCAR",
+        "TITLE": "Title",
+        "IMAGE": "Image",
+        "CREATION-TIME": "Creation time (UTC)",
+        "ACTIONS": "Actions",
+        "NO-INFERENCES": "Nothing deployed yet",
+        "INFERENCE-DETAIL": {
+            "TITLE": "Inference detail",
+            "DEPLOYMENT-ID": "Deployment ID",
+            "DOCKER-IMAGE": "Docker image",
+            "CREATION-TIME": "Creation time (UTC)",
+            "CPU": "CPUs",
+            "MEMORY": "Memory",
+            "ENDPOINT": "Endpoint",
+            "TOKEN": "Token"
+        }
     },
     "MODULES": {
         "TITLE": "Marketplace",
@@ -325,6 +359,9 @@
         "API-ERROR": "Error calling the API, please retry later",
         "TOKEN-EXPIRED": "Token expired, logging out",
         "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
-        "NOT-FOUND": "Oops, the page you requested could not be found!"
+        "NOT-FOUND": "Oops, the page you requested could not be found!",
+        "UNDER-MAINTENANCE-POPUP": {
+            "TITLE": "Warning"
+        }
     }
 }

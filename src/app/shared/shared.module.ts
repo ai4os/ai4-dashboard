@@ -9,10 +9,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { CopyToClipboardDirective } from './directives/copy-to-clipboard-directive';
+import { PopupComponent } from './components/popup/popup/popup.component';
 
 @NgModule({
-    declarations: [ConfirmationDialogComponent, CopyToClipboardDirective],
-    imports: [CommonModule, MaterialModule, FormsModule],
+    declarations: [
+        ConfirmationDialogComponent,
+        CopyToClipboardDirective,
+        PopupComponent,
+    ],
+    imports: [CommonModule, MaterialModule, FormsModule, TranslateModule],
     exports: [
         ReactiveFormsModule,
         MaterialModule,
