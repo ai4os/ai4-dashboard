@@ -7,6 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -22,6 +23,8 @@ const mockedMediaQueryList: MediaQueryList = {
 const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
+
+const mockedConfigService: any = {};
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;
@@ -47,6 +50,7 @@ describe('StorageConfFormComponent', () => {
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 
