@@ -29,9 +29,9 @@ describe('module train form', function () {
             { timeout: 10000 }
         ).click();
         cy.get('#add-button', { timeout: 10000 }).click();
-        cy.contains(' Dataset added with DOI 10.5281/zenodo.10777441').should(
-            'be.visible'
-        );
+        cy.contains(' Dataset added with DOI 10.5281/zenodo.10777441', {
+            timeout: 10000,
+        }).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
         cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
