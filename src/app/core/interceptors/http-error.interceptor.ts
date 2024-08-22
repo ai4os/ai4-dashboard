@@ -35,10 +35,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     showSnackbar(messageStringKey: string, errorMessage: string) {
         const translateService = this.injector.get(TranslateService);
         translateService.get(messageStringKey).subscribe((value: any) => {
-            this._snackBar.open(value + '\n ' + errorMessage, '×', {
-                duration: 10000,
-                panelClass: ['red-snackbar'],
-            });
+            if (errorMessage) {
+                this._snackBar.open(value + '\n ' + errorMessage, '×', {
+                    duration: 3000,
+                    panelClass: ['red-snackbar'],
+                });
+            } else {
+                this._snackBar.open(value, '×', {
+                    duration: 3000,
+                    panelClass: ['red-snackbar'],
+                });
+            }
         });
     }
 
