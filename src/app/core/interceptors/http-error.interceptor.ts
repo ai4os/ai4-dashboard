@@ -68,7 +68,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         this.showSnackbar('ERRORS.TOKEN-EXPIRED', errorMessage);
                         return throwError(() => errorMessage);
                     }
-                    if (error.status === 401 || error.status === 403) {
+                    if (
+                        (error.status === 401 || error.status === 403) &&
+                        !error.url?.includes(
+                            'https://api.github.com/repos/AI4EOSC/status/issues'
+                        )
+                    ) {
                         this.router.navigate([
                             'forbidden',
                             { errorMessage: errorMessage },
