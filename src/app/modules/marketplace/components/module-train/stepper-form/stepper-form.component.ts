@@ -174,7 +174,7 @@ export class StepperFormComponent implements OnInit {
                                 this._snackBar.open(
                                     'Deployment created with ID' +
                                         result.job_ID,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['success-snackbar'],
@@ -187,7 +187,7 @@ export class StepperFormComponent implements OnInit {
                         this._snackBar.open(
                             'Error while creating the deployment' +
                                 result.error_msg,
-                            'X',
+                            '×',
                             {
                                 duration: 3000,
                                 panelClass: ['red-snackbar'],

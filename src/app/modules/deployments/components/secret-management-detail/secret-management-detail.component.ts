@@ -123,7 +123,7 @@ export class SecretManagementDetailComponent implements OnInit {
                     this.isLoading = false;
                     this._snackBar.open(
                         'Successfully created secret with name: ' + name,
-                        'X',
+                        '×',
                         {
                             duration: 3000,
                             panelClass: ['success-snackbar'],
@@ -134,7 +134,7 @@ export class SecretManagementDetailComponent implements OnInit {
                     this.isLoading = false;
                     this._snackBar.open(
                         'Error creating secret with name: ' + name,
-                        'X',
+                        '×',
                         {
                             duration: 3000,
                             panelClass: ['red-snackbar'],
@@ -182,7 +182,7 @@ export class SecretManagementDetailComponent implements OnInit {
                             this._snackBar.open(
                                 'Successfully deleted secret with name: ' +
                                     name,
-                                'X',
+                                '×',
                                 {
                                     duration: 3000,
                                     panelClass: ['success-snackbar'],
@@ -193,7 +193,7 @@ export class SecretManagementDetailComponent implements OnInit {
                             this.isLoading = false;
                             this._snackBar.open(
                                 'Error deleting secret with name: ' + name,
-                                'X',
+                                '×',
                                 {
                                     duration: 3000,
                                     panelClass: ['red-snackbar'],

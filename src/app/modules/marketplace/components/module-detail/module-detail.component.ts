@@ -105,7 +105,7 @@ export class ModuleDetailComponent implements OnInit {
                                 this._snackBar.open(
                                     'Oscar service created with name ' +
                                         serviceName,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['success-snackbar'],
@@ -115,7 +115,7 @@ export class ModuleDetailComponent implements OnInit {
                                 this._snackBar.open(
                                     'Error while creating service with name ' +
                                         serviceName,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],

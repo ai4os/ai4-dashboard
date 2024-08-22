@@ -114,7 +114,7 @@ describe('SecretManagementDetailComponent', () => {
         fixture.detectChanges();
         expect(spySnackBar).toHaveBeenCalledWith(
             'Successfully created secret with name: client1',
-            'X',
+            '×',
             expect.objectContaining({
                 duration: 3000,
                 panelClass: ['success-snackbar'],
@@ -189,7 +189,7 @@ describe('SecretManagementDetailComponent', () => {
         expect(spyDeleteSecret).toHaveBeenCalledTimes(1);
         expect(spySnackBar).toHaveBeenCalledWith(
             'Successfully deleted secret with name: default',
-            'X',
+            '×',
             expect.objectContaining({
                 duration: 3000,
                 panelClass: ['success-snackbar'],
