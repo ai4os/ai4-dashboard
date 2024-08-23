@@ -8,6 +8,7 @@ import { ModuleDetailViewComponent } from './views/module-detail-view/module-det
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 import { ModuleTryComponent } from './components/module-try/module-try.component';
 import { ModuleOscarDeployComponent } from './components/module-oscar-deploy/module-oscar-deploy.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 const routes: Routes = [
     {
@@ -41,6 +42,11 @@ const routes: Routes = [
                 canActivate: [AuthenticationGuard],
                 component: ModuleOscarDeployComponent,
                 data: { breadcrumb: 'Create service' },
+            },
+            {
+                path: 'try-me-nomad',
+                canActivate: [AuthenticationGuard],
+                component: LoadingScreenComponent,
             },
         ],
     },
