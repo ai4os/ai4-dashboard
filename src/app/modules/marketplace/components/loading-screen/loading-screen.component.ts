@@ -64,7 +64,7 @@ export class LoadingScreenComponent implements OnInit {
 
     closeWindowDueError(error: string) {
         this.loadingText = '';
-        this._snackBar.open(error, 'X', {
+        this._snackBar.open(error, '×', {
             duration: 3000,
             panelClass: ['red-snackbar'],
         });
@@ -115,7 +115,7 @@ export class LoadingScreenComponent implements OnInit {
                     if (this.isLoading === true) {
                         this._snackBar.open(
                             'Error initializing the deployment.',
-                            'X',
+                            '×',
                             {
                                 duration: 3000,
                                 panelClass: ['red-snackbar'],
