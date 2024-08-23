@@ -29,6 +29,7 @@
         <mat-card-subtitle>{{ module.summary }}</mat-card-subtitle>
 
         <div
+            *ngIf="isLoggedIn()"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
                 'action-buttons-container': !mobileQuery.matches
@@ -42,7 +43,6 @@
                 [ngClass]="{
                     'launch-tool-button': isTool
                 }"
-                [disabled]="!isAuthorized() && isAuthorized() !== undefined"
             >
                 {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
 
@@ -50,7 +50,7 @@
             </a>
 
             <mat-menu #tryMenu="matMenu">
-                <button mat-menu-item [disabled]="true">
+                <button *ngIf="isAuthorized()" mat-menu-item [disabled]="true">
                     <span class="aligned-with-icon-left">
                         {{ 'MODULES.MODULE-DETAIL.OSCAR-SWAGGER' | translate }}
 
@@ -61,7 +61,7 @@
                         />
                     </span>
                 </button>
-                <button mat-menu-item [disabled]="true">
+                <button mat-menu-item (click)="createGradioDeployment()">
                     <span class="aligned-with-icon-left">
                         {{ 'MODULES.MODULE-DETAIL.NOMAD-GRADIO' | translate }}
                         <img
@@ -72,108 +72,107 @@
                     </span>
                 </button>
             </mat-menu>
-            <ng-container *ngIf="isLoggedIn()">
-                <a
-                    class="action-button"
-                    [matMenuTriggerFor]="trainMenu"
-                    mat-raised-button
-                    color="accent"
-                    [ngClass]="{
-                        'launch-tool-button': isTool
-                    }"
-                    [disabled]="!isAuthorized() && isAuthorized() !== undefined"
+            <a
+                class="action-button"
+                [matMenuTriggerFor]="trainMenu"
+                mat-raised-button
+                color="accent"
+                [ngClass]="{
+                    'launch-tool-button': isTool
+                }"
+                [disabled]="!isAuthorized() && isAuthorized() !== undefined"
+            >
+                {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
+                <mat-icon> keyboard_arrow_down </mat-icon>
+            </a>
+
+            <mat-menu #trainMenu="matMenu">
+                <button mat-menu-item routerLink="train">
+                    <span class="aligned-with-icon-left">
+                        {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                        <img
+                            src="../../../../../assets/images/nomad-icon.svg"
+                            width="16"
+                            height="16"
+                        />
+                    </span>
+                </button>
+            </mat-menu>
+
+            <a
+                class="action-button"
+                [matMenuTriggerFor]="deployMenu"
+                mat-raised-button
+                color="accent"
+                [ngClass]="{
+                    'launch-tool-button': isTool
+                }"
+            >
+                {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
+
+                <mat-icon> keyboard_arrow_down </mat-icon>
+            </a>
+
+            <mat-menu #deployMenu="matMenu">
+                <button
+                    *ngIf="isAuthorized()"
+                    class="action-button sub-button"
+                    mat-menu-item
+                    (click)="createOscarService()"
                 >
-                    {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
-                    <mat-icon> keyboard_arrow_down </mat-icon>
-                </a>
+                    <span class="aligned-with-icon-left">
+                        {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
 
-                <mat-menu #trainMenu="matMenu">
-                    <button mat-menu-item routerLink="train">
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
-                            <img
-                                src="../../../../../assets/images/nomad-icon.svg"
-                                width="16"
-                                height="16"
-                            />
-                        </span>
-                    </button>
-                </mat-menu>
-
-                <a
-                    class="action-button"
-                    [matMenuTriggerFor]="deployMenu"
-                    mat-raised-button
-                    color="accent"
-                    [ngClass]="{
-                        'launch-tool-button': isTool
-                    }"
-                    [disabled]="!isAuthorized() && isAuthorized() !== undefined"
+                        <img
+                            src="../../../../../assets/images/oscar-logo.png"
+                            width="16"
+                            height="16"
+                        />
+                    </span>
+                </button>
+                <button
+                    *ngIf="isAuthorized()"
+                    [disabled]="true"
+                    mat-menu-item
+                    class="action-button sub-button"
+                    routerLink="train"
                 >
-                    {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
+                    <span class="aligned-with-icon-left">
+                        {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                        <img
+                            src="../../../../../assets/images/nomad-icon.svg"
+                            width="16"
+                            height="16"
+                        />
+                    </span>
+                </button>
+                <a
+                    class="action-button sub-button"
+                    mat-menu-item
+                    target="_blank"
+                    [href]="
+                        'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
+                        module.sources.docker_registry_repo
+                    "
+                >
+                    <span class="aligned-with-icon-left">
+                        {{ 'MODULES.MODULE-DETAIL.IM' | translate }}
 
-                    <mat-icon> keyboard_arrow_down </mat-icon>
+                        <img
+                            src="../../../../../assets/images/im-logo.png"
+                            width="16"
+                            height="16"
+                        />
+                    </span>
                 </a>
-
-                <mat-menu #deployMenu="matMenu">
-                    <button
-                        class="action-button sub-button"
-                        mat-menu-item
-                        (click)="createOscarService()"
-                    >
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
-
-                            <img
-                                src="../../../../../assets/images/oscar-logo.png"
-                                width="16"
-                                height="16"
-                            />
-                        </span>
-                    </button>
-                    <button
-                        [disabled]="true"
-                        mat-menu-item
-                        class="action-button sub-button"
-                        routerLink="train"
-                    >
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
-                            <img
-                                src="../../../../../assets/images/nomad-icon.svg"
-                                width="16"
-                                height="16"
-                            />
-                        </span>
-                    </button>
-                    <a
-                        class="action-button sub-button"
-                        mat-menu-item
-                        target="_blank"
-                        [href]="
-                            'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
-                            module.sources.docker_registry_repo
-                        "
-                    >
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.IM' | translate }}
-
-                            <img
-                                src="../../../../../assets/images/im-logo.png"
-                                width="16"
-                                height="16"
-                            />
-                        </span>
-                    </a>
-                </mat-menu>
-            </ng-container>
+            </mat-menu>
         </div>
     </mat-card-header>
 
     <mat-divider></mat-divider>
 
     <mat-card-content>
-        <div *ngIf="isLoading" class="spinner">
+        <div *ngIf="isLoading" class="spinner spinner-with-description">
             <mat-progress-spinner color="primary" mode="indeterminate">
             </mat-progress-spinner>
         </div>

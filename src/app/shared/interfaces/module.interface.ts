@@ -246,3 +246,34 @@ export interface JobInfo {
     start_time: string;
     finish_time: string;
 }
+
+export interface GradioCreateResponse {
+    status: string;
+    job_ID: string;
+}
+
+export interface GradioDeployment {
+    job_ID: string;
+    name: string;
+    status: string;
+    owner: string;
+    title: string;
+    description: string;
+    docker_image: string;
+    docker_command: string;
+    submit_time: string;
+    resources: {
+        cpu_num: number;
+        cpu_MHz: number;
+        gpu_num: number;
+        memory_MB: number;
+        disk_MB: number;
+    };
+    endpoints: {
+        ui: string;
+    };
+    active_endpoints: string[];
+    main_endpoint: string;
+    alloc_ID: string;
+    datacenter: string;
+}

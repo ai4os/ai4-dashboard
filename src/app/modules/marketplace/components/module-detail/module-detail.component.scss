@@ -78,6 +78,15 @@
     justify-content: flex-start;
 }
 
+.tooltip-container {
+    display: contents;
+}
+
+.spinner-with-description {
+    display: flex;
+    flex-direction: column;
+}
+
 ::ng-deep .module-description img {
     background-color: red;
     max-width: 100%;
