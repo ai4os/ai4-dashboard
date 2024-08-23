@@ -163,6 +163,7 @@
             "TRAIN-MODULE": "Train",
             "LAUNCH-TOOL": "Launch tool",
             "TRY-MODULE": "Try",
+            "TRY-MODULE-LOGOUT": "You must login to try the module",
             "DEPLOY-MODULE": "Deploy",
             "DEPLOY-W-IM": "Deploy via the IM",
             "DEPLOY-W-OSCAR": "Deploy via OSCAR",
