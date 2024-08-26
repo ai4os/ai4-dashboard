@@ -46,7 +46,7 @@
             >
                 {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
 
-                <mat-icon class="mr-0"> keyboard_arrow_down </mat-icon>
+                <mat-icon> keyboard_arrow_down </mat-icon>
             </a>
 
             <mat-menu #tryMenu="matMenu">
@@ -72,20 +72,19 @@
                     </span>
                 </button>
             </mat-menu>
-            <ng-container *ngIf="isLoggedIn()">
-                <a
-                    class="action-button"
-                    [matMenuTriggerFor]="trainMenu"
-                    mat-raised-button
-                    color="accent"
-                    [ngClass]="{
-                        'launch-tool-button': isTool
-                    }"
-                    [disabled]="!isAuthorized() && isAuthorized() !== undefined"
-                >
-                    {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
-                    <mat-icon class="mr-0"> keyboard_arrow_down </mat-icon>
-                </a>
+            <a
+                class="action-button"
+                [matMenuTriggerFor]="trainMenu"
+                mat-raised-button
+                color="accent"
+                [ngClass]="{
+                    'launch-tool-button': isTool
+                }"
+                [disabled]="!isAuthorized() && isAuthorized() !== undefined"
+            >
+                {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
+                <mat-icon> keyboard_arrow_down </mat-icon>
+            </a>
 
             <mat-menu #trainMenu="matMenu">
                 <button mat-menu-item routerLink="train">
@@ -110,8 +109,9 @@
                 }"
             >
                 {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
-                    <mat-icon class="mr-0"> keyboard_arrow_down </mat-icon>
-                </a>
+
+                <mat-icon> keyboard_arrow_down </mat-icon>
+            </a>
 
             <mat-menu #deployMenu="matMenu">
                 <button
