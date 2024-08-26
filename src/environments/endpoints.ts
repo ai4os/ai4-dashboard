@@ -17,6 +17,8 @@ export const endpoints = {
     zenodo: '/datasets/zenodo',
     oscarServices: '/inference/oscar/services',
     oscarServiceByName: '/inference/oscar/services/:serviceName',
+    nomadGradioDeployments: '/try_me/nomad',
+    nomadGradioDeployment: '/try_me/nomad/:deployment_uuid',
     //OSCAR endpoints
     services: '/services',
     serviceByName: '/services/:name',
