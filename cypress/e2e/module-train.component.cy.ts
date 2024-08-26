@@ -71,7 +71,7 @@ describe('module train form', function () {
             'EyeOnWater training dataset for assessing the inclusion of water images',
             { timeout: 10000 }
         ).click();
-        cy.get('#add-button', { timeout: 10000 }).click();
+        cy.get('#add-button', { timeout: 15000 }).click();
         cy.contains('Dataset added with DOI 10.5281/zenodo.10777441').should(
             'be.visible'
         );

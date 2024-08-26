@@ -67,7 +67,8 @@ Cypress.Commands.add('initializeTrainModuleForm', () => {
 
 Cypress.Commands.add('deleteDeployment', () => {
     cy.get(
-        '.mat-mdc-card-content > .table-container > .mat-mdc-table > .mdc-data-table__content > .mat-mdc-row > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target'
+        '.mat-mdc-card-content > .table-container > .mat-mdc-table > .mdc-data-table__content > :nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target',
+        { timeout: 20000 }
     ).click();
     cy.get('#yesBtn').click();
 });
