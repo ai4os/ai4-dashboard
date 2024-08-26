@@ -36,6 +36,7 @@
         >
             <div
                 class="tooltip-container"
+                [matTooltipDisabled]="isLoggedIn()"
                 matTooltip=" {{
                     'MODULES.MODULE-DETAIL.TRY-MODULE-LOGOUT' | translate
                 }}"
