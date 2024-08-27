@@ -149,10 +149,14 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
             },
             error: () => {
-                this._snackBar.open('Error updating the platform status', '×', {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                });
+                this._snackBar.open(
+                    "Couldn't update the notifications. Please try again later.",
+                    '×',
+                    {
+                        duration: 3000,
+                        panelClass: ['red-snackbar'],
+                    }
+                );
             },
         });
     }

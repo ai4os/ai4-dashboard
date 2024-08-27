@@ -94,6 +94,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     ) {
                         return throwError(() => errorMessage);
                     }
+                    // Excess request rate API GH
+                    if (
+                        error.status === 403 &&
+                        error.url?.includes(
+                            'https://api.github.com/repos/AI4EOSC/status/issues'
+                        )
+                    ) {
+                        return throwError(() => errorMessage);
+                    }
 
                     this.showSnackbar('ERRORS.API-ERROR', errorMessage);
 
