@@ -12,7 +12,13 @@ import {
     timer,
 } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    FormBuilder,
+    ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
 import {
     RequestLoginResponse,
     StorageCredential,
@@ -22,6 +28,15 @@ import { ProfileService } from './services/profile.service';
 export interface VoInfo {
     name: string;
     roles: string[];
+}
+
+export function domainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const regexPattern =
+            /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/i;
+        const valid = regexPattern.test(control.value);
+        return valid ? null : { invalidDomain: true };
+    };
 }
 
 @Component({
@@ -64,7 +79,7 @@ export class ProfileComponent implements OnInit {
     protected ai4osEndpoint = 'share.services.ai4os.eu';
     protected customEndpoint = '';
     customEndpointFormGroup = this.fb.group({
-        value: ['', [Validators.required]],
+        value: ['', [Validators.required, domainValidator()]],
     });
 
     protected serviceCredentials: StorageCredential[] = [];

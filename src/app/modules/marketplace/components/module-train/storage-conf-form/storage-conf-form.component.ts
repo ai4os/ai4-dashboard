@@ -195,6 +195,8 @@ export class StorageConfFormComponent implements OnInit {
                         ?.enable();
                     this.credentialsLoading = false;
                     this.updateStorageConfiguration();
+                } else {
+                    this.credentialsLoading = false;
                 }
             });
     }
