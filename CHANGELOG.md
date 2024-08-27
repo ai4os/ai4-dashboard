@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.15.1](https://github.com/ai4os/ai4-dashboard/compare/v2.15.0...v2.15.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* 163 fix styles and notifications request ([#164](https://github.com/ai4os/ai4-dashboard/issues/164)) ([2ed0aef](https://github.com/ai4os/ai4-dashboard/commit/2ed0aef1d2cee1818c327328e5ec131005907e6c))
+
+## [2.15.0](https://github.com/ai4os/ai4-dashboard/compare/v2.14.0-pre...v2.15.0) (2024-08-23)
+
+
+### Features
+
+* Feature 149 add try me functionality nomad ([#161](https://github.com/ai4os/ai4-dashboard/issues/161)) ([e6723d9](https://github.com/ai4os/ai4-dashboard/commit/e6723d9b33a53ff7b7bc1e45fd46fd7e8dc8c655))
+
 ## [2.14.0](https://github.com/ai4os/ai4-dashboard/compare/v2.13.1-pre...v2.14.0) (2024-08-09)
 
 

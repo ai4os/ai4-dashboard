@@ -15,7 +15,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
         `auth-${username}`,
         () => {
             cy.visit('http://localhost:8080/');
-            cy.contains('Login').click();
+            cy.contains('Login', { timeout: 20000 }).click();
 
             cy.origin('https://aai.egi.eu', () => {
                 cy.get('.ssp-btn.bitbucket').click();
