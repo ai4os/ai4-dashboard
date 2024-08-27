@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TagObject } from '@app/data/types/tags';
 import {
+    CvatToolConfiguration,
     FederatedServerToolConfiguration,
     Module,
-    ModuleConfiguration,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
@@ -54,12 +54,12 @@ export class ToolsService {
         });
     }
 
-    getCvatConfiguration(toolName: string): Observable<ModuleConfiguration> {
+    getCvatConfiguration(toolName: string): Observable<CvatToolConfiguration> {
         const url = `${base}${endpoints.toolConfiguration.replace(
             ':name',
             toolName
         )}`;
-        return this.http.get<ModuleConfiguration>(url, {
+        return this.http.get<CvatToolConfiguration>(url, {
             params: this.voParam,
         });
     }

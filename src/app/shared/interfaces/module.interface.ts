@@ -55,6 +55,8 @@ export interface ModuleGeneralConfiguration {
     service: confObject;
     jupyter_password?: confObject;
     hostname?: confObject;
+    cvat_username?: confObject;
+    cvat_password?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {

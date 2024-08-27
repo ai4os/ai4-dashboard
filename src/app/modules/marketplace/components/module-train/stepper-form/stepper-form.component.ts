@@ -45,6 +45,7 @@ export class StepperFormComponent implements OnInit {
     }
 
     @Input() title!: string;
+    @Input() numberOfSteps!: number;
     @Input() step1!: TemplateRef<unknown>;
     @Input() step2!: TemplateRef<unknown>;
     @Input() step3!: TemplateRef<unknown>;

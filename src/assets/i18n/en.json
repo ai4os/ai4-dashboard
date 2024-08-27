@@ -200,7 +200,12 @@
                 "ADD-FEDERATED-SECRET": "Create federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
                 "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
-                "OPEN-DOCUMENTATION": "Open documentation"
+                "OPEN-DOCUMENTATION": "Open documentation",
+                "CVAT-CREDENTIALS": "CVAT credentials",
+                "CVAT-USERNAME": "CVAT username",
+                "CVAT-PASSWORD": "CVAT password",
+                "CVAT-USERNAME-REQUIRED": "A username is required",
+                "CVAT-PASSWORD-REQUIRED": "A password is required"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
