@@ -30,7 +30,7 @@
             #menuTrigger="matMenuTrigger"
             class="mobileQuery.matches ? profile-button-mobile : profile-button"
         >
-            <mat-icon color="accent" class="mat-icon">
+            <mat-icon color="accent" class="mat-icon small-icon">
                 <span class="material-symbols-outlined" color="accent">
                     person
                 </span>
@@ -45,12 +45,20 @@
             class="logoutDropdownMenu"
             hasBackdrop="true"
         >
-            <!-- <button mat-menu-item routerLink="profile">
-                <mat-icon>person</mat-icon>
+            <button mat-menu-item routerLink="profile">
+                <mat-icon class="mat-icon small-icon">
+                    <span class="material-symbols-outlined" color="accent">
+                        person
+                    </span>
+                </mat-icon>
                 {{ 'TOP-NAVBAR.PROFILE' | translate }}
-            </button> -->
+            </button>
             <button mat-menu-item (click)="logout()">
-                <mat-icon>logout</mat-icon>
+                <mat-icon class="mat-icon small-icon">
+                    <span class="material-symbols-outlined" color="accent">
+                        logout
+                    </span>
+                </mat-icon>
                 {{ 'TOP-NAVBAR.LOGOUT' | translate }}
             </button>
         </mat-menu>

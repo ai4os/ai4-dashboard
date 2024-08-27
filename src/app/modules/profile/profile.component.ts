@@ -109,7 +109,7 @@ export class ProfileComponent implements OnInit {
             error: () => {
                 this.isLoading = false;
                 this.isLoginLoading = false;
-                this._snackBar.open('Error syncronizing your account', 'X', {
+                this._snackBar.open('Error syncronizing your account', '×', {
                     duration: 3000,
                     panelClass: ['red-snackbar'],
                 });
@@ -132,7 +132,7 @@ export class ProfileComponent implements OnInit {
                 finalize(() => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', 'X', {
+                    this._snackBar.open('Error getting your credentials', '×', {
                         duration: 3000,
                         panelClass: ['red-snackbar'],
                     });
@@ -151,7 +151,7 @@ export class ProfileComponent implements OnInit {
                 error: () => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', 'X', {
+                    this._snackBar.open('Error getting your credentials', '×', {
                         duration: 3000,
                         panelClass: ['red-snackbar'],
                     });
