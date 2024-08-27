@@ -35,10 +35,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     showSnackbar(messageStringKey: string, errorMessage: string) {
         const translateService = this.injector.get(TranslateService);
         translateService.get(messageStringKey).subscribe((value: any) => {
-            this._snackBar.open(value + '\n ' + errorMessage, 'X', {
-                duration: 10000,
-                panelClass: ['red-snackbar'],
-            });
+            if (errorMessage) {
+                this._snackBar.open(value + '\n ' + errorMessage, '×', {
+                    duration: 3000,
+                    panelClass: ['red-snackbar'],
+                });
+            } else {
+                this._snackBar.open(value, '×', {
+                    duration: 3000,
+                    panelClass: ['red-snackbar'],
+                });
+            }
         });
     }
 
@@ -68,7 +75,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         this.showSnackbar('ERRORS.TOKEN-EXPIRED', errorMessage);
                         return throwError(() => errorMessage);
                     }
-                    if (error.status === 401 || error.status === 403) {
+                    if (
+                        (error.status === 401 || error.status === 403) &&
+                        !error.url?.includes(
+                            'https://api.github.com/repos/AI4EOSC/status/issues'
+                        )
+                    ) {
                         this.router.navigate([
                             'forbidden',
                             { errorMessage: errorMessage },

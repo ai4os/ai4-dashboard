@@ -110,7 +110,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
                                 this._snackBar.open(
                                     'Successfully deleted tool with uuid: ' +
                                         uuid,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['success-snackbar'],
@@ -119,7 +119,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
                             } else {
                                 this._snackBar.open(
                                     'Error deleting tool with uuid: ' + uuid,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],
@@ -130,7 +130,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
                         error: () => {
                             this._snackBar.open(
                                 'Error deleting tool with uuid: ' + uuid,
-                                'X',
+                                '×',
                                 {
                                     duration: 3000,
                                     panelClass: ['red-snackbar'],

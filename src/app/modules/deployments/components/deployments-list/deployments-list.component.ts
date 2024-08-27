@@ -128,7 +128,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                                     this._snackBar.open(
                                         'Successfully deleted deployment with uuid: ' +
                                             uuid,
-                                        'X',
+                                        '×',
                                         {
                                             duration: 3000,
                                             panelClass: ['success-snackbar'],
@@ -138,7 +138,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                                     this._snackBar.open(
                                         'Error deleting deployment with uuid: ' +
                                             uuid,
-                                        'X',
+                                        '×',
                                         {
                                             duration: 3000,
                                             panelClass: ['red-snackbar'],
@@ -150,7 +150,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                                 this._snackBar.open(
                                     'Error deleting deployment with uuid: ' +
                                         uuid,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],

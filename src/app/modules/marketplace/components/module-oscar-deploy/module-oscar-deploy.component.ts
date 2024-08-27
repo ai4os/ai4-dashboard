@@ -94,7 +94,7 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
                                 'Service ' +
                                     res.name.toUpperCase() +
                                     ' successfully created',
-                                'X',
+                                '×',
                                 {
                                     duration: 3000,
                                     panelClass: ['success-snackbar'],
