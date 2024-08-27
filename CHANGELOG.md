@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.15.1-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.15.0-pre...v2.15.1-pre) (2024-08-27)
+## [2.15.1](https://github.com/ai4os/ai4-dashboard/compare/v2.15.0...v2.15.1) (2024-08-27)
 
 
 ### Bug Fixes
