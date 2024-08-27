@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.15.1-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.15.0-pre...v2.15.1-pre) (2024-08-27)
+
+
+### Bug Fixes
+
+* 163 fix styles and notifications request ([#164](https://github.com/ai4os/ai4-dashboard/issues/164)) ([2ed0aef](https://github.com/ai4os/ai4-dashboard/commit/2ed0aef1d2cee1818c327328e5ec131005907e6c))
+
 ## [2.15.0](https://github.com/ai4os/ai4-dashboard/compare/v2.14.0-pre...v2.15.0) (2024-08-23)
 
 
