@@ -1,0 +1,31 @@
+<app-stepper-form
+    [title]="title"
+    [step1]="step1"
+    [step2]="step2"
+    [step1Form]="generalConfForm"
+    [step2Form]="storageConfForm"
+    [step1Title]="step1Title"
+    [step2Title]="step2Title"
+    [isLoading]="showLoader"
+    (showHelpButtonEvent)="showHelpButtonChange($event)"
+>
+    <ng-template #step1>
+        <form [formGroup]="generalConfForm">
+            <app-general-conf-form
+                class="child-form-container"
+                [defaultFormValues]="generalConfDefaultValues"
+                [showHelp]="showHelp"
+                [showFields]="showGeneralFields"
+            ></app-general-conf-form>
+        </form>
+    </ng-template>
+    <ng-template #step2>
+        <form [formGroup]="storageConfForm">
+            <app-storage-conf-form
+                class="child-form-container"
+                [defaultFormValues]="storageConfDefaultValues"
+                [showHelp]="showHelp"
+            ></app-storage-conf-form>
+        </form>
+    </ng-template>
+</app-stepper-form>

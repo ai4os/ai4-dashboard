@@ -93,6 +93,11 @@ export interface FederatedServerToolConfiguration {
     configuration: FederatedServerConfiguration;
 }
 
+export interface CvatToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    storage: ModuleStorageConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;

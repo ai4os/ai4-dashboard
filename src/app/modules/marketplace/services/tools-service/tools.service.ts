@@ -5,6 +5,7 @@ import { TagObject } from '@app/data/types/tags';
 import {
     FederatedServerToolConfiguration,
     Module,
+    ModuleConfiguration,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
@@ -42,13 +43,23 @@ export class ToolsService {
     }
 
     getFederatedServerConfiguration(
-        moduleName: string
+        toolName: string
     ): Observable<FederatedServerToolConfiguration> {
         const url = `${base}${endpoints.toolConfiguration.replace(
             ':name',
-            moduleName
+            toolName
         )}`;
         return this.http.get<FederatedServerToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    getCvatConfiguration(toolName: string): Observable<ModuleConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<ModuleConfiguration>(url, {
             params: this.voParam,
         });
     }

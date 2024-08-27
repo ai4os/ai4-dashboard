@@ -50,10 +50,10 @@ export class StepperFormComponent implements OnInit {
     @Input() step3!: TemplateRef<unknown>;
     @Input() step1Form!: FormGroup;
     @Input() step2Form!: FormGroup;
-    @Input() step3Form!: FormGroup;
+    @Input() step3Form?: FormGroup;
     @Input() step1Title!: string;
     @Input() step2Title!: string;
-    @Input() step3Title!: string;
+    @Input() step3Title?: string;
     @Input() isLoading!: boolean;
 
     @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
@@ -112,52 +112,52 @@ export class StepperFormComponent implements OnInit {
 
         if (this.title == 'Federated learning server') {
             data.configuration = {
-                rounds: this.step3Form.value.federatedConfForm.roundsInput,
-                metric: this.step3Form.value.federatedConfForm.metricInput,
+                rounds: this.step3Form!.value.federatedConfForm.roundsInput,
+                metric: this.step3Form!.value.federatedConfForm.metricInput,
                 min_fit_clients:
-                    this.step3Form.value.federatedConfForm.minFitClientsInput,
+                    this.step3Form!.value.federatedConfForm.minFitClientsInput,
                 min_available_clients:
-                    this.step3Form.value.federatedConfForm
+                    this.step3Form!.value.federatedConfForm
                         .minAvailableClientsInput,
                 strategy:
-                    this.step3Form.value.federatedConfForm
+                    this.step3Form!.value.federatedConfForm
                         .strategyOptionsSelect,
                 mu:
-                    this.step3Form.value.federatedConfForm
+                    this.step3Form!.value.federatedConfForm
                         .strategyOptionsSelect === 'FedProx strategy (FedProx)'
-                        ? this.step3Form.value.federatedConfForm.muInput
+                        ? this.step3Form!.value.federatedConfForm.muInput
                         : null,
                 fl:
-                    this.step3Form.value.federatedConfForm
+                    this.step3Form!.value.federatedConfForm
                         .strategyOptionsSelect ===
                     'Federated Averaging with Momentum (FedAvgM)'
-                        ? this.step3Form.value.federatedConfForm.flInput
+                        ? this.step3Form!.value.federatedConfForm.flInput
                         : null,
                 momentum:
-                    this.step3Form.value.federatedConfForm
+                    this.step3Form!.value.federatedConfForm
                         .strategyOptionsSelect ===
                     'Federated Averaging with Momentum (FedAvgM)'
-                        ? this.step3Form.value.federatedConfForm.momentumInput
+                        ? this.step3Form!.value.federatedConfForm.momentumInput
                         : null,
             };
             request = this.deploymentsService.trainTool(data);
         } else {
             data.storage = {
                 rclone_conf:
-                    this.step3Form.value.storageConfForm.rcloneConfInput,
+                    this.step3Form!.value.storageConfForm.rcloneConfInput,
                 rclone_url:
-                    this.step3Form.value.storageConfForm.storageUrlInput,
+                    this.step3Form!.value.storageConfForm.storageUrlInput,
                 rclone_vendor:
-                    this.step3Form.value.storageConfForm.rcloneVendorSelect,
+                    this.step3Form!.value.storageConfForm.rcloneVendorSelect,
                 rclone_user:
-                    this.step3Form.value.storageConfForm.rcloneUserInput,
+                    this.step3Form!.value.storageConfForm.rcloneUserInput,
                 rclone_password:
-                    this.step3Form.value.storageConfForm.rclonePasswordInput,
+                    this.step3Form!.value.storageConfForm.rclonePasswordInput,
                 datasets:
-                    this.step3Form.value.storageConfForm.datasetsList[0]
+                    this.step3Form!.value.storageConfForm.datasetsList[0]
                         ?.doi === ''
                         ? []
-                        : this.step3Form.value.storageConfForm.datasetsList,
+                        : this.step3Form!.value.storageConfForm.datasetsList,
             };
             request = this.deploymentsService.postTrainModule(data);
         }

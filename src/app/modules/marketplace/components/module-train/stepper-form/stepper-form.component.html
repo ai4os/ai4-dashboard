@@ -87,7 +87,7 @@
                 </button>
             </div>
         </mat-step>
-        <mat-step [stepControl]="step3Form">
+        <mat-step *ngIf="step3Title && step3Form" [stepControl]="step3Form">
             <ng-template matStepLabel>{{ step3Title | translate }}</ng-template>
             <ng-container [ngTemplateOutlet]="step3"></ng-container>
             <div
