@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { AuthService } from '@app/core/services/auth/auth.service';
 
 export interface showGeneralFormField {
     descriptionInput: boolean;
@@ -55,6 +56,7 @@ export interface showGeneralFormField {
 })
 export class GeneralConfFormComponent implements OnInit {
     constructor(
+        private readonly authService: AuthService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
@@ -63,6 +65,7 @@ export class GeneralConfFormComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+        authService.loadUserProfile();
     }
 
     parentForm!: FormGroup;
@@ -187,7 +190,14 @@ export class GeneralConfFormComponent implements OnInit {
                 }
             });
 
-        if (!this._showFields.cvatUsername && !this._showFields.cvatPassword) {
+        if (this._showFields.cvatUsername && this._showFields.cvatPassword) {
+            this.authService.userProfileSubject.subscribe((profile) => {
+                const email = profile.email;
+                this.generalConfFormGroup
+                    .get('cvatUsernameInput')
+                    ?.setValue(email);
+            });
+        } else {
             this.generalConfFormGroup.get('cvatUsernameInput')?.disable();
             this.generalConfFormGroup.get('cvatPasswordInput')?.disable();
         }

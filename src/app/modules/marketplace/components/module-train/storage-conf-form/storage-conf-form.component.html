@@ -138,15 +138,17 @@
         </mat-expansion-panel>
     </div>
 
-    <div class="dataset-options-container">
+    <div *ngIf="!isCvatTool" class="dataset-options-container">
         <h4>
             {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF' | translate }}
         </h4>
+
+        <app-datasets-list
+            class="full-width"
+            [storageConfFormGroup]="storageConfFormGroup"
+            (datasetAdded)="addDataset($event)"
+            (datasetDeleted)="deleteDataset($event)"
+            (datasetPullChanged)="updateDataset($event)"
+        ></app-datasets-list>
     </div>
-    <app-datasets-list
-        [storageConfFormGroup]="storageConfFormGroup"
-        (datasetAdded)="addDataset($event)"
-        (datasetDeleted)="deleteDataset($event)"
-        (datasetPullChanged)="updateDataset($event)"
-    ></app-datasets-list>
 </form>
