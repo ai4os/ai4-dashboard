@@ -30,19 +30,21 @@ export class CvatComponent implements OnInit {
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
-    generalConfDefaultValues!: ModuleGeneralConfiguration;
     storageConfForm: FormGroup = this._formBuilder.group({});
+    generalConfDefaultValues!: ModuleGeneralConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
     showGeneralFields: showGeneralFormField = {
-        descriptionInput: true,
-        serviceToRunChip: true,
         titleInput: true,
+        descriptionInput: true,
+        serviceToRunChip: false,
         serviceToRunPassInput: false,
         dockerImageInput: false,
         dockerTagSelect: false,
         hostnameInput: true,
         infoButton: true,
+        cvatUsername: true,
+        cvatPassword: true,
     };
 
     ngOnInit(): void {

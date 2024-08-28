@@ -109,8 +109,10 @@ export interface TrainModuleRequest {
         service: string;
         jupyter_password?: string;
         hostname?: string;
+        cvat_username?: string;
+        cvat_password?: string;
     };
-    hardware: {
+    hardware?: {
         cpu_num: number;
         ram: number;
         disk: number;

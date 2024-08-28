@@ -191,7 +191,7 @@ describe('DeploymentsService', () => {
     });
 
     it('should request the training of a tool correctly', (done) => {
-        const url = `${base}/deployments/tools?vo=vo.ai4eosc.eu`;
+        const url = `${base}/deployments/tools?vo=vo.ai4eosc.eu&tool_name=ai4os-federated-server`;
         const request: TrainModuleRequest = {
             general: {
                 title: 'testing',
@@ -211,14 +211,16 @@ describe('DeploymentsService', () => {
             },
         };
 
-        service.trainTool(request).subscribe((response) => {
-            try {
-                expect(response).toEqual({ status: 'success' });
-                done();
-            } catch (error) {
-                done(error);
-            }
-        });
+        service
+            .trainTool('ai4os-federated-server', request)
+            .subscribe((response) => {
+                try {
+                    expect(response).toEqual({ status: 'success' });
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
 
         const req = httpMock.expectOne(url);
         req.flush({ status: 'success' });

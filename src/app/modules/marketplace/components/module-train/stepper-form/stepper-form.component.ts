@@ -84,7 +84,6 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.isLoading = true;
-
         let request: Observable<statusReturn>;
         const data: TrainModuleRequest = {
             general: {
@@ -101,66 +100,103 @@ export class StepperFormComponent implements OnInit {
                         .serviceToRunPassInput,
                 hostname:
                     this.step1Form.getRawValue().generalConfForm.hostnameInput,
+                cvat_username:
+                    this.step1Form.getRawValue().generalConfForm
+                        .cvatUsernameInput,
+                cvat_password:
+                    this.step1Form.getRawValue().generalConfForm
+                        .cvatPasswordInput,
             },
-            hardware: {
+        };
+
+        if (this.title == 'CVAT Image Annotation') {
+            data.storage = {
+                rclone_conf:
+                    this.step2Form.value.storageConfForm.rcloneConfInput,
+                rclone_url:
+                    this.step2Form.value.storageConfForm.storageUrlInput,
+                rclone_vendor:
+                    this.step2Form.value.storageConfForm.rcloneVendorSelect,
+                rclone_user:
+                    this.step2Form.value.storageConfForm.rcloneUserInput,
+                rclone_password:
+                    this.step2Form.value.storageConfForm.rclonePasswordInput,
+                datasets:
+                    this.step2Form.value.storageConfForm.datasetsList[0]
+                        ?.doi === ''
+                        ? []
+                        : this.step2Form.value.storageConfForm.datasetsList,
+            };
+            request = this.deploymentsService.trainTool('ai4os-cvat', data);
+        } else {
+            data.hardware = {
                 cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,
                 ram: this.step2Form.value.hardwareConfForm.ramMemoryInput,
                 disk: this.step2Form.value.hardwareConfForm.diskMemoryInput,
                 gpu_num: this.step2Form.value.hardwareConfForm.gpuNumberInput,
                 gpu_type: this.step2Form.value.hardwareConfForm.gpuModelSelect,
-            },
-        };
+            };
 
-        if (this.title == 'Federated learning server') {
-            data.configuration = {
-                rounds: this.step3Form!.value.federatedConfForm.roundsInput,
-                metric: this.step3Form!.value.federatedConfForm.metricInput,
-                min_fit_clients:
-                    this.step3Form!.value.federatedConfForm.minFitClientsInput,
-                min_available_clients:
-                    this.step3Form!.value.federatedConfForm
-                        .minAvailableClientsInput,
-                strategy:
-                    this.step3Form!.value.federatedConfForm
-                        .strategyOptionsSelect,
-                mu:
-                    this.step3Form!.value.federatedConfForm
-                        .strategyOptionsSelect === 'FedProx strategy (FedProx)'
-                        ? this.step3Form!.value.federatedConfForm.muInput
-                        : null,
-                fl:
-                    this.step3Form!.value.federatedConfForm
-                        .strategyOptionsSelect ===
-                    'Federated Averaging with Momentum (FedAvgM)'
-                        ? this.step3Form!.value.federatedConfForm.flInput
-                        : null,
-                momentum:
-                    this.step3Form!.value.federatedConfForm
-                        .strategyOptionsSelect ===
-                    'Federated Averaging with Momentum (FedAvgM)'
-                        ? this.step3Form!.value.federatedConfForm.momentumInput
-                        : null,
-            };
-            request = this.deploymentsService.trainTool(data);
-        } else {
-            data.storage = {
-                rclone_conf:
-                    this.step3Form!.value.storageConfForm.rcloneConfInput,
-                rclone_url:
-                    this.step3Form!.value.storageConfForm.storageUrlInput,
-                rclone_vendor:
-                    this.step3Form!.value.storageConfForm.rcloneVendorSelect,
-                rclone_user:
-                    this.step3Form!.value.storageConfForm.rcloneUserInput,
-                rclone_password:
-                    this.step3Form!.value.storageConfForm.rclonePasswordInput,
-                datasets:
-                    this.step3Form!.value.storageConfForm.datasetsList[0]
-                        ?.doi === ''
-                        ? []
-                        : this.step3Form!.value.storageConfForm.datasetsList,
-            };
-            request = this.deploymentsService.postTrainModule(data);
+            if (this.title == 'Federated learning server') {
+                data.configuration = {
+                    rounds: this.step3Form!.value.federatedConfForm.roundsInput,
+                    metric: this.step3Form!.value.federatedConfForm.metricInput,
+                    min_fit_clients:
+                        this.step3Form!.value.federatedConfForm
+                            .minFitClientsInput,
+                    min_available_clients:
+                        this.step3Form!.value.federatedConfForm
+                            .minAvailableClientsInput,
+                    strategy:
+                        this.step3Form!.value.federatedConfForm
+                            .strategyOptionsSelect,
+                    mu:
+                        this.step3Form!.value.federatedConfForm
+                            .strategyOptionsSelect ===
+                        'FedProx strategy (FedProx)'
+                            ? this.step3Form!.value.federatedConfForm.muInput
+                            : null,
+                    fl:
+                        this.step3Form!.value.federatedConfForm
+                            .strategyOptionsSelect ===
+                        'Federated Averaging with Momentum (FedAvgM)'
+                            ? this.step3Form!.value.federatedConfForm.flInput
+                            : null,
+                    momentum:
+                        this.step3Form!.value.federatedConfForm
+                            .strategyOptionsSelect ===
+                        'Federated Averaging with Momentum (FedAvgM)'
+                            ? this.step3Form!.value.federatedConfForm
+                                .momentumInput
+                            : null,
+                };
+                request = this.deploymentsService.trainTool(
+                    'ai4os-federated-server',
+                    data
+                );
+            } else {
+                data.storage = {
+                    rclone_conf:
+                        this.step3Form!.value.storageConfForm.rcloneConfInput,
+                    rclone_url:
+                        this.step3Form!.value.storageConfForm.storageUrlInput,
+                    rclone_vendor:
+                        this.step3Form!.value.storageConfForm
+                            .rcloneVendorSelect,
+                    rclone_user:
+                        this.step3Form!.value.storageConfForm.rcloneUserInput,
+                    rclone_password:
+                        this.step3Form!.value.storageConfForm
+                            .rclonePasswordInput,
+                    datasets:
+                        this.step3Form!.value.storageConfForm.datasetsList[0]
+                            ?.doi === ''
+                            ? []
+                            : this.step3Form!.value.storageConfForm
+                                .datasetsList,
+                };
+                request = this.deploymentsService.postTrainModule(data);
+            }
         }
 
         request.subscribe({
