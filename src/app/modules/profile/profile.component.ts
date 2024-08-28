@@ -2,10 +2,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import {
-    RequestLoginResponse,
-    ProfileService,
-} from './services/profile.service';
-import {
     catchError,
     finalize,
     interval,
@@ -16,10 +12,31 @@ import {
     timer,
 } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+    AbstractControl,
+    FormBuilder,
+    ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
+import {
+    RequestLoginResponse,
+    StorageCredential,
+} from '@app/shared/interfaces/profile.interface';
+import { ProfileService } from './services/profile.service';
 
 export interface VoInfo {
     name: string;
     roles: string[];
+}
+
+export function domainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const regexPattern =
+            /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/i;
+        const valid = regexPattern.test(control.value);
+        return valid ? null : { invalidDomain: true };
+    };
 }
 
 @Component({
@@ -33,7 +50,8 @@ export class ProfileComponent implements OnInit {
         private profileService: ProfileService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private fb: FormBuilder
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -58,21 +76,21 @@ export class ProfileComponent implements OnInit {
     protected name = '';
     protected email = '';
     protected vos: VoInfo[] = [];
-    protected ai4osEndpoint =
-        'https://share.services.ai4os.eu/index.php/login/v2';
-    protected customEndpoint = 'https://<your.domain>/index.php/login/v2';
+    protected ai4osEndpoint = 'share.services.ai4os.eu';
+    protected customEndpoint = '';
+    customEndpointFormGroup = this.fb.group({
+        value: ['', [Validators.required, domainValidator()]],
+    });
 
-    // TODO: turn this into an array
-    protected serviceCredentialsExist: boolean[] = [];
+    protected serviceCredentials: StorageCredential[] = [];
 
     ngOnInit(): void {
         this.authService.userProfileSubject.subscribe((profile) => {
             this.name = profile.name;
             this.email = profile.email;
             this.getVoInfo(profile.eduperson_entitlement);
-            this.isLoading = false;
         });
-        this.serviceCredentialsExist = [false, false];
+        this.getExistingRcloneCredentials();
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -96,56 +114,116 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    syncRclone() {
-        this.isLoading = true;
-        this.isLoginLoading = true;
-        console.log(new Date());
-        this.profileService.initLogin('share.services.ai4os.eu').subscribe({
-            next: (response) => {
-                this.loginResponse = response;
-                window.open(response.login, '_blank');
-                this.pollRcloneCredentials();
+    getExistingRcloneCredentials() {
+        this.profileService.getExistingCredentials().subscribe({
+            next: (credentials) => {
+                for (let i = 0; i < Object.values(credentials).length; i++) {
+                    const credential: StorageCredential = {
+                        vendor: Object.values(credentials)[i].vendor,
+                        server: Object.keys(credentials)[i].substring(
+                            Object.keys(credentials)[i].lastIndexOf('/') + 1
+                        ),
+                        loginName: Object.values(credentials)[i].loginName,
+                        appPassword: Object.values(credentials)[i].appPassword,
+                    };
+                    this.serviceCredentials.push(credential);
+                }
+                this.isLoading = false;
             },
             error: () => {
                 this.isLoading = false;
-                this.isLoginLoading = false;
-                this._snackBar.open('Error syncronizing your account', '×', {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                });
             },
         });
     }
 
-    pollRcloneCredentials() {
+    credentialsExist(serverName: string): boolean {
+        const credential = this.serviceCredentials.find(
+            (c) => c.server === serverName
+        );
+        return credential ? true : false;
+    }
+
+    syncRclone(serviceName: string) {
+        this.isLoading = true;
+        this.isLoginLoading = true;
+        this.profileService.initLogin(serviceName).subscribe({
+            next: (response) => {
+                this.loginResponse = response;
+                window.open(response.login, '_blank');
+                this.pollRcloneCredentials(serviceName);
+            },
+            error: () => {
+                this.isLoading = false;
+                this.isLoginLoading = false;
+                this._snackBar.open(
+                    'Error syncronizing your account. Check you are using the correct domain.',
+                    '×',
+                    {
+                        duration: 3000,
+                        panelClass: ['red-snackbar'],
+                    }
+                );
+            },
+        });
+    }
+
+    pollRcloneCredentials(serviceName: string) {
         interval(2000) // Intervalo de 2 segundos
             .pipe(
                 switchMap(() =>
-                    this.profileService.getCredentials(this.loginResponse).pipe(
-                        catchError((error) => {
-                            return of(error);
-                        })
-                    )
+                    this.profileService
+                        .getNewCredentials(this.loginResponse)
+                        .pipe(
+                            catchError((error) => {
+                                return of(error);
+                            })
+                        )
                 ),
                 takeUntil(this.stopPolling$),
                 takeWhile((response) => response.status !== 200, true),
                 finalize(() => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', '×', {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    });
                 })
             )
             .subscribe({
                 next: (response) => {
                     if (response.status === 200) {
-                        console.log('Success:', response.body);
-                        this.isLoading = false;
-                        this.isLoginLoading = false;
+                        const credential = response.body;
+                        credential.vendor = 'nextcloud';
 
-                        // TODO: manejar la respuesta
+                        this.profileService
+                            .addCredential(credential, serviceName)
+                            .subscribe({
+                                next: () => {
+                                    this.isLoading = false;
+                                    this.isLoginLoading = false;
+                                    this._snackBar.open(
+                                        'Successfully generated ' +
+                                            serviceName +
+                                            ' credentials',
+                                        'X',
+                                        {
+                                            duration: 3000,
+                                            panelClass: ['success-snackbar'],
+                                        }
+                                    );
+                                },
+                                error: () => {
+                                    this.isLoading = false;
+                                    this.isLoginLoading = false;
+                                    this._snackBar.open(
+                                        'Error generating ' +
+                                            serviceName +
+                                            ' credentials',
+                                        'X',
+                                        {
+                                            duration: 3000,
+                                            panelClass: ['red-snackbar'],
+                                        }
+                                    );
+                                },
+                            });
                     }
                 },
                 error: () => {
@@ -157,5 +235,11 @@ export class ProfileComponent implements OnInit {
                     });
                 },
             });
+    }
+
+    openCustomNextcloudDocumentationWeb(): void {
+        const url =
+            'https://docs.ai4eosc.eu/en/latest/user/overview/dashboard.html#storage-configuration';
+        window.open(url);
     }
 }

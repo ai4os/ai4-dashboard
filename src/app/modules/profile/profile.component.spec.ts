@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 const mockedProfile = {
     info: {
@@ -64,6 +65,8 @@ const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
+const mockedConfigService: any = {};
+
 describe('ProfileComponent', () => {
     let component: ProfileComponent;
     let fixture: ComponentFixture<ProfileComponent>;
@@ -79,6 +82,7 @@ describe('ProfileComponent', () => {
             providers: [
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 

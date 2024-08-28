@@ -61,7 +61,11 @@
                         />
                     </span>
                 </button>
-                <button mat-menu-item (click)="createGradioDeployment()">
+                <button
+                    mat-menu-item
+                    (click)="createGradioDeployment()"
+                    disabled="true"
+                >
                     <span class="aligned-with-icon-left">
                         {{ 'MODULES.MODULE-DETAIL.NOMAD-GRADIO' | translate }}
                         <img
@@ -119,6 +123,7 @@
                     class="action-button sub-button"
                     mat-menu-item
                     (click)="createOscarService()"
+                    disabled="true"
                 >
                     <span class="aligned-with-icon-left">
                         {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
