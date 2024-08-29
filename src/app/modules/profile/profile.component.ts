@@ -34,7 +34,17 @@ export function domainValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const regexPattern =
             /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/i;
-        const valid = regexPattern.test(control.value);
+
+        let value = control.value as string;
+
+        if (!value || typeof value !== 'string') {
+            return null;
+        }
+
+        value = value.replace(/^(https?:\/\/)/, '');
+        value = value.split(/[\/\s]/)[0];
+
+        const valid = regexPattern.test(value);
         return valid ? null : { invalidDomain: true };
     };
 }
@@ -64,7 +74,7 @@ export class ProfileComponent implements OnInit {
     protected isLoading = true;
     protected isLoginLoading = false;
 
-    private stopPolling$ = timer(20000);
+    private stopPolling$ = timer(120000);
     private loginResponse: RequestLoginResponse = {
         poll: {
             token: '',
@@ -83,6 +93,7 @@ export class ProfileComponent implements OnInit {
     });
 
     protected serviceCredentials: StorageCredential[] = [];
+    protected customServiceCredentials: StorageCredential[] = [];
 
     ngOnInit(): void {
         this.authService.userProfileSubject.subscribe((profile) => {
@@ -115,6 +126,8 @@ export class ProfileComponent implements OnInit {
     }
 
     getExistingRcloneCredentials() {
+        this.serviceCredentials = [];
+        this.customServiceCredentials = [];
         this.profileService.getExistingCredentials().subscribe({
             next: (credentials) => {
                 for (let i = 0; i < Object.values(credentials).length; i++) {
@@ -128,6 +141,9 @@ export class ProfileComponent implements OnInit {
                     };
                     this.serviceCredentials.push(credential);
                 }
+                this.customServiceCredentials = this.serviceCredentials.filter(
+                    (c) => c.server !== 'share.services.ai4os.eu'
+                );
                 this.isLoading = false;
             },
             error: () => {
@@ -156,7 +172,7 @@ export class ProfileComponent implements OnInit {
                 this.isLoading = false;
                 this.isLoginLoading = false;
                 this._snackBar.open(
-                    'Error syncronizing your account. Check you are using the correct domain.',
+                    'Error syncronizing your account. Check you are using a valid domain.',
                     '×',
                     {
                         duration: 3000,
@@ -182,7 +198,6 @@ export class ProfileComponent implements OnInit {
                 takeUntil(this.stopPolling$),
                 takeWhile((response) => response.status !== 200, true),
                 finalize(() => {
-                    this.isLoading = false;
                     this.isLoginLoading = false;
                 })
             )
@@ -196,8 +211,12 @@ export class ProfileComponent implements OnInit {
                             .addCredential(credential, serviceName)
                             .subscribe({
                                 next: () => {
-                                    this.isLoading = false;
                                     this.isLoginLoading = false;
+                                    this.customEndpointFormGroup
+                                        .get('value')
+                                        ?.setValue('');
+                                    this.customEndpointFormGroup.markAsUntouched();
+                                    this.getExistingRcloneCredentials();
                                     this._snackBar.open(
                                         'Successfully generated ' +
                                             serviceName +
@@ -239,7 +258,7 @@ export class ProfileComponent implements OnInit {
 
     openCustomNextcloudDocumentationWeb(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/user/overview/dashboard.html#storage-configuration';
+            'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
         window.open(url);
     }
 }

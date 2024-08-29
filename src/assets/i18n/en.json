@@ -29,7 +29,7 @@
         "LINKED-SERVICES": "Linked services",
         "SYNC": "Sync",
         "RESYNC": "Resync",
-        "LOGIN": "Log in in the the pop-up window",
+        "LOGIN": "Log in the the pop-up window",
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
@@ -221,6 +221,7 @@
                 "STORAGE-URL": "Storage URL",
                 "STORAGE-SERVICE": "Storage service",
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your profile section.",
+                "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to sync to one of our provided options.",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",

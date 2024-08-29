@@ -112,6 +112,50 @@
                     </button></ng-template
                 >
 
+                <ng-container *ngFor="let service of customServiceCredentials">
+                    <button class="icon-button">
+                        <img
+                            class="icon"
+                            src="../../../../../assets/images/nextcloud-logo.png"
+                        />
+                    </button>
+                    <p class="service-name">
+                        {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
+                    </p>
+                    <mat-form-field
+                        class="full-width"
+                        subscriptSizing="dynamic"
+                    >
+                        <input
+                            matInput
+                            disabled="true"
+                            value="{{ service.server }}"
+                        />
+                    </mat-form-field>
+
+                    <button
+                        *ngIf="!credentialsExist(service.server); else resync"
+                        class="buttons"
+                        mat-raised-button
+                        color="accent"
+                        (click)="syncRclone(service.server)"
+                    >
+                        {{ 'PROFILE.SYNC' | translate }}
+                        <mat-icon>sync</mat-icon>
+                    </button>
+                    <ng-template #resync
+                        ><button
+                            class="buttons"
+                            mat-raised-button
+                            color="accent"
+                            (click)="syncRclone(service.server)"
+                        >
+                            {{ 'PROFILE.RESYNC' | translate }}
+                            <mat-icon>sync</mat-icon>
+                        </button></ng-template
+                    >
+                </ng-container>
+
                 <button class="icon-button" disabled>
                     <img
                         class="icon"
