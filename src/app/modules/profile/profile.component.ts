@@ -298,11 +298,8 @@ export class ProfileComponent implements OnInit {
                         .deleteCredential(serviceName)
                         .subscribe({
                             next: () => {
-                                this.isLoading = false;
-                                this.customServiceCredentials =
-                                    this.customServiceCredentials.filter(
-                                        (c) => c.server !== serviceName
-                                    );
+                                this.getExistingRcloneCredentials();
+
                                 this._snackBar.open(
                                     'Successfully deleted ' +
                                         serviceName +
