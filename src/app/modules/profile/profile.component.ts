@@ -77,7 +77,7 @@ export class ProfileComponent implements OnInit {
     protected isLoading = true;
     protected isLoginLoading = false;
 
-    private stopPolling$ = timer(120000);
+    private stopPolling$ = timer(300000);
     private loginResponse: RequestLoginResponse = {
         poll: {
             token: '',
@@ -165,6 +165,8 @@ export class ProfileComponent implements OnInit {
     syncRclone(serviceName: string) {
         this.isLoading = true;
         this.isLoginLoading = true;
+        serviceName = serviceName.replace(/^(https?:\/\/)/, '');
+        serviceName = serviceName.split(/[\/\s]/)[0];
         this.profileService.initLogin(serviceName).subscribe({
             next: (response) => {
                 this.loginResponse = response;
@@ -294,6 +296,8 @@ export class ProfileComponent implements OnInit {
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
                     this.isLoading = true;
+                    serviceName = serviceName.replace(/^(https?:\/\/)/, '');
+                    serviceName = serviceName.split(/[\/\s]/)[0];
                     this.profileService
                         .deleteCredential(serviceName)
                         .subscribe({
