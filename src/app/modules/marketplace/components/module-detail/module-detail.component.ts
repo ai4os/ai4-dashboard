@@ -12,7 +12,6 @@ import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
@@ -26,6 +25,7 @@ import {
     timer,
 } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-module-detail',
@@ -44,7 +44,7 @@ export class ModuleDetailComponent implements OnInit {
         public translateService: TranslateService,
         public location: Location,
         private router: Router,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -125,24 +125,14 @@ export class ModuleDetailComponent implements OnInit {
                         .navigate(['/inference'])
                         .then((navigated: boolean) => {
                             if (navigated) {
-                                this._snackBar.open(
+                                this.snackbarService.openSuccess(
                                     'Oscar service created with name ' +
-                                        serviceName,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['success-snackbar'],
-                                    }
+                                        serviceName
                                 );
                             } else {
-                                this._snackBar.open(
+                                this.snackbarService.openError(
                                     'Error while creating service with name ' +
-                                        serviceName,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
+                                        serviceName
                                 );
                             }
                         });
@@ -176,13 +166,8 @@ export class ModuleDetailComponent implements OnInit {
                 if (response.status === 'success') {
                     this.pollGradioDeploymentStatus(response.job_ID);
                 } else {
-                    this._snackBar.open(
-                        'Error initializing the deployment.',
-                        'X',
-                        {
-                            duration: 3000,
-                            panelClass: ['red-snackbar'],
-                        }
+                    this.snackbarService.openError(
+                        'Error initializing the deployment'
                     );
                 }
             },
@@ -209,13 +194,8 @@ export class ModuleDetailComponent implements OnInit {
                 ),
                 finalize(() => {
                     if (this.isLoading === true) {
-                        this._snackBar.open(
-                            'Error initializing the deployment.',
-                            'X',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
+                        this.snackbarService.openError(
+                            'Error initializing the deployment'
                         );
                     }
                 })
@@ -251,13 +231,8 @@ export class ModuleDetailComponent implements OnInit {
                 },
                 error: () => {
                     this.popupWindow?.close();
-                    this._snackBar.open(
-                        'Error initializing the deployment.',
-                        'X',
-                        {
-                            duration: 3000,
-                            panelClass: ['red-snackbar'],
-                        }
+                    this.snackbarService.openError(
+                        'Error initializing the deployment'
                     );
                 },
             });

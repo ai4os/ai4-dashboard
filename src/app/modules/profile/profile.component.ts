@@ -15,7 +15,7 @@ import {
     takeWhile,
     timer,
 } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 export interface VoInfo {
     name: string;
@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
         private profileService: ProfileService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
-        private _snackBar: MatSnackBar
+        private snackbarService: SnackbarService
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -109,10 +109,9 @@ export class ProfileComponent implements OnInit {
             error: () => {
                 this.isLoading = false;
                 this.isLoginLoading = false;
-                this._snackBar.open('Error syncronizing your account', '×', {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                });
+                this.snackbarService.openError(
+                    'Error syncronizing your account'
+                );
             },
         });
     }
@@ -132,10 +131,9 @@ export class ProfileComponent implements OnInit {
                 finalize(() => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', '×', {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    });
+                    this.snackbarService.openError(
+                        'Error getting your credentials'
+                    );
                 })
             )
             .subscribe({
@@ -151,10 +149,9 @@ export class ProfileComponent implements OnInit {
                 error: () => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', '×', {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    });
+                    this.snackbarService.openError(
+                        'Error getting your credentials'
+                    );
                 },
             });
     }

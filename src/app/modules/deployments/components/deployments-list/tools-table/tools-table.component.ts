@@ -8,7 +8,6 @@ import {
     ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
@@ -22,6 +21,7 @@ import { DeploymentDetailComponent } from '../../deployment-detail/deployment-de
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SecretManagementDetailComponent } from '../../secret-management-detail/secret-management-detail.component';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 export interface TableColumn {
     columnDef: string;
@@ -51,7 +51,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private deploymentsService: DeploymentsService,
         public confirmationDialog: MatDialog,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private _liveAnnouncer: LiveAnnouncer,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
@@ -107,34 +107,19 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
                                     new MatTableDataSource<toolTableRow>(
                                         this.dataset
                                     );
-                                this._snackBar.open(
+                                this.snackbarService.openSuccess(
                                     'Successfully deleted tool with uuid: ' +
-                                        uuid,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['success-snackbar'],
-                                    }
+                                        uuid
                                 );
                             } else {
-                                this._snackBar.open(
-                                    'Error deleting tool with uuid: ' + uuid,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
+                                this.snackbarService.openError(
+                                    'Error deleting tool with uuid: ' + uuid
                                 );
                             }
                         },
                         error: () => {
-                            this._snackBar.open(
-                                'Error deleting tool with uuid: ' + uuid,
-                                '×',
-                                {
-                                    duration: 3000,
-                                    panelClass: ['red-snackbar'],
-                                }
+                            this.snackbarService.openError(
+                                'Error deleting tool with uuid: ' + uuid
                             );
                         },
                     });
