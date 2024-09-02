@@ -129,6 +129,7 @@
                 <mat-menu #deployMenu="matMenu">
                     <button
                         *ngIf="isAuthorized()"
+                        disabled="true"
                         class="action-button sub-button"
                         mat-menu-item
                         (click)="createOscarService()"
