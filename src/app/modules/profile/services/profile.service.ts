@@ -71,4 +71,15 @@ export class ProfileService {
             params: params,
         });
     }
+
+    deleteCredential(serviceName: string): Observable<statusReturn> {
+        const url = `${base}${endpoints.secrets}`;
+        const params = new HttpParams()
+            .set('vo', this.appConfigService.voName)
+            .set('secret_path', '/services/storage/' + serviceName);
+
+        return this.http.delete<statusReturn>(url, {
+            params: params,
+        });
+    }
 }

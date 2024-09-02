@@ -3,6 +3,7 @@
         {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
     </h4>
     <div
+        class="storage-container"
         [ngClass]="{
             'form-flex': mobileQuery.matches,
             'grid-1-column': !mobileQuery.matches
@@ -30,10 +31,23 @@
                 [diameter]="18"
                 class="input-spinner"
             ></mat-spinner>
-            <mat-hint *ngIf="_showHelp">{{
-                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
-                    | translate
-            }}</mat-hint>
+            <mat-hint *ngIf="_showHelp">
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
+                        | translate
+                }}
+                <a [routerLink]="['/profile']" target="_blank">{{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.PROFILE-SECTION'
+                        | translate
+                }}</a
+                >.
+            </mat-hint>
+            <mat-hint *ngIf="!_showHelp && credentials.length === 0">
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-UNAVAILABLE'
+                        | translate
+                }}
+            </mat-hint>
         </mat-form-field>
 
         <mat-expansion-panel class="advanced-settings-row">

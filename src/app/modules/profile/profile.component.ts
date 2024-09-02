@@ -24,6 +24,8 @@ import {
     StorageCredential,
 } from '@app/shared/interfaces/profile.interface';
 import { ProfileService } from './services/profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 export interface VoInfo {
     name: string;
@@ -34,7 +36,17 @@ export function domainValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const regexPattern =
             /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/i;
-        const valid = regexPattern.test(control.value);
+
+        let value = control.value as string;
+
+        if (!value || typeof value !== 'string') {
+            return null;
+        }
+
+        value = value.replace(/^(https?:\/\/)/, '');
+        value = value.split(/[/\s]/)[0];
+
+        const valid = regexPattern.test(value);
         return valid ? null : { invalidDomain: true };
     };
 }
@@ -48,6 +60,7 @@ export class ProfileComponent implements OnInit {
     constructor(
         private readonly authService: AuthService,
         private profileService: ProfileService,
+        public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private _snackBar: MatSnackBar,
@@ -64,7 +77,7 @@ export class ProfileComponent implements OnInit {
     protected isLoading = true;
     protected isLoginLoading = false;
 
-    private stopPolling$ = timer(20000);
+    private stopPolling$ = timer(300000);
     private loginResponse: RequestLoginResponse = {
         poll: {
             token: '',
@@ -83,6 +96,7 @@ export class ProfileComponent implements OnInit {
     });
 
     protected serviceCredentials: StorageCredential[] = [];
+    protected customServiceCredentials: StorageCredential[] = [];
 
     ngOnInit(): void {
         this.authService.userProfileSubject.subscribe((profile) => {
@@ -115,6 +129,8 @@ export class ProfileComponent implements OnInit {
     }
 
     getExistingRcloneCredentials() {
+        this.serviceCredentials = [];
+        this.customServiceCredentials = [];
         this.profileService.getExistingCredentials().subscribe({
             next: (credentials) => {
                 for (let i = 0; i < Object.values(credentials).length; i++) {
@@ -128,6 +144,9 @@ export class ProfileComponent implements OnInit {
                     };
                     this.serviceCredentials.push(credential);
                 }
+                this.customServiceCredentials = this.serviceCredentials.filter(
+                    (c) => c.server !== 'share.services.ai4os.eu'
+                );
                 this.isLoading = false;
             },
             error: () => {
@@ -146,6 +165,8 @@ export class ProfileComponent implements OnInit {
     syncRclone(serviceName: string) {
         this.isLoading = true;
         this.isLoginLoading = true;
+        serviceName = serviceName.replace(/^(https?:\/\/)/, '');
+        serviceName = serviceName.split(/[/\s]/)[0];
         this.profileService.initLogin(serviceName).subscribe({
             next: (response) => {
                 this.loginResponse = response;
@@ -156,7 +177,7 @@ export class ProfileComponent implements OnInit {
                 this.isLoading = false;
                 this.isLoginLoading = false;
                 this._snackBar.open(
-                    'Error syncronizing your account. Check you are using the correct domain.',
+                    'Error syncronizing your account. Check you are using a valid domain.',
                     '×',
                     {
                         duration: 3000,
@@ -168,6 +189,8 @@ export class ProfileComponent implements OnInit {
     }
 
     pollRcloneCredentials(serviceName: string) {
+        let syncCompleted = false;
+
         interval(2000) // Intervalo de 2 segundos
             .pipe(
                 switchMap(() =>
@@ -180,10 +203,37 @@ export class ProfileComponent implements OnInit {
                         )
                 ),
                 takeUntil(this.stopPolling$),
-                takeWhile((response) => response.status !== 200, true),
+                takeWhile((response) => {
+                    if (response.status === 200) {
+                        syncCompleted = true;
+                        return false; // stop polling
+                    } else {
+                        syncCompleted = false;
+                        return true; // continue polling
+                    }
+                }, true),
                 finalize(() => {
-                    this.isLoading = false;
                     this.isLoginLoading = false;
+                    if (syncCompleted) {
+                        this._snackBar.open(
+                            'The login process was successfully completed',
+                            '×',
+                            {
+                                duration: 3000,
+                                panelClass: ['success-snackbar'],
+                            }
+                        );
+                    } else {
+                        this.isLoading = false;
+                        this._snackBar.open(
+                            'The login process could not be completed. Try again.',
+                            '×',
+                            {
+                                duration: 3000,
+                                panelClass: ['red-snackbar'],
+                            }
+                        );
+                    }
                 })
             )
             .subscribe({
@@ -196,8 +246,12 @@ export class ProfileComponent implements OnInit {
                             .addCredential(credential, serviceName)
                             .subscribe({
                                 next: () => {
-                                    this.isLoading = false;
                                     this.isLoginLoading = false;
+                                    this.customEndpointFormGroup
+                                        .get('value')
+                                        ?.setValue('');
+                                    this.customEndpointFormGroup.markAsUntouched();
+                                    this.getExistingRcloneCredentials();
                                     this._snackBar.open(
                                         'Successfully generated ' +
                                             serviceName +
@@ -229,17 +283,73 @@ export class ProfileComponent implements OnInit {
                 error: () => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', '×', {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    });
                 },
+            });
+    }
+
+    unsyncRclone(serviceName: string) {
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: `Are you sure you want to delete these credentials?`,
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.isLoading = true;
+                    serviceName = serviceName.replace(/^(https?:\/\/)/, '');
+                    serviceName = serviceName.split(/[/\s]/)[0];
+                    this.profileService
+                        .deleteCredential(serviceName)
+                        .subscribe({
+                            next: () => {
+                                this.getExistingRcloneCredentials();
+
+                                this._snackBar.open(
+                                    'Successfully deleted ' +
+                                        serviceName +
+                                        ' credentials',
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['success-snackbar'],
+                                    }
+                                );
+                            },
+                            error: () => {
+                                this.isLoading = false;
+                                this.isLoginLoading = false;
+                                this._snackBar.open(
+                                    'Error deleting ' +
+                                        serviceName +
+                                        ' credentials',
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['red-snackbar'],
+                                    }
+                                );
+                            },
+                        });
+                }
+            });
+    }
+
+    resyncRclone(serviceName: string) {
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: `Are you sure you want to resynchronize these credentials?`,
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.syncRclone(serviceName);
+                }
             });
     }
 
     openCustomNextcloudDocumentationWeb(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/user/overview/dashboard.html#storage-configuration';
+            'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
         window.open(url);
     }
 }
