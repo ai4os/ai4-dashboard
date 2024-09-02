@@ -65,9 +65,9 @@
     </div>
 
     <mat-card appearance="outlined" class="card">
-        <mat-card-header>
+        <mat-card-header class="mb-3">
             <mat-card-title>{{
-                'PROFILE.LINKED-SERVICES' | translate
+                'PROFILE.STORAGE-PROVIDERS' | translate
             }}</mat-card-title>
         </mat-card-header>
 
@@ -90,27 +90,56 @@
                     />
                 </mat-form-field>
 
-                <button
-                    *ngIf="!credentialsExist(ai4osEndpoint); else resync"
-                    class="buttons"
-                    mat-raised-button
-                    color="accent"
-                    (click)="syncRclone(ai4osEndpoint)"
-                >
-                    {{ 'PROFILE.SYNC' | translate }}
-                    <mat-icon>sync</mat-icon>
-                </button>
-                <ng-template #resync
-                    ><button
-                        class="buttons"
-                        mat-raised-button
-                        color="accent"
-                        (click)="syncRclone(ai4osEndpoint)"
+                <div class="buttons-container">
+                    <ng-container
+                        *ngIf="!credentialsExist(ai4osEndpoint); else resync"
                     >
-                        {{ 'PROFILE.RESYNC' | translate }}
-                        <mat-icon>sync</mat-icon>
-                    </button></ng-template
-                >
+                        <button
+                            class="cursor-default"
+                            mat-icon-button
+                            matTooltip="Basic"
+                            matTooltip=" {{ 'PROFILE.UNLINKED' | translate }}"
+                        >
+                            <mat-icon>link_off</mat-icon>
+                        </button>
+                        <button
+                            matTooltip=" {{ 'PROFILE.SYNC' | translate }}"
+                            mat-mini-fab
+                            (click)="syncRclone(ai4osEndpoint)"
+                        >
+                            <mat-icon>sync</mat-icon>
+                        </button>
+                    </ng-container>
+
+                    <ng-template #resync>
+                        <button
+                            class="cursor-default"
+                            mat-icon-button
+                            matTooltip="Basic"
+                            matTooltip=" {{ 'PROFILE.LINKED' | translate }}"
+                        >
+                            <mat-icon>link</mat-icon>
+                        </button>
+                        <button
+                            matTooltip=" {{ 'PROFILE.RESYNC' | translate }}"
+                            mat-mini-fab
+                            class="custom-sync-button"
+                            (click)="resyncRclone(ai4osEndpoint)"
+                        >
+                            <mat-icon>sync</mat-icon>
+                        </button>
+                    </ng-template>
+
+                    <button
+                        [disabled]="!credentialsExist(ai4osEndpoint)"
+                        matTooltip=" {{ 'PROFILE.DELETE' | translate }}"
+                        mat-mini-fab
+                        color="warn"
+                        (click)="unsyncRclone(ai4osEndpoint)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
 
                 <ng-container *ngFor="let service of customServiceCredentials">
                     <button class="icon-button">
@@ -133,28 +162,64 @@
                         />
                     </mat-form-field>
 
-                    <button
-                        *ngIf="!credentialsExist(service.server); else resync"
-                        class="buttons"
-                        mat-raised-button
-                        color="accent"
-                        (click)="syncRclone(service.server)"
-                    >
-                        {{ 'PROFILE.SYNC' | translate }}
-                        <mat-icon>sync</mat-icon>
-                    </button>
-                    <ng-template #resync
-                        ><button
-                            class="buttons"
-                            mat-raised-button
-                            color="accent"
-                            (click)="syncRclone(service.server)"
+                    <div class="buttons-container">
+                        <ng-container
+                            *ngIf="
+                                !credentialsExist(service.server);
+                                else resync
+                            "
                         >
-                            {{ 'PROFILE.RESYNC' | translate }}
-                            <mat-icon>sync</mat-icon>
-                        </button></ng-template
-                    >
+                            <button
+                                class="cursor-default"
+                                mat-icon-button
+                                matTooltip="Basic"
+                                matTooltip=" {{
+                                    'PROFILE.UNLINKED' | translate
+                                }}"
+                            >
+                                <mat-icon>link_off</mat-icon>
+                            </button>
+                            <button
+                                matTooltip=" {{ 'PROFILE.SYNC' | translate }}"
+                                mat-mini-fab
+                                (click)="syncRclone(service.server)"
+                            >
+                                <mat-icon>sync</mat-icon>
+                            </button>
+                        </ng-container>
+
+                        <ng-template #resync>
+                            <button
+                                class="cursor-default"
+                                mat-icon-button
+                                matTooltip="Basic"
+                                matTooltip=" {{ 'PROFILE.LINKED' | translate }}"
+                            >
+                                <mat-icon>link</mat-icon>
+                            </button>
+                            <button
+                                matTooltip=" {{ 'PROFILE.RESYNC' | translate }}"
+                                mat-mini-fab
+                                class="custom-sync-button"
+                                (click)="resyncRclone(service.server)"
+                            >
+                                <mat-icon>sync</mat-icon>
+                            </button>
+                        </ng-template>
+
+                        <button
+                            [disabled]="!credentialsExist(service.server)"
+                            matTooltip=" {{ 'PROFILE.DELETE' | translate }}"
+                            mat-mini-fab
+                            color="warn"
+                            (click)="unsyncRclone(service.server)"
+                        >
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
                 </ng-container>
+
+                <mat-divider class="divider"></mat-divider>
 
                 <button class="icon-button" disabled>
                     <img
@@ -203,25 +268,31 @@
                         </mat-error>
                     </mat-form-field>
                 </form>
-                <button
-                    class="buttons"
-                    mat-raised-button
-                    color="accent"
-                    [disabled]="
-                        customEndpointFormGroup.get('value')?.value === '' ||
-                        customEndpointFormGroup
-                            .get('value')
-                            ?.hasError('invalidDomain')
-                    "
-                    (click)="
-                        syncRclone(
-                            customEndpointFormGroup.get('value')?.value ?? ''
-                        )
-                    "
-                >
-                    {{ 'PROFILE.SYNC' | translate }}
-                    <mat-icon>sync</mat-icon>
-                </button>
+
+                <div class="buttons-container">
+                    <button
+                        mat-fab
+                        extended
+                        color="accent"
+                        matTooltip="{{ 'PROFILE.ADD' | translate }}"
+                        [disabled]="
+                            customEndpointFormGroup.get('value')?.value ===
+                                '' ||
+                            customEndpointFormGroup
+                                .get('value')
+                                ?.hasError('invalidDomain')
+                        "
+                        (click)="
+                            syncRclone(
+                                customEndpointFormGroup.get('value')?.value ??
+                                    ''
+                            )
+                        "
+                    >
+                        <mat-icon>add</mat-icon>
+                        {{ 'PROFILE.ADD' | translate }}
+                    </button>
+                </div>
             </div>
         </mat-card-content>
     </mat-card>

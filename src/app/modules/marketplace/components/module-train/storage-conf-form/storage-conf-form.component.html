@@ -31,10 +31,17 @@
                 [diameter]="18"
                 class="input-spinner"
             ></mat-spinner>
-            <mat-hint *ngIf="_showHelp">{{
-                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
-                    | translate
-            }}</mat-hint>
+            <mat-hint *ngIf="_showHelp">
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
+                        | translate
+                }}
+                <a [routerLink]="['/profile']" target="_blank">{{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.PROFILE-SECTION'
+                        | translate
+                }}</a
+                >.
+            </mat-hint>
             <mat-hint *ngIf="!_showHelp && credentials.length === 0">
                 {{
                     'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-UNAVAILABLE'

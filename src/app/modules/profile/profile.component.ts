@@ -24,6 +24,8 @@ import {
     StorageCredential,
 } from '@app/shared/interfaces/profile.interface';
 import { ProfileService } from './services/profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 export interface VoInfo {
     name: string;
@@ -58,6 +60,7 @@ export class ProfileComponent implements OnInit {
     constructor(
         private readonly authService: AuthService,
         private profileService: ProfileService,
+        public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private _snackBar: MatSnackBar,
@@ -184,6 +187,8 @@ export class ProfileComponent implements OnInit {
     }
 
     pollRcloneCredentials(serviceName: string) {
+        let syncCompleted = false;
+
         interval(2000) // Intervalo de 2 segundos
             .pipe(
                 switchMap(() =>
@@ -196,9 +201,37 @@ export class ProfileComponent implements OnInit {
                         )
                 ),
                 takeUntil(this.stopPolling$),
-                takeWhile((response) => response.status !== 200, true),
+                takeWhile((response) => {
+                    if (response.status === 200) {
+                        syncCompleted = true;
+                        return false; // stop polling
+                    } else {
+                        syncCompleted = false;
+                        return true; // continue polling
+                    }
+                }, true),
                 finalize(() => {
                     this.isLoginLoading = false;
+                    if (syncCompleted) {
+                        this._snackBar.open(
+                            'The login process was successfully completed',
+                            '×',
+                            {
+                                duration: 3000,
+                                panelClass: ['success-snackbar'],
+                            }
+                        );
+                    } else {
+                        this.isLoading = false;
+                        this._snackBar.open(
+                            'The login process could not be completed. Try again.',
+                            '×',
+                            {
+                                duration: 3000,
+                                panelClass: ['red-snackbar'],
+                            }
+                        );
+                    }
                 })
             )
             .subscribe({
@@ -248,11 +281,68 @@ export class ProfileComponent implements OnInit {
                 error: () => {
                     this.isLoading = false;
                     this.isLoginLoading = false;
-                    this._snackBar.open('Error getting your credentials', '×', {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    });
                 },
+            });
+    }
+
+    unsyncRclone(serviceName: string) {
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: `Are you sure you want to delete these credentials?`,
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.isLoading = true;
+                    this.profileService
+                        .deleteCredential(serviceName)
+                        .subscribe({
+                            next: () => {
+                                this.isLoading = false;
+                                this.customServiceCredentials =
+                                    this.customServiceCredentials.filter(
+                                        (c) => c.server !== serviceName
+                                    );
+                                this._snackBar.open(
+                                    'Successfully deleted ' +
+                                        serviceName +
+                                        ' credentials',
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['success-snackbar'],
+                                    }
+                                );
+                            },
+                            error: () => {
+                                this.isLoading = false;
+                                this.isLoginLoading = false;
+                                this._snackBar.open(
+                                    'Error deleting ' +
+                                        serviceName +
+                                        ' credentials',
+                                    'X',
+                                    {
+                                        duration: 3000,
+                                        panelClass: ['red-snackbar'],
+                                    }
+                                );
+                            },
+                        });
+                }
+            });
+    }
+
+    resyncRclone(serviceName: string) {
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: `Are you sure you want to resynchronize these credentials?`,
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.syncRclone(serviceName);
+                }
             });
     }
 
