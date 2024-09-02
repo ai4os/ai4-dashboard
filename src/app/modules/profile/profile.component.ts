@@ -44,7 +44,7 @@ export function domainValidator(): ValidatorFn {
         }
 
         value = value.replace(/^(https?:\/\/)/, '');
-        value = value.split(/[\/\s]/)[0];
+        value = value.split(/[/\s]/)[0];
 
         const valid = regexPattern.test(value);
         return valid ? null : { invalidDomain: true };
@@ -166,7 +166,7 @@ export class ProfileComponent implements OnInit {
         this.isLoading = true;
         this.isLoginLoading = true;
         serviceName = serviceName.replace(/^(https?:\/\/)/, '');
-        serviceName = serviceName.split(/[\/\s]/)[0];
+        serviceName = serviceName.split(/[/\s]/)[0];
         this.profileService.initLogin(serviceName).subscribe({
             next: (response) => {
                 this.loginResponse = response;
@@ -297,7 +297,7 @@ export class ProfileComponent implements OnInit {
                 if (confirmed) {
                     this.isLoading = true;
                     serviceName = serviceName.replace(/^(https?:\/\/)/, '');
-                    serviceName = serviceName.split(/[\/\s]/)[0];
+                    serviceName = serviceName.split(/[/\s]/)[0];
                     this.profileService
                         .deleteCredential(serviceName)
                         .subscribe({
