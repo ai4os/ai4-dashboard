@@ -26,6 +26,7 @@ import { Sort } from '@angular/material/sort';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -85,6 +86,11 @@ const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
+const mockedSnackbarService: any = {
+    openSuccess: jest.fn(),
+    openError: jest.fn(),
+};
+
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
     let fixture: ComponentFixture<DeploymentsListComponent>;
@@ -111,6 +117,10 @@ describe('DeploymentsListComponent', () => {
                     useValue: mockedDeploymentServices,
                 },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                {
+                    provide: SnackbarService,
+                    useValue: mockedSnackbarService,
+                },
             ],
         }).compileComponents();
 
@@ -220,18 +230,14 @@ describe('DeploymentsListComponent', () => {
             mockedDeploymentServices,
             'deleteDeploymentByUUID'
         );
-        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        const spySuccessSnackbar = jest.spyOn(
+            mockedSnackbarService,
+            'openSuccess'
+        );
         component.removeDeployment(mouseEvent, deploymentRow);
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
-        expect(spySnackBar).toHaveBeenCalledWith(
-            'Successfully deleted deployment with uuid: tool-test',
-            '×',
-            expect.objectContaining({
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-            })
-        );
+        expect(spySuccessSnackbar).toHaveBeenCalledTimes(1);
         expect(component.dataset).toEqual(expectedDataset);
         jest.clearAllMocks();
     }));
@@ -270,19 +276,12 @@ describe('DeploymentsListComponent', () => {
         const spyDeleteDeploymentByUUID = jest
             .spyOn(mockedDeploymentServices, 'deleteDeploymentByUUID')
             .mockReturnValue(of({ status: 'error' }));
-        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        const spyErrorSnackbar = jest.spyOn(mockedSnackbarService, 'openError');
         component.dataset = initialDataset;
         component.removeDeployment(mouseEvent, deploymentRow);
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
-        expect(spySnackBar).toHaveBeenCalledWith(
-            'Error deleting deployment with uuid: tool-test',
-            '×',
-            expect.objectContaining({
-                duration: 3000,
-                panelClass: ['red-snackbar'],
-            })
-        );
+        expect(spyErrorSnackbar).toHaveBeenCalledTimes(1);
         expect(component.dataset).toEqual(initialDataset);
     }));
 
