@@ -125,7 +125,7 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
-        datasets: Dataset[];
+        datasets?: Dataset[];
     };
     configuration?: {
         rounds: number;

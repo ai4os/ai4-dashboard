@@ -121,11 +121,6 @@ export class StepperFormComponent implements OnInit {
                     this.step2Form.value.storageConfForm.rcloneUserInput,
                 rclone_password:
                     this.step2Form.value.storageConfForm.rclonePasswordInput,
-                datasets:
-                    this.step2Form.value.storageConfForm.datasetsList[0]
-                        ?.doi === ''
-                        ? []
-                        : this.step2Form.value.storageConfForm.datasetsList,
             };
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else {
