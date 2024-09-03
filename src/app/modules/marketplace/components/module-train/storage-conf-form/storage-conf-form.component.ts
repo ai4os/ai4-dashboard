@@ -171,9 +171,8 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     getLinkedStorageServices() {
-        this.profileService
-            .getExistingCredentials()
-            .subscribe((credentials) => {
+        this.profileService.getExistingCredentials().subscribe({
+            next: (credentials) => {
                 this.credentials = Object.values(credentials);
                 if (this.credentials.length > 0) {
                     this.credentials.forEach(
@@ -198,7 +197,11 @@ export class StorageConfFormComponent implements OnInit {
                 } else {
                     this.credentialsLoading = false;
                 }
-            });
+            },
+            error: () => {
+                this.credentialsLoading = false;
+            },
+        });
     }
 
     updateStorageConfiguration() {
