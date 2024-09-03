@@ -26,13 +26,19 @@
         "TITLE": "Profile",
         "DETAILS": "Personal information",
         "VOS": "Virtual organizations",
-        "LINKED-SERVICES": "Linked services",
+        "STORAGE-PROVIDERS": "Storage providers",
+        "LINKED": "Linked",
+        "UNLINKED": "Unlinked",
+        "ADD": "Add",
         "SYNC": "Sync",
         "RESYNC": "Resync",
-        "LOGIN": "Log in in the the pop-up window",
+        "DELETE": "Delete",
+        "LOGIN": "Log in the the pop-up window",
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
-            "CUSTOM": "Custom Nextcloud"
+            "CUSTOM": "Custom Nextcloud",
+            "OPEN-DOCUMENTATION": "Open documentation",
+            "INVALID-DOMAIN": "Invalid domain format"
         }
     },
     "DASHBOARD": {
@@ -217,6 +223,10 @@
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
+                "STORAGE-SERVICE": "Storage service",
+                "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
+                "PROFILE-SECTION": "profile section",
+                "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to sync to one of our provided options.",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
@@ -230,7 +240,6 @@
                 "ZENODO-RECORD": "Zenodo Record ID",
                 "FORCE-PULL": "Force pull",
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
-
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
                 "DOI": {

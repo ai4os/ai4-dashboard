@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.17.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.16.0-pre...v2.17.0-pre) (2024-09-02)
+
+
+### Features
+
+* Feature 136 add profile section ([#176](https://github.com/ai4os/ai4-dashboard/issues/176)) ([e4fe098](https://github.com/ai4os/ai4-dashboard/commit/e4fe0989b87e430039f8223c946bef37f0334e5e))
+
+## [2.16.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.15.1-pre...v2.16.0-pre) (2024-08-28)
+
+
+### Features
+
+* Feature 136 add profile section ([#162](https://github.com/ai4os/ai4-dashboard/issues/162)) ([30719b1](https://github.com/ai4os/ai4-dashboard/commit/30719b1da6ed5269cb1a990afd2dc5b9e0dda710))
+
 ## [2.15.1](https://github.com/ai4os/ai4-dashboard/compare/v2.15.0...v2.15.1) (2024-08-27)
 
 
