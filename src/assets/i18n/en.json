@@ -169,6 +169,7 @@
             "TRAIN-MODULE": "Train",
             "LAUNCH-TOOL": "Launch tool",
             "TRY-MODULE": "Try",
+            "TRY-MODULE-LOGOUT": "You must login to try the module",
             "DEPLOY-MODULE": "Deploy",
             "DEPLOY-W-IM": "Deploy via the IM",
             "DEPLOY-W-OSCAR": "Deploy via OSCAR",
@@ -178,8 +179,8 @@
             "OSCAR": "OSCAR",
             "OSCAR-SWAGGER": "OSCAR (Swagger)",
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
-            "INIT-STATUS-GRADIO": "Initializing the environment. This might take some time.",
-            "ACTIVATING-STATUS-GRADIO": "Launching the UI..."
+            "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
+            "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
