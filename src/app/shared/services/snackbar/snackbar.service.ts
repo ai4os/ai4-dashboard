@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+export enum PanelClass {
+    Success = 'success-snackbar',
+    Error = 'red-snackbar',
+    Primary = 'primary-snackbar',
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -10,21 +16,21 @@ export class SnackbarService {
     openSuccess(message: string) {
         this._snackBar.open(message, '×', {
             duration: 3000,
-            panelClass: ['success-snackbar'],
+            panelClass: PanelClass.Success,
         });
     }
 
     openError(message: string) {
         this._snackBar.open(message, '×', {
             duration: 3000,
-            panelClass: ['red-snackbar'],
+            panelClass: PanelClass.Error,
         });
     }
 
     openPrimary(message: string) {
         this._snackBar.open(message, '×', {
             duration: 3000,
-            panelClass: ['primary-snackbar'],
+            panelClass: PanelClass.Primary,
         });
     }
 
@@ -32,7 +38,7 @@ export class SnackbarService {
         message: string,
         action: string,
         duration: number,
-        panelClass: string
+        panelClass: PanelClass
     ) {
         this._snackBar.open(message, action, {
             duration: duration,
