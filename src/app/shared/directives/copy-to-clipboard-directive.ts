@@ -19,7 +19,7 @@ export class CopyToClipboardDirective {
         event.preventDefault();
         if (!this.value) return;
         this.clipboard.copy(this.value);
-        this._snackBar.open('Copied to clipboard!', 'X', {
+        this._snackBar.open('Copied to clipboard!', '×', {
             duration: 3000,
             panelClass: ['primary-snackbar'],
         });

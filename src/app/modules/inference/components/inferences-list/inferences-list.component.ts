@@ -145,7 +145,7 @@ export class InferencesListComponent {
                                     this._snackBar.open(
                                         'Successfully deleted service with name: ' +
                                             name,
-                                        'X',
+                                        '×',
                                         {
                                             duration: 3000,
                                             panelClass: ['success-snackbar'],
@@ -160,7 +160,7 @@ export class InferencesListComponent {
                                     this._snackBar.open(
                                         'Error deleting service with name: ' +
                                             name,
-                                        'X',
+                                        '×',
                                         {
                                             duration: 3000,
                                             panelClass: ['red-snackbar'],
@@ -176,7 +176,7 @@ export class InferencesListComponent {
                                 this.isLoading = false;
                                 this._snackBar.open(
                                     'Error deleting service with name: ' + name,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],

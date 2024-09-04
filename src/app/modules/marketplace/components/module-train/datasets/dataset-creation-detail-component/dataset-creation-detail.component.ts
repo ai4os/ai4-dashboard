@@ -188,7 +188,7 @@ export class DatasetCreationDetailComponent implements OnInit {
             },
             error: () => {
                 this.zenodoFormGroup.get('zenodoDatasetSelect')?.disable();
-                this._snackBar.open('Error retrieving datasets', 'X', {
+                this._snackBar.open('Error retrieving datasets', '×', {
                     duration: 3000,
                     panelClass: ['red-snackbar'],
                 });
@@ -269,7 +269,7 @@ export class DatasetCreationDetailComponent implements OnInit {
             },
             error: () => {
                 this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
-                this._snackBar.open('Error retrieving dataset versions', 'X', {
+                this._snackBar.open('Error retrieving dataset versions', '×', {
                     duration: 3000,
                     panelClass: ['red-snackbar'],
                 });
@@ -315,7 +315,7 @@ export class DatasetCreationDetailComponent implements OnInit {
                     this.dialogLoading = false;
                     this._snackBar.open(
                         'Error retrieving dataset information',
-                        'X',
+                        '×',
                         {
                             duration: 3000,
                             panelClass: ['red-snackbar'],
