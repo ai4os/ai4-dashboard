@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.18.0-pre...v2.19.0-pre) (2024-09-04)
+
+
+### Features
+
+* add try me functionality nomad ([#170](https://github.com/ai4os/ai4-dashboard/issues/170)) ([a68f8c1](https://github.com/ai4os/ai4-dashboard/commit/a68f8c1f692b430c1a4f7c253400e225e9de6243))
+
 ## [2.18.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.17.0-pre...v2.18.0-pre) (2024-09-04)
 
 
