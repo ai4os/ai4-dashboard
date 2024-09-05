@@ -1,9 +1,6 @@
 name: Build iMagine:dev docker image
 
-on:
-    push:
-        tags:
-            - v2.**
+on: workflow_dispatch
 
 jobs:
     build:

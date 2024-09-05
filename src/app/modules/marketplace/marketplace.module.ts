@@ -28,6 +28,7 @@ import { DatasetCreationDetailComponent } from './components/module-train/datase
 import { DatasetsListComponent } from './components/module-train/datasets/datasets-list/datasets-list.component';
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
         ComputeConfFormComponent,
         DatasetsListComponent,
         DatasetCreationDetailComponent,
+        LoadingScreenComponent,
     ],
     imports: [
         CommonModule,
