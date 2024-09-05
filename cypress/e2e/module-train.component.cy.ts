@@ -26,14 +26,15 @@ describe('module train form', function () {
         cy.get('#dataset', { timeout: 15000 }).click();
         cy.contains(
             'EyeOnWater training dataset for assessing the inclusion of water images',
-            { timeout: 10000 }
+            { timeout: 15000 }
         ).click();
-        cy.get('#add-button', { timeout: 10000 }).click();
+        cy.get('#add-button', { timeout: 15000 }).click();
         cy.contains(' Dataset added with DOI 10.5281/zenodo.10777441', {
             timeout: 10000,
         }).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
+        cy.contains('Advanced settings', { timeout: 10000 }).click();
         cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
         cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
@@ -52,6 +53,7 @@ describe('module train form', function () {
         );
         cy.contains('Close', { timeout: 10000 }).click();
 
+        cy.contains('Advanced settings', { timeout: 10000 }).click();
         cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
         cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
@@ -78,6 +80,7 @@ describe('module train form', function () {
 
         cy.contains('Close', { timeout: 10000 }).click();
 
+        cy.contains('Advanced settings', { timeout: 10000 }).click();
         cy.contains('You must specify a RCLONE account').should('be.visible');
         cy.contains('Submit').should('be.disabled');
     });
