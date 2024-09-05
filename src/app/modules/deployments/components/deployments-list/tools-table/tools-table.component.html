@@ -20,7 +20,10 @@
             <mat-cell
                 *matCellDef="let row"
                 [ngClass]="{
-                    'content-cell': column.columnDef === 'actions'
+                    'content-cell': column.columnDef === 'actions',
+                    'content-cell-with-key-button':
+                        column.columnDef === 'actions' &&
+                        isFederatedServerTool(row)
                 }"
             >
                 <div
@@ -35,6 +38,11 @@
                         [matBadgeHidden]="!hasToolErrors(row)"
                         matBadge="priority_high"
                         matBadgeColor="warn"
+                        [ngClass]="{
+                            'action-button-in-cell': isFederatedServerTool(row),
+                            'action-button-in-cell-3-buttons':
+                                !isFederatedServerTool(row)
+                        }"
                         class="action-button-in-cell"
                         (click)="openToolDetailDialog(row)"
                     >
@@ -42,6 +50,7 @@
                     </button>
 
                     <button
+                        *ngIf="isFederatedServerTool(row)"
                         id="secrets-button"
                         mat-button
                         matTooltip="Manage secrets"
@@ -70,7 +79,12 @@
                             [disabled]="!isToolRunning(row)"
                             [href]="getMainEndpoint(row)"
                             target="_blank"
-                            class="action-button-in-cell"
+                            [ngClass]="{
+                                'action-button-in-cell':
+                                    isFederatedServerTool(row),
+                                'action-button-in-cell-3-buttons':
+                                    !isFederatedServerTool(row)
+                            }"
                             (click)="$event.stopPropagation()"
                         >
                             <mat-icon color="accent" id="accessIcon"
@@ -97,7 +111,11 @@
                     <button
                         mat-button
                         matTooltip="Delete"
-                        class="action-button-in-cell"
+                        [ngClass]="{
+                            'action-button-in-cell': isFederatedServerTool(row),
+                            'action-button-in-cell-3-buttons':
+                                !isFederatedServerTool(row)
+                        }"
                         (click)="removeTool($event, row)"
                     >
                         <mat-icon color="warn">delete</mat-icon>

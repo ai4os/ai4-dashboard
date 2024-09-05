@@ -255,6 +255,10 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
         return columnDef === 'name' ? true : false;
     }
 
+    isFederatedServerTool(row: toolTableRow): boolean {
+        return row.containerName.includes('ai4os-federated-server');
+    }
+
     ngOnInit(): void {
         this.dataset = [];
         this.getToolsList();
