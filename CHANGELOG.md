@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.19.0-pre...v2.20.0-pre) (2024-09-05)
+
+
+### Features
+
+* Feat 171 create snackbar service ([#178](https://github.com/ai4os/ai4-dashboard/issues/178)) ([fb5f617](https://github.com/ai4os/ai4-dashboard/commit/fb5f617d1179858bb9de73834bebf51c82294bb6))
+
 ## [2.19.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.18.0-pre...v2.19.0-pre) (2024-09-04)
 
 
