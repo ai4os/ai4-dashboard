@@ -185,7 +185,7 @@ describe('ToolsTableComponent', () => {
         expect(spyDeleteToolByUUID).toHaveBeenCalledTimes(1);
         expect(spySnackBar).toHaveBeenCalledWith(
             'Successfully deleted tool with uuid: tool-test',
-            'X',
+            '×',
             expect.objectContaining({
                 duration: 3000,
                 panelClass: ['success-snackbar'],
@@ -236,7 +236,7 @@ describe('ToolsTableComponent', () => {
         expect(spyDeleteToolByUUID).toHaveBeenCalledTimes(1);
         expect(spySnackBar).toHaveBeenCalledWith(
             'Error deleting tool with uuid: tool-test',
-            'X',
+            '×',
             expect.objectContaining({
                 duration: 3000,
                 panelClass: ['red-snackbar'],

@@ -26,13 +26,19 @@
         "TITLE": "Profile",
         "DETAILS": "Personal information",
         "VOS": "Virtual organizations",
-        "LINKED-SERVICES": "Linked services",
+        "STORAGE-PROVIDERS": "Storage providers",
+        "LINKED": "Linked",
+        "UNLINKED": "Unlinked",
+        "ADD": "Add",
         "SYNC": "Sync",
         "RESYNC": "Resync",
-        "LOGIN": "Log in in the the pop-up window",
+        "DELETE": "Delete",
+        "LOGIN": "Log in the the pop-up window",
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
-            "CUSTOM": "Custom Nextcloud"
+            "CUSTOM": "Custom Nextcloud",
+            "OPEN-DOCUMENTATION": "Open documentation",
+            "INVALID-DOMAIN": "Invalid domain format"
         }
     },
     "DASHBOARD": {
@@ -163,6 +169,7 @@
             "TRAIN-MODULE": "Train",
             "LAUNCH-TOOL": "Launch tool",
             "TRY-MODULE": "Try",
+            "TRY-MODULE-LOGOUT": "You must login to try the module",
             "DEPLOY-MODULE": "Deploy",
             "DEPLOY-W-IM": "Deploy via the IM",
             "DEPLOY-W-OSCAR": "Deploy via OSCAR",
@@ -170,7 +177,10 @@
             "NOMAD-GRADIO": "Nomad (Gradio)",
             "IM": "IM",
             "OSCAR": "OSCAR",
-            "OSCAR-SWAGGER": "OSCAR (Swagger)"
+            "OSCAR-SWAGGER": "OSCAR (Swagger)",
+            "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
+            "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
+            "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
         },
         "MODULE-TRAIN": {
             "TITLE": "Configure training",
@@ -214,6 +224,11 @@
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
+                "STORAGE-SERVICE": "Storage service",
+                "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
+                "PROFILE-SECTION": "profile section",
+                "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",
+                "STORAGE-SERVICE-TRY-SYNC": "sync to one of our provided options",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
@@ -227,7 +242,6 @@
                 "ZENODO-RECORD": "Zenodo Record ID",
                 "FORCE-PULL": "Force pull",
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
-
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
                 "DOI": {

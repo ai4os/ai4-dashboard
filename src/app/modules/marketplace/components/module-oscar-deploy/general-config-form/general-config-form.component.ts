@@ -107,7 +107,7 @@ export class GeneralConfigFormComponent implements OnInit {
             if (!this.validateFileExtension(file)) {
                 this._snackBar.open(
                     "Invalid extension. Only scripts with '.sh' and '.py' extension are accepted",
-                    'X',
+                    '×',
                     {
                         duration: 10000,
                         panelClass: ['red-snackbar'],

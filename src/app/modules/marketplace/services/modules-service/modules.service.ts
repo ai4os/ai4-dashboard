@@ -6,6 +6,8 @@ import {
     Module,
     ModuleConfiguration,
     ModuleSummary,
+    GradioCreateResponse,
+    GradioDeployment,
     Service,
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -62,6 +64,25 @@ export class ModulesService {
             throw new Error('Authorization error. the token cannot be null.');
         }
         return oidc_token;
+    }
+
+    createDeploymentGradio(
+        moduleName: string
+    ): Observable<GradioCreateResponse> {
+        const url = `${base}${endpoints.nomadGradioDeployments}`;
+        const params = new HttpParams().set('module_name', moduleName);
+        const body = {};
+        return this.http.post<GradioCreateResponse>(url, body, {
+            params: params,
+        });
+    }
+
+    getDeploymentGradio(deploymentUUID: string): Observable<GradioDeployment> {
+        const url = `${base}${endpoints.nomadGradioDeployment.replace(
+            ':deployment_uuid',
+            deploymentUUID
+        )}`;
+        return this.http.get<GradioDeployment>(url, {});
     }
 
     //OSCAR cluster

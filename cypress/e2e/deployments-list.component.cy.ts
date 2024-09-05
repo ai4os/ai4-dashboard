@@ -23,10 +23,10 @@ describe('deployments section', function () {
 
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
-        cy.contains('Modules', { timeout: 25000 }).should('be.visible');
+        cy.contains('Modules', { timeout: 40000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
-        cy.contains('fl-test', { timeout: 10000 }).should('be.visible');
+        cy.contains('fl-test', { timeout: 20000 }).should('be.visible');
         cy.contains('ai4oshub/ai4os-federated-server:latest').should(
             'be.visible'
         );

@@ -226,7 +226,7 @@ describe('DeploymentsListComponent', () => {
         expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
         expect(spySnackBar).toHaveBeenCalledWith(
             'Successfully deleted deployment with uuid: tool-test',
-            'X',
+            '×',
             expect.objectContaining({
                 duration: 3000,
                 panelClass: ['success-snackbar'],
@@ -277,7 +277,7 @@ describe('DeploymentsListComponent', () => {
         expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
         expect(spySnackBar).toHaveBeenCalledWith(
             'Error deleting deployment with uuid: tool-test',
-            'X',
+            '×',
             expect.objectContaining({
                 duration: 3000,
                 panelClass: ['red-snackbar'],

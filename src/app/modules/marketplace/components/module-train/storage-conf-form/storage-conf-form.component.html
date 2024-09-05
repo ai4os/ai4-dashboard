@@ -3,74 +3,56 @@
         {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
     </h4>
     <div
+        class="storage-container"
         [ngClass]="{
             'form-flex': mobileQuery.matches,
-            'form-grid': !mobileQuery.matches
+            'grid-1-column': !mobileQuery.matches
         }"
     >
         <mat-form-field>
             <mat-label>{{
-                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-USER' | translate
+                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE'
+                    | translate
             }}</mat-label>
-            <input
-                id="rcloneUser"
-                matInput
-                placeholder=""
-                value=""
-                type="text"
-                formControlName="rcloneUserInput"
-            />
-            <mat-error
-                *ngIf="
-                    storageConfFormGroup.get('rcloneUserInput')?.errors?.[
-                        'required'
-                    ]
-                "
+            <mat-select
+                formControlName="storageServiceDatasetSelect"
+                (selectionChange)="updateStorageConfiguration()"
             >
-                {{
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-REQUIRED'
-                        | translate
-                }}
-            </mat-error>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.rclone_user.description
-            }}</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-PASS' | translate
-            }}</mat-label>
-            <input
-                id="rclonePassword"
-                [type]="hidePassword ? 'password' : 'text'"
-                matInput
-                placeholder="At least 9 characters"
-                formControlName="rclonePasswordInput"
-                autocomplete="off"
-            />
-            <mat-icon
+                <mat-option
+                    *ngFor="let storageServiceOption of storageServiceOptions"
+                    [value]="storageServiceOption.value"
+                >
+                    {{ storageServiceOption.viewValue }}
+                </mat-option>
+            </mat-select>
+            <mat-spinner
+                *ngIf="credentialsLoading"
                 matSuffix
-                (click)="hidePassword = !hidePassword"
-                color="accent"
-            >
-                {{ hidePassword ? 'visibility_off' : 'visibility' }}
-            </mat-icon>
-            <mat-error
-                *ngIf="
-                    storageConfFormGroup.get('rclonePasswordInput')?.errors?.[
-                        'required'
-                    ]
-                "
-            >
+                [diameter]="18"
+                class="input-spinner"
+            ></mat-spinner>
+            <mat-hint *ngIf="_showHelp">
                 {{
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-REQUIRED'
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
                         | translate
                 }}
-            </mat-error>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.rclone_password.description
-            }}</mat-hint>
+                <a [routerLink]="['/profile']" target="_blank">{{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.PROFILE-SECTION'
+                        | translate
+                }}</a
+                >.
+            </mat-hint>
+            <mat-hint *ngIf="!_showHelp && credentials.length === 0">
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-UNAVAILABLE'
+                        | translate
+                }}
+                <a [routerLink]="['/profile']" target="_blank">{{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-TRY-SYNC'
+                        | translate
+                }}</a
+                >.
+            </mat-hint>
         </mat-form-field>
 
         <mat-expansion-panel class="advanced-settings-row">
@@ -84,6 +66,68 @@
             </mat-expansion-panel-header>
 
             <div class="form-grid">
+                <mat-form-field>
+                    <mat-label>{{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-USER'
+                            | translate
+                    }}</mat-label>
+                    <input
+                        matInput
+                        placeholder=""
+                        value=""
+                        type="text"
+                        formControlName="rcloneUserInput"
+                    />
+                    <mat-error
+                        *ngIf="
+                            storageConfFormGroup.get('rcloneUserInput')
+                                ?.errors?.['required']
+                        "
+                    >
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-REQUIRED'
+                                | translate
+                        }}
+                    </mat-error>
+                    <mat-hint *ngIf="_showHelp">{{
+                        _defaultFormValues.rclone_user.description
+                    }}</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>{{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-PASS'
+                            | translate
+                    }}</mat-label>
+                    <input
+                        [type]="hidePassword ? 'password' : 'text'"
+                        matInput
+                        placeholder="At least 9 characters"
+                        formControlName="rclonePasswordInput"
+                        autocomplete="off"
+                    />
+                    <mat-icon
+                        matSuffix
+                        (click)="hidePassword = !hidePassword"
+                        color="accent"
+                    >
+                        {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                    </mat-icon>
+                    <mat-error
+                        *ngIf="
+                            storageConfFormGroup.get('rclonePasswordInput')
+                                ?.errors?.['required']
+                        "
+                    >
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-REQUIRED'
+                                | translate
+                        }}
+                    </mat-error>
+                    <mat-hint *ngIf="_showHelp">{{
+                        _defaultFormValues.rclone_password.description
+                    }}</mat-hint>
+                </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{
                         'MODULES.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-CONF'

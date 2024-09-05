@@ -3,13 +3,29 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
-import { Module } from '@app/shared/interfaces/module.interface';
+import {
+    Module,
+    GradioCreateResponse as GradioCreateResponse,
+    GradioDeployment as GradioDeployment,
+} from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import {
+    catchError,
+    finalize,
+    interval,
+    of,
+    switchMap,
+    takeUntil,
+    takeWhile,
+    timer,
+} from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-module-detail',
@@ -22,21 +38,22 @@ export class ModuleDetailComponent implements OnInit {
         private toolsService: ToolsService,
         private oscarInferenceService: OscarInferenceService,
         private authService: AuthService,
+        private appConfigService: AppConfigService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
+        public translateService: TranslateService,
         public location: Location,
         private router: Router,
         private _snackBar: MatSnackBar,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
-        authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
-        });
         if (this.location.path().includes('tools')) {
             this.isTool = true;
         }
-
+        if (authService.isAuthenticated()) {
+            authService.loadUserProfile();
+        }
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -45,6 +62,7 @@ export class ModuleDetailComponent implements OnInit {
     modulesList = [];
     module!: Module;
     userProfile?: UserProfile;
+    popupWindow: Window | undefined | null;
 
     isLoading = false;
     isInferenceModule = false;
@@ -52,18 +70,15 @@ export class ModuleDetailComponent implements OnInit {
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
-
-    isLoggedIn() {
-        return this.authService.isAuthenticated();
-    }
-
-    isAuthorized() {
-        return this.userProfile?.isAuthorized;
-    }
+    private stopPolling$ = timer(180000);
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.isLoading = true;
+            this.authService.userProfileSubject.subscribe((profile) => {
+                this.userProfile = profile;
+            });
+
             if (this.isTool) {
                 this.toolsService.getTool(params['id']).subscribe((tool) => {
                     this.isLoading = false;
@@ -82,6 +97,14 @@ export class ModuleDetailComponent implements OnInit {
                     });
             }
         });
+    }
+
+    isLoggedIn() {
+        return this.authService.isAuthenticated();
+    }
+
+    isAuthorized() {
+        return this.userProfile?.isAuthorized;
     }
 
     createOscarService() {
@@ -105,7 +128,7 @@ export class ModuleDetailComponent implements OnInit {
                                 this._snackBar.open(
                                     'Oscar service created with name ' +
                                         serviceName,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['success-snackbar'],
@@ -115,7 +138,7 @@ export class ModuleDetailComponent implements OnInit {
                                 this._snackBar.open(
                                     'Error while creating service with name ' +
                                         serviceName,
-                                    'X',
+                                    '×',
                                     {
                                         duration: 3000,
                                         panelClass: ['red-snackbar'],
@@ -129,5 +152,10 @@ export class ModuleDetailComponent implements OnInit {
                 this.isLoading = false;
             },
         });
+    }
+
+    createGradioDeployment() {
+        sessionStorage.setItem('moduleData', JSON.stringify(this.module));
+        window.open(`${window.location.href}/try-me-nomad`);
     }
 }

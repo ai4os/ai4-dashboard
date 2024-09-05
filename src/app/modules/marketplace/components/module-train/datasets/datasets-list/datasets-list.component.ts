@@ -155,7 +155,7 @@ export class DatasetsListComponent implements OnInit {
         if (this.datasets.find((d) => d.doi === dataset.doi)) {
             this._snackBar.open(
                 'Dataset with DOI ' + dataset.doi + ' already exists',
-                'X',
+                '×',
                 {
                     duration: 3000,
                     panelClass: ['red-snackbar'],
@@ -164,7 +164,7 @@ export class DatasetsListComponent implements OnInit {
         } else if (this.datasets.length === 5) {
             this._snackBar.open(
                 "Can't add more than 5 datasets in a single deployment",
-                'X',
+                '×',
                 {
                     duration: 3000,
                     panelClass: ['red-snackbar'],
@@ -181,7 +181,7 @@ export class DatasetsListComponent implements OnInit {
                 this.datasets
             );
             this.datasetAdded.emit(dataset);
-            this._snackBar.open('Dataset added with DOI ' + dataset.doi, 'X', {
+            this._snackBar.open('Dataset added with DOI ' + dataset.doi, '×', {
                 duration: 3000,
                 panelClass: ['success-snackbar'],
             });
