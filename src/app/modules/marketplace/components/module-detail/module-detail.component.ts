@@ -12,7 +12,6 @@ import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
@@ -26,6 +25,7 @@ import {
     timer,
 } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-module-detail',
@@ -44,7 +44,7 @@ export class ModuleDetailComponent implements OnInit {
         public translateService: TranslateService,
         public location: Location,
         private router: Router,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -125,24 +125,14 @@ export class ModuleDetailComponent implements OnInit {
                         .navigate(['/inference'])
                         .then((navigated: boolean) => {
                             if (navigated) {
-                                this._snackBar.open(
+                                this.snackbarService.openSuccess(
                                     'Oscar service created with name ' +
-                                        serviceName,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['success-snackbar'],
-                                    }
+                                        serviceName
                                 );
                             } else {
-                                this._snackBar.open(
+                                this.snackbarService.openError(
                                     'Error while creating service with name ' +
-                                        serviceName,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
+                                        serviceName
                                 );
                             }
                         });
@@ -155,111 +145,7 @@ export class ModuleDetailComponent implements OnInit {
     }
 
     createGradioDeployment() {
-        const moduleName =
-            this.module.sources.docker_registry_repo.split('/')[1];
-
-        this.popupWindow = window.open();
-        if (this.popupWindow) {
-            const loadingText = this.translateService.instant(
-                'MODULES.MODULE-DETAIL.INIT-STATUS-GRADIO'
-            );
-            this.popupWindow.document.write(
-                '<h1 id="loadingMessage" style="text-align: center; height: 100%; width: 100%; align-content: center; font-family:sans-serif;">' +
-                    loadingText +
-                    '</h1>'
-            );
-            this.popupWindow.document.title = this.module.title;
-        }
-
-        this.modulesService.createDeploymentGradio(moduleName).subscribe({
-            next: (response: GradioCreateResponse) => {
-                if (response.status === 'success') {
-                    this.pollGradioDeploymentStatus(response.job_ID);
-                } else {
-                    this._snackBar.open(
-                        'Error initializing the deployment.',
-                        'X',
-                        {
-                            duration: 3000,
-                            panelClass: ['red-snackbar'],
-                        }
-                    );
-                }
-            },
-            error: () => {
-                this.popupWindow?.close();
-            },
-        });
-    }
-
-    pollGradioDeploymentStatus(jobId: string) {
-        interval(2000) // Intervalo de 2 segundos
-            .pipe(
-                switchMap(() =>
-                    this.modulesService.getDeploymentGradio(jobId).pipe(
-                        catchError((error) => {
-                            return of(error);
-                        })
-                    )
-                ),
-                takeUntil(this.stopPolling$),
-                takeWhile(
-                    (response) => response.active_endpoints.length === 0,
-                    true
-                ),
-                finalize(() => {
-                    if (this.isLoading === true) {
-                        this._snackBar.open(
-                            'Error initializing the deployment.',
-                            'X',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
-                        );
-                    }
-                })
-            )
-            .subscribe({
-                next: (response: GradioDeployment) => {
-                    if (response.active_endpoints.length !== 0) {
-                        if (this.popupWindow) {
-                            this.popupWindow.location.href =
-                                response.endpoints.ui;
-                        }
-                    } else {
-                        const loadingMessageElement =
-                            this.popupWindow?.document.getElementById(
-                                'loadingMessage'
-                            );
-                        if (response.status !== 'running') {
-                            if (loadingMessageElement) {
-                                loadingMessageElement.innerText =
-                                    this.translateService.instant(
-                                        'MODULES.MODULE-DETAIL.INIT-STATUS-GRADIO'
-                                    );
-                            }
-                        } else {
-                            if (loadingMessageElement) {
-                                loadingMessageElement.innerText =
-                                    this.translateService.instant(
-                                        'MODULES.MODULE-DETAIL.ACTIVATING-STATUS-GRADIO'
-                                    );
-                            }
-                        }
-                    }
-                },
-                error: () => {
-                    this.popupWindow?.close();
-                    this._snackBar.open(
-                        'Error initializing the deployment.',
-                        'X',
-                        {
-                            duration: 3000,
-                            panelClass: ['red-snackbar'],
-                        }
-                    );
-                },
-            });
+        sessionStorage.setItem('moduleData', JSON.stringify(this.module));
+        window.open(`${window.location.href}/try-me-nomad`);
     }
 }

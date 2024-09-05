@@ -29,6 +29,7 @@ import { DatasetsListComponent } from './components/module-train/datasets/datase
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CvatComponent } from './components/module-train/tool-train/cvat/cvat.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import { CvatComponent } from './components/module-train/tool-train/cvat/cvat.co
         DatasetsListComponent,
         DatasetCreationDetailComponent,
         CvatComponent,
+        LoadingScreenComponent,
     ],
     imports: [
         CommonModule,

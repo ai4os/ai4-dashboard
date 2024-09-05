@@ -14,7 +14,7 @@ import {
     PlatformStatus,
     StatusNotification,
 } from './shared/interfaces/platform-status.interface';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from './shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-root',
@@ -31,10 +31,10 @@ export class AppComponent implements OnInit, OnDestroy {
         private platformStatusService: PlatformStatusService,
         private appConfigService: AppConfigService,
         private cookieService: NgcCookieConsentService,
+        private snackbarService: SnackbarService,
         public dialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private _snackBar: MatSnackBar
+        private media: MediaMatcher
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -149,10 +149,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
             },
             error: () => {
-                this._snackBar.open('Error updating the platform status', '×', {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                });
+                this.snackbarService.openError(
+                    'Error updating the platform status'
+                );
             },
         });
     }

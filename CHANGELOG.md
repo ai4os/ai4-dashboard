@@ -1,5 +1,40 @@
 # Changelog
 
+## [2.20.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.19.0-pre...v2.20.0-pre) (2024-09-05)
+
+
+### Features
+
+* Feat 171 create snackbar service ([#178](https://github.com/ai4os/ai4-dashboard/issues/178)) ([fb5f617](https://github.com/ai4os/ai4-dashboard/commit/fb5f617d1179858bb9de73834bebf51c82294bb6))
+
+## [2.19.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.18.0-pre...v2.19.0-pre) (2024-09-04)
+
+
+### Features
+
+* add try me functionality nomad ([#170](https://github.com/ai4os/ai4-dashboard/issues/170)) ([a68f8c1](https://github.com/ai4os/ai4-dashboard/commit/a68f8c1f692b430c1a4f7c253400e225e9de6243))
+
+## [2.18.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.17.0-pre...v2.18.0-pre) (2024-09-04)
+
+
+### Features
+
+* Feature 136 add profile section ([#179](https://github.com/ai4os/ai4-dashboard/issues/179)) ([e580082](https://github.com/ai4os/ai4-dashboard/commit/e58008210cc8450268df54669921a032026b9574))
+
+## [2.17.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.16.0-pre...v2.17.0-pre) (2024-09-02)
+
+
+### Features
+
+* Feature 136 add profile section ([#176](https://github.com/ai4os/ai4-dashboard/issues/176)) ([e4fe098](https://github.com/ai4os/ai4-dashboard/commit/e4fe0989b87e430039f8223c946bef37f0334e5e))
+
+## [2.16.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.15.1-pre...v2.16.0-pre) (2024-08-28)
+
+
+### Features
+
+* Feature 136 add profile section ([#162](https://github.com/ai4os/ai4-dashboard/issues/162)) ([30719b1](https://github.com/ai4os/ai4-dashboard/commit/30719b1da6ed5269cb1a990afd2dc5b9e0dda710))
+
 ## [2.15.1](https://github.com/ai4os/ai4-dashboard/compare/v2.15.0...v2.15.1) (2024-08-27)
 
 
