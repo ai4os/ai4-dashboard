@@ -32,7 +32,7 @@ jobs:
               uses: cypress-io/github-action@v6
               with:
                   start: npm start
-                  wait-on: 'http://localhost:8080'
+                  wait-on: 'http://127.0.0.1:8080'
                   wait-on-timeout: 300
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
