@@ -14,7 +14,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     cy.session(
         `auth-${username}`,
         () => {
-            cy.visit('http://127.0.0.1:8080/');
+            cy.visit('http://localhost:8080/');
             cy.contains('Login', { timeout: 20000 }).click();
 
             cy.origin('https://aai.egi.eu', () => {
@@ -39,7 +39,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
                 }
             );
 
-            cy.url().should('equal', 'http://127.0.0.1:8080/');
+            cy.url().should('equal', 'http://localhost:8080/');
         },
         {
             validate() {
