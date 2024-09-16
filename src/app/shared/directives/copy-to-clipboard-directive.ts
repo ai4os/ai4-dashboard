@@ -1,6 +1,6 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { SnackbarService } from '../services/snackbar/snackbar.service';
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
@@ -11,7 +11,7 @@ export class CopyToClipboardDirective {
 
     constructor(
         private clipboard: Clipboard,
-        private _snackBar: MatSnackBar
+        private snackbarService: SnackbarService
     ) {}
 
     @HostListener('click', ['$event'])
@@ -19,9 +19,6 @@ export class CopyToClipboardDirective {
         event.preventDefault();
         if (!this.value) return;
         this.clipboard.copy(this.value);
-        this._snackBar.open('Copied to clipboard!', 'X', {
-            duration: 3000,
-            panelClass: ['primary-snackbar'],
-        });
+        this.snackbarService.openPrimary('Copied to clipboard!');
     }
 }

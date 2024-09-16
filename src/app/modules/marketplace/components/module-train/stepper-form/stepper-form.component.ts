@@ -13,11 +13,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -33,7 +33,7 @@ export class StepperFormComponent implements OnInit {
         private media: MediaMatcher,
         private deploymentsService: DeploymentsService,
         private router: Router,
-        private _snackBar: MatSnackBar
+        private snackbarService: SnackbarService
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -171,27 +171,16 @@ export class StepperFormComponent implements OnInit {
                         .navigate(['/deployments'])
                         .then((navigated: boolean) => {
                             if (navigated) {
-                                this._snackBar.open(
-                                    'Deployment created with ID' +
-                                        result.job_ID,
-                                    'X',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['success-snackbar'],
-                                    }
+                                this.snackbarService.openSuccess(
+                                    'Deployment created with ID' + result.job_ID
                                 );
                             }
                         });
                 } else {
                     if (result && result.status == 'fail') {
-                        this._snackBar.open(
+                        this.snackbarService.openError(
                             'Error while creating the deployment' +
-                                result.error_msg,
-                            'X',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
+                                result.error_msg
                         );
                     }
                 }

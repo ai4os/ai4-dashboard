@@ -10,7 +10,6 @@ import {
     ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -18,6 +17,7 @@ import { DatasetCreationDetailComponent } from '../dataset-creation-detail-compo
 import { FormGroup } from '@angular/forms';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 export interface TableColumn {
     columnDef: string;
@@ -41,7 +41,7 @@ export class DatasetsListComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         public confirmationDialog: MatDialog,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private _liveAnnouncer: LiveAnnouncer,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
@@ -153,22 +153,12 @@ export class DatasetsListComponent implements OnInit {
 
     addDataset(dataset: ZenodoSimpleDataset) {
         if (this.datasets.find((d) => d.doi === dataset.doi)) {
-            this._snackBar.open(
-                'Dataset with DOI ' + dataset.doi + ' already exists',
-                'X',
-                {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                }
+            this.snackbarService.openError(
+                'Dataset with DOI ' + dataset.doi + ' already exists'
             );
         } else if (this.datasets.length === 5) {
-            this._snackBar.open(
-                "Can't add more than 5 datasets in a single deployment",
-                'X',
-                {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                }
+            this.snackbarService.openError(
+                "Can't add more than 5 datasets in a single deployment"
             );
         } else {
             this.datasets.push({
@@ -181,10 +171,9 @@ export class DatasetsListComponent implements OnInit {
                 this.datasets
             );
             this.datasetAdded.emit(dataset);
-            this._snackBar.open('Dataset added with DOI ' + dataset.doi, 'X', {
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-            });
+            this.snackbarService.openSuccess(
+                'Dataset added with DOI ' + dataset.doi
+            );
         }
     }
 

@@ -21,6 +21,13 @@ const mockedUserProfile: UserProfile = {
     name: 'Test',
     isAuthorized: true,
     isOperator: true,
+    email: 'test@ifca.unican.es',
+    eduperson_entitlement: [
+        'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',
+        'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=vm_operator#aai.egi.eu',
+        'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
+        'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
+    ],
 };
 const mockedUserStats: GlobalStats = {
     cpuNumAgg: 14,

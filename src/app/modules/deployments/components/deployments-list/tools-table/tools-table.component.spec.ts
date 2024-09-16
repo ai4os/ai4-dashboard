@@ -25,6 +25,7 @@ import { DeploymentDetailComponent } from '../../deployment-detail/deployment-de
 import { MediaMatcher } from '@angular/cdk/layout';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { SecretManagementDetailComponent } from '../../secret-management-detail/secret-management-detail.component';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 const mockedDeleteToolResponse: statusReturn = {
     status: 'success',
@@ -51,10 +52,16 @@ const mockedTool: Deployment = {
 };
 
 const mockedConfigService: any = {};
+
 const mockedDeploymentServices: any = {
     getTools: jest.fn().mockReturnValue(of([mockedTool])),
     getToolByUUID: jest.fn().mockReturnValue(of(mockedTool)),
     deleteToolByUUID: jest.fn().mockReturnValue(of(mockedDeleteToolResponse)),
+};
+
+const mockedSnackbarService: any = {
+    openSuccess: jest.fn(),
+    openError: jest.fn(),
 };
 
 const mockedMediaQueryList: MediaQueryList = {
@@ -67,6 +74,7 @@ const mockedMediaQueryList: MediaQueryList = {
     dispatchEvent: jest.fn(),
     removeEventListener: jest.fn(),
 };
+
 const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
@@ -102,6 +110,10 @@ describe('ToolsTableComponent', () => {
                 {
                     provide: DeploymentsService,
                     useValue: mockedDeploymentServices,
+                },
+                {
+                    provide: SnackbarService,
+                    useValue: mockedSnackbarService,
                 },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
@@ -179,18 +191,14 @@ describe('ToolsTableComponent', () => {
             mockedDeploymentServices,
             'deleteToolByUUID'
         );
-        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        const spySuccessSnackbar = jest.spyOn(
+            mockedSnackbarService,
+            'openSuccess'
+        );
         component.removeTool(mouseEvent, toolRow);
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteToolByUUID).toHaveBeenCalledTimes(1);
-        expect(spySnackBar).toHaveBeenCalledWith(
-            'Successfully deleted tool with uuid: tool-test',
-            'X',
-            expect.objectContaining({
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-            })
-        );
+        expect(spySuccessSnackbar).toHaveBeenCalledTimes(1);
         expect(component.dataset).toEqual(expectedDataset);
         jest.clearAllMocks();
     }));
@@ -229,19 +237,12 @@ describe('ToolsTableComponent', () => {
         const spyDeleteToolByUUID = jest
             .spyOn(mockedDeploymentServices, 'deleteToolByUUID')
             .mockReturnValue(of({ status: 'error' }));
-        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        const spyErrorSnackbar = jest.spyOn(mockedSnackbarService, 'openError');
         component.dataset = initialDataset;
         component.removeTool(mouseEvent, toolRow);
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteToolByUUID).toHaveBeenCalledTimes(1);
-        expect(spySnackBar).toHaveBeenCalledWith(
-            'Error deleting tool with uuid: tool-test',
-            'X',
-            expect.objectContaining({
-                duration: 3000,
-                panelClass: ['red-snackbar'],
-            })
-        );
+        expect(spyErrorSnackbar).toHaveBeenCalledTimes(1);
         expect(component.dataset).toEqual(initialDataset);
     }));
 

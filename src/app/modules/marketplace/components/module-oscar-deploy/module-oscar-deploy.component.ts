@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Service } from '@app/shared/interfaces/module.interface';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { ModulesService } from '@modules/marketplace/services/modules-service/modules.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
         private route: ActivatedRoute,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private router: Router
     ) {}
 
@@ -90,27 +90,17 @@ export class ModuleOscarDeployComponent implements OnInit, AfterViewInit {
                     .navigate(['../'], { relativeTo: this.route })
                     .then((navigated: boolean) => {
                         if (navigated) {
-                            this._snackBar.open(
+                            this.snackbarService.openSuccess(
                                 'Service ' +
                                     res.name.toUpperCase() +
-                                    ' successfully created',
-                                'X',
-                                {
-                                    duration: 3000,
-                                    panelClass: ['success-snackbar'],
-                                }
+                                    ' successfully created'
                             );
                         }
                     });
             })
             .catch((error) => {
-                this._snackBar.open(
-                    'ERROR creating service: ' + error,
-                    'close',
-                    {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    }
+                this.snackbarService.openError(
+                    'ERROR creating service: ' + error
                 );
             });
     }

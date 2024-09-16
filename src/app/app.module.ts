@@ -26,6 +26,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NotificationsButtonComponent } from './layout/top-navbar/notifications-button/notifications-button.component';
+import { CookieService } from 'ngx-cookie-service';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -91,6 +93,7 @@ renderer.link = (href, title, text) => {
         ContentLayoutComponent,
         SidenavComponent,
         TopNavbarComponent,
+        NotificationsButtonComponent,
     ],
     imports: [
         BrowserModule,
@@ -159,6 +162,7 @@ renderer.link = (href, title, text) => {
         },
         { provide: OAuthStorage, useFactory: storageFactory },
         Title,
+        CookieService,
     ],
     bootstrap: [AppComponent],
 })

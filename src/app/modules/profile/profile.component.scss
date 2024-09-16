@@ -1,0 +1,99 @@
+.spinner-with-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: 1.5em;
+}
+
+.grid-mobile {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr;
+    padding-bottom: 1rem;
+}
+
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: fit-content;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: row;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grey-text {
+    color: var(--warm-grey);
+}
+
+.service-name {
+    max-width: 170px;
+    padding-left: 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.buttons {
+    width: 150px;
+    min-width: fit-content;
+    gap: 0.7em;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.icon-button {
+    background: none;
+    padding: 0;
+    border: 0;
+}
+
+.icon-button .icon {
+    width: 28px;
+}
+
+.services-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr 5fr 1.2fr;
+    grid-template-rows: repeat(2, 1fr);
+    align-items: center;
+    grid-gap: 0.8em;
+}
+
+.custom-sync-button {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.divider {
+    grid-column: 1 / 5;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+mat-list {
+    width: 100%;
+}

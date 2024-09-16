@@ -2,39 +2,19 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    Inject,
     OnInit,
     ViewChild,
 } from '@angular/core';
-import {
-    FormBuilder,
-    FormGroup,
-    FormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@modules/marketplace/services/modules-service/modules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import {
     ModuleConfiguration,
     Service,
 } from '@app/shared/interfaces/module.interface';
-import { MatTableDataSource } from '@angular/material/table';
-import { TableColumn } from '@app/modules/deployments/components/deployments-list/deployments-list.component';
-
-interface PredictionResult {
-    status: string;
-    labels: string[];
-    probabilities: number[];
-    labels_info: string[];
-    links: {
-        [key: string]: string[];
-    };
-}
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 interface PredictionResultItem {
     label: string;
@@ -58,8 +38,7 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
         private route: ActivatedRoute,
-        private _snackBar: MatSnackBar,
-        private router: Router,
+        private snackbarService: SnackbarService,
         public dialog: MatDialog
     ) {}
 
@@ -147,10 +126,7 @@ export class ModuleTryComponent implements OnInit, AfterViewInit {
                 this.setIcon();
             })
             .catch((error) => {
-                this._snackBar.open('Invalid url:  ' + error, 'close', {
-                    duration: 5000,
-                    panelClass: ['red-snackbar'],
-                });
+                this.snackbarService.openError('Invalid url:  ' + error);
             });
     }
 

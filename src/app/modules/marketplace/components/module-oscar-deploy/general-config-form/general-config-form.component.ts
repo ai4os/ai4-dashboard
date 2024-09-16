@@ -6,11 +6,11 @@ import {
     FormGroupDirective,
     Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@modules/marketplace/services/modules-service/modules.service';
 import { Service } from '@app/shared/interfaces/module.interface';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-general-config-form',
@@ -21,7 +21,7 @@ export class GeneralConfigFormComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private clipboard: Clipboard,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private route: ActivatedRoute,
         private router: Router,
         private modulesService: ModulesService,
@@ -105,14 +105,10 @@ export class GeneralConfigFormComponent implements OnInit {
             const file: File = event.target.files[0];
 
             if (!this.validateFileExtension(file)) {
-                this._snackBar.open(
-                    "Invalid extension. Only scripts with '.sh' and '.py' extension are accepted",
-                    'X',
-                    {
-                        duration: 10000,
-                        panelClass: ['red-snackbar'],
-                    }
+                this.snackbarService.openError(
+                    "Invalid extension. Only scripts with '.sh' and '.py' extension are accepted"
                 );
+
                 return;
             }
 

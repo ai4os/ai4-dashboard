@@ -7,7 +7,6 @@ import {
     ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
@@ -21,6 +20,7 @@ import {
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 export interface TableColumn {
     columnDef: string;
@@ -49,8 +49,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     constructor(
         public dialog: MatDialog,
         private deploymentsService: DeploymentsService,
+        private snackbarService: SnackbarService,
         public confirmationDialog: MatDialog,
-        private _snackBar: MatSnackBar,
         private _liveAnnouncer: LiveAnnouncer,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
@@ -125,36 +125,21 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                                         new MatTableDataSource<deploymentTableRow>(
                                             this.dataset
                                         );
-                                    this._snackBar.open(
+                                    this.snackbarService.openSuccess(
                                         'Successfully deleted deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['success-snackbar'],
-                                        }
+                                            uuid
                                     );
                                 } else {
-                                    this._snackBar.open(
+                                    this.snackbarService.openError(
                                         'Error deleting deployment with uuid: ' +
-                                            uuid,
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['red-snackbar'],
-                                        }
+                                            uuid
                                     );
                                 }
                             },
                             error: () => {
-                                this._snackBar.open(
+                                this.snackbarService.openError(
                                     'Error deleting deployment with uuid: ' +
-                                        uuid,
-                                    'X',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
+                                        uuid
                                 );
                             },
                         });

@@ -1,0 +1,82 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon
+        class="mat-icon notifications-icon"
+        *ngIf="
+            displayedNotifications.length === 0;
+            else notificationsAvailableIcon
+        "
+        ><span class="material-symbols-outlined"> notifications </span>
+    </mat-icon>
+
+    <ng-template #notificationsAvailableIcon>
+        <mat-icon color="accent" class="mat-icon">
+            <img src="../../../assets/images/notifications-icon.png" />
+        </mat-icon>
+    </ng-template>
+</button>
+
+<mat-menu class="notifications-menu" #menu="matMenu" xPosition="before">
+    <cdk-accordion
+        *ngIf="displayedNotifications.length === 0; else notificationList"
+        class="accordion"
+    >
+        <cdk-accordion-item
+            #accordionItem="cdkAccordionItem"
+            class="accordion-item"
+            tabindex="0"
+        >
+            <div class="accordion-item-header center-content">
+                <i class="grey-text">
+                    {{ 'TOP-NAVBAR.NO-NOTIFICATIONS' | translate }}</i
+                >
+            </div>
+        </cdk-accordion-item>
+    </cdk-accordion>
+
+    <ng-template #notificationList>
+        <cdk-accordion class="accordion">
+            <cdk-accordion-item
+                *ngFor="
+                    let notification of displayedNotifications;
+                    let index = index
+                "
+                #accordionItem="cdkAccordionItem"
+                class="accordion-item"
+                role="button"
+                tabindex="0"
+                [attr.aria-expanded]="accordionItem.expanded"
+                (click)="$event.stopPropagation()"
+            >
+                <div
+                    class="accordion-item-header"
+                    (click)="accordionItem.toggle()"
+                >
+                    <mat-icon
+                        matListItemIcon
+                        class="element-icon"
+                        color="accent"
+                    >
+                        info
+                    </mat-icon>
+                    <div class="title-container">
+                        {{ notification.title }}
+                        <span
+                            *ngIf="notification.summary !== ''"
+                            class="example-accordion-item-description"
+                        >
+                            <mat-icon> keyboard_arrow_down </mat-icon>
+                        </span>
+                    </div>
+                </div>
+                <div
+                    *ngIf="notification.summary !== ''"
+                    class="accordion-item-body"
+                    role="region"
+                    [style.display]="accordionItem.expanded ? '' : 'none'"
+                >
+                    <i class="grey-text">{{ notification.summary }}</i>
+                </div>
+            </cdk-accordion-item>
+        </cdk-accordion>
+    </ng-template>
+</mat-menu>
