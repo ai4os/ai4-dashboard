@@ -103,7 +103,7 @@
                             <mat-icon>link_off</mat-icon>
                         </button>
                         <button
-                            matTooltip=" {{ 'PROFILE.SYNC' | translate }}"
+                            matTooltip=" {{ 'PROFILE.LINK' | translate }}"
                             mat-mini-fab
                             (click)="syncRclone(ai4osEndpoint)"
                         >
@@ -121,7 +121,7 @@
                             <mat-icon>link</mat-icon>
                         </button>
                         <button
-                            matTooltip=" {{ 'PROFILE.RESYNC' | translate }}"
+                            matTooltip=" {{ 'PROFILE.RELINK' | translate }}"
                             mat-mini-fab
                             class="custom-sync-button"
                             (click)="resyncRclone(ai4osEndpoint)"
@@ -132,7 +132,7 @@
 
                     <button
                         [disabled]="!credentialsExist(ai4osEndpoint)"
-                        matTooltip=" {{ 'PROFILE.DELETE' | translate }}"
+                        matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                         mat-mini-fab
                         color="warn"
                         (click)="unsyncRclone(ai4osEndpoint)"
@@ -180,7 +180,7 @@
                                 <mat-icon>link_off</mat-icon>
                             </button>
                             <button
-                                matTooltip=" {{ 'PROFILE.SYNC' | translate }}"
+                                matTooltip=" {{ 'PROFILE.LINK' | translate }}"
                                 mat-mini-fab
                                 (click)="syncRclone(service.server)"
                             >
@@ -198,7 +198,7 @@
                                 <mat-icon>link</mat-icon>
                             </button>
                             <button
-                                matTooltip=" {{ 'PROFILE.RESYNC' | translate }}"
+                                matTooltip=" {{ 'PROFILE.RELINK' | translate }}"
                                 mat-mini-fab
                                 class="custom-sync-button"
                                 (click)="resyncRclone(service.server)"
@@ -209,7 +209,7 @@
 
                         <button
                             [disabled]="!credentialsExist(service.server)"
-                            matTooltip=" {{ 'PROFILE.DELETE' | translate }}"
+                            matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                             mat-mini-fab
                             color="warn"
                             (click)="unsyncRclone(service.server)"
