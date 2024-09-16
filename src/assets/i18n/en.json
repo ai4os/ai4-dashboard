@@ -358,9 +358,6 @@
         "API-ERROR": "Error calling the API, please retry later",
         "TOKEN-EXPIRED": "Token expired, logging out",
         "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
-        "NOT-FOUND": "Oops, the page you requested could not be found!",
-        "UNDER-MAINTENANCE-POPUP": {
-            "TITLE": "Warning"
-        }
+        "NOT-FOUND": "Oops, the page you requested could not be found!"
     }
 }
