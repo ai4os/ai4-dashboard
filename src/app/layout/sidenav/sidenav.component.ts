@@ -67,7 +67,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             name: 'SIDENAV.INFERENCE',
             url: '/inference',
             isRestricted: true,
-            isDisabled: true,
         },
     ];
 

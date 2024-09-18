@@ -3,29 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
-import {
-    Module,
-    GradioCreateResponse as GradioCreateResponse,
-    GradioDeployment as GradioDeployment,
-} from '@app/shared/interfaces/module.interface';
+import { Module } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
 import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import {
-    catchError,
-    finalize,
-    interval,
-    of,
-    switchMap,
-    takeUntil,
-    takeWhile,
-    timer,
-} from 'rxjs';
+import { timer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 @Component({
     selector: 'app-module-detail',
@@ -38,7 +25,6 @@ export class ModuleDetailComponent implements OnInit {
         private toolsService: ToolsService,
         private oscarInferenceService: OscarInferenceService,
         private authService: AuthService,
-        private appConfigService: AppConfigService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
         public translateService: TranslateService,
@@ -114,9 +100,10 @@ export class ModuleDetailComponent implements OnInit {
             cpu: 2,
             image: this.module.sources.docker_registry_repo,
             memory: 3000,
-            title: this.module.title,
+            title: uniqueNamesGenerator({
+                dictionaries: [colors, animals],
+            }),
         };
-
         this.oscarInferenceService.createService(requestBody).subscribe({
             next: (serviceName: string) => {
                 this.isLoading = false;
