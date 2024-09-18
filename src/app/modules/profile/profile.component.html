@@ -95,38 +95,24 @@
                         *ngIf="!credentialsExist(ai4osEndpoint); else resync"
                     >
                         <button
-                            class="cursor-default"
-                            mat-icon-button
-                            matTooltip="Basic"
-                            matTooltip=" {{ 'PROFILE.UNLINKED' | translate }}"
-                        >
-                            <mat-icon>link_off</mat-icon>
-                        </button>
-                        <button
-                            matTooltip=" {{ 'PROFILE.LINK' | translate }}"
-                            mat-mini-fab
+                            mat-fab
+                            extended
                             (click)="syncRclone(ai4osEndpoint)"
                         >
-                            <mat-icon>sync</mat-icon>
+                            <mat-icon>link</mat-icon>
+                            Link
                         </button>
                     </ng-container>
 
                     <ng-template #resync>
                         <button
-                            class="cursor-default"
-                            mat-icon-button
-                            matTooltip="Basic"
-                            matTooltip=" {{ 'PROFILE.LINKED' | translate }}"
-                        >
-                            <mat-icon>link</mat-icon>
-                        </button>
-                        <button
-                            matTooltip=" {{ 'PROFILE.RELINK' | translate }}"
-                            mat-mini-fab
                             class="custom-sync-button"
+                            mat-fab
+                            extended
                             (click)="resyncRclone(ai4osEndpoint)"
                         >
-                            <mat-icon>sync</mat-icon>
+                            <mat-icon>link</mat-icon>
+                            Re-link
                         </button>
                     </ng-template>
 
@@ -170,40 +156,24 @@
                             "
                         >
                             <button
-                                class="cursor-default"
-                                mat-icon-button
-                                matTooltip="Basic"
-                                matTooltip=" {{
-                                    'PROFILE.UNLINKED' | translate
-                                }}"
-                            >
-                                <mat-icon>link_off</mat-icon>
-                            </button>
-                            <button
-                                matTooltip=" {{ 'PROFILE.LINK' | translate }}"
-                                mat-mini-fab
+                                mat-fab
+                                extended
                                 (click)="syncRclone(service.server)"
                             >
-                                <mat-icon>sync</mat-icon>
+                                <mat-icon>link</mat-icon>
+                                Link
                             </button>
                         </ng-container>
 
                         <ng-template #resync>
                             <button
-                                class="cursor-default"
-                                mat-icon-button
-                                matTooltip="Basic"
-                                matTooltip=" {{ 'PROFILE.LINKED' | translate }}"
-                            >
-                                <mat-icon>link</mat-icon>
-                            </button>
-                            <button
-                                matTooltip=" {{ 'PROFILE.RELINK' | translate }}"
-                                mat-mini-fab
                                 class="custom-sync-button"
+                                mat-fab
+                                extended
                                 (click)="resyncRclone(service.server)"
                             >
-                                <mat-icon>sync</mat-icon>
+                                <mat-icon>link</mat-icon>
+                                Re-link
                             </button>
                         </ng-template>
 
