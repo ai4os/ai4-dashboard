@@ -27,25 +27,20 @@
 
 .action-button {
     display: flex;
-    padding: 5px 16px;
     align-self: center;
     text-align: center;
     flex-direction: row-reverse;
     column-gap: 5px;
     width: 100%;
-    min-width: 110px;
+    min-width: fit-content;
 }
 
 .sub-button {
     justify-content: flex-end;
 }
 
-.launch-tool-button {
-    grid-column-start: -1;
-}
-
-::ng-deep .launch-tool-button span {
-    padding: 5px;
+.arrow-button {
+    margin: 0px !important;
 }
 
 .detail-card {
@@ -86,6 +81,26 @@
 .spinner-with-description {
     display: flex;
     flex-direction: column;
+}
+
+.button-with-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    padding: 12px 0px;
+}
+
+.button-texts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.button-description-text {
+    font-size: 14px;
+    color: var(--warm-grey);
 }
 
 ::ng-deep .module-description img {
