@@ -55,6 +55,8 @@ export interface ModuleGeneralConfiguration {
     service: confObject;
     jupyter_password?: confObject;
     hostname?: confObject;
+    cvat_username?: confObject;
+    cvat_password?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -93,6 +95,11 @@ export interface FederatedServerToolConfiguration {
     configuration: FederatedServerConfiguration;
 }
 
+export interface CvatToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    storage: ModuleStorageConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
@@ -102,8 +109,10 @@ export interface TrainModuleRequest {
         service: string;
         jupyter_password?: string;
         hostname?: string;
+        cvat_username?: string;
+        cvat_password?: string;
     };
-    hardware: {
+    hardware?: {
         cpu_num: number;
         ram: number;
         disk: number;
@@ -116,7 +125,7 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
-        datasets: Dataset[];
+        datasets?: Dataset[];
     };
     configuration?: {
         rounds: number;

@@ -56,6 +56,8 @@ export class FederatedServerComponent implements OnInit {
         dockerTagSelect: true,
         hostnameInput: true,
         infoButton: true,
+        cvatUsername: false,
+        cvatPassword: false,
     };
 
     ngOnInit(): void {

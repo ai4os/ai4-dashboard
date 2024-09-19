@@ -54,7 +54,10 @@
                     mat-raised-button
                     class="mr-2"
                     (click)="submitTrainingRequest()"
-                    [disabled]="!checkFormValidity(step1Form)"
+                    [disabled]="
+                        !checkFormValidity(step1Form) ||
+                        !checkFormValidity(step2Form)
+                    "
                 >
                     {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
                 </button>
@@ -78,17 +81,36 @@
                     'next-back-buttons': !mobileQuery.matches
                 }"
             >
-                <button mat-raised-button matStepperPrevious class="mr-2">
-                    {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                </button>
+                <ng-container
+                    *ngIf="numberOfSteps === 2; else middleStepButtons"
+                >
+                    <button mat-raised-button matStepperPrevious class="mr-2">
+                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                    </button>
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="submitTrainingRequest()"
+                        [disabled]="!checkFormValidity(step2Form!)"
+                    >
+                        {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                    </button>
+                </ng-container>
+                <ng-template #middleStepButtons>
+                    <button mat-raised-button matStepperPrevious class="mr-2">
+                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                    </button>
 
-                <button mat-raised-button matStepperNext color="accent">
-                    {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-                </button>
+                    <button mat-raised-button matStepperNext color="accent">
+                        {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                    </button>
+                </ng-template>
             </div>
         </mat-step>
-        <mat-step [stepControl]="step3Form">
-            <ng-template matStepLabel>{{ step3Title | translate }}</ng-template>
+        <mat-step *ngIf="numberOfSteps === 3">
+            <ng-template matStepLabel>{{
+                step3Title! | translate
+            }}</ng-template>
             <ng-container [ngTemplateOutlet]="step3"></ng-container>
             <div
                 [ngClass]="{
@@ -103,7 +125,7 @@
                     mat-raised-button
                     color="accent"
                     (click)="submitTrainingRequest()"
-                    [disabled]="!checkFormValidity(step3Form)"
+                    [disabled]="!checkFormValidity(step3Form!)"
                 >
                     {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
                 </button>

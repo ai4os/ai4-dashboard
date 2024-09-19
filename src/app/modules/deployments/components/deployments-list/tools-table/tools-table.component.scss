@@ -15,7 +15,13 @@
 
 .content-cell {
     min-width: 130px;
+    padding: 0 16px 0 8px;
+}
+
+.content-cell-with-key-button {
+    min-width: 130px;
     padding: 0px;
+    justify-content: end;
 }
 
 .selection-checkbox {
@@ -28,8 +34,6 @@
 
 .mat-column-actions {
     max-width: 140px;
-    min-width: 130px;
-    justify-content: end;
 
     .mdc-button {
         min-width: 30px;
@@ -92,6 +96,16 @@
     color: var(--dark-gray) !important;
 }
 .action-button-in-cell:hover #accessIcon {
+    color: var(--dark-gray);
+}
+
+.action-button-in-cell-3-buttons {
+    min-width: 40px !important;
+}
+.action-button-in-cell-3-button:disabled #accessIcon {
+    color: var(--dark-gray) !important;
+}
+.action-button-in-cell-3-button:hover #accessIcon {
     color: var(--dark-gray);
 }
 

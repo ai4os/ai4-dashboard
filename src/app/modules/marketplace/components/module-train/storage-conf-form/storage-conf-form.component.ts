@@ -55,8 +55,8 @@ export class StorageConfFormComponent implements OnInit {
         rcloneConfInput: [''],
         storageUrlInput: [''],
         rcloneVendorSelect: [''],
-        rcloneUserInput: [''],
-        rclonePasswordInput: [''],
+        rcloneUserInput: ['', [Validators.required]],
+        rclonePasswordInput: ['', [Validators.required]],
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
@@ -72,6 +72,8 @@ export class StorageConfFormComponent implements OnInit {
         rclone_password: mockedConfObject,
         datasets: mockedConfObjectStringBoolean,
     };
+
+    @Input() isCvatTool = false;
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
@@ -128,6 +130,12 @@ export class StorageConfFormComponent implements OnInit {
             'storageConfForm',
             this.storageConfFormGroup
         );
+
+        if (!this.isCvatTool) {
+            this.storageConfFormGroup.get('rcloneUserInput')?.disable();
+            this.storageConfFormGroup.get('rclonePasswordInput')?.disable();
+        }
+
         this.getLinkedStorageServices();
     }
 

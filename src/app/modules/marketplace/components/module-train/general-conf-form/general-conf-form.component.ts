@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { AuthService } from '@app/core/services/auth/auth.service';
 
 export interface showGeneralFormField {
     descriptionInput: boolean;
@@ -25,6 +26,8 @@ export interface showGeneralFormField {
     dockerTagSelect: boolean;
     hostnameInput: boolean;
     infoButton: boolean;
+    cvatUsername: boolean;
+    cvatPassword: boolean;
 }
 
 @Component({
@@ -53,6 +56,7 @@ export interface showGeneralFormField {
 })
 export class GeneralConfFormComponent implements OnInit {
     constructor(
+        private readonly authService: AuthService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
@@ -61,6 +65,7 @@ export class GeneralConfFormComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+        authService.loadUserProfile();
     }
 
     parentForm!: FormGroup;
@@ -82,6 +87,8 @@ export class GeneralConfFormComponent implements OnInit {
         dockerTagSelect: true,
         hostnameInput: true,
         infoButton: false,
+        cvatUsername: false,
+        cvatPassword: false,
     };
 
     @Input() set showFields(showFields: showGeneralFormField) {
@@ -97,36 +104,48 @@ export class GeneralConfFormComponent implements OnInit {
     ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
+
             this.generalConfFormGroup
                 .get('dockerImageInput')
-                ?.setValue(defaultFormValues.docker_image.value as string);
-            this.generalConfFormGroup
-                .get('serviceToRunChip')
-                ?.setValue(defaultFormValues.service.value as string);
-            if (defaultFormValues.service) {
-                defaultFormValues.service.options?.forEach(
-                    (service: string) => {
-                        this.serviceToRunOptions.push({
-                            value: service,
-                            viewValue: service,
-                        });
-                    }
-                );
-            }
-            defaultFormValues.docker_tag.options?.forEach((tag: string) => {
+                ?.setValue(defaultFormValues.docker_image?.value as string);
+            defaultFormValues.docker_tag?.options?.forEach((tag: string) => {
                 this.dockerTagOptions.push({
                     value: tag,
                     viewValue: tag,
                 });
             });
+
             this.generalConfFormGroup
                 .get('dockerTagSelect')
-                ?.setValue(defaultFormValues.docker_tag.value as string);
+                ?.setValue(defaultFormValues.docker_tag?.value as string);
+
+            this.generalConfFormGroup
+                .get('serviceToRunPassInput')
+                ?.setValue(defaultFormValues.jupyter_password?.value as string);
+
+            this.generalConfFormGroup
+                .get('serviceToRunChip')
+                ?.setValue(defaultFormValues.service?.value as string);
+            defaultFormValues.service?.options?.forEach((service: string) => {
+                this.serviceToRunOptions.push({
+                    value: service,
+                    viewValue: service,
+                });
+            });
+
+            this.generalConfFormGroup
+                .get('cvatUsernameInput')
+                ?.setValue(defaultFormValues.cvat_username?.value as string);
+
+            this.generalConfFormGroup
+                .get('cvatPasswordInput')
+                ?.setValue(defaultFormValues.cvat_password?.value as string);
         }
     }
 
     isPasswodRequired = false;
-    hidePassword = true;
+    hideServiceToRunPassword = true;
+    hideCvatPassword = true;
 
     generalConfFormGroup = this.fb.group({
         descriptionInput: [''],
@@ -140,6 +159,8 @@ export class GeneralConfFormComponent implements OnInit {
         dockerTagSelect: [''],
         hostnameInput: ['', [Validators.pattern('^[a-zA-Z0-9-]+$')]],
         federatedSecretInput: [{ value: '', disabled: true }],
+        cvatUsernameInput: ['', [Validators.required]],
+        cvatPasswordInput: ['', [Validators.required]],
     });
 
     dockerTagOptions: { value: string; viewValue: string }[] = [];
@@ -168,6 +189,18 @@ export class GeneralConfFormComponent implements OnInit {
                         ?.disable();
                 }
             });
+
+        if (this._showFields.cvatUsername && this._showFields.cvatPassword) {
+            this.authService.userProfileSubject.subscribe((profile) => {
+                const email = profile.email;
+                this.generalConfFormGroup
+                    .get('cvatUsernameInput')
+                    ?.setValue(email);
+            });
+        } else {
+            this.generalConfFormGroup.get('cvatUsernameInput')?.disable();
+            this.generalConfFormGroup.get('cvatPasswordInput')?.disable();
+        }
     }
 
     openDocumentationWeb(): void {
