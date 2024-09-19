@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.1](https://github.com/ai4os/ai4-dashboard/compare/v2.21.0...v2.21.1) (2024-09-19)
+
+
+### Bug Fixes
+
+* parse yaml body to json ([#194](https://github.com/ai4os/ai4-dashboard/issues/194)) ([6df6fd3](https://github.com/ai4os/ai4-dashboard/commit/6df6fd39e22369e23122f2ef4e88885739dfe028))
+
 ## [2.21.0](https://github.com/ai4os/ai4-dashboard/compare/v2.20.0...v2.21.0) (2024-09-18)
 
 
