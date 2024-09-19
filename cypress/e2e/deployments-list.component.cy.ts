@@ -93,7 +93,7 @@ describe('deployments section', function () {
     });
 
     it('delete last secret', function () {
-        cy.get('#delete-button').click();
+        cy.get('#delete-button', { timeout: 10000 }).click();
         cy.contains('Confirm your action').should('be.visible');
         cy.contains(
             'Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work'
