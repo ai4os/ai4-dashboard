@@ -16,6 +16,7 @@ import {
 } from './shared/interfaces/platform-status.interface';
 import { SnackbarService } from './shared/services/snackbar/snackbar.service';
 import { CookieService } from 'ngx-cookie-service';
+import * as yaml from 'js-yaml';
 
 @Component({
     selector: 'app-root',
@@ -84,10 +85,13 @@ export class AppComponent implements OnInit, OnDestroy {
         scriptElement?.parentElement?.removeChild(scriptElement);
     }
 
-    openPopup(message: string) {
+    openPopup(statusNotification: StatusNotification) {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(PopupComponent, {
-            data: { message: message },
+            data: {
+                title: statusNotification.title,
+                summary: statusNotification.summary,
+            },
             width: width,
             maxWidth: width,
             minWidth: width,
@@ -118,21 +122,17 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (status.length > 0) {
                     const popup = this.cookieService.get('statusPopup');
                     if (!popup && status[0].body != null) {
-                        const processedStatus = this.parseStatusString(
-                            status[0].body
-                        );
-                        const n: StatusNotification = {
-                            title: processedStatus.title,
-                            summary: processedStatus.summary,
-                            vo: processedStatus.vo ?? '',
-                            start: processedStatus.start,
-                            end: processedStatus.end,
-                        };
+                        const yamlBody = status[0].body
+                            .replace(/```yaml/g, '')
+                            .replace(/```[\s\S]*/, '');
+                        const n: StatusNotification = yaml.load(
+                            yamlBody
+                        ) as StatusNotification;
                         // filter by vo
                         if (
                             (n.vo !== '' &&
                                 n.vo === this.appConfigService.voName) ||
-                            n.vo === ''
+                            n.vo === null
                         ) {
                             // filter by date
                             if (n.start && n.end) {
@@ -142,7 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                     n.start.getTime() <= now &&
                                     n.end.getTime() > now
                                 ) {
-                                    this.openPopup(status[0].title);
+                                    this.openPopup(n);
                                     this.cookieService.set(
                                         'statusPopup',
                                         'seen'
