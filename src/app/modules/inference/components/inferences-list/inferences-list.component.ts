@@ -5,12 +5,11 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { InferenceDetailComponent } from '../inference-detail/inference-detail.component';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 export interface TableColumn {
     columnDef: string;
@@ -36,7 +35,7 @@ export class InferencesListComponent {
         public dialog: MatDialog,
         public confirmationDialog: MatDialog,
         private _liveAnnouncer: LiveAnnouncer,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -142,14 +141,9 @@ export class InferencesListComponent {
                                             this.dataset
                                         );
                                     this.isLoading = false;
-                                    this._snackBar.open(
+                                    this.snackbarService.openSuccess(
                                         'Successfully deleted service with name: ' +
-                                            name,
-                                        '×',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['success-snackbar'],
-                                        }
+                                            name
                                     );
                                 } else {
                                     this.dataSource =
@@ -157,14 +151,9 @@ export class InferencesListComponent {
                                             this.dataset
                                         );
                                     this.isLoading = false;
-                                    this._snackBar.open(
+                                    this.snackbarService.openError(
                                         'Error deleting service with name: ' +
-                                            name,
-                                        '×',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['red-snackbar'],
-                                        }
+                                            name
                                     );
                                 }
                             },
@@ -174,13 +163,8 @@ export class InferencesListComponent {
                                         this.dataset
                                     );
                                 this.isLoading = false;
-                                this._snackBar.open(
-                                    'Error deleting service with name: ' + name,
-                                    '×',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
+                                this.snackbarService.openError(
+                                    'Error deleting service with name: ' + name
                                 );
                             },
                         });

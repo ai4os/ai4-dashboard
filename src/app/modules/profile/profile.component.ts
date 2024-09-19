@@ -11,7 +11,7 @@ import {
     takeWhile,
     timer,
 } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import {
     AbstractControl,
     FormBuilder,
@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit {
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private fb: FormBuilder
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
@@ -176,13 +176,8 @@ export class ProfileComponent implements OnInit {
             error: () => {
                 this.isLoading = false;
                 this.isLoginLoading = false;
-                this._snackBar.open(
-                    'Error syncronizing your account. Check you are using a valid domain.',
-                    '×',
-                    {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    }
+                this.snackbarService.openError(
+                    'Error syncronizing your account. Check you are using a valid domain.'
                 );
             },
         });
@@ -215,23 +210,13 @@ export class ProfileComponent implements OnInit {
                 finalize(() => {
                     this.isLoginLoading = false;
                     if (syncCompleted) {
-                        this._snackBar.open(
-                            'The login process was successfully completed',
-                            '×',
-                            {
-                                duration: 3000,
-                                panelClass: ['success-snackbar'],
-                            }
+                        this.snackbarService.openSuccess(
+                            'The login process was successfully completed'
                         );
                     } else {
                         this.isLoading = false;
-                        this._snackBar.open(
-                            'The login process could not be completed. Try again.',
-                            '×',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
+                        this.snackbarService.openError(
+                            'The login process could not be completed. Try again.'
                         );
                     }
                 })
@@ -252,29 +237,19 @@ export class ProfileComponent implements OnInit {
                                         ?.setValue('');
                                     this.customEndpointFormGroup.markAsUntouched();
                                     this.getExistingRcloneCredentials();
-                                    this._snackBar.open(
+                                    this.snackbarService.openSuccess(
                                         'Successfully generated ' +
                                             serviceName +
-                                            ' credentials',
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['success-snackbar'],
-                                        }
+                                            ' credentials'
                                     );
                                 },
                                 error: () => {
                                     this.isLoading = false;
                                     this.isLoginLoading = false;
-                                    this._snackBar.open(
+                                    this.snackbarService.openError(
                                         'Error generating ' +
                                             serviceName +
-                                            ' credentials',
-                                        'X',
-                                        {
-                                            duration: 3000,
-                                            panelClass: ['red-snackbar'],
-                                        }
+                                            ' credentials'
                                     );
                                 },
                             });
@@ -303,30 +278,19 @@ export class ProfileComponent implements OnInit {
                         .subscribe({
                             next: () => {
                                 this.getExistingRcloneCredentials();
-
-                                this._snackBar.open(
+                                this.snackbarService.openSuccess(
                                     'Successfully deleted ' +
                                         serviceName +
-                                        ' credentials',
-                                    'X',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['success-snackbar'],
-                                    }
+                                        ' credentials'
                                 );
                             },
                             error: () => {
                                 this.isLoading = false;
                                 this.isLoginLoading = false;
-                                this._snackBar.open(
+                                this.snackbarService.openError(
                                     'Error deleting ' +
                                         serviceName +
-                                        ' credentials',
-                                    'X',
-                                    {
-                                        duration: 3000,
-                                        panelClass: ['red-snackbar'],
-                                    }
+                                        ' credentials'
                                 );
                             },
                         });

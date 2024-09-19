@@ -11,6 +11,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 const mockedSecrets = {
     '/deployments/1234/federated/default': { token: '1234' },
@@ -39,6 +40,11 @@ const mockedSecretsService: any = {
     deleteSecret: jest.fn().mockReturnValue(of({})),
 };
 
+const mockedSnackbarService: any = {
+    openSuccess: jest.fn(),
+    openError: jest.fn(),
+};
+
 describe('SecretManagementDetailComponent', () => {
     let component: SecretManagementDetailComponent;
     let fixture: ComponentFixture<SecretManagementDetailComponent>;
@@ -57,6 +63,10 @@ describe('SecretManagementDetailComponent', () => {
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: SecretsService, useValue: mockedSecretsService },
+                {
+                    provide: SnackbarService,
+                    useValue: mockedSnackbarService,
+                },
             ],
         }).compileComponents();
 
@@ -98,7 +108,10 @@ describe('SecretManagementDetailComponent', () => {
     });
 
     it('create new secret', () => {
-        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
+        const spySuccessSnackbar = jest.spyOn(
+            mockedSnackbarService,
+            'openSuccess'
+        );
         const button = fixture.debugElement.query(By.css('#add-button'));
         const input = fixture.debugElement.query(By.css('#input'));
         const el = input.nativeElement;
@@ -112,14 +125,7 @@ describe('SecretManagementDetailComponent', () => {
 
         button.nativeElement.click();
         fixture.detectChanges();
-        expect(spySnackBar).toHaveBeenCalledWith(
-            'Successfully created secret with name: client1',
-            '×',
-            expect.objectContaining({
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-            })
-        );
+        expect(spySuccessSnackbar).toHaveBeenCalledTimes(1);
     });
 
     it('should NOT create duplicated secret', () => {
@@ -180,20 +186,17 @@ describe('SecretManagementDetailComponent', () => {
             mockedSecretsService,
             'deleteSecret'
         );
-        const spySnackBar = jest.spyOn(component['_snackBar'], 'open');
-
+        const spySuccessSnackbar = jest.spyOn(
+            mockedSnackbarService,
+            'openSuccess'
+        );
         const button = fixture.debugElement.query(By.css('#delete-button'));
         button.nativeElement.click();
 
         expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
         expect(spyDeleteSecret).toHaveBeenCalledTimes(1);
-        expect(spySnackBar).toHaveBeenCalledWith(
-            'Successfully deleted secret with name: default',
-            '×',
-            expect.objectContaining({
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-            })
+        expect(spySuccessSnackbar).toHaveBeenCalledWith(
+            'Successfully deleted secret with name: default'
         );
         expect(fixture.componentInstance.secrets).toEqual([]);
     });

@@ -8,13 +8,13 @@ import {
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { Secret } from '@app/shared/interfaces/module.interface';
 import { FormBuilder, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 import cryptoRandomString from 'crypto-random-string';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 export interface SecretField {
     name: string;
@@ -34,7 +34,7 @@ export class SecretManagementDetailComponent implements OnInit {
         public confirmationDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA)
         public data: { uuid: string; name: string },
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private fb: FormBuilder
@@ -121,24 +121,15 @@ export class SecretManagementDetailComponent implements OnInit {
                     );
                     this.length = this.secrets.length;
                     this.isLoading = false;
-                    this._snackBar.open(
-                        'Successfully created secret with name: ' + name,
-                        '×',
-                        {
-                            duration: 3000,
-                            panelClass: ['success-snackbar'],
-                        }
+
+                    this.snackbarService.openSuccess(
+                        'Successfully created secret with name: ' + name
                     );
                 },
                 error: () => {
                     this.isLoading = false;
-                    this._snackBar.open(
-                        'Error creating secret with name: ' + name,
-                        '×',
-                        {
-                            duration: 3000,
-                            panelClass: ['red-snackbar'],
-                        }
+                    this.snackbarService.openError(
+                        'Error creating secret with name: ' + name
                     );
                 },
                 complete: () => {
@@ -179,25 +170,14 @@ export class SecretManagementDetailComponent implements OnInit {
                             };
                             this.handlePageEvent(pageEvent);
                             this.isLoading = false;
-                            this._snackBar.open(
-                                'Successfully deleted secret with name: ' +
-                                    name,
-                                '×',
-                                {
-                                    duration: 3000,
-                                    panelClass: ['success-snackbar'],
-                                }
+                            this.snackbarService.openSuccess(
+                                'Successfully deleted secret with name: ' + name
                             );
                         },
                         error: () => {
                             this.isLoading = false;
-                            this._snackBar.open(
-                                'Error deleting secret with name: ' + name,
-                                '×',
-                                {
-                                    duration: 3000,
-                                    panelClass: ['red-snackbar'],
-                                }
+                            this.snackbarService.openError(
+                                'Error deleting secret with name: ' + name
                             );
                         },
                         complete: () => {

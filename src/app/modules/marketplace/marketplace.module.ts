@@ -23,6 +23,7 @@ import { MarketplaceRoutingModule } from './marketplace-routing.module';
 import { SearchPipe } from './pipes/search-card-pipe';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import { ToolTrainComponent } from './views/tool-train-view/tool-train.component
         FederatedConfFormComponent,
         DatasetsListComponent,
         DatasetCreationDetailComponent,
+        LoadingScreenComponent,
     ],
     imports: [
         CommonModule,

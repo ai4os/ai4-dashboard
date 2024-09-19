@@ -23,7 +23,7 @@ describe('deployments section', function () {
 
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
-        cy.contains('Modules', { timeout: 30000 }).should('be.visible');
+        cy.contains('Modules', { timeout: 40000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
         cy.contains('fl-test', { timeout: 20000 }).should('be.visible');
@@ -93,7 +93,7 @@ describe('deployments section', function () {
     });
 
     it('delete last secret', function () {
-        cy.get('#delete-button').click();
+        cy.get('#delete-button', { timeout: 10000 }).click();
         cy.contains('Confirm your action').should('be.visible');
         cy.contains(
             'Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work'

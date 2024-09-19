@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.21.0](https://github.com/ai4os/ai4-dashboard/compare/v2.20.0...v2.21.0) (2024-09-18)
+
+
+### Features
+
+* Feature 94 add support for oscar services ([#180](https://github.com/ai4os/ai4-dashboard/issues/180)) ([bfd546d](https://github.com/ai4os/ai4-dashboard/commit/bfd546d928db535795e579f50a5d2dcf6938d7e6))
+
+## [2.20.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.19.0-pre...v2.20.0-pre) (2024-09-05)
+
+
+### Features
+
+* Feat 171 create snackbar service ([#178](https://github.com/ai4os/ai4-dashboard/issues/178)) ([fb5f617](https://github.com/ai4os/ai4-dashboard/commit/fb5f617d1179858bb9de73834bebf51c82294bb6))
+
+## [2.19.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.18.0-pre...v2.19.0-pre) (2024-09-04)
+
+
+### Features
+
+* add try me functionality nomad ([#170](https://github.com/ai4os/ai4-dashboard/issues/170)) ([a68f8c1](https://github.com/ai4os/ai4-dashboard/commit/a68f8c1f692b430c1a4f7c253400e225e9de6243))
+
+## [2.18.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.17.0-pre...v2.18.0-pre) (2024-09-04)
+
+
+### Features
+
+* Feature 136 add profile section ([#179](https://github.com/ai4os/ai4-dashboard/issues/179)) ([e580082](https://github.com/ai4os/ai4-dashboard/commit/e58008210cc8450268df54669921a032026b9574))
+
 ## [2.17.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.16.0-pre...v2.17.0-pre) (2024-09-02)
 
 
