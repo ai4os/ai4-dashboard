@@ -88,6 +88,7 @@ export class ProfileComponent implements OnInit {
 
     protected name = '';
     protected email = '';
+    protected isAuthorized = false;
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint = 'share.services.ai4os.eu';
     protected customEndpoint = '';
@@ -102,9 +103,14 @@ export class ProfileComponent implements OnInit {
         this.authService.userProfileSubject.subscribe((profile) => {
             this.name = profile.name;
             this.email = profile.email;
+            this.isAuthorized = profile.isAuthorized;
             this.getVoInfo(profile.eduperson_entitlement);
         });
-        this.getExistingRcloneCredentials();
+        if (this.isAuthorized) {
+            this.getExistingRcloneCredentials();
+        } else {
+            this.isLoading = false;
+        }
     }
 
     getVoInfo(eduperson_entitlement: string[]) {

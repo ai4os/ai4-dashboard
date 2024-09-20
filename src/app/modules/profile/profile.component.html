@@ -59,12 +59,15 @@
                             >{{ role }}</mat-chip
                         >
                     </mat-list-item>
+                    <mat-list-item *ngIf="vos.length === 0">{{
+                        'PROFILE.UNAUTHORIZED' | translate
+                    }}</mat-list-item>
                 </mat-list>
             </mat-card-content>
         </mat-card>
     </div>
 
-    <mat-card appearance="outlined" class="card">
+    <mat-card *ngIf="isAuthorized" appearance="outlined" class="card">
         <mat-card-header class="mb-3">
             <mat-card-title>{{
                 'PROFILE.STORAGE-PROVIDERS' | translate

@@ -44,9 +44,9 @@
             >
                 <a
                     class="action-button"
-                    [matMenuTriggerFor]="tryMenu"
                     mat-raised-button
                     color="accent"
+                    [matMenuTriggerFor]="tryMenu"
                     [disabled]="!isLoggedIn()"
                 >
                     {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
@@ -104,12 +104,12 @@
                 </button>
             </mat-menu>
 
-            <ng-container *ngIf="isLoggedIn() && isAuthorized()">
+            <ng-container *ngIf="isLoggedIn()">
                 <a
                     class="action-button"
-                    [matMenuTriggerFor]="deployMenu"
                     mat-raised-button
                     color="accent"
+                    [matMenuTriggerFor]="deployMenu"
                 >
                     {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
 
@@ -117,13 +117,13 @@
                         keyboard_arrow_down
                     </mat-icon>
                 </a>
-
                 <mat-menu #deployMenu="matMenu" xPosition="before">
                     <button
                         style="display: none"
                         class="action-button sub-button"
                         mat-menu-item
                         (click)="createOscarService()"
+                        [disabled]="!isAuthorized()"
                     >
                         <span class="button-with-icon">
                             <img
@@ -151,6 +151,7 @@
                         mat-menu-item
                         class="action-button sub-button"
                         routerLink="train"
+                        [disabled]="!isAuthorized()"
                     >
                         <span class="button-with-icon">
                             <img
@@ -204,17 +205,27 @@
                     </a>
                 </mat-menu>
 
-                <a
-                    class="action-button"
-                    [matMenuTriggerFor]="codespacesMenu"
-                    mat-raised-button
-                    color="accent"
+                <div
+                    class="tooltip-container"
+                    [matTooltipDisabled]="isAuthorized()"
+                    matTooltip=" {{
+                        'MODULES.MODULE-DETAIL.CODESPACES-UNAUTHORIZED'
+                            | translate
+                    }}"
                 >
-                    {{ 'MODULES.MODULE-DETAIL.CODESPACES' | translate }}
-                    <mat-icon class="arrow-button">
-                        keyboard_arrow_down
-                    </mat-icon>
-                </a>
+                    <a
+                        class="action-button"
+                        mat-raised-button
+                        color="accent"
+                        [matMenuTriggerFor]="codespacesMenu"
+                        [disabled]="!isAuthorized()"
+                    >
+                        {{ 'MODULES.MODULE-DETAIL.CODESPACES' | translate }}
+                        <mat-icon class="arrow-button">
+                            keyboard_arrow_down
+                        </mat-icon>
+                    </a>
+                </div>
 
                 <mat-menu #codespacesMenu="matMenu" xPosition="before">
                     <button mat-menu-item (click)="trainModule('jupyter')">
