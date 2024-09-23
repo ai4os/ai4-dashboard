@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.2](https://github.com/ai4os/ai4-dashboard/compare/v2.23.1...v2.23.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* add gradio route ([bf531a5](https://github.com/ai4os/ai4-dashboard/commit/bf531a54be3b84815a9c5335f226a9dbf52f2183))
+
 ## [2.23.1](https://github.com/ai4os/ai4-dashboard/compare/v2.23.0...v2.23.1) (2024-09-23)
 
 
