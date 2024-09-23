@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.3](https://github.com/ai4os/ai4-dashboard/compare/v2.23.2...v2.23.3) (2024-09-23)
+
+
+### Bug Fixes
+
+* profile requests ([d3f27ab](https://github.com/ai4os/ai4-dashboard/commit/d3f27ab21506425859988698ebb40e10d1a6fac0))
+
 ## [2.23.2](https://github.com/ai4os/ai4-dashboard/compare/v2.23.1...v2.23.2) (2024-09-23)
 
 
