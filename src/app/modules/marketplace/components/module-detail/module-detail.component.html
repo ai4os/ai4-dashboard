@@ -119,11 +119,13 @@
                 </a>
                 <mat-menu #deployMenu="matMenu" xPosition="before">
                     <button
-                        style="display: none"
                         class="action-button sub-button"
                         mat-menu-item
                         (click)="createOscarService()"
                         [disabled]="!isAuthorized()"
+                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                        [matTooltipPosition]="'left'"
+                        [matTooltipDisabled]="isAuthorized()"
                     >
                         <span class="button-with-icon">
                             <img
