@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.1](https://github.com/ai4os/ai4-dashboard/compare/v2.23.0...v2.23.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* show OSCAR button ([02e7a4e](https://github.com/ai4os/ai4-dashboard/commit/02e7a4e3b253a0ae6e971bdc9519b27c19a23d16))
+
 ## [2.23.0](https://github.com/ai4os/ai4-dashboard/compare/v2.22.0...v2.23.0) (2024-09-23)
 
 
