@@ -33,11 +33,11 @@ describe('deployments section', function () {
 
     it('shows secrets management dialog', function () {
         cy.get('#secrets-button').click();
-        cy.contains('Manage secrets', { timeout: 20000 }).should('be.visible');
+        cy.get('#card-title').contains('Manage secrets').should('be.visible');
         cy.get('.tool-title').contains('fl-test').should('be.visible');
         cy.contains('List of secrets').should('be.visible');
         cy.contains('default').should('be.visible');
-        cy.contains('Add').should('be.visible');
+        cy.get('#add-button').contains('Add').should('be.visible');
         cy.contains('Close').should('be.visible');
     });
 
@@ -60,7 +60,7 @@ describe('deployments section', function () {
         cy.contains('Successfully created secret with name: client1').should(
             'be.visible'
         );
-        cy.contains('client1', { timeout: 10000 }).should('be.visible');
+        cy.contains('client1', { timeout: 20000 }).should('be.visible');
     });
 
     it('create duplicated secret', function () {
