@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.2](https://github.com/ai4os/ai4-dashboard/compare/v2.21.1...v2.21.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* remove unused oscar components ([#199](https://github.com/ai4os/ai4-dashboard/issues/199)) ([4b1b50e](https://github.com/ai4os/ai4-dashboard/commit/4b1b50ebfb483296bd1ee3e7a87345295cfdef6a))
+
 ## [2.21.1](https://github.com/ai4os/ai4-dashboard/compare/v2.21.0...v2.21.1) (2024-09-19)
 
 
