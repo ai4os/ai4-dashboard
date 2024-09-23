@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.0](https://github.com/ai4os/ai4-dashboard/compare/v2.22.0...v2.23.0) (2024-09-23)
+
+
+### Features
+
+* add new module detail buttons ([#198](https://github.com/ai4os/ai4-dashboard/issues/198)) ([41c8730](https://github.com/ai4os/ai4-dashboard/commit/41c8730e61a0f64374f55dd5da84c2b5ba762dce))
+
 ## [2.22.0](https://github.com/ai4os/ai4-dashboard/compare/v2.21.2...v2.22.0) (2024-09-23)
 
 
