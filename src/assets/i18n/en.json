@@ -173,7 +173,6 @@
             "VSCODE": "Open in VScode",
             "TRY-MODULE": "Try",
             "TRY-MODULE-LOGOUT": "You must login to try the module",
-            "CODESPACES-UNAUTHORIZED": "Only available for project members",
             "DEPLOY-MODULE": "Deploy",
             "API-PLATFORM": "Inference API (dedicated)",
             "NOMAD": "Dedicated inference API on the project's Nomad cluster",
@@ -367,6 +366,7 @@
         "NOT-FOUND": "Oops, the page you requested could not be found!",
         "UNDER-MAINTENANCE-POPUP": {
             "TITLE": "Warning"
-        }
+        },
+        "UNAUTHORIZED": "Only available for project members"
     }
 }

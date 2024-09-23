@@ -152,6 +152,9 @@
                         class="action-button sub-button"
                         routerLink="train"
                         [disabled]="!isAuthorized()"
+                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                        [matTooltipPosition]="'left'"
+                        [matTooltipDisabled]="isAuthorized()"
                     >
                         <span class="button-with-icon">
                             <img
@@ -208,10 +211,7 @@
                 <div
                     class="tooltip-container"
                     [matTooltipDisabled]="isAuthorized()"
-                    matTooltip=" {{
-                        'MODULES.MODULE-DETAIL.CODESPACES-UNAUTHORIZED'
-                            | translate
-                    }}"
+                    matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                 >
                     <a
                         class="action-button"

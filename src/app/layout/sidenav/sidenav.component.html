@@ -33,6 +33,9 @@
                         "
                         class="sidenav-item"
                         [disabled]="link.isDisabled"
+                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                        [matTooltipPosition]="'right'"
+                        [matTooltipDisabled]="!link.isDisabled"
                     >
                         <a
                             mat-list-item
