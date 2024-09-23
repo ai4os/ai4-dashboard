@@ -104,13 +104,17 @@ export class ProfileComponent implements OnInit {
             this.name = profile.name;
             this.email = profile.email;
             this.isAuthorized = profile.isAuthorized;
-            this.getVoInfo(profile.eduperson_entitlement);
+
+            if (profile.eduperson_entitlement) {
+                this.getVoInfo(profile.eduperson_entitlement);
+            }
+
+            if (this.isAuthorized) {
+                this.getExistingRcloneCredentials();
+            } else {
+                this.isLoading = false;
+            }
         });
-        if (this.isAuthorized) {
-            this.getExistingRcloneCredentials();
-        } else {
-            this.isLoading = false;
-        }
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -135,10 +139,10 @@ export class ProfileComponent implements OnInit {
     }
 
     getExistingRcloneCredentials() {
-        this.serviceCredentials = [];
-        this.customServiceCredentials = [];
         this.profileService.getExistingCredentials().subscribe({
             next: (credentials) => {
+                this.serviceCredentials = [];
+                this.customServiceCredentials = [];
                 for (let i = 0; i < Object.values(credentials).length; i++) {
                     const credential: StorageCredential = {
                         vendor: Object.values(credentials)[i].vendor,
