@@ -58,14 +58,6 @@ export class ModulesService {
         });
     }
 
-    getAccessToken() {
-        const oidc_token = this.authStorage.getItem('access_token');
-        if (!oidc_token) {
-            throw new Error('Authorization error. the token cannot be null.');
-        }
-        return oidc_token;
-    }
-
     createDeploymentGradio(
         moduleName: string
     ): Observable<GradioCreateResponse> {
@@ -83,62 +75,5 @@ export class ModulesService {
             deploymentUUID
         )}`;
         return this.http.get<GradioDeployment>(url, {});
-    }
-
-    //OSCAR cluster
-    /**
-     * Get list of services in OSCAR
-     * @returns Service list
-     */
-    getServices(oscar_endpoint: string): Promise<Service[]> {
-        const oidc_token = this.getAccessToken();
-        const client: Client = new Client({
-            clusterId: '1',
-            oscar_endpoint,
-            oidc_token,
-        });
-        return client.getServices();
-    }
-
-    /**
-     * Run service in OSCAR usign sync inovoation
-     * @param oscar_endpoint oscar endpoint
-     * @param serviceName module name
-     * @param file file to run
-     * @returns response with the result of the service.
-     */
-    runService(
-        oscar_endpoint: string,
-        serviceName: string,
-        file: string
-    ): Promise<any> {
-        const oidc_token = this.getAccessToken();
-        const client: Client = new Client({
-            clusterId: '1',
-            oscar_endpoint,
-            oidc_token,
-        });
-
-        return client.runService(serviceName, file);
-    }
-
-    /**
-     * Create new service in OSCAR
-     * @param oscar_endpoint oscare endpoint
-     * @param service service object to create
-     * @returns service created
-     */
-    createService(oscar_endpoint: string, service: Service) {
-        const oidc_token = this.getAccessToken();
-        const client: Client = new Client({
-            clusterId: '1',
-            oscar_endpoint,
-            oidc_token,
-        });
-
-        const request: any = {
-            ...service,
-        };
-        return client.createService(request);
     }
 }

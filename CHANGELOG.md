@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.22.0](https://github.com/ai4os/ai4-dashboard/compare/v2.21.2...v2.22.0) (2024-09-23)
+
+
+### Features
+
+* rename translations (sync to link) ([#192](https://github.com/ai4os/ai4-dashboard/issues/192)) ([bb4aa11](https://github.com/ai4os/ai4-dashboard/commit/bb4aa118012520be2012296bae2d27bbc42a8faa))
+
+## [2.21.2](https://github.com/ai4os/ai4-dashboard/compare/v2.21.1...v2.21.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* remove unused oscar components ([#199](https://github.com/ai4os/ai4-dashboard/issues/199)) ([4b1b50e](https://github.com/ai4os/ai4-dashboard/commit/4b1b50ebfb483296bd1ee3e7a87345295cfdef6a))
+
+## [2.21.1](https://github.com/ai4os/ai4-dashboard/compare/v2.21.0...v2.21.1) (2024-09-19)
+
+
+### Bug Fixes
+
+* parse yaml body to json ([#194](https://github.com/ai4os/ai4-dashboard/issues/194)) ([6df6fd3](https://github.com/ai4os/ai4-dashboard/commit/6df6fd39e22369e23122f2ef4e88885739dfe028))
+
 ## [2.21.0](https://github.com/ai4os/ai4-dashboard/compare/v2.20.0...v2.21.0) (2024-09-18)
 
 

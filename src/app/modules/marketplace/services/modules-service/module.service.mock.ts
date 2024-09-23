@@ -34,5 +34,3 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         keywords: [],
     },
 ];
-
-export const accessToken = 'test-oidcToken';

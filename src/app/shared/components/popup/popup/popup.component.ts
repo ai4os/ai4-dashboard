@@ -10,6 +10,6 @@ export class PopupComponent {
     constructor(
         public dialogRef: MatDialogRef<PopupComponent>,
         @Inject(MAT_DIALOG_DATA)
-        public data: { message: string }
+        public data: { title: string; summary: string }
     ) {}
 }

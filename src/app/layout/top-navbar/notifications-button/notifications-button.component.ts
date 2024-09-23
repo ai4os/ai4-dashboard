@@ -6,6 +6,7 @@ import {
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
+import * as yaml from 'js-yaml';
 
 @Component({
     selector: 'app-notifications-button',
@@ -32,16 +33,12 @@ export class NotificationsButtonComponent implements OnInit {
                 if (platformStatus.length > 0) {
                     platformStatus.forEach((status) => {
                         if (status.body != null) {
-                            const processedStatus = this.parseStatusString(
-                                status.body
-                            );
-                            const notification: StatusNotification = {
-                                title: processedStatus.title,
-                                summary: processedStatus.summary,
-                                vo: processedStatus.vo ?? '',
-                                start: processedStatus.start,
-                                end: processedStatus.end,
-                            };
+                            const yamlBody = status.body
+                                .replace(/```yaml/g, '')
+                                .replace(/```[\s\S]*/, '');
+                            const notification: StatusNotification = yaml.load(
+                                yamlBody
+                            ) as StatusNotification;
                             this.notifications.push(notification);
                         } else {
                             const notification: StatusNotification = {
@@ -69,28 +66,13 @@ export class NotificationsButtonComponent implements OnInit {
         });
     }
 
-    parseStatusString(eventString: string): StatusNotification {
-        let eventLines = eventString.trim().split('\n');
-
-        const eventObject: any = {};
-        eventLines = eventLines.slice(1, 6);
-
-        eventLines.forEach((line) => {
-            const [key, value] = line.split(': ');
-
-            eventObject[key.trim()] = value !== undefined ? value.trim() : '';
-        });
-
-        return eventObject;
-    }
-
     filterByDateAndVo(notifications: StatusNotification[]) {
         const now = new Date().getTime();
         notifications.forEach((n) => {
             // filter by vo
             if (
                 (n.vo !== '' && n.vo === this.appConfigService.voName) ||
-                n.vo === ''
+                n.vo === null
             ) {
                 // filter by date
                 if (n.start && n.end) {
