@@ -265,7 +265,7 @@ export class ProfileComponent implements OnInit {
     unsyncRclone(serviceName: string) {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to delete these credentials?`,
+                data: `Are you sure you want to revoke these credentials?`,
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
