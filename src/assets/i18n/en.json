@@ -153,6 +153,7 @@
     "MODULES": {
         "TITLE": "Marketplace",
         "NEW-DEPLOYMENT": "New deployment",
+        "NUM-RESULTS": "result(s) found",
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",

@@ -13,6 +13,7 @@
 .marketplace-toolbar {
     background-color: var(--white);
     justify-content: space-between;
+    align-items: baseline;
     & span {
         display: flex;
         align-items: center;
@@ -33,6 +34,18 @@
 
 .search-field-mobile {
     width: 100%;
+}
+
+.search-and-results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.results-text {
+    font-style: italic;
+    font-size: small;
+    align-self: flex-end !important;
 }
 
 ::ng-deep .mat-mdc-tab-header {
