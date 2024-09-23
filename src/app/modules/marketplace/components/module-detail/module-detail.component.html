@@ -29,6 +29,7 @@
         <mat-card-subtitle>{{ module.summary }}</mat-card-subtitle>
 
         <div
+            *ngIf="!isTool"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
                 'action-buttons-container': !mobileQuery.matches
@@ -43,120 +44,138 @@
             >
                 <a
                     class="action-button"
-                    [matMenuTriggerFor]="tryMenu"
                     mat-raised-button
                     color="accent"
-                    [ngClass]="{
-                        'launch-tool-button': isTool
-                    }"
+                    [matMenuTriggerFor]="tryMenu"
                     [disabled]="!isLoggedIn()"
                 >
                     {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
 
-                    <mat-icon> keyboard_arrow_down </mat-icon>
+                    <mat-icon class="arrow-button">
+                        keyboard_arrow_down
+                    </mat-icon>
                 </a>
             </div>
 
-            <mat-menu #tryMenu="matMenu">
-                <button *ngIf="isAuthorized()" mat-menu-item [disabled]="true">
-                    <span class="aligned-with-icon-left">
-                        {{ 'MODULES.MODULE-DETAIL.OSCAR-SWAGGER' | translate }}
-
+            <mat-menu #tryMenu="matMenu" xPosition="before">
+                <button mat-menu-item (click)="createGradioDeployment()">
+                    <span class="button-with-icon">
                         <img
-                            src="../../../../../assets/images/oscar-logo.png"
-                            width="16"
-                            height="16"
+                            src="../../../../../assets/images/gradio-logo.png"
+                            width="24"
+                            height="24"
                         />
+                        <div class="button-texts">
+                            <b>
+                                {{
+                                    'MODULES.MODULE-DETAIL.USER-INTERFACE'
+                                        | translate
+                                }}</b
+                            >
+                            <span class="button-description-text">
+                                {{
+                                    'MODULES.MODULE-DETAIL.NOMAD-GRADIO'
+                                        | translate
+                                }}</span
+                            >
+                        </div>
                     </span>
                 </button>
-                <button
-                    *ngIf="!isTool"
-                    mat-menu-item
-                    (click)="createGradioDeployment()"
-                >
-                    <span class="aligned-with-icon-left">
-                        {{ 'MODULES.MODULE-DETAIL.NOMAD-GRADIO' | translate }}
+                <button mat-menu-item [disabled]="true" style="display: none">
+                    <span class="button-with-icon">
                         <img
-                            src="../../../../../assets/images/nomad-icon.svg"
-                            width="16"
-                            height="16"
+                            src="../../../../../assets/images/swagger-logo.svg"
+                            width="24"
+                            height="24"
                         />
+                        <div class="button-texts">
+                            <b>
+                                {{
+                                    'MODULES.MODULE-DETAIL.INFERENCE-API'
+                                        | translate
+                                }}</b
+                            >
+                            <span class="button-description-text">{{
+                                'MODULES.MODULE-DETAIL.OSCAR-SWAGGER'
+                                    | translate
+                            }}</span>
+                        </div>
                     </span>
                 </button>
             </mat-menu>
+
             <ng-container *ngIf="isLoggedIn()">
                 <a
                     class="action-button"
-                    [matMenuTriggerFor]="trainMenu"
                     mat-raised-button
                     color="accent"
-                    [ngClass]="{
-                        'launch-tool-button': isTool
-                    }"
-                    [disabled]="!isAuthorized() && isAuthorized() !== undefined"
-                >
-                    {{ 'MODULES.MODULE-DETAIL.TRAIN-MODULE' | translate }}
-                    <mat-icon> keyboard_arrow_down </mat-icon>
-                </a>
-
-                <mat-menu #trainMenu="matMenu">
-                    <button mat-menu-item routerLink="train">
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
-                            <img
-                                src="../../../../../assets/images/nomad-icon.svg"
-                                width="16"
-                                height="16"
-                            />
-                        </span>
-                    </button>
-                </mat-menu>
-
-                <a
-                    class="action-button"
                     [matMenuTriggerFor]="deployMenu"
-                    mat-raised-button
-                    color="accent"
-                    [ngClass]="{
-                        'launch-tool-button': isTool
-                    }"
                 >
                     {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
 
-                    <mat-icon> keyboard_arrow_down </mat-icon>
+                    <mat-icon class="arrow-button">
+                        keyboard_arrow_down
+                    </mat-icon>
                 </a>
-
-                <mat-menu #deployMenu="matMenu">
+                <mat-menu #deployMenu="matMenu" xPosition="before">
                     <button
-                        *ngIf="isAuthorized()"
+                        style="display: none"
                         class="action-button sub-button"
                         mat-menu-item
                         (click)="createOscarService()"
+                        [disabled]="!isAuthorized()"
                     >
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.OSCAR' | translate }}
-
+                        <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/oscar-logo.png"
-                                width="16"
-                                height="16"
+                                width="24"
+                                height="24"
                             />
+                            <div class="button-texts">
+                                <b>
+                                    {{
+                                        'MODULES.MODULE-DETAIL.API-SERVERLESS'
+                                            | translate
+                                    }}
+                                </b>
+                                <span class="button-description-text">
+                                    {{
+                                        'MODULES.MODULE-DETAIL.OSCAR'
+                                            | translate
+                                    }}
+                                </span>
+                            </div>
                         </span>
                     </button>
                     <button
-                        *ngIf="isAuthorized()"
-                        [disabled]="true"
                         mat-menu-item
                         class="action-button sub-button"
                         routerLink="train"
+                        [disabled]="!isAuthorized()"
+                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                        [matTooltipPosition]="'left'"
+                        [matTooltipDisabled]="isAuthorized()"
                     >
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.NOMAD' | translate }}
+                        <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/nomad-icon.svg"
-                                width="16"
-                                height="16"
+                                width="24"
+                                height="24"
                             />
+                            <div class="button-texts">
+                                <b>
+                                    {{
+                                        'MODULES.MODULE-DETAIL.API-PLATFORM'
+                                            | translate
+                                    }}</b
+                                >
+                                <span class="button-description-text">
+                                    {{
+                                        'MODULES.MODULE-DETAIL.NOMAD'
+                                            | translate
+                                    }}
+                                </span>
+                            </div>
                         </span>
                     </button>
                     <a
@@ -168,18 +187,105 @@
                             module.sources.docker_registry_repo
                         "
                     >
-                        <span class="aligned-with-icon-left">
-                            {{ 'MODULES.MODULE-DETAIL.IM' | translate }}
-
+                        <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/im-logo.png"
-                                width="16"
-                                height="16"
+                                width="24"
+                                height="24"
                             />
+                            <div class="button-texts">
+                                <b>
+                                    {{
+                                        'MODULES.MODULE-DETAIL.API-CLOUD'
+                                            | translate
+                                    }}
+                                </b>
+                                <span class="button-description-text">
+                                    {{ 'MODULES.MODULE-DETAIL.IM' | translate }}
+                                </span>
+                            </div>
                         </span>
                     </a>
                 </mat-menu>
+
+                <div
+                    class="tooltip-container"
+                    [matTooltipDisabled]="isAuthorized()"
+                    matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                >
+                    <a
+                        class="action-button"
+                        mat-raised-button
+                        color="accent"
+                        [matMenuTriggerFor]="codespacesMenu"
+                        [disabled]="!isAuthorized()"
+                    >
+                        {{ 'MODULES.MODULE-DETAIL.CODESPACES' | translate }}
+                        <mat-icon class="arrow-button">
+                            keyboard_arrow_down
+                        </mat-icon>
+                    </a>
+                </div>
+
+                <mat-menu #codespacesMenu="matMenu" xPosition="before">
+                    <button mat-menu-item (click)="trainModule('jupyter')">
+                        <span class="button-with-icon">
+                            <img
+                                src="../../../../../assets/images/jupyter-logo.png"
+                                width="24"
+                                height="24"
+                            />
+                            <div class="button-texts">
+                                <b>
+                                    {{
+                                        'MODULES.MODULE-DETAIL.JUPYTERLAB'
+                                            | translate
+                                    }}</b
+                                >
+                            </div>
+                        </span>
+                    </button>
+                    <button
+                        *ngIf="module.title === 'AI4OS Development Environment'"
+                        mat-menu-item
+                        (click)="trainModule('vscode')"
+                    >
+                        <span class="button-with-icon">
+                            <img
+                                src="../../../../../assets/images/vscode-logo.png"
+                                width="24"
+                                height="24"
+                            />
+                            <div class="button-texts">
+                                <b>
+                                    {{
+                                        'MODULES.MODULE-DETAIL.VSCODE'
+                                            | translate
+                                    }}</b
+                                >
+                            </div>
+                        </span>
+                    </button>
+                </mat-menu>
             </ng-container>
+        </div>
+
+        <div
+            *ngIf="isTool && isLoggedIn() && isAuthorized()"
+            [ngClass]="{
+                'action-buttons-container-mobile': mobileQuery.matches,
+                'action-buttons-container': !mobileQuery.matches
+            }"
+        >
+            <a
+                class="action-button"
+                mat-raised-button
+                color="accent"
+                routerLink="train"
+                id="deploy-tool-button"
+            >
+                {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
+            </a>
         </div>
     </mat-card-header>
 

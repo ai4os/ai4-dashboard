@@ -11,14 +11,6 @@
             />
         </a>
     </div>
-    <mat-error
-        class="not-authorized-error"
-        *ngIf="!isAuthorized() && isAuthorized() !== undefined"
-        >{{
-            'ERRORS.NOT-AUTHORIZED-ERROR'
-                | translate: { vo: appConfigService.voName }
-        }}
-    </mat-error>
     <span class="spacer"></span>
     <div *ngIf="isLoggedIn(); else showSignInLink" class="login-container">
         <app-notifications-button></app-notifications-button>

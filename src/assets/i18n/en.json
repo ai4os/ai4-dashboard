@@ -26,6 +26,7 @@
         "TITLE": "Profile",
         "DETAILS": "Personal information",
         "VOS": "Virtual organizations",
+        "UNAUTHORIZED": "You are not a member of any VO.",
         "STORAGE-PROVIDERS": "Storage providers",
         "ADD": "Add",
         "LINK": "Link",
@@ -164,18 +165,23 @@
             "GET-THE-DATA": "Get the data",
             "FOUND-ISSUE": "Found an issue?",
             "DATASET": "Dataset",
-            "TRAIN-MODULE": "Train",
-            "LAUNCH-TOOL": "Launch tool",
+            "CODESPACES": "Codespaces",
+            "DEVELOP": "Develop on the platform",
+            "JUPYTERLAB": "Open in JupyterLab",
+            "VSCODE": "Open in VScode",
             "TRY-MODULE": "Try",
             "TRY-MODULE-LOGOUT": "You must login to try the module",
             "DEPLOY-MODULE": "Deploy",
-            "DEPLOY-W-IM": "Deploy via the IM",
-            "DEPLOY-W-OSCAR": "Deploy via OSCAR",
-            "NOMAD": "Nomad",
-            "NOMAD-GRADIO": "Nomad (Gradio)",
-            "IM": "IM",
-            "OSCAR": "OSCAR",
-            "OSCAR-SWAGGER": "OSCAR (Swagger)",
+            "API-PLATFORM": "Inference API (dedicated)",
+            "NOMAD": "Dedicated inference API on the project's Nomad cluster",
+            "API-SERVERLESS": "Inference API (serverless)",
+            "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
+            "API-CLOUD": "Inference API (cloud)",
+            "IM": "Deploy on your own cloud resources via IM",
+            "OSCAR": "Serverless inference API on the project's OSCAR cluster",
+            "OSCAR-SWAGGER": "// TODO",
+            "USER-INTERFACE": "User Interface",
+            "INFERENCE-API": "REST API",
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
@@ -355,7 +361,10 @@
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",
         "TOKEN-EXPIRED": "Token expired, logging out",
-        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
-        "NOT-FOUND": "Oops, the page you requested could not be found!"
+        "NOT-FOUND": "Oops, the page you requested could not be found!",
+        "UNDER-MAINTENANCE-POPUP": {
+            "TITLE": "Warning"
+        },
+        "UNAUTHORIZED": "Only available for project members"
     }
 }

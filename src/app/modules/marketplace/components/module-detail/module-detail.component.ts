@@ -135,4 +135,11 @@ export class ModuleDetailComponent implements OnInit {
         sessionStorage.setItem('moduleData', JSON.stringify(this.module));
         window.open(`${window.location.href}/try-me-nomad`);
     }
+
+    trainModule(service: string) {
+        this.router.navigate(['train'], {
+            relativeTo: this.route,
+            state: { service: service },
+        });
+    }
 }

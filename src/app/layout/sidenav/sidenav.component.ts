@@ -9,7 +9,7 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { AuthService } from '@app/core/services/auth/auth.service';
+import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from 'src/environments/environment';
 import { gitInfo } from 'src/environments/version';
@@ -37,6 +37,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
     protected environment = environment;
     protected gitInfo = gitInfo;
+    protected userProfile?: UserProfile;
+    public isAuthorized = false;
 
     options = this._formBuilder.group({
         bottom: 0,
@@ -52,7 +54,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             name: 'SIDENAV.DASHBOARD',
             url: '/dashboard',
             isRestricted: true,
-            isDisabled: false,
+            isDisabled: !this.isAuthorized,
         },
         {
             name: 'SIDENAV.MODULES',
@@ -62,11 +64,13 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             name: 'SIDENAV.DEPLOYMENTS',
             url: '/deployments',
             isRestricted: true,
+            isDisabled: !this.isAuthorized,
         },
         {
             name: 'SIDENAV.INFERENCE',
             url: '/inference',
             isRestricted: true,
+            isDisabled: !this.isAuthorized,
         },
     ];
 
@@ -92,11 +96,25 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.authService.userProfileSubject.subscribe((profile) => {
+            this.userProfile = profile;
+            this.isAuthorized = profile.isAuthorized;
+            this.updateMainLinks();
+        });
+
         this.otherLinks = this.appConfigService.sidenavMenu;
         this.acknowledgments = this.appConfigService.acknowledgments;
         this.projectName = this.appConfigService.projectName;
         this.projectUrl = this.appConfigService.projectUrl;
         this.legalLinks = this.appConfigService.legalLinks;
+    }
+
+    updateMainLinks() {
+        this.mainLinks.map((link) => {
+            if (link.isRestricted) {
+                link.isDisabled = !this.isAuthorized;
+            }
+        });
     }
 
     ngAfterViewInit(): void {
