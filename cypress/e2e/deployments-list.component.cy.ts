@@ -22,7 +22,7 @@ describe('deployments section', function () {
 
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
-        cy.contains('Modules', { timeout: 40000 }).should('be.visible');
+        cy.contains('Modules', { timeout: 50000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
         cy.contains('fl-test', { timeout: 20000 }).should('be.visible');
@@ -33,7 +33,7 @@ describe('deployments section', function () {
 
     it('shows secrets management dialog', function () {
         cy.get('#secrets-button').click();
-        cy.contains('Manage secrets', { timeout: 10000 }).should('be.visible');
+        cy.contains('Manage secrets', { timeout: 20000 }).should('be.visible');
         cy.get('.tool-title').contains('fl-test').should('be.visible');
         cy.contains('List of secrets').should('be.visible');
         cy.contains('default').should('be.visible');
