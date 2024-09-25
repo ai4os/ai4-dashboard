@@ -1,28 +1,45 @@
 export interface ModuleSummary {
-    name: string;
     title: string;
     summary: string;
-    keywords: string[];
+    categories: string[];
+    links: {
+        source_code: string;
+        documentation?: string;
+        docker_image?: string;
+        zenodo_doi?: string;
+        dataset?: string;
+        weights?: string;
+        citation?: string;
+        base_model?: string;
+    };
 }
 
 export interface Module {
     title: string;
     summary: string;
     description: string;
-    keywords: string[];
-    license: string;
-    date_creation: string;
-    dataset_url: string;
-    sources: {
-        dockerfile_repo: string;
-        docker_registry_repo: string;
-        code: string;
+    doi?: string;
+    links: {
+        source_code: string;
+        documentation?: string;
+        docker_image?: string;
+        zenodo_doi?: string;
+        dataset?: string;
+        weights?: string;
+        citation?: string;
+        base_model?: string;
     };
-    continuous_integration: {
-        build_status_badge: string;
-        build_status_url: string;
-    };
-    tosca: object[];
+    dates?: Dates;
+    libraries: string[];
+    tasks: string[];
+    categories: string[];
+    tags: string[];
+    'data-type'?: string[];
+}
+
+export interface Dates {
+    created: string;
+    updated: string;
 }
 
 export interface confObject {

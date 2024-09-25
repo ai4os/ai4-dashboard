@@ -31,10 +31,7 @@ export class DevModuleCardComponent implements OnInit {
             .subscribe((module) => {
                 if (module) {
                     this.module = module;
-                    this.moduleType = module.keywords.includes('development')
-                        ? 'Development'
-                        : 'Model';
-                    const displayedKeywordsArray = module.keywords
+                    const displayedKeywordsArray = module.categories
                         .filter(
                             (keyword) =>
                                 keyword.includes('inference') ||

@@ -122,7 +122,10 @@
                         class="action-button sub-button"
                         mat-menu-item
                         (click)="createOscarService()"
-                        [disabled]="!isAuthorized()"
+                        [disabled]="
+                            !isAuthorized() ||
+                            module.links.docker_image === undefined
+                        "
                         matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                         [matTooltipPosition]="'left'"
                         [matTooltipDisabled]="isAuthorized()"
@@ -186,7 +189,7 @@
                         target="_blank"
                         [href]="
                             'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
-                            module.sources.docker_registry_repo
+                            moduleId
                         "
                     >
                         <span class="button-with-icon">
@@ -317,47 +320,84 @@
             <div class="info-container">
                 <div class="module-header-info">
                     <h4>
-                        {{ 'MODULES.MODULE-DETAIL.BUILD-STATUS' | translate }}
+                        {{ 'MODULES.MODULE-DETAIL.CREATED' | translate }}
                     </h4>
-                    <p>
-                        <a
-                            href="{{
-                                module.continuous_integration.build_status_url
-                            }}"
-                            ><img
-                                alt="Build Status"
-                                src="{{
-                                    module.continuous_integration
-                                        .build_status_badge
-                                }}"
-                        /></a>
-                    </p>
+                    <p>{{ module.dates?.created }}</p>
                 </div>
 
                 <div class="module-header-info">
                     <h4>
-                        {{ 'MODULES.MODULE-DETAIL.LICENSE' | translate }}
+                        {{ 'MODULES.MODULE-DETAIL.UPDATED' | translate }}
                     </h4>
-                    <a
-                        href="{{ module.sources.code }}/blob/-/LICENSE"
-                        target="_blank"
-                        >{{ module.license }}
-                    </a>
+                    <p>{{ module.dates?.updated }}</p>
                 </div>
-                <div class="module-header-info">
-                    <h4>
-                        {{ 'MODULES.MODULE-DETAIL.CREATED' | translate }}
-                    </h4>
-                    <p>{{ module.date_creation }}</p>
+
+                <div *ngIf="module.doi" class="module-header-info">
+                    <a
+                        *ngIf="module.links.zenodo_doi; else staticDoiBadge"
+                        href="{{ module.links.zenodo_doi }}"
+                        target="_blank"
+                        ><img
+                            alt="Build Status"
+                            src="{{
+                                'https://img.shields.io/badge/DOI-' +
+                                    module.doi +
+                                    '-FF5B7F'
+                            }}"
+                    /></a>
+                    <ng-template #staticDoiBadge>
+                        <img
+                            alt="Build Status"
+                            src="{{
+                                'https://img.shields.io/badge/DOI-' +
+                                    module.doi +
+                                    '-FF5B7F'
+                            }}"
+                        />
+                    </ng-template>
                 </div>
 
                 <h4>{{ 'MODULES.MODULE-DETAIL.CATEGORIES' | translate }}</h4>
                 <div class="tags ml-3 mb-3">
                     <span
                         class="keyword"
-                        *ngFor="let keyword of module.keywords"
+                        *ngFor="let category of module.categories"
                     >
-                        {{ keyword }}
+                        {{ category }}
+                    </span>
+                </div>
+
+                <h4>{{ 'MODULES.MODULE-DETAIL.TAGS' | translate }}</h4>
+                <div class="tags ml-3 mb-3">
+                    <span class="keyword" *ngFor="let tag of module.tags">
+                        {{ tag }}
+                    </span>
+                </div>
+
+                <h4>{{ 'MODULES.MODULE-DETAIL.LIBRARIES' | translate }}</h4>
+                <div class="tags ml-3 mb-3">
+                    <span
+                        class="keyword"
+                        *ngFor="let library of module.libraries"
+                    >
+                        {{ library }}
+                    </span>
+                </div>
+
+                <h4>{{ 'MODULES.MODULE-DETAIL.TASKS' | translate }}</h4>
+                <div class="tags ml-3 mb-3">
+                    <span class="keyword" *ngFor="let task of module.tasks">
+                        {{ task }}
+                    </span>
+                </div>
+
+                <h4>{{ 'MODULES.MODULE-DETAIL.DATA-TYPE' | translate }}</h4>
+                <div class="tags ml-3 mb-3">
+                    <span
+                        class="keyword"
+                        *ngFor="let type of module['data-type']"
+                    >
+                        {{ type }}
                     </span>
                 </div>
 
@@ -371,7 +411,7 @@
                     <a
                         class="action-button"
                         mat-raised-button
-                        href="{{ module.sources.code }}"
+                        href="{{ module.links.source_code }}"
                         target="_blank"
                     >
                         <span class="aligned-with-icon">
@@ -387,7 +427,7 @@
                     <a
                         class="action-button"
                         mat-raised-button
-                        href="{{ module.sources.code }}/issues"
+                        href="{{ module.links.source_code }}/issues"
                         target="_blank"
                     >
                         <span class="aligned-with-icon">
@@ -401,9 +441,10 @@
                     </a>
 
                     <a
+                        *ngIf="module.links.dataset"
                         class="action-button"
                         mat-raised-button
-                        href="{{ module.dataset_url }}"
+                        href="{{ module.links.dataset }}"
                     >
                         <span class="aligned-with-icon">
                             <img
@@ -418,9 +459,7 @@
                     <a
                         class="action-button"
                         mat-raised-button
-                        href="https://hub.docker.com/r/{{
-                            module.sources.docker_registry_repo
-                        }}"
+                        href="{{ module.links.docker_image }}"
                         target="_blank"
                     >
                         <span class="aligned-with-icon">
@@ -430,6 +469,77 @@
                                 height="16"
                             />
                             {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}
+                        </span>
+                    </a>
+
+                    <a
+                        *ngIf="module.links.documentation"
+                        class="action-button"
+                        mat-raised-button
+                        href="{{ module.links.documentation }}"
+                        target="_blank"
+                    >
+                        <span class="aligned-with-icon">
+                            <img
+                                src="../../../../../assets/images/database.png"
+                                width="16"
+                                height="16"
+                            />
+                            {{
+                                'MODULES.MODULE-DETAIL.DOCUMENTATION'
+                                    | translate
+                            }}
+                        </span>
+                    </a>
+
+                    <a
+                        *ngIf="module.links.weights"
+                        class="action-button"
+                        mat-raised-button
+                        href="{{ module.links.weights }}"
+                        target="_blank"
+                    >
+                        <span class="aligned-with-icon">
+                            <img
+                                src="../../../../../assets/images/database.png"
+                                width="16"
+                                height="16"
+                            />
+                            {{ 'MODULES.MODULE-DETAIL.WEIGHTS' | translate }}
+                        </span>
+                    </a>
+
+                    <a
+                        *ngIf="module.links.citation"
+                        class="action-button"
+                        mat-raised-button
+                        href="{{ module.links.citation }}"
+                        target="_blank"
+                    >
+                        <span class="aligned-with-icon">
+                            <img
+                                src="../../../../../assets/images/database.png"
+                                width="16"
+                                height="16"
+                            />
+                            {{ 'MODULES.MODULE-DETAIL.CITATION' | translate }}
+                        </span>
+                    </a>
+
+                    <a
+                        *ngIf="module.links.base_model"
+                        class="action-button"
+                        mat-raised-button
+                        href="{{ module.links.base_model }}"
+                        target="_blank"
+                    >
+                        <span class="aligned-with-icon">
+                            <img
+                                src="../../../../../assets/images/database.png"
+                                width="16"
+                                height="16"
+                            />
+                            {{ 'MODULES.MODULE-DETAIL.BASE-MODEL' | translate }}
                         </span>
                     </a>
                 </div>

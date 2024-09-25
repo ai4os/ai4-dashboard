@@ -13,23 +13,24 @@ export class ModuleCardComponent implements OnInit {
 
     // This property is bound using its original name.
     @Input() module!: ModuleSummary;
-
     @Input() isTool?: boolean;
 
-    moduleType: 'Development' | 'Model' = 'Model';
+    moduleId = '';
     displayedKeywords: string[] = [];
 
     ngOnInit(): void {
         if (this.module) {
-            this.moduleType = this.module.keywords.includes('development')
-                ? 'Development'
-                : 'Model';
-            const displayedKeywordsArray = this.module.keywords
+            const linkParts: string[] =
+                this.module.links.source_code.split('/');
+            this.moduleId = linkParts[linkParts.length - 1].toLowerCase();
+
+            const displayedKeywordsArray = this.module.categories
                 .filter(
-                    (keyword) =>
-                        keyword.includes('inference') ||
-                        keyword.includes('trainable') ||
-                        keyword.includes('pre-trained')
+                    (category) =>
+                        category.includes('AI4 inference') ||
+                        category.includes('AI4 trainable') ||
+                        category.includes('AI4 pre trained') ||
+                        category.includes('AI4 tools')
                 )
                 .map((keyword) => this.titleCasePipe.transform(keyword));
             this.displayedKeywords = displayedKeywordsArray;

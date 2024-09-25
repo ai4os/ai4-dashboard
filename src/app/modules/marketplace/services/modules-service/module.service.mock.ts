@@ -22,15 +22,19 @@ export const module: Module = {
 
 export const modulesSummaryList: Array<ModuleSummary> = [
     {
-        name: 'Test',
         title: 'Test',
         summary: '',
-        keywords: ['development'],
+        categories: ['development'],
+        links: {
+            source_code: '',
+        },
     },
     {
-        name: 'Test2',
         title: 'Test2',
         summary: '',
-        keywords: [],
+        categories: [],
+        links: {
+            source_code: '',
+        },
     },
 ];

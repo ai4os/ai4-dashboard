@@ -8,12 +8,9 @@ import {
     ModuleSummary,
     GradioCreateResponse,
     GradioDeployment,
-    Service,
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { Client } from '@grycap/oscar-js';
-import { OAuthStorage } from 'angular-oauth2-oidc';
 const { base, endpoints } = environment.api;
 
 @Injectable({
@@ -22,8 +19,7 @@ const { base, endpoints } = environment.api;
 export class ModulesService {
     constructor(
         private http: HttpClient,
-        private appConfigService: AppConfigService,
-        private authStorage: OAuthStorage
+        private appConfigService: AppConfigService
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);

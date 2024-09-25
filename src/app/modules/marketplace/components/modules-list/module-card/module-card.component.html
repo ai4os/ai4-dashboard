@@ -1,21 +1,11 @@
 <mat-card
     class="module-card"
-    [routerLink]="[isTool ? 'tools/' + module.name : 'modules/' + module.name]"
+    [routerLink]="[isTool ? 'tools/' + moduleId : 'modules/' + moduleId]"
 >
     <mat-card-header class="module-card-header">
         <mat-card-title>
-            <mat-icon
-                *ngIf="moduleType === 'Model'"
-                matTooltip="Model"
-                color="primary"
-                >model_training</mat-icon
-            >
-            <mat-icon
-                *ngIf="moduleType === 'Development'"
-                matTooltip="Development"
-                color="primary"
-                >developer_mode</mat-icon
-            >
+            <mat-icon color="primary">model_training</mat-icon>
+
             <span>{{ module.title }}</span>
         </mat-card-title>
     </mat-card-header>
