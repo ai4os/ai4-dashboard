@@ -15,15 +15,10 @@ export class ModuleCardComponent implements OnInit {
     @Input() module!: ModuleSummary;
     @Input() isTool?: boolean;
 
-    moduleId = '';
     displayedKeywords: string[] = [];
 
     ngOnInit(): void {
         if (this.module) {
-            const linkParts: string[] =
-                this.module.links.source_code.split('/');
-            this.moduleId = linkParts[linkParts.length - 1].toLowerCase();
-
             const displayedKeywordsArray = this.module.categories
                 .filter(
                     (category) =>

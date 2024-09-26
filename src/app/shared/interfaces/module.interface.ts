@@ -1,17 +1,8 @@
 export interface ModuleSummary {
+    name: string;
     title: string;
     summary: string;
     categories: string[];
-    links: {
-        source_code: string;
-        documentation?: string;
-        docker_image?: string;
-        zenodo_doi?: string;
-        dataset?: string;
-        weights?: string;
-        citation?: string;
-        base_model?: string;
-    };
 }
 
 export interface Module {

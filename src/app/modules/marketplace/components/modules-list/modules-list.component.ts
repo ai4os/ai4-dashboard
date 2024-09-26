@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { Module, ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Observable, forkJoin } from 'rxjs';
@@ -72,10 +72,10 @@ export class ModulesListComponent implements OnInit {
                     const jointModulesArray = ([] as ModuleSummary[]).concat(
                         ...modules
                     );
-                    // Delete possible duplicates from array based on name
+                    // Delete possible duplicates from array based on title
                     this.modules = jointModulesArray.filter(
                         (v, i, a) =>
-                            a.findIndex((v2) => v2.name === v.name) === i
+                            a.findIndex((v2) => v2.title === v.title) === i
                     );
                 },
                 error: () => {
