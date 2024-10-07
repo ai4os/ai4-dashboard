@@ -19,6 +19,7 @@ import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 @Component({
     selector: 'app-stepper-form',
@@ -87,7 +88,12 @@ export class StepperFormComponent implements OnInit {
         let request: Observable<statusReturn>;
         const data: TrainModuleRequest = {
             general: {
-                title: this.step1Form.value.generalConfForm.titleInput,
+                title:
+                    this.step1Form.value.generalConfForm.titleInput === ''
+                        ? uniqueNamesGenerator({
+                              dictionaries: [colors, animals],
+                          })
+                        : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:
                     this.step1Form.getRawValue().generalConfForm
@@ -172,14 +178,15 @@ export class StepperFormComponent implements OnInit {
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(
-                                    'Deployment created with ID' + result.job_ID
+                                    'Deployment created with ID ' +
+                                        result.job_ID
                                 );
                             }
                         });
                 } else {
                     if (result && result.status == 'fail') {
                         this.snackbarService.openError(
-                            'Error while creating the deployment' +
+                            'Error while creating the deployment ' +
                                 result.error_msg
                         );
                     }
