@@ -9,7 +9,6 @@ import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
 import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
-import { timer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
@@ -47,20 +46,31 @@ export class ModuleDetailComponent implements OnInit {
 
     modulesList = [];
     module!: Module;
+    moduleId = '';
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
 
+    dataIconDict: { [dataType: string]: string } = {
+        Image: 'image',
+        Text: 'description',
+        'Time Series': 'show_chart',
+        Tabular: 'table_chart',
+        Graph: 'grouped_bar_chart',
+        Audio: 'music_note',
+        Video: 'videocam',
+        Other: '',
+    };
+
     isLoading = false;
-    isInferenceModule = false;
     isTool = false;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
-    private stopPolling$ = timer(180000);
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.isLoading = true;
+            this.moduleId = params['id'];
             this.authService.userProfileSubject.subscribe((profile) => {
                 this.userProfile = profile;
             });
@@ -77,9 +87,6 @@ export class ModuleDetailComponent implements OnInit {
                     .subscribe((module) => {
                         this.isLoading = false;
                         this.module = module;
-                        this.breadcrumbService.set('@moduleName', module.title);
-                        this.isInferenceModule =
-                            module.keywords.includes('inference');
                     });
             }
         });
@@ -93,12 +100,20 @@ export class ModuleDetailComponent implements OnInit {
         return this.userProfile?.isAuthorized;
     }
 
+    convertTypeToIcon(dataType: string): string {
+        return this.dataIconDict[dataType];
+    }
+
+    getDOI(doiUrl: string) {
+        return doiUrl.replace('https://doi.org/', '');
+    }
+
     createOscarService() {
         this.isLoading = true;
         const requestBody: OscarServiceRequest = {
             allowed_users: [],
             cpu: 2,
-            image: this.module.sources.docker_registry_repo,
+            image: this.module.links.docker_image!,
             memory: 3000,
             title: uniqueNamesGenerator({
                 dictionaries: [colors, animals],

@@ -19,6 +19,8 @@ export interface Module {
         weights?: string;
         citation?: string;
         base_model?: string;
+        cicd_badge?: string;
+        cicd_url?: string;
     };
     dates?: Dates;
     libraries: string[];

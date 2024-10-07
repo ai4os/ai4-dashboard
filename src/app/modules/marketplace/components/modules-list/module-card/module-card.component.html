@@ -16,14 +16,12 @@
             <p>{{ module.summary }}</p>
         </div>
     </mat-card-content>
+
     <mat-card-actions align="start" class="module-card-actions ml-2">
-        <mat-card-subtitle class="mt-2 mb-2">
-            <span
-                class="keyword-button mr-2"
-                *ngFor="let keyword of displayedKeywords"
-            >
-                {{ keyword }}
-            </span>
-        </mat-card-subtitle>
+        <app-chip-with-icon
+            *ngFor="let category of module.categories"
+            text="{{ category }}"
+            chipStyle="category-marketplace"
+        ></app-chip-with-icon>
     </mat-card-actions>
 </mat-card>

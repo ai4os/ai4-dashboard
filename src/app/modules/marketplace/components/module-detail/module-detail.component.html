@@ -24,9 +24,11 @@
         }"
     >
         <mat-card-title
-            ><h1>{{ module.title }}</h1></mat-card-title
-        >
-        <mat-card-subtitle>{{ module.summary }}</mat-card-subtitle>
+            ><h1>{{ module.title }}</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{ module.summary }}
+        </mat-card-subtitle>
 
         <div
             *ngIf="!isTool"
@@ -62,8 +64,6 @@
                     <span class="button-with-icon">
                         <img
                             src="../../../../../assets/images/gradio-logo.png"
-                            width="24"
-                            height="24"
                         />
                         <div class="button-texts">
                             <b>
@@ -85,8 +85,6 @@
                     <span class="button-with-icon">
                         <img
                             src="../../../../../assets/images/swagger-logo.svg"
-                            width="24"
-                            height="24"
                         />
                         <div class="button-texts">
                             <b>
@@ -119,6 +117,7 @@
                 </a>
                 <mat-menu #deployMenu="matMenu" xPosition="before">
                     <button
+                        *ngIf="module.links.docker_image"
                         class="action-button sub-button"
                         mat-menu-item
                         (click)="createOscarService()"
@@ -133,8 +132,6 @@
                         <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/oscar-logo.png"
-                                width="24"
-                                height="24"
                             />
                             <div class="button-texts">
                                 <b>
@@ -164,8 +161,6 @@
                         <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/nomad-icon.svg"
-                                width="24"
-                                height="24"
                             />
                             <div class="button-texts">
                                 <b>
@@ -195,8 +190,6 @@
                         <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/im-logo.png"
-                                width="24"
-                                height="24"
                             />
                             <div class="button-texts">
                                 <b>
@@ -237,8 +230,6 @@
                         <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/jupyter-logo.png"
-                                width="24"
-                                height="24"
                             />
                             <div class="button-texts">
                                 <b>
@@ -258,8 +249,6 @@
                         <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/vscode-logo.png"
-                                width="24"
-                                height="24"
                             />
                             <div class="button-texts">
                                 <b>
@@ -309,240 +298,276 @@
             }"
             *ngIf="!isLoading"
         >
-            <markdown
-                [data]="module.description"
-                ngPreserveWhitespaces
-                [disableSanitizer]="true"
-                class="module-description"
-            >
-            </markdown>
+            <div class="module-description">
+                <markdown
+                    [data]="module.description"
+                    ngPreserveWhitespaces
+                    [disableSanitizer]="true"
+                >
+                </markdown>
+            </div>
 
             <div class="info-container">
-                <div class="module-header-info">
-                    <h4>
-                        {{ 'MODULES.MODULE-DETAIL.CREATED' | translate }}
-                    </h4>
-                    <p>{{ module.dates?.created }}</p>
-                </div>
-
-                <div class="module-header-info">
-                    <h4>
-                        {{ 'MODULES.MODULE-DETAIL.UPDATED' | translate }}
-                    </h4>
-                    <p>{{ module.dates?.updated }}</p>
-                </div>
-
-                <div *ngIf="module.doi" class="module-header-info">
-                    <a
-                        *ngIf="module.links.zenodo_doi; else staticDoiBadge"
-                        href="{{ module.links.zenodo_doi }}"
-                        target="_blank"
+                <div class="flex-container">
+                    <a href="{{ module.links.cicd_url }}" target="_blank"
                         ><img
                             alt="Build Status"
-                            src="{{
-                                'https://img.shields.io/badge/DOI-' +
-                                    module.doi +
-                                    '-FF5B7F'
-                            }}"
+                            src="{{ module.links.cicd_badge }}"
                     /></a>
-                    <ng-template #staticDoiBadge>
-                        <img
-                            alt="Build Status"
-                            src="{{
-                                'https://img.shields.io/badge/DOI-' +
-                                    module.doi +
-                                    '-FF5B7F'
+
+                    <div *ngIf="module.doi">
+                        <a
+                            *ngIf="module.links.zenodo_doi; else staticDoiBadge"
+                            href="{{ module.links.zenodo_doi }}"
+                            target="_blank"
+                            ><img
+                                alt="Build Status"
+                                src="{{
+                                    'https://img.shields.io/badge/DOI-' +
+                                        getDOI(module.doi) +
+                                        '-FF5B7F'
+                                }}"
+                        /></a>
+                        <ng-template #staticDoiBadge>
+                            <img
+                                alt="Build Status"
+                                src="{{
+                                    'https://img.shields.io/badge/DOI-' +
+                                        getDOI(module.doi) +
+                                        '-FF5B7F'
+                                }}"
+                            />
+                        </ng-template>
+                    </div>
+                </div>
+
+                <div *ngIf="module.dates" class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.DATES' | translate }}
+                    </div>
+                    <div class="flex-container">
+                        <app-chip-with-icon
+                            icon="calendar_month"
+                            text="{{ module.dates.created }}"
+                            tooltip=" {{
+                                'MODULES.MODULE-DETAIL.CREATED' | translate
                             }}"
-                        />
-                    </ng-template>
+                        ></app-chip-with-icon>
+
+                        <app-chip-with-icon
+                            icon="update"
+                            text="{{ module.dates.updated }}"
+                            tooltip=" {{
+                                'MODULES.MODULE-DETAIL.UPDATED' | translate
+                            }}"
+                        ></app-chip-with-icon>
+                    </div>
                 </div>
 
-                <h4>{{ 'MODULES.MODULE-DETAIL.CATEGORIES' | translate }}</h4>
-                <div class="tags ml-3 mb-3">
-                    <span
-                        class="keyword"
-                        *ngFor="let category of module.categories"
-                    >
-                        {{ category }}
-                    </span>
+                <div class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.CATEGORIES' | translate }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            *ngFor="let category of module.categories"
+                            text="{{ category }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
                 </div>
 
-                <h4>{{ 'MODULES.MODULE-DETAIL.TAGS' | translate }}</h4>
-                <div class="tags ml-3 mb-3">
-                    <span class="keyword" *ngFor="let tag of module.tags">
-                        {{ tag }}
-                    </span>
+                <div *ngIf="module['data-type']" class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.DATA-TYPES' | translate }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            *ngFor="let type of module['data-type']"
+                            text="{{ type }}"
+                            icon="{{ convertTypeToIcon(type) }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
                 </div>
 
-                <h4>{{ 'MODULES.MODULE-DETAIL.LIBRARIES' | translate }}</h4>
-                <div class="tags ml-3 mb-3">
-                    <span
-                        class="keyword"
-                        *ngFor="let library of module.libraries"
-                    >
-                        {{ library }}
-                    </span>
+                <div class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.LIBRARIES' | translate }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            *ngFor="let library of module.libraries"
+                            [image]="
+                                '../../../assets/images/libraries/' +
+                                library +
+                                '_logo.png'
+                            "
+                            text="{{ library }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
                 </div>
 
-                <h4>{{ 'MODULES.MODULE-DETAIL.TASKS' | translate }}</h4>
-                <div class="tags ml-3 mb-3">
-                    <span class="keyword" *ngFor="let task of module.tasks">
-                        {{ task }}
-                    </span>
+                <div class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.TASKS' | translate }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            *ngFor="let task of module.tasks"
+                            text="{{ task }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
                 </div>
 
-                <h4>{{ 'MODULES.MODULE-DETAIL.DATA-TYPE' | translate }}</h4>
-                <div class="tags ml-3 mb-3">
-                    <span
-                        class="keyword"
-                        *ngFor="let type of module['data-type']"
-                    >
-                        {{ type }}
-                    </span>
+                <div class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.TAGS' | translate }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            *ngFor="let tag of module.tags"
+                            text="{{ tag }}"
+                            [image]="'../../../assets/images/tag.png'"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
                 </div>
 
-                <h4>
-                    {{
-                        'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES' | translate
-                    }}
-                </h4>
+                <div class="box-container">
+                    <div class="box-title">
+                        {{
+                            'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES'
+                                | translate
+                        }}
+                    </div>
+                    <div class="grid-resources">
+                        <a
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.source_code }}"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <img
+                                    src="../../../../../assets/images/github-icon.png"
+                                />
+                                {{ 'GENERAL-BUTTONS.GITHUB' | translate }}
+                            </span>
+                        </a>
 
-                <div class="grid-resources">
-                    <a
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.source_code }}"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/github-mark.svg"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'GENERAL-BUTTONS.GITHUB' | translate }}
-                        </span>
-                    </a>
+                        <a
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.source_code }}/issues"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <img
+                                    src="../../../../../assets/images/github-icon.png"
+                                />
+                                {{ 'GENERAL-BUTTONS.REPORT-ISSUE' | translate }}
+                            </span>
+                        </a>
 
-                    <a
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.source_code }}/issues"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/github-mark.svg"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'GENERAL-BUTTONS.REPORT-ISSUE' | translate }}
-                        </span>
-                    </a>
+                        <a
+                            *ngIf="module.links.dataset"
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.dataset }}"
+                        >
+                            <span class="aligned-with-icon">
+                                <img
+                                    src="../../../../../assets/images/database.png"
+                                />
+                                {{
+                                    'MODULES.MODULE-DETAIL.DATASET' | translate
+                                }}
+                            </span>
+                        </a>
 
-                    <a
-                        *ngIf="module.links.dataset"
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.dataset }}"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/database.png"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'MODULES.MODULE-DETAIL.DATASET' | translate }}
-                        </span>
-                    </a>
+                        <a
+                            *ngIf="module.links.docker_image"
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.docker_image }}"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <img
+                                    src="../../../../../assets/images/dockerhub.png"
+                                />
+                                {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}
+                            </span>
+                        </a>
 
-                    <a
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.docker_image }}"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/dockerhub.png"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}
-                        </span>
-                    </a>
+                        <a
+                            *ngIf="module.links.documentation"
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.documentation }}"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon> description </mat-icon>
+                                {{
+                                    'MODULES.MODULE-DETAIL.DOCUMENTATION'
+                                        | translate
+                                }}
+                            </span>
+                        </a>
 
-                    <a
-                        *ngIf="module.links.documentation"
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.documentation }}"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/database.png"
-                                width="16"
-                                height="16"
-                            />
-                            {{
-                                'MODULES.MODULE-DETAIL.DOCUMENTATION'
-                                    | translate
-                            }}
-                        </span>
-                    </a>
+                        <a
+                            *ngIf="module.links.weights"
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.weights }}"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon> weight </mat-icon>
+                                {{
+                                    'MODULES.MODULE-DETAIL.WEIGHTS' | translate
+                                }}
+                            </span>
+                        </a>
 
-                    <a
-                        *ngIf="module.links.weights"
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.weights }}"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/database.png"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'MODULES.MODULE-DETAIL.WEIGHTS' | translate }}
-                        </span>
-                    </a>
+                        <a
+                            *ngIf="module.links.citation"
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.citation }}"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon>format_quote</mat-icon>
+                                {{
+                                    'MODULES.MODULE-DETAIL.CITATION' | translate
+                                }}
+                            </span>
+                        </a>
 
-                    <a
-                        *ngIf="module.links.citation"
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.citation }}"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/database.png"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'MODULES.MODULE-DETAIL.CITATION' | translate }}
-                        </span>
-                    </a>
-
-                    <a
-                        *ngIf="module.links.base_model"
-                        class="action-button"
-                        mat-raised-button
-                        href="{{ module.links.base_model }}"
-                        target="_blank"
-                    >
-                        <span class="aligned-with-icon">
-                            <img
-                                src="../../../../../assets/images/database.png"
-                                width="16"
-                                height="16"
-                            />
-                            {{ 'MODULES.MODULE-DETAIL.BASE-MODEL' | translate }}
-                        </span>
-                    </a>
+                        <a
+                            *ngIf="module.links.base_model"
+                            class="action-button"
+                            mat-raised-button
+                            href="{{ module.links.base_model }}"
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon>model_training</mat-icon>
+                                {{
+                                    'MODULES.MODULE-DETAIL.BASE-MODEL'
+                                        | translate
+                                }}
+                            </span>
+                        </a>
+                    </div>
                 </div>
+
+                <div class=""></div>
             </div>
         </div>
     </mat-card-content>
