@@ -91,8 +91,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                              dictionaries: [colors, animals],
-                          })
+                            dictionaries: [colors, animals],
+                        })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:
