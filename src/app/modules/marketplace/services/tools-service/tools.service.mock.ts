@@ -24,12 +24,14 @@ export const toolsSummaryList: Array<ModuleSummary> = [
         title: 'AI4OS Federated Server',
         summary: 'A federated learning server for AI4OS projects.',
         categories: ['Machine Learning', 'Federated Learning'],
+        tags: ['test'],
         name: 'ai4os-fedserver',
     },
     {
         title: 'AI4OS Test Server',
         summary: 'A federated learning server for AI4OS projects.',
         categories: ['Machine Learning', 'Federated Learning'],
+        tags: ['test'],
         name: 'ai4os-testserver',
     },
 ];

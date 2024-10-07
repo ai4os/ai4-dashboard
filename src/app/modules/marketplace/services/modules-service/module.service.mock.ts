@@ -1,23 +1,22 @@
 import { Module, ModuleSummary } from '@app/shared/interfaces/module.interface';
 
 export const module: Module = {
-    title: 'Test',
-    summary: '',
+    categories: ['Machine Learning', 'Federated Learning'],
+    'data-type': ['Model', 'Dataset'],
+    dates: {
+        created: '2024-07-24',
+        updated: '2024-09-20',
+    },
+    doi: '10.1000/xyz124',
+    libraries: ['TensorFlow', 'PyTorch'],
+    summary: 'A federated learning server for AI4OS projects.',
+    tags: ['federated-learning', 'open-source', 'AI'],
+    tasks: ['Classification', 'Clustering'],
+    title: 'sTest',
     description: '',
-    keywords: [''],
-    license: '',
-    date_creation: '2023-08-08 07:57:26',
-    dataset_url: '',
-    sources: {
-        dockerfile_repo: '',
-        docker_registry_repo: '',
-        code: '',
+    links: {
+        source_code: '',
     },
-    continuous_integration: {
-        build_status_badge: '',
-        build_status_url: '',
-    },
-    tosca: [],
 };
 
 export const modulesSummaryList: Array<ModuleSummary> = [
@@ -25,16 +24,14 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         title: 'Test',
         summary: '',
         categories: ['development'],
-        links: {
-            source_code: '',
-        },
+        tags: ['test'],
+        name: 'ai4-test',
     },
     {
         title: 'Test2',
         summary: '',
         categories: [],
-        links: {
-            source_code: '',
-        },
+        tags: ['test'],
+        name: 'ai4-test',
     },
 ];

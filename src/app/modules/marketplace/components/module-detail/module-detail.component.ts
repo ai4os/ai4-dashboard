@@ -49,6 +49,7 @@ export class ModuleDetailComponent implements OnInit {
     moduleId = '';
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
+    doiBadgeColor = '';
 
     dataIconDict: { [dataType: string]: string } = {
         Image: 'image',
@@ -68,6 +69,10 @@ export class ModuleDetailComponent implements OnInit {
     private _mobileQueryListener: () => void;
 
     ngOnInit(): void {
+        const r = document.querySelector(':root');
+        const rs = getComputedStyle(r!);
+        this.doiBadgeColor = rs.getPropertyValue('--primary');
+
         this.route.params.subscribe((params) => {
             this.isLoading = true;
             this.moduleId = params['id'];
@@ -104,8 +109,13 @@ export class ModuleDetailComponent implements OnInit {
         return this.dataIconDict[dataType];
     }
 
-    getDOI(doiUrl: string) {
-        return doiUrl.replace('https://doi.org/', '');
+    getDOIBadgeUrl(doiUrl: string) {
+        return (
+            'https://img.shields.io/badge/DOI-' +
+            doiUrl.replace('https://doi.org/', '') +
+            '-' +
+            this.doiBadgeColor.replace('#', '')
+        );
     }
 
     createOscarService() {

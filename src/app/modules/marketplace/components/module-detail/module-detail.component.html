@@ -41,7 +41,7 @@
                 class="tooltip-container"
                 [matTooltipDisabled]="isLoggedIn()"
                 matTooltip=" {{
-                    'MODULES.MODULE-DETAIL.TRY-MODULE-LOGOUT' | translate
+                    'MODULES.MODULE-DETAIL.TRY.LOGOUT' | translate
                 }}"
             >
                 <a
@@ -51,7 +51,7 @@
                     [matMenuTriggerFor]="tryMenu"
                     [disabled]="!isLoggedIn()"
                 >
-                    {{ 'MODULES.MODULE-DETAIL.TRY-MODULE' | translate }}
+                    {{ 'MODULES.MODULE-DETAIL.TRY.TITLE' | translate }}
 
                     <mat-icon class="arrow-button">
                         keyboard_arrow_down
@@ -68,13 +68,13 @@
                         <div class="button-texts">
                             <b>
                                 {{
-                                    'MODULES.MODULE-DETAIL.USER-INTERFACE'
+                                    'MODULES.MODULE-DETAIL.TRY.USER-INTERFACE'
                                         | translate
                                 }}</b
                             >
                             <span class="button-description-text">
                                 {{
-                                    'MODULES.MODULE-DETAIL.NOMAD-GRADIO'
+                                    'MODULES.MODULE-DETAIL.TRY.NOMAD-GRADIO'
                                         | translate
                                 }}</span
                             >
@@ -89,12 +89,12 @@
                         <div class="button-texts">
                             <b>
                                 {{
-                                    'MODULES.MODULE-DETAIL.INFERENCE-API'
+                                    'MODULES.MODULE-DETAIL.TRY.INFERENCE-API'
                                         | translate
                                 }}</b
                             >
                             <span class="button-description-text">{{
-                                'MODULES.MODULE-DETAIL.OSCAR-SWAGGER'
+                                'MODULES.MODULE-DETAIL.TRY.OSCAR-SWAGGER'
                                     | translate
                             }}</span>
                         </div>
@@ -109,7 +109,7 @@
                     color="accent"
                     [matMenuTriggerFor]="deployMenu"
                 >
-                    {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
+                    {{ 'MODULES.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
 
                     <mat-icon class="arrow-button">
                         keyboard_arrow_down
@@ -136,13 +136,13 @@
                             <div class="button-texts">
                                 <b>
                                     {{
-                                        'MODULES.MODULE-DETAIL.API-SERVERLESS'
+                                        'MODULES.MODULE-DETAIL.DEPLOY.API-SERVERLESS'
                                             | translate
                                     }}
                                 </b>
                                 <span class="button-description-text">
                                     {{
-                                        'MODULES.MODULE-DETAIL.OSCAR'
+                                        'MODULES.MODULE-DETAIL.DEPLOY.OSCAR'
                                             | translate
                                     }}
                                 </span>
@@ -165,13 +165,13 @@
                             <div class="button-texts">
                                 <b>
                                     {{
-                                        'MODULES.MODULE-DETAIL.API-PLATFORM'
+                                        'MODULES.MODULE-DETAIL.DEPLOY.API-PLATFORM'
                                             | translate
                                     }}</b
                                 >
                                 <span class="button-description-text">
                                     {{
-                                        'MODULES.MODULE-DETAIL.NOMAD'
+                                        'MODULES.MODULE-DETAIL.DEPLOY.NOMAD'
                                             | translate
                                     }}
                                 </span>
@@ -194,12 +194,15 @@
                             <div class="button-texts">
                                 <b>
                                     {{
-                                        'MODULES.MODULE-DETAIL.API-CLOUD'
+                                        'MODULES.MODULE-DETAIL.DEPLOY.API-CLOUD'
                                             | translate
                                     }}
                                 </b>
                                 <span class="button-description-text">
-                                    {{ 'MODULES.MODULE-DETAIL.IM' | translate }}
+                                    {{
+                                        'MODULES.MODULE-DETAIL.DEPLOY.IM'
+                                            | translate
+                                    }}
                                 </span>
                             </div>
                         </span>
@@ -218,7 +221,9 @@
                         [matMenuTriggerFor]="codespacesMenu"
                         [disabled]="!isAuthorized()"
                     >
-                        {{ 'MODULES.MODULE-DETAIL.CODESPACES' | translate }}
+                        {{
+                            'MODULES.MODULE-DETAIL.CODESPACES.TITLE' | translate
+                        }}
                         <mat-icon class="arrow-button">
                             keyboard_arrow_down
                         </mat-icon>
@@ -234,7 +239,7 @@
                             <div class="button-texts">
                                 <b>
                                     {{
-                                        'MODULES.MODULE-DETAIL.JUPYTERLAB'
+                                        'MODULES.MODULE-DETAIL.CODESPACES.JUPYTERLAB'
                                             | translate
                                     }}</b
                                 >
@@ -253,7 +258,7 @@
                             <div class="button-texts">
                                 <b>
                                     {{
-                                        'MODULES.MODULE-DETAIL.VSCODE'
+                                        'MODULES.MODULE-DETAIL.CODESPACES.VSCODE'
                                             | translate
                                     }}</b
                                 >
@@ -278,7 +283,7 @@
                 routerLink="train"
                 id="deploy-tool-button"
             >
-                {{ 'MODULES.MODULE-DETAIL.DEPLOY-MODULE' | translate }}
+                {{ 'MODULES.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
             </a>
         </div>
     </mat-card-header>
@@ -322,20 +327,12 @@
                             target="_blank"
                             ><img
                                 alt="Build Status"
-                                src="{{
-                                    'https://img.shields.io/badge/DOI-' +
-                                        getDOI(module.doi) +
-                                        '-FF5B7F'
-                                }}"
+                                src="{{ getDOIBadgeUrl(module.doi) }}"
                         /></a>
                         <ng-template #staticDoiBadge>
                             <img
                                 alt="Build Status"
-                                src="{{
-                                    'https://img.shields.io/badge/DOI-' +
-                                        getDOI(module.doi) +
-                                        '-FF5B7F'
-                                }}"
+                                src="{{ getDOIBadgeUrl(module.doi) }}"
                             />
                         </ng-template>
                     </div>
@@ -439,7 +436,7 @@
                 <div class="box-container">
                     <div class="box-title">
                         {{
-                            'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES'
+                            'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.TITLE'
                                 | translate
                         }}
                     </div>
@@ -483,7 +480,8 @@
                                     src="../../../../../assets/images/database.png"
                                 />
                                 {{
-                                    'MODULES.MODULE-DETAIL.DATASET' | translate
+                                    'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.DATASET'
+                                        | translate
                                 }}
                             </span>
                         </a>
@@ -513,7 +511,7 @@
                             <span class="aligned-with-icon">
                                 <mat-icon> description </mat-icon>
                                 {{
-                                    'MODULES.MODULE-DETAIL.DOCUMENTATION'
+                                    'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.DOCUMENTATION'
                                         | translate
                                 }}
                             </span>
@@ -529,7 +527,8 @@
                             <span class="aligned-with-icon">
                                 <mat-icon> weight </mat-icon>
                                 {{
-                                    'MODULES.MODULE-DETAIL.WEIGHTS' | translate
+                                    'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.WEIGHTS'
+                                        | translate
                                 }}
                             </span>
                         </a>
@@ -544,7 +543,8 @@
                             <span class="aligned-with-icon">
                                 <mat-icon>format_quote</mat-icon>
                                 {{
-                                    'MODULES.MODULE-DETAIL.CITATION' | translate
+                                    'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.CITATION'
+                                        | translate
                                 }}
                             </span>
                         </a>
@@ -559,7 +559,7 @@
                             <span class="aligned-with-icon">
                                 <mat-icon>model_training</mat-icon>
                                 {{
-                                    'MODULES.MODULE-DETAIL.BASE-MODEL'
+                                    'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.BASE-MODEL'
                                         | translate
                                 }}
                             </span>

@@ -18,7 +18,8 @@ describe('ModuleCardComponent', () => {
         component = fixture.componentInstance;
         component.module = {
             name: 'Test',
-            keywords: ['test'],
+            categories: ['test'],
+            tags: ['test'],
             summary: 'Testing',
             title: 'Test',
         };

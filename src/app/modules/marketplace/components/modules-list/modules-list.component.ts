@@ -49,50 +49,26 @@ export class ModulesListComponent implements OnInit {
         });
     }
 
-    /**
-     * Function that retrieves a list of modules
-     * If tags are defined in the config file of the project it makes a request for every tag object
-     *
-     * @memberof ModulesListComponent
-     */
     getModulesSummaryFromService() {
         this.isLoading = true;
 
-        if (this.appConfigService.tags) {
-            const tags = this.appConfigService.tags;
-            const observableList: Observable<ModuleSummary[]>[] = [];
-            tags.forEach((tag: TagObject) => {
-                observableList.push(this.modulesService.getModulesSummary(tag));
-            });
+        this.modulesService.getModulesSummary().subscribe({
+            next: (modules) => {
+                this.isLoading = false;
+                this.modules = modules;
 
-            const observableResult = forkJoin(observableList);
-            observableResult.subscribe({
-                next: (modules) => {
-                    this.isLoading = false;
-                    const jointModulesArray = ([] as ModuleSummary[]).concat(
-                        ...modules
+                if (this.appConfigService.voName === 'vo.imagine-ai.eu') {
+                    this.modules = this.modules.filter(
+                        (m) =>
+                            m.tags.includes('vo.imagine-ai.eu') ||
+                            m.tags.includes('general purpose')
                     );
-                    // Delete possible duplicates from array based on title
-                    this.modules = jointModulesArray.filter(
-                        (v, i, a) =>
-                            a.findIndex((v2) => v2.title === v.title) === i
-                    );
-                },
-                error: () => {
-                    setTimeout(() => (this.isLoading = false), 3000);
-                },
-            });
-        } else {
-            this.modulesService.getModulesSummary().subscribe({
-                next: (modules) => {
-                    this.isLoading = false;
-                    this.modules = modules;
-                },
-                error: () => {
-                    setTimeout(() => (this.isLoading = false), 3000);
-                },
-            });
-        }
+                }
+            },
+            error: () => {
+                setTimeout(() => (this.isLoading = false), 3000);
+            },
+        });
     }
 
     getToolsSummary() {

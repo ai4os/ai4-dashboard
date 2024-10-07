@@ -58,22 +58,15 @@ const mockedAuthService: any = {
 };
 const mockedModule: Module = {
     title: 'test',
-    summary: '',
+    summary: 'summary',
     description: '',
-    keywords: [],
-    license: '',
-    date_creation: '',
-    dataset_url: '',
-    sources: {
-        dockerfile_repo: '',
-        docker_registry_repo: '',
-        code: '',
+    links: {
+        source_code: '',
     },
-    continuous_integration: {
-        build_status_badge: '',
-        build_status_url: '',
-    },
-    tosca: [],
+    libraries: ['testLib'],
+    tasks: ['task1'],
+    categories: ['cat1'],
+    tags: ['tag1'],
 };
 
 const mockedMediaQueryList: MediaQueryList = {

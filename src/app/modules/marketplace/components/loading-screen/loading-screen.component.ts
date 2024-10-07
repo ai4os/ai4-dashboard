@@ -74,8 +74,9 @@ export class LoadingScreenComponent implements OnInit {
     }
 
     createGradioDeployment() {
-        const moduleName =
-            this.module.sources.docker_registry_repo.split('/')[1];
+        const moduleName = this.module.links.source_code
+            .split('/')[4]
+            .toLowerCase();
 
         this.modulesService.createDeploymentGradio(moduleName).subscribe({
             next: (response: GradioCreateResponse) => {

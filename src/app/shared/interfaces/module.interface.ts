@@ -3,6 +3,7 @@ export interface ModuleSummary {
     title: string;
     summary: string;
     categories: string[];
+    tags: string[];
 }
 
 export interface Module {
