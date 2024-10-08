@@ -45,6 +45,7 @@
         "OVERVIEW-TAB": "Overview",
         "DATACENTERS-TAB": "Datacenters",
         "GRAPHS-TAB": "Graphs",
+        "GRAPHS-TAB-DISABLED": "Your personal usage stats don't seem to be available",
         "NODES-TAB": "Nodes",
         "USERS-OVER-TIME": "Historical Aggregate Usage",
         "USERS": "Your Usage",
