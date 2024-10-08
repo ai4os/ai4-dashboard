@@ -59,4 +59,10 @@ export class InferenceDetailComponent implements OnInit {
             },
         });
     }
+
+    openDocumentationWeb(): void {
+        const url =
+            'https://docs.ai4os.eu/en/latest/user/howto/deploy/oscar.html';
+        window.open(url);
+    }
 }
