@@ -161,7 +161,7 @@
             "DATES": "Dates",
             "CREATED": "Created",
             "UPDATED": "Updated",
-            "CATEGORIES": "Categories",
+            "CATEGORIES": "Platform Categories",
             "LIBRARIES": "Libraries",
             "TAGS": "Tags",
             "TASKS": "Tasks",
@@ -368,7 +368,7 @@
         "NEXT": "Next",
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
-        "GITHUB": "Github",
+        "GITHUB": "GitHub",
         "DOCKERHUB": "Docker",
         "REPORT-ISSUE": "Report issue"
     },

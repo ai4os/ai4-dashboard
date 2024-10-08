@@ -338,51 +338,14 @@
                     </div>
                 </div>
 
-                <div *ngIf="module.dates" class="box-container">
-                    <div class="box-title">
-                        {{ 'MODULES.MODULE-DETAIL.DATES' | translate }}
-                    </div>
-                    <div class="flex-container">
-                        <app-chip-with-icon
-                            icon="calendar_month"
-                            text="{{ module.dates.created }}"
-                            tooltip=" {{
-                                'MODULES.MODULE-DETAIL.CREATED' | translate
-                            }}"
-                        ></app-chip-with-icon>
-
-                        <app-chip-with-icon
-                            icon="update"
-                            text="{{ module.dates.updated }}"
-                            tooltip=" {{
-                                'MODULES.MODULE-DETAIL.UPDATED' | translate
-                            }}"
-                        ></app-chip-with-icon>
-                    </div>
-                </div>
-
                 <div class="box-container">
                     <div class="box-title">
-                        {{ 'MODULES.MODULE-DETAIL.CATEGORIES' | translate }}
+                        {{ 'MODULES.MODULE-DETAIL.TASKS' | translate }}
                     </div>
                     <div class="box-content">
                         <app-chip-with-icon
-                            *ngFor="let category of module.categories"
-                            text="{{ category }}"
-                            chipStyle="default"
-                        ></app-chip-with-icon>
-                    </div>
-                </div>
-
-                <div *ngIf="module['data-type']" class="box-container">
-                    <div class="box-title">
-                        {{ 'MODULES.MODULE-DETAIL.DATA-TYPES' | translate }}
-                    </div>
-                    <div class="box-content">
-                        <app-chip-with-icon
-                            *ngFor="let type of module['data-type']"
-                            text="{{ type }}"
-                            icon="{{ convertTypeToIcon(type) }}"
+                            *ngFor="let task of module.tasks"
+                            text="{{ task }}"
                             chipStyle="default"
                         ></app-chip-with-icon>
                     </div>
@@ -406,14 +369,15 @@
                     </div>
                 </div>
 
-                <div class="box-container">
+                <div *ngIf="module['data-type']" class="box-container">
                     <div class="box-title">
-                        {{ 'MODULES.MODULE-DETAIL.TASKS' | translate }}
+                        {{ 'MODULES.MODULE-DETAIL.DATA-TYPES' | translate }}
                     </div>
                     <div class="box-content">
                         <app-chip-with-icon
-                            *ngFor="let task of module.tasks"
-                            text="{{ task }}"
+                            *ngFor="let type of module['data-type']"
+                            text="{{ type }}"
+                            icon="{{ convertTypeToIcon(type) }}"
                             chipStyle="default"
                         ></app-chip-with-icon>
                     </div>
@@ -428,6 +392,19 @@
                             *ngFor="let tag of module.tags"
                             text="{{ tag }}"
                             [image]="'../../../assets/images/tag.png'"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
+                </div>
+
+                <div class="box-container">
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.CATEGORIES' | translate }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            *ngFor="let category of module.categories"
+                            text="{{ category }}"
                             chipStyle="default"
                         ></app-chip-with-icon>
                     </div>
@@ -567,7 +544,36 @@
                     </div>
                 </div>
 
-                <div class=""></div>
+                <div
+                    *ngIf="
+                        module.dates &&
+                        (module.dates.created || module.dates.updated)
+                    "
+                    class="box-container"
+                >
+                    <div class="box-title">
+                        {{ 'MODULES.MODULE-DETAIL.DATES' | translate }}
+                    </div>
+                    <div class="flex-container">
+                        <app-chip-with-icon
+                            *ngIf="module.dates.created"
+                            icon="calendar_month"
+                            text="{{ module.dates.created }}"
+                            tooltip=" {{
+                                'MODULES.MODULE-DETAIL.CREATED' | translate
+                            }}"
+                        ></app-chip-with-icon>
+
+                        <app-chip-with-icon
+                            *ngIf="module.dates.updated"
+                            icon="update"
+                            text="{{ module.dates.updated }}"
+                            tooltip=" {{
+                                'MODULES.MODULE-DETAIL.UPDATED' | translate
+                            }}"
+                        ></app-chip-with-icon>
+                    </div>
+                </div>
             </div>
         </div>
     </mat-card-content>
