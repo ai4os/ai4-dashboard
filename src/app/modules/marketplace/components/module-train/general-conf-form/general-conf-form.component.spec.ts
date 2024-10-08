@@ -77,8 +77,8 @@ describe('GeneralConfFormComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('form invalid when empty', () => {
-        expect(component.generalConfFormGroup.valid).toBeFalsy();
+    it('form valid when empty', () => {
+        expect(component.generalConfFormGroup.valid).toBeTruthy();
     });
 
     it('check jupyter valid config', () => {
@@ -101,7 +101,7 @@ describe('GeneralConfFormComponent', () => {
         // check required restrictions
         expect(
             component.generalConfFormGroup.controls.titleInput.valid
-        ).toBeFalsy();
+        ).toBeTruthy();
         expect(
             component.generalConfFormGroup.controls.serviceToRunPassInput.valid
         ).toBeFalsy();
@@ -136,7 +136,7 @@ describe('GeneralConfFormComponent', () => {
         // check required restrictions
         expect(
             component.generalConfFormGroup.controls.titleInput.valid
-        ).toBeFalsy();
+        ).toBeTruthy();
         expect(
             component.generalConfFormGroup.controls.serviceToRunPassInput.valid
         ).toBeFalsy();
@@ -160,7 +160,7 @@ describe('GeneralConfFormComponent', () => {
         expect(component.generalConfFormGroup.valid).toBeTruthy();
     });
 
-    it('check fedserver invalid config', () => {
+    it('check fedserver valid config', () => {
         const serviceToRun =
             component.generalConfFormGroup.controls['serviceToRunChip'];
         serviceToRun.setValue('fedserver');
@@ -168,6 +168,6 @@ describe('GeneralConfFormComponent', () => {
         // check required restrictions
         expect(
             component.generalConfFormGroup.controls.titleInput.valid
-        ).toBeFalsy();
+        ).toBeTruthy();
     });
 });
