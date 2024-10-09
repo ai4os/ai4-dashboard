@@ -33,18 +33,29 @@
                             type="search"
                             formControlName="search"
                             placeholder="Enter text to search"
+                            (input)="updateFilters()"
                         />
                     </mat-form-field>
                 </form>
                 <span class="results-text"
-                    >{{ getNumResults() }}
+                    >{{ resultsFound }}
                     {{ 'MODULES.NUM-RESULTS' | translate }}</span
                 >
             </div>
         </mat-toolbar>
+        <app-filter-component
+            [libraries]="librariesList"
+            (onLibrariesChanged)="filterByLibrary($event)"
+            [tasks]="tasksList"
+            (onTasksChanged)="filterByTask($event)"
+            [categories]="categoriesList"
+            (onCategoriesChanged)="filterByCategory($event)"
+            [datatypes]="datatypesList"
+            (onDatatypesChanged)="filterByDatatype($event)"
+        ></app-filter-component>
     </ng-template>
 
-    <mat-tab-group #tabGroup>
+    <mat-tab-group #tabGroup (selectedTabChange)="updateFilters()">
         <mat-tab label="Modules">
             <div *ngIf="isLoading; else modulesList" class="spinner">
                 <mat-progress-spinner color="primary" mode="indeterminate">
@@ -55,7 +66,7 @@
                     <div
                         fxFlex
                         *ngFor="
-                            let module of modules
+                            let module of filteredModules
                                 | search
                                     : this.searchFormGroup.get('search')
                                           ?.value as modules
@@ -77,7 +88,7 @@
                     <div
                         fxFlex
                         *ngFor="
-                            let tool of tools
+                            let tool of filteredTools
                                 | search
                                     : this.searchFormGroup.get('search')
                                           ?.value as tools

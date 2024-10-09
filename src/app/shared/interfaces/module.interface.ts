@@ -1,9 +1,13 @@
 export interface ModuleSummary {
+    [x: string]: any;
     name: string;
     title: string;
     summary: string;
     categories: string[];
     tags: string[];
+    libraries: string[];
+    tasks: string[];
+    'data-type'?: string[];
 }
 
 export interface Module {

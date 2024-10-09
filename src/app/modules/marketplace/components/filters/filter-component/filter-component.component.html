@@ -1,0 +1,99 @@
+<mat-form-field>
+    <mat-label> {{ 'MODULES.MODULE-DETAIL.LIBRARIES' | translate }} </mat-label>
+    <mat-select
+        [(ngModel)]="selectedLibraries"
+        (selectionChange)="librariesChange()"
+        multiple
+    >
+        <mat-select-trigger>
+            {{ selectedLibraries[0] || '' }}
+            <span
+                *ngIf="(selectedLibraries.length || 0) > 1"
+                class="additional-selection"
+            >
+                (+{{ (selectedLibraries.length || 0) - 1 }}
+                {{ selectedLibraries.length === 2 ? 'other' : 'others' }})
+            </span>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let library of libraries" [value]="library">{{
+            library
+        }}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label> {{ 'MODULES.MODULE-DETAIL.TASKS' | translate }} </mat-label>
+    <mat-select
+        [(ngModel)]="selectedTasks"
+        (selectionChange)="tasksChange()"
+        multiple
+    >
+        <mat-select-trigger>
+            {{ selectedTasks[0] || '' }}
+            <span
+                *ngIf="(selectedTasks.length || 0) > 1"
+                class="example-additional-selection"
+            >
+                (+{{ (selectedTasks.length || 0) - 1 }}
+                {{ selectedTasks.length === 2 ? 'other' : 'others' }})
+            </span>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let task of tasks" [value]="task">{{
+            task
+        }}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>
+        {{ 'MODULES.MODULE-DETAIL.CATEGORIES' | translate }}
+    </mat-label>
+    <mat-select
+        [(ngModel)]="selectedCategories"
+        (selectionChange)="categoriesChange()"
+        multiple
+    >
+        <mat-select-trigger>
+            {{ selectedCategories[0] || '' }}
+            <span
+                *ngIf="(selectedCategories.length || 0) > 1"
+                class="example-additional-selection"
+            >
+                (+{{ (selectedCategories.length || 0) - 1 }}
+                {{ selectedCategories.length === 2 ? 'other' : 'others' }})
+            </span>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let category of categories" [value]="category">{{
+            category
+        }}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>
+        {{ 'MODULES.MODULE-DETAIL.DATA-TYPES' | translate }}
+    </mat-label>
+    <mat-select
+        [(ngModel)]="selectedDatatypes"
+        (selectionChange)="datatypesChange()"
+        multiple
+    >
+        <mat-select-trigger>
+            {{ selectedDatatypes[0] || '' }}
+            <span
+                *ngIf="(selectedDatatypes.length || 0) > 1"
+                class="example-additional-selection"
+            >
+                (+{{ (selectedDatatypes.length || 0) - 1 }}
+                {{ selectedDatatypes.length === 2 ? 'other' : 'others' }})
+            </span>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let datatype of datatypes" [value]="datatype">{{
+            datatype
+        }}</mat-option>
+    </mat-select>
+</mat-form-field>

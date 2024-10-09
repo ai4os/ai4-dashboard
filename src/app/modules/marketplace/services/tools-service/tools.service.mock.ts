@@ -26,6 +26,8 @@ export const toolsSummaryList: Array<ModuleSummary> = [
         categories: ['Machine Learning', 'Federated Learning'],
         tags: ['test'],
         name: 'ai4os-fedserver',
+        libraries: [],
+        tasks: [],
     },
     {
         title: 'AI4OS Test Server',
@@ -33,5 +35,7 @@ export const toolsSummaryList: Array<ModuleSummary> = [
         categories: ['Machine Learning', 'Federated Learning'],
         tags: ['test'],
         name: 'ai4os-testserver',
+        libraries: [],
+        tasks: [],
     },
 ];
