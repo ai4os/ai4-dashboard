@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 @Component({
     selector: 'app-filter-component',
@@ -6,6 +7,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     styleUrls: ['./filter-component.component.scss'],
 })
 export class FilterComponentComponent implements OnInit {
+    constructor(private appConfigService: AppConfigService) {}
+
     @Input() libraries: Set<string> = new Set<string>();
     selectedLibraries: string[] = [];
     @Output() onLibrariesChanged = new EventEmitter<string[]>();
@@ -30,6 +33,16 @@ export class FilterComponentComponent implements OnInit {
     @Output() onTagsChanged = new EventEmitter<string[]>();
 
     ngOnInit() {
+        if (this.appConfigService.voName === 'vo.imagine-ai.eu') {
+            this.selectedDatatypes.push('Image');
+            this.datatypesChange();
+
+            this.selectedTags.push('vo.imagine-ai.eu');
+            this.selectedTags.push('general purpose');
+            this.filterTags();
+            this.tagsChange();
+        }
+
         this.filteredTags = Array.from(this.tags);
     }
 

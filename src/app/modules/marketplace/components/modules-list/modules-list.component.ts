@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Module, ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { Observable, forkJoin } from 'rxjs';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '../../services/tools-service/tools.service';
-import { TagObject } from '@app/data/types/tags';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatTabGroup } from '@angular/material/tabs';
 
@@ -50,12 +48,14 @@ export class ModulesListComponent implements OnInit {
     tasksList: Set<string> = new Set<string>();
     categoriesList: Set<string> = new Set<string>();
     datatypesList: Set<string> = new Set<string>();
+    tagsList: Set<string> = new Set<string>();
 
     // applied filters
     selectedLibraries: string[] = [];
     selectedTasks: string[] = [];
     selectedCategories: string[] = [];
     selectedDatatypes: string[] = [];
+    selectedTags: string[] = [];
 
     ngOnInit(): void {
         this.initializeForm();
@@ -76,19 +76,28 @@ export class ModulesListComponent implements OnInit {
             next: (modules) => {
                 this.isLoading = false;
                 this.modules = modules;
-                this.filteredModules = modules;
-                this.resultsFound = modules.length;
+                this.filteredModules = this.modules;
+
+                const ai4eoscDevEnv = this.modules.find(
+                    (m) => m.name === 'ai4os-dev-env'
+                );
+                if (ai4eoscDevEnv) {
+                    this.modules = [
+                        ...this.modules.filter(
+                            (item) => item === ai4eoscDevEnv
+                        ),
+                        ...this.modules.filter(
+                            (item) => item !== ai4eoscDevEnv
+                        ),
+                    ];
+                }
+
                 this.librariesList = this.getFilters('libraries');
                 this.tasksList = this.getFilters('tasks');
                 this.categoriesList = this.getFilters('categories');
                 this.datatypesList = this.getFilters('data-type');
-                if (this.appConfigService.voName === 'vo.imagine-ai.eu') {
-                    this.modules = this.modules.filter(
-                        (m) =>
-                            m.tags.includes('vo.imagine-ai.eu') ||
-                            m.tags.includes('general purpose')
-                    );
-                }
+                this.tagsList = this.getFilters('tags');
+                this.resultsFound = this.filteredModules.length;
             },
             error: () => {
                 setTimeout(() => (this.isLoading = false), 3000);
@@ -107,6 +116,7 @@ export class ModulesListComponent implements OnInit {
                 this.tasksList = this.getFilters('tasks');
                 this.categoriesList = this.getFilters('categories');
                 this.datatypesList = this.getFilters('data-type');
+                this.tagsList = this.getFilters('tags');
             });
     }
 
@@ -230,6 +240,15 @@ export class ModulesListComponent implements OnInit {
                 )
             );
         }
+        // tags filter
+        if (this.selectedTags.length > 0) {
+            this.filteredModules = this.filteredModules.filter((m) =>
+                this.selectedTags.some((tag) => m.tags.includes(tag))
+            );
+            this.filteredTools = this.filteredTools.filter((m) =>
+                this.selectedTags.some((tag) => m.tags.includes(tag))
+            );
+        }
 
         this.resultsFound = this.getNumResults();
     }
@@ -251,6 +270,11 @@ export class ModulesListComponent implements OnInit {
 
     filterByDatatype(datatypes: string[]) {
         this.selectedDatatypes = datatypes;
+        this.updateFilters();
+    }
+
+    filterByTag(tags: string[]) {
+        this.selectedTags = tags;
         this.updateFilters();
     }
 
