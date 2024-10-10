@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModuleSummary } from '@app/shared/interfaces/module.interface';
+import {
+    FilterGroup,
+    ModuleSummary,
+} from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
@@ -37,9 +40,9 @@ export class ModulesListComponent implements OnInit {
     isLoading = false;
 
     modules: ModuleSummary[] = [];
-    filteredModules: ModuleSummary[] = [];
+    displayedModules: ModuleSummary[] = [];
     tools: ModuleSummary[] = [];
-    filteredTools: ModuleSummary[] = [];
+    displayedTools: ModuleSummary[] = [];
 
     resultsFound = 0;
 
@@ -51,6 +54,7 @@ export class ModulesListComponent implements OnInit {
     tagsList: Set<string> = new Set<string>();
 
     // applied filters
+    selectedFilters: FilterGroup[] = [];
     selectedLibraries: string[] = [];
     selectedTasks: string[] = [];
     selectedCategories: string[] = [];
@@ -76,8 +80,6 @@ export class ModulesListComponent implements OnInit {
             next: (modules) => {
                 this.isLoading = false;
                 this.modules = modules;
-                this.filteredModules = this.modules;
-
                 const ai4eoscDevEnv = this.modules.find(
                     (m) => m.name === 'ai4os-dev-env'
                 );
@@ -91,13 +93,14 @@ export class ModulesListComponent implements OnInit {
                         ),
                     ];
                 }
+                this.displayedModules = this.modules;
 
                 this.librariesList = this.getFilters('libraries');
                 this.tasksList = this.getFilters('tasks');
                 this.categoriesList = this.getFilters('categories');
                 this.datatypesList = this.getFilters('data-type');
                 this.tagsList = this.getFilters('tags');
-                this.resultsFound = this.filteredModules.length;
+                this.resultsFound = this.displayedModules.length;
             },
             error: () => {
                 setTimeout(() => (this.isLoading = false), 3000);
@@ -111,7 +114,7 @@ export class ModulesListComponent implements OnInit {
             .getToolsSummary()
             .subscribe((tools: ModuleSummary[]) => {
                 this.tools = tools;
-                this.filteredTools = tools;
+                this.displayedTools = tools;
                 this.librariesList = this.getFilters('libraries');
                 this.tasksList = this.getFilters('tasks');
                 this.categoriesList = this.getFilters('categories');
@@ -129,9 +132,9 @@ export class ModulesListComponent implements OnInit {
 
         if (this.tabGroup) {
             if (this.tabGroup.selectedIndex == 0) {
-                filteredList = this.filteredModules;
+                filteredList = this.displayedModules;
             } else {
-                filteredList = this.filteredTools;
+                filteredList = this.displayedTools;
             }
 
             filteredList = filteredList.filter(
@@ -188,94 +191,79 @@ export class ModulesListComponent implements OnInit {
         return new Set(filteredOptions);
     }
 
+    addFilter(filter: FilterGroup) {
+        this.selectedFilters.push(filter);
+        this.updateFilters();
+    }
+
     updateFilters() {
-        if (this.tabGroup && this.modules && this.tools) {
-            if (this.tabGroup.selectedIndex == 0) {
-                this.filteredModules = this.modules;
-            } else {
-                this.filteredTools = this.tools;
+        let joinedFilteredModules = new Set<ModuleSummary>();
+        let filteredModules: ModuleSummary[] = [];
+        this.selectedFilters.forEach((filter) => {
+            if (this.tabGroup && this.modules && this.tools) {
+                if (this.tabGroup.selectedIndex == 0) {
+                    filteredModules = this.modules;
+                } else {
+                    this.displayedTools = this.tools;
+                }
             }
-        }
-        // libraries filter
-        if (this.selectedLibraries.length > 0) {
-            this.filteredModules = this.filteredModules.filter((m) =>
-                this.selectedLibraries.some((lib) => m.libraries.includes(lib))
-            );
-            this.filteredTools = this.filteredTools.filter((m) =>
-                this.selectedLibraries.some((lib) => m.libraries.includes(lib))
-            );
-        }
-        // tasks filter
-        if (this.selectedTasks.length > 0) {
-            this.filteredModules = this.filteredModules.filter((m) =>
-                this.selectedTasks.some((task) => m.tasks.includes(task))
-            );
-            this.filteredTools = this.filteredTools.filter((m) =>
-                this.selectedTasks.some((task) => m.tasks.includes(task))
-            );
-        }
-        // categories filter
-        if (this.selectedCategories.length > 0) {
-            this.filteredModules = this.filteredModules.filter((m) =>
-                this.selectedCategories.some((cat) =>
-                    m.categories.includes(cat)
-                )
-            );
-            this.filteredTools = this.filteredTools.filter((m) =>
-                this.selectedCategories.some((cat) =>
-                    m.categories.includes(cat)
-                )
-            );
-        }
-        // datatypes filter
-        if (this.selectedDatatypes.length > 0) {
-            this.filteredModules = this.filteredModules.filter((m) =>
-                this.selectedDatatypes.some(
-                    (dt) => m['data-type']?.includes(dt)
-                )
-            );
-            this.filteredTools = this.filteredTools.filter((m) =>
-                this.selectedDatatypes.some(
-                    (dt) => m['data-type']?.includes(dt)
-                )
-            );
-        }
-        // tags filter
-        if (this.selectedTags.length > 0) {
-            this.filteredModules = this.filteredModules.filter((m) =>
-                this.selectedTags.some((tag) => m.tags.includes(tag))
-            );
-            this.filteredTools = this.filteredTools.filter((m) =>
-                this.selectedTags.some((tag) => m.tags.includes(tag))
-            );
-        }
+            // libraries filter
+            if (filter.libraries.length > 0) {
+                filteredModules = filteredModules.filter((m) =>
+                    filter.libraries.some((lib) => m.libraries.includes(lib))
+                );
+                this.displayedTools = this.displayedTools.filter((m) =>
+                    filter.libraries.some((lib) => m.libraries.includes(lib))
+                );
+            }
+            // tasks filter
+            if (filter.tasks.length > 0) {
+                filteredModules = filteredModules.filter((m) =>
+                    filter.tasks.some((task) => m.tasks.includes(task))
+                );
+                this.displayedTools = this.displayedTools.filter((m) =>
+                    filter.tasks.some((task) => m.tasks.includes(task))
+                );
+            }
+            // categories filter
+            if (filter.categories.length > 0) {
+                filteredModules = filteredModules.filter((m) =>
+                    filter.categories.some((cat) => m.categories.includes(cat))
+                );
+                this.displayedTools = this.displayedTools.filter((m) =>
+                    this.selectedCategories.some((cat) =>
+                        m.categories.includes(cat)
+                    )
+                );
+            }
+            // datatypes filter
+            if (filter.datatypes.length > 0) {
+                filteredModules = filteredModules.filter((m) =>
+                    filter.datatypes.some((dt) => m['data-type']?.includes(dt))
+                );
+                this.displayedTools = this.displayedTools.filter((m) =>
+                    this.selectedDatatypes.some(
+                        (dt) => m['data-type']?.includes(dt)
+                    )
+                );
+            }
+            // tags filter
+            if (filter.tags.length > 0) {
+                filteredModules = filteredModules.filter((m) =>
+                    filter.tags.some((tag) => m.tags.includes(tag))
+                );
+                this.displayedTools = this.displayedTools.filter((m) =>
+                    this.selectedTags.some((tag) => m.tags.includes(tag))
+                );
+            }
 
+            joinedFilteredModules = new Set([
+                ...joinedFilteredModules,
+                ...filteredModules,
+            ]);
+        });
+        this.displayedModules = Array.from(joinedFilteredModules);
         this.resultsFound = this.getNumResults();
-    }
-
-    filterByLibrary(libraries: string[]) {
-        this.selectedLibraries = libraries;
-        this.updateFilters();
-    }
-
-    filterByTask(tasks: string[]) {
-        this.selectedTasks = tasks;
-        this.updateFilters();
-    }
-
-    filterByCategory(categories: string[]) {
-        this.selectedCategories = categories;
-        this.updateFilters();
-    }
-
-    filterByDatatype(datatypes: string[]) {
-        this.selectedDatatypes = datatypes;
-        this.updateFilters();
-    }
-
-    filterByTag(tags: string[]) {
-        this.selectedTags = tags;
-        this.updateFilters();
     }
 
     resetFilters() {

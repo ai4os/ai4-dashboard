@@ -25,6 +25,11 @@
     width: 100%;
 }
 
+.button {
+    color: var(--white) !important;
+    text-wrap: nowrap;
+}
+
 ::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
     border-radius: 50px;
 }

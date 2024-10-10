@@ -21,8 +21,10 @@
     </ng-container>
 
     <ng-template #desktop>
-        <mat-toolbar class="mb-3 marketplace-toolbar">
-            <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
+        <mat-toolbar class="marketplace-toolbar">
+            <span class="aligned-with-icon"
+                >Marketplace <mat-icon>shopping_cart</mat-icon></span
+            >
             <div class="search-and-results-container">
                 <form [formGroup]="searchFormGroup">
                     <mat-form-field subscriptSizing="dynamic">
@@ -37,25 +39,53 @@
                         />
                     </mat-form-field>
                 </form>
-                <span class="results-text"
-                    >{{ resultsFound }}
-                    {{ 'MODULES.NUM-RESULTS' | translate }}</span
-                >
+
+                <div class="filters-and-results-container">
+                    <mat-chip
+                        class="example-box"
+                        color="accent"
+                        [matBadge]="selectedFilters.length"
+                        matBadgePosition="above after"
+                        cdkDrag
+                    >
+                        Applied filters
+                    </mat-chip>
+
+                    <span class="results-text"
+                        >{{ resultsFound }}
+                        {{ 'MODULES.NUM-RESULTS' | translate }}</span
+                    >
+                </div>
             </div>
         </mat-toolbar>
+
         <app-filter-component
             *ngIf="!isLoading"
             [libraries]="librariesList"
-            (onLibrariesChanged)="filterByLibrary($event)"
             [tasks]="tasksList"
-            (onTasksChanged)="filterByTask($event)"
             [categories]="categoriesList"
-            (onCategoriesChanged)="filterByCategory($event)"
             [datatypes]="datatypesList"
-            (onDatatypesChanged)="filterByDatatype($event)"
             [tags]="tagsList"
-            (onTagsChanged)="filterByTag($event)"
+            (onChange)="addFilter($event)"
         ></app-filter-component>
+
+        <!-- <div *ngFor="let filter of selectedFilters">
+            <p>
+                {{ filter.categories }}
+            </p>
+            <p>
+                {{ filter.datatypes }}
+            </p>
+            <p>
+                {{ filter.libraries }}
+            </p>
+            <p>
+                {{ filter.tasks }}
+            </p>
+            <p>
+                {{ filter.tags }}
+            </p>
+        </div> -->
     </ng-template>
 
     <mat-tab-group #tabGroup (selectedTabChange)="updateFilters()">
@@ -69,7 +99,7 @@
                     <div
                         fxFlex
                         *ngFor="
-                            let module of filteredModules
+                            let module of displayedModules
                                 | search
                                     : this.searchFormGroup.get('search')
                                           ?.value as modules
@@ -91,7 +121,7 @@
                     <div
                         fxFlex
                         *ngFor="
-                            let tool of filteredTools
+                            let tool of displayedTools
                                 | search
                                     : this.searchFormGroup.get('search')
                                           ?.value as tools
