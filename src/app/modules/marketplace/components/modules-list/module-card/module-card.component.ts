@@ -11,14 +11,14 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 export class ModuleCardComponent implements OnInit {
     constructor(public titleCasePipe: TitleCasePipe) {}
 
-    // This property is bound using its original name.
     @Input() module!: ModuleSummary;
-    @Input() isTool?: boolean;
 
+    isTool = false;
     displayedKeywords: string[] = [];
 
     ngOnInit(): void {
         if (this.module) {
+            this.isTool = this.module.categories.includes('AI4 tools');
             const displayedKeywordsArray = this.module.categories
                 .filter(
                     (category) =>

@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-.module-card {
+.basic-card {
     border-radius: 25px;
     min-height: 225px;
     width: 100%;
@@ -21,24 +21,28 @@
     border: 1px solid var(--border-gray);
 }
 
-.module-card-header .mat-icon {
+.basic-card-header .mat-icon {
     transform: scale(0.8);
     position: relative;
     top: 5px;
     left: -4px;
 }
 
-.module-card-content {
+.basic-card-content {
     color: var(--dark-grey);
 }
 
-.module-card-actions {
+.basic-card-actions {
     margin-top: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
     gap: 0.5em;
+}
+
+.tool-card {
+    border: 2px solid var(--accent) !important;
 }
 
 mat-card-subtitle {

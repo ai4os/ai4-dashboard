@@ -1,8 +1,11 @@
 <mat-card
-    class="module-card"
+    class="basic-card"
+    [ngClass]="{
+        'tool-card': isTool
+    }"
     [routerLink]="[isTool ? 'tools/' + module.name : 'modules/' + module.name]"
 >
-    <mat-card-header class="module-card-header">
+    <mat-card-header class="basic-card-header">
         <mat-card-title>
             <mat-icon color="primary">model_training</mat-icon>
 
@@ -12,16 +15,10 @@
     <mat-card-content>
         <mat-divider></mat-divider>
 
-        <div class="module-card-content">
-            <p>{{ module.summary }}</p>
+        <div class="basic-card-content">
+            <mat-card-subtitle class="mt-2">{{
+                module.summary
+            }}</mat-card-subtitle>
         </div>
     </mat-card-content>
-
-    <mat-card-actions align="start" class="module-card-actions ml-2">
-        <app-chip-with-icon
-            *ngFor="let category of module.categories"
-            text="{{ category }}"
-            chipStyle="category-marketplace"
-        ></app-chip-with-icon>
-    </mat-card-actions>
 </mat-card>

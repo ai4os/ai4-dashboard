@@ -44,6 +44,7 @@
             </div>
         </mat-toolbar>
         <app-filter-component
+            *ngIf="!isLoading"
             [libraries]="librariesList"
             (onLibrariesChanged)="filterByLibrary($event)"
             [tasks]="tasksList"
@@ -52,6 +53,8 @@
             (onCategoriesChanged)="filterByCategory($event)"
             [datatypes]="datatypesList"
             (onDatatypesChanged)="filterByDatatype($event)"
+            [tags]="tagsList"
+            (onTagsChanged)="filterByTag($event)"
         ></app-filter-component>
     </ng-template>
 
@@ -95,10 +98,7 @@
                         "
                         class="m-2"
                     >
-                        <app-module-card
-                            [module]="tool"
-                            [isTool]="true"
-                        ></app-module-card>
+                        <app-module-card [module]="tool"></app-module-card>
                     </div>
                 </div>
             </ng-template>
