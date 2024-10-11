@@ -5,11 +5,13 @@ import {
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatTabGroup } from '@angular/material/tabs';
+import { MatDialog } from '@angular/material/dialog';
+import { FiltersConfigurationDialogComponent } from './filters-configuration-dialog/filters-configuration-dialog.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-modules-list',
@@ -21,10 +23,10 @@ export class ModulesListComponent implements OnInit {
         private fb: FormBuilder,
         private modulesService: ModulesService,
         private toolsService: ToolsService,
-        private appConfigService: AppConfigService,
         private authService: AuthService,
         private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
+        public dialog: MatDialog
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -39,10 +41,8 @@ export class ModulesListComponent implements OnInit {
     searchFormGroup!: FormGroup;
     isLoading = false;
 
-    modules: ModuleSummary[] = [];
-    displayedModules: ModuleSummary[] = [];
-    tools: ModuleSummary[] = [];
-    displayedTools: ModuleSummary[] = [];
+    elements: ModuleSummary[] = [];
+    displayedElements: ModuleSummary[] = [];
 
     resultsFound = 0;
 
@@ -63,8 +63,33 @@ export class ModulesListComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
-        this.getModulesSummaryFromService();
-        this.getToolsSummary();
+        this.isLoading = true;
+
+        forkJoin({
+            modules: this.modulesService.getModulesSummary(),
+            tools: this.toolsService.getToolsSummary(),
+        }).subscribe({
+            next: (result) => {
+                this.elements = this.elements
+                    .concat(result.tools)
+                    .concat(result.modules);
+
+                this.librariesList = this.getFilters('libraries');
+                this.tasksList = this.getFilters('tasks');
+                this.categoriesList = this.getFilters('categories');
+                this.datatypesList = this.getFilters('data-type');
+                this.tagsList = this.getFilters('tags');
+
+                this.displayedElements = this.elements;
+                this.resultsFound = this.displayedElements.length;
+                this.orderElements();
+
+                this.isLoading = false;
+            },
+            error: () => {
+                setTimeout(() => (this.isLoading = false), 3000);
+            },
+        });
     }
 
     initializeForm() {
@@ -73,122 +98,50 @@ export class ModulesListComponent implements OnInit {
         });
     }
 
-    getModulesSummaryFromService() {
-        this.isLoading = true;
-
-        this.modulesService.getModulesSummary().subscribe({
-            next: (modules) => {
-                this.isLoading = false;
-                this.modules = modules;
-                const ai4eoscDevEnv = this.modules.find(
-                    (m) => m.name === 'ai4os-dev-env'
-                );
-                if (ai4eoscDevEnv) {
-                    this.modules = [
-                        ...this.modules.filter(
-                            (item) => item === ai4eoscDevEnv
-                        ),
-                        ...this.modules.filter(
-                            (item) => item !== ai4eoscDevEnv
-                        ),
-                    ];
-                }
-                this.displayedModules = this.modules;
-
-                this.librariesList = this.getFilters('libraries');
-                this.tasksList = this.getFilters('tasks');
-                this.categoriesList = this.getFilters('categories');
-                this.datatypesList = this.getFilters('data-type');
-                this.tagsList = this.getFilters('tags');
-                this.resultsFound = this.displayedModules.length;
-            },
-            error: () => {
-                setTimeout(() => (this.isLoading = false), 3000);
-            },
-        });
-    }
-
-    getToolsSummary() {
-        this.isLoading = true;
-        this.toolsService
-            .getToolsSummary()
-            .subscribe((tools: ModuleSummary[]) => {
-                this.tools = tools;
-                this.displayedTools = tools;
-                this.librariesList = this.getFilters('libraries');
-                this.tasksList = this.getFilters('tasks');
-                this.categoriesList = this.getFilters('categories');
-                this.datatypesList = this.getFilters('data-type');
-                this.tagsList = this.getFilters('tags');
-            });
-    }
-
     isLoggedIn(): boolean {
         return this.authService.isAuthenticated();
     }
 
     getNumResults(): number {
-        let filteredList: ModuleSummary[] = [];
+        let filteredList = this.displayedElements;
 
-        if (this.tabGroup) {
-            if (this.tabGroup.selectedIndex == 0) {
-                filteredList = this.displayedModules;
-            } else {
-                filteredList = this.displayedTools;
-            }
-
-            filteredList = filteredList.filter(
-                (f) =>
-                    f.title
-                        .toLocaleLowerCase()
-                        .includes(
-                            this.searchFormGroup.controls[
-                                'search'
-                            ].value.toLocaleLowerCase()
-                        ) ||
-                    f.summary
-                        .toLocaleLowerCase()
-                        .includes(
-                            this.searchFormGroup.controls[
-                                'search'
-                            ].value.toLocaleLowerCase()
-                        )
-            );
-        }
+        filteredList = filteredList.filter(
+            (f) =>
+                f.title
+                    .toLocaleLowerCase()
+                    .includes(
+                        this.searchFormGroup.controls[
+                            'search'
+                        ].value.toLocaleLowerCase()
+                    ) ||
+                f.summary
+                    .toLocaleLowerCase()
+                    .includes(
+                        this.searchFormGroup.controls[
+                            'search'
+                        ].value.toLocaleLowerCase()
+                    )
+        );
 
         return filteredList.length;
     }
 
     getFilters(filter: string): Set<string> {
-        let duplicatedOptions: string[] = [];
-        let filteredOptions: string[] = [];
+        let options: string[] = [];
 
-        if (this.tabGroup && this.modules && this.tools) {
-            if (this.tabGroup.selectedIndex == 0) {
-                this.modules.forEach((m) => {
-                    let variable = m[filter];
-                    if (variable !== undefined) {
-                        duplicatedOptions = duplicatedOptions.concat(variable);
-                    }
-                });
-            } else {
-                this.tools.forEach((m) => {
-                    let variable = m[filter];
-                    if (variable !== undefined) {
-                        duplicatedOptions = duplicatedOptions.concat(variable);
-                    }
-                });
+        this.elements.forEach((m) => {
+            let variable = m[filter];
+            if (variable !== undefined) {
+                options = options.concat(variable);
             }
+        });
 
-            filteredOptions = duplicatedOptions.filter(
-                (option) => option !== 'Other'
-            );
-            if (duplicatedOptions.includes('Other')) {
-                filteredOptions.push('Other');
-            }
+        if (options.includes('Other')) {
+            options = options.filter((option) => option !== 'Other');
+            options.push('Other');
         }
 
-        return new Set(filteredOptions);
+        return new Set(options);
     }
 
     addFilter(filter: FilterGroup) {
@@ -197,73 +150,107 @@ export class ModulesListComponent implements OnInit {
     }
 
     updateFilters() {
-        let joinedFilteredModules = new Set<ModuleSummary>();
-        let filteredModules: ModuleSummary[] = [];
-        this.selectedFilters.forEach((filter) => {
-            if (this.tabGroup && this.modules && this.tools) {
-                if (this.tabGroup.selectedIndex == 0) {
-                    filteredModules = this.modules;
-                } else {
-                    this.displayedTools = this.tools;
-                }
-            }
-            // libraries filter
-            if (filter.libraries.length > 0) {
-                filteredModules = filteredModules.filter((m) =>
-                    filter.libraries.some((lib) => m.libraries.includes(lib))
-                );
-                this.displayedTools = this.displayedTools.filter((m) =>
-                    filter.libraries.some((lib) => m.libraries.includes(lib))
-                );
-            }
-            // tasks filter
-            if (filter.tasks.length > 0) {
-                filteredModules = filteredModules.filter((m) =>
-                    filter.tasks.some((task) => m.tasks.includes(task))
-                );
-                this.displayedTools = this.displayedTools.filter((m) =>
-                    filter.tasks.some((task) => m.tasks.includes(task))
-                );
-            }
-            // categories filter
-            if (filter.categories.length > 0) {
-                filteredModules = filteredModules.filter((m) =>
-                    filter.categories.some((cat) => m.categories.includes(cat))
-                );
-                this.displayedTools = this.displayedTools.filter((m) =>
-                    this.selectedCategories.some((cat) =>
-                        m.categories.includes(cat)
-                    )
-                );
-            }
-            // datatypes filter
-            if (filter.datatypes.length > 0) {
-                filteredModules = filteredModules.filter((m) =>
-                    filter.datatypes.some((dt) => m['data-type']?.includes(dt))
-                );
-                this.displayedTools = this.displayedTools.filter((m) =>
-                    this.selectedDatatypes.some(
-                        (dt) => m['data-type']?.includes(dt)
-                    )
-                );
-            }
-            // tags filter
-            if (filter.tags.length > 0) {
-                filteredModules = filteredModules.filter((m) =>
-                    filter.tags.some((tag) => m.tags.includes(tag))
-                );
-                this.displayedTools = this.displayedTools.filter((m) =>
-                    this.selectedTags.some((tag) => m.tags.includes(tag))
-                );
-            }
+        let joinedFilteredElements = new Set<ModuleSummary>();
+        let filteredElements: ModuleSummary[] = [];
 
-            joinedFilteredModules = new Set([
-                ...joinedFilteredModules,
-                ...filteredModules,
-            ]);
-        });
-        this.displayedModules = Array.from(joinedFilteredModules);
+        if (this.selectedFilters.length > 0) {
+            this.selectedFilters.forEach((filter) => {
+                filteredElements = this.elements;
+                // libraries filter
+                if (filter.libraries.length > 0) {
+                    filteredElements = filteredElements.filter((m) =>
+                        filter.libraries.some((lib) =>
+                            m.libraries.includes(lib)
+                        )
+                    );
+                }
+                // tasks filter
+                if (filter.tasks.length > 0) {
+                    filteredElements = filteredElements.filter((m) =>
+                        filter.tasks.some((task) => m.tasks.includes(task))
+                    );
+                }
+                // categories filter
+                if (filter.categories.length > 0) {
+                    filteredElements = filteredElements.filter((m) =>
+                        filter.categories.some((cat) =>
+                            m.categories.includes(cat)
+                        )
+                    );
+                }
+                // datatypes filter
+                if (filter.datatypes.length > 0) {
+                    filteredElements = filteredElements.filter((m) =>
+                        filter.datatypes.some(
+                            (dt) => m['data-type']?.includes(dt)
+                        )
+                    );
+                }
+                // tags filter
+                if (filter.tags.length > 0) {
+                    filteredElements = filteredElements.filter((m) =>
+                        filter.tags.some((tag) => m.tags.includes(tag))
+                    );
+                }
+
+                joinedFilteredElements = new Set([
+                    ...joinedFilteredElements,
+                    ...filteredElements,
+                ]);
+            });
+
+            this.displayedElements = Array.from(joinedFilteredElements);
+        } else {
+            this.displayedElements = this.elements;
+        }
+        this.orderElements();
+
         this.resultsFound = this.getNumResults();
+    }
+
+    openFiltersConfiguration(): void {
+        const dialogRef = this.dialog.open(
+            FiltersConfigurationDialogComponent,
+            {
+                disableClose: true,
+                data: this.selectedFilters,
+            }
+        );
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.selectedFilters = result;
+                this.updateFilters();
+            }
+        });
+    }
+
+    orderElements() {
+        // TODO: delete this first part when the AI4OS Dev Env is returned in /tools/detail
+        // Put the tools that are returned in /modules at the top of the list
+        const tools = this.displayedElements.filter((m) =>
+            m.categories.includes('AI4 tools')
+        );
+        if (tools) {
+            this.displayedElements = [
+                ...this.displayedElements.filter((item) =>
+                    tools.includes(item)
+                ),
+                ...this.displayedElements.filter(
+                    (item) => !tools.includes(item)
+                ),
+            ];
+        }
+
+        // Put the AI4OS Dev Env at the top of the list
+        this.displayedElements = [
+            ...this.displayedElements.filter(
+                (item) => item.name === 'ai4os-dev-env'
+            ),
+            ...this.displayedElements.filter(
+                (item) => item.name !== 'ai4os-dev-env'
+            ),
+        ];
     }
 
     resetFilters() {

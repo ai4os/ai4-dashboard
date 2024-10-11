@@ -1,0 +1,63 @@
+<mat-card class="card">
+    <mat-card-content class="filters-container">
+        <div
+            *ngFor="let filter of filters; let i = index"
+            class="filter-container"
+        >
+            <div class="box-container">
+                <div class="box-title">Filter #{{ i + 1 }}</div>
+                <div class="box-content">
+                    <app-chip-with-icon
+                        *ngFor="let library of filter.libraries"
+                        text="{{ library }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let task of filter.tasks"
+                        text="{{ task }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let category of filter.categories"
+                        text="{{ category }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let datatype of filter.datatypes"
+                        text="{{ datatype }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let tag of filter.tags"
+                        text="{{ tag }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                </div>
+                <button
+                    mat-mini-fab
+                    color="warn"
+                    class="delete-button"
+                    [matTooltip]="'GENERAL-BUTTONS.DELETE' | translate"
+                    matTooltipPosition="above"
+                    (click)="deleteFilter(i)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions class="actions-container" align="end">
+        <button
+            mat-raised-button
+            color="warn"
+            (click)="resetFilters()"
+            [matTooltip]="'MODULES.FILTERS.RESET-TOOLTIP' | translate"
+            matTooltipPosition="above"
+        >
+            {{ 'MODULES.FILTERS.RESET' | translate }}
+        </button>
+        <button mat-raised-button color="accent" [mat-dialog-close]="filters">
+            {{ 'MODULES.FILTERS.APPLY' | translate }}
+        </button>
+    </mat-card-actions>
+</mat-card>

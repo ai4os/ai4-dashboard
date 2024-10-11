@@ -25,6 +25,7 @@ import { ModuleDetailViewComponent } from './views/module-detail-view/module-det
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
+import { FiltersConfigurationDialogComponent } from './components/modules-list/filters-configuration-dialog/filters-configuration-dialog.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { FilterComponentComponent } from './components/filters/filter-component/
         DatasetCreationDetailComponent,
         LoadingScreenComponent,
         FilterComponentComponent,
+        FiltersConfigurationDialogComponent,
     ],
     imports: [
         CommonModule,

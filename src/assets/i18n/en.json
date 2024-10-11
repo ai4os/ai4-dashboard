@@ -154,6 +154,12 @@
         "TITLE": "Marketplace",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
+        "FILTERS": {
+            "APPLIED-FILTERS": "Applied filters",
+            "APPLY": "Apply",
+            "RESET": "Reset",
+            "RESET-TOOLTIP": "Delete all filters"
+        },
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",

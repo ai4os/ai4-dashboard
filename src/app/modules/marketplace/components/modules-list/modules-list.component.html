@@ -42,13 +42,13 @@
 
                 <div class="filters-and-results-container">
                     <mat-chip
-                        class="example-box"
                         color="accent"
-                        [matBadge]="selectedFilters.length"
+                        [disabled]="selectedFilters.length === 0"
+                        [matBadge]="selectedFilters.length || 0"
                         matBadgePosition="above after"
-                        cdkDrag
+                        (click)="openFiltersConfiguration()"
                     >
-                        Applied filters
+                        {{ 'MODULES.FILTERS.APPLIED-FILTERS' | translate }}
                     </mat-chip>
 
                     <span class="results-text"
@@ -68,70 +68,27 @@
             [tags]="tagsList"
             (onChange)="addFilter($event)"
         ></app-filter-component>
-
-        <!-- <div *ngFor="let filter of selectedFilters">
-            <p>
-                {{ filter.categories }}
-            </p>
-            <p>
-                {{ filter.datatypes }}
-            </p>
-            <p>
-                {{ filter.libraries }}
-            </p>
-            <p>
-                {{ filter.tasks }}
-            </p>
-            <p>
-                {{ filter.tags }}
-            </p>
-        </div> -->
     </ng-template>
 
-    <mat-tab-group #tabGroup (selectedTabChange)="updateFilters()">
-        <mat-tab label="Modules">
-            <div *ngIf="isLoading; else modulesList" class="spinner">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
+    <div *ngIf="isLoading; else elementsList" class="spinner">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+
+    <ng-template #elementsList>
+        <div class="modules-cards-container">
+            <div
+                fxFlex
+                *ngFor="
+                    let element of displayedElements
+                        | search
+                            : this.searchFormGroup.get('search')
+                                  ?.value as elements
+                "
+                class="m-2"
+            >
+                <app-module-card [module]="element"></app-module-card>
             </div>
-            <ng-template #modulesList>
-                <div class="modules-cards-container">
-                    <div
-                        fxFlex
-                        *ngFor="
-                            let module of displayedModules
-                                | search
-                                    : this.searchFormGroup.get('search')
-                                          ?.value as modules
-                        "
-                        class="m-2"
-                    >
-                        <app-module-card [module]="module"></app-module-card>
-                    </div>
-                </div>
-            </ng-template>
-        </mat-tab>
-        <mat-tab label="Tools">
-            <div *ngIf="isLoading; else toolsList" class="spinner">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
-            </div>
-            <ng-template #toolsList>
-                <div class="modules-cards-container">
-                    <div
-                        fxFlex
-                        *ngFor="
-                            let tool of displayedTools
-                                | search
-                                    : this.searchFormGroup.get('search')
-                                          ?.value as tools
-                        "
-                        class="m-2"
-                    >
-                        <app-module-card [module]="tool"></app-module-card>
-                    </div>
-                </div>
-            </ng-template>
-        </mat-tab>
-    </mat-tab-group>
+        </div>
+    </ng-template>
 </div>
