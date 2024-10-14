@@ -56,10 +56,19 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 15px;
+    gap: 0.5em;
 }
 
 ::ng-deep .mat-mdc-tab-header {
     width: 200px;
     margin-left: 0.5em;
     margin-bottom: 0.5em;
+}
+
+::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
+    border-radius: 50px;
+}
+
+::ng-deep .filter-selector .mdc-line-ripple {
+    display: none;
 }

@@ -24,4 +24,8 @@ export class FiltersConfigurationDialogComponent {
         this.filters = [];
         this.dialogRef.close(this.filters);
     }
+
+    closeDialog(): void {
+        this.dialogRef.close(false);
+    }
 }

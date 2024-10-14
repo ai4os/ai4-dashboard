@@ -1,29 +1,28 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
     FilterGroup,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '../../services/modules-service/modules.service';
-import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatTabGroup } from '@angular/material/tabs';
 import { MatDialog } from '@angular/material/dialog';
-import { FiltersConfigurationDialogComponent } from './filters-configuration-dialog/filters-configuration-dialog.component';
+import { FiltersConfigurationDialogComponent } from '../filters/filters-configuration-dialog/filters-configuration-dialog.component';
 import { forkJoin } from 'rxjs';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 @Component({
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
     styleUrls: ['./modules-list.component.scss'],
 })
-export class ModulesListComponent implements OnInit {
+export class ModulesListComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private modulesService: ModulesService,
         private toolsService: ToolsService,
-        private authService: AuthService,
+        private appConfigService: AppConfigService,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef,
         public dialog: MatDialog
@@ -32,10 +31,6 @@ export class ModulesListComponent implements OnInit {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
-
-    @ViewChild('tabGroup')
-    tabGroup!: MatTabGroup;
-
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
     searchFormGroup!: FormGroup;
@@ -43,7 +38,6 @@ export class ModulesListComponent implements OnInit {
 
     elements: ModuleSummary[] = [];
     displayedElements: ModuleSummary[] = [];
-
     resultsFound = 0;
 
     // options
@@ -62,8 +56,8 @@ export class ModulesListComponent implements OnInit {
     selectedTags: string[] = [];
 
     ngOnInit(): void {
-        this.initializeForm();
         this.isLoading = true;
+        this.initializeForm();
 
         forkJoin({
             modules: this.modulesService.getModulesSummary(),
@@ -84,6 +78,15 @@ export class ModulesListComponent implements OnInit {
                 this.resultsFound = this.displayedElements.length;
                 this.orderElements();
 
+                const previousSelectedFilters =
+                    sessionStorage.getItem('selectedFilters');
+                if (previousSelectedFilters) {
+                    this.selectedFilters = JSON.parse(previousSelectedFilters);
+                    this.updateFilters();
+                } else {
+                    this.applyInitialFilters();
+                }
+
                 this.isLoading = false;
             },
             error: () => {
@@ -98,8 +101,30 @@ export class ModulesListComponent implements OnInit {
         });
     }
 
-    isLoggedIn(): boolean {
-        return this.authService.isAuthenticated();
+    applyInitialFilters() {
+        if (this.appConfigService.voName === 'vo.imagine-ai.eu') {
+            this.addFilter({
+                libraries: [],
+                tasks: [],
+                categories: ['AI4 tools'],
+                datatypes: [],
+                tags: [],
+            });
+            this.addFilter({
+                libraries: [],
+                tasks: [],
+                categories: [],
+                datatypes: [],
+                tags: ['vo.imagine-ai.eu'],
+            });
+            this.addFilter({
+                libraries: [],
+                tasks: [],
+                categories: [],
+                datatypes: ['Image'],
+                tags: ['general purpose'],
+            });
+        }
     }
 
     getNumResults(): number {
@@ -145,66 +170,147 @@ export class ModulesListComponent implements OnInit {
     }
 
     addFilter(filter: FilterGroup) {
-        this.selectedFilters.push(filter);
+        if (filter) {
+            this.selectedFilters.push(filter);
+        }
+        this.resetFilters();
         this.updateFilters();
     }
 
     updateFilters() {
         let joinedFilteredElements = new Set<ModuleSummary>();
-        let filteredElements: ModuleSummary[] = [];
+        let dynamicFilteredElements: ModuleSummary[] = [];
+        let staticFilteredElements: ModuleSummary[] = [];
 
+        // filter by static filters
         if (this.selectedFilters.length > 0) {
             this.selectedFilters.forEach((filter) => {
-                filteredElements = this.elements;
+                staticFilteredElements = this.elements;
                 // libraries filter
                 if (filter.libraries.length > 0) {
-                    filteredElements = filteredElements.filter((m) =>
-                        filter.libraries.some((lib) =>
-                            m.libraries.includes(lib)
-                        )
+                    staticFilteredElements = staticFilteredElements.filter(
+                        (m) =>
+                            filter.libraries.some((lib) =>
+                                m.libraries.includes(lib)
+                            )
                     );
                 }
+
                 // tasks filter
                 if (filter.tasks.length > 0) {
-                    filteredElements = filteredElements.filter((m) =>
-                        filter.tasks.some((task) => m.tasks.includes(task))
+                    staticFilteredElements = staticFilteredElements.filter(
+                        (m) =>
+                            filter.tasks.some((task) => m.tasks.includes(task))
                     );
                 }
+
                 // categories filter
                 if (filter.categories.length > 0) {
-                    filteredElements = filteredElements.filter((m) =>
-                        filter.categories.some((cat) =>
-                            m.categories.includes(cat)
-                        )
+                    staticFilteredElements = staticFilteredElements.filter(
+                        (m) =>
+                            filter.categories.some((cat) =>
+                                m.categories.includes(cat)
+                            )
                     );
                 }
                 // datatypes filter
                 if (filter.datatypes.length > 0) {
-                    filteredElements = filteredElements.filter((m) =>
-                        filter.datatypes.some(
-                            (dt) => m['data-type']?.includes(dt)
-                        )
+                    staticFilteredElements = staticFilteredElements.filter(
+                        (m) =>
+                            filter.datatypes.some(
+                                (dt) => m['data-type']?.includes(dt)
+                            )
                     );
                 }
                 // tags filter
                 if (filter.tags.length > 0) {
-                    filteredElements = filteredElements.filter((m) =>
-                        filter.tags.some((tag) => m.tags.includes(tag))
+                    staticFilteredElements = staticFilteredElements.filter(
+                        (m) => filter.tags.some((tag) => m.tags.includes(tag))
                     );
                 }
 
                 joinedFilteredElements = new Set([
                     ...joinedFilteredElements,
-                    ...filteredElements,
+                    ...staticFilteredElements,
                 ]);
             });
-
-            this.displayedElements = Array.from(joinedFilteredElements);
         } else {
-            this.displayedElements = this.elements;
+            joinedFilteredElements = new Set([
+                ...joinedFilteredElements,
+                ...this.elements,
+            ]);
         }
-        this.orderElements();
 
+        if (
+            this.selectedLibraries.length !== 0 ||
+            this.selectedTasks.length !== 0 ||
+            this.selectedCategories.length !== 0 ||
+            this.selectedDatatypes.length !== 0 ||
+            this.selectedTags.length !== 0
+        ) {
+            dynamicFilteredElements = this.elements;
+        }
+
+        // filter by dynamic filters
+        // libraries filter
+        if (this.selectedLibraries.length > 0) {
+            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
+                this.selectedLibraries.some((lib) => m.libraries.includes(lib))
+            );
+        }
+        // tasks filter
+        if (this.selectedTasks.length > 0) {
+            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
+                this.selectedTasks.some((task) => m.tasks.includes(task))
+            );
+        }
+        // categories filter
+        if (this.selectedCategories.length > 0) {
+            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
+                this.selectedCategories.some((cat) =>
+                    m.categories.includes(cat)
+                )
+            );
+        }
+        // datatypes filter
+        if (this.selectedDatatypes.length > 0) {
+            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
+                this.selectedDatatypes.some(
+                    (dt) => m['data-type']?.includes(dt)
+                )
+            );
+        }
+        // tags filter
+        if (this.selectedTags.length > 0) {
+            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
+                this.selectedTags.some((tag) => m.tags.includes(tag))
+            );
+        }
+
+        if (this.selectedFilters.length === 0) {
+            if (
+                this.selectedLibraries.length === 0 &&
+                this.selectedTasks.length === 0 &&
+                this.selectedCategories.length === 0 &&
+                this.selectedDatatypes.length === 0 &&
+                this.selectedTags.length === 0
+            ) {
+                // if no filters are selected, show all elements
+                joinedFilteredElements = new Set([...this.elements]);
+            } else {
+                // if only dynamic filters are selected, filter by dynamic filters
+                joinedFilteredElements = new Set([...dynamicFilteredElements]);
+            }
+        } else {
+            // if static filters are selected, filter by static and dynamic filters
+            joinedFilteredElements = new Set([
+                ...joinedFilteredElements,
+                ...dynamicFilteredElements,
+            ]);
+        }
+
+        this.displayedElements = Array.from(joinedFilteredElements);
+        this.orderElements();
         this.resultsFound = this.getNumResults();
     }
 
@@ -242,7 +348,7 @@ export class ModulesListComponent implements OnInit {
             ];
         }
 
-        // Put the AI4OS Dev Env at the top of the list
+        // Put the AI4OS Dev Env on top of the list
         this.displayedElements = [
             ...this.displayedElements.filter(
                 (item) => item.name === 'ai4os-dev-env'
@@ -258,5 +364,38 @@ export class ModulesListComponent implements OnInit {
         this.selectedTasks = [];
         this.selectedCategories = [];
         this.selectedDatatypes = [];
+        this.selectedTags = [];
+    }
+
+    filterByLibrary(libraries: string[]) {
+        this.selectedLibraries = libraries;
+        this.updateFilters();
+    }
+
+    filterByTask(tasks: string[]) {
+        this.selectedTasks = tasks;
+        this.updateFilters();
+    }
+
+    filterByCategory(categories: string[]) {
+        this.selectedCategories = categories;
+        this.updateFilters();
+    }
+
+    filterByDatatype(datatypes: string[]) {
+        this.selectedDatatypes = datatypes;
+        this.updateFilters();
+    }
+
+    filterByTag(tags: string[]) {
+        this.selectedTags = tags;
+        this.updateFilters();
+    }
+
+    ngOnDestroy(): void {
+        sessionStorage.setItem(
+            'selectedFilters',
+            JSON.stringify(this.selectedFilters)
+        );
     }
 }

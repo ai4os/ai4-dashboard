@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
 
 @Component({
@@ -8,27 +7,28 @@ import { FilterGroup } from '@app/shared/interfaces/module.interface';
     styleUrls: ['./filter-component.component.scss'],
 })
 export class FilterComponentComponent implements OnInit {
-    constructor(private appConfigService: AppConfigService) {}
+    constructor() {}
 
     @Input() libraries: Set<string> = new Set<string>();
-    selectedLibraries: string[] = [];
-
     @Input() tasks: Set<string> = new Set<string>();
-    selectedTasks: string[] = [];
-
     @Input() categories: Set<string> = new Set<string>();
-    selectedCategories: string[] = [];
-
     @Input() datatypes: Set<string> = new Set<string>();
-    selectedDatatypes: string[] = [];
+    @Input() tags: Set<string> = new Set<string>();
 
-    @Input()
-    tags: Set<string> = new Set<string>();
+    @Output() onLibrariesChanged = new EventEmitter<string[]>();
+    @Output() onTasksChanged = new EventEmitter<string[]>();
+    @Output() onCategoriesChanged = new EventEmitter<string[]>();
+    @Output() onDatatypesChanged = new EventEmitter<string[]>();
+    @Output() onTagsChanged = new EventEmitter<string[]>();
+    @Output() onChange = new EventEmitter<FilterGroup>();
+
+    selectedLibraries: string[] = [];
+    selectedTasks: string[] = [];
+    selectedCategories: string[] = [];
+    selectedDatatypes: string[] = [];
     selectedTags: string[] = [];
     filteredTags: string[] = [];
     searchTerm: string = '';
-
-    @Output() onChange = new EventEmitter<FilterGroup>();
 
     filterGroup: FilterGroup = {
         libraries: [],
@@ -39,35 +39,32 @@ export class FilterComponentComponent implements OnInit {
     };
 
     ngOnInit() {
-        if (this.appConfigService.voName === 'vo.imagine-ai.eu') {
-            this.filterGroup.datatypes.push('Image');
-            this.filterGroup.tags.push('vo.imagine-ai.eu');
-            this.filterGroup.tags.push('general purpose');
-            this.filterTags();
-            this.addFilter();
-        }
-
         this.filteredTags = Array.from(this.tags);
     }
 
     librariesChange() {
+        this.onLibrariesChanged.emit(this.selectedLibraries);
         this.filterGroup.libraries = this.selectedLibraries;
     }
 
     tasksChange() {
+        this.onTasksChanged.emit(this.selectedTasks);
         this.filterGroup.tasks = this.selectedTasks;
     }
 
     categoriesChange() {
+        this.onCategoriesChanged.emit(this.selectedCategories);
         this.filterGroup.categories = this.selectedCategories;
     }
 
     datatypesChange() {
+        this.onDatatypesChanged.emit(this.selectedDatatypes);
         this.filterGroup.datatypes = this.selectedDatatypes;
     }
 
     tagsChange() {
         this.filterTags();
+        this.onTagsChanged.emit(this.selectedTags);
         this.filterGroup.tags = this.selectedTags;
     }
 
@@ -106,5 +103,6 @@ export class FilterComponentComponent implements OnInit {
         this.selectedCategories = [];
         this.selectedDatatypes = [];
         this.selectedTags = [];
+        this.onChange.emit();
     }
 }

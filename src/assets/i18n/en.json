@@ -155,8 +155,12 @@
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "FILTERS": {
-            "APPLIED-FILTERS": "Applied filters",
+            "ADITIONAL-FILTERS": "Additional filters",
+            "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
+            "INFO-FILTERS": "<ul><li><p><strong>Between filters</strong>: Filters are combined using \"OR\" logic. For example, if you use Filter #1 (library = [PyTorch]) and Filter #2 (category = [AI4 tools], tag = [federated learning]), you'll see all modules and tools that meet either condition.</p></li><li><p><strong>Within a filter</strong>: Conditions inside a single filter are combined using \"AND\" logic. For instance, Filter #1 (library = [PyTorch], tag = [federated learning]) will only show results that meet both conditions.</p></li><li><p><strong>Within fields</strong>: Options inside a field are treated with \"OR\" logic. For example, Filter #1 (library = [PyTorch, Keras, Other]) will return results that include any of these libraries.</p></li></ul>",
+            "CLEAR-FILTERS": "Clear current filter",
             "APPLY": "Apply",
+            "APPLY-TOOLTIP": "Apply current filters",
             "RESET": "Reset",
             "RESET-TOOLTIP": "Delete all filters"
         },

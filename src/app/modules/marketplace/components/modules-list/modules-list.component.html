@@ -1,33 +1,18 @@
-<div class="content">
-    <ng-container *ngIf="mobileQuery.matches; else desktop">
-        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
-            <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
-            <form [formGroup]="searchFormGroup" class="search-form-mobile">
-                <mat-form-field
-                    class="search-field-mobile"
-                    subscriptSizing="dynamic"
-                >
-                    <mat-icon matPrefix>search</mat-icon>
-                    <mat-label>Search modules</mat-label>
-                    <input
-                        matInput
-                        type="search"
-                        formControlName="search"
-                        placeholder="Enter text to search"
-                    />
-                </mat-form-field>
-            </form>
-        </mat-toolbar>
-    </ng-container>
+<div *ngIf="isLoading; else marketplace" class="spinner">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</div>
 
-    <ng-template #desktop>
-        <mat-toolbar class="marketplace-toolbar">
-            <span class="aligned-with-icon"
-                >Marketplace <mat-icon>shopping_cart</mat-icon></span
-            >
-            <div class="search-and-results-container">
-                <form [formGroup]="searchFormGroup">
-                    <mat-form-field subscriptSizing="dynamic">
+<ng-template #marketplace>
+    <div class="content">
+        <ng-container *ngIf="mobileQuery.matches; else desktop">
+            <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+                <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
+                <form [formGroup]="searchFormGroup" class="search-form-mobile">
+                    <mat-form-field
+                        class="search-field-mobile"
+                        subscriptSizing="dynamic"
+                    >
                         <mat-icon matPrefix>search</mat-icon>
                         <mat-label>Search modules</mat-label>
                         <input
@@ -35,47 +20,70 @@
                             type="search"
                             formControlName="search"
                             placeholder="Enter text to search"
-                            (input)="updateFilters()"
                         />
                     </mat-form-field>
                 </form>
+            </mat-toolbar>
+        </ng-container>
 
-                <div class="filters-and-results-container">
-                    <mat-chip
-                        color="accent"
-                        [disabled]="selectedFilters.length === 0"
-                        [matBadge]="selectedFilters.length || 0"
-                        matBadgePosition="above after"
-                        (click)="openFiltersConfiguration()"
-                    >
-                        {{ 'MODULES.FILTERS.APPLIED-FILTERS' | translate }}
-                    </mat-chip>
+        <ng-template #desktop>
+            <mat-toolbar class="marketplace-toolbar">
+                <span class="aligned-with-icon"
+                    >Marketplace <mat-icon>shopping_cart</mat-icon></span
+                >
+                <div class="search-and-results-container">
+                    <form [formGroup]="searchFormGroup">
+                        <mat-form-field
+                            class="filter-selector full-width"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-icon matPrefix>search</mat-icon>
+                            <mat-label>Search modules</mat-label>
+                            <input
+                                matInput
+                                type="search"
+                                formControlName="search"
+                                placeholder="Enter text to search"
+                                (input)="updateFilters()"
+                            />
+                        </mat-form-field>
+                    </form>
 
-                    <span class="results-text"
-                        >{{ resultsFound }}
-                        {{ 'MODULES.NUM-RESULTS' | translate }}</span
-                    >
+                    <div class="filters-and-results-container">
+                        <mat-chip
+                            color="accent"
+                            [matBadge]="selectedFilters.length"
+                            matBadgePosition="above after"
+                            (click)="openFiltersConfiguration()"
+                        >
+                            {{
+                                'MODULES.FILTERS.ADITIONAL-FILTERS' | translate
+                            }}
+                        </mat-chip>
+                        <p class="results-text">
+                            {{ resultsFound }}
+                            {{ 'MODULES.NUM-RESULTS' | translate }}
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </mat-toolbar>
+            </mat-toolbar>
 
-        <app-filter-component
-            *ngIf="!isLoading"
-            [libraries]="librariesList"
-            [tasks]="tasksList"
-            [categories]="categoriesList"
-            [datatypes]="datatypesList"
-            [tags]="tagsList"
-            (onChange)="addFilter($event)"
-        ></app-filter-component>
-    </ng-template>
+            <app-filter-component
+                *ngIf="!isLoading"
+                [libraries]="librariesList"
+                [tasks]="tasksList"
+                [categories]="categoriesList"
+                [datatypes]="datatypesList"
+                [tags]="tagsList"
+                (onLibrariesChanged)="filterByLibrary($event)"
+                (onTasksChanged)="filterByTask($event)"
+                (onCategoriesChanged)="filterByCategory($event)"
+                (onDatatypesChanged)="filterByDatatype($event)"
+                (onTagsChanged)="filterByTag($event)"
+                (onChange)="addFilter($event)"
+            ></app-filter-component>
+        </ng-template>
 
-    <div *ngIf="isLoading; else elementsList" class="spinner">
-        <mat-progress-spinner color="primary" mode="indeterminate">
-        </mat-progress-spinner>
-    </div>
-
-    <ng-template #elementsList>
         <div class="modules-cards-container">
             <div
                 fxFlex
@@ -90,5 +98,5 @@
                 <app-module-card [module]="element"></app-module-card>
             </div>
         </div>
-    </ng-template>
-</div>
+    </div>
+</ng-template>

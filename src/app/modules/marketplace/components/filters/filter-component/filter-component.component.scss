@@ -25,6 +25,19 @@
     width: 100%;
 }
 
+.filter-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.custom-clear-button:enabled {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
+}
+
 .button {
     color: var(--white) !important;
     text-wrap: nowrap;
