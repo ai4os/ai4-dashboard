@@ -51,3 +51,24 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
     log.snapshot('after');
 });
+
+Cypress.Commands.add('initializeTrainModuleForm', () => {
+    cy.visit('http://localhost:8080/');
+    cy.contains('Dogs breed detector', { timeout: 20000 }).click();
+    cy.contains('Decline').click();
+    cy.get('.action-button').contains('Deploy', { timeout: 10000 }).click();
+    cy.contains('Inference API (dedicated)', { timeout: 10000 }).click();
+    cy.get('#deployment-title', { timeout: 10000 }).type('test');
+    cy.wait(500);
+    cy.contains('Next', { timeout: 10000 }).click();
+    cy.wait(500);
+    cy.contains('Next', { timeout: 10000 }).click({ force: true });
+});
+
+Cypress.Commands.add('deleteDeployment', () => {
+    cy.get(
+        '.mat-mdc-card-content > .table-container > .mat-mdc-table > .mdc-data-table__content > :nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target',
+        { timeout: 20000 }
+    ).click();
+    cy.get('#yesBtn').click();
+});

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.0](https://github.com/ai4os/ai4-dashboard/compare/v2.23.3...v2.24.0) (2024-10-08)
+
+
+### Features
+
+* make deployment title optional with auto generation ([#217](https://github.com/ai4os/ai4-dashboard/issues/217)) ([8d0d7e0](https://github.com/ai4os/ai4-dashboard/commit/8d0d7e04c259d65524652a0410952b85872c108d))
+
 ## [2.23.3](https://github.com/ai4os/ai4-dashboard/compare/v2.23.2...v2.23.3) (2024-09-23)
 
 

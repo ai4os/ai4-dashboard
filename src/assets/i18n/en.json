@@ -132,7 +132,7 @@
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
-        "OSCAR": "OSCAR",
+        "OSCAR": "Serverless (OSCAR)",
         "TITLE": "Title",
         "IMAGE": "Image",
         "CREATION-TIME": "Creation time (UTC)",
