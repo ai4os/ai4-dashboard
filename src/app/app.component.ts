@@ -155,7 +155,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             error: () => {
                 this.snackbarService.openError(
-                    'Error updating the platform status'
+                    "Couldn't update the notifications. Please try again later."
                 );
             },
         });

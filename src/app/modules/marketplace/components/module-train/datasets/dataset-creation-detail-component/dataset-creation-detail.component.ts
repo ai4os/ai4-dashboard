@@ -86,8 +86,7 @@ export class DatasetCreationDetailComponent implements OnInit {
     private communities: ZenodoCommunity[] = [];
     private community = '';
 
-    protected zenodoCommunitiesOptions: { value: string; viewValue: string }[] =
-        [];
+    zenodoCommunitiesOptions: { value: string; viewValue: string }[] = [];
     protected filteredCommunityOptions!: Observable<
         { value: string; viewValue: string }[]
     >;
@@ -305,6 +304,7 @@ export class DatasetCreationDetailComponent implements OnInit {
                     this.onSubmitDataset.emit(d);
                     this.doiFormGroup.get('doiInput')?.setValue('');
                     this.doiFormGroup.markAsUntouched();
+                    this.selectedTab = 0;
                 },
                 error: () => {
                     this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
@@ -328,6 +328,7 @@ export class DatasetCreationDetailComponent implements OnInit {
             this.onSubmitDataset.emit(d);
             this.doiFormGroup.get('doiInput')?.setValue('');
             this.doiFormGroup.markAsUntouched();
+            this.selectedTab = 1;
         }
     }
 

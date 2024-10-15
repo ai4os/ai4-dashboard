@@ -62,7 +62,7 @@ export class DatasetsListComponent implements OnInit {
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
-    protected columns: Array<TableColumn> = [
+    columns: Array<TableColumn> = [
         { columnDef: 'id', header: '', hidden: true },
         {
             columnDef: 'name',
@@ -82,9 +82,9 @@ export class DatasetsListComponent implements OnInit {
         },
     ];
 
-    private datasets: Array<DatasetTableRow> = [];
-    protected dataSource!: MatTableDataSource<DatasetTableRow>;
-    protected displayedColumns: string[] = [];
+    datasets: Array<DatasetTableRow> = [];
+    dataSource!: MatTableDataSource<DatasetTableRow>;
+    displayedColumns: string[] = [];
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
