@@ -7,7 +7,18 @@
 >
     <mat-card-header class="basic-card-header">
         <mat-card-title>
-            <mat-icon color="primary">model_training</mat-icon>
+            <mat-icon
+                *ngIf="isTool"
+                color="primary"
+                [matTooltip]="'MODULES.TOOL' | translate"
+                >build</mat-icon
+            >
+            <mat-icon
+                *ngIf="!isTool"
+                color="primary"
+                [matTooltip]="'MODULES.MODULE' | translate"
+                >model_training</mat-icon
+            >
 
             <span>{{ module.title }}</span>
         </mat-card-title>

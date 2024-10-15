@@ -153,17 +153,35 @@ export class ModulesListComponent implements OnInit, OnDestroy {
 
     getFilters(filter: string): Set<string> {
         let options: string[] = [];
+        const tagFrequencyMap: { [key: string]: number } = {};
 
         this.elements.forEach((m) => {
-            let variable = m[filter];
-            if (variable !== undefined) {
-                options = options.concat(variable);
+            let variables = m[filter];
+            if (variables !== undefined) {
+                if (filter === 'tags') {
+                    variables.forEach((v: string) => {
+                        if (tagFrequencyMap[v]) {
+                            tagFrequencyMap[v]++;
+                        } else {
+                            tagFrequencyMap[v] = 1;
+                        }
+                    });
+                } else {
+                    options = options.concat(variables);
+                }
             }
         });
 
         if (options.includes('Other')) {
             options = options.filter((option) => option !== 'Other');
             options.push('Other');
+        }
+
+        if (filter === 'tags') {
+            // order tags by frequency
+            options = Object.keys(tagFrequencyMap).sort((a, b) => {
+                return tagFrequencyMap[b] - tagFrequencyMap[a];
+            });
         }
 
         return new Set(options);

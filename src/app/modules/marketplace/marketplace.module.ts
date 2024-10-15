@@ -16,7 +16,6 @@ import { StepperFormComponent } from './components/module-train/stepper-form/ste
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { FederatedConfFormComponent } from './components/module-train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
 import { FederatedServerComponent } from './components/module-train/tool-train/federated-server/federated-server.component';
-import { DevModuleCardComponent } from './components/modules-list/dev-module-card/dev-module-card.component';
 import { ModuleCardComponent } from './components/modules-list/module-card/module-card.component';
 import { ModulesListComponent } from './components/modules-list/modules-list.component';
 import { MarketplaceRoutingModule } from './marketplace-routing.module';
@@ -38,7 +37,6 @@ import { FiltersConfigurationDialogComponent } from './components/filters/filter
         HardwareConfFormComponent,
         StorageConfFormComponent,
         ModuleDetailViewComponent,
-        DevModuleCardComponent,
         ToolTrainComponent,
         FederatedServerComponent,
         StepperFormComponent,

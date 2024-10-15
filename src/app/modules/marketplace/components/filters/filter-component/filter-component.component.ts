@@ -70,19 +70,24 @@ export class FilterComponentComponent implements OnInit {
 
     filterTags() {
         const selected = this.selectedTags || [];
+        const tagsArray = Array.from(this.tags);
 
         if (!this.searchTerm) {
-            this.filteredTags = Array.from(this.tags);
+            this.filteredTags = tagsArray;
         } else {
             const searchLower = this.searchTerm.toLowerCase();
-            this.filteredTags = Array.from(this.tags).filter((fruit) =>
-                fruit.toLowerCase().includes(searchLower)
+            this.filteredTags = tagsArray.filter((tag) =>
+                tag.toLowerCase().includes(searchLower)
             );
         }
 
         this.filteredTags = [...selected, ...this.filteredTags].filter(
             (value, index, self) => self.indexOf(value) === index
         );
+
+        this.filteredTags.sort((a, b) => {
+            return tagsArray.indexOf(a) - tagsArray.indexOf(b);
+        });
     }
 
     addFilter() {
