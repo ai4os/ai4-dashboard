@@ -12,14 +12,6 @@ describe('deployments section', function () {
         cy.contains('Quick submit').click();
     });
 
-    after(function () {
-        cy.get('#close-button', { timeout: 15000 }).click();
-        cy.get(
-            ':nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target'
-        ).click();
-        cy.get('#yesBtn').click();
-    });
-
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
         cy.contains('Modules', { timeout: 50000 }).should('be.visible');
