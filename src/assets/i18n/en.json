@@ -36,7 +36,6 @@
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
-            "OPEN-DOCUMENTATION": "Open documentation",
             "INVALID-DOMAIN": "Invalid domain format"
         }
     },
@@ -210,8 +209,7 @@
                 "FEDERATED-SECRET": "Federated secret",
                 "ADD-FEDERATED-SECRET": "Create federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
-                "OPEN-DOCUMENTATION": "Open documentation"
+                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -356,7 +354,8 @@
         "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "Github",
         "DOCKERHUB": "Dockerhub",
-        "REPORT-ISSUE": "Report issue"
+        "REPORT-ISSUE": "Report issue",
+        "OPEN-DOCUMENTATION": "Open documentation"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",
