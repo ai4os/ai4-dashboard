@@ -18,6 +18,7 @@
                 formControlName="storageServiceDatasetSelect"
                 (selectionChange)="updateStorageConfiguration()"
             >
+                <mat-option>-</mat-option>
                 <mat-option
                     *ngFor="let storageServiceOption of storageServiceOptions"
                     [value]="storageServiceOption.value"

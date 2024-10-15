@@ -226,6 +226,11 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
                 .get('rcloneVendorSelect')
                 ?.setValue(storageServiceCredentials.vendor);
+        } else {
+            this.storageConfFormGroup.get('rcloneUserInput')?.setValue('');
+            this.storageConfFormGroup.get('rclonePasswordInput')?.setValue('');
+            this.storageConfFormGroup.get('storageUrlInput')?.setValue('');
+            this.storageConfFormGroup.get('rcloneVendorSelect')?.setValue('');
         }
     }
 }
