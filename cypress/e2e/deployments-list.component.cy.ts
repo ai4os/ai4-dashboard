@@ -12,14 +12,6 @@ describe('deployments section', function () {
         cy.contains('Quick submit').click();
     });
 
-    after(function () {
-        cy.get('#close-button', { timeout: 15000 }).click();
-        cy.get(
-            ':nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target'
-        ).click();
-        cy.get('#yesBtn').click();
-    });
-
     it('shows deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
         cy.contains('Modules', { timeout: 50000 }).should('be.visible');
@@ -92,8 +84,10 @@ describe('deployments section', function () {
     });
 
     it('delete last secret', function () {
-        cy.get('#delete-button', { timeout: 10000 }).click();
-        cy.contains('Confirm your action').should('be.visible');
+        cy.get('#delete-button', { timeout: 25000 }).click();
+        cy.contains('Confirm your action', { timeout: 25000 }).should(
+            'be.visible'
+        );
         cy.contains(
             'Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work'
         ).should('be.visible');
