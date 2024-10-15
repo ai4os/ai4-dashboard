@@ -3,5 +3,7 @@
 declare namespace Cypress {
     interface Chainable {
         login(username: string, password: string): Chainable<any>;
+        initializeTrainModuleForm(): Chainable<any>;
+        deleteDeployment(): Chainable<any>;
     }
 }
