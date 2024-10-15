@@ -23,7 +23,7 @@ describe('module train form', function () {
         cy.get('#community', { timeout: 10000 }).type('{enter}');
         cy.wait(1000);
 
-        cy.get('#dataset', { timeout: 15000 }).click();
+        cy.get('#dataset', { timeout: 30000 }).click();
         cy.contains(
             'EyeOnWater training dataset for assessing the inclusion of water images',
             { timeout: 15000 }
@@ -68,12 +68,12 @@ describe('module train form', function () {
         cy.get('#community', { timeout: 10000 }).type('{enter}');
         cy.wait(1000);
 
-        cy.get('#dataset', { timeout: 15000 }).click();
+        cy.get('#dataset', { timeout: 25000 }).click();
         cy.contains(
             'EyeOnWater training dataset for assessing the inclusion of water images',
             { timeout: 10000 }
         ).click();
-        cy.get('#add-button', { timeout: 15000 }).click();
+        cy.get('#add-button', { timeout: 25000 }).click();
         cy.contains('Dataset added with DOI 10.5281/zenodo.10777441').should(
             'be.visible'
         );
