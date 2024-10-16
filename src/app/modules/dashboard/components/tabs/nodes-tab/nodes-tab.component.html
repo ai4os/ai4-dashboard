@@ -11,6 +11,13 @@
         <mat-expansion-panel-header>
             <mat-panel-title class="id-title">
                 {{ node.name }}
+                <span
+                    matBadge="&#8288;"
+                    matBadgeOverlap="false"
+                    matBadgeSize="small"
+                    [ngClass]="getBadgeClass(node.status)"
+                >
+                </span>
             </mat-panel-title>
         </mat-expansion-panel-header>
         <app-stats-container
@@ -48,6 +55,13 @@
         <mat-expansion-panel-header>
             <mat-panel-title class="id-title">
                 {{ node.name }}
+                <span
+                    matBadge="&#8288;"
+                    matBadgeOverlap="false"
+                    matBadgeSize="small"
+                    [ngClass]="getBadgeClass(node.status)"
+                >
+                </span>
             </mat-panel-title>
         </mat-expansion-panel-header>
         <app-stats-container

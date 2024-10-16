@@ -62,6 +62,7 @@ export interface NodeStats {
     ram_used: number;
     jobs_num: number;
     gpu_models: GpuStats[];
+    status: string;
 }
 
 export interface GpuStats {
