@@ -4,17 +4,14 @@
     gap: 2em;
 }
 
-.modules-cards-container {
-    display: grid;
-    grid-gap: 0.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-}
-
 .marketplace-toolbar {
-    background-color: var(--white);
+    margin-top: 16px;
+    gap: 2em;
+    flex-direction: column;
     justify-content: space-between;
     align-items: baseline;
     height: min-content;
+    background-color: var(--white);
     & span {
         display: flex;
         align-items: center;
@@ -39,8 +36,11 @@
 
 .search-and-results-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
 }
 
 .results-text {
@@ -49,14 +49,23 @@
     align-self: flex-end !important;
 }
 
-.filters-and-results-container {
+.search-filter-order-container {
     display: flex;
-    flex-wrap: nowrap;
     width: 100%;
     align-items: center;
-    justify-content: space-between;
-    padding-top: 15px;
-    gap: 0.5em;
+    justify-content: flex-start;
+    gap: 1em;
+
+    mat-divider {
+        height: 30px;
+        width: 1px;
+    }
+}
+
+.modules-cards-container {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 }
 
 ::ng-deep .mat-mdc-tab-header {

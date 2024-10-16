@@ -32,24 +32,24 @@
                     >Marketplace <mat-icon>shopping_cart</mat-icon></span
                 >
                 <div class="search-and-results-container">
-                    <form [formGroup]="searchFormGroup">
-                        <mat-form-field
-                            class="filter-selector full-width"
-                            subscriptSizing="dynamic"
-                        >
-                            <mat-icon matPrefix>search</mat-icon>
-                            <mat-label>Search modules</mat-label>
-                            <input
-                                matInput
-                                type="search"
-                                formControlName="search"
-                                placeholder="Enter text to search"
-                                (input)="updateFilters()"
-                            />
-                        </mat-form-field>
-                    </form>
+                    <div class="search-filter-order-container">
+                        <form [formGroup]="searchFormGroup">
+                            <mat-form-field
+                                class="filter-selector full-width"
+                                subscriptSizing="dynamic"
+                            >
+                                <mat-icon matPrefix>search</mat-icon>
+                                <mat-label>Search modules</mat-label>
+                                <input
+                                    matInput
+                                    type="search"
+                                    formControlName="search"
+                                    placeholder="Enter text to search"
+                                    (input)="updateFilters()"
+                                />
+                            </mat-form-field>
+                        </form>
 
-                    <div class="filters-and-results-container">
                         <mat-chip
                             color="accent"
                             [matBadge]="selectedFilters.length"
@@ -60,11 +60,33 @@
                                 'MODULES.FILTERS.ADITIONAL-FILTERS' | translate
                             }}
                         </mat-chip>
-                        <p class="results-text">
-                            {{ resultsFound }}
-                            {{ 'MODULES.NUM-RESULTS' | translate }}
-                        </p>
+
+                        <mat-divider [vertical]="true"></mat-divider>
+
+                        <mat-chip-listbox>
+                            <mat-chip-option
+                                [selected]="sortBy === 'name'"
+                                value="name"
+                                (selectionChange)="selectedSortingChip($event)"
+                                >{{
+                                    'MODULES.SORTING.NAME' | translate
+                                }}</mat-chip-option
+                            >
+                            <mat-chip-option
+                                [selected]="sortBy === 'recent'"
+                                value="recent"
+                                (selectionChange)="selectedSortingChip($event)"
+                                >{{
+                                    'MODULES.SORTING.MOST-RECENT' | translate
+                                }}</mat-chip-option
+                            >
+                        </mat-chip-listbox>
                     </div>
+
+                    <p class="results-text">
+                        {{ resultsFound }}
+                        {{ 'MODULES.NUM-RESULTS' | translate }}
+                    </p>
                 </div>
             </mat-toolbar>
 

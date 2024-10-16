@@ -166,6 +166,10 @@
             "RESET": "Reset",
             "RESET-TOOLTIP": "Delete all filters"
         },
+        "SORTING": {
+            "NAME": "By name",
+            "MOST-RECENT": "By most recent"
+        },
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",

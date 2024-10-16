@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FiltersConfigurationDialogComponent } from '../filters/filters-configuration-dialog/filters-configuration-dialog.component';
 import { forkJoin } from 'rxjs';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { MatChipSelectionChange } from '@angular/material/chips';
 
 @Component({
     selector: 'app-modules-list',
@@ -39,6 +40,9 @@ export class ModulesListComponent implements OnInit, OnDestroy {
     elements: ModuleSummary[] = [];
     displayedElements: ModuleSummary[] = [];
     resultsFound = 0;
+
+    // sorting
+    sortBy = 'name';
 
     // options
     librariesList: Set<string> = new Set<string>();
@@ -350,31 +354,60 @@ export class ModulesListComponent implements OnInit, OnDestroy {
     }
 
     orderElements() {
-        // TODO: delete this first part when the AI4OS Dev Env is returned in /tools/detail
-        // Put the tools that are returned in /modules at the top of the list
-        const tools = this.displayedElements.filter((m) =>
-            m.categories.includes('AI4 tools')
+        // TODO: delete second condition when ai4os-dev-end is returned in /tools
+        let sortedTools: ModuleSummary[] = this.displayedElements.filter(
+            (m) =>
+                m.categories.includes('AI4 tools') || m.name === 'ai4os-dev-env'
         );
-        if (tools) {
-            this.displayedElements = [
-                ...this.displayedElements.filter((item) =>
-                    tools.includes(item)
-                ),
-                ...this.displayedElements.filter(
-                    (item) => !tools.includes(item)
-                ),
-            ];
+        let sortedModules: ModuleSummary[] = this.displayedElements.filter(
+            (m) =>
+                !m.categories.includes('AI4 tools') &&
+                m.name !== 'ai4os-dev-env'
+        );
+
+        // sort by name
+        if (this.sortBy === 'name') {
+            sortedTools.sort((a, b) => {
+                return a.title.localeCompare(b.title);
+            });
+            sortedModules.sort((a, b) => {
+                return a.title.localeCompare(b.title);
+            });
         }
 
-        // Put the AI4OS Dev Env on top of the list
-        this.displayedElements = [
-            ...this.displayedElements.filter(
-                (item) => item.name === 'ai4os-dev-env'
-            ),
-            ...this.displayedElements.filter(
-                (item) => item.name !== 'ai4os-dev-env'
-            ),
-        ];
+        // order by most recent
+        if (this.sortBy === 'recent') {
+            sortedTools.sort((a, b) => {
+                // handle cases where dates are missing
+                if (a.dates === undefined) return 1;
+                if (b.dates === undefined) return -1;
+
+                const dateA = new Date(a.dates.updated).getTime();
+                const dateB = new Date(b.dates.updated).getTime();
+
+                // handle cases where updated dates are invalid or missing
+                if (isNaN(dateA)) return 1;
+                if (isNaN(dateB)) return -1;
+
+                return dateB - dateA;
+            });
+            sortedModules.sort((a, b) => {
+                // handle cases where dates are missing
+                if (a.dates === undefined) return 1;
+                if (b.dates === undefined) return -1;
+
+                const dateA = new Date(a.dates.updated).getTime();
+                const dateB = new Date(b.dates.updated).getTime();
+
+                // handle cases where updated dates are invalid or missing
+                if (isNaN(dateA)) return 1;
+                if (isNaN(dateB)) return -1;
+
+                return dateB - dateA;
+            });
+        }
+
+        this.displayedElements = [...sortedTools, ...sortedModules];
     }
 
     resetFilters() {
@@ -408,6 +441,25 @@ export class ModulesListComponent implements OnInit, OnDestroy {
     filterByTag(tags: string[]) {
         this.selectedTags = tags;
         this.updateFilters();
+    }
+
+    selectedSortingChip(event: MatChipSelectionChange) {
+        const selectedChipValue = event.source.value;
+
+        if (!event.selected && selectedChipValue === this.sortBy) {
+            event.source.select();
+            return;
+        }
+
+        if (event.selected) {
+            if (selectedChipValue === 'name') {
+                this.sortBy = 'name';
+            } else if (selectedChipValue === 'recent') {
+                this.sortBy = 'recent';
+            }
+
+            this.orderElements();
+        }
     }
 
     ngOnDestroy(): void {

@@ -7,6 +7,7 @@ export interface ModuleSummary {
     tags: string[];
     libraries: string[];
     tasks: string[];
+    dates?: Dates;
     'data-type'?: string[];
 }
 
