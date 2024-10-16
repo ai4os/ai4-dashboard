@@ -90,6 +90,39 @@ export class FederatedConfFormComponent implements OnInit {
                 Validators.max(this.defaultFormValues?.momentum.range[1]),
             ],
         ],
+        dpInput: false,
+        noiseMultInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.noise_mult.range[0]),
+                Validators.max(this.defaultFormValues?.noise_mult.range[1]),
+            ],
+        ],
+        sampledClientsNumInput: [
+            '',
+            [
+                Validators.min(
+                    this.defaultFormValues?.sampled_clients_num.range[0]
+                ),
+                Validators.max(
+                    this.defaultFormValues?.sampled_clients_num.range[1]
+                ),
+            ],
+        ],
+        clippingNormInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.clipping_norm.range[0]),
+                Validators.max(this.defaultFormValues?.clipping_norm.range[1]),
+            ],
+        ],
+        learningRateInput: [
+            '',
+            [
+                Validators.min(this.defaultFormValues?.learning_rate.range[0]),
+                Validators.max(this.defaultFormValues?.learning_rate.range[1]),
+            ],
+        ],
     });
 
     protected _defaultFormValues: any;
@@ -137,6 +170,21 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('momentumInput')
                 ?.setValue(defaultFormValues.momentum?.value);
+            this.federatedConfFormGroup
+                .get('dpInput')
+                ?.setValue(defaultFormValues.dp?.value);
+            this.federatedConfFormGroup
+                .get('noiseMultInput')
+                ?.setValue(defaultFormValues.noise_mult?.value);
+            this.federatedConfFormGroup
+                .get('sampledClientsNumInput')
+                ?.setValue(defaultFormValues.sampled_clients?.value);
+            this.federatedConfFormGroup
+                .get('clippingNormInput')
+                ?.setValue(defaultFormValues.clip_norm?.value);
+            this.federatedConfFormGroup
+                .get('learningRateInput')
+                ?.setValue(defaultFormValues.lr_norm?.value);
         }
     }
 

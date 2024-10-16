@@ -45,4 +45,33 @@ export const defaultFormValuesMock = {
         value: '',
         description: '',
     },
+    dp: {
+        name: '',
+        value: '',
+        description: '',
+    },
+    noise_mult: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
+    sampled_clients: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
+    clip_norm: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
+    lr_norm: {
+        range: [2, null],
+        name: '',
+        value: '',
+        description: '',
+    },
 };
