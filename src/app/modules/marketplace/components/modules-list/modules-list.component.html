@@ -63,6 +63,8 @@
 
                         <mat-divider [vertical]="true"></mat-divider>
 
+                        <span class="small-text"> Sort: </span>
+
                         <mat-chip-listbox>
                             <mat-chip-option
                                 [selected]="sortBy === 'name'"
@@ -83,10 +85,12 @@
                         </mat-chip-listbox>
                     </div>
 
-                    <p class="results-text">
-                        {{ resultsFound }}
-                        {{ 'MODULES.NUM-RESULTS' | translate }}
-                    </p>
+                    <span>
+                        <p class="results-text">
+                            {{ resultsFound }}
+                            {{ 'MODULES.NUM-RESULTS' | translate }}
+                        </p>
+                    </span>
                 </div>
             </mat-toolbar>
 
