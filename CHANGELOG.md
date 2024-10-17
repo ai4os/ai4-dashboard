@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.25.0](https://github.com/ai4os/ai4-dashboard/compare/v2.24.0...v2.25.0) (2024-10-15)
+
+
+### Features
+
+* add link to documentation in oscar inference ([#223](https://github.com/ai4os/ai4-dashboard/issues/223)) ([293284e](https://github.com/ai4os/ai4-dashboard/commit/293284ebf73cfb72d65da0a635ed1dba06bc905a))
+* add no storage service option in data configuration ([#225](https://github.com/ai4os/ai4-dashboard/issues/225)) ([bcf562a](https://github.com/ai4os/ai4-dashboard/commit/bcf562a71b86a7a919de4bcbf1bd7c2e55814e68))
+* configure snackbar message duration based on message length ([#224](https://github.com/ai4os/ai4-dashboard/issues/224)) ([f87010d](https://github.com/ai4os/ai4-dashboard/commit/f87010d619b05484bd579fc06d6da7a0875f8cab))
+* disable graphs tab when user data is not available ([#226](https://github.com/ai4os/ai4-dashboard/issues/226)) ([5ad04ac](https://github.com/ai4os/ai4-dashboard/commit/5ad04ac6daa0378a3824b2045b604fc61fa22db6))
+
+## [2.24.0](https://github.com/ai4os/ai4-dashboard/compare/v2.23.3...v2.24.0) (2024-10-08)
+
+
+### Features
+
+* make deployment title optional with auto generation ([#217](https://github.com/ai4os/ai4-dashboard/issues/217)) ([8d0d7e0](https://github.com/ai4os/ai4-dashboard/commit/8d0d7e04c259d65524652a0410952b85872c108d))
+
 ## [2.23.3](https://github.com/ai4os/ai4-dashboard/compare/v2.23.2...v2.23.3) (2024-09-23)
 
 

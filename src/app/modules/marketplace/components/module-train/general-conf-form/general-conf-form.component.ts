@@ -131,7 +131,7 @@ export class GeneralConfFormComponent implements OnInit {
     generalConfFormGroup = this.fb.group({
         descriptionInput: [''],
         serviceToRunChip: ['deepaas'],
-        titleInput: ['', [Validators.required, Validators.maxLength(45)]],
+        titleInput: ['', [Validators.maxLength(45)]],
         serviceToRunPassInput: [
             { value: '', disabled: true },
             [Validators.required, Validators.minLength(9)],

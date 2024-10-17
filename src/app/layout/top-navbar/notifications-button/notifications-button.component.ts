@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     PlatformStatus,
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import * as yaml from 'js-yaml';
 
 @Component({
@@ -17,7 +17,7 @@ export class NotificationsButtonComponent implements OnInit {
     constructor(
         private platformStatusService: PlatformStatusService,
         private appConfigService: AppConfigService,
-        private _snackBar: MatSnackBar
+        private snackbarService: SnackbarService
     ) {}
 
     notifications: StatusNotification[] = [];
@@ -54,13 +54,8 @@ export class NotificationsButtonComponent implements OnInit {
             },
             error: () => {
                 this.notifications = [];
-                this._snackBar.open(
-                    'Error retrieving the platform notifications',
-                    '×',
-                    {
-                        duration: 3000,
-                        panelClass: ['red-snackbar'],
-                    }
+                this.snackbarService.openError(
+                    'Error retrieving the platform notifications'
                 );
             },
         });

@@ -138,7 +138,7 @@ export class ModuleDetailComponent implements OnInit {
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(
-                                    'Oscar service created with name ' +
+                                    'OSCAR service created with name ' +
                                         serviceName
                                 );
                             } else {
