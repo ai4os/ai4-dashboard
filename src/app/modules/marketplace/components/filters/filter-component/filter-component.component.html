@@ -162,11 +162,11 @@
             extended
             color="accent"
             [disabled]="
-                filterGroup.categories.length == 0 &&
-                filterGroup.datatypes.length == 0 &&
-                filterGroup.libraries.length == 0 &&
-                filterGroup.tags.length == 0 &&
-                filterGroup.tasks.length == 0
+                filterGroup.categories.length === 0 &&
+                filterGroup.datatypes.length === 0 &&
+                filterGroup.libraries.length === 0 &&
+                filterGroup.tags.length === 0 &&
+                filterGroup.tasks.length === 0
             "
             (click)="addFilter()"
         >
@@ -179,11 +179,11 @@
             }}"
             mat-mini-fab
             [disabled]="
-                filterGroup.categories.length == 0 &&
-                filterGroup.datatypes.length == 0 &&
-                filterGroup.libraries.length == 0 &&
-                filterGroup.tags.length == 0 &&
-                filterGroup.tasks.length == 0
+                filterGroup.categories.length === 0 &&
+                filterGroup.datatypes.length === 0 &&
+                filterGroup.libraries.length === 0 &&
+                filterGroup.tags.length === 0 &&
+                filterGroup.tasks.length === 0
             "
             (click)="resetFilters()"
         >

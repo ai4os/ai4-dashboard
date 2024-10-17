@@ -7,20 +7,18 @@ import { FilterGroup } from '@app/shared/interfaces/module.interface';
     styleUrls: ['./filter-component.component.scss'],
 })
 export class FilterComponentComponent implements OnInit {
-    constructor() {}
-
     @Input() libraries: Set<string> = new Set<string>();
     @Input() tasks: Set<string> = new Set<string>();
     @Input() categories: Set<string> = new Set<string>();
     @Input() datatypes: Set<string> = new Set<string>();
     @Input() tags: Set<string> = new Set<string>();
 
-    @Output() onLibrariesChanged = new EventEmitter<string[]>();
-    @Output() onTasksChanged = new EventEmitter<string[]>();
-    @Output() onCategoriesChanged = new EventEmitter<string[]>();
-    @Output() onDatatypesChanged = new EventEmitter<string[]>();
-    @Output() onTagsChanged = new EventEmitter<string[]>();
-    @Output() onChange = new EventEmitter<FilterGroup>();
+    @Output() librariesChanged = new EventEmitter<string[]>();
+    @Output() tasksChanged = new EventEmitter<string[]>();
+    @Output() categoriesChanged = new EventEmitter<string[]>();
+    @Output() datatypesChanged = new EventEmitter<string[]>();
+    @Output() tagsChanged = new EventEmitter<string[]>();
+    @Output() changeDetected = new EventEmitter<FilterGroup>();
 
     selectedLibraries: string[] = [];
     selectedTasks: string[] = [];
@@ -43,28 +41,28 @@ export class FilterComponentComponent implements OnInit {
     }
 
     librariesChange() {
-        this.onLibrariesChanged.emit(this.selectedLibraries);
+        this.librariesChanged.emit(this.selectedLibraries);
         this.filterGroup.libraries = this.selectedLibraries;
     }
 
     tasksChange() {
-        this.onTasksChanged.emit(this.selectedTasks);
+        this.tasksChanged.emit(this.selectedTasks);
         this.filterGroup.tasks = this.selectedTasks;
     }
 
     categoriesChange() {
-        this.onCategoriesChanged.emit(this.selectedCategories);
+        this.categoriesChanged.emit(this.selectedCategories);
         this.filterGroup.categories = this.selectedCategories;
     }
 
     datatypesChange() {
-        this.onDatatypesChanged.emit(this.selectedDatatypes);
+        this.datatypesChanged.emit(this.selectedDatatypes);
         this.filterGroup.datatypes = this.selectedDatatypes;
     }
 
     tagsChange() {
         this.filterTags();
-        this.onTagsChanged.emit(this.selectedTags);
+        this.tagsChanged.emit(this.selectedTags);
         this.filterGroup.tags = this.selectedTags;
     }
 

@@ -101,12 +101,12 @@
                 [categories]="categoriesList"
                 [datatypes]="datatypesList"
                 [tags]="tagsList"
-                (onLibrariesChanged)="filterByLibrary($event)"
-                (onTasksChanged)="filterByTask($event)"
-                (onCategoriesChanged)="filterByCategory($event)"
-                (onDatatypesChanged)="filterByDatatype($event)"
-                (onTagsChanged)="filterByTag($event)"
-                (onChange)="addFilter($event)"
+                (librariesChanged)="filterByLibrary($event)"
+                (tasksChanged)="filterByTask($event)"
+                (categoriesChanged)="filterByCategory($event)"
+                (datatypesChanged)="filterByDatatype($event)"
+                (tagsChanged)="filterByTag($event)"
+                (changeDetected)="addFilter($event)"
             ></app-filter-component>
         </ng-template>
 
