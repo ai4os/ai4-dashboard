@@ -43,14 +43,14 @@ export class NodesTabComponent implements OnInit {
 
     getBadgeClass(status: string): string {
         switch (status) {
-            case 'ready':
-                return 'ready-badge';
-            case 'test':
-                return 'test-badge';
-            case 'error':
-                return 'error-badge';
-            default:
-                return 'default-badge';
+        case 'ready':
+            return 'ready-badge';
+        case 'test':
+            return 'test-badge';
+        case 'error':
+            return 'error-badge';
+        default:
+            return 'default-badge';
         }
     }
 }
