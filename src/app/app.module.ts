@@ -35,6 +35,7 @@ export function storageFactory(): OAuthStorage {
 }
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
+    console.log(gitInfo.version);
     return new TranslateHttpLoader(
         http,
         './assets/i18n/',
