@@ -89,7 +89,7 @@ export class FilterComponentComponent implements OnInit {
     }
 
     addFilter() {
-        this.onChange.emit(this.filterGroup);
+        this.changeDetected.emit(this.filterGroup);
         this.resetFilters();
     }
 
@@ -106,6 +106,6 @@ export class FilterComponentComponent implements OnInit {
         this.selectedCategories = [];
         this.selectedDatatypes = [];
         this.selectedTags = [];
-        this.onChange.emit();
+        this.changeDetected.emit();
     }
 }
