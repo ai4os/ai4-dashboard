@@ -110,18 +110,40 @@
             ></app-filter-component>
         </ng-template>
 
-        <div class="modules-cards-container">
-            <div
-                fxFlex
-                *ngFor="
-                    let element of displayedElements
-                        | search
-                            : this.searchFormGroup.get('search')
-                                  ?.value as elements
-                "
-                class="m-2"
-            >
-                <app-module-card [module]="element"></app-module-card>
+        <div>
+            <div class="modules-cards-container">
+                <span
+                    fxFlex
+                    *ngFor="
+                        let element of sortedTools
+                            | search
+                                : this.searchFormGroup.get('search')
+                                      ?.value as elements
+                    "
+                    class="m-2"
+                >
+                    <app-module-card [module]="element"></app-module-card>
+                </span>
+            </div>
+
+            <mat-divider
+                *ngIf="sortedTools.length > 0 && sortedModules.length > 0"
+                class="m-3"
+            ></mat-divider>
+
+            <div class="modules-cards-container">
+                <span
+                    fxFlex
+                    *ngFor="
+                        let element of sortedModules
+                            | search
+                                : this.searchFormGroup.get('search')
+                                      ?.value as elements
+                    "
+                    class="m-2"
+                >
+                    <app-module-card [module]="element"></app-module-card>
+                </span>
             </div>
         </div>
     </div>

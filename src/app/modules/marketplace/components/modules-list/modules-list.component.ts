@@ -39,6 +39,8 @@ export class ModulesListComponent implements OnInit, OnDestroy {
 
     elements: ModuleSummary[] = [];
     displayedElements: ModuleSummary[] = [];
+    sortedTools: ModuleSummary[] = [];
+    sortedModules: ModuleSummary[] = [];
     resultsFound = 0;
 
     // sorting
@@ -355,11 +357,11 @@ export class ModulesListComponent implements OnInit, OnDestroy {
 
     orderElements() {
         // TODO: delete second condition when ai4os-dev-end is returned in /tools
-        let sortedTools: ModuleSummary[] = this.displayedElements.filter(
+        this.sortedTools = this.displayedElements.filter(
             (m) =>
                 m.categories.includes('AI4 tools') || m.name === 'ai4os-dev-env'
         );
-        let sortedModules: ModuleSummary[] = this.displayedElements.filter(
+        this.sortedModules = this.displayedElements.filter(
             (m) =>
                 !m.categories.includes('AI4 tools') &&
                 m.name !== 'ai4os-dev-env'
@@ -367,17 +369,17 @@ export class ModulesListComponent implements OnInit, OnDestroy {
 
         // sort by name
         if (this.sortBy === 'name') {
-            sortedTools.sort((a, b) => {
+            this.sortedTools.sort((a, b) => {
                 return a.title.localeCompare(b.title);
             });
-            sortedModules.sort((a, b) => {
+            this.sortedModules.sort((a, b) => {
                 return a.title.localeCompare(b.title);
             });
         }
 
         // order by most recent
         if (this.sortBy === 'recent') {
-            sortedTools.sort((a, b) => {
+            this.sortedTools.sort((a, b) => {
                 // handle cases where dates are missing
                 if (a.dates === undefined) return 1;
                 if (b.dates === undefined) return -1;
@@ -391,7 +393,7 @@ export class ModulesListComponent implements OnInit, OnDestroy {
 
                 return dateB - dateA;
             });
-            sortedModules.sort((a, b) => {
+            this.sortedModules.sort((a, b) => {
                 // handle cases where dates are missing
                 if (a.dates === undefined) return 1;
                 if (b.dates === undefined) return -1;
@@ -407,7 +409,7 @@ export class ModulesListComponent implements OnInit, OnDestroy {
             });
         }
 
-        this.displayedElements = [...sortedTools, ...sortedModules];
+        this.displayedElements = [...this.sortedTools, ...this.sortedModules];
     }
 
     resetFilters() {
