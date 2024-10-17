@@ -153,35 +153,65 @@
     "MODULES": {
         "TITLE": "Marketplace",
         "NEW-DEPLOYMENT": "New deployment",
+        "NUM-RESULTS": "result(s) found",
+        "MODULE": "AI4 Module",
+        "TOOL": "AI4 Tool",
+        "FILTERS": {
+            "ADITIONAL-FILTERS": "Additional filters",
+            "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
+            "INFO-FILTERS": "<ul><li><p><strong>Between filters</strong>: Filters are combined using \"OR\" logic. For example, if you use Filter #1 (library = [PyTorch]) and Filter #2 (category = [AI4 tools], tag = [federated learning]), you'll see all modules and tools that meet either condition.</p></li><li><p><strong>Within a filter</strong>: Conditions inside a single filter are combined using \"AND\" logic. For instance, Filter #1 (library = [PyTorch], tag = [federated learning]) will only show results that meet both conditions.</p></li><li><p><strong>Within fields</strong>: Options inside a field are treated with \"OR\" logic. For example, Filter #1 (library = [PyTorch, Keras, Other]) will return results that include any of these libraries.</p></li></ul>",
+            "CLEAR-FILTERS": "Clear current filter",
+            "APPLY": "Apply",
+            "APPLY-TOOLTIP": "Apply current filters",
+            "RESET": "Reset",
+            "RESET-TOOLTIP": "Delete all filters"
+        },
+        "SORTING": {
+            "NAME": "By name",
+            "MOST-RECENT": "By most recent"
+        },
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",
             "BUILD-STATUS": "Build status",
-            "LICENSE": "License",
+            "DATES": "Dates",
             "CREATED": "Created",
-            "CATEGORIES": "Categories",
-            "ADDITIONAL-RESOURCES": "Additional Resources",
-            "GET-THE-CODE": "Get the code",
-            "GET-THE-DATA": "Get the data",
-            "FOUND-ISSUE": "Found an issue?",
-            "DATASET": "Dataset",
-            "CODESPACES": "Codespaces",
-            "DEVELOP": "Develop on the platform",
-            "JUPYTERLAB": "Open in JupyterLab",
-            "VSCODE": "Open in VScode",
-            "TRY-MODULE": "Try",
-            "TRY-MODULE-LOGOUT": "You must login to try the module",
-            "DEPLOY-MODULE": "Deploy",
-            "API-PLATFORM": "Inference API (dedicated)",
-            "NOMAD": "Dedicated inference API on the project's Nomad cluster",
-            "API-SERVERLESS": "Inference API (serverless)",
-            "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
-            "API-CLOUD": "Inference API (cloud)",
-            "IM": "Deploy on your own cloud resources via IM",
-            "OSCAR": "Serverless inference API on the project's OSCAR cluster",
-            "OSCAR-SWAGGER": "// TODO",
-            "USER-INTERFACE": "User Interface",
-            "INFERENCE-API": "REST API",
+            "UPDATED": "Updated",
+            "CATEGORIES": "Platform Categories",
+            "LIBRARIES": "Libraries",
+            "TAGS": "Tags",
+            "TASKS": "Tasks",
+            "DATA-TYPES": "Data Types",
+            "ADDITIONAL-RESOURCES": {
+                "TITLE": "Additional Resources",
+                "DATASET": "Dataset",
+                "DOCUMENTATION": "Docs",
+                "WEIGHTS": "Weights",
+                "CITATION": "Citation",
+                "BASE-MODEL": "Base model"
+            },
+            "TRY": {
+                "TITLE": "Try",
+                "LOGOUT": "You must login to try the module",
+                "USER-INTERFACE": "User Interface",
+                "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
+                "INFERENCE-API": "REST API",
+                "OSCAR-SWAGGER": "// TODO"
+            },
+            "DEPLOY": {
+                "TITLE": "Deploy",
+                "API-SERVERLESS": "Inference API (serverless)",
+                "OSCAR": "Serverless inference API on the project's OSCAR cluster",
+                "API-PLATFORM": "Inference API (dedicated)",
+                "NOMAD": "Dedicated inference API on the project's Nomad cluster",
+                "API-CLOUD": "Inference API (cloud)",
+                "IM": "Deploy on your own cloud resources via IM"
+            },
+            "CODESPACES": {
+                "TITLE": "Codespaces",
+                "JUPYTERLAB": "Open in JupyterLab",
+                "VSCODE": "Open in VScode"
+            },
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
@@ -353,10 +383,9 @@
         "NEXT": "Next",
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
-        "GITHUB": "Github",
-        "DOCKERHUB": "Dockerhub",
-        "REPORT-ISSUE": "Report issue",
-        "OPEN-DOCUMENTATION": "Open documentation"
+        "GITHUB": "GitHub",
+        "DOCKERHUB": "Docker",
+        "REPORT-ISSUE": "Report issue"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

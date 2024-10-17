@@ -16,7 +16,6 @@ import { StepperFormComponent } from './components/module-train/stepper-form/ste
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
 import { FederatedConfFormComponent } from './components/module-train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
 import { FederatedServerComponent } from './components/module-train/tool-train/federated-server/federated-server.component';
-import { DevModuleCardComponent } from './components/modules-list/dev-module-card/dev-module-card.component';
 import { ModuleCardComponent } from './components/modules-list/module-card/module-card.component';
 import { ModulesListComponent } from './components/modules-list/modules-list.component';
 import { MarketplaceRoutingModule } from './marketplace-routing.module';
@@ -24,6 +23,8 @@ import { SearchPipe } from './pipes/search-card-pipe';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
+import { FiltersConfigurationDialogComponent } from './components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,6 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
         HardwareConfFormComponent,
         StorageConfFormComponent,
         ModuleDetailViewComponent,
-        DevModuleCardComponent,
         ToolTrainComponent,
         FederatedServerComponent,
         StepperFormComponent,
@@ -44,6 +44,8 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
         DatasetsListComponent,
         DatasetCreationDetailComponent,
         LoadingScreenComponent,
+        FilterComponentComponent,
+        FiltersConfigurationDialogComponent,
     ],
     imports: [
         CommonModule,

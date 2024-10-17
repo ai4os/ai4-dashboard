@@ -11,25 +11,21 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 export class ModuleCardComponent implements OnInit {
     constructor(public titleCasePipe: TitleCasePipe) {}
 
-    // This property is bound using its original name.
     @Input() module!: ModuleSummary;
 
-    @Input() isTool?: boolean;
-
-    moduleType: 'Development' | 'Model' = 'Model';
+    isTool = false;
     displayedKeywords: string[] = [];
 
     ngOnInit(): void {
         if (this.module) {
-            this.moduleType = this.module.keywords.includes('development')
-                ? 'Development'
-                : 'Model';
-            const displayedKeywordsArray = this.module.keywords
+            this.isTool = this.module.categories.includes('AI4 tools');
+            const displayedKeywordsArray = this.module.categories
                 .filter(
-                    (keyword) =>
-                        keyword.includes('inference') ||
-                        keyword.includes('trainable') ||
-                        keyword.includes('pre-trained')
+                    (category) =>
+                        category.includes('AI4 inference') ||
+                        category.includes('AI4 trainable') ||
+                        category.includes('AI4 pre trained') ||
+                        category.includes('AI4 tools')
                 )
                 .map((keyword) => this.titleCasePipe.transform(keyword));
             this.displayedKeywords = displayedKeywordsArray;

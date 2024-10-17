@@ -10,12 +10,14 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { CopyToClipboardDirective } from './directives/copy-to-clipboard-directive';
 import { PopupComponent } from './components/popup/popup/popup.component';
+import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-icon.component';
 
 @NgModule({
     declarations: [
         ConfirmationDialogComponent,
         CopyToClipboardDirective,
         PopupComponent,
+        ChipWithIconComponent,
     ],
     imports: [CommonModule, MaterialModule, FormsModule, TranslateModule],
     exports: [
@@ -25,6 +27,7 @@ import { PopupComponent } from './components/popup/popup/popup.component';
         TranslateModule,
         BreadcrumbModule,
         CopyToClipboardDirective,
+        ChipWithIconComponent,
     ],
 })
 export class SharedModule {}

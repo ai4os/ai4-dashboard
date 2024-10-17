@@ -1,0 +1,11 @@
+<div
+    class="chip"
+    [ngClass]="chipStyle"
+    matTooltip="{{ tooltip }}"
+    matTooltipPosition="above"
+>
+    <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+    <img *ngIf="image && !image.includes('Other')" src="{{ image }}" />
+
+    <p>{{ text }}</p>
+</div>
