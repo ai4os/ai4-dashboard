@@ -7,12 +7,12 @@ import { Component, Input } from '@angular/core';
 })
 export class ChipWithIconComponent {
     @Input()
-    text!: string;
+        text!: string;
     @Input()
-    icon?: string;
+        icon?: string;
     @Input()
-    image?: string;
+        image?: string;
     @Input()
-    tooltip?: string;
-    @Input() chipStyle: string = 'default';
+        tooltip?: string;
+    @Input() chipStyle = 'default';
 }

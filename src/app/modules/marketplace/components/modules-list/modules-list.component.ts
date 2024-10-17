@@ -162,7 +162,7 @@ export class ModulesListComponent implements OnInit, OnDestroy {
         const tagFrequencyMap: { [key: string]: number } = {};
 
         this.elements.forEach((m) => {
-            let variables = m[filter];
+            const variables = m[filter];
             if (variables !== undefined) {
                 if (filter === 'tags') {
                     variables.forEach((v: string) => {

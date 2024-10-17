@@ -28,7 +28,7 @@ export class FilterComponentComponent implements OnInit {
     selectedDatatypes: string[] = [];
     selectedTags: string[] = [];
     filteredTags: string[] = [];
-    searchTerm: string = '';
+    searchTerm = '';
 
     filterGroup: FilterGroup = {
         libraries: [],
