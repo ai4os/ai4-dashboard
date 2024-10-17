@@ -13,23 +13,26 @@ export enum PanelClass {
 export class SnackbarService {
     constructor(private _snackBar: MatSnackBar) {}
 
+    baseDuration = 3000;
+    durationPerChar = 50;
+
     openSuccess(message: string) {
         this._snackBar.open(message, '×', {
-            duration: 3000,
+            duration: this.getMessageDuration(message),
             panelClass: PanelClass.Success,
         });
     }
 
     openError(message: string) {
         this._snackBar.open(message, '×', {
-            duration: 3000,
+            duration: this.getMessageDuration(message),
             panelClass: PanelClass.Error,
         });
     }
 
     openPrimary(message: string) {
         this._snackBar.open(message, '×', {
-            duration: 3000,
+            duration: this.getMessageDuration(message),
             panelClass: PanelClass.Primary,
         });
     }
@@ -44,5 +47,9 @@ export class SnackbarService {
             duration: duration,
             panelClass: [panelClass],
         });
+    }
+
+    getMessageDuration(message: string): number {
+        return this.baseDuration + message.length * this.durationPerChar;
     }
 }

@@ -28,13 +28,18 @@ import { AppConfigService } from './core/services/app-config/app-config.service'
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NotificationsButtonComponent } from './layout/top-navbar/notifications-button/notifications-button.component';
 import { CookieService } from 'ngx-cookie-service';
+import { gitInfo } from '@environments/version';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
 }
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(
+        http,
+        './assets/i18n/',
+        '.json?v=' + gitInfo.version
+    );
 }
 const { base } = environment.api;
 

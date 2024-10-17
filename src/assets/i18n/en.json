@@ -36,7 +36,6 @@
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
-            "OPEN-DOCUMENTATION": "Open documentation",
             "INVALID-DOMAIN": "Invalid domain format"
         }
     },
@@ -45,6 +44,7 @@
         "OVERVIEW-TAB": "Overview",
         "DATACENTERS-TAB": "Datacenters",
         "GRAPHS-TAB": "Graphs",
+        "GRAPHS-TAB-DISABLED": "Your personal usage stats don't seem to be available",
         "NODES-TAB": "Nodes",
         "USERS-OVER-TIME": "Historical Aggregate Usage",
         "USERS": "Your Usage",
@@ -133,7 +133,7 @@
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
-        "OSCAR": "OSCAR",
+        "OSCAR": "Serverless (OSCAR)",
         "TITLE": "Title",
         "IMAGE": "Image",
         "CREATION-TIME": "Creation time (UTC)",
@@ -240,8 +240,7 @@
                 "FEDERATED-SECRET": "Federated secret",
                 "ADD-FEDERATED-SECRET": "Create federated secret",
                 "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
-                "OPEN-DOCUMENTATION": "Open documentation"
+                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
