@@ -61,6 +61,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             url: '/marketplace',
         },
         {
+            name: 'SIDENAV.TRY-ME',
+            url: '/try-me',
+            isRestricted: true,
+            isDisabled: !this.isAuthorized,
+        },
+        {
             name: 'SIDENAV.DEPLOYMENTS',
             url: '/deployments',
             isRestricted: true,

@@ -1,4 +1,3 @@
-import { module } from './../tools-service/tools.service.mock';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
@@ -6,14 +5,9 @@ import {
     Module,
     ModuleConfiguration,
     ModuleSummary,
-    GradioCreateResponse,
-    GradioDeployment,
-    Service,
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { Client } from '@grycap/oscar-js';
-import { OAuthStorage } from 'angular-oauth2-oidc';
 const { base, endpoints } = environment.api;
 
 @Injectable({
@@ -22,8 +16,7 @@ const { base, endpoints } = environment.api;
 export class ModulesService {
     constructor(
         private http: HttpClient,
-        private appConfigService: AppConfigService,
-        private authStorage: OAuthStorage
+        private appConfigService: AppConfigService
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
@@ -56,24 +49,5 @@ export class ModulesService {
         return this.http.get<ModuleConfiguration>(url, {
             params: this.voParam,
         });
-    }
-
-    createDeploymentGradio(
-        moduleName: string
-    ): Observable<GradioCreateResponse> {
-        const url = `${base}${endpoints.nomadGradioDeployments}`;
-        const params = new HttpParams().set('module_name', moduleName);
-        const body = {};
-        return this.http.post<GradioCreateResponse>(url, body, {
-            params: params,
-        });
-    }
-
-    getDeploymentGradio(deploymentUUID: string): Observable<GradioDeployment> {
-        const url = `${base}${endpoints.nomadGradioDeployment.replace(
-            ':deployment_uuid',
-            deploymentUUID
-        )}`;
-        return this.http.get<GradioDeployment>(url, {});
     }
 }

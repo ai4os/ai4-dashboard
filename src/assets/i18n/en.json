@@ -5,6 +5,7 @@
         "MODULES": "Marketplace",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
+        "TRY-ME": "Try me",
         "IAM": "Identity and Access",
         "AI4EOSC-DOCUMENTATION": "AI4EOSC documentation",
         "IMAGINE-DOCUMENTATION": "iMagine AI platform documentation",
@@ -148,6 +149,33 @@
             "MEMORY": "Memory",
             "ENDPOINT": "Endpoint",
             "TOKEN": "Token"
+        }
+    },
+    "TRY-ME": {
+        "TITLE-HEADER": "Try me deployments",
+        "GRADIO": "Gradio",
+        "TITLE": "Title",
+        "IMAGE": "Image",
+        "CREATION-TIME": "Creation time (UTC)",
+        "ACTIONS": "Actions",
+        "NO-DEPLOYMENTS": "Nothing deployed yet",
+        "DEPLOYMENT-DETAIL": {
+            "TITLE": "Deployment detail",
+            "STATUS": "Status",
+            "DOCKER-IMAGE": "Docker image",
+            "DESCRIPTION": "Description",
+            "CREATION-TIME": "Creation time (UTC)",
+            "DEPLOYMENT-ID": "Deployment ID",
+            "DATACENTER": "Datacenter",
+            "RESOURCES-ASSIGNED": "Resources",
+            "ENDPOINTS": "Endpoints",
+            "RESOURCES": {
+                "CPU_NUM": "Number of CPUs",
+                "GPU_NUM": "Number of GPUs",
+                "DISK_MB": "Disk memory",
+                "MEMORY_MB": "RAM memory",
+                "CPU_MHZ": "CPU frequency"
+            }
         }
     },
     "MODULES": {

@@ -103,7 +103,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `¿Are you sure you want to delete this deployment?`,
+                data: `Are you sure you want to delete this deployment?`,
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
