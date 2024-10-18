@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -29,7 +29,7 @@ interface ServiceTableRow {
     templateUrl: './inferences-list.component.html',
     styleUrls: ['./inferences-list.component.scss'],
 })
-export class InferencesListComponent {
+export class InferencesListComponent implements OnInit {
     constructor(
         public oscarInferenceService: OscarInferenceService,
         public dialog: MatDialog,

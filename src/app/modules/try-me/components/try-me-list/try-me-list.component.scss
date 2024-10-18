@@ -69,11 +69,15 @@
     padding: 0px;
 }
 
-.action-button-in-cell:disabled #accessIcon {
+.mat-mdc-table .mat-mdc-row:hover #accessIcon {
+    color: var(--white);
+}
+
+.mat-mdc-button:disabled #accessIcon {
     color: var(--dark-gray) !important;
 }
 
-.action-button-in-cell:hover #accessIcon {
+.mat-mdc-button:hover #accessIcon {
     color: var(--dark-gray);
 }
 

@@ -57,6 +57,21 @@
                                 >
                             </button>
 
+                            <div matTooltip="Quick access">
+                                <a
+                                    mat-button
+                                    [disabled]="!isDeploymentRunning(row)"
+                                    [href]="row.endpoints?.ui"
+                                    target="_blank"
+                                    class="action-button-in-cell"
+                                    (click)="$event.stopPropagation()"
+                                >
+                                    <mat-icon color="accent" id="accessIcon"
+                                        >terminal</mat-icon
+                                    >
+                                </a>
+                            </div>
+
                             <button
                                 mat-button
                                 matTooltip="Delete"

@@ -1,7 +1,13 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +18,7 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
+import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 
 export interface TableColumn {
     columnDef: string;
@@ -26,6 +33,7 @@ interface DeploymentTableRow {
     title: string;
     image: string;
     creationTime: string;
+    endpoints?: { [index: string]: string } | undefined;
 }
 
 @Component({
@@ -33,7 +41,7 @@ interface DeploymentTableRow {
     templateUrl: './try-me-list.component.html',
     styleUrls: ['./try-me-list.component.scss'],
 })
-export class TryMeListComponent {
+export class TryMeListComponent implements OnInit, OnDestroy {
     constructor(
         public tryMeService: TryMeService,
         public dialog: MatDialog,
@@ -58,8 +66,8 @@ export class TryMeListComponent {
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
         { columnDef: 'image', header: 'TRY-ME.IMAGE' },
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'endpoints', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
+        { columnDef: 'endpoints', header: '', hidden: true },
     ];
 
     dataset: Array<DeploymentTableRow> = [];
@@ -69,7 +77,9 @@ export class TryMeListComponent {
 
     isLoading = false;
     mobileQuery: MediaQueryList;
+
     private _mobileQueryListener: () => void;
+    private unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.dataset = [];
@@ -102,32 +112,39 @@ export class TryMeListComponent {
 
     getTryMeDeploymentsList() {
         this.isLoading = true;
-        this.tryMeService.getDeploymentsGradio().subscribe({
-            next: (deploymentsList: GradioDeployment[]) => {
-                this.dataset = [];
-                deploymentsList.forEach((deployment: GradioDeployment) => {
-                    const row: DeploymentTableRow = {
-                        uuid: deployment.job_ID,
-                        name: deployment.name,
-                        status: deployment.status,
-                        title: deployment.title,
-                        image: deployment.docker_image,
-                        creationTime: deployment.submit_time,
-                    };
-                    this.dataset.push(row);
-                });
-                this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-                    this.dataset
-                );
-                this.isLoading = false;
-            },
-            error: () => {
-                this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-                    []
-                );
-                this.isLoading = false;
-            },
-        });
+
+        timer(0, 5000)
+            .pipe(
+                takeUntil(this.unsub),
+                switchMap(() => this.tryMeService.getDeploymentsGradio())
+            )
+            .subscribe({
+                next: (deploymentsList: GradioDeployment[]) => {
+                    this.dataset = [];
+                    deploymentsList.forEach((deployment: GradioDeployment) => {
+                        const row: DeploymentTableRow = {
+                            uuid: deployment.job_ID,
+                            name: deployment.name,
+                            status: deployment.status,
+                            title: deployment.title,
+                            image: deployment.docker_image,
+                            creationTime: deployment.submit_time,
+                            endpoints: deployment.endpoints,
+                        };
+                        this.dataset.push(row);
+                    });
+                    this.dataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.dataset
+                        );
+                    this.isLoading = false;
+                },
+                error: () => {
+                    this.dataSource =
+                        new MatTableDataSource<DeploymentTableRow>([]);
+                    this.isLoading = false;
+                },
+            });
     }
 
     removeTryMe(e: MouseEvent, row: DeploymentTableRow) {
@@ -194,5 +211,14 @@ export class TryMeListComponent {
 
     isSticky(columnDef: string): boolean {
         return columnDef === 'name' ? true : false;
+    }
+
+    isDeploymentRunning(row: DeploymentTableRow) {
+        return row.status === 'running';
+    }
+
+    ngOnDestroy(): void {
+        this.unsub.next();
+        this.unsub.complete();
     }
 }
