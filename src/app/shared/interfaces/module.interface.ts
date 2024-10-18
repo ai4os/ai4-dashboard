@@ -131,7 +131,6 @@ export interface TrainModuleRequest {
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;
-        lr_norm: number;
     };
 }
 

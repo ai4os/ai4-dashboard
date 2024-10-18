@@ -274,8 +274,7 @@
                 "DP": "Differential privacy",
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
-                "CLIP-NORM": "Clipping norm",
-                "LR-NORM": "Learning rate"
+                "CLIP-NORM": "Clipping norm"
             }
         },
         "MODULE-TRY": {

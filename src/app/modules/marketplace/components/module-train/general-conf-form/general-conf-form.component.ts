@@ -172,7 +172,7 @@ export class GeneralConfFormComponent implements OnInit {
 
     openDocumentationWeb(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/user/howto/tools/federated-server.html';
+            'https://docs.ai4eosc.eu/en/latest/user/howto/train/federated-server.html';
         window.open(url);
     }
 }

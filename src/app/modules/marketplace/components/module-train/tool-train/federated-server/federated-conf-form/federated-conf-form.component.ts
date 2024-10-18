@@ -116,13 +116,6 @@ export class FederatedConfFormComponent implements OnInit {
                 Validators.max(this.defaultFormValues?.clipping_norm.range[1]),
             ],
         ],
-        learningRateInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.learning_rate.range[0]),
-                Validators.max(this.defaultFormValues?.learning_rate.range[1]),
-            ],
-        ],
     });
 
     protected _defaultFormValues: any;
@@ -182,9 +175,6 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('clippingNormInput')
                 ?.setValue(defaultFormValues.clip_norm?.value);
-            this.federatedConfFormGroup
-                .get('learningRateInput')
-                ?.setValue(defaultFormValues.lr_norm?.value);
         }
     }
 

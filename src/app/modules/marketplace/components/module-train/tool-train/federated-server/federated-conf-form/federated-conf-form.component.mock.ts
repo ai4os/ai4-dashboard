@@ -68,10 +68,4 @@ export const defaultFormValuesMock = {
         value: '',
         description: '',
     },
-    lr_norm: {
-        range: [2, null],
-        name: '',
-        value: '',
-        description: '',
-    },
 };

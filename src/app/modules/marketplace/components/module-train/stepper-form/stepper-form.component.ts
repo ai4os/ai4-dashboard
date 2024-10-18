@@ -156,9 +156,6 @@ export class StepperFormComponent implements OnInit {
                 clip_norm: this.step3Form.value.federatedConfForm.dpInput
                     ? this.step3Form.value.federatedConfForm.clippingNormInput
                     : null,
-                lr_norm: this.step3Form.value.federatedConfForm.dpInput
-                    ? this.step3Form.value.federatedConfForm.learningRateInput
-                    : null,
             };
             request = this.deploymentsService.trainTool(data);
         } else {
