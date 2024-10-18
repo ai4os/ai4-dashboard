@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.26.0](https://github.com/ai4os/ai4-dashboard/compare/v2.25.0...v2.26.0) (2024-10-17)
+
+
+### Features
+
+* 208 parsing new yaml metadata ([#234](https://github.com/ai4os/ai4-dashboard/issues/234)) ([5c4bc81](https://github.com/ai4os/ai4-dashboard/commit/5c4bc8119f5f899630e8e24c10f2ad4eda44310e))
+* add status color to the nodes list (stats) ([#231](https://github.com/ai4os/ai4-dashboard/issues/231)) ([1b20b81](https://github.com/ai4os/ai4-dashboard/commit/1b20b81e103320ea1e8c1006680371409b76e3f6))
+
 ## [2.25.0](https://github.com/ai4os/ai4-dashboard/compare/v2.24.0...v2.25.0) (2024-10-15)
 
 
