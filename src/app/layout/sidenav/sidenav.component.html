@@ -19,7 +19,15 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <a routerLink="">
-                <img src="../../../assets/images/dashboard-logo.png" />
+                <img
+                    *ngIf="voName === 'vo.ai4life.eu'"
+                    src="../../../assets/images/ai4life/dashboard-logo.png"
+                    style="padding-top: 25px"
+                />
+                <img
+                    *ngIf="voName !== 'vo.ai4life.eu'"
+                    src="../../../assets/images/dashboard-logo.png"
+                />
             </a>
         </div>
 

@@ -6,6 +6,13 @@
         </button>
         <a routerLink="">
             <img
+                *ngIf="voName === 'vo.ai4life.eu'"
+                src="../../../assets/images/ai4life/dashboard-logo.png"
+                class="dashboard-logo"
+                style="padding-top: 25px"
+            />
+            <img
+                *ngIf="voName !== 'vo.ai4life.eu'"
                 src="../../../assets/images/dashboard-logo.png"
                 class="dashboard-logo"
             />

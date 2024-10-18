@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { _MatMenuBase } from '@angular/material/menu';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
@@ -11,7 +11,7 @@ import { environment } from '@environments/environment';
     templateUrl: './top-navbar.component.html',
     styleUrls: ['./top-navbar.component.scss'],
 })
-export class TopNavbarComponent {
+export class TopNavbarComponent implements OnInit {
     constructor(
         private readonly authService: AuthService,
         private changeDetectorRef: ChangeDetectorRef,
@@ -40,6 +40,11 @@ export class TopNavbarComponent {
     hideSidebarQuery: MediaQueryList;
     mobileQuery: MediaQueryList;
     userProfile?: UserProfile;
+    voName = '';
+
+    ngOnInit(): void {
+        this.voName = this.appConfigService.voName;
+    }
 
     login() {
         this.authService.login(window.location.pathname);
