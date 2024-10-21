@@ -82,16 +82,17 @@ export class ModuleDetailComponent implements OnInit {
 
             if (this.isTool) {
                 this.toolsService.getTool(params['id']).subscribe((tool) => {
-                    this.isLoading = false;
                     this.module = tool;
                     this.breadcrumbService.set('@moduleName', tool.title);
+                    this.isLoading = false;
                 });
             } else {
                 this.modulesService
                     .getModule(params['id'])
                     .subscribe((module) => {
-                        this.isLoading = false;
                         this.module = module;
+                        this.breadcrumbService.set('@moduleName', module.title);
+                        this.isLoading = false;
                     });
             }
         });
