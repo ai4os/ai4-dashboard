@@ -18,6 +18,9 @@ import { By } from '@angular/platform-browser';
 import { MatButton } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+
+const mockedConfigService: any = {};
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
@@ -64,6 +67,7 @@ describe('TopNavbarComponent', () => {
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: SidenavService, useValue: mockedSidenavService },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 

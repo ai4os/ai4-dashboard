@@ -357,7 +357,7 @@
                                 "node_modules/cookieconsent/build/cookieconsent.min.js"
                             ],
                             "styles": [
-                                "src/theme/ai4eosc/variables.scss",
+                                "src/theme/ai4life/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css"
@@ -365,7 +365,7 @@
                             "assets": [
                                 {
                                     "glob": "**/*",
-                                    "input": "src/assets/images/ai4eosc",
+                                    "input": "src/assets/images/ai4life",
                                     "output": "/assets/images/"
                                 },
                                 {
