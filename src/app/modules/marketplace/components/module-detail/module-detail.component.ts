@@ -92,6 +92,7 @@ export class ModuleDetailComponent implements OnInit {
                     .subscribe((module) => {
                         this.isLoading = false;
                         this.module = module;
+                        this.breadcrumbService.set('@moduleName', module.title);
                     });
             }
         });
