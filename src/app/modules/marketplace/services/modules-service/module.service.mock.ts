@@ -26,6 +26,8 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         categories: ['development'],
         tags: ['test'],
         name: 'ai4-test',
+        libraries: [],
+        tasks: [],
     },
     {
         title: 'Test2',
@@ -33,5 +35,7 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         categories: [],
         tags: ['test'],
         name: 'ai4-test',
+        libraries: [],
+        tasks: [],
     },
 ];
