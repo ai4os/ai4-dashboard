@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.27.0](https://github.com/ai4os/ai4-dashboard/compare/v2.26.1...v2.27.0) (2024-10-21)
+
+
+### Features
+
+* 193 customize ai4life dashboard ([#241](https://github.com/ai4os/ai4-dashboard/issues/241)) ([9159b48](https://github.com/ai4os/ai4-dashboard/commit/9159b480b2efaeda04d7cd50d4cf44c0091c7d97))
+
+
+### Bug Fixes
+
+* 238 fix new metadata version bugs ([#239](https://github.com/ai4os/ai4-dashboard/issues/239)) ([f432c72](https://github.com/ai4os/ai4-dashboard/commit/f432c72a18f60d1ecb0c442cd72fb01f06098aa7))
+
 ## [2.26.0](https://github.com/ai4os/ai4-dashboard/compare/v2.25.0...v2.26.0) (2024-10-17)
 
 
