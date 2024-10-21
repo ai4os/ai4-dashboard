@@ -3,7 +3,11 @@
     [ngClass]="{
         'tool-card': isTool
     }"
-    [routerLink]="[isTool ? 'tools/' + module.name : 'modules/' + module.name]"
+    [routerLink]="[
+        isTool && module.name !== 'ai4os-dev-env'
+            ? 'tools/' + module.name
+            : 'modules/' + module.name
+    ]"
 >
     <mat-card-header class="basic-card-header">
         <mat-card-title>
