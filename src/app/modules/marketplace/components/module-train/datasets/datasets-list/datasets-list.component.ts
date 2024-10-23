@@ -154,7 +154,7 @@ export class DatasetsListComponent implements OnInit {
     addDataset(dataset: ZenodoSimpleDataset) {
         if (this.datasets.find((d) => d.doi === dataset.doiOrUrl)) {
             this.snackbarService.openError(
-                'Dataset with DOI ' + dataset.doiOrUrl + ' already exists'
+                'Dataset with reference ' + dataset.doiOrUrl + ' already exists'
             );
         } else if (this.datasets.length === 5) {
             this.snackbarService.openError(
@@ -172,7 +172,7 @@ export class DatasetsListComponent implements OnInit {
             );
             this.datasetAdded.emit(dataset);
             this.snackbarService.openSuccess(
-                'Dataset added with DOI ' + dataset.doiOrUrl
+                'Dataset added with reference ' + dataset.doiOrUrl
             );
         }
     }
