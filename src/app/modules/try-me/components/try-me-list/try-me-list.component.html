@@ -60,6 +60,7 @@
 
                             <div matTooltip="Quick access">
                                 <a
+                                    id="quickAccessButton"
                                     mat-button
                                     [disabled]="!isDeploymentRunning(row)"
                                     [href]="row.endpoints?.ui"
@@ -74,6 +75,7 @@
                             </div>
 
                             <button
+                                id="deleteButton"
                                 mat-button
                                 matTooltip="Delete"
                                 class="action-button-in-cell"
