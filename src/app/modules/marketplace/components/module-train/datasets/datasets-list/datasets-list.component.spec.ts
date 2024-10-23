@@ -27,7 +27,7 @@ const mockedMediaMatcher: any = {
 };
 
 const mockedDataset: ZenodoSimpleDataset = {
-    doi: '10.1234/example.doi',
+    doiOrUrl: '10.1234/example.doi',
     title: 'Example Dataset',
     source: 'zenodo',
     force_pull: false,
@@ -112,7 +112,7 @@ describe('DatasetsListComponent', () => {
         // Check datasets
         component.openAddDatasetDialog();
         expect(component.datasets.length).toBe(1);
-        expect(component.datasets[0].doi).toBe(mockedDataset.doi);
+        expect(component.datasets[0].doi).toBe(mockedDataset.doiOrUrl);
         expect(component.datasets[0].name).toBe(mockedDataset.title);
         expect(component.datasets[0].source).toBe(mockedDataset.source);
         expect(component.datasets[0].forcePull).toBe(mockedDataset.force_pull);
@@ -150,14 +150,14 @@ describe('DatasetsListComponent', () => {
     it('should delete dataset if user does confirm it', () => {
         // Add dataset
         const mockDataset: ZenodoSimpleDataset = {
-            doi: '10.1234/example.doi',
+            doiOrUrl: '10.1234/example.doi',
             title: 'Example Dataset',
             source: 'zenodo',
             force_pull: false,
         };
         component.datasets = [
             {
-                doi: mockDataset.doi,
+                doi: mockDataset.doiOrUrl,
                 name: mockDataset.title,
                 source: mockDataset.source,
                 forcePull: mockDataset.force_pull,
@@ -184,14 +184,14 @@ describe('DatasetsListComponent', () => {
     it('should NOT delete dataset if user does not confirm it', () => {
         // Add dataset
         const mockDataset: ZenodoSimpleDataset = {
-            doi: '10.1234/example.doi',
+            doiOrUrl: '10.1234/example.doi',
             title: 'Example Dataset',
             source: 'zenodo',
             force_pull: false,
         };
         component.datasets = [
             {
-                doi: mockDataset.doi,
+                doi: mockDataset.doiOrUrl,
                 name: mockDataset.title,
                 source: mockDataset.source,
                 forcePull: mockDataset.force_pull,

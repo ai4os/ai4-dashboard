@@ -277,10 +277,10 @@
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
-                "DOI": {
-                    "TITLE": "DOI",
-                    "ERROR": "Invalid DOI format",
-                    "SUPPORT": "We support DOIs from these repositories and ",
+                "DOI-URL": {
+                    "TITLE": "DOI / URL",
+                    "ERROR": "Invalid DOI or URL format",
+                    "SUPPORT": "We support DOIs and URLs from these repositories and ",
                     "MORE": "many more"
                 },
                 "TABLE": {

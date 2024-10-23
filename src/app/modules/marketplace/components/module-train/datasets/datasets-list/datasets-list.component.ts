@@ -56,7 +56,7 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-        storageConfFormGroup!: FormGroup;
+    storageConfFormGroup!: FormGroup;
 
     @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
@@ -143,7 +143,7 @@ export class DatasetsListComponent implements OnInit {
         const dataset = this.datasets.find((d) => d.doi === row.doi);
         dataset!.forcePull = event.checked;
         const d: ZenodoSimpleDataset = {
-            doi: dataset!.doi,
+            doiOrUrl: dataset!.doi,
             title: dataset!.name,
             source: dataset!.source,
             force_pull: dataset!.forcePull,
@@ -152,9 +152,9 @@ export class DatasetsListComponent implements OnInit {
     }
 
     addDataset(dataset: ZenodoSimpleDataset) {
-        if (this.datasets.find((d) => d.doi === dataset.doi)) {
+        if (this.datasets.find((d) => d.doi === dataset.doiOrUrl)) {
             this.snackbarService.openError(
-                'Dataset with DOI ' + dataset.doi + ' already exists'
+                'Dataset with DOI ' + dataset.doiOrUrl + ' already exists'
             );
         } else if (this.datasets.length === 5) {
             this.snackbarService.openError(
@@ -162,7 +162,7 @@ export class DatasetsListComponent implements OnInit {
             );
         } else {
             this.datasets.push({
-                doi: dataset.doi,
+                doi: dataset.doiOrUrl,
                 source: dataset.source,
                 name: dataset.title,
                 forcePull: dataset.force_pull,
@@ -172,7 +172,7 @@ export class DatasetsListComponent implements OnInit {
             );
             this.datasetAdded.emit(dataset);
             this.snackbarService.openSuccess(
-                'Dataset added with DOI ' + dataset.doi
+                'Dataset added with DOI ' + dataset.doiOrUrl
             );
         }
     }
@@ -194,7 +194,7 @@ export class DatasetsListComponent implements OnInit {
                         (obj) => obj['doi'] === doi
                     );
                     const d: ZenodoSimpleDataset = {
-                        doi: row.doi,
+                        doiOrUrl: row.doi,
                         title: row.name,
                         source: row.source,
                         force_pull: row.forcePull,
