@@ -29,7 +29,7 @@ describe('module train form', function () {
             { timeout: 15000 }
         ).click();
         cy.get('#add-button', { timeout: 15000 }).click();
-        cy.contains(' Dataset added with DOI 10.5281/zenodo.10777441', {
+        cy.contains(' Dataset added with reference 10.5281/zenodo.10777441', {
             timeout: 10000,
         }).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
@@ -48,9 +48,9 @@ describe('module train form', function () {
 
         cy.get('#doi', { timeout: 10000 }).type('10.5281/zenodo.10777441');
         cy.get('#add-button', { timeout: 10000 }).click();
-        cy.contains(' Dataset added with DOI 10.5281/zenodo.10777441').should(
-            'be.visible'
-        );
+        cy.contains(
+            ' Dataset added with reference 10.5281/zenodo.10777441'
+        ).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
         cy.contains('Advanced settings', { timeout: 10000 }).click();
@@ -59,6 +59,39 @@ describe('module train form', function () {
         cy.contains('Submit', { timeout: 10000 }).click();
 
         cy.deleteDeployment();
+    });
+
+    it('create module with dataset via URL', function () {
+        cy.contains('Add dataset', { timeout: 10000 }).click();
+        cy.get('div[role=tab]').eq(1).click();
+
+        cy.get('#doi', { timeout: 10000 }).type(
+            'https://huggingface.co/datasets/Zyphra/Zyda-2'
+        );
+        cy.get('#add-button', { timeout: 10000 }).click();
+        cy.contains(
+            ' Dataset added with reference https://huggingface.co/datasets/Zyphra/Zyda-2'
+        ).should('be.visible');
+        cy.contains('Close', { timeout: 10000 }).click();
+
+        cy.contains('Advanced settings', { timeout: 10000 }).click();
+        cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
+        cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
+        cy.contains('Submit', { timeout: 10000 }).click();
+
+        cy.deleteDeployment();
+    });
+
+    it('cannot create module with dataset and a wrong DOI/URL', function () {
+        cy.contains('Add dataset', { timeout: 10000 }).click();
+        cy.get('div[role=tab]').eq(1).click();
+        cy.get('#doi', { timeout: 10000 }).type(
+            'ps://huggingface.co/datasets/Zyphra/Zyda-2'
+        );
+        cy.get('div[role=tab]').eq(1).click();
+        cy.contains('Invalid DOI or URL format').should('be.visible');
+        cy.get('#add-button').should('be.disabled');
+        cy.contains('Close', { timeout: 10000 }).click();
     });
 
     it('cannot create module with datasets without rclone credentials', function () {
@@ -74,9 +107,9 @@ describe('module train form', function () {
             { timeout: 10000 }
         ).click();
         cy.get('#add-button', { timeout: 25000 }).click();
-        cy.contains('Dataset added with DOI 10.5281/zenodo.10777441').should(
-            'be.visible'
-        );
+        cy.contains(
+            'Dataset added with reference 10.5281/zenodo.10777441'
+        ).should('be.visible');
 
         cy.contains('Close', { timeout: 10000 }).click();
 
@@ -110,7 +143,7 @@ describe('module train form', function () {
         cy.get('#add-button', { timeout: 10000 }).click();
 
         cy.contains(
-            'Dataset with DOI 10.5281/zenodo.10777441 already exists'
+            'Dataset with reference 10.5281/zenodo.10777441 already exists'
         ).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
     });

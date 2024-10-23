@@ -10,9 +10,7 @@
 }
 
 .small-logo {
-    height: 50%;
-    width: 100%;
-    object-fit: contain;
+    width: 80%;
 }
 
 .tab-content {
@@ -39,10 +37,14 @@
 
 .logos-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 1rem;
+    grid-template-columns: 1fr 1.25fr 1fr 1.25fr 1.5fr 1fr 1.5fr 1fr 1.5fr;
     justify-items: center;
-    padding: 0px 0.5rem;
+    padding-top: 15px;
+    a {
+        height: 100%;
+        text-align: center;
+        align-content: center;
+    }
 }
 
 .footer {

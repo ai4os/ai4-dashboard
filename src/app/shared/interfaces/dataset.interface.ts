@@ -25,7 +25,7 @@ export interface ZenodoCommunity {
 }
 
 export interface ZenodoSimpleDataset {
-    doi: string;
+    doiOrUrl: string;
     title: string;
     source: string;
     force_pull: boolean;

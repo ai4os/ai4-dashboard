@@ -156,17 +156,23 @@
                             </mat-form-field>
                         </form>
                     </mat-tab>
+
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <img
-                                class="fit-image"
+                                class="fit-image mr-2"
                                 src="../../../../../assets/images/doi-logo.png"
                             />
+                            +
+                            <img
+                                class="fit-image ml-2"
+                                src="../../../../../assets/images/http-logo.png"
+                            />
                         </ng-template>
-                        <form [formGroup]="doiFormGroup" class="tab-content">
+                        <form [formGroup]="doiUrlFormGroup" class="tab-content">
                             <mat-form-field>
                                 <mat-label>{{
-                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.TITLE'
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.TITLE'
                                         | translate
                                 }}</mat-label>
                                 <input
@@ -174,17 +180,17 @@
                                     matInput
                                     placeholder=""
                                     value=""
-                                    formControlName="doiInput"
+                                    formControlName="doiUrlInput"
                                 />
                                 <mat-error
                                     *ngIf="
-                                        doiFormGroup
-                                            .get('doiInput')
-                                            ?.hasError('invalidDOI')
+                                        doiUrlFormGroup
+                                            .get('doiUrlInput')
+                                            ?.hasError('invalidDOIOrURL')
                                     "
                                 >
                                     {{
-                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.ERROR'
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.ERROR'
                                             | translate
                                     }}
                                 </mat-error>
@@ -196,14 +202,14 @@
 
                             <p>
                                 {{
-                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.SUPPORT'
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.SUPPORT'
                                         | translate
                                 }}<a
                                     href="https://j535d165.github.io/datahugger/repositories/"
                                     target="_blank"
                                 >
                                     {{
-                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.MORE'
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.MORE'
                                             | translate
                                     }}</a
                                 >!
@@ -247,6 +253,20 @@
                                     ><img
                                         class="small-logo"
                                         src="../../../../../assets/images/data-repositories/mendeley-logo.png"
+                                /></a>
+                                <a
+                                    href="https://www.seanoe.org/"
+                                    target="_blank"
+                                    ><img
+                                        class="small-logo"
+                                        src="../../../../../assets/images/data-repositories/seanoe-logo.png"
+                                /></a>
+                                <a
+                                    href="https://data.europa.eu/"
+                                    target="_blank"
+                                    ><img
+                                        class="small-logo"
+                                        src="../../../../../assets/images/data-repositories/data-europa-logo.png"
                                 /></a>
                             </div>
                         </div>
