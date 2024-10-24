@@ -1,6 +1,4 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
 import {
     OAuthEvent,
@@ -10,6 +8,9 @@ import {
 import { AppConfigService } from '../app-config/app-config.service';
 import { Subject, of } from 'rxjs';
 import { MarketplaceModule } from '@app/modules/marketplace/marketplace.module';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedProfile = {
     info: {
@@ -83,18 +84,18 @@ const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',
 };
 
-//jasmine.createSpyObj('name', ['key']) --> jest.fn({key: jest.fn()})
 describe('AuthService', () => {
     let service: AuthService;
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientTestingModule,
-                RouterTestingModule.withRoutes([
+                RouterModule.forRoot([
                     { path: 'marketplace', component: MarketplaceModule },
                 ]),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 AuthService,
                 { provide: OAuthService, useValue: mockedOAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },

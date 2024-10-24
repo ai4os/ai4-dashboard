@@ -5,14 +5,15 @@ import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
 import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OAuthStorage } from 'angular-oauth2-oidc';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -52,10 +53,11 @@ describe('ModuleTrainComponent', () => {
                 SharedModule,
                 TranslateModule.forRoot(),
                 NoopAnimationsModule,
-                HttpClientTestingModule,
-                RouterTestingModule,
+                RouterModule.forRoot([]),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 FormGroupDirective,
                 FormBuilder,
                 OAuthStorage,

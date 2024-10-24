@@ -16,7 +16,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
-import { HttpClientModule } from '@angular/common/http';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 

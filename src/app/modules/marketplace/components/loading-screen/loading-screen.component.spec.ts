@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoadingScreenComponent } from './loading-screen.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedModuleService: any = {
     createDeploymentGradio: jest.fn(),
@@ -20,13 +21,14 @@ describe('LoadingScreenComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [LoadingScreenComponent],
             imports: [
-                HttpClientTestingModule,
                 NoopAnimationsModule,
                 SharedModule,
                 TranslateModule.forRoot(),
             ],
 
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: ModulesService, useValue: mockedModuleService },
             ],
         }).compileComponents();

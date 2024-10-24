@@ -29,7 +29,7 @@ export class DatacentersTabComponent implements OnInit {
 
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
-        drawer!: MatDrawer;
+    drawer!: MatDrawer;
 
     Math = Math;
     selectedDatacenter: DatacenterStats | undefined;
