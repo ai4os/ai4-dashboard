@@ -1,4 +1,4 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
@@ -92,19 +92,16 @@ renderer.link = (href, title, text) => {
     }
 };
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         ContentLayoutComponent,
         SidenavComponent,
         TopNavbarComponent,
         NotificationsButtonComponent,
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        HttpClientModule,
         OAuthModule.forRoot({
             resourceServer: {
                 allowedUrls: [base],
@@ -137,9 +134,7 @@ renderer.link = (href, title, text) => {
         NgcCookieConsentModule.forRoot(cookieConfig),
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
-        }),
-    ],
-    providers: [
+        })], providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
@@ -149,10 +144,7 @@ renderer.link = (href, title, text) => {
             provide: APP_INITIALIZER,
             multi: true,
             deps: [AppConfigService, NgcCookieConsentConfig],
-            useFactory: (
-                appConfigService: AppConfigService,
-                config: NgcCookieConsentConfig
-            ) => {
+            useFactory: (appConfigService: AppConfigService, config: NgcCookieConsentConfig) => {
                 return () => {
                     return appConfigService.loadAppConfig().then(() => {
                         if (config.cookie) {
@@ -168,9 +160,8 @@ renderer.link = (href, title, text) => {
         { provide: OAuthStorage, useFactory: storageFactory },
         Title,
         CookieService,
-    ],
-    bootstrap: [AppComponent],
-})
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
     constructor(iconRegistry: MatIconRegistry) {
         iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
