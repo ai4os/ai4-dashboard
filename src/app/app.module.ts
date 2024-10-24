@@ -1,4 +1,9 @@
-import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+    HttpClient,
+    HTTP_INTERCEPTORS,
+    provideHttpClient,
+    withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
@@ -15,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownModule, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
 import {
     NgcCookieConsentModule,
     NgcCookieConsentConfig,
@@ -92,14 +97,17 @@ renderer.link = (href, title, text) => {
     }
 };
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
         ContentLayoutComponent,
         SidenavComponent,
         TopNavbarComponent,
         NotificationsButtonComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
         OAuthModule.forRoot({
@@ -122,7 +130,7 @@ renderer.link = (href, title, text) => {
         CoreModule,
         MarkdownModule.forRoot({
             markedOptions: {
-                provide: MarkedOptions,
+                provide: MARKED_OPTIONS,
                 useValue: {
                     renderer: renderer,
                     gfm: true,
@@ -134,7 +142,9 @@ renderer.link = (href, title, text) => {
         NgcCookieConsentModule.forRoot(cookieConfig),
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
-        })], providers: [
+        }),
+    ],
+    providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
@@ -144,7 +154,10 @@ renderer.link = (href, title, text) => {
             provide: APP_INITIALIZER,
             multi: true,
             deps: [AppConfigService, NgcCookieConsentConfig],
-            useFactory: (appConfigService: AppConfigService, config: NgcCookieConsentConfig) => {
+            useFactory: (
+                appConfigService: AppConfigService,
+                config: NgcCookieConsentConfig
+            ) => {
                 return () => {
                     return appConfigService.loadAppConfig().then(() => {
                         if (config.cookie) {
@@ -161,7 +174,8 @@ renderer.link = (href, title, text) => {
         Title,
         CookieService,
         provideHttpClient(withInterceptorsFromDi()),
-    ] })
+    ],
+})
 export class AppModule {
     constructor(iconRegistry: MatIconRegistry) {
         iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
