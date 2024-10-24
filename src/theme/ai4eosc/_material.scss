@@ -76,11 +76,11 @@ $ai4eosc-palette-secondary: (
     ),
 );
 
-$ai4eosc-app-primary: mat.define-palette($ai4eosc-palette-primary);
-$ai4eosc-app-accent: mat.define-palette($ai4eosc-palette-secondary);
-$ai4eosc-app-warn: mat.define-palette(mat.$red-palette);
+$ai4eosc-app-primary: mat.m2-define-palette($ai4eosc-palette-primary);
+$ai4eosc-app-accent: mat.m2-define-palette($ai4eosc-palette-secondary);
+$ai4eosc-app-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
-$ai4eosc-app-theme: mat.define-light-theme(
+$ai4eosc-app-theme: mat.m2-define-light-theme(
     (
         color: (
             primary: $ai4eosc-app-primary,
@@ -88,7 +88,7 @@ $ai4eosc-app-theme: mat.define-light-theme(
             warning: $ai4eosc-app-warn,
         ),
         typography:
-            mat.define-typography-config(
+            mat.m2-define-typography-config(
                 $font-family: "'Raleway', Arial, Helvetica, sans-serif",
             ),
         density: 0,
