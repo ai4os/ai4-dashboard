@@ -8,10 +8,11 @@ import { SharedModule } from '@app/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { GlobalStats } from '@app/shared/interfaces/stats.interface';
 import { UserProfile } from '@app/core/services/auth/auth.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedConfigService: any = {
     projectName: 'TestAI4EOSC',
@@ -51,9 +52,10 @@ describe('GraphsTabComponent', () => {
                 TranslateModule.forRoot(),
                 SharedModule,
                 BrowserAnimationsModule,
-                HttpClientTestingModule,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
             schemas: [NO_ERRORS_SCHEMA],

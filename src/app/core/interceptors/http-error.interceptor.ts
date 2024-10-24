@@ -1,10 +1,4 @@
-import {
-    HttpEvent,
-    HttpInterceptor,
-    HttpHandler,
-    HttpRequest,
-    HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';

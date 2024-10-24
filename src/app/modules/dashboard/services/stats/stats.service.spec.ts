@@ -2,14 +2,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { StatsService } from './stats.service';
 import {
-    HttpClientTestingModule,
     HttpTestingController,
+    provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { mockedClusterStats, mockedUserStats } from './stats.service.mock';
 import { expect } from '@jest/globals';
+import { provideHttpClient } from '@angular/common/http';
 
 const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',
@@ -22,8 +23,9 @@ describe('StatsServiceService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });

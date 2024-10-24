@@ -2,14 +2,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { ToolsService } from './tools.service';
 import {
-    HttpClientTestingModule,
     HttpTestingController,
+    provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { toolsSummaryList } from './tools.service.mock';
 import { TagObject } from '@app/data/types/tags';
+import { provideHttpClient } from '@angular/common/http';
 
 const { base, endpoints } = environment.api;
 const mockedConfigService: any = {};
@@ -22,8 +23,9 @@ describe('ToolsService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });

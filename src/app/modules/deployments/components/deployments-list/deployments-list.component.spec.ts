@@ -10,9 +10,7 @@ import {
 import { DeploymentsListComponent } from './deployments-list.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
     Deployment,
@@ -27,6 +25,9 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -105,12 +106,13 @@ describe('DeploymentsListComponent', () => {
             imports: [
                 SharedModule,
                 BrowserModule,
-                RouterTestingModule,
+                RouterModule.forRoot([]),
                 NoopAnimationsModule,
-                HttpClientTestingModule,
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: DeploymentsService,

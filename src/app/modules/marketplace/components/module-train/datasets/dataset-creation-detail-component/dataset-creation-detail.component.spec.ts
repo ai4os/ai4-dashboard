@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DatasetCreationDetailComponent } from './dataset-creation-detail.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -16,6 +15,8 @@ import { ZenodoService } from '@app/modules/marketplace/services/zenodo-service/
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -61,11 +62,12 @@ describe('DatasetCreationDetailComponent', () => {
             declarations: [DatasetCreationDetailComponent],
             imports: [
                 SharedModule,
-                HttpClientTestingModule,
                 BrowserAnimationsModule,
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

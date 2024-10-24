@@ -1,8 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FederatedServerComponent } from './federated-server.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
@@ -12,6 +9,9 @@ import { FederatedConfFormComponent } from './federated-conf-form/federated-conf
 import { HardwareConfFormComponent } from '../../hardware-conf-form/hardware-conf-form.component';
 import { GeneralConfFormComponent } from '../../general-conf-form/general-conf-form.component';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -38,8 +38,7 @@ describe('FederatedServerComponent', () => {
         await TestBed.configureTestingModule({
             imports: [
                 SharedModule,
-                RouterTestingModule,
-                HttpClientTestingModule,
+                RouterModule.forRoot([]),
                 BrowserAnimationsModule,
                 TranslateModule.forRoot(),
             ],
@@ -51,6 +50,8 @@ describe('FederatedServerComponent', () => {
                 GeneralConfFormComponent,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],

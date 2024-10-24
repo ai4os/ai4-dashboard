@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InferencesListComponent } from './inferences-list.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedConfigService: any = {};
 
@@ -36,12 +37,12 @@ describe('ServicesListComponent', () => {
             imports: [
                 SharedModule,
                 NoopAnimationsModule,
-                HttpClientTestingModule,
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
-
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

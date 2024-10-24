@@ -5,10 +5,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { FormGroupDirective, FormBuilder, FormGroup } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -39,10 +40,11 @@ describe('StepperFormComponent', () => {
                 SharedModule,
                 TranslateModule.forRoot(),
                 NoopAnimationsModule,
-                RouterTestingModule,
-                HttpClientTestingModule,
+                RouterModule.forRoot([]),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

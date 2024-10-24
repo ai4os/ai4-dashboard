@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SecretManagementDetailComponent } from './secret-management-detail.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -12,6 +11,8 @@ import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedSecrets = {
     '/deployments/1234/federated/default': { token: '1234' },
@@ -54,11 +55,12 @@ describe('SecretManagementDetailComponent', () => {
             declarations: [SecretManagementDetailComponent],
             imports: [
                 NoopAnimationsModule,
-                HttpClientTestingModule,
                 SharedModule,
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

@@ -64,11 +64,3 @@ Cypress.Commands.add('initializeTrainModuleForm', () => {
     cy.wait(500);
     cy.contains('Next', { timeout: 10000 }).click({ force: true });
 });
-
-Cypress.Commands.add('deleteDeployment', () => {
-    cy.get(
-        '.mat-mdc-card-content > .table-container > .mat-mdc-table > .mdc-data-table__content > :nth-child(1) > .cdk-column-actions > .actions-container > [mattooltip="Delete"] > .mat-mdc-button-touch-target',
-        { timeout: 20000 }
-    ).click();
-    cy.get('#yesBtn').click();
-});

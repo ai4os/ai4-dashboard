@@ -6,10 +6,11 @@ import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -45,9 +46,10 @@ describe('StorageConfFormComponent', () => {
                 SharedModule,
                 TranslateModule.forRoot(),
                 NoopAnimationsModule,
-                HttpClientTestingModule,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

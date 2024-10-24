@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimeSeriesChartComponent } from './time-series-chart.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { By } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedConfigService: any = {};
 
@@ -14,8 +15,9 @@ describe('TimeSeriesChartComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [TimeSeriesChartComponent],
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();

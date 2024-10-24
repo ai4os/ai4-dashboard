@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContentLayoutComponent } from './content-layout.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { HttpClientModule } from '@angular/common/http';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -11,7 +10,9 @@ import { MaterialModule } from '@app/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
 import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
@@ -42,10 +43,9 @@ describe('ContentLayoutComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
-                HttpClientModule,
                 MaterialModule,
                 BrowserAnimationsModule,
-                RouterTestingModule,
+                RouterModule.forRoot([]),
                 TranslateModule.forRoot(),
             ],
             declarations: [
@@ -54,6 +54,8 @@ describe('ContentLayoutComponent', () => {
                 TopNavbarComponent,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

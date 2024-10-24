@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AppConfigService } from './app-config.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedConfig = {
     title: 'AI4EOSC - Dashboard',
@@ -29,7 +30,7 @@ describe('AppConfigService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
+            providers: [provideHttpClient(), provideHttpClientTesting()],
         });
         service = TestBed.inject(AppConfigService);
         service['appConfig'] = mockedConfig;
