@@ -290,9 +290,9 @@ describe('ToolsTableComponent', () => {
     it('should return correctly a Tools badge correctly', () => {
         //Status undefined, should not crash
         const nullData: unknown = undefined;
-        component.returnToolBadge(nullData as string);
         jest.spyOn(component, 'returnToolBadge');
-        expect(component.returnToolBadge).toHaveReturned;
+        component.returnToolBadge(nullData as string);
+        expect(component.returnToolBadge).toHaveReturned();
         const badge = component.returnToolBadge('running');
         expect(badge).toEqual('running-brightgreen');
     });

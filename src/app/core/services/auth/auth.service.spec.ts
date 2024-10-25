@@ -163,7 +163,6 @@ describe('AuthService', () => {
         service.logout();
         expect(spyHasValidIdToken).toHaveBeenCalledTimes(1);
         expect(spyLogOut).toHaveBeenCalledTimes(0);
-        expect(spyLogOut).toHaveReturned;
         expect(localStorage).toMatchObject({});
     });
 });

@@ -327,11 +327,11 @@ describe('DeploymentsListComponent', () => {
     });
 
     it('should return correctly a deployments badge correctly', () => {
-        //Status undefined, should not crash
+        // Status undefined, should not crash
         const nullData: unknown = undefined;
-        component.returnDeploymentBadge(nullData as string);
         jest.spyOn(component, 'returnDeploymentBadge');
-        expect(component.returnDeploymentBadge).toHaveReturned;
+        component.returnDeploymentBadge(nullData as string);
+        expect(component.returnDeploymentBadge).toHaveReturned();
         const badge = component.returnDeploymentBadge('running');
         expect(badge).toEqual('running-brightgreen');
     });
