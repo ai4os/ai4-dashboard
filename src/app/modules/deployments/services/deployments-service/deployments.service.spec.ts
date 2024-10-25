@@ -105,7 +105,6 @@ describe('DeploymentsService', () => {
                 docker_tag: '',
                 service: '',
                 jupyter_password: undefined,
-                hostname: undefined,
             },
             hardware: {
                 cpu_num: 1,
@@ -200,7 +199,6 @@ describe('DeploymentsService', () => {
                 docker_tag: '',
                 service: '',
                 jupyter_password: undefined,
-                hostname: undefined,
             },
             hardware: {
                 cpu_num: 1,

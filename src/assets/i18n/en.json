@@ -238,9 +238,7 @@
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
-                "ADD-FEDERATED-SECRET": "Create federated secret",
-                "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
+                "ADD-FEDERATED-SECRET": "Create federated secret"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
