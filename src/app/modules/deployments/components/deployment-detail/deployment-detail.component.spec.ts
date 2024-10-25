@@ -27,9 +27,7 @@ const mockedDeployment: Deployment = {
 };
 
 const mockedConfigService: any = {};
-const mockedTranslateService: any = {
-    get: jest.fn(),
-};
+
 const mockedDeploymentServices: any = {
     getToolByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
     getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),

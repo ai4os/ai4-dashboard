@@ -292,7 +292,7 @@ describe('ToolsTableComponent', () => {
         const nullData: unknown = undefined;
         component.returnToolBadge(nullData as string);
         jest.spyOn(component, 'returnToolBadge');
-        expect(component.returnToolBadge).toReturn;
+        expect(component.returnToolBadge).toHaveReturned;
         const badge = component.returnToolBadge('running');
         expect(badge).toEqual('running-brightgreen');
     });

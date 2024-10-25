@@ -59,7 +59,7 @@ describe('AppConfigService', () => {
     it('should NOT throw error if trying to access the config file before its loaded', () => {
         expect(() => {
             service.checkConfigFileLoaded();
-        }).toReturn;
+        }).toHaveReturned;
     });
 
     it('should return title correctly', () => {

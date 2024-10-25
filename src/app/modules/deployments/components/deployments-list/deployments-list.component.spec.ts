@@ -331,7 +331,7 @@ describe('DeploymentsListComponent', () => {
         const nullData: unknown = undefined;
         component.returnDeploymentBadge(nullData as string);
         jest.spyOn(component, 'returnDeploymentBadge');
-        expect(component.returnDeploymentBadge).toReturn;
+        expect(component.returnDeploymentBadge).toHaveReturned;
         const badge = component.returnDeploymentBadge('running');
         expect(badge).toEqual('running-brightgreen');
     });

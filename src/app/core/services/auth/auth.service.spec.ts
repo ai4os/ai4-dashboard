@@ -136,8 +136,8 @@ describe('AuthService', () => {
             'initLoginFlow'
         );
         service.login('/test');
-        expect(spyInitLoginFlow).toBeCalledTimes(1);
-        expect(spyInitLoginFlow).toReturn;
+        expect(spyInitLoginFlow).toHaveBeenCalledTimes(1);
+        expect(spyInitLoginFlow).toHaveReturned();
     });
 
     it('should logout correctly when user has a valid id token', () => {
@@ -148,9 +148,9 @@ describe('AuthService', () => {
         );
         localStorage.setItem('test-key', 'test-value');
         service.logout();
-        expect(spyHasValidIdToken).toBeCalledTimes(1);
-        expect(spyLogOut).toBeCalledTimes(1);
-        expect(spyLogOut).toReturn;
+        expect(spyHasValidIdToken).toHaveBeenCalledTimes(1);
+        expect(spyLogOut).toHaveBeenCalledTimes(1);
+        expect(spyLogOut).toHaveReturned();
         expect(localStorage).toMatchObject({});
     });
 
@@ -161,9 +161,9 @@ describe('AuthService', () => {
             .mockReturnValue(false);
         localStorage.setItem('test-key', 'test-value');
         service.logout();
-        expect(spyHasValidIdToken).toBeCalledTimes(1);
-        expect(spyLogOut).toBeCalledTimes(0);
-        expect(spyLogOut).toReturn;
+        expect(spyHasValidIdToken).toHaveBeenCalledTimes(1);
+        expect(spyLogOut).toHaveBeenCalledTimes(0);
+        expect(spyLogOut).toHaveReturned;
         expect(localStorage).toMatchObject({});
     });
 });
