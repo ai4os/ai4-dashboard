@@ -1,9 +1,4 @@
-import {
-    HttpClient,
-    HttpHeaders,
-    HttpParams,
-    HttpResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';

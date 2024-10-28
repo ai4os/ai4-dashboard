@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { Subscription, of } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from './shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedConfigService: any = {
     analytics: {
@@ -46,9 +47,11 @@ describe('AppComponent', () => {
         statusChangeSubscription = new Subscription();
 
         await TestBed.configureTestingModule({
-            imports: [RouterTestingModule, HttpClientModule, SharedModule],
+            imports: [RouterModule.forRoot([]), SharedModule],
             declarations: [AppComponent],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: NgcCookieConsentService,

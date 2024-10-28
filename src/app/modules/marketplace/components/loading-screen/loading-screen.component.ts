@@ -48,7 +48,7 @@ export class LoadingScreenComponent implements OnInit {
             try {
                 this.module = JSON.parse(data);
                 this.createGradioDeployment();
-            } catch (e) {
+            } catch (_) {
                 this.closeWindowDueError(
                     'Error initializing the deployment. Please try again later.'
                 );

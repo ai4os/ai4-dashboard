@@ -2,13 +2,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { ZenodoService } from './zenodo.service';
 import {
-    HttpClientTestingModule,
     HttpTestingController,
+    provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { environment } from '@environments/environment';
 import { datasets, versions } from './zenodo.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
 
 const { base, endpoints } = environment.api;
 
@@ -22,8 +23,9 @@ describe('ZenodoService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });
