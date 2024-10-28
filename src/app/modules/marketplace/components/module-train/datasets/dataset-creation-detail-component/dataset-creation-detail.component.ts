@@ -31,11 +31,18 @@ import {
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable, map, startWith } from 'rxjs';
 
-export function doiValidator(): ValidatorFn {
+export function doiOrUrlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-        const regexPattern = /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
-        const valid = regexPattern.test(control.value);
-        return valid ? null : { invalidDOI: true };
+        const doiPattern = /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
+
+        const value = control.value;
+
+        const validDOI = doiPattern.test(value);
+        const validURL = urlPattern.test(value);
+
+        return validDOI || validURL ? null : { invalidDOIOrURL: true };
     };
 }
 
@@ -71,8 +78,8 @@ export class DatasetCreationDetailComponent implements OnInit {
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
     });
 
-    doiFormGroup = this.fb.group({
-        doiInput: ['', [doiValidator()]],
+    doiUrlFormGroup = this.fb.group({
+        doiUrlInput: ['', [doiOrUrlValidator()]],
     });
 
     selectedTab = 0;
@@ -302,8 +309,8 @@ export class DatasetCreationDetailComponent implements OnInit {
                     const d = this.convertToSimpleDataset(dataset);
                     d.source = source;
                     this.onSubmitDataset.emit(d);
-                    this.doiFormGroup.get('doiInput')?.setValue('');
-                    this.doiFormGroup.markAsUntouched();
+                    this.doiUrlFormGroup.get('doiUrlInput')?.setValue('');
+                    this.doiUrlFormGroup.markAsUntouched();
                     this.selectedTab = 0;
                 },
                 error: () => {
@@ -315,26 +322,32 @@ export class DatasetCreationDetailComponent implements OnInit {
                 },
             });
         } else if (this.selectedTab == 1) {
-            source = 'doi';
-            const doi = this.doiFormGroup.get('doiInput')?.value ?? '';
+            const doiOrUrl =
+                this.doiUrlFormGroup.get('doiUrlInput')?.value ?? '';
+            const doiPattern = /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
+            if (doiPattern.test(doiOrUrl)) {
+                source = 'doi';
+            } else {
+                source = 'http';
+            }
             this.zenodoFormGroup.get('zenodoCommunitySelect')?.setValue('');
             this.clearZenodoForm();
             const d: ZenodoSimpleDataset = {
-                doi: doi,
-                title: doi,
+                doiOrUrl: doiOrUrl,
+                title: doiOrUrl,
                 source: source,
                 force_pull: false,
             };
             this.onSubmitDataset.emit(d);
-            this.doiFormGroup.get('doiInput')?.setValue('');
-            this.doiFormGroup.markAsUntouched();
+            this.doiUrlFormGroup.get('doiUrlInput')?.setValue('');
+            this.doiUrlFormGroup.markAsUntouched();
             this.selectedTab = 1;
         }
     }
 
     convertToSimpleDataset(d: any) {
         const dataset: ZenodoSimpleDataset = {
-            doi: d.doi,
+            doiOrUrl: d.doi,
             title: d.title,
             source: '',
             force_pull: false,
@@ -370,7 +383,9 @@ export class DatasetCreationDetailComponent implements OnInit {
                 datasetSelect &&
                 versionSelect) ||
             (this.selectedTab == 1 &&
-                !this.doiFormGroup.get('doiInput')?.hasError('invalidDOI'))
+                !this.doiUrlFormGroup
+                    .get('doiUrlInput')
+                    ?.hasError('invalidDOIOrURL'))
         ) {
             return true;
         }

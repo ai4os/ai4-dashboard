@@ -42,7 +42,7 @@ const mockedCommunities: ZenodoCommunity = {
 };
 
 const mockedDataset: ZenodoSimpleDataset = {
-    doi: '10.1234/example',
+    doiOrUrl: '10.1234/example',
     title: 'Example Dataset',
     source: 'zenodo',
     force_pull: false,
@@ -115,7 +115,9 @@ describe('DatasetCreationDetailComponent', () => {
         const addButton = fixture.debugElement.query(By.css('#add-button'));
         expect(addButton.nativeElement.disabled).toBeTruthy();
 
-        component.doiFormGroup.setValue({ doiInput: mockedDataset.doi });
+        component.doiUrlFormGroup.setValue({
+            doiUrlInput: mockedDataset.doiOrUrl,
+        });
         fixture.detectChanges();
         expect(addButton.nativeElement.disabled).toBeFalsy();
 
@@ -131,7 +133,7 @@ describe('DatasetCreationDetailComponent', () => {
         const addButton = fixture.debugElement.query(By.css('#add-button'));
         expect(addButton.nativeElement.disabled).toBeTruthy();
 
-        component.doiFormGroup.setValue({ doiInput: 'abc' });
+        component.doiUrlFormGroup.setValue({ doiUrlInput: 'abc' });
         fixture.detectChanges();
         expect(addButton.nativeElement.disabled).toBeTruthy();
     });
