@@ -66,6 +66,7 @@ describe('try me section', function () {
     });
 
     it('show Gradio deployment details', function () {
+        cy.visit('http://localhost:8080/try-me');
         cy.contains('Try me', { timeout: 20000 }).click();
         cy.contains('Try me deployments', { timeout: 50000 }).should(
             'be.visible'
@@ -137,7 +138,6 @@ describe('try me section', function () {
         cy.get('#infoButton', { timeout: 50000 }).click();
         cy.get('#uuid').then(($uuid) => {
             const uuid = $uuid.text();
-            console.log('uuid is ' + uuid);
             cy.contains('Close', { timeout: 20000 }).click();
             cy.get('#quickAccessButton', { timeout: 15000 }).click();
             cy.window().then((win) => {
