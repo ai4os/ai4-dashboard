@@ -3,11 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileComponent } from './profile.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { of } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedProfile = {
     info: {
@@ -74,12 +75,10 @@ describe('ProfileComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ProfileComponent],
-            imports: [
-                HttpClientModule,
-                SharedModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslateModule.forRoot()],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: AppConfigService, useValue: mockedConfigService },

@@ -12,8 +12,6 @@ describe('module train form', function () {
         cy.contains('ai4oshub/dogs-breed-detector:latest', {
             timeout: 20000,
         }).should('be.visible');
-
-        cy.deleteDeployment();
     });
 
     it('create module with dataset via zenodo', function () {
@@ -38,8 +36,6 @@ describe('module train form', function () {
         cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
         cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
-
-        cy.deleteDeployment();
     });
 
     it('create module with dataset via DOI', function () {
@@ -57,8 +53,6 @@ describe('module train form', function () {
         cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
         cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
-
-        cy.deleteDeployment();
     });
 
     it('cannot create module with datasets without rclone credentials', function () {

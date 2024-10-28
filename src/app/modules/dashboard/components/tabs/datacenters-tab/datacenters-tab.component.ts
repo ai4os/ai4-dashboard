@@ -14,7 +14,6 @@ import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 import { Coordinate } from 'ol/coordinate';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Cluster } from 'ol/source';
-
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
 
