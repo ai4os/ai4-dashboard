@@ -26,3 +26,9 @@ mat-form-field {
         padding-bottom: 15px;
     }
 }
+
+.title-and-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

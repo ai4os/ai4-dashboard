@@ -2,13 +2,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { SecretsService } from './secrets.service';
 import {
-    HttpClientTestingModule,
     HttpTestingController,
+    provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
 import { Secret } from '@app/shared/interfaces/module.interface';
 import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
 
 const secretsList: Array<Secret> = [{ token: '1234' }];
 
@@ -23,8 +24,9 @@ describe('SecretsService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });

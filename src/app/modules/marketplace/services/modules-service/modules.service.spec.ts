@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { ModulesService } from './modules.service';
 import {
-    HttpClientTestingModule,
     HttpTestingController,
+    provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
@@ -12,6 +12,7 @@ import { module, modulesSummaryList } from './module.service.mock';
 import { of } from 'rxjs';
 import { TagObject } from '@app/data/types/tags';
 import { OAuthStorage } from 'angular-oauth2-oidc';
+import { provideHttpClient } from '@angular/common/http';
 
 const { base } = environment.api;
 const mockedConfigService: any = {
@@ -27,8 +28,9 @@ describe('ModulesService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 OAuthStorage,
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],

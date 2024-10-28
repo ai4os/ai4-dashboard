@@ -54,7 +54,6 @@ export class FederatedServerComponent implements OnInit {
         serviceToRunPassInput: true,
         dockerImageInput: true,
         dockerTagSelect: true,
-        hostnameInput: true,
         infoButton: true,
     };
 

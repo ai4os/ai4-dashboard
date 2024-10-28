@@ -1,5 +1,5 @@
 export interface OscarService {
-    environment: any;
+    environment: { Variables: { PAPI_CREATED: string; PAPI_TITLE: string } };
     name: string;
     title: string;
     memory: string;

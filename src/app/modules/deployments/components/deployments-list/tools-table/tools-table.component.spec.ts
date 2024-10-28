@@ -8,9 +8,7 @@ import {
 } from '@angular/core/testing';
 
 import { ToolsTableComponent } from './tools-table.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -26,6 +24,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { SecretManagementDetailComponent } from '../../secret-management-detail/secret-management-detail.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedDeleteToolResponse: statusReturn = {
     status: 'success',
@@ -100,12 +101,13 @@ describe('ToolsTableComponent', () => {
             declarations: [ToolsTableComponent, DeploymentDetailComponent],
             imports: [
                 SharedModule,
-                RouterTestingModule,
+                RouterModule.forRoot([]),
                 NoopAnimationsModule,
-                HttpClientTestingModule,
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: DeploymentsService,
@@ -288,9 +290,9 @@ describe('ToolsTableComponent', () => {
     it('should return correctly a Tools badge correctly', () => {
         //Status undefined, should not crash
         const nullData: unknown = undefined;
-        component.returnToolBadge(nullData as string);
         jest.spyOn(component, 'returnToolBadge');
-        expect(component.returnToolBadge).toReturn;
+        component.returnToolBadge(nullData as string);
+        expect(component.returnToolBadge).toHaveReturned();
         const badge = component.returnToolBadge('running');
         expect(badge).toEqual('running-brightgreen');
     });

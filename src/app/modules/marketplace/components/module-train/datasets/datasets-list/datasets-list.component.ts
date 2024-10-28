@@ -134,7 +134,7 @@ export class DatasetsListComponent implements OnInit {
                 }
             );
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe(() => {
             subscribeAddDialog.unsubscribe();
         });
     }

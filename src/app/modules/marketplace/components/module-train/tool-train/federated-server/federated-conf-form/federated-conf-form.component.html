@@ -1,5 +1,13 @@
 <form [formGroup]="federatedConfFormGroup" class="federated-conf-form">
-    <h4>{{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.TITLE' | translate }}</h4>
+    <span class="title-and-toggle">
+        <h4>
+            {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.TITLE' | translate }}
+        </h4>
+        <mat-slide-toggle formControlName="dpInput">
+            {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.DP' | translate }}
+        </mat-slide-toggle>
+    </span>
+
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
@@ -204,6 +212,61 @@
                 />
                 <mat-hint *ngIf="_showHelp">{{
                     _defaultFormValues?.momentum.description
+                }}</mat-hint>
+            </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="federatedConfFormGroup.value.dpInput">
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.NOISE-MULT'
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    step="0.00001"
+                    formControlName="noiseMultInput"
+                    min="{{ _defaultFormValues?.noise_mult?.range[0] }}"
+                    max="{{ _defaultFormValues?.noise_mult?.range[1] }}"
+                />
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues?.noise_mult.description
+                }}</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.SAMPLED-CLIENTS'
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    formControlName="sampledClientsNumInput"
+                    min="{{ _defaultFormValues?.sampled_clients?.range[0] }}"
+                    max="{{ _defaultFormValues?.sampled_clients?.range[1] }}"
+                />
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues?.sampled_clients.description
+                }}</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.CLIP-NORM'
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    step="0.1"
+                    formControlName="clippingNormInput"
+                    min="{{ _defaultFormValues?.clip_norm?.range[0] }}"
+                    max="{{ _defaultFormValues?.clip_norm?.range[1] }}"
+                />
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues?.clip_norm.description
                 }}</mat-hint>
             </mat-form-field>
         </ng-container>

@@ -104,8 +104,6 @@ export class StepperFormComponent implements OnInit {
                 jupyter_password:
                     this.step1Form.getRawValue().generalConfForm
                         .serviceToRunPassInput,
-                hostname:
-                    this.step1Form.getRawValue().generalConfForm.hostnameInput,
             },
             hardware: {
                 cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,
@@ -145,6 +143,17 @@ export class StepperFormComponent implements OnInit {
                     'Federated Averaging with Momentum (FedAvgM)'
                         ? this.step3Form.value.federatedConfForm.momentumInput
                         : null,
+                dp: this.step3Form.value.federatedConfForm.dpInput,
+                noise_mult: this.step3Form.value.federatedConfForm.dpInput
+                    ? this.step3Form.value.federatedConfForm.noiseMultInput
+                    : null,
+                sampled_clients: this.step3Form.value.federatedConfForm.dpInput
+                    ? this.step3Form.value.federatedConfForm
+                        .sampledClientsNumInput
+                    : null,
+                clip_norm: this.step3Form.value.federatedConfForm.dpInput
+                    ? this.step3Form.value.federatedConfForm.clippingNormInput
+                    : null,
             };
             request = this.deploymentsService.trainTool(data);
         } else {

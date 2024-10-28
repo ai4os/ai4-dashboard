@@ -238,9 +238,7 @@
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
-                "ADD-FEDERATED-SECRET": "Create federated secret",
-                "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed"
+                "ADD-FEDERATED-SECRET": "Create federated secret"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -300,7 +298,11 @@
                 "MU": "Mu",
                 "FL": "Server-side learning rate",
                 "MOMENTUM": "Server-side momentum",
-                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this."
+                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
+                "DP": "Differential privacy",
+                "NOISE-MULT": "Noise multiplier",
+                "SAMPLED-CLIENTS": "Number of sampled clients",
+                "CLIP-NORM": "Clipping norm"
             }
         },
         "MODULE-TRY": {

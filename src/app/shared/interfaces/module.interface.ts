@@ -78,7 +78,6 @@ export interface ModuleGeneralConfiguration {
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
-    hostname?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -125,7 +124,6 @@ export interface TrainModuleRequest {
         docker_tag: string;
         service: string;
         jupyter_password?: string;
-        hostname?: string;
     };
     hardware: {
         cpu_num: number;
@@ -151,6 +149,10 @@ export interface TrainModuleRequest {
         mu: number;
         fl: number;
         momentum: number;
+        dp: boolean;
+        noise_mult: number;
+        sampled_clients: number;
+        clip_norm: number;
     };
 }
 
