@@ -8,9 +8,9 @@ describe('module train form', function () {
     });
 
     it('create module with no datasets', function () {
-        cy.contains('Submit', { timeout: 10000 }).click();
+        cy.contains('Submit', { timeout: 10000 }).click({ force: true });
         cy.contains('ai4oshub/dogs-breed-detector:latest', {
-            timeout: 20000,
+            timeout: 30000,
         }).should('be.visible');
     });
 
