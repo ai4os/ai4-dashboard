@@ -1,0 +1,26 @@
+.chip {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.chip.default {
+    padding: 0px 8px;
+    border: 1px solid #bdbdbd;
+    background-color: var(--light-gray);
+    border-radius: 16px;
+
+    p {
+        margin: 8px;
+    }
+}
+
+.chip.category-marketplace {
+    border: 1px solid #bdbdbd;
+    background-color: var(--light-gray);
+    border-radius: 16px;
+
+    p {
+        margin: 8px;
+    }
+}

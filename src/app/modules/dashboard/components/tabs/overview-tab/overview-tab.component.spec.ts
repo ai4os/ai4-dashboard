@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,6 +9,8 @@ import { expect } from '@jest/globals';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { OverviewTabComponent } from './overview-tab.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedDeployment: Deployment = {
     job_ID: 'deployment-test',
@@ -76,8 +77,10 @@ describe('OverviewTabComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [OverviewTabComponent],
-            imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+            imports: [TranslateModule.forRoot()],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: DeploymentsService,

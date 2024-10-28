@@ -48,7 +48,7 @@ export class AuthService {
             }
         });
 
-        this.oauthService.events.subscribe((_) => {
+        this.oauthService.events.subscribe(() => {
             this.isAuthenticatedSubject$.next(
                 this.oauthService.hasValidAccessToken()
             );
@@ -59,7 +59,7 @@ export class AuthService {
 
         this.oauthService.events
             .pipe(filter((e) => ['token_received'].includes(e.type)))
-            .subscribe((e) => {
+            .subscribe(() => {
                 this.oauthService.loadUserProfile();
             });
 

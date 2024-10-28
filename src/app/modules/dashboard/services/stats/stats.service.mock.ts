@@ -132,6 +132,7 @@ export const mockedClusterStats: ClusterStats = {
                     disk_used: 21223.14453125,
                     jobs_num: 0,
                     gpu_models: [],
+                    status: '',
                 },
                 {
                     name: '15843b50-187c-ee3f-374d-d22f93ae2a78',
@@ -150,6 +151,7 @@ export const mockedClusterStats: ClusterStats = {
                             gpu_used: 8,
                         },
                     ],
+                    status: '',
                 },
             ],
         },

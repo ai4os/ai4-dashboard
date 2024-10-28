@@ -1,8 +1,31 @@
 .id-title {
     font-size: 1.3em;
     white-space: nowrap;
+    gap: 0.5em;
+    span > span {
+        width: 10px;
+        height: 10px;
+        line-height: 10px;
+        top: 3px;
+    }
 }
 
 .nodes-title {
     padding-top: 20px;
+}
+
+.ready-badge > span {
+    background-color: var(--success-green);
+}
+
+.test-badge > span {
+    background-color: var(--warning-orange);
+}
+
+.error-badge > span {
+    background-color: var(--neon-red);
+}
+
+.default-badge > span {
+    background-color: var(--warm-grey);
 }

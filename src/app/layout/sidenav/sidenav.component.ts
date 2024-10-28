@@ -90,6 +90,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     acknowledgments = '';
     projectName = '';
     projectUrl = '';
+    voName = '';
     legalLinks = [
         {
             name: '',
@@ -112,6 +113,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.acknowledgments = this.appConfigService.acknowledgments;
         this.projectName = this.appConfigService.projectName;
         this.projectUrl = this.appConfigService.projectUrl;
+        this.voName = this.appConfigService.voName;
         this.legalLinks = this.appConfigService.legalLinks;
     }
 

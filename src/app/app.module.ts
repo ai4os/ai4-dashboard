@@ -1,4 +1,9 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+    HttpClient,
+    HTTP_INTERCEPTORS,
+    provideHttpClient,
+    withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
@@ -11,11 +16,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
-import { HttpClientModule } from '@angular/common/http';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownModule, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
 import {
     NgcCookieConsentModule,
     NgcCookieConsentConfig,
@@ -28,13 +32,18 @@ import { AppConfigService } from './core/services/app-config/app-config.service'
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NotificationsButtonComponent } from './layout/top-navbar/notifications-button/notifications-button.component';
 import { CookieService } from 'ngx-cookie-service';
+import { gitInfo } from '@environments/version';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
 }
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(
+        http,
+        './assets/i18n/',
+        '.json?v=' + gitInfo.version
+    );
 }
 const { base } = environment.api;
 
@@ -95,11 +104,11 @@ renderer.link = (href, title, text) => {
         TopNavbarComponent,
         NotificationsButtonComponent,
     ],
+    bootstrap: [AppComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        HttpClientModule,
         OAuthModule.forRoot({
             resourceServer: {
                 allowedUrls: [base],
@@ -120,7 +129,7 @@ renderer.link = (href, title, text) => {
         CoreModule,
         MarkdownModule.forRoot({
             markedOptions: {
-                provide: MarkedOptions,
+                provide: MARKED_OPTIONS,
                 useValue: {
                     renderer: renderer,
                     gfm: true,
@@ -163,8 +172,8 @@ renderer.link = (href, title, text) => {
         { provide: OAuthStorage, useFactory: storageFactory },
         Title,
         CookieService,
+        provideHttpClient(withInterceptorsFromDi()),
     ],
-    bootstrap: [AppComponent],
 })
 export class AppModule {
     constructor(iconRegistry: MatIconRegistry) {

@@ -1,39 +1,39 @@
 <mat-card
-    class="module-card"
-    [routerLink]="[isTool ? 'tools/' + module.name : 'modules/' + module.name]"
+    class="basic-card"
+    [ngClass]="{
+        'tool-card': isTool
+    }"
+    [routerLink]="[
+        isTool && module.name !== 'ai4os-dev-env'
+            ? 'tools/' + module.name
+            : 'modules/' + module.name
+    ]"
 >
-    <mat-card-header class="module-card-header">
+    <mat-card-header class="basic-card-header">
         <mat-card-title>
             <mat-icon
-                *ngIf="moduleType === 'Model'"
-                matTooltip="Model"
+                *ngIf="isTool"
                 color="primary"
-                >model_training</mat-icon
+                [matTooltip]="'MODULES.TOOL' | translate"
+                >build</mat-icon
             >
             <mat-icon
-                *ngIf="moduleType === 'Development'"
-                matTooltip="Development"
+                *ngIf="!isTool"
                 color="primary"
-                >developer_mode</mat-icon
+                [matTooltip]="'MODULES.MODULE' | translate"
+                >model_training</mat-icon
             >
+
             <span>{{ module.title }}</span>
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <mat-divider></mat-divider>
 
-        <div class="module-card-content">
-            <p>{{ module.summary }}</p>
+        <div class="basic-card-content">
+            <mat-card-subtitle class="mt-2">{{
+                module.summary
+            }}</mat-card-subtitle>
         </div>
     </mat-card-content>
-    <mat-card-actions align="start" class="module-card-actions ml-2">
-        <mat-card-subtitle class="mt-2 mb-2">
-            <span
-                class="keyword-button mr-2"
-                *ngFor="let keyword of displayedKeywords"
-            >
-                {{ keyword }}
-            </span>
-        </mat-card-subtitle>
-    </mat-card-actions>
 </mat-card>

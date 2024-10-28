@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
@@ -19,6 +18,8 @@ import {
     mockedUserStats,
 } from '../../services/stats/stats.service.mock';
 import { expect } from '@jest/globals';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 const mockedConfigService: any = {};
 
@@ -93,12 +94,13 @@ describe('DashboardComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [DashboardComponent],
             imports: [
-                HttpClientTestingModule,
                 TranslateModule.forRoot(),
                 SharedModule,
                 BrowserAnimationsModule,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 AuthService,
                 { provide: OAuthService, useValue: mockedOAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
