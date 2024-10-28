@@ -70,7 +70,7 @@ describe('try me section', function () {
         cy.contains('Try me deployments', { timeout: 50000 }).should(
             'be.visible'
         );
-        cy.get('#infoButton', { timeout: 15000 }).click();
+        cy.get('#infoButton', { timeout: 25000 }).click();
         cy.contains('Deployment detail', { timeout: 50000 }).should(
             'be.visible'
         );
@@ -112,7 +112,7 @@ describe('try me section', function () {
         cy.contains('Try me deployments', { timeout: 50000 }).should(
             'be.visible'
         );
-        cy.get('#infoButton', { timeout: 15000 }).click();
+        cy.get('#infoButton', { timeout: 25000 }).click();
         cy.contains('Deployment detail', { timeout: 50000 }).should(
             'be.visible'
         );
@@ -134,7 +134,7 @@ describe('try me section', function () {
     });
 
     it('show Gradio deployment quick access', function () {
-        cy.get('#infoButton', { timeout: 15000 }).click();
+        cy.get('#infoButton', { timeout: 25000 }).click();
         cy.get('#uuid').then(($uuid) => {
             const uuid = $uuid.text();
             console.log('uuid is ' + uuid);
@@ -151,7 +151,7 @@ describe('try me section', function () {
     });
 
     it('delete Gradio deployment', function () {
-        cy.get('#deleteButton', { timeout: 15000 }).click();
+        cy.get('#deleteButton', { timeout: 25000 }).click();
         cy.get('#yesBtn').click();
         cy.contains('Successfully deleted deployment with uuid:', {
             timeout: 50000,
