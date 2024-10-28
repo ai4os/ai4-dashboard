@@ -23,7 +23,6 @@ export interface showGeneralFormField {
     serviceToRunPassInput: boolean;
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
-    hostnameInput: boolean;
     infoButton: boolean;
 }
 
@@ -80,7 +79,6 @@ export class GeneralConfFormComponent implements OnInit {
         serviceToRunPassInput: true,
         dockerImageInput: true,
         dockerTagSelect: true,
-        hostnameInput: true,
         infoButton: false,
     };
 
@@ -138,7 +136,6 @@ export class GeneralConfFormComponent implements OnInit {
         ],
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
-        hostnameInput: ['', [Validators.pattern('^[a-zA-Z0-9-]+$')]],
         federatedSecretInput: [{ value: '', disabled: true }],
     });
 

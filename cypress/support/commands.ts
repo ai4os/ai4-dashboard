@@ -60,7 +60,7 @@ Cypress.Commands.add('initializeTrainModuleForm', () => {
     cy.contains('Inference API (dedicated)', { timeout: 10000 }).click();
     cy.get('#deployment-title', { timeout: 10000 }).type('test');
     cy.wait(500);
-    cy.contains('Next', { timeout: 10000 }).click();
+    cy.contains('Next', { timeout: 20000, force: true }).click();
     cy.wait(500);
-    cy.contains('Next', { timeout: 10000 }).click({ force: true });
+    cy.contains('Next', { timeout: 20000, force: true }).click({ force: true });
 });

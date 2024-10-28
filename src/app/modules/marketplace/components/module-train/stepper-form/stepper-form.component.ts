@@ -104,8 +104,6 @@ export class StepperFormComponent implements OnInit {
                 jupyter_password:
                     this.step1Form.getRawValue().generalConfForm
                         .serviceToRunPassInput,
-                hostname:
-                    this.step1Form.getRawValue().generalConfForm.hostnameInput,
             },
             hardware: {
                 cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,

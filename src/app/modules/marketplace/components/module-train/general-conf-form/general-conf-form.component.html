@@ -167,36 +167,6 @@
                 </span>
             </ng-container>
         </div>
-        <mat-form-field
-            appearance="fill"
-            [ngClass]="{ 'mt-3': _showHelp, 'display-inline': _showHelp }"
-        >
-            <mat-label>
-                {{
-                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CUSTOM-DOMAIN'
-                        | translate
-                }}</mat-label
-            >
-            <input
-                matInput
-                placeholder=""
-                formControlName="hostnameInput"
-                maxlength="45"
-            />
-            <mat-error
-                *ngIf="
-                    generalConfFormGroup.get('titleInput')?.errors?.['required']
-                "
-            >
-                {{
-                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CUSTOM-DOMAIN-PATTERN-ERROR'
-                        | translate
-                }}
-            </mat-error>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.hostname?.description
-            }}</mat-hint>
-        </mat-form-field>
     </div>
 
     <h4 [ngClass]="{ 'mt-3': _showHelp }">
