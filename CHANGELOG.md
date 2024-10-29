@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.28.0](https://github.com/ai4os/ai4-dashboard/compare/v2.27.0...v2.28.0) (2024-10-29)
+
+
+### Features
+
+* 115 update to angular 18 ([#245](https://github.com/ai4os/ai4-dashboard/issues/245)) ([4b9a273](https://github.com/ai4os/ai4-dashboard/commit/4b9a273eb6d1a766fc2763f5d9e33fb1faed3567))
+* 221 update in the dataset UI ([#243](https://github.com/ai4os/ai4-dashboard/issues/243)) ([09571f8](https://github.com/ai4os/ai4-dashboard/commit/09571f8c6fd6ac84acc719cba4f6b653fa2a78f1))
+* 227 add differential privacy to fl config ([#242](https://github.com/ai4os/ai4-dashboard/issues/242)) ([6c31c94](https://github.com/ai4os/ai4-dashboard/commit/6c31c94f637969bb90dfc1b4bbbb2187a5c71ee2))
+* allow listing and deleting try me deployments ([#248](https://github.com/ai4os/ai4-dashboard/issues/248)) ([4c27744](https://github.com/ai4os/ai4-dashboard/commit/4c277441a8e91cc0e22426b64b873bf8ae815b32))
+* remove custom domain from configuration forms ([#249](https://github.com/ai4os/ai4-dashboard/issues/249)) ([4b65b61](https://github.com/ai4os/ai4-dashboard/commit/4b65b61b2badcec3a6387a8125b3795d9b4a3a20))
+
 ## [2.27.0](https://github.com/ai4os/ai4-dashboard/compare/v2.26.1...v2.27.0) (2024-10-21)
 
 
