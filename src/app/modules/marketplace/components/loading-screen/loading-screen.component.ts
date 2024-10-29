@@ -15,8 +15,9 @@ import {
     finalize,
     timer,
 } from 'rxjs';
-import { ModulesService } from '../../services/modules-service/modules.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { TryMeService } from '@app/modules/try-me/services/try-me.service';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 @Component({
     selector: 'app-loading-screen',
@@ -25,7 +26,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 })
 export class LoadingScreenComponent implements OnInit {
     constructor(
-        private modulesService: ModulesService,
+        private tryMeService: TryMeService,
         public translateService: TranslateService,
         private snackbarService: SnackbarService
     ) {}
@@ -48,7 +49,7 @@ export class LoadingScreenComponent implements OnInit {
             try {
                 this.module = JSON.parse(data);
                 this.createGradioDeployment();
-            } catch (_) {
+            } catch (e) {
                 this.closeWindowDueError(
                     'Error initializing the deployment. Please try again later.'
                 );
@@ -72,31 +73,35 @@ export class LoadingScreenComponent implements OnInit {
         const moduleName = this.module.links.source_code
             .split('/')[4]
             .toLowerCase();
-
-        this.modulesService.createDeploymentGradio(moduleName).subscribe({
-            next: (response: GradioCreateResponse) => {
-                if (response.status === 'success') {
-                    this.pollGradioDeploymentStatus(response.job_ID);
-                } else {
-                    this.closeWindowDueError(
-                        'Error initializing the deployment. Please try again later.'
-                    );
-                }
-            },
-            error: () => {
-                this.loadingText = '';
-                setTimeout(function () {
-                    window.close();
-                }, 6000);
-            },
+        const moduleTitle = uniqueNamesGenerator({
+            dictionaries: [colors, animals],
         });
+        this.tryMeService
+            .createDeploymentGradio(moduleName, moduleTitle)
+            .subscribe({
+                next: (response: GradioCreateResponse) => {
+                    if (response.status === 'success') {
+                        this.pollGradioDeploymentStatus(response.job_ID);
+                    } else {
+                        this.closeWindowDueError(
+                            'Error initializing the deployment. Please try again later.'
+                        );
+                    }
+                },
+                error: () => {
+                    this.loadingText = '';
+                    setTimeout(function () {
+                        window.close();
+                    }, 6000);
+                },
+            });
     }
 
     pollGradioDeploymentStatus(jobId: string) {
         interval(2000) // Intervalo de 2 segundos
             .pipe(
                 switchMap(() =>
-                    this.modulesService.getDeploymentGradio(jobId).pipe(
+                    this.tryMeService.getDeploymentGradioByUUID(jobId).pipe(
                         catchError((error) => {
                             return of(error);
                         })

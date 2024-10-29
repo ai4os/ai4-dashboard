@@ -45,6 +45,14 @@ const routes: Routes = [
                     ),
             },
             {
+                path: 'try-me',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () =>
+                    import('@app/modules/try-me/try-me.module').then(
+                        (m) => m.TryMeModule
+                    ),
+            },
+            {
                 path: 'forbidden',
                 loadChildren: () =>
                     import('@modules/forbidden/forbidden.module').then(

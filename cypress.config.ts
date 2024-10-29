@@ -5,8 +5,9 @@ require('dotenv').config();
 export default defineConfig({
     viewportWidth: 1380,
     viewportHeight: 800,
+    chromeWebSecurity: false,
     e2e: {
-        experimentalStudio: true,
         testIsolation: false,
     },
+    video: true,
 });

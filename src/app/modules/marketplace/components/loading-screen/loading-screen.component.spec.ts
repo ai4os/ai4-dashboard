@@ -7,11 +7,14 @@ import { SharedModule } from '@app/shared/shared.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 const mockedModuleService: any = {
     createDeploymentGradio: jest.fn(),
     getDeploymentGradio: jest.fn(),
 };
+
+const mockedConfigService: any = {};
 
 describe('LoadingScreenComponent', () => {
     let component: LoadingScreenComponent;
@@ -29,6 +32,7 @@ describe('LoadingScreenComponent', () => {
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
+                { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ModulesService, useValue: mockedModuleService },
             ],
         }).compileComponents();
