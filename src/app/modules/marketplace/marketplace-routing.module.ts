@@ -6,8 +6,6 @@ import { ModuleTrainComponent } from './components/module-train//module-train/mo
 import { ModulesListComponent } from './components/modules-list/modules-list.component';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
-import { ModuleTryComponent } from './components/module-try/module-try.component';
-import { ModuleOscarDeployComponent } from './components/module-oscar-deploy/module-oscar-deploy.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 const routes: Routes = [
@@ -30,18 +28,6 @@ const routes: Routes = [
                 canActivate: [AuthenticationGuard],
                 component: ModuleTrainComponent,
                 data: { breadcrumb: 'Train' },
-            },
-            {
-                path: 'tryme',
-                canActivate: [AuthenticationGuard],
-                component: ModuleTryComponent,
-                data: { breadcrumb: 'Try Me' },
-            },
-            {
-                path: 'oscar-deploy',
-                canActivate: [AuthenticationGuard],
-                component: ModuleOscarDeployComponent,
-                data: { breadcrumb: 'Create service' },
             },
             {
                 path: 'try-me-nomad',

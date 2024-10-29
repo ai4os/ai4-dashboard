@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     ModuleConfiguration,
     ModuleGeneralConfiguration,
@@ -19,8 +19,12 @@ export class ModuleTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
-        private route: ActivatedRoute
-    ) {}
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
+        const navigation = this.router.getCurrentNavigation();
+        this.service = navigation?.extras?.state?.['service'];
+    }
 
     title = '';
     step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
@@ -37,6 +41,8 @@ export class ModuleTrainComponent implements OnInit {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
+    service: string | undefined;
+
     ngOnInit(): void {
         this.loadModule();
     }
@@ -52,6 +58,11 @@ export class ModuleTrainComponent implements OnInit {
                     this.generalConfDefaultValues = moduleConf.general;
                     this.hardwareConfDefaultValues = moduleConf.hardware;
                     this.storageConfDefaultValues = moduleConf.storage;
+
+                    if (this.service) {
+                        this.generalConfDefaultValues.service.value =
+                            this.service;
+                    }
                 });
         });
     }

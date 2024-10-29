@@ -54,6 +54,7 @@
                                         | translate
                                 }}</mat-label>
                                 <input
+                                    id="community"
                                     type="text"
                                     placeholder="Pick one"
                                     aria-label="Number"
@@ -107,6 +108,7 @@
                                 >
 
                                 <mat-select
+                                    id="dataset"
                                     formControlName="zenodoDatasetSelect"
                                     (selectionChange)="datasetSelectChange()"
                                 >
@@ -133,6 +135,7 @@
                                         | translate
                                 }}</mat-label>
                                 <mat-select
+                                    id="version"
                                     formControlName="zenodoVersionSelect"
                                 >
                                     <mat-option
@@ -153,34 +156,41 @@
                             </mat-form-field>
                         </form>
                     </mat-tab>
+
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <img
-                                class="fit-image"
+                                class="fit-image mr-2"
                                 src="../../../../../assets/images/doi-logo.png"
                             />
+                            +
+                            <img
+                                class="fit-image ml-2"
+                                src="../../../../../assets/images/http-logo.png"
+                            />
                         </ng-template>
-                        <form [formGroup]="doiFormGroup" class="tab-content">
+                        <form [formGroup]="doiUrlFormGroup" class="tab-content">
                             <mat-form-field>
                                 <mat-label>{{
-                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.TITLE'
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.TITLE'
                                         | translate
                                 }}</mat-label>
                                 <input
+                                    id="doi"
                                     matInput
                                     placeholder=""
                                     value=""
-                                    formControlName="doiInput"
+                                    formControlName="doiUrlInput"
                                 />
                                 <mat-error
                                     *ngIf="
-                                        doiFormGroup
-                                            .get('doiInput')
-                                            ?.hasError('invalidDOI')
+                                        doiUrlFormGroup
+                                            .get('doiUrlInput')
+                                            ?.hasError('invalidDOIOrURL')
                                     "
                                 >
                                     {{
-                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.ERROR'
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.ERROR'
                                             | translate
                                     }}
                                 </mat-error>
@@ -192,14 +202,14 @@
 
                             <p>
                                 {{
-                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.SUPPORT'
+                                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.SUPPORT'
                                         | translate
                                 }}<a
                                     href="https://j535d165.github.io/datahugger/repositories/"
                                     target="_blank"
                                 >
                                     {{
-                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI.MORE'
+                                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.MORE'
                                             | translate
                                     }}</a
                                 >!
@@ -208,41 +218,55 @@
                                 <a href="https://zenodo.org/" target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/zenodo-logo.svg"
+                                        src="../../../../../assets/images/data-repositories/zenodo-logo.svg"
                                 /></a>
                                 <a href="https://figshare.com/" target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/figshare-logo.png"
+                                        src="../../../../../assets/images/data-repositories/figshare-logo.png"
                                 /></a>
                                 <a href="https://github.com/" target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/github-logo.png"
+                                        src="../../../../../assets/images/data-repositories/github-logo.png"
                                 /></a>
                                 <a href="https://datadryad.org/" target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/dryad-logo.png"
+                                        src="../../../../../assets/images/data-repositories/dryad-logo.png"
                                 /></a>
                                 <a
                                     href="https://huggingface.co/"
                                     target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/hf-logo.png"
+                                        src="../../../../../assets/images/data-repositories/hf-logo.png"
                                 /></a>
                                 <a href="https://osf.io/" target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/osf-logo.png"
+                                        src="../../../../../assets/images/data-repositories/osf-logo.png"
                                 /></a>
                                 <a
                                     href="https://data.mendeley.com/"
                                     target="_blank"
                                     ><img
                                         class="small-logo"
-                                        src="../../../../../assets/images/mendeley-logo.png"
+                                        src="../../../../../assets/images/data-repositories/mendeley-logo.png"
+                                /></a>
+                                <a
+                                    href="https://www.seanoe.org/"
+                                    target="_blank"
+                                    ><img
+                                        class="small-logo"
+                                        src="../../../../../assets/images/data-repositories/seanoe-logo.png"
+                                /></a>
+                                <a
+                                    href="https://data.europa.eu/"
+                                    target="_blank"
+                                    ><img
+                                        class="small-logo"
+                                        src="../../../../../assets/images/data-repositories/data-europa-logo.png"
                                 /></a>
                             </div>
                         </div>
@@ -254,6 +278,7 @@
 
     <mat-card-actions align="end">
         <button
+            id="add-button"
             mat-raised-button
             color="accent"
             class="mr-2 ml-2"

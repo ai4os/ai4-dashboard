@@ -35,14 +35,23 @@
                         [ngClass]="{
                             'content-cell': column.columnDef !== 'name'
                         }"
-                        ><ng-container *ngIf="column.columnDef === 'name'">
+                        ><ng-container
+                            id="name-column"
+                            *ngIf="column.columnDef === 'name'"
+                        >
                             {{ row[column.columnDef] }}
                         </ng-container>
-                        <ng-container *ngIf="column.columnDef === 'source'">
+                        <ng-container
+                            id="source-column"
+                            *ngIf="column.columnDef === 'source'"
+                            id="force-pull-column"
+                        >
                             <img
                                 [ngClass]="{
                                     'fit-image-doi':
                                         row[column.columnDef] === 'doi',
+                                    'fit-image-url':
+                                        row[column.columnDef] === 'http',
                                     'fit-image-zenodo':
                                         row[column.columnDef] === 'zenodo'
                                 }"
@@ -53,6 +62,7 @@
                         </ng-container>
                         <div
                             *ngIf="column.columnDef === 'forcePull'"
+                            id="actions-column"
                             class="actions-container"
                         >
                             <mat-checkbox
@@ -66,6 +76,7 @@
                             class="actions-container"
                         >
                             <button
+                                id="delete-button"
                                 mat-button
                                 matTooltip="Delete"
                                 class="action-button-in-cell"

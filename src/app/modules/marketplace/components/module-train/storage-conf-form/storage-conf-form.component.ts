@@ -60,7 +60,7 @@ export class StorageConfFormComponent implements OnInit {
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
-        doiInput: [''],
+        doiUrlInput: [''],
         datasetsList: [[{ doi: '', force_pull: false }]],
     });
 
@@ -151,12 +151,15 @@ export class StorageConfFormComponent implements OnInit {
         rcloneUser?.updateValueAndValidity();
         rclonePassword?.updateValueAndValidity();
 
-        this.datasets.push({ doi: String(dataset.doi), force_pull: false });
+        this.datasets.push({
+            doi: String(dataset.doiOrUrl),
+            force_pull: false,
+        });
         this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
     }
 
     deleteDataset(dataset: ZenodoSimpleDataset): void {
-        this.datasets = this.datasets.filter((d) => d.doi !== dataset.doi);
+        this.datasets = this.datasets.filter((d) => d.doi !== dataset.doiOrUrl);
         this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
 
         if (this.datasets.length == 0) {
@@ -172,7 +175,7 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     updateDataset(dataset: ZenodoSimpleDataset): void {
-        const d = this.datasets.find((d) => d.doi === dataset.doi);
+        const d = this.datasets.find((d) => d.doi === dataset.doiOrUrl);
         if (d) {
             d.force_pull = dataset.force_pull;
         }
@@ -234,6 +237,11 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
                 .get('rcloneVendorSelect')
                 ?.setValue(storageServiceCredentials.vendor);
+        } else {
+            this.storageConfFormGroup.get('rcloneUserInput')?.setValue('');
+            this.storageConfFormGroup.get('rclonePasswordInput')?.setValue('');
+            this.storageConfFormGroup.get('storageUrlInput')?.setValue('');
+            this.storageConfFormGroup.get('rcloneVendorSelect')?.setValue('');
         }
     }
 }

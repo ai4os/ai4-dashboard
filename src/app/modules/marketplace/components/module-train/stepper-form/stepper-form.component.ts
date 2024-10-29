@@ -19,6 +19,7 @@ import { statusReturn } from '@app/shared/interfaces/deployment.interface';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 @Component({
     selector: 'app-stepper-form',
@@ -87,7 +88,12 @@ export class StepperFormComponent implements OnInit {
         let request: Observable<statusReturn>;
         const data: TrainModuleRequest = {
             general: {
-                title: this.step1Form.value.generalConfForm.titleInput,
+                title:
+                    this.step1Form.value.generalConfForm.titleInput === ''
+                        ? uniqueNamesGenerator({
+                              dictionaries: [colors, animals],
+                          })
+                        : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:
                     this.step1Form.getRawValue().generalConfForm
@@ -98,8 +104,6 @@ export class StepperFormComponent implements OnInit {
                 jupyter_password:
                     this.step1Form.getRawValue().generalConfForm
                         .serviceToRunPassInput,
-                hostname:
-                    this.step1Form.getRawValue().generalConfForm.hostnameInput,
                 cvat_username:
                     this.step1Form.getRawValue().generalConfForm
                         .cvatUsernameInput,
@@ -162,8 +166,21 @@ export class StepperFormComponent implements OnInit {
                             .strategyOptionsSelect ===
                         'Federated Averaging with Momentum (FedAvgM)'
                             ? this.step3Form!.value.federatedConfForm
-                                .momentumInput
+                                  .momentumInput
                             : null,
+                    dp: this.step3Form!.value.federatedConfForm.dpInput,
+                    noise_mult: this.step3Form!.value.federatedConfForm.dpInput
+                        ? this.step3Form!.value.federatedConfForm.noiseMultInput
+                        : null,
+                    sampled_clients: this.step3Form!.value.federatedConfForm
+                        .dpInput
+                        ? this.step3Form!.value.federatedConfForm
+                              .sampledClientsNumInput
+                        : null,
+                    clip_norm: this.step3Form!.value.federatedConfForm.dpInput
+                        ? this.step3Form!.value.federatedConfForm
+                              .clippingNormInput
+                        : null,
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-federated-server',
@@ -188,42 +205,43 @@ export class StepperFormComponent implements OnInit {
                             ?.doi === ''
                             ? []
                             : this.step3Form!.value.storageConfForm
-                                .datasetsList,
+                                  .datasetsList,
                 };
                 request = this.deploymentsService.postTrainModule(data);
             }
-        }
 
-        request.subscribe({
-            next: (result: statusReturn) => {
-                this.isLoading = false;
+            request.subscribe({
+                next: (result: statusReturn) => {
+                    this.isLoading = false;
 
-                if (result && result.status == 'success') {
-                    this.router
-                        .navigate(['/deployments'])
-                        .then((navigated: boolean) => {
-                            if (navigated) {
-                                this.snackbarService.openSuccess(
-                                    'Deployment created with ID' + result.job_ID
-                                );
-                            }
-                        });
-                } else {
-                    if (result && result.status == 'fail') {
-                        this.snackbarService.openError(
-                            'Error while creating the deployment' +
-                                result.error_msg
-                        );
+                    if (result && result.status == 'success') {
+                        this.router
+                            .navigate(['/deployments'])
+                            .then((navigated: boolean) => {
+                                if (navigated) {
+                                    this.snackbarService.openSuccess(
+                                        'Deployment created with ID ' +
+                                            result.job_ID
+                                    );
+                                }
+                            });
+                    } else {
+                        if (result && result.status == 'fail') {
+                            this.snackbarService.openError(
+                                'Error while creating the deployment ' +
+                                    result.error_msg
+                            );
+                        }
                     }
-                }
-            },
-            error: () => {
-                this.isLoading = false;
-            },
-            complete: () => {
-                this.isLoading = false;
-            },
-        });
+                },
+                error: () => {
+                    this.isLoading = false;
+                },
+                complete: () => {
+                    this.isLoading = false;
+                },
+            });
+        }
     }
 
     getStepperOrientation(): StepperOrientation {

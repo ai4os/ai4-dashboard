@@ -15,6 +15,8 @@ import {
     StatusNotification,
 } from './shared/interfaces/platform-status.interface';
 import { SnackbarService } from './shared/services/snackbar/snackbar.service';
+import { CookieService } from 'ngx-cookie-service';
+import * as yaml from 'js-yaml';
 
 @Component({
     selector: 'app-root',
@@ -30,11 +32,12 @@ export class AppComponent implements OnInit, OnDestroy {
         private titleService: Title,
         private platformStatusService: PlatformStatusService,
         private appConfigService: AppConfigService,
-        private cookieService: NgcCookieConsentService,
+        private cookieConsentService: NgcCookieConsentService,
         private snackbarService: SnackbarService,
         public dialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
+        private media: MediaMatcher,
+        private cookieService: CookieService
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -46,11 +49,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     cookieConsentHandler() {
         // Check if the "cookieconsent_status" cookie is set to allow, needed for loading the script after reloading the page
-        if (this.cookieService.hasConsented()) {
+        if (this.cookieConsentService.hasConsented()) {
             this.addPlausibleScript();
         }
         this.statusChangeSubscription =
-            this.cookieService.statusChange$.subscribe(
+            this.cookieConsentService.statusChange$.subscribe(
                 (event: NgcStatusChangeEvent) => {
                     if (event.status == 'allow' || event.status == 'dismiss') {
                         this.addPlausibleScript();
@@ -82,10 +85,13 @@ export class AppComponent implements OnInit, OnDestroy {
         scriptElement?.parentElement?.removeChild(scriptElement);
     }
 
-    openPopup(message: string) {
+    openPopup(statusNotification: StatusNotification) {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(PopupComponent, {
-            data: { message: message },
+            data: {
+                title: statusNotification.title,
+                summary: statusNotification.summary,
+            },
             width: width,
             maxWidth: width,
             minWidth: width,
@@ -114,23 +120,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.platformStatusService.getPlatformPopup().subscribe({
             next: (status: PlatformStatus[]) => {
                 if (status.length > 0) {
-                    const popup = localStorage.getItem('statusPopup');
+                    const popup = this.cookieService.get('statusPopup');
                     if (!popup && status[0].body != null) {
-                        const processedStatus = this.parseStatusString(
-                            status[0].body
-                        );
-                        const n: StatusNotification = {
-                            title: processedStatus.title,
-                            summary: processedStatus.summary,
-                            vo: processedStatus.vo ?? '',
-                            start: processedStatus.start,
-                            end: processedStatus.end,
-                        };
+                        const yamlBody = status[0].body
+                            .replace(/```yaml/g, '')
+                            .replace(/```[\s\S]*/, '');
+                        const n: StatusNotification = yaml.load(
+                            yamlBody
+                        ) as StatusNotification;
                         // filter by vo
                         if (
                             (n.vo !== '' &&
                                 n.vo === this.appConfigService.voName) ||
-                            n.vo === ''
+                            n.vo === null
                         ) {
                             // filter by date
                             if (n.start && n.end) {
@@ -140,8 +142,11 @@ export class AppComponent implements OnInit, OnDestroy {
                                     n.start.getTime() <= now &&
                                     n.end.getTime() > now
                                 ) {
-                                    this.openPopup(status[0].title);
-                                    localStorage.setItem('statusPopup', 'seen');
+                                    this.openPopup(n);
+                                    this.cookieService.set(
+                                        'statusPopup',
+                                        'seen'
+                                    );
                                 }
                             }
                         }
@@ -150,7 +155,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             error: () => {
                 this.snackbarService.openError(
-                    'Error updating the platform status'
+                    "Couldn't update the notifications. Please try again later."
                 );
             },
         });
@@ -164,7 +169,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         // unsubscribe to cookieconsent observables to prevent memory leaks
-        localStorage.removeItem('statusPopup');
+        this.cookieService.delete('statusPopup');
         this.statusChangeSubscription.unsubscribe();
     }
 }

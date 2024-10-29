@@ -1,28 +1,52 @@
 export interface ModuleSummary {
+    [x: string]: any;
     name: string;
     title: string;
     summary: string;
-    keywords: string[];
+    categories: string[];
+    tags: string[];
+    libraries: string[];
+    tasks: string[];
+    dates?: Dates;
+    'data-type'?: string[];
 }
 
 export interface Module {
     title: string;
     summary: string;
     description: string;
-    keywords: string[];
-    license: string;
-    date_creation: string;
-    dataset_url: string;
-    sources: {
-        dockerfile_repo: string;
-        docker_registry_repo: string;
-        code: string;
+    doi?: string;
+    links: {
+        source_code: string;
+        documentation?: string;
+        docker_image?: string;
+        zenodo_doi?: string;
+        dataset?: string;
+        weights?: string;
+        citation?: string;
+        base_model?: string;
+        cicd_badge?: string;
+        cicd_url?: string;
     };
-    continuous_integration: {
-        build_status_badge: string;
-        build_status_url: string;
-    };
-    tosca: object[];
+    dates?: Dates;
+    libraries: string[];
+    tasks: string[];
+    categories: string[];
+    tags: string[];
+    'data-type'?: string[];
+}
+
+export interface Dates {
+    created: string;
+    updated: string;
+}
+
+export interface FilterGroup {
+    libraries: string[];
+    tasks: string[];
+    categories: string[];
+    datatypes: string[];
+    tags: string[];
 }
 
 export interface confObject {
@@ -54,7 +78,6 @@ export interface ModuleGeneralConfiguration {
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
-    hostname?: confObject;
     cvat_username?: confObject;
     cvat_password?: confObject;
 }
@@ -108,7 +131,6 @@ export interface TrainModuleRequest {
         docker_tag: string;
         service: string;
         jupyter_password?: string;
-        hostname?: string;
         cvat_username?: string;
         cvat_password?: string;
     };
@@ -136,6 +158,10 @@ export interface TrainModuleRequest {
         mu: number;
         fl: number;
         momentum: number;
+        dp: boolean;
+        noise_mult: number;
+        sampled_clients: number;
+        clip_norm: number;
     };
 }
 
@@ -146,114 +172,6 @@ export interface Dataset {
 
 export interface Secret {
     token: string;
-}
-
-// OSCAR MODELS
-export interface Service {
-    name: string;
-    cluster_id?: string;
-    memory: string;
-    cpu: string;
-    enable_gpu: boolean;
-    total_memory: string;
-    total_cpu: string;
-    synchronous?: {
-        min_scale: number;
-        max_scale: number;
-    };
-    replicas?: Array<Replica>;
-    rescheduler_threshold?: number;
-    token?: string;
-    log_level: string;
-    image: string;
-    alpine?: boolean;
-    script?: string;
-    image_pull_secrets?: Array<string>;
-    environment?: {
-        Variables: {
-            [key: string]: string;
-        };
-    };
-    annotations?: {
-        [key: string]: string;
-    };
-    labels?: {
-        [key: string]: string;
-    };
-    input?: Array<StorageIOConfig>;
-    output?: Array<StorageIOConfig>;
-    storage_providers?: StorageProviders;
-    clusters?: Clusters;
-}
-
-interface Clusters {
-    id: {
-        endpoint: string;
-        auth_user: string;
-        auth_password: string;
-        ssl_verify: boolean;
-    };
-}
-
-interface Replica {
-    type: string;
-    cluster_id: string;
-    service_name: string;
-    url: string;
-    ssl_verify: boolean;
-    priority: number;
-    headers: {
-        [key: string]: string;
-    };
-}
-
-interface StorageIOConfig {
-    storage_provider: string;
-    path: string;
-    suffix: Array<string>;
-    prefix: Array<string>;
-}
-
-interface StorageProviders {
-    s3: {
-        id: {
-            access_key: string;
-            secret_key: string;
-            region: string;
-        };
-    };
-    minio: {
-        id: MiniIOProvider;
-    };
-    onedata: {
-        id: {
-            oneprovider_host: string;
-            token: string;
-            space: string;
-        };
-    };
-    webdav: {
-        id: {
-            hostname: string;
-            login: string;
-            password: string;
-        };
-    };
-}
-
-interface MiniIOProvider {
-    endpoint: string;
-    region: string;
-    access_key: string;
-    secret_key: string;
-    verify: boolean;
-}
-
-export interface JobInfo {
-    status: string;
-    creation_time: string;
-    start_time: string;
-    finish_time: string;
 }
 
 export interface GradioCreateResponse {

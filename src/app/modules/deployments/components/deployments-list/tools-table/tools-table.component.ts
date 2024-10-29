@@ -170,7 +170,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
 
     openToolSecretsDialog(row: toolTableRow): void {
         const width = this.mobileQuery.matches ? '300px' : '650px';
-        const dialogRef = this.dialog.open(SecretManagementDetailComponent, {
+        this.dialog.open(SecretManagementDetailComponent, {
             data: { uuid: row.uuid, name: row.name },
             width: width,
             maxWidth: width,

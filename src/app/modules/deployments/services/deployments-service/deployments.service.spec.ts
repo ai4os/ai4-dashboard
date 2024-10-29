@@ -2,14 +2,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { DeploymentsService } from './deployments.service';
 import {
-    HttpClientTestingModule,
     HttpTestingController,
+    provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { deploymentsList, toolsList } from './deployment.service.mock';
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
+import { provideHttpClient } from '@angular/common/http';
 
 const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',
@@ -22,8 +23,9 @@ describe('DeploymentsService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });
@@ -105,7 +107,6 @@ describe('DeploymentsService', () => {
                 docker_tag: '',
                 service: '',
                 jupyter_password: undefined,
-                hostname: undefined,
             },
             hardware: {
                 cpu_num: 1,
@@ -200,7 +201,6 @@ describe('DeploymentsService', () => {
                 docker_tag: '',
                 service: '',
                 jupyter_password: undefined,
-                hostname: undefined,
             },
             hardware: {
                 cpu_num: 1,

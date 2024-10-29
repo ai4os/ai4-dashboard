@@ -6,7 +6,7 @@ import {
     UserStats,
 } from '@app/shared/interfaces/stats.interface';
 import { environment } from '@environments/environment';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 const { base, endpoints } = environment.api;
 

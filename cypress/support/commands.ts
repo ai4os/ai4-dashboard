@@ -51,3 +51,20 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
     log.snapshot('after');
 });
+
+Cypress.Commands.add('initializeTrainModuleForm', () => {
+    cy.visit('http://localhost:8080/');
+    cy.contains('Dogs breed detector', { timeout: 20000 }).click();
+    cy.contains('Decline').click();
+    cy.get('.action-button').contains('Deploy', { timeout: 10000 }).click();
+    cy.contains('Inference API (dedicated)', { timeout: 10000 }).click();
+    cy.get('#deployment-title', { timeout: 10000 }).type('test');
+    cy.wait(500);
+    cy.contains('Next', { timeout: 10000 })
+        .scrollIntoView()
+        .click({ force: true });
+    cy.wait(500);
+    cy.contains('Next', { timeout: 10000 })
+        .scrollIntoView()
+        .click({ force: true });
+});

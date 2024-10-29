@@ -21,31 +21,26 @@
 .grid-resources {
     display: grid;
     grid-template-columns: repeat(2, auto);
-    gap: 1em;
+    gap: 0.8em;
     width: 100%;
+    margin-top: 10px;
 }
 
 .action-button {
     display: flex;
-    padding: 5px 16px;
     align-self: center;
     text-align: center;
     flex-direction: row-reverse;
     column-gap: 5px;
-    width: 100%;
-    min-width: 110px;
+    min-width: fit-content;
 }
 
 .sub-button {
     justify-content: flex-end;
 }
 
-.launch-tool-button {
-    grid-column-start: -1;
-}
-
-::ng-deep .launch-tool-button span {
-    padding: 5px;
+.arrow-button {
+    margin: 0px !important;
 }
 
 .detail-card {
@@ -56,6 +51,7 @@
     display: flex;
     padding: 16px;
     justify-content: space-between;
+    gap: 1em;
 }
 
 .module-detail-card-header-mobile {
@@ -70,13 +66,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-}
-
-.module-header-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    justify-content: flex-start;
+    max-width: 400px;
+    margin: 16px 0 0 auto;
+    gap: 1.5em;
 }
 
 .tooltip-container {
@@ -88,6 +80,89 @@
     flex-direction: column;
 }
 
+.button-with-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    padding: 12px 0px;
+}
+
+.button-texts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.button-description-text {
+    font-size: 14px;
+    color: var(--warm-grey);
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.5em;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.box-container {
+    border: 1px solid var(--border-gray);
+    border-radius: 10px;
+    padding: 10px;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    position: relative;
+    box-shadow:
+        0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.box-title {
+    text-shadow: #d0d0d0 1px 0 2px;
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background-color: white;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.box-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.5em;
+    margin-top: 10px;
+}
+
+.module-description {
+    max-width: 860px;
+}
+
+mat-card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+mat-card-subtitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+::ng-deep .mat-mdc-card-header-text {
+    width: 100%;
+}
+
 ::ng-deep .module-description img {
     background-color: red;
     max-width: 100%;
@@ -95,53 +170,4 @@
 
 ::ng-deep .module-description video {
     max-width: 600px;
-}
-
-.tags span {
-    display: inline-block;
-    height: 24px;
-    line-height: 24px;
-    position: relative;
-    margin: 0 16px 8px 0;
-    padding: 0 10px 0 12px;
-    background: var(--primary);
-    -webkit-border-bottom-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
-    border-top-right-radius: 3px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    color: #fff;
-    font-size: 12px;
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
-    text-decoration: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    font-weight: bold;
-}
-
-.tags span:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -12px;
-    width: 0;
-    height: 0;
-    border-color: transparent var(--primary) transparent transparent;
-    border-style: solid;
-    border-width: 12px 12px 12px 0;
-}
-
-.tags span:after {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 1px;
-    float: left;
-    width: 5px;
-    height: 5px;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    background: #fff;
-    -webkit-box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
-    box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
 }

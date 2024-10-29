@@ -26,18 +26,16 @@
         "TITLE": "Profile",
         "DETAILS": "Personal information",
         "VOS": "Virtual organizations",
+        "UNAUTHORIZED": "You are not a member of any VO.",
         "STORAGE-PROVIDERS": "Storage providers",
-        "LINKED": "Linked",
-        "UNLINKED": "Unlinked",
         "ADD": "Add",
-        "SYNC": "Sync",
-        "RESYNC": "Resync",
-        "DELETE": "Delete",
+        "LINK": "Link",
+        "RELINK": "Re-link",
+        "REVOKE": "Revoke",
         "LOGIN": "Log in the the pop-up window",
         "NEXTCLOUD": {
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
-            "OPEN-DOCUMENTATION": "Open documentation",
             "INVALID-DOMAIN": "Invalid domain format"
         }
     },
@@ -46,6 +44,7 @@
         "OVERVIEW-TAB": "Overview",
         "DATACENTERS-TAB": "Datacenters",
         "GRAPHS-TAB": "Graphs",
+        "GRAPHS-TAB-DISABLED": "Your personal usage stats don't seem to be available",
         "NODES-TAB": "Nodes",
         "USERS-OVER-TIME": "Historical Aggregate Usage",
         "USERS": "Your Usage",
@@ -134,7 +133,7 @@
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
-        "OSCAR": "OSCAR",
+        "OSCAR": "Serverless (OSCAR)",
         "TITLE": "Title",
         "IMAGE": "Image",
         "CREATION-TIME": "Creation time (UTC)",
@@ -154,30 +153,65 @@
     "MODULES": {
         "TITLE": "Marketplace",
         "NEW-DEPLOYMENT": "New deployment",
+        "NUM-RESULTS": "result(s) found",
+        "MODULE": "AI4 Module",
+        "TOOL": "AI4 Tool",
+        "FILTERS": {
+            "ADITIONAL-FILTERS": "Additional filters",
+            "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
+            "INFO-FILTERS": "<ul><li><p><strong>Between filters</strong>: Filters are combined using \"OR\" logic. For example, if you use Filter #1 (library = [PyTorch]) and Filter #2 (category = [AI4 tools], tag = [federated learning]), you'll see all modules and tools that meet either condition.</p></li><li><p><strong>Within a filter</strong>: Conditions inside a single filter are combined using \"AND\" logic. For instance, Filter #1 (library = [PyTorch], tag = [federated learning]) will only show results that meet both conditions.</p></li><li><p><strong>Within fields</strong>: Options inside a field are treated with \"OR\" logic. For example, Filter #1 (library = [PyTorch, Keras, Other]) will return results that include any of these libraries.</p></li></ul>",
+            "CLEAR-FILTERS": "Clear current filter",
+            "APPLY": "Apply",
+            "APPLY-TOOLTIP": "Apply current filters",
+            "RESET": "Reset",
+            "RESET-TOOLTIP": "Delete all filters"
+        },
+        "SORTING": {
+            "NAME": "By name",
+            "MOST-RECENT": "By most recent"
+        },
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",
             "BUILD-STATUS": "Build status",
-            "LICENSE": "License",
+            "DATES": "Dates",
             "CREATED": "Created",
-            "CATEGORIES": "Categories",
-            "ADDITIONAL-RESOURCES": "Additional Resources",
-            "GET-THE-CODE": "Get the code",
-            "GET-THE-DATA": "Get the data",
-            "FOUND-ISSUE": "Found an issue?",
-            "DATASET": "Dataset",
-            "TRAIN-MODULE": "Train",
-            "LAUNCH-TOOL": "Launch tool",
-            "TRY-MODULE": "Try",
-            "TRY-MODULE-LOGOUT": "You must login to try the module",
-            "DEPLOY-MODULE": "Deploy",
-            "DEPLOY-W-IM": "Deploy via the IM",
-            "DEPLOY-W-OSCAR": "Deploy via OSCAR",
-            "NOMAD": "Nomad",
-            "NOMAD-GRADIO": "Nomad (Gradio)",
-            "IM": "IM",
-            "OSCAR": "OSCAR",
-            "OSCAR-SWAGGER": "OSCAR (Swagger)",
+            "UPDATED": "Updated",
+            "CATEGORIES": "Platform Categories",
+            "LIBRARIES": "Libraries",
+            "TAGS": "Tags",
+            "TASKS": "Tasks",
+            "DATA-TYPES": "Data Types",
+            "ADDITIONAL-RESOURCES": {
+                "TITLE": "Additional Resources",
+                "DATASET": "Dataset",
+                "DOCUMENTATION": "Docs",
+                "WEIGHTS": "Weights",
+                "CITATION": "Citation",
+                "BASE-MODEL": "Base model"
+            },
+            "TRY": {
+                "TITLE": "Try",
+                "LOGOUT": "You must login to try the module",
+                "USER-INTERFACE": "User Interface",
+                "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
+                "INFERENCE-API": "REST API",
+                "OSCAR-SWAGGER": "// TODO"
+            },
+            "DEPLOY": {
+                "TITLE": "Deploy",
+                "API-SERVERLESS": "Inference API (serverless)",
+                "OSCAR": "Serverless inference API on the project's OSCAR cluster",
+                "API-PLATFORM": "Inference API (dedicated)",
+                "NOMAD": "Dedicated inference API on the project's Nomad cluster",
+                "API-CLOUD": "Inference API (cloud)",
+                "IM": "Deploy on your own cloud resources via IM"
+            },
+            "CODESPACES": {
+                "TITLE": "Codespaces",
+                "JUPYTERLAB": "Open in JupyterLab",
+                "VSCODE": "Open in VScode"
+            },
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
@@ -205,8 +239,6 @@
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
                 "ADD-FEDERATED-SECRET": "Create federated secret",
-                "CUSTOM-DOMAIN": "Custom domain",
-                "CUSTOM-DOMAIN-PATTERN-ERROR": "Only alphanumeric characters and hyphens (-) are allowed",
                 "OPEN-DOCUMENTATION": "Open documentation",
                 "CVAT-CREDENTIALS": "CVAT credentials",
                 "CVAT-USERNAME": "CVAT username",
@@ -233,7 +265,7 @@
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
                 "PROFILE-SECTION": "profile section",
                 "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",
-                "STORAGE-SERVICE-TRY-SYNC": "sync to one of our provided options",
+                "STORAGE-SERVICE-TRY-LINK": "link to one of our provided options",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
@@ -249,10 +281,10 @@
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
-                "DOI": {
-                    "TITLE": "DOI",
-                    "ERROR": "Invalid DOI format",
-                    "SUPPORT": "We support DOIs from these repositories and ",
+                "DOI-URL": {
+                    "TITLE": "DOI / URL",
+                    "ERROR": "Invalid DOI or URL format",
+                    "SUPPORT": "We support DOIs and URLs from these repositories and ",
                     "MORE": "many more"
                 },
                 "TABLE": {
@@ -272,7 +304,11 @@
                 "MU": "Mu",
                 "FL": "Server-side learning rate",
                 "MOMENTUM": "Server-side momentum",
-                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this."
+                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
+                "DP": "Differential privacy",
+                "NOISE-MULT": "Noise multiplier",
+                "SAMPLED-CLIENTS": "Number of sampled clients",
+                "CLIP-NORM": "Clipping norm"
             }
         },
         "MODULE-TRY": {
@@ -355,17 +391,17 @@
         "NEXT": "Next",
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
-        "GITHUB": "Github",
-        "DOCKERHUB": "Dockerhub",
+        "GITHUB": "GitHub",
+        "DOCKERHUB": "Docker",
         "REPORT-ISSUE": "Report issue"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",
         "TOKEN-EXPIRED": "Token expired, logging out",
-        "NOT-AUTHORIZED-ERROR": "*You need to be enrolled in the '{{vo}}' VO to be able to deploy",
         "NOT-FOUND": "Oops, the page you requested could not be found!",
         "UNDER-MAINTENANCE-POPUP": {
             "TITLE": "Warning"
-        }
+        },
+        "UNAUTHORIZED": "Only available for project members"
     }
 }

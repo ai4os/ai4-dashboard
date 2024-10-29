@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
     GradioCreateResponse,
     GradioDeployment,
@@ -17,7 +16,7 @@ import {
     timer,
 } from 'rxjs';
 import { ModulesService } from '../../services/modules-service/modules.service';
-import { Router } from '@angular/router';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-loading-screen',
@@ -28,8 +27,7 @@ export class LoadingScreenComponent implements OnInit {
     constructor(
         private modulesService: ModulesService,
         public translateService: TranslateService,
-        private router: Router,
-        private _snackBar: MatSnackBar
+        private snackbarService: SnackbarService
     ) {}
 
     module!: Module;
@@ -50,7 +48,7 @@ export class LoadingScreenComponent implements OnInit {
             try {
                 this.module = JSON.parse(data);
                 this.createGradioDeployment();
-            } catch (e) {
+            } catch (_) {
                 this.closeWindowDueError(
                     'Error initializing the deployment. Please try again later.'
                 );
@@ -64,18 +62,16 @@ export class LoadingScreenComponent implements OnInit {
 
     closeWindowDueError(error: string) {
         this.loadingText = '';
-        this._snackBar.open(error, '×', {
-            duration: 3000,
-            panelClass: ['red-snackbar'],
-        });
+        this.snackbarService.openError(error);
         setTimeout(function () {
             window.close();
         }, 3000);
     }
 
     createGradioDeployment() {
-        const moduleName =
-            this.module.sources.docker_registry_repo.split('/')[1];
+        const moduleName = this.module.links.source_code
+            .split('/')[4]
+            .toLowerCase();
 
         this.modulesService.createDeploymentGradio(moduleName).subscribe({
             next: (response: GradioCreateResponse) => {
@@ -113,13 +109,8 @@ export class LoadingScreenComponent implements OnInit {
                 ),
                 finalize(() => {
                     if (this.isLoading === true) {
-                        this._snackBar.open(
-                            'Error initializing the deployment.',
-                            '×',
-                            {
-                                duration: 3000,
-                                panelClass: ['red-snackbar'],
-                            }
+                        this.snackbarService.openError(
+                            'Error initializing the deployment'
                         );
                     }
                 })

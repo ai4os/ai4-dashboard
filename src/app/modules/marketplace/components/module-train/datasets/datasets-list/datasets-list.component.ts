@@ -62,7 +62,7 @@ export class DatasetsListComponent implements OnInit {
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
-    protected columns: Array<TableColumn> = [
+    columns: Array<TableColumn> = [
         { columnDef: 'id', header: '', hidden: true },
         {
             columnDef: 'name',
@@ -82,9 +82,9 @@ export class DatasetsListComponent implements OnInit {
         },
     ];
 
-    private datasets: Array<DatasetTableRow> = [];
-    protected dataSource!: MatTableDataSource<DatasetTableRow>;
-    protected displayedColumns: string[] = [];
+    datasets: Array<DatasetTableRow> = [];
+    dataSource!: MatTableDataSource<DatasetTableRow>;
+    displayedColumns: string[] = [];
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -134,7 +134,7 @@ export class DatasetsListComponent implements OnInit {
                 }
             );
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe(() => {
             subscribeAddDialog.unsubscribe();
         });
     }
@@ -143,7 +143,7 @@ export class DatasetsListComponent implements OnInit {
         const dataset = this.datasets.find((d) => d.doi === row.doi);
         dataset!.forcePull = event.checked;
         const d: ZenodoSimpleDataset = {
-            doi: dataset!.doi,
+            doiOrUrl: dataset!.doi,
             title: dataset!.name,
             source: dataset!.source,
             force_pull: dataset!.forcePull,
@@ -152,9 +152,9 @@ export class DatasetsListComponent implements OnInit {
     }
 
     addDataset(dataset: ZenodoSimpleDataset) {
-        if (this.datasets.find((d) => d.doi === dataset.doi)) {
+        if (this.datasets.find((d) => d.doi === dataset.doiOrUrl)) {
             this.snackbarService.openError(
-                'Dataset with DOI ' + dataset.doi + ' already exists'
+                'Dataset with reference ' + dataset.doiOrUrl + ' already exists'
             );
         } else if (this.datasets.length === 5) {
             this.snackbarService.openError(
@@ -162,7 +162,7 @@ export class DatasetsListComponent implements OnInit {
             );
         } else {
             this.datasets.push({
-                doi: dataset.doi,
+                doi: dataset.doiOrUrl,
                 source: dataset.source,
                 name: dataset.title,
                 forcePull: dataset.force_pull,
@@ -172,7 +172,7 @@ export class DatasetsListComponent implements OnInit {
             );
             this.datasetAdded.emit(dataset);
             this.snackbarService.openSuccess(
-                'Dataset added with DOI ' + dataset.doi
+                'Dataset added with reference ' + dataset.doiOrUrl
             );
         }
     }
@@ -194,7 +194,7 @@ export class DatasetsListComponent implements OnInit {
                         (obj) => obj['doi'] === doi
                     );
                     const d: ZenodoSimpleDataset = {
-                        doi: row.doi,
+                        doiOrUrl: row.doi,
                         title: row.name,
                         source: row.source,
                         force_pull: row.forcePull,

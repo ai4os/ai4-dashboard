@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { PlatformStatusService } from './platform-status.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('PlatformStatusService', () => {
     let service: PlatformStatusService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
+            providers: [provideHttpClient(), provideHttpClientTesting()],
         });
         service = TestBed.inject(PlatformStatusService);
     });

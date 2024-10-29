@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModuleDetailComponent } from './module-detail.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TopNavbarComponent } from '@app/layout/top-navbar/top-navbar.component';
@@ -14,6 +13,7 @@ import { ToolsService } from '../../services/tools-service/tools.service';
 import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { of } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { provideHttpClient } from '@angular/common/http';
 
 const mockedProfile = {
     info: {
@@ -58,22 +58,15 @@ const mockedAuthService: any = {
 };
 const mockedModule: Module = {
     title: 'test',
-    summary: '',
+    summary: 'summary',
     description: '',
-    keywords: [],
-    license: '',
-    date_creation: '',
-    dataset_url: '',
-    sources: {
-        dockerfile_repo: '',
-        docker_registry_repo: '',
-        code: '',
+    links: {
+        source_code: '',
     },
-    continuous_integration: {
-        build_status_badge: '',
-        build_status_url: '',
-    },
-    tosca: [],
+    libraries: ['testLib'],
+    tasks: ['task1'],
+    categories: ['cat1'],
+    tags: ['tag1'],
 };
 
 const mockedMediaQueryList: MediaQueryList = {
@@ -111,18 +104,15 @@ describe('ModuleDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                ModuleDetailComponent,
-                TopNavbarComponent,
-                MarkdownComponent,
-            ],
+            declarations: [ModuleDetailComponent, TopNavbarComponent],
             imports: [
-                HttpClientTestingModule,
-                RouterTestingModule,
+                MarkdownComponent,
                 SharedModule,
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: ModulesService, useValue: mockedModuleService },

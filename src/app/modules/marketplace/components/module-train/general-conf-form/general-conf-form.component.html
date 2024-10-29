@@ -96,8 +96,7 @@
                             *ngIf="_showFields.infoButton"
                             mat-icon-button
                             matTooltip="{{
-                                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.OPEN-DOCUMENTATION'
-                                    | translate
+                                'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
                             }}"
                             [matTooltipPosition]="'above'"
                             (click)="openDocumentationWeb()"
@@ -172,43 +171,6 @@
             <ng-container *ngIf="_showHelp">
                 <span class="mat-hint-text">
                     {{ _defaultFormValues.service.description }}
-                </span>
-            </ng-container>
-        </div>
-        <div [ngClass]="{ 'mt-3': _showHelp }">
-            <mat-form-field
-                appearance="fill"
-                class="display-inline"
-                subscriptSizing="dynamic"
-            >
-                <mat-label>
-                    {{
-                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CUSTOM-DOMAIN'
-                            | translate
-                    }}</mat-label
-                >
-                <input
-                    matInput
-                    placeholder=""
-                    formControlName="hostnameInput"
-                    maxlength="45"
-                />
-                <mat-error
-                    *ngIf="
-                        generalConfFormGroup.get('titleInput')?.errors?.[
-                            'required'
-                        ]
-                    "
-                >
-                    {{
-                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CUSTOM-DOMAIN-PATTERN-ERROR'
-                            | translate
-                    }}
-                </mat-error>
-            </mat-form-field>
-            <ng-container *ngIf="_showHelp">
-                <span class="mat-hint-text">
-                    {{ _defaultFormValues.hostname?.description }}
                 </span>
             </ng-container>
         </div>

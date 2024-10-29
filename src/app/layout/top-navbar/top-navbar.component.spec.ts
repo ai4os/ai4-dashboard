@@ -1,23 +1,20 @@
-import {
-    ComponentFixture,
-    TestBed,
-    fakeAsync,
-    tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { TopNavbarComponent } from './top-navbar.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { By } from '@angular/platform-browser';
-import { MatButton } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
+
+const mockedConfigService: any = {};
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
@@ -55,15 +52,17 @@ describe('TopNavbarComponent', () => {
             declarations: [TopNavbarComponent],
             imports: [
                 SharedModule,
-                RouterTestingModule,
-                HttpClientTestingModule,
+                RouterModule.forRoot([]),
                 TranslateModule.forRoot(),
                 NoopAnimationsModule,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: SidenavService, useValue: mockedSidenavService },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 

@@ -39,7 +39,8 @@ export class DashboardComponent implements OnInit {
     panelOpenState = false;
     userStatsLoading = false;
     clusterStatsLoading = false;
-    dataAvailable = false;
+    userDataAvailable = false;
+    clusterDataAvailable = false;
 
     // User global variable
     protected userGlobalStats: GlobalStats = {
@@ -111,7 +112,7 @@ export class DashboardComponent implements OnInit {
         this.statsService.getUserStats().subscribe({
             next: (statsResponse: UserStats) => {
                 if (statsResponse == null) {
-                    this.dataAvailable = false;
+                    this.userDataAvailable = false;
                     this.userStatsLoading = false;
                 } else {
                     // User aggregate
@@ -172,12 +173,12 @@ export class DashboardComponent implements OnInit {
                     this.queuedData = statsResponse.timeseries.queued;
                     this.runningData = statsResponse.timeseries.running;
 
-                    this.dataAvailable = true;
+                    this.userDataAvailable = true;
                     this.userStatsLoading = false;
                 }
             },
             error: () => {
-                this.dataAvailable = false;
+                this.userDataAvailable = false;
                 this.userStatsLoading = false;
             },
         });
@@ -185,7 +186,7 @@ export class DashboardComponent implements OnInit {
         this.statsService.getClusterStats().subscribe({
             next: (statsResponse: ClusterStats) => {
                 if (statsResponse == null) {
-                    this.dataAvailable = false;
+                    this.clusterDataAvailable = false;
                     this.clusterStatsLoading = false;
                 } else {
                     // Cluster
@@ -267,12 +268,12 @@ export class DashboardComponent implements OnInit {
                         this.datacentersStats.push(datacenter);
                     }
 
-                    this.dataAvailable = true;
+                    this.clusterDataAvailable = true;
                     this.clusterStatsLoading = false;
                 }
             },
             error: () => {
-                this.dataAvailable = false;
+                this.clusterDataAvailable = false;
                 this.clusterStatsLoading = false;
             },
         });

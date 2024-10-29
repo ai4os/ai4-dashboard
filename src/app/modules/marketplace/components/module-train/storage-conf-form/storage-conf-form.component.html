@@ -18,6 +18,7 @@
                 formControlName="storageServiceDatasetSelect"
                 (selectionChange)="updateStorageConfiguration()"
             >
+                <mat-option>-</mat-option>
                 <mat-option
                     *ngFor="let storageServiceOption of storageServiceOptions"
                     [value]="storageServiceOption.value"
@@ -48,7 +49,7 @@
                         | translate
                 }}
                 <a [routerLink]="['/profile']" target="_blank">{{
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-TRY-SYNC'
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-TRY-LINK'
                         | translate
                 }}</a
                 >.
@@ -72,6 +73,7 @@
                             | translate
                     }}</mat-label>
                     <input
+                        id="rcloneUser"
                         matInput
                         placeholder=""
                         value=""
@@ -100,6 +102,7 @@
                             | translate
                     }}</mat-label>
                     <input
+                        id="rclonePassword"
                         [type]="hidePassword ? 'password' : 'text'"
                         matInput
                         placeholder="At least 9 characters"

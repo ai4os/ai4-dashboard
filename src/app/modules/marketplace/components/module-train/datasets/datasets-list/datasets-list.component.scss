@@ -12,6 +12,10 @@
     width: 40%;
 }
 
+.fit-image-url {
+    width: 65%;
+}
+
 .help-icon {
     font-size: 1.3em;
     padding-left: 0.3em;
@@ -97,13 +101,4 @@
 
 ::ng-deep .mat-card-header {
     flex-shrink: 0;
-}
-
-::ng-deep .mat-badge-content {
-    font-family: 'Material Icons';
-}
-
-::ng-deep .mat-badge-small.mat-badge-after .mat-badge-content {
-    right: 0;
-    top: -4px;
 }

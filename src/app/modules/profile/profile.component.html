@@ -59,12 +59,15 @@
                             >{{ role }}</mat-chip
                         >
                     </mat-list-item>
+                    <mat-list-item *ngIf="vos.length === 0">{{
+                        'PROFILE.UNAUTHORIZED' | translate
+                    }}</mat-list-item>
                 </mat-list>
             </mat-card-content>
         </mat-card>
     </div>
 
-    <mat-card appearance="outlined" class="card">
+    <mat-card *ngIf="isAuthorized" appearance="outlined" class="card">
         <mat-card-header class="mb-3">
             <mat-card-title>{{
                 'PROFILE.STORAGE-PROVIDERS' | translate
@@ -95,44 +98,30 @@
                         *ngIf="!credentialsExist(ai4osEndpoint); else resync"
                     >
                         <button
-                            class="cursor-default"
-                            mat-icon-button
-                            matTooltip="Basic"
-                            matTooltip=" {{ 'PROFILE.UNLINKED' | translate }}"
-                        >
-                            <mat-icon>link_off</mat-icon>
-                        </button>
-                        <button
-                            matTooltip=" {{ 'PROFILE.SYNC' | translate }}"
-                            mat-mini-fab
+                            mat-fab
+                            extended
                             (click)="syncRclone(ai4osEndpoint)"
                         >
-                            <mat-icon>sync</mat-icon>
+                            <mat-icon>link</mat-icon>
+                            Link
                         </button>
                     </ng-container>
 
                     <ng-template #resync>
                         <button
-                            class="cursor-default"
-                            mat-icon-button
-                            matTooltip="Basic"
-                            matTooltip=" {{ 'PROFILE.LINKED' | translate }}"
-                        >
-                            <mat-icon>link</mat-icon>
-                        </button>
-                        <button
-                            matTooltip=" {{ 'PROFILE.RESYNC' | translate }}"
-                            mat-mini-fab
                             class="custom-sync-button"
+                            mat-fab
+                            extended
                             (click)="resyncRclone(ai4osEndpoint)"
                         >
-                            <mat-icon>sync</mat-icon>
+                            <mat-icon>link</mat-icon>
+                            Re-link
                         </button>
                     </ng-template>
 
                     <button
                         [disabled]="!credentialsExist(ai4osEndpoint)"
-                        matTooltip=" {{ 'PROFILE.DELETE' | translate }}"
+                        matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                         mat-mini-fab
                         color="warn"
                         (click)="unsyncRclone(ai4osEndpoint)"
@@ -170,46 +159,30 @@
                             "
                         >
                             <button
-                                class="cursor-default"
-                                mat-icon-button
-                                matTooltip="Basic"
-                                matTooltip=" {{
-                                    'PROFILE.UNLINKED' | translate
-                                }}"
-                            >
-                                <mat-icon>link_off</mat-icon>
-                            </button>
-                            <button
-                                matTooltip=" {{ 'PROFILE.SYNC' | translate }}"
-                                mat-mini-fab
+                                mat-fab
+                                extended
                                 (click)="syncRclone(service.server)"
                             >
-                                <mat-icon>sync</mat-icon>
+                                <mat-icon>link</mat-icon>
+                                Link
                             </button>
                         </ng-container>
 
                         <ng-template #resync>
                             <button
-                                class="cursor-default"
-                                mat-icon-button
-                                matTooltip="Basic"
-                                matTooltip=" {{ 'PROFILE.LINKED' | translate }}"
-                            >
-                                <mat-icon>link</mat-icon>
-                            </button>
-                            <button
-                                matTooltip=" {{ 'PROFILE.RESYNC' | translate }}"
-                                mat-mini-fab
                                 class="custom-sync-button"
+                                mat-fab
+                                extended
                                 (click)="resyncRclone(service.server)"
                             >
-                                <mat-icon>sync</mat-icon>
+                                <mat-icon>link</mat-icon>
+                                Re-link
                             </button>
                         </ng-template>
 
                         <button
                             [disabled]="!credentialsExist(service.server)"
-                            matTooltip=" {{ 'PROFILE.DELETE' | translate }}"
+                            matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                             mat-mini-fab
                             color="warn"
                             (click)="unsyncRclone(service.server)"
@@ -235,7 +208,7 @@
                     <button
                         mat-icon-button
                         matTooltip="{{
-                            'PROFILE.NEXTCLOUD.OPEN-DOCUMENTATION' | translate
+                            'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
                         }}"
                         [matTooltipPosition]="'above'"
                         (click)="openCustomNextcloudDocumentationWeb()"

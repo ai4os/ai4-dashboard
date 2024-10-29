@@ -1,5 +1,98 @@
 # Changelog
 
+## [2.27.0](https://github.com/ai4os/ai4-dashboard/compare/v2.26.1...v2.27.0) (2024-10-21)
+
+
+### Features
+
+* 193 customize ai4life dashboard ([#241](https://github.com/ai4os/ai4-dashboard/issues/241)) ([9159b48](https://github.com/ai4os/ai4-dashboard/commit/9159b480b2efaeda04d7cd50d4cf44c0091c7d97))
+
+
+### Bug Fixes
+
+* 238 fix new metadata version bugs ([#239](https://github.com/ai4os/ai4-dashboard/issues/239)) ([f432c72](https://github.com/ai4os/ai4-dashboard/commit/f432c72a18f60d1ecb0c442cd72fb01f06098aa7))
+
+## [2.26.0](https://github.com/ai4os/ai4-dashboard/compare/v2.25.0...v2.26.0) (2024-10-17)
+
+
+### Features
+
+* 208 parsing new yaml metadata ([#234](https://github.com/ai4os/ai4-dashboard/issues/234)) ([5c4bc81](https://github.com/ai4os/ai4-dashboard/commit/5c4bc8119f5f899630e8e24c10f2ad4eda44310e))
+* add status color to the nodes list (stats) ([#231](https://github.com/ai4os/ai4-dashboard/issues/231)) ([1b20b81](https://github.com/ai4os/ai4-dashboard/commit/1b20b81e103320ea1e8c1006680371409b76e3f6))
+
+## [2.25.0](https://github.com/ai4os/ai4-dashboard/compare/v2.24.0...v2.25.0) (2024-10-15)
+
+
+### Features
+
+* add link to documentation in oscar inference ([#223](https://github.com/ai4os/ai4-dashboard/issues/223)) ([293284e](https://github.com/ai4os/ai4-dashboard/commit/293284ebf73cfb72d65da0a635ed1dba06bc905a))
+* add no storage service option in data configuration ([#225](https://github.com/ai4os/ai4-dashboard/issues/225)) ([bcf562a](https://github.com/ai4os/ai4-dashboard/commit/bcf562a71b86a7a919de4bcbf1bd7c2e55814e68))
+* configure snackbar message duration based on message length ([#224](https://github.com/ai4os/ai4-dashboard/issues/224)) ([f87010d](https://github.com/ai4os/ai4-dashboard/commit/f87010d619b05484bd579fc06d6da7a0875f8cab))
+* disable graphs tab when user data is not available ([#226](https://github.com/ai4os/ai4-dashboard/issues/226)) ([5ad04ac](https://github.com/ai4os/ai4-dashboard/commit/5ad04ac6daa0378a3824b2045b604fc61fa22db6))
+
+## [2.24.0](https://github.com/ai4os/ai4-dashboard/compare/v2.23.3...v2.24.0) (2024-10-08)
+
+
+### Features
+
+* make deployment title optional with auto generation ([#217](https://github.com/ai4os/ai4-dashboard/issues/217)) ([8d0d7e0](https://github.com/ai4os/ai4-dashboard/commit/8d0d7e04c259d65524652a0410952b85872c108d))
+
+## [2.23.3](https://github.com/ai4os/ai4-dashboard/compare/v2.23.2...v2.23.3) (2024-09-23)
+
+
+### Bug Fixes
+
+* profile requests ([d3f27ab](https://github.com/ai4os/ai4-dashboard/commit/d3f27ab21506425859988698ebb40e10d1a6fac0))
+
+## [2.23.2](https://github.com/ai4os/ai4-dashboard/compare/v2.23.1...v2.23.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* add gradio route ([bf531a5](https://github.com/ai4os/ai4-dashboard/commit/bf531a54be3b84815a9c5335f226a9dbf52f2183))
+
+## [2.23.1](https://github.com/ai4os/ai4-dashboard/compare/v2.23.0...v2.23.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* show OSCAR button ([02e7a4e](https://github.com/ai4os/ai4-dashboard/commit/02e7a4e3b253a0ae6e971bdc9519b27c19a23d16))
+
+## [2.23.0](https://github.com/ai4os/ai4-dashboard/compare/v2.22.0...v2.23.0) (2024-09-23)
+
+
+### Features
+
+* add new module detail buttons ([#198](https://github.com/ai4os/ai4-dashboard/issues/198)) ([41c8730](https://github.com/ai4os/ai4-dashboard/commit/41c8730e61a0f64374f55dd5da84c2b5ba762dce))
+
+## [2.22.0](https://github.com/ai4os/ai4-dashboard/compare/v2.21.2...v2.22.0) (2024-09-23)
+
+
+### Features
+
+* rename translations (sync to link) ([#192](https://github.com/ai4os/ai4-dashboard/issues/192)) ([bb4aa11](https://github.com/ai4os/ai4-dashboard/commit/bb4aa118012520be2012296bae2d27bbc42a8faa))
+
+## [2.21.2](https://github.com/ai4os/ai4-dashboard/compare/v2.21.1...v2.21.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* remove unused oscar components ([#199](https://github.com/ai4os/ai4-dashboard/issues/199)) ([4b1b50e](https://github.com/ai4os/ai4-dashboard/commit/4b1b50ebfb483296bd1ee3e7a87345295cfdef6a))
+
+## [2.21.1](https://github.com/ai4os/ai4-dashboard/compare/v2.21.0...v2.21.1) (2024-09-19)
+
+
+### Bug Fixes
+
+* parse yaml body to json ([#194](https://github.com/ai4os/ai4-dashboard/issues/194)) ([6df6fd3](https://github.com/ai4os/ai4-dashboard/commit/6df6fd39e22369e23122f2ef4e88885739dfe028))
+
+## [2.21.0](https://github.com/ai4os/ai4-dashboard/compare/v2.20.0...v2.21.0) (2024-09-18)
+
+
+### Features
+
+* Feature 94 add support for oscar services ([#180](https://github.com/ai4os/ai4-dashboard/issues/180)) ([bfd546d](https://github.com/ai4os/ai4-dashboard/commit/bfd546d928db535795e579f50a5d2dcf6938d7e6))
+
 ## [2.20.0-pre](https://github.com/ai4os/ai4-dashboard/compare/v2.19.0-pre...v2.20.0-pre) (2024-09-05)
 
 

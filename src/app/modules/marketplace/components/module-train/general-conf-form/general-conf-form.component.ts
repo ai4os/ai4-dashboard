@@ -24,7 +24,6 @@ export interface showGeneralFormField {
     serviceToRunPassInput: boolean;
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
-    hostnameInput: boolean;
     infoButton: boolean;
     cvatUsername: boolean;
     cvatPassword: boolean;
@@ -85,7 +84,6 @@ export class GeneralConfFormComponent implements OnInit {
         serviceToRunPassInput: true,
         dockerImageInput: true,
         dockerTagSelect: true,
-        hostnameInput: true,
         infoButton: false,
         cvatUsername: false,
         cvatPassword: false,
@@ -150,14 +148,13 @@ export class GeneralConfFormComponent implements OnInit {
     generalConfFormGroup = this.fb.group({
         descriptionInput: [''],
         serviceToRunChip: ['deepaas'],
-        titleInput: ['', [Validators.required, Validators.maxLength(45)]],
+        titleInput: ['', [Validators.maxLength(45)]],
         serviceToRunPassInput: [
             { value: '', disabled: true },
             [Validators.required, Validators.minLength(9)],
         ],
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
-        hostnameInput: ['', [Validators.pattern('^[a-zA-Z0-9-]+$')]],
         federatedSecretInput: [{ value: '', disabled: true }],
         cvatUsernameInput: ['', [Validators.required]],
         cvatPasswordInput: ['', [Validators.required]],
@@ -205,7 +202,7 @@ export class GeneralConfFormComponent implements OnInit {
 
     openDocumentationWeb(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/user/howto/tools/federated-server.html';
+            'https://docs.ai4eosc.eu/en/latest/user/howto/train/federated-server.html';
         window.open(url);
     }
 }

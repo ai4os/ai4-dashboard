@@ -1,12 +1,5 @@
-import {
-    HttpEvent,
-    HttpInterceptor,
-    HttpHandler,
-    HttpRequest,
-    HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -14,6 +7,7 @@ import { Observable, throwError } from 'rxjs';
 
 import { retry, catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 interface EGICheckinError {
     error: string;
@@ -27,7 +21,7 @@ const isEGICheckinError = (value: EGICheckinError): value is EGICheckinError =>
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
         private readonly injector: Injector,
-        private _snackBar: MatSnackBar,
+        private snackbarService: SnackbarService,
         private router: Router,
         private authService: AuthService
     ) {}
@@ -36,15 +30,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         const translateService = this.injector.get(TranslateService);
         translateService.get(messageStringKey).subscribe((value: any) => {
             if (errorMessage) {
-                this._snackBar.open(value + '\n ' + errorMessage, '×', {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                });
+                this.snackbarService.openError(value + '\n ' + errorMessage);
             } else {
-                this._snackBar.open(value, '×', {
-                    duration: 3000,
-                    panelClass: ['red-snackbar'],
-                });
+                this.snackbarService.openError(value);
             }
         });
     }

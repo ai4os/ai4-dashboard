@@ -88,6 +88,7 @@ export class ProfileComponent implements OnInit {
 
     protected name = '';
     protected email = '';
+    protected isAuthorized = false;
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint = 'share.services.ai4os.eu';
     protected customEndpoint = '';
@@ -102,9 +103,18 @@ export class ProfileComponent implements OnInit {
         this.authService.userProfileSubject.subscribe((profile) => {
             this.name = profile.name;
             this.email = profile.email;
-            this.getVoInfo(profile.eduperson_entitlement);
+            this.isAuthorized = profile.isAuthorized;
+
+            if (profile.eduperson_entitlement) {
+                this.getVoInfo(profile.eduperson_entitlement);
+            }
+
+            if (this.isAuthorized) {
+                this.getExistingRcloneCredentials();
+            } else {
+                this.isLoading = false;
+            }
         });
-        this.getExistingRcloneCredentials();
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -129,10 +139,10 @@ export class ProfileComponent implements OnInit {
     }
 
     getExistingRcloneCredentials() {
-        this.serviceCredentials = [];
-        this.customServiceCredentials = [];
         this.profileService.getExistingCredentials().subscribe({
             next: (credentials) => {
+                this.serviceCredentials = [];
+                this.customServiceCredentials = [];
                 for (let i = 0; i < Object.values(credentials).length; i++) {
                     const credential: StorageCredential = {
                         vendor: Object.values(credentials)[i].vendor,
@@ -265,7 +275,7 @@ export class ProfileComponent implements OnInit {
     unsyncRclone(serviceName: string) {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to delete these credentials?`,
+                data: `Are you sure you want to revoke these credentials?`,
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

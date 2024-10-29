@@ -23,7 +23,7 @@
     "
 >
     <mat-tab-group
-        *ngIf="dataAvailable; else noData"
+        *ngIf="clusterDataAvailable; else noData"
         mat-stretch-tabs="false"
         class="main-tabs"
         [ngClass]="{
@@ -46,7 +46,10 @@
             </ng-template>
         </mat-tab>
 
-        <mat-tab label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}">
+        <mat-tab
+            *ngIf="userDataAvailable"
+            label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}"
+        >
             <app-graphs-tab
                 [userProfile]="userProfile"
                 [dates]="dates"
@@ -59,6 +62,19 @@
                 [runningData]="runningData"
                 [userGlobalStats]="userGlobalStats"
             ></app-graphs-tab>
+        </mat-tab>
+
+        <mat-tab *ngIf="!userDataAvailable" [disabled]="true">
+            <ng-template matTabLabel>
+                <span
+                    matTooltip="{{
+                        'DASHBOARD.GRAPHS-TAB-DISABLED' | translate
+                    }}"
+                    matTooltipPosition="above"
+                >
+                    {{ 'DASHBOARD.GRAPHS-TAB' | translate }}
+                </span>
+            </ng-template>
         </mat-tab>
 
         <mat-tab

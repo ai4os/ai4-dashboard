@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DeploymentDetailComponent } from './deployment-detail.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
@@ -13,6 +10,9 @@ import { of } from 'rxjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '@app/shared/material.module';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -27,9 +27,7 @@ const mockedDeployment: Deployment = {
 };
 
 const mockedConfigService: any = {};
-const mockedTranslateService: any = {
-    get: jest.fn(),
-};
+
 const mockedDeploymentServices: any = {
     getToolByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
     getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
@@ -57,14 +55,15 @@ describe('DeploymentDetailComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [DeploymentDetailComponent],
             imports: [
-                HttpClientTestingModule,
-                RouterTestingModule,
+                RouterModule.forRoot([]),
                 TranslateModule.forRoot(),
                 MaterialModule,
                 SharedModule,
                 BrowserModule,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 {

@@ -41,7 +41,6 @@ export class CvatComponent implements OnInit {
         serviceToRunPassInput: false,
         dockerImageInput: false,
         dockerTagSelect: false,
-        hostnameInput: true,
         infoButton: true,
         cvatUsername: true,
         cvatPassword: true,

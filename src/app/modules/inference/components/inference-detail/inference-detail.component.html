@@ -46,7 +46,7 @@
                                     | translate
                             }}
                         </h3>
-                        <p style="white-space: nowrap; overflow: hidden">
+                        <p>
                             {{ service?.name }}
                         </p>
                     </div>
@@ -100,9 +100,25 @@
                 </div>
 
                 <div>
-                    <h3>
-                        {{ 'INFERENCE.INFERENCE-DETAIL.ENDPOINT' | translate }}
-                    </h3>
+                    <span class="title-with-button">
+                        <h3>
+                            {{
+                                'INFERENCE.INFERENCE-DETAIL.ENDPOINT'
+                                    | translate
+                            }}
+                        </h3>
+                        <button
+                            mat-icon-button
+                            matTooltip="{{
+                                'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                            }}"
+                            [matTooltipPosition]="'above'"
+                            (click)="openDocumentationWeb()"
+                        >
+                            <mat-icon color="accent">help</mat-icon>
+                        </button>
+                    </span>
+
                     <div class="token-container">
                         <mat-form-field
                             class="full-width mr-3"
