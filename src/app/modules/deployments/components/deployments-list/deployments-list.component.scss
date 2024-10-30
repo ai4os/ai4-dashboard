@@ -10,9 +10,11 @@
 
 .mat-column-actions {
     max-width: 140px;
+    min-width: 130px;
+    justify-content: end;
 
     .mdc-button {
-        min-width: 40px;
+        min-width: 30px;
     }
 }
 
@@ -55,6 +57,9 @@
 .mat-mdc-table .mat-mdc-row:hover #infoIcon {
     color: var(--white);
 }
+.mat-mdc-table .mat-mdc-row:hover #snapshotIcon {
+    color: var(--white);
+}
 
 .table-container {
     overflow: auto;
@@ -67,6 +72,7 @@
 
 .content-cell {
     min-width: 130px;
+    padding: 0px;
 }
 
 .no-deployment-message-container {
@@ -76,7 +82,7 @@
 }
 
 .action-button-in-cell {
-    padding: 0px;
+    padding: 0px !important;
 }
 .action-button-in-cell:disabled #accessIcon {
     color: var(--dark-gray) !important;

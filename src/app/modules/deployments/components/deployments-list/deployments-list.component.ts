@@ -21,6 +21,10 @@ import {
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import {
+    SnapshotService,
+    StatusReturnSnapshot,
+} from '../../services/snapshots-service/snapshot.service';
 
 export interface TableColumn {
     columnDef: string;
@@ -50,6 +54,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private deploymentsService: DeploymentsService,
         private snackbarService: SnackbarService,
+        private snapshotService: SnapshotService,
         public confirmationDialog: MatDialog,
         private _liveAnnouncer: LiveAnnouncer,
         private changeDetectorRef: ChangeDetectorRef,
@@ -221,6 +226,31 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             minWidth: width,
             autoFocus: false,
             restoreFocus: false,
+        });
+    }
+
+    createSnapshot(row: deploymentTableRow) {
+        this.snapshotService.createSnapshot(row.uuid).subscribe({
+            next: (response: StatusReturnSnapshot) => {
+                if (response && response['status'] == 'success') {
+                    // TODO update snapshots table
+                    this.snackbarService.openSuccess(
+                        'Successfully created snapshot of deployment with uuid: ' +
+                            row.uuid
+                    );
+                } else {
+                    this.snackbarService.openError(
+                        'Error creating snapshot of deployment with uuid: ' +
+                            row.uuid
+                    );
+                }
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    'Error creating snapshot of deployment with uuid: ' +
+                        row.uuid
+                );
+            },
         });
     }
 

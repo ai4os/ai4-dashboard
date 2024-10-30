@@ -19,6 +19,7 @@ export const endpoints = {
     oscarServiceByName: '/inference/oscar/services/:serviceName',
     nomadTryMeDeployments: '/try_me/nomad',
     nomadTryMeDeployment: '/try_me/nomad/:deployment_uuid',
+    deploymentSnapshots: '/snapshots',
     //OSCAR endpoints
     services: '/services',
     serviceByName: '/services/:name',

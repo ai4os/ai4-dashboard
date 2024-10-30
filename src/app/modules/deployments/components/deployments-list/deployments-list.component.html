@@ -32,7 +32,7 @@
                     <mat-cell
                         *matCellDef="let row"
                         [ngClass]="{
-                            'content-cell': column.columnDef === 'actions'
+                            'content-cell': column.columnDef === 'actions',
                         }"
                     >
                         <div
@@ -70,6 +70,23 @@
                                     >
                                 </a>
                             </div>
+
+                            <button
+                                id="snapshot-button"
+                                mat-button
+                                matTooltip="Create snapshot"
+                                matBadgeOverlap="false"
+                                matBadgeSize="small"
+                                [matBadgeHidden]="!hasDeploymentErrors(row)"
+                                matBadge="priority_high"
+                                matBadgeColor="warn"
+                                class="action-button-in-cell"
+                                (click)="createSnapshot(row)"
+                            >
+                                <mat-icon color="accent" id="snapshotIcon"
+                                    >add_a_photo</mat-icon
+                                >
+                            </button>
 
                             <button
                                 mat-button
