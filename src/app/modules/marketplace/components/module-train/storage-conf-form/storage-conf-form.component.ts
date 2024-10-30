@@ -224,7 +224,9 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
                 .get('storageUrlInput')
                 ?.setValue(
-                    storageServiceCredentials.server + '/remote.php/webdav/'
+                    storageServiceCredentials.server +
+                        '/remote.php/dav/files/' +
+                        storageServiceCredentials.loginName
                 );
             this.storageConfFormGroup
                 .get('rcloneVendorSelect')
