@@ -125,6 +125,8 @@ export class StepperFormComponent implements OnInit {
                     this.step2Form.value.storageConfForm.rcloneUserInput,
                 rclone_password:
                     this.step2Form.value.storageConfForm.rclonePasswordInput,
+                cvat_backup:
+                    this.step2Form.value.storageConfForm.snapshotDatasetSelect,
             };
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else {
@@ -209,39 +211,38 @@ export class StepperFormComponent implements OnInit {
                 };
                 request = this.deploymentsService.postTrainModule(data);
             }
-
-            request.subscribe({
-                next: (result: statusReturn) => {
-                    this.isLoading = false;
-
-                    if (result && result.status == 'success') {
-                        this.router
-                            .navigate(['/deployments'])
-                            .then((navigated: boolean) => {
-                                if (navigated) {
-                                    this.snackbarService.openSuccess(
-                                        'Deployment created with ID ' +
-                                            result.job_ID
-                                    );
-                                }
-                            });
-                    } else {
-                        if (result && result.status == 'fail') {
-                            this.snackbarService.openError(
-                                'Error while creating the deployment ' +
-                                    result.error_msg
-                            );
-                        }
-                    }
-                },
-                error: () => {
-                    this.isLoading = false;
-                },
-                complete: () => {
-                    this.isLoading = false;
-                },
-            });
         }
+        request.subscribe({
+            next: (result: statusReturn) => {
+                this.isLoading = false;
+
+                if (result && result.status == 'success') {
+                    this.router
+                        .navigate(['/deployments'])
+                        .then((navigated: boolean) => {
+                            if (navigated) {
+                                this.snackbarService.openSuccess(
+                                    'Deployment created with ID ' +
+                                        result.job_ID
+                                );
+                            }
+                        });
+                } else {
+                    if (result && result.status == 'fail') {
+                        this.snackbarService.openError(
+                            'Error while creating the deployment ' +
+                                result.error_msg
+                        );
+                    }
+                }
+            },
+            error: () => {
+                this.isLoading = false;
+            },
+            complete: () => {
+                this.isLoading = false;
+            },
+        });
     }
 
     getStepperOrientation(): StepperOrientation {

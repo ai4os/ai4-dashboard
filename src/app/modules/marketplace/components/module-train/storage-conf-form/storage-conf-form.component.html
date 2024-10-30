@@ -6,7 +6,7 @@
         class="storage-container"
         [ngClass]="{
             'form-flex': mobileQuery.matches,
-            'grid-1-column': !mobileQuery.matches
+            'grid-1-column': !mobileQuery.matches,
         }"
     >
         <mat-form-field>
@@ -185,19 +185,59 @@
                 </mat-form-field>
             </div>
         </mat-expansion-panel>
+
+        @if (isCvatTool) {
+            <mat-form-field class="snapshots-container">
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT' | translate
+                }}</mat-label>
+                <mat-select formControlName="snapshotDatasetSelect">
+                    <mat-option>-</mat-option>
+                    <mat-option
+                        *ngFor="let snapshotOption of snapshotOptions"
+                        [value]="snapshotOption.value"
+                    >
+                        {{ snapshotOption.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-spinner
+                    *ngIf="snapshotsLoading"
+                    matSuffix
+                    [diameter]="18"
+                    class="input-spinner"
+                ></mat-spinner>
+                <mat-hint *ngIf="_showHelp">
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-HINT'
+                            | translate
+                    }}
+                </mat-hint>
+                <mat-hint *ngIf="!_showHelp && snapshotOptions.length === 0">
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-UNAVAILABLE'
+                            | translate
+                    }}
+                </mat-hint>
+            </mat-form-field>
+        }
     </div>
 
-    <div *ngIf="!isCvatTool" class="dataset-options-container">
-        <h4>
-            {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF' | translate }}
-        </h4>
+    @if (!isCvatTool) {
+        <div class="dataset-options-container">
+            <h4>
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
+                        | translate
+                }}
+            </h4>
 
-        <app-datasets-list
-            class="full-width"
-            [storageConfFormGroup]="storageConfFormGroup"
-            (datasetAdded)="addDataset($event)"
-            (datasetDeleted)="deleteDataset($event)"
-            (datasetPullChanged)="updateDataset($event)"
-        ></app-datasets-list>
-    </div>
+            <app-datasets-list
+                class="full-width"
+                [storageConfFormGroup]="storageConfFormGroup"
+                (datasetAdded)="addDataset($event)"
+                (datasetDeleted)="deleteDataset($event)"
+                (datasetPullChanged)="updateDataset($event)"
+            ></app-datasets-list>
+        </div>
+    }
 </form>

@@ -147,6 +147,7 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
+        cvat_backup?: string;
         datasets?: Dataset[];
     };
     configuration?: {
@@ -203,4 +204,13 @@ export interface GradioDeployment {
     main_endpoint: string;
     alloc_ID: string;
     datacenter: string;
+}
+
+export interface Snapshot {
+    Path: string;
+    Name: string;
+    Size: number;
+    MimeType: string;
+    ModTime: string;
+    IsDir: boolean;
 }

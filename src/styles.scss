@@ -73,11 +73,15 @@ body {
 }
 
 .mat-toolbar {
-    background-color: var(--white);
+    background-color: var(--white) !important;
 }
 
 .mat-mdc-card {
     border: 1px solid var(--border-gray) !important;
+}
+
+.mat-mdc-raised-button.mat-accent {
+    color: white !important;
 }
 
 .aligned-with-icon {
