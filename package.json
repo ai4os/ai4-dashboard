@@ -10,6 +10,7 @@
         "build-ai4eosc-ai4life": "ng build --configuration ai4life-ai4eosc",
         "build-imagine-dev": "ng build --configuration development-imagine",
         "build-imagine-prod": "ng build --configuration production-imagine",
+        "build-ai4eosc-nomad-job": "ng build --configuration nomad-job-ai4eosc",
         "generate-version-file": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts",
         "watch": "ng build --watch --configuration development",
         "test": "jest --verbose --coverage --maxWorkers=50%",
