@@ -266,7 +266,7 @@
                 "PROFILE-SECTION": "profile section",
                 "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",
                 "STORAGE-SERVICE-TRY-LINK": "link to one of our provided options",
-                "SNAPSHOT": "Snapshot",
+                "SNAPSHOT": "Restore from snapshot",
                 "SNAPSHOT-HINT": "You can select which snapshot to use. If you select none, a new one will be created.",
                 "SNAPSHOT-UNAVAILABLE": "No snapshots available.",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
