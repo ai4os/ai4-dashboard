@@ -15,6 +15,8 @@ import {
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { ProfileService } from '@app/modules/profile/services/profile.service';
 import { StorageCredential } from '@app/shared/interfaces/profile.interface';
+import { timeout, catchError, throwError } from 'rxjs';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -35,6 +37,7 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
 export class StorageConfFormComponent implements OnInit {
     constructor(
         private profileService: ProfileService,
+        private snackbarService: SnackbarService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
@@ -44,35 +47,6 @@ export class StorageConfFormComponent implements OnInit {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
-
-    parentForm!: FormGroup;
-
-    storageConfFormGroup = this.fb.group({
-        storageServiceDatasetSelect: new FormControl({
-            value: '',
-            disabled: true,
-        }),
-        rcloneConfInput: [''],
-        storageUrlInput: [''],
-        rcloneVendorSelect: [''],
-        rcloneUserInput: [''],
-        rclonePasswordInput: [''],
-        zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
-        zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
-        zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
-        doiUrlInput: [''],
-        datasetsList: [[{ doi: '', force_pull: false }]],
-    });
-
-    protected _defaultFormValues: ModuleStorageConfiguration = {
-        rclone_conf: mockedConfObject,
-        rclone_url: mockedConfObject,
-        rclone_vendor: mockedConfObject,
-        rclone_user: mockedConfObject,
-        rclone_password: mockedConfObject,
-        datasets: mockedConfObjectStringBoolean,
-    };
-
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
@@ -109,10 +83,35 @@ export class StorageConfFormComponent implements OnInit {
         }
     }
 
-    protected _showHelp = false;
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
+    parentForm!: FormGroup;
 
+    storageConfFormGroup = this.fb.group({
+        storageServiceDatasetSelect: new FormControl({
+            value: '',
+            disabled: true,
+        }),
+        rcloneConfInput: [''],
+        storageUrlInput: [''],
+        rcloneVendorSelect: [''],
+        rcloneUserInput: [''],
+        rclonePasswordInput: [''],
+        zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
+        zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
+        zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
+        doiUrlInput: [''],
+        datasetsList: [[{ doi: '', force_pull: false }]],
+    });
+
+    protected _defaultFormValues: ModuleStorageConfiguration = {
+        rclone_conf: mockedConfObject,
+        rclone_url: mockedConfObject,
+        rclone_vendor: mockedConfObject,
+        rclone_user: mockedConfObject,
+        rclone_password: mockedConfObject,
+        datasets: mockedConfObjectStringBoolean,
+    };
+
+    protected _showHelp = false;
     hidePassword = true;
     protected credentialsLoading = true;
 
@@ -121,6 +120,9 @@ export class StorageConfFormComponent implements OnInit {
         [];
     datasets: { doi: string; force_pull: boolean }[] = [];
     credentials: StorageCredential[] = [];
+
+    private _mobileQueryListener: () => void;
+    mobileQuery: MediaQueryList;
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -174,37 +176,50 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     getLinkedStorageServices() {
-        this.profileService.getExistingCredentials().subscribe({
-            next: (credentials) => {
-                this.credentials = Object.values(credentials);
-                if (this.credentials.length > 0) {
-                    this.credentials.forEach(
-                        (credential: StorageCredential) => {
-                            this.storageServiceOptions.push({
-                                value: credential.server,
-                                viewValue: credential.server.replace(
-                                    'https://',
-                                    ''
-                                ),
-                            });
-                        }
+        this.profileService
+            .getExistingCredentials()
+            .pipe(
+                timeout(20000),
+                catchError(() => {
+                    this.credentialsLoading = false;
+                    return throwError(() =>
+                        this.snackbarService.openError(
+                            'No storage providers available. Please try again later.'
+                        )
                     );
-                    this.storageConfFormGroup
-                        .get('storageServiceDatasetSelect')
-                        ?.setValue(this.storageServiceOptions[0].value);
-                    this.storageConfFormGroup
-                        .get('storageServiceDatasetSelect')
-                        ?.enable();
+                })
+            )
+            .subscribe({
+                next: (credentials) => {
+                    this.credentials = Object.values(credentials);
+                    if (this.credentials.length > 0) {
+                        this.credentials.forEach(
+                            (credential: StorageCredential) => {
+                                this.storageServiceOptions.push({
+                                    value: credential.server,
+                                    viewValue: credential.server.replace(
+                                        'https://',
+                                        ''
+                                    ),
+                                });
+                            }
+                        );
+                        this.storageConfFormGroup
+                            .get('storageServiceDatasetSelect')
+                            ?.setValue(this.storageServiceOptions[0].value);
+                        this.storageConfFormGroup
+                            .get('storageServiceDatasetSelect')
+                            ?.enable();
+                        this.credentialsLoading = false;
+                        this.updateStorageConfiguration();
+                    } else {
+                        this.credentialsLoading = false;
+                    }
+                },
+                error: () => {
                     this.credentialsLoading = false;
-                    this.updateStorageConfiguration();
-                } else {
-                    this.credentialsLoading = false;
-                }
-            },
-            error: () => {
-                this.credentialsLoading = false;
-            },
-        });
+                },
+            });
     }
 
     updateStorageConfiguration() {
