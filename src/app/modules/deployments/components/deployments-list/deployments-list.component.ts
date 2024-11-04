@@ -1,22 +1,14 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import {
-    ChangeDetectorRef,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
-import { MatSort, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { getDeploymentBadge } from '../../utils/deployment-badge';
 import {
     Deployment,
+    DeploymentTableRow,
+    Snapshot,
     statusReturn,
+    TableColumn,
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -25,24 +17,6 @@ import {
     SnapshotService,
     StatusReturnSnapshot,
 } from '../../services/snapshots-service/snapshot.service';
-
-export interface TableColumn {
-    columnDef: string;
-    header: string;
-    hidden?: boolean;
-}
-
-interface deploymentTableRow {
-    uuid: string;
-    name: string;
-    status: string;
-    containerName: string;
-    gpus: string | number;
-    creationTime: string;
-    endpoints?: { [index: string]: string } | undefined;
-    mainEndpoint: string;
-    error_msg?: string;
-}
 
 @Component({
     selector: 'app-deployments-list',
@@ -56,19 +30,13 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         private snackbarService: SnackbarService,
         private snapshotService: SnapshotService,
         public confirmationDialog: MatDialog,
-        private _liveAnnouncer: LiveAnnouncer,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
+        private media: MediaMatcher,
+        private changeDetectorRef: ChangeDetectorRef
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
-
-    @ViewChild(MatSort) set matSort(sort: MatSort) {
-        this.dataSource.sort = sort;
-    }
-    isLoading = false;
 
     columns: Array<TableColumn> = [
         { columnDef: 'uuid', header: '', hidden: true },
@@ -80,92 +48,55 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         { columnDef: 'endpoints', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
-    dataset: Array<deploymentTableRow> = [];
 
-    dataSource!: MatTableDataSource<deploymentTableRow>;
-    selection = new SelectionModel<deploymentTableRow>(true, []);
-    displayedColumns: string[] = [];
-    private unsub = new Subject<void>();
+    isModulesTableLoading = false;
+    isToolsTableLoading = false;
+    isSnapshotsTableLoading = false;
+
+    modulesDataset: Array<DeploymentTableRow> = [];
+    toolsDataset: Array<DeploymentTableRow> = [];
+    snapshotsDataset: Array<DeploymentTableRow> = [];
+
+    modulesDataSource!: MatTableDataSource<DeploymentTableRow>;
+    toolsDataSource!: MatTableDataSource<DeploymentTableRow>;
+    snapshotsDataSource!: MatTableDataSource<DeploymentTableRow>;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
+    private unsub = new Subject<void>();
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
+    ngOnInit(): void {
+        this.modulesDataset = [];
+        this.modulesDataSource = new MatTableDataSource<DeploymentTableRow>(
+            this.modulesDataset
+        );
+        this.toolsDataset = [];
+        this.toolsDataSource = new MatTableDataSource<DeploymentTableRow>(
+            this.toolsDataset
+        );
+        this.snapshotsDataset = [];
+        this.snapshotsDataSource = new MatTableDataSource<DeploymentTableRow>(
+            this.snapshotsDataset
+        );
+
+        this.getModulesList();
+        this.getToolsList();
+        this.getSnapshotsList();
     }
 
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-        if (this.isAllSelected()) {
-            this.selection.clear();
-        } else {
-            this.dataSource.data.forEach((row) => this.selection.select(row));
-        }
-    }
-
-    removeDeployment(e: MouseEvent, row: deploymentTableRow) {
-        e.stopPropagation();
-        this.confirmationDialog
-            .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to delete this deployment?`,
-            })
-            .afterClosed()
-            .subscribe((confirmed: boolean) => {
-                if (confirmed) {
-                    const uuid = row.uuid;
-                    this.deploymentsService
-                        .deleteDeploymentByUUID(uuid)
-                        .subscribe({
-                            next: (response: statusReturn) => {
-                                if (
-                                    response &&
-                                    response['status'] == 'success'
-                                ) {
-                                    const itemIndex = this.dataset.findIndex(
-                                        (obj) => obj['uuid'] === uuid
-                                    );
-                                    this.dataset.splice(itemIndex, 1);
-                                    this.dataSource =
-                                        new MatTableDataSource<deploymentTableRow>(
-                                            this.dataset
-                                        );
-                                    this.snackbarService.openSuccess(
-                                        'Successfully deleted deployment with uuid: ' +
-                                            uuid
-                                    );
-                                } else {
-                                    this.snackbarService.openError(
-                                        'Error deleting deployment with uuid: ' +
-                                            uuid
-                                    );
-                                }
-                            },
-                            error: () => {
-                                this.snackbarService.openError(
-                                    'Error deleting deployment with uuid: ' +
-                                        uuid
-                                );
-                            },
-                        });
-                }
-            });
-    }
-
-    getDeploymentsList() {
-        this.isLoading = true;
+    /**     MODULES METHODS     **/
+    getModulesList() {
+        this.isModulesTableLoading = true;
         timer(0, 5000)
             .pipe(
                 takeUntil(this.unsub),
                 switchMap(() => this.deploymentsService.getDeployments())
             )
             .subscribe((deploymentsList: Deployment[]) => {
-                this.dataset = [];
-                this.isLoading = false;
+                this.modulesDataset = [];
+                this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
-                    const row: deploymentTableRow = {
+                    const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,
                         name: deployment.title,
                         status: deployment.status,
@@ -184,52 +115,148 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     ) {
                         row.gpus = deployment.resources.gpu_num;
                     }
-                    this.dataset.push(row);
+                    this.modulesDataset.push(row);
                 });
-                this.dataSource = new MatTableDataSource<deploymentTableRow>(
-                    this.dataset
-                );
+                this.modulesDataSource =
+                    new MatTableDataSource<DeploymentTableRow>(
+                        this.modulesDataset
+                    );
             });
     }
 
-    isDeploymentRunning(row: deploymentTableRow) {
-        return row.status === 'running';
-    }
-
-    getDeploymentEndpoints(row: deploymentTableRow) {
-        return row.endpoints;
-    }
-
-    getMainEndpoint(row: deploymentTableRow) {
-        const mainEndpoint = row.mainEndpoint;
-        if (row.endpoints && row.endpoints[mainEndpoint]) {
-            return row.endpoints[mainEndpoint];
-        } else {
-            return '';
-        }
-    }
-
-    hasDeploymentErrors(row: deploymentTableRow) {
-        return row.error_msg;
-    }
-
-    returnDeploymentBadge(status: string) {
-        return getDeploymentBadge(status);
-    }
-
-    openDeploymentDetailDialog(row: deploymentTableRow): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: row.uuid, isTool: false },
-            width: width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
+    removeModule(uuid: string) {
+        this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
+            next: (response: statusReturn) => {
+                if (response && response['status'] == 'success') {
+                    const itemIndex = this.modulesDataset.findIndex(
+                        (obj) => obj['uuid'] === uuid
+                    );
+                    this.modulesDataset.splice(itemIndex, 1);
+                    this.modulesDataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.modulesDataset
+                        );
+                    this.snackbarService.openSuccess(
+                        'Successfully deleted deployment with uuid: ' + uuid
+                    );
+                } else {
+                    this.snackbarService.openError(
+                        'Error deleting deployment with uuid: ' + uuid
+                    );
+                }
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    'Error deleting deployment with uuid: ' + uuid
+                );
+            },
         });
     }
 
-    createSnapshot(row: deploymentTableRow) {
+    /**     TOOLS METHODS     **/
+    getToolsList() {
+        this.isToolsTableLoading = true;
+
+        timer(0, 5000)
+            .pipe(
+                takeUntil(this.unsub),
+                switchMap(() => this.deploymentsService.getTools())
+            )
+            .subscribe((tools) => {
+                this.toolsDataset = [];
+                this.isToolsTableLoading = false;
+                tools.forEach((tool: Deployment) => {
+                    const row: DeploymentTableRow = {
+                        uuid: tool.job_ID,
+                        name: tool.title,
+                        status: tool.status,
+                        containerName: tool.docker_image,
+                        gpus: '-',
+                        creationTime: tool.submit_time,
+                        endpoints: tool.endpoints,
+                        mainEndpoint: tool.main_endpoint,
+                    };
+                    if (tool.error_msg) {
+                        row.error_msg = tool.error_msg;
+                    }
+                    if (
+                        tool.resources &&
+                        Object.keys(tool.resources).length !== 0
+                    ) {
+                        row.gpus = tool.resources.gpu_num;
+                    }
+                    this.toolsDataset.push(row);
+                });
+                this.toolsDataSource =
+                    new MatTableDataSource<DeploymentTableRow>(
+                        this.toolsDataset
+                    );
+            });
+    }
+
+    removeTool(uuid: string) {
+        this.deploymentsService.deleteToolByUUID(uuid).subscribe({
+            next: (response: statusReturn) => {
+                if (response && response['status'] == 'success') {
+                    const itemIndex = this.toolsDataset.findIndex(
+                        (obj) => obj['uuid'] === uuid
+                    );
+                    this.toolsDataset.splice(itemIndex, 1);
+                    this.toolsDataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.toolsDataset
+                        );
+                    this.snackbarService.openSuccess(
+                        'Successfully deleted tool with uuid: ' + uuid
+                    );
+                } else {
+                    this.snackbarService.openError(
+                        'Error deleting tool with uuid: ' + uuid
+                    );
+                }
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    'Error deleting tool with uuid: ' + uuid
+                );
+            },
+        });
+    }
+
+    /**     SNAPSHOTS METHODS     **/
+    getSnapshotsList() {
+        this.isSnapshotsTableLoading = true;
+
+        timer(0, 5000)
+            .pipe(
+                takeUntil(this.unsub),
+                switchMap(() => this.snapshotService.getSnapshots())
+            )
+            .subscribe((snapshots) => {
+                this.snapshotsDataset = [];
+                this.isSnapshotsTableLoading = false;
+                snapshots.forEach((snapshot: Snapshot) => {
+                    const row: DeploymentTableRow = {
+                        uuid: 'test',
+                        name: 'test',
+                        status: 'test',
+                        containerName: 'test',
+                        gpus: '-',
+                        creationTime: 'test',
+                        endpoints: {},
+                        mainEndpoint: 'test',
+                    };
+
+                    this.snapshotsDataset.push(row);
+                });
+                this.snapshotsDataSource =
+                    new MatTableDataSource<DeploymentTableRow>(
+                        this.snapshotsDataset
+                    );
+            });
+    }
+
+    createSnapshot(row: DeploymentTableRow) {
         this.snapshotService.createSnapshot(row.uuid).subscribe({
             next: (response: StatusReturnSnapshot) => {
                 if (response && response['status'] == 'success') {
@@ -254,40 +281,17 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         });
     }
 
-    /** Announce the change in sort state for assistive technology. */
-    announceSortChange(sortState: Sort) {
-        // This example uses English messages. If your application supports
-        // multiple language, you would internationalize these strings.
-        // Furthermore, you can customize the message to add additional
-        // details about the values being sorted.
-        if (sortState.direction) {
-            this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-        } else {
-            this._liveAnnouncer.announce('Sorting cleared');
-        }
-    }
-
-    isSticky(columnDef: string): boolean {
-        return columnDef === 'name' ? true : false;
-    }
-
-    ngOnInit(): void {
-        this.dataset = [];
-        this.getDeploymentsList();
-        // set checkbox column
-        //this.displayedColumns.push("select");
-
-        // set table columns
-        this.displayedColumns = this.displayedColumns.concat(
-            this.columns.filter((x) => !x.hidden).map((x) => x.columnDef)
-        ); // pre-fix static
-        // add action column
-        this.dataSource = new MatTableDataSource<deploymentTableRow>(
-            this.dataset
-        );
-
-        // set pagination
-        //this.dataSource.paginator = this.paginator;
+    /**     SHARED METHODS     **/
+    openDeploymentDetailDialog(uuid: string, isTool: boolean): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+        this.dialog.open(DeploymentDetailComponent, {
+            data: { uuid: uuid, isTool: isTool },
+            width: width,
+            maxWidth: width,
+            minWidth: width,
+            autoFocus: false,
+            restoreFocus: false,
+        });
     }
 
     ngOnDestroy(): void {

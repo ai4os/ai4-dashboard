@@ -11,6 +11,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
 import { CopyToClipboardDirective } from './directives/copy-to-clipboard-directive';
 import { PopupComponent } from './components/popup/popup/popup.component';
 import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-icon.component';
+import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
 
 @NgModule({
     declarations: [
@@ -18,6 +19,7 @@ import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-ico
         CopyToClipboardDirective,
         PopupComponent,
         ChipWithIconComponent,
+        DeploymentsTableComponent,
     ],
     imports: [CommonModule, MaterialModule, FormsModule, TranslateModule],
     exports: [
@@ -28,6 +30,7 @@ import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-ico
         BreadcrumbModule,
         CopyToClipboardDirective,
         ChipWithIconComponent,
+        DeploymentsTableComponent,
     ],
 })
 export class SharedModule {}
