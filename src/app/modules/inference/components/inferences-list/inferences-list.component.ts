@@ -97,7 +97,7 @@ export class InferencesListComponent implements OnInit {
                         );
                     this.isLoading = false;
                     this.snackbarService.openSuccess(
-                        'Successfully deleted service with name: ' + name
+                        'Successfully deleted service with uuid: ' + uuid
                     );
                 } else {
                     this.dataSource =
@@ -106,7 +106,7 @@ export class InferencesListComponent implements OnInit {
                         );
                     this.isLoading = false;
                     this.snackbarService.openError(
-                        'Error deleting service with name: ' + uuid
+                        'Error deleting service with uuid: ' + uuid
                     );
                 }
             },
@@ -116,7 +116,7 @@ export class InferencesListComponent implements OnInit {
                 );
                 this.isLoading = false;
                 this.snackbarService.openError(
-                    'Error deleting service with name: ' + uuid
+                    'Error deleting service with uuid: ' + uuid
                 );
             },
         });
