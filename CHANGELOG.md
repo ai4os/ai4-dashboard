@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.28.1](https://github.com/ai4os/ai4-dashboard/compare/v2.28.0...v2.28.1) (2024-11-04)
+
+
+### Bug Fixes
+
+* update storage configuration url ([#254](https://github.com/ai4os/ai4-dashboard/issues/254)) ([6dc2496](https://github.com/ai4os/ai4-dashboard/commit/6dc24964c77feffcad1e4b9af0a95c0ea3f505be))
+
 ## [2.28.0](https://github.com/ai4os/ai4-dashboard/compare/v2.27.0...v2.28.0) (2024-10-29)
 
 
