@@ -9,7 +9,7 @@ const { base, endpoints } = environment.api;
 
 export interface StatusReturnSnapshot {
     status: string;
-    snapshot_ID: string;
+    snapshot_ID?: string;
 }
 
 @Injectable({
@@ -40,5 +40,15 @@ export class SnapshotService {
         return this.http.get<Array<Snapshot>>(url, {
             params: this.voParam,
         });
+    }
+
+    deleteSnapshotByUUID(
+        snapshotUUID: string
+    ): Observable<StatusReturnSnapshot> {
+        const url = `${base}${endpoints.deploymentSnapshots}`;
+        const params = new HttpParams()
+            .set('vo', this.appConfigService.voName)
+            .set('snapshot_uuid', snapshotUUID);
+        return this.http.delete<StatusReturnSnapshot>(url, { params: params });
     }
 }

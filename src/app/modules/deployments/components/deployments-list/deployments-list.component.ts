@@ -237,14 +237,11 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 this.isSnapshotsTableLoading = false;
                 snapshots.forEach((snapshot: Snapshot) => {
                     const row: DeploymentTableRow = {
-                        uuid: 'test',
-                        name: 'test',
-                        status: 'test',
-                        containerName: 'test',
-                        gpus: '-',
-                        creationTime: 'test',
-                        endpoints: {},
-                        mainEndpoint: 'test',
+                        uuid: snapshot.snapshot_ID,
+                        name: snapshot.title,
+                        status: snapshot.status,
+                        containerName: snapshot.docker_image,
+                        creationTime: snapshot.submit_time,
                     };
 
                     this.snapshotsDataset.push(row);
@@ -276,6 +273,35 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 this.snackbarService.openError(
                     'Error creating snapshot of deployment with uuid: ' +
                         row.uuid
+                );
+            },
+        });
+    }
+
+    removeSnapshot(uuid: string) {
+        this.snapshotService.deleteSnapshotByUUID(uuid).subscribe({
+            next: (response: StatusReturnSnapshot) => {
+                if (response && response['status'] == 'success') {
+                    const itemIndex = this.snapshotsDataset.findIndex(
+                        (obj) => obj['uuid'] === uuid
+                    );
+                    this.snapshotsDataset.splice(itemIndex, 1);
+                    this.snapshotsDataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.snapshotsDataset
+                        );
+                    this.snackbarService.openSuccess(
+                        'Successfully deleted snapshot with uuid: ' + uuid
+                    );
+                } else {
+                    this.snackbarService.openError(
+                        'Error deleting snapshot with uuid: ' + uuid
+                    );
+                }
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    'Error deleting snapshot with uuid: ' + uuid
                 );
             },
         });

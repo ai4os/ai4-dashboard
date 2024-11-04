@@ -35,5 +35,6 @@
         deploymentType="snapshot"
         [dataset]="snapshotsDataset"
         [dataSource]="snapshotsDataSource"
+        (deleteElement)="removeSnapshot($event)"
     ></app-deployments-table>
 </div>

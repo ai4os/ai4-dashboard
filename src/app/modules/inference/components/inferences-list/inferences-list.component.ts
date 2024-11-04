@@ -10,6 +10,7 @@ import {
     TableColumn,
     DeploymentTableRow,
 } from '@app/shared/interfaces/deployment.interface';
+import { timer, takeUntil, switchMap, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-inferences-list',
@@ -43,6 +44,7 @@ export class InferencesListComponent implements OnInit {
     isLoading = false;
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
+    private unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.dataset = [];
@@ -54,33 +56,39 @@ export class InferencesListComponent implements OnInit {
 
     getServicesList() {
         this.isLoading = true;
-        this.oscarInferenceService.getServices().subscribe({
-            next: (servicesList: OscarService[]) => {
-                this.dataset = [];
-                servicesList.forEach((service: OscarService) => {
-                    service.title = service.environment.Variables.PAPI_TITLE;
-                    service.submit_time =
-                        service.environment.Variables.PAPI_CREATED;
-                    const row: DeploymentTableRow = {
-                        uuid: service.name,
-                        name: service.title,
-                        containerName: service.image,
-                        creationTime: service.submit_time,
-                    };
-                    this.dataset.push(row);
-                });
-                this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-                    this.dataset
-                );
-                this.isLoading = false;
-            },
-            error: () => {
-                this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-                    []
-                );
-                this.isLoading = false;
-            },
-        });
+        timer(0, 5000)
+            .pipe(
+                takeUntil(this.unsub),
+                switchMap(() => this.oscarInferenceService.getServices())
+            )
+            .subscribe({
+                next: (servicesList: OscarService[]) => {
+                    this.dataset = [];
+                    servicesList.forEach((service: OscarService) => {
+                        service.title =
+                            service.environment.Variables.PAPI_TITLE;
+                        service.submit_time =
+                            service.environment.Variables.PAPI_CREATED;
+                        const row: DeploymentTableRow = {
+                            uuid: service.name,
+                            name: service.title,
+                            containerName: service.image,
+                            creationTime: service.submit_time,
+                        };
+                        this.dataset.push(row);
+                    });
+                    this.dataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.dataset
+                        );
+                    this.isLoading = false;
+                },
+                error: () => {
+                    this.dataSource =
+                        new MatTableDataSource<DeploymentTableRow>([]);
+                    this.isLoading = false;
+                },
+            });
     }
 
     removeService(uuid: string) {
