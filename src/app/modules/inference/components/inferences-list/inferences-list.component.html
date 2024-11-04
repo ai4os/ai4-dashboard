@@ -5,89 +5,15 @@
     </span>
 </mat-toolbar>
 
-<mat-card class="mt-3">
-    <span class="aligned-with-icon scale-icon-down ml-3 mt-3 mb-3"
-        >{{ 'INFERENCE.OSCAR' | translate }}
-        <img
-            src="../../../../../assets/images/oscar-logo.png"
-            width="16"
-            height="16"
-        />
-    </span>
-    <mat-card-content>
-        <div class="table-container">
-            <table
-                mat-table
-                [dataSource]="dataSource"
-                class="mat-elevation-z8"
-                matSort
-                (matSortChange)="announceSortChange($event)"
-            >
-                <ng-container
-                    *ngFor="let column of columns"
-                    [matColumnDef]="column.columnDef"
-                    [sticky]="isSticky(column.columnDef)"
-                >
-                    <mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Sort by {column.header}"
-                        >{{ column.header | translate }}</mat-header-cell
-                    >
-                    <mat-cell
-                        *matCellDef="let row"
-                        [ngClass]="{
-                            'content-cell': column.columnDef === 'actions'
-                        }"
-                    >
-                        <div
-                            *ngIf="column.columnDef === 'actions'"
-                            class="actions-container"
-                        >
-                            <button
-                                mat-button
-                                matTooltip="Info"
-                                class="action-button-in-cell"
-                                (click)="openServiceDetailDialog(row)"
-                            >
-                                <mat-icon id="infoIcon" color="accent"
-                                    >info</mat-icon
-                                >
-                            </button>
-
-                            <button
-                                mat-button
-                                matTooltip="Delete"
-                                class="action-button-in-cell"
-                                (click)="removeService($event, row)"
-                            >
-                                <mat-icon color="warn">delete</mat-icon>
-                            </button>
-                        </div>
-                        <ng-container *ngIf="column.columnDef !== 'status'">
-                            {{ row[column.columnDef] }}
-                        </ng-container>
-                    </mat-cell>
-                </ng-container>
-
-                <mat-header-row
-                    *matHeaderRowDef="displayedColumns"
-                ></mat-header-row>
-                <mat-row
-                    *matRowDef="let row; columns: displayedColumns"
-                ></mat-row>
-
-                <!--No data in table message-->
-                <ng-container *ngIf="!isLoading">
-                    <div *matNoDataRow class="no-services-message-container">
-                        {{ 'INFERENCE.NO-INFERENCES' | translate }}
-                    </div>
-                </ng-container>
-            </table>
-        </div>
-
-        <div *ngIf="isLoading" class="smaller-spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div> </mat-card-content
-></mat-card>
+<app-deployments-table
+    cardName="{{ 'INFERENCE.OSCAR' | translate }}"
+    cardImage="oscar-logo.png"
+    deploymentType="inferece"
+    [showCardActions]="false"
+    [isLoading]="isLoading"
+    [dataset]="dataset"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    (showElementInfo)="openServiceDetailDialog($event)"
+    (deleteElement)="removeService($event)"
+></app-deployments-table>
