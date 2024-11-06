@@ -108,22 +108,21 @@
                             }
 
                             @if (deploymentType === 'module') {
-                                <button
-                                    id="snapshot-button"
-                                    mat-button
-                                    matTooltip="Create snapshot"
-                                    matBadgeOverlap="false"
-                                    matBadgeSize="small"
-                                    [matBadgeHidden]="!hasDeploymentErrors(row)"
-                                    matBadge="priority_high"
-                                    matBadgeColor="warn"
-                                    class="action-button-in-cell"
-                                    (click)="createSnapshot($event, row)"
-                                >
-                                    <mat-icon color="accent" id="snapshotIcon"
-                                        >add_a_photo</mat-icon
+                                <div matTooltip="Create snapshot">
+                                    <a
+                                        id="snapshot-button"
+                                        mat-button
+                                        class="action-button-in-cell"
+                                        [disabled]="!isDeploymentRunning(row)"
+                                        (click)="createSnapshot($event, row)"
                                     >
-                                </button>
+                                        <mat-icon
+                                            color="accent"
+                                            id="snapshotIcon"
+                                            >add_a_photo</mat-icon
+                                        >
+                                    </a>
+                                </div>
                             }
 
                             @if (deploymentType === 'snapshot') {

@@ -276,31 +276,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             });
     }
 
-    createSnapshot(row: DeploymentTableRow) {
-        this.snapshotService.createSnapshot(row.uuid).subscribe({
-            next: (response: StatusReturnSnapshot) => {
-                if (response && response['status'] == 'success') {
-                    // TODO update snapshots table
-                    this.snackbarService.openSuccess(
-                        'Successfully created snapshot of deployment with uuid: ' +
-                            row.uuid
-                    );
-                } else {
-                    this.snackbarService.openError(
-                        'Error creating snapshot of deployment with uuid: ' +
-                            row.uuid
-                    );
-                }
-            },
-            error: () => {
-                this.snackbarService.openError(
-                    'Error creating snapshot of deployment with uuid: ' +
-                        row.uuid
-                );
-            },
-        });
-    }
-
     removeSnapshot(uuid: string) {
         this.snapshotService.deleteSnapshotByUUID(uuid).subscribe({
             next: (response: StatusReturnSnapshot) => {

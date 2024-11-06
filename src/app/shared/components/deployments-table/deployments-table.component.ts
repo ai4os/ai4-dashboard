@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
     DeploymentTableRow,
+    Snapshot,
     TableColumn,
 } from '@app/shared/interfaces/deployment.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -26,7 +27,8 @@ import {
     StatusReturnSnapshot,
 } from '@app/modules/deployments/services/snapshots-service/snapshot.service';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 
 @Component({
     selector: 'app-deployments-table',
@@ -88,14 +90,31 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     }
 
     openDeploymentDetailDialog(row: DeploymentTableRow): void {
-        this.showElementInfo.emit(row.uuid);
+        if (this.deploymentType === 'snapshot') {
+            const snapshot: Snapshot = {
+                snapshot_ID: row.snapshotID!,
+                title: row.name,
+                status: row.status!,
+                submit_time: row.creationTime,
+                docker_image: '',
+                size: +row.size!,
+                nomad_ID: '',
+                description: row.description,
+            };
+            this.openSnapshotDetailDialog(snapshot);
+        } else {
+            this.showElementInfo.emit(row.uuid);
+        }
     }
 
     removeDeployment(e: MouseEvent, row: DeploymentTableRow) {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to delete this deployment?`,
+                data:
+                    'Are you sure you want to delete this ' +
+                    this.deploymentType +
+                    '?',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
@@ -109,6 +128,18 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(SecretManagementDetailComponent, {
             data: { uuid: row.uuid, name: row.name },
+            width: width,
+            maxWidth: width,
+            minWidth: width,
+            autoFocus: false,
+            restoreFocus: false,
+        });
+    }
+
+    openSnapshotDetailDialog(snapshot: Snapshot): void {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+        this.dialog.open(SnapshotDetailComponent, {
+            data: { snapshot: snapshot },
             width: width,
             maxWidth: width,
             minWidth: width,

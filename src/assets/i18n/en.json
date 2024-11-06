@@ -92,12 +92,15 @@
         "DEPLOYMENT-DETAIL": {
             "TITLE": "Deployment detail",
             "TOOL-TITLE": "Tool deployment detail",
+            "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
             "DOCKER-IMAGE": "Docker image",
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
             "DEPLOYMENT-ID": "Deployment ID",
+            "SNAPSHOT-ID": "Snapshot ID",
             "DATACENTER": "Datacenter",
+            "SIZE": "Size",
             "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
             "RESOURCES": {
@@ -266,7 +269,7 @@
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
-                "SNAPSHOT-ID": "Deployed from snapshot ID ",
+                "SNAPSHOT-ID": "Deployed from snapshot with ID ",
                 "FEDERATED-SECRET": "Federated secret",
                 "ADD-FEDERATED-SECRET": "Create federated secret"
             },
