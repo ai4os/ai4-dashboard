@@ -96,6 +96,12 @@ export class GeneralConfFormComponent implements OnInit {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
             this.generalConfFormGroup
+                .get('titleInput')
+                ?.setValue(defaultFormValues.title.value as string);
+            this.generalConfFormGroup
+                .get('descriptionInput')
+                ?.setValue(defaultFormValues.desc?.value as string);
+            this.generalConfFormGroup
                 .get('dockerImageInput')
                 ?.setValue(defaultFormValues.docker_image.value as string);
             this.generalConfFormGroup

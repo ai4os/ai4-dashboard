@@ -8,6 +8,40 @@
     }
 }
 
+.table-container {
+    overflow: auto;
+}
+
+.content-cell {
+    min-width: 130px !important;
+    padding: 0px;
+    justify-content: center !important;
+}
+
+.actions-container {
+    display: flex;
+    padding: 0px 5px;
+    mat-icon {
+        margin: 0;
+    }
+}
+
+.action-button-in-cell {
+    padding: 0px !important;
+}
+.action-button-in-cell:disabled #accessIcon {
+    color: var(--dark-gray) !important;
+}
+.action-button-in-cell:hover #accessIcon {
+    color: var(--dark-gray);
+}
+
+.no-deployment-message-container {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
 .smaller-spinner {
     max-height: 150px !important;
 }
@@ -32,30 +66,38 @@
     }
 }
 
-.mat-column-gpus {
-    max-width: 100px;
-}
-
-.mat-column-status {
-    justify-content: center;
-    max-width: 150px;
-}
-
 .mat-column-name {
     max-width: 300px;
 }
 
-.mat-column-deployedAt {
-    max-width: 125px;
-}
-
-.mat-column-creationTime {
-    max-width: 200px;
+.mat-column-status {
+    max-width: 150px;
+    justify-content: center;
 }
 
 .mat-column-containerName {
     white-space: nowrap;
     min-width: 260px;
+}
+
+.mat-column-tagName {
+    white-space: nowrap;
+    min-width: 260px;
+}
+
+.mat-column-gpus {
+    max-width: 120px;
+    justify-content: center;
+}
+
+.mat-column-size {
+    max-width: 120px;
+    justify-content: center;
+}
+
+.mat-column-creationTime {
+    max-width: 200px;
+    justify-content: center;
 }
 
 .mat-mdc-table .mat-mdc-row:hover {
@@ -79,40 +121,6 @@
 }
 .mat-mdc-table .mat-mdc-row:hover #redeployIcon {
     color: var(--white);
-}
-
-.table-container {
-    overflow: auto;
-}
-
-.actions-container {
-    display: flex;
-    padding: 0px 5px;
-    mat-icon {
-        margin: 0;
-    }
-}
-
-.content-cell {
-    min-width: 130px;
-    padding: 0px;
-    justify-content: center;
-}
-
-.no-deployment-message-container {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0;
-}
-
-.action-button-in-cell {
-    padding: 0px !important;
-}
-.action-button-in-cell:disabled #accessIcon {
-    color: var(--dark-gray) !important;
-}
-.action-button-in-cell:hover #accessIcon {
-    color: var(--dark-gray);
 }
 
 ::ng-deep .action-button-in-cell .mat-badge-content {

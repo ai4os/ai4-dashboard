@@ -17,6 +17,7 @@ import {
     SnapshotService,
     StatusReturnSnapshot,
 } from '../../services/snapshots-service/snapshot.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-deployments-list',
@@ -29,6 +30,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         private deploymentsService: DeploymentsService,
         private snackbarService: SnackbarService,
         private snapshotService: SnapshotService,
+        public translateService: TranslateService,
         public confirmationDialog: MatDialog,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef
@@ -38,14 +40,23 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: Array<TableColumn> = [
+    snapshotColumns: Array<TableColumn> = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
-        { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
-        { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
+        {
+            columnDef: 'containerName',
+            header: 'DEPLOYMENTS.CONTAINER-NAME',
+            hidden: true,
+        },
+        {
+            columnDef: 'tagName',
+            header: 'DEPLOYMENTS.TAG-NAME',
+        },
+        { columnDef: 'size', header: 'DEPLOYMENTS.SIZE' },
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
         { columnDef: 'endpoints', header: '', hidden: true },
+        { columnDef: 'snapshotID', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
 
@@ -96,11 +107,18 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 this.modulesDataset = [];
                 this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
+                    const conatinerName = deployment.docker_image.includes(
+                        'user-snapshots'
+                    )
+                        ? this.translateService.instant(
+                              'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                          ) + deployment.docker_image.split(':')[1]
+                        : deployment.docker_image;
                     const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,
                         name: deployment.title,
                         status: deployment.status,
-                        containerName: deployment.docker_image,
+                        containerName: conatinerName,
                         gpus: '-',
                         creationTime: deployment.submit_time,
                         endpoints: deployment.endpoints,
@@ -236,12 +254,17 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 this.snapshotsDataset = [];
                 this.isSnapshotsTableLoading = false;
                 snapshots.forEach((snapshot: Snapshot) => {
+                    let size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
                     const row: DeploymentTableRow = {
                         uuid: snapshot.snapshot_ID,
                         name: snapshot.title,
+                        description: snapshot.description,
                         status: snapshot.status,
                         containerName: snapshot.docker_image,
+                        tagName: snapshot.snapshot_ID,
+                        size: size.toFixed(2),
                         creationTime: snapshot.submit_time,
+                        snapshotID: snapshot.snapshot_ID,
                     };
 
                     this.snapshotsDataset.push(row);

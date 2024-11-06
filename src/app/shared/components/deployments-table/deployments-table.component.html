@@ -130,7 +130,7 @@
                                 <div matTooltip="Redeploy snapshot">
                                     <a
                                         mat-button
-                                        [disabled]="row.status !== 'completed'"
+                                        [disabled]="row.status !== 'complete'"
                                         class="action-button-in-cell"
                                         (click)="redeploySnapshot($event, row)"
                                     >

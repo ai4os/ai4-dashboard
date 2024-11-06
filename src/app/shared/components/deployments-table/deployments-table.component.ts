@@ -70,6 +70,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
         { columnDef: 'endpoints', header: '', hidden: true },
+        { columnDef: 'description', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
 
@@ -185,9 +186,9 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
 
     redeploySnapshot(e: MouseEvent, row: DeploymentTableRow) {
         e.stopPropagation();
-        this.router.navigate(['/marketplace/modules/custom-harbor/train'], {
-            state: { service: row.containerName },
-        });
+        sessionStorage.setItem('deploymentType', this.deploymentType);
+        sessionStorage.setItem('deploymentRow', JSON.stringify(row));
+        this.router.navigate(['/marketplace/modules/snapshots/train']);
     }
 
     isSticky(columnDef: string): boolean {

@@ -15,9 +15,6 @@ export function getDeploymentBadge(status: string) {
         case 'running':
             statusBadge = status + '-brightgreen';
             break;
-        case 'completed':
-            statusBadge = status + '-lightgrey';
-            break;
         case 'failed':
         case 'error':
             statusBadge = status + '-red';

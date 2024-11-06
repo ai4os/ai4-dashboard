@@ -39,11 +39,15 @@ export interface DeploymentTableRow {
     name: string;
     status?: string;
     containerName: string;
+    tagName?: string;
     creationTime: string;
     gpus?: string | number;
+    size?: string;
     endpoints?: { [index: string]: string } | undefined;
     mainEndpoint?: string;
     error_msg?: string;
+    description?: string;
+    snapshotID?: string;
 }
 
 export interface Snapshot {
@@ -52,6 +56,7 @@ export interface Snapshot {
     status: string;
     submit_time: string;
     docker_image: string;
+    size: number;
     nomad_ID: string;
     error_msg?: string;
     description?: string;
