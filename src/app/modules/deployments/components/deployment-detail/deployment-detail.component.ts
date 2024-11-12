@@ -57,6 +57,9 @@ export class DeploymentDetailComponent implements OnInit {
                         if (deployment.description == '') {
                             deployment.description = '-';
                         }
+                        if (deployment.datacenter == null) {
+                            deployment.datacenter = '-';
+                        }
                         this.statusBadge = getDeploymentBadge(
                             deployment.status
                         );
@@ -75,6 +78,9 @@ export class DeploymentDetailComponent implements OnInit {
                         }
                         if (deployment.description == '') {
                             deployment.description = '-';
+                        }
+                        if (deployment.datacenter == null) {
+                            deployment.datacenter = '-';
                         }
                         this.statusBadge = getDeploymentBadge(
                             deployment.status

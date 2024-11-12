@@ -5,8 +5,6 @@ import {
     Module,
     ModuleConfiguration,
     ModuleSummary,
-    GradioCreateResponse,
-    GradioDeployment,
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -51,24 +49,5 @@ export class ModulesService {
         return this.http.get<ModuleConfiguration>(url, {
             params: this.voParam,
         });
-    }
-
-    createDeploymentGradio(
-        moduleName: string
-    ): Observable<GradioCreateResponse> {
-        const url = `${base}${endpoints.nomadGradioDeployments}`;
-        const params = new HttpParams().set('module_name', moduleName);
-        const body = {};
-        return this.http.post<GradioCreateResponse>(url, body, {
-            params: params,
-        });
-    }
-
-    getDeploymentGradio(deploymentUUID: string): Observable<GradioDeployment> {
-        const url = `${base}${endpoints.nomadGradioDeployment.replace(
-            ':deployment_uuid',
-            deploymentUUID
-        )}`;
-        return this.http.get<GradioDeployment>(url, {});
     }
 }

@@ -61,6 +61,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             url: '/marketplace',
         },
         {
+            name: 'SIDENAV.TRY-ME',
+            url: '/try-me',
+            isRestricted: true,
+            isDisabled: !this.isLoggedIn(),
+        },
+        {
             name: 'SIDENAV.DEPLOYMENTS',
             url: '/deployments',
             isRestricted: true,
@@ -114,8 +120,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     updateMainLinks() {
         this.mainLinks.map((link) => {
             if (link.isRestricted) {
-                link.isDisabled = !this.isAuthorized;
-            }
+                if (link.name === 'SIDENAV.TRY-ME') {
+                    link.isDisabled = !this.isLoggedIn();
+                } else {
+                    link.isDisabled = !this.isAuthorized;
+                }
+            } 
         });
     }
 

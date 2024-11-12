@@ -17,6 +17,8 @@ import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { ProfileService } from '@app/modules/profile/services/profile.service';
 import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 import { StorageService } from '@app/modules/marketplace/services/storage-service/storage.service';
+import { timeout, catchError, throwError } from 'rxjs';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -38,6 +40,7 @@ export class StorageConfFormComponent implements OnInit {
     constructor(
         private profileService: ProfileService,
         private storageService: StorageService,
+        private snackbarService: SnackbarService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
@@ -46,6 +49,42 @@ export class StorageConfFormComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    }
+
+    @Input() isCvatTool = false;
+    @Input() set showHelp(showHelp: boolean) {
+        this._showHelp = showHelp;
+    }
+    @Input() set defaultFormValues(
+        defaultFormValues: ModuleStorageConfiguration
+    ) {
+        if (defaultFormValues) {
+            this._defaultFormValues = defaultFormValues;
+            this.storageConfFormGroup
+                .get('rcloneConfInput')
+                ?.setValue(defaultFormValues.rclone_conf.value as string);
+
+            this.storageConfFormGroup
+                .get('storageUrlInput')
+
+                ?.setValue(defaultFormValues.rclone_url.value as string);
+            this.storageConfFormGroup
+                .get('rcloneUserInput')
+                ?.setValue(defaultFormValues.rclone_user.value as string);
+
+            this.storageConfFormGroup
+                .get('rcloneVendorSelect')
+                ?.setValue(defaultFormValues.rclone_vendor.value as string);
+            defaultFormValues.rclone_vendor.options?.forEach(
+                (option: string) => {
+                    this.rcloneVendorOptions.push({
+                        value: option,
+                        viewValue: option,
+                    });
+                }
+            );
+            this.storageConfFormGroup.get('datasetsList')?.setValue([]);
+        }
     }
 
     parentForm!: FormGroup;
@@ -80,48 +119,7 @@ export class StorageConfFormComponent implements OnInit {
         datasets: mockedConfObjectStringBoolean,
     };
 
-    @Input() isCvatTool = false;
-
-    @Input() set showHelp(showHelp: boolean) {
-        this._showHelp = showHelp;
-    }
-
-    @Input() set defaultFormValues(
-        defaultFormValues: ModuleStorageConfiguration
-    ) {
-        if (defaultFormValues) {
-            this._defaultFormValues = defaultFormValues;
-            this.storageConfFormGroup
-                .get('rcloneConfInput')
-                ?.setValue(defaultFormValues.rclone_conf.value as string);
-
-            this.storageConfFormGroup
-                .get('storageUrlInput')
-
-                ?.setValue(defaultFormValues.rclone_url.value as string);
-            this.storageConfFormGroup
-                .get('rcloneUserInput')
-                ?.setValue(defaultFormValues.rclone_user.value as string);
-
-            this.storageConfFormGroup
-                .get('rcloneVendorSelect')
-                ?.setValue(defaultFormValues.rclone_vendor.value as string);
-            defaultFormValues.rclone_vendor.options?.forEach(
-                (option: string) => {
-                    this.rcloneVendorOptions.push({
-                        value: option,
-                        viewValue: option,
-                    });
-                }
-            );
-            this.storageConfFormGroup.get('datasetsList')?.setValue([]);
-        }
-    }
-
     protected _showHelp = false;
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
-
     hidePassword = true;
     protected credentialsLoading = true;
     protected snapshotsLoading = true;
@@ -133,6 +131,9 @@ export class StorageConfFormComponent implements OnInit {
     datasets: { doi: string; force_pull: boolean }[] = [];
     credentials: StorageCredential[] = [];
     snapshots: Snapshot[] = [];
+
+    private _mobileQueryListener: () => void;
+    mobileQuery: MediaQueryList;
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -192,37 +193,50 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     getLinkedStorageServices() {
-        this.profileService.getExistingCredentials().subscribe({
-            next: (credentials) => {
-                this.credentials = Object.values(credentials);
-                if (this.credentials.length > 0) {
-                    this.credentials.forEach(
-                        (credential: StorageCredential) => {
-                            this.storageServiceOptions.push({
-                                value: credential.server,
-                                viewValue: credential.server.replace(
-                                    'https://',
-                                    ''
-                                ),
-                            });
-                        }
+        this.profileService
+            .getExistingCredentials()
+            .pipe(
+                timeout(20000),
+                catchError(() => {
+                    this.credentialsLoading = false;
+                    return throwError(() =>
+                        this.snackbarService.openError(
+                            'No storage providers available. Please try again later.'
+                        )
                     );
-                    this.storageConfFormGroup
-                        .get('storageServiceDatasetSelect')
-                        ?.setValue(this.storageServiceOptions[0].value);
-                    this.storageConfFormGroup
-                        .get('storageServiceDatasetSelect')
-                        ?.enable();
+                })
+            )
+            .subscribe({
+                next: (credentials) => {
+                    this.credentials = Object.values(credentials);
+                    if (this.credentials.length > 0) {
+                        this.credentials.forEach(
+                            (credential: StorageCredential) => {
+                                this.storageServiceOptions.push({
+                                    value: credential.server,
+                                    viewValue: credential.server.replace(
+                                        'https://',
+                                        ''
+                                    ),
+                                });
+                            }
+                        );
+                        this.storageConfFormGroup
+                            .get('storageServiceDatasetSelect')
+                            ?.setValue(this.storageServiceOptions[0].value);
+                        this.storageConfFormGroup
+                            .get('storageServiceDatasetSelect')
+                            ?.enable();
+                        this.credentialsLoading = false;
+                        this.updateStorageConfiguration();
+                    } else {
+                        this.credentialsLoading = false;
+                    }
+                },
+                error: () => {
                     this.credentialsLoading = false;
-                    this.updateStorageConfiguration();
-                } else {
-                    this.credentialsLoading = false;
-                }
-            },
-            error: () => {
-                this.credentialsLoading = false;
-            },
-        });
+                },
+            });
     }
 
     updateStorageConfiguration() {
@@ -243,7 +257,9 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
                 .get('storageUrlInput')
                 ?.setValue(
-                    storageServiceCredentials.server + '/remote.php/webdav/'
+                    storageServiceCredentials.server +
+                        '/remote.php/dav/files/' +
+                        storageServiceCredentials.loginName
                 );
             this.storageConfFormGroup
                 .get('rcloneVendorSelect')
