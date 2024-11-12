@@ -1,7 +1,28 @@
 <form [formGroup]="storageConfFormGroup" class="storage-conf-form">
-    <h4>
-        {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
-    </h4>
+    <div class="step-title">
+        <h4>
+            {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
+        </h4>
+        @if (
+            isCvatTool &&
+            (this.storageConfFormGroup.get('storageServiceDatasetSelect')
+                ?.value === '' ||
+                this.storageConfFormGroup.get('storageServiceDatasetSelect')
+                    ?.value === undefined)
+        ) {
+            <span>
+                <mat-chip>
+                    <span class="aligned-with-icon scale-icon-down">
+                        <mat-icon class="warning-icon">warning</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.NO-STORAGE-SELECTED'
+                                | translate
+                        }}
+                    </span>
+                </mat-chip>
+            </span>
+        }
+    </div>
     <div
         class="storage-container"
         [ngClass]="{

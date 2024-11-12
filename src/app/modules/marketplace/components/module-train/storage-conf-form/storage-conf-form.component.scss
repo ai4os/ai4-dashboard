@@ -35,3 +35,21 @@
 .snapshots-container {
     padding-top: 22px;
 }
+
+.step-title {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+
+    mat-chip {
+        background: antiquewhite !important;
+    }
+}
+
+.aligned-with-icon {
+    gap: 5px;
+}
+
+.warning-icon {
+    color: var(--warning-orange);
+}

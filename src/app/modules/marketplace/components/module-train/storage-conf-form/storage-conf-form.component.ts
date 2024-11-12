@@ -122,7 +122,7 @@ export class StorageConfFormComponent implements OnInit {
     protected _showHelp = false;
     hidePassword = true;
     protected credentialsLoading = true;
-    protected snapshotsLoading = true;
+    protected snapshotsLoading = false;
 
     rcloneVendorOptions: { value: string; viewValue: string }[] = [];
     protected storageServiceOptions: { value: string; viewValue: string }[] =
