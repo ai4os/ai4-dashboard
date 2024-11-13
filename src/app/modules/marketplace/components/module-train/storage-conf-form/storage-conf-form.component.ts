@@ -142,11 +142,6 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
         );
 
-        if (!this.isCvatTool) {
-            this.storageConfFormGroup.get('rcloneUserInput')?.disable();
-            this.storageConfFormGroup.get('rclonePasswordInput')?.disable();
-        }
-
         this.getLinkedStorageServices();
     }
 

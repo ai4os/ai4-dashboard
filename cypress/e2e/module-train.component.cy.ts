@@ -27,7 +27,7 @@ describe('module train form', function () {
             { timeout: 15000 }
         ).click();
         cy.get('#add-button', { timeout: 15000 }).click();
-        cy.contains(' Dataset added with reference 10.5281/zenodo.10777441', {
+        cy.contains('Dataset added with reference 10.5281/zenodo.14017143', {
             timeout: 10000,
         }).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
@@ -45,7 +45,7 @@ describe('module train form', function () {
         cy.get('#doi', { timeout: 10000 }).type('10.5281/zenodo.10777441');
         cy.get('#add-button', { timeout: 10000 }).click();
         cy.contains(
-            ' Dataset added with reference 10.5281/zenodo.10777441'
+            'Dataset added with reference 10.5281/zenodo.10777441'
         ).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
@@ -64,7 +64,7 @@ describe('module train form', function () {
         );
         cy.get('#add-button', { timeout: 10000 }).click();
         cy.contains(
-            ' Dataset added with reference https://huggingface.co/datasets/Zyphra/Zyda-2'
+            'Dataset added with reference https://huggingface.co/datasets/Zyphra/Zyda-2'
         ).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
@@ -100,7 +100,7 @@ describe('module train form', function () {
         ).click();
         cy.get('#add-button', { timeout: 25000 }).click();
         cy.contains(
-            'Dataset added with reference 10.5281/zenodo.10777441'
+            'Dataset added with reference 10.5281/zenodo.14017143'
         ).should('be.visible');
 
         cy.contains('Close', { timeout: 10000 }).click();
