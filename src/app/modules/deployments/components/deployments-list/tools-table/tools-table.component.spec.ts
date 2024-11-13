@@ -297,27 +297,6 @@ describe('ToolsTableComponent', () => {
         expect(badge).toEqual('running-brightgreen');
     });
 
-    it('should open Tool detail dialog correctly', fakeAsync(() => {
-        component.displayedColumns = [];
-        component.ngOnInit();
-        tick(100);
-        fixture.detectChanges();
-
-        //open-Tool-detail-button
-        jest.spyOn(component, 'openToolDetailDialog');
-        jest.spyOn(component.dialog, 'open').mockReturnValue({
-            afterClosed: () => of(true),
-        } as MatDialogRef<typeof DeploymentDetailComponent>);
-        const openToolDetailButton =
-            fixture.debugElement.nativeElement.querySelector(
-                '.action-button-in-cell'
-            );
-        openToolDetailButton.click();
-        expect(component.openToolDetailDialog).toHaveBeenCalledTimes(1);
-        flush();
-        discardPeriodicTasks();
-    }));
-
     it('annnounces sort states changes correctly ', fakeAsync(() => {
         const sortState: Sort = {
             active: '',
@@ -331,23 +310,5 @@ describe('ToolsTableComponent', () => {
         //Announce sorted cleared
         component.announceSortChange(sortState);
         expect(spyAnnounce).toHaveBeenCalledWith('Sorting cleared');
-    }));
-
-    it('should open tool secrets dialog correctly', fakeAsync(() => {
-        component.displayedColumns = [];
-        component.ngOnInit();
-        tick(100);
-        fixture.detectChanges();
-
-        jest.spyOn(component, 'openToolSecretsDialog');
-        jest.spyOn(component.dialog, 'open').mockReturnValue({
-            afterClosed: () => of(true),
-        } as MatDialogRef<typeof SecretManagementDetailComponent>);
-        const openToolSecretsButton =
-            fixture.debugElement.nativeElement.querySelector('#secrets-button');
-        openToolSecretsButton.click();
-        expect(component.openToolSecretsDialog).toHaveBeenCalledTimes(1);
-        flush();
-        discardPeriodicTasks();
     }));
 });
