@@ -5,6 +5,7 @@
         </h4>
         @if (
             isCvatTool &&
+            !credentialsLoading &&
             (this.storageConfFormGroup.get('storageServiceDatasetSelect')
                 ?.value === '' ||
                 this.storageConfFormGroup.get('storageServiceDatasetSelect')
