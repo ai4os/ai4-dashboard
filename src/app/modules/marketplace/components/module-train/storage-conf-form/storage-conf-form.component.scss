@@ -1,3 +1,7 @@
+.storage-conf-form {
+    min-height: 575px;
+}
+
 .mat-mdc-option {
     padding: 8px 16px;
 }
@@ -11,6 +15,12 @@
     display: flex;
     align-items: center;
     gap: 1.2em;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.full-width {
+    width: 100%;
 }
 
 .input-spinner {
@@ -20,4 +30,26 @@
 
 .storage-container {
     row-gap: 1em;
+}
+
+.snapshots-container {
+    padding-top: 22px;
+}
+
+.step-title {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+
+    mat-chip {
+        background: antiquewhite !important;
+    }
+}
+
+.aligned-with-icon {
+    gap: 5px;
+}
+
+.warning-icon {
+    color: var(--warning-orange);
 }

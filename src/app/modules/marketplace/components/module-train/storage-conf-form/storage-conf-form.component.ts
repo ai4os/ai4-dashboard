@@ -9,12 +9,14 @@ import {
 } from '@angular/forms';
 import {
     ModuleStorageConfiguration,
+    Snapshot,
     confObject,
     confObjectStringBoolean,
 } from '@app/shared/interfaces/module.interface';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { ProfileService } from '@app/modules/profile/services/profile.service';
 import { StorageCredential } from '@app/shared/interfaces/profile.interface';
+import { StorageService } from '@app/modules/marketplace/services/storage-service/storage.service';
 import { timeout, catchError, throwError } from 'rxjs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
@@ -37,6 +39,7 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
 export class StorageConfFormComponent implements OnInit {
     constructor(
         private profileService: ProfileService,
+        private storageService: StorageService,
         private snackbarService: SnackbarService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
@@ -47,10 +50,11 @@ export class StorageConfFormComponent implements OnInit {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
+
+    @Input() isCvatTool = false;
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
-
     @Input() set defaultFormValues(
         defaultFormValues: ModuleStorageConfiguration
     ) {
@@ -90,11 +94,15 @@ export class StorageConfFormComponent implements OnInit {
             value: '',
             disabled: true,
         }),
+        snapshotDatasetSelect: new FormControl({
+            value: '',
+            disabled: true,
+        }),
         rcloneConfInput: [''],
         storageUrlInput: [''],
         rcloneVendorSelect: [''],
-        rcloneUserInput: [''],
-        rclonePasswordInput: [''],
+        rcloneUserInput: ['', [Validators.required]],
+        rclonePasswordInput: ['', [Validators.required]],
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
@@ -114,12 +122,15 @@ export class StorageConfFormComponent implements OnInit {
     protected _showHelp = false;
     hidePassword = true;
     protected credentialsLoading = true;
+    protected snapshotsLoading = false;
 
     rcloneVendorOptions: { value: string; viewValue: string }[] = [];
     protected storageServiceOptions: { value: string; viewValue: string }[] =
         [];
+    protected snapshotOptions: { value: string; viewValue: string }[] = [];
     datasets: { doi: string; force_pull: boolean }[] = [];
     credentials: StorageCredential[] = [];
+    snapshots: Snapshot[] = [];
 
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
@@ -130,6 +141,7 @@ export class StorageConfFormComponent implements OnInit {
             'storageConfForm',
             this.storageConfFormGroup
         );
+
         this.getLinkedStorageServices();
     }
 
@@ -226,10 +238,11 @@ export class StorageConfFormComponent implements OnInit {
         const storageServiceUrl = this.storageConfFormGroup.get(
             'storageServiceDatasetSelect'
         )?.value;
+        const storageServiceName = storageServiceUrl?.replace('https://', '');
         const storageServiceCredentials = this.credentials.find(
             (c) => c.server === storageServiceUrl
         );
-        if (storageServiceCredentials) {
+        if (storageServiceName && storageServiceCredentials) {
             this.storageConfFormGroup
                 .get('rcloneUserInput')
                 ?.setValue(storageServiceCredentials.loginName);
@@ -246,11 +259,48 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
                 .get('rcloneVendorSelect')
                 ?.setValue(storageServiceCredentials.vendor);
+            if (this.isCvatTool) {
+                this.updateSnapshots(storageServiceName);
+            }
         } else {
             this.storageConfFormGroup.get('rcloneUserInput')?.setValue('');
             this.storageConfFormGroup.get('rclonePasswordInput')?.setValue('');
             this.storageConfFormGroup.get('storageUrlInput')?.setValue('');
             this.storageConfFormGroup.get('rcloneVendorSelect')?.setValue('');
+            this.snapshotOptions = [];
+            this.snapshots = [];
+            this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
         }
+    }
+
+    updateSnapshots(storageName: string) {
+        this.snapshotsLoading = true;
+        this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
+        this.storageService.getSnapshots(storageName).subscribe({
+            next: (snapshots: Snapshot[]) => {
+                this.snapshots = Object.values(snapshots);
+                this.snapshots = this.snapshots.filter((s) => s.IsDir);
+                if (this.snapshots.length > 0) {
+                    this.snapshots.forEach((snapshot: Snapshot) => {
+                        this.snapshotOptions.push({
+                            value: snapshot.Name,
+                            viewValue: snapshot.Name,
+                        });
+                    });
+                    this.storageConfFormGroup
+                        .get('snapshotDatasetSelect')
+                        ?.setValue(this.snapshotOptions[0].value);
+                    this.storageConfFormGroup
+                        .get('snapshotDatasetSelect')
+                        ?.enable();
+                }
+                this.snapshotsLoading = false;
+            },
+            error: () => {
+                this.snapshots = [];
+                this.snapshotOptions = [];
+                this.snapshotsLoading = false;
+            },
+        });
     }
 }

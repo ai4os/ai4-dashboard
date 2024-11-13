@@ -14,6 +14,7 @@ import { HardwareConfFormComponent } from './components/module-train/hardware-co
 import { ModuleTrainComponent } from './components/module-train/module-train/module-train.component';
 import { StepperFormComponent } from './components/module-train/stepper-form/stepper-form.component';
 import { StorageConfFormComponent } from './components/module-train/storage-conf-form/storage-conf-form.component';
+import { CvatComponent } from './components/module-train/tool-train/cvat/cvat.component';
 import { FederatedConfFormComponent } from './components/module-train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
 import { FederatedServerComponent } from './components/module-train/tool-train/federated-server/federated-server.component';
 import { ModuleCardComponent } from './components/modules-list/module-card/module-card.component';
@@ -43,6 +44,7 @@ import { FiltersConfigurationDialogComponent } from './components/filters/filter
         FederatedConfFormComponent,
         DatasetsListComponent,
         DatasetCreationDetailComponent,
+        CvatComponent,
         LoadingScreenComponent,
         FilterComponentComponent,
         FiltersConfigurationDialogComponent,
