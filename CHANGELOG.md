@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.0](https://github.com/ai4os/ai4-dashboard/compare/v2.28.1...v2.29.0) (2024-11-13)
+
+
+### Features
+
+* Feat 160 integrate cvat in the dashboard ([#187](https://github.com/ai4os/ai4-dashboard/issues/187)) ([f71b94e](https://github.com/ai4os/ai4-dashboard/commit/f71b94eb2d51d6767433ca3ceea73abf28e5b9f9))
+
 ## [2.28.1](https://github.com/ai4os/ai4-dashboard/compare/v2.28.0...v2.28.1) (2024-11-04)
 
 
