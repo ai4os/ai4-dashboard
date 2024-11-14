@@ -5,7 +5,7 @@ export const environment = {
     develop: false,
     production: true,
     api: {
-        base: '127.0.0.1:3000',
+        base: '127.0.0.1:3000/v1',
         endpoints,
     },
 };
