@@ -92,7 +92,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     openDeploymentDetailDialog(row: DeploymentTableRow): void {
         if (this.deploymentType === 'snapshot') {
             const snapshot: Snapshot = {
-                snapshot_ID: row.snapshotID!,
+                snapshot_ID: row.snapshot_ID!,
                 title: row.name,
                 status: row.status!,
                 submit_time: row.creationTime,

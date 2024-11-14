@@ -21,7 +21,13 @@ import { DeploymentsTableComponent } from './components/deployments-table/deploy
         ChipWithIconComponent,
         DeploymentsTableComponent,
     ],
-    imports: [CommonModule, MaterialModule, FormsModule, TranslateModule],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        FormsModule,
+        TranslateModule,
+        RouterModule,
+    ],
     exports: [
         ReactiveFormsModule,
         MaterialModule,

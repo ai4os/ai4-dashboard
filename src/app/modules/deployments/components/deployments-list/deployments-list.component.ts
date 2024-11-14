@@ -56,7 +56,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         { columnDef: 'size', header: 'DEPLOYMENTS.SIZE' },
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
         { columnDef: 'endpoints', header: '', hidden: true },
-        { columnDef: 'snapshotID', header: '', hidden: true },
+        { columnDef: 'snapshot_ID', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
 
@@ -264,7 +264,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         tagName: snapshot.snapshot_ID,
                         size: size.toFixed(2),
                         creationTime: snapshot.submit_time,
-                        snapshotID: snapshot.snapshot_ID,
+                        snapshot_ID: snapshot.snapshot_ID,
                     };
 
                     this.snapshotsDataset.push(row);

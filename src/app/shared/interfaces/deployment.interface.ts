@@ -47,7 +47,7 @@ export interface DeploymentTableRow {
     mainEndpoint?: string;
     error_msg?: string;
     description?: string;
-    snapshotID?: string;
+    snapshot_ID?: string;
 }
 
 export interface Snapshot {
