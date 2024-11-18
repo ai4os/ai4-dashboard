@@ -75,7 +75,6 @@ export class ModuleTrainComponent implements OnInit {
                         this.translateService.instant(
                             'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
                         ) + deployment.snapshot_ID;
-                    console.log(deployment);
                     this.generalConfDefaultValues.title.value = deployment.name;
                     this.generalConfDefaultValues.desc!.value = deployment.desc
                         ? deployment.desc + '\n' + snapshotText

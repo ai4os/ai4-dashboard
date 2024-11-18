@@ -31,7 +31,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         private snackbarService: SnackbarService,
         private snapshotService: SnapshotService,
         public translateService: TranslateService,
-        public confirmationDialog: MatDialog,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef
     ) {
@@ -107,7 +106,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 this.modulesDataset = [];
                 this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
-                    const conatinerName = deployment.docker_image.includes(
+                    const containerName = deployment.docker_image.includes(
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
@@ -118,7 +117,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         uuid: deployment.job_ID,
                         name: deployment.title,
                         status: deployment.status,
-                        containerName: conatinerName,
+                        containerName: containerName,
                         gpus: '-',
                         creationTime: deployment.submit_time,
                         endpoints: deployment.endpoints,

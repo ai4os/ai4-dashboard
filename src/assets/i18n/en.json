@@ -272,7 +272,6 @@
                 "SNAPSHOT-ID": "Deployed from snapshot with ID ",
                 "FEDERATED-SECRET": "Federated secret",
                 "ADD-FEDERATED-SECRET": "Create federated secret",
-                "OPEN-DOCUMENTATION": "Open documentation",
                 "CVAT-CREDENTIALS": "CVAT credentials",
                 "CVAT-USERNAME": "CVAT username",
                 "CVAT-PASSWORD": "CVAT password",
@@ -430,7 +429,8 @@
         "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "GitHub",
         "DOCKERHUB": "Docker",
-        "REPORT-ISSUE": "Report issue"
+        "REPORT-ISSUE": "Report issue",
+        "OPEN-DOCUMENTATION": "Open documentation"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",
