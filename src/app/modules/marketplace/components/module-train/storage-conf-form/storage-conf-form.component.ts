@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -19,6 +25,9 @@ import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 import { StorageService } from '@app/modules/marketplace/services/storage-service/storage.service';
 import { timeout, catchError, throwError } from 'rxjs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
+import { DatasetsListComponent } from '../datasets/datasets-list/datasets-list.component';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -41,8 +50,10 @@ export class StorageConfFormComponent implements OnInit {
         private profileService: ProfileService,
         private storageService: StorageService,
         private snackbarService: SnackbarService,
+        private modulesService: ModulesService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
+        private route: ActivatedRoute,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -50,6 +61,8 @@ export class StorageConfFormComponent implements OnInit {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
+    @ViewChild(DatasetsListComponent)
+    datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() set showHelp(showHelp: boolean) {
@@ -129,6 +142,12 @@ export class StorageConfFormComponent implements OnInit {
         [];
     protected snapshotOptions: { value: string; viewValue: string }[] = [];
     datasets: { doi: string; force_pull: boolean }[] = [];
+    suggestedDataset: ZenodoSimpleDataset = {
+        doiOrUrl: '',
+        title: '',
+        source: '',
+        force_pull: false,
+    };
     credentials: StorageCredential[] = [];
     snapshots: Snapshot[] = [];
 
@@ -142,6 +161,7 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
         );
 
+        this.getSuggestedDatasets();
         this.getLinkedStorageServices();
     }
 
@@ -185,6 +205,21 @@ export class StorageConfFormComponent implements OnInit {
         if (d) {
             d.force_pull = dataset.force_pull;
         }
+    }
+
+    getSuggestedDatasets() {
+        this.route.parent?.params.subscribe((params) => {
+            this.modulesService.getModule(params['id']).subscribe((module) => {
+                if (module.links.dataset) {
+                    this.suggestedDataset = {
+                        doiOrUrl: module.links.dataset,
+                        title: module.links.dataset,
+                        source: 'http',
+                        force_pull: false,
+                    };
+                }
+            });
+        });
     }
 
     getLinkedStorageServices() {

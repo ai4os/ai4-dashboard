@@ -246,12 +246,28 @@
 
     @if (!isCvatTool) {
         <div class="dataset-options-container">
-            <h4>
-                {{
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
-                        | translate
-                }}
-            </h4>
+            <span class="aligned-with-icon">
+                <h4>
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
+                            | translate
+                    }}
+                </h4>
+                <button
+                    *ngIf="this.suggestedDataset.title !== ''"
+                    mat-icon-button
+                    matTooltip="{{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-SUGGESTION'
+                            | translate
+                    }}"
+                    [matTooltipPosition]="'above'"
+                    (click)="
+                        datasetsListComponent.addDataset(this.suggestedDataset)
+                    "
+                >
+                    <mat-icon color="accent">emoji_objects</mat-icon>
+                </button></span
+            >
 
             <app-datasets-list
                 class="full-width"
