@@ -8,7 +8,7 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -20,9 +20,10 @@ export class ModulesService {
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    private readonly base = this.appConfigService.apiURL;
 
     getModulesSummary(tags?: any): Observable<ModuleSummary[]> {
-        const url = `${base}${endpoints.modulesSummary}`;
+        const url = `${this.base}${endpoints.modulesSummary}`;
         if (tags) {
             let params = new HttpParams();
             Object.keys(tags).forEach((key: string) => {
@@ -35,14 +36,14 @@ export class ModulesService {
     }
 
     getModule(moduleName: string): Observable<Module> {
-        const url = `${base}${endpoints.module.replace(':name', moduleName)}`;
+        const url = `${this.base}${endpoints.module.replace(':name', moduleName)}`;
         return this.http.get<Module>(url);
     }
 
     getModuleConfiguration(
         moduleName: string
     ): Observable<ModuleConfiguration> {
-        const url = `${base}${endpoints.moduleConfiguration.replace(
+        const url = `${this.base}${endpoints.moduleConfiguration.replace(
             ':name',
             moduleName
         )}`;

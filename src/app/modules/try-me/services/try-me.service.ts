@@ -8,7 +8,7 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -20,12 +20,13 @@ export class TryMeService {
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    private readonly base = this.appConfigService.apiURL;
 
     createDeploymentGradio(
         moduleName: string,
         moduleTitle: string
     ): Observable<GradioCreateResponse> {
-        const url = `${base}${endpoints.nomadTryMeDeployments}`;
+        const url = `${this.base}${endpoints.nomadTryMeDeployments}`;
         const params = new HttpParams()
             .set('module_name', moduleName)
             .set('title', moduleTitle);
@@ -38,7 +39,7 @@ export class TryMeService {
     getDeploymentGradioByUUID(
         deploymentUUID: string
     ): Observable<GradioDeployment> {
-        const url = `${base}${endpoints.nomadTryMeDeployment.replace(
+        const url = `${this.base}${endpoints.nomadTryMeDeployment.replace(
             ':deployment_uuid',
             deploymentUUID
         )}`;
@@ -46,12 +47,12 @@ export class TryMeService {
     }
 
     getDeploymentsGradio(): Observable<GradioDeployment[]> {
-        const url = `${base}${endpoints.nomadTryMeDeployments}`;
+        const url = `${this.base}${endpoints.nomadTryMeDeployments}`;
         return this.http.get<GradioDeployment[]>(url);
     }
 
     deleteDeploymentByUUID(deploymentUUID: string): Observable<statusReturn> {
-        const url = `${base}${endpoints.nomadTryMeDeployment.replace(
+        const url = `${this.base}${endpoints.nomadTryMeDeployment.replace(
             ':deployment_uuid',
             deploymentUUID
         )}`;

@@ -8,7 +8,7 @@ import {
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -20,16 +20,17 @@ export class StatsService {
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    private readonly base = this.appConfigService.apiURL;
 
     getUserStats(): Observable<UserStats> {
-        const url = `${base}${endpoints.userStats}`;
+        const url = `${this.base}${endpoints.userStats}`;
         return this.http.get<UserStats>(url, {
             params: this.voParam,
         });
     }
 
     getClusterStats(): Observable<ClusterStats> {
-        const url = `${base}${endpoints.clusterStats}`;
+        const url = `${this.base}${endpoints.clusterStats}`;
         return this.http.get<ClusterStats>(url, {
             params: this.voParam,
         });

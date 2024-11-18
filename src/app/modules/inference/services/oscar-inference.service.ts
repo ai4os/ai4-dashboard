@@ -8,7 +8,7 @@ import {
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -19,8 +19,10 @@ export class OscarInferenceService {
         private appConfigService: AppConfigService
     ) {}
 
+    private readonly base = this.appConfigService.apiURL;
+
     getServices(): Observable<OscarService[]> {
-        const url = `${base}${endpoints.oscarServices}`;
+        const url = `${this.base}${endpoints.oscarServices}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('public', false);
@@ -30,7 +32,7 @@ export class OscarInferenceService {
     }
 
     getServiceByName(name: string): Observable<OscarService> {
-        const url = `${base}${endpoints.oscarServiceByName.replace(
+        const url = `${this.base}${endpoints.oscarServiceByName.replace(
             ':serviceName',
             name
         )}`;
@@ -41,7 +43,7 @@ export class OscarInferenceService {
     }
 
     createService(serviceConf: OscarServiceRequest): Observable<string> {
-        const url = `${base}${endpoints.oscarServices}`;
+        const url = `${this.base}${endpoints.oscarServices}`;
         const params = new HttpParams().set('vo', this.appConfigService.voName);
         return this.http.post<string>(url, serviceConf, {
             params: params,
@@ -49,7 +51,7 @@ export class OscarInferenceService {
     }
 
     deleteServiceByName(name: string): Observable<string> {
-        const url = `${base}${endpoints.oscarServiceByName.replace(
+        const url = `${this.base}${endpoints.oscarServiceByName.replace(
             ':serviceName',
             name
         )}`;

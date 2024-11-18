@@ -10,7 +10,7 @@ import {
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 const communitiesJsonUrl = '../../../assets/json/zenodo_communities.json';
 
 @Injectable({
@@ -22,12 +22,14 @@ export class ZenodoService {
         private appConfigService: AppConfigService
     ) {}
 
+    private readonly base = this.appConfigService.apiURL;
+
     getCommunities(): Observable<ZenodoCommunity[]> {
         return this.http.get<ZenodoCommunity[]>(communitiesJsonUrl);
     }
 
     getDatasets(communityName: string): Observable<ZenodoDataset[]> {
-        const url = `${base}${endpoints.zenodo}`;
+        const url = `${this.base}${endpoints.zenodo}`;
         const params = new HttpParams().set(
             'api_route',
             'communities/' + communityName + '/records'
@@ -39,7 +41,7 @@ export class ZenodoService {
     }
 
     getDatasetVersions(id: string): Observable<ZenodoDatasetVersion[]> {
-        const url = `${base}${endpoints.zenodo}`;
+        const url = `${this.base}${endpoints.zenodo}`;
         const params = new HttpParams().set(
             'api_route',
             'records/' + id + '/versions'
@@ -51,7 +53,7 @@ export class ZenodoService {
     }
 
     getDataset(id: string): Observable<ZenodoSimpleDataset> {
-        const url = `${base}${endpoints.zenodo}`;
+        const url = `${this.base}${endpoints.zenodo}`;
         const params = new HttpParams().set('api_route', 'records/' + id);
         const body = {};
         return this.http.post<ZenodoSimpleDataset>(url, body, {

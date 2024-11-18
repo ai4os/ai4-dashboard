@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import {
+    HttpClient,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { statusReturn } from '@app/shared/interfaces/deployment.interface';
@@ -10,7 +15,7 @@ import {
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -20,6 +25,8 @@ export class ProfileService {
         private http: HttpClient,
         private appConfigService: AppConfigService
     ) {}
+
+    private readonly base = this.appConfigService.apiURL;
 
     initLogin(domain: string): Observable<RequestLoginResponse> {
         const url = 'https://' + domain + '/index.php/login/v2';
@@ -43,7 +50,7 @@ export class ProfileService {
     }
 
     getExistingCredentials(): Observable<StorageCredential[]> {
-        const url = `${base}${endpoints.secrets}`;
+        const url = `${this.base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('subpath', '/services/storage');
@@ -57,7 +64,7 @@ export class ProfileService {
         credential: StorageCredential,
         serviceName: string
     ): Observable<statusReturn> {
-        const url = `${base}${endpoints.secrets}`;
+        const url = `${this.base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', '/services/storage/' + serviceName);
@@ -68,7 +75,7 @@ export class ProfileService {
     }
 
     deleteCredential(serviceName: string): Observable<statusReturn> {
-        const url = `${base}${endpoints.secrets}`;
+        const url = `${this.base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', '/services/storage/' + serviceName);

@@ -11,7 +11,7 @@ import {
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -23,9 +23,10 @@ export class ToolsService {
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    private readonly base = this.appConfigService.apiURL;
 
     getToolsSummary(tags?: TagObject): Observable<ModuleSummary[]> {
-        const url = `${base}${endpoints.toolsSummary}`;
+        const url = `${this.base}${endpoints.toolsSummary}`;
         if (tags) {
             let params = new HttpParams();
             Object.keys(tags).forEach((key: string) => {
@@ -38,14 +39,14 @@ export class ToolsService {
     }
 
     getTool(moduleName: string): Observable<Module> {
-        const url = `${base}${endpoints.tool.replace(':name', moduleName)}`;
+        const url = `${this.base}${endpoints.tool.replace(':name', moduleName)}`;
         return this.http.get<Module>(url);
     }
 
     getFederatedServerConfiguration(
         toolName: string
     ): Observable<FederatedServerToolConfiguration> {
-        const url = `${base}${endpoints.toolConfiguration.replace(
+        const url = `${this.base}${endpoints.toolConfiguration.replace(
             ':name',
             toolName
         )}`;
@@ -55,7 +56,7 @@ export class ToolsService {
     }
 
     getCvatConfiguration(toolName: string): Observable<CvatToolConfiguration> {
-        const url = `${base}${endpoints.toolConfiguration.replace(
+        const url = `${this.base}${endpoints.toolConfiguration.replace(
             ':name',
             toolName
         )}`;

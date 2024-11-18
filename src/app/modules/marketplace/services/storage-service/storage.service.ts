@@ -5,7 +5,7 @@ import { Snapshot } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
-const { base, endpoints } = environment.api;
+const { endpoints } = environment.api;
 
 @Injectable({
     providedIn: 'root',
@@ -17,9 +17,10 @@ export class StorageService {
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    private readonly base = this.appConfigService.apiURL;
 
     getSnapshots(storageName: string): Observable<Snapshot[]> {
-        const url = `${base}${endpoints.snapshots.replace(
+        const url = `${this.base}${endpoints.snapshots.replace(
             ':storage_name',
             storageName
         )}`;
