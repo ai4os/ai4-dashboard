@@ -110,8 +110,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                              'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
-                          ) + deployment.docker_image.split(':')[1]
+                            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                        ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,
@@ -253,7 +253,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 this.snapshotsDataset = [];
                 this.isSnapshotsTableLoading = false;
                 snapshots.forEach((snapshot: Snapshot) => {
-                    let size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
+                    const size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
                     const row: DeploymentTableRow = {
                         uuid: snapshot.snapshot_ID,
                         name: snapshot.title,
