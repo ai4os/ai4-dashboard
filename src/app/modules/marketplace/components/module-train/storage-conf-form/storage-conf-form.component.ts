@@ -62,7 +62,7 @@ export class StorageConfFormComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)
-    datasetsListComponent!: DatasetsListComponent;
+        datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() set showHelp(showHelp: boolean) {
