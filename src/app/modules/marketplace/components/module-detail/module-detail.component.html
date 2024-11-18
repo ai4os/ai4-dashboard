@@ -20,7 +20,7 @@
         *ngIf="!isLoading"
         [ngClass]="{
             'module-detail-card-header-mobile': mobileQuery.matches,
-            'module-detail-card-header': !mobileQuery.matches
+            'module-detail-card-header': !mobileQuery.matches,
         }"
     >
         <mat-card-title
@@ -34,7 +34,7 @@
             *ngIf="!isTool"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
-                'action-buttons-container': !mobileQuery.matches
+                'action-buttons-container': !mobileQuery.matches,
             }"
         >
             <div
@@ -152,7 +152,7 @@
                     <button
                         mat-menu-item
                         class="action-button sub-button"
-                        routerLink="train"
+                        routerLink="deploy"
                         [disabled]="!isAuthorized()"
                         matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                         [matTooltipPosition]="'left'"
@@ -273,14 +273,14 @@
             *ngIf="isTool && isLoggedIn() && isAuthorized()"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
-                'action-buttons-container': !mobileQuery.matches
+                'action-buttons-container': !mobileQuery.matches,
             }"
         >
             <a
                 class="action-button"
                 mat-raised-button
                 color="accent"
-                routerLink="train"
+                routerLink="deploy"
                 id="deploy-tool-button"
             >
                 {{ 'MODULES.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
@@ -299,7 +299,7 @@
         <div
             [ngClass]="{
                 'grid-1-column': mobileQuery.matches,
-                'grid-2-columns-content': !mobileQuery.matches
+                'grid-2-columns-content': !mobileQuery.matches,
             }"
             *ngIf="!isLoading"
         >
