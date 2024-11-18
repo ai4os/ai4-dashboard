@@ -1,12 +1,34 @@
 <form [formGroup]="storageConfFormGroup" class="storage-conf-form">
-    <h4>
-        {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
-    </h4>
+    <div class="step-title">
+        <h4>
+            {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
+        </h4>
+        @if (
+            isCvatTool &&
+            !credentialsLoading &&
+            (this.storageConfFormGroup.get('storageServiceDatasetSelect')
+                ?.value === '' ||
+                this.storageConfFormGroup.get('storageServiceDatasetSelect')
+                    ?.value === undefined)
+        ) {
+            <span>
+                <mat-chip>
+                    <span class="aligned-with-icon scale-icon-down">
+                        <mat-icon class="warning-icon">warning</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.NO-STORAGE-SELECTED'
+                                | translate
+                        }}
+                    </span>
+                </mat-chip>
+            </span>
+        }
+    </div>
     <div
         class="storage-container"
         [ngClass]="{
             'form-flex': mobileQuery.matches,
-            'grid-1-column': !mobileQuery.matches
+            'grid-1-column': !mobileQuery.matches,
         }"
     >
         <mat-form-field>
@@ -185,17 +207,59 @@
                 </mat-form-field>
             </div>
         </mat-expansion-panel>
+
+        @if (isCvatTool) {
+            <mat-form-field class="snapshots-container">
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT' | translate
+                }}</mat-label>
+                <mat-select formControlName="snapshotDatasetSelect">
+                    <mat-option>-</mat-option>
+                    <mat-option
+                        *ngFor="let snapshotOption of snapshotOptions"
+                        [value]="snapshotOption.value"
+                    >
+                        {{ snapshotOption.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-spinner
+                    *ngIf="snapshotsLoading"
+                    matSuffix
+                    [diameter]="18"
+                    class="input-spinner"
+                ></mat-spinner>
+                <mat-hint *ngIf="_showHelp">
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-HINT'
+                            | translate
+                    }}
+                </mat-hint>
+                <mat-hint *ngIf="!_showHelp && snapshotOptions.length === 0">
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-UNAVAILABLE'
+                            | translate
+                    }}
+                </mat-hint>
+            </mat-form-field>
+        }
     </div>
 
-    <div class="dataset-options-container">
-        <h4>
-            {{ 'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF' | translate }}
-        </h4>
-    </div>
-    <app-datasets-list
-        [storageConfFormGroup]="storageConfFormGroup"
-        (datasetAdded)="addDataset($event)"
-        (datasetDeleted)="deleteDataset($event)"
-        (datasetPullChanged)="updateDataset($event)"
-    ></app-datasets-list>
+    @if (!isCvatTool) {
+        <div class="dataset-options-container">
+            <h4>
+                {{
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
+                        | translate
+                }}
+            </h4>
+
+            <app-datasets-list
+                class="full-width"
+                [storageConfFormGroup]="storageConfFormGroup"
+                (datasetAdded)="addDataset($event)"
+                (datasetDeleted)="deleteDataset($event)"
+                (datasetPullChanged)="updateDataset($event)"
+            ></app-datasets-list>
+        </div>
+    }
 </form>

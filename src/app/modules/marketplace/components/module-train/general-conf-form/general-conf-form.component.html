@@ -50,7 +50,10 @@
                 _defaultFormValues.desc?.description
             }}</mat-hint>
         </mat-form-field>
-        <div [ngClass]="{ 'mt-3': _showHelp }">
+        <div
+            *ngIf="_showFields.serviceToRunChip"
+            [ngClass]="{ 'mt-3': _showHelp }"
+        >
             <div
                 [ngClass]="{
                     'form-flex': mobileQuery.matches,
@@ -118,7 +121,7 @@
                             | translate
                     }}</mat-label>
                     <input
-                        [type]="hidePassword ? 'password' : 'text'"
+                        [type]="hideServiceToRunPassword ? 'password' : 'text'"
                         [@inOutAnimation]
                         matInput
                         placeholder="At least 9 characters"
@@ -127,11 +130,15 @@
                     />
                     <mat-icon
                         matSuffix
-                        (click)="hidePassword = !hidePassword"
+                        (click)="
+                            hideServiceToRunPassword = !hideServiceToRunPassword
+                        "
                         color="primary"
                     >
                         {{
-                            hidePassword ? 'visibility_off' : 'visibility'
+                            hideServiceToRunPassword
+                                ? 'visibility_off'
+                                : 'visibility'
                         }}</mat-icon
                     >
                     <mat-error
@@ -169,43 +176,134 @@
         </div>
     </div>
 
-    <h4 [ngClass]="{ 'mt-3': _showHelp }">
-        {{
-            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS' | translate
-        }}
-    </h4>
-    <mat-divider class="mt-3 mb-3"></mat-divider>
-    <div
-        [ngClass]="{
-            'form-flex': mobileQuery.matches,
-            'form-grid': !mobileQuery.matches
-        }"
+    <ng-container
+        *ngIf="_showFields.dockerImageInput && _showFields.dockerTagSelect"
     >
-        <mat-form-field class="example-full-width">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
+        <h4 [ngClass]="{ 'mt-3': _showHelp }">
+            {{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS'
                     | translate
-            }}</mat-label>
-            <input matInput placeholder="" formControlName="dockerImageInput" />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.docker_image.description
-            }}</mat-hint>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <mat-label>{{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG' | translate
-            }}</mat-label>
-            <mat-select formControlName="dockerTagSelect">
-                <mat-option
-                    *ngFor="let dockerTagOption of dockerTagOptions"
-                    [value]="dockerTagOption.value"
+            }}
+        </h4>
+        <mat-divider class="mt-3 mb-3"></mat-divider>
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'form-grid': !mobileQuery.matches
+            }"
+        >
+            <mat-form-field class="example-full-width">
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    formControlName="dockerImageInput"
+                />
+
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.docker_image.description
+                }}</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG'
+                        | translate
+                }}</mat-label>
+                <mat-select formControlName="dockerTagSelect">
+                    <mat-option
+                        *ngFor="let dockerTagOption of dockerTagOptions"
+                        [value]="dockerTagOption.value"
+                    >
+                        {{ dockerTagOption.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.docker_tag.description
+                }}</mat-hint>
+            </mat-form-field>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="_showFields.cvatUsername && _showFields.cvatPassword">
+        <h4 [ngClass]="{ 'mt-3': _showHelp }">
+            {{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-CREDENTIALS'
+                    | translate
+            }}
+        </h4>
+        <mat-divider class="mt-3 mb-3"></mat-divider>
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'form-grid': !mobileQuery.matches
+            }"
+        >
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-USERNAME'
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="text"
+                    formControlName="cvatUsernameInput"
+                />
+                <mat-error
+                    *ngIf="
+                        generalConfFormGroup.get('cvatUsernameInput')?.errors?.[
+                            'required'
+                        ]
+                    "
                 >
-                    {{ dockerTagOption.viewValue }}
-                </mat-option>
-            </mat-select>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.docker_tag.description
-            }}</mat-hint>
-        </mat-form-field>
-    </div>
+                    {{
+                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-USERNAME-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.cvat_username?.description
+                }}</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-PASSWORD'
+                        | translate
+                }}</mat-label>
+                <input
+                    [type]="hideCvatPassword ? 'password' : 'text'"
+                    matInput
+                    formControlName="cvatPasswordInput"
+                    autocomplete="off"
+                />
+                <mat-icon
+                    matSuffix
+                    (click)="hideCvatPassword = !hideCvatPassword"
+                    color="accent"
+                >
+                    {{ hideCvatPassword ? 'visibility_off' : 'visibility' }}
+                </mat-icon>
+                <mat-error
+                    *ngIf="
+                        generalConfFormGroup.get('cvatPasswordInput')?.errors?.[
+                            'required'
+                        ]
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-PASSWORD-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.cvat_password?.description
+                }}</mat-hint>
+            </mat-form-field>
+        </div>
+    </ng-container>
 </form>

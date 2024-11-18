@@ -271,7 +271,13 @@
                 "DOCKER-TAG": "Docker tag",
                 "SNAPSHOT-ID": "Deployed from snapshot with ID ",
                 "FEDERATED-SECRET": "Federated secret",
-                "ADD-FEDERATED-SECRET": "Create federated secret"
+                "ADD-FEDERATED-SECRET": "Create federated secret",
+                "OPEN-DOCUMENTATION": "Open documentation",
+                "CVAT-CREDENTIALS": "CVAT credentials",
+                "CVAT-USERNAME": "CVAT username",
+                "CVAT-PASSWORD": "CVAT password",
+                "CVAT-USERNAME-REQUIRED": "A username is required",
+                "CVAT-PASSWORD-REQUIRED": "A password is required"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -291,8 +297,12 @@
                 "STORAGE-SERVICE": "Storage service",
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
                 "PROFILE-SECTION": "profile section",
+                "NO-STORAGE-SELECTED": "You must select one storage provider to be able to deploy a CVAT instance",
                 "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",
                 "STORAGE-SERVICE-TRY-LINK": "link to one of our provided options",
+                "SNAPSHOT": "Restore from snapshot",
+                "SNAPSHOT-HINT": "You can select which snapshot to use. If you select none, a new one will be created.",
+                "SNAPSHOT-UNAVAILABLE": "No snapshots available.",
                 "RCLONE-VENDOR": "RCLONE vendor (webdav)",
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",

@@ -1,4 +1,10 @@
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import {
+    HttpEvent,
+    HttpInterceptor,
+    HttpHandler,
+    HttpRequest,
+    HttpErrorResponse,
+} from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -82,9 +88,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     ) {
                         return throwError(() => errorMessage);
                     }
+                    // No storage snapshots error (server side error)
+                    if (
+                        error.status == 500 &&
+                        error.error.detail?.includes(
+                            'Error retrieving information from storage.'
+                        )
+                    ) {
+                        return throwError(() => errorMessage);
+                    }
 
                     this.showSnackbar('ERRORS.API-ERROR', errorMessage);
-
                     return throwError(() => errorMessage);
                 })
             );
