@@ -19,6 +19,9 @@ import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 import { StorageService } from '@app/modules/marketplace/services/storage-service/storage.service';
 import { timeout, catchError, throwError } from 'rxjs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -41,7 +44,9 @@ export class StorageConfFormComponent implements OnInit {
         private profileService: ProfileService,
         private storageService: StorageService,
         private snackbarService: SnackbarService,
+        public translateService: TranslateService,
         private ctrlContainer: FormGroupDirective,
+        public confirmationDialog: MatDialog,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
@@ -279,7 +284,15 @@ export class StorageConfFormComponent implements OnInit {
         this.storageService.getSnapshots(storageName).subscribe({
             next: (snapshots: Snapshot[]) => {
                 this.snapshots = Object.values(snapshots);
+                // filter directories
                 this.snapshots = this.snapshots.filter((s) => s.IsDir);
+                // sort by date (newest first)
+                this.snapshots.sort((a, b) => {
+                    return (
+                        new Date(b.ModTime).getTime() -
+                        new Date(a.ModTime).getTime()
+                    );
+                });
                 if (this.snapshots.length > 0) {
                     this.snapshots.forEach((snapshot: Snapshot) => {
                         this.snapshotOptions.push({
@@ -302,5 +315,57 @@ export class StorageConfFormComponent implements OnInit {
                 this.snapshotsLoading = false;
             },
         });
+    }
+
+    deleteSnapshot(ev: Event, option: string) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: this.translateService.instant(
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
+                ),
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.snapshotsLoading = true;
+                    const storageServiceUrl = this.storageConfFormGroup.get(
+                        'storageServiceDatasetSelect'
+                    )?.value;
+                    const storageServiceName = storageServiceUrl?.replace(
+                        'https://',
+                        ''
+                    );
+                    this.storageService
+                        .deleteSnapshot(storageServiceName!, option)
+                        .subscribe({
+                            next: () => {
+                                this.snapshots = this.snapshots.filter(
+                                    (o) => o.Name !== option
+                                );
+                                this.snapshotOptions =
+                                    this.snapshotOptions.filter(
+                                        (o) => o.value !== option
+                                    );
+                                this.snapshotsLoading = false;
+                                this.snackbarService.openSuccess(
+                                    'Successfully deleted snapshot with name: ' +
+                                        option
+                                );
+                            },
+                            error: () => {
+                                this.snapshotsLoading = false;
+                                this.snackbarService.openError(
+                                    'Error deleting snapshot with name: ' +
+                                        option
+                                );
+                            },
+                            complete: () => {
+                                this.snapshotsLoading = false;
+                            },
+                        });
+                }
+            });
     }
 }

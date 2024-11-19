@@ -53,3 +53,16 @@
 .warning-icon {
     color: var(--warning-orange);
 }
+
+::ng-deep .snapshot-class .mat-pseudo-checkbox {
+    display: none !important;
+}
+
+::ng-deep .snapshot-option-container > span {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}

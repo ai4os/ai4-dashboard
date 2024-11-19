@@ -213,13 +213,34 @@
                 <mat-label>{{
                     'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT' | translate
                 }}</mat-label>
-                <mat-select formControlName="snapshotDatasetSelect">
+                <mat-select
+                    formControlName="snapshotDatasetSelect"
+                    panelClass="snapshot-class"
+                >
+                    <mat-select-trigger>
+                        {{
+                            this.storageConfFormGroup.get(
+                                'snapshotDatasetSelect'
+                            )?.value
+                        }}
+                    </mat-select-trigger>
+
                     <mat-option>-</mat-option>
                     <mat-option
                         *ngFor="let snapshotOption of snapshotOptions"
                         [value]="snapshotOption.value"
+                        class="snapshot-option-container"
                     >
                         {{ snapshotOption.viewValue }}
+                        <button
+                            mat-icon-button
+                            color="warn"
+                            (click)="
+                                deleteSnapshot($event, snapshotOption.value)
+                            "
+                        >
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </mat-option>
                 </mat-select>
                 <mat-spinner

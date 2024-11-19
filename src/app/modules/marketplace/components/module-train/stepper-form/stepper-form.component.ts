@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
@@ -85,14 +85,14 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.isLoading = true;
-        let request: Observable<statusReturn>;
+        let request: Observable<StatusReturn>;
         const data: TrainModuleRequest = {
             general: {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:
@@ -168,7 +168,7 @@ export class StepperFormComponent implements OnInit {
                             .strategyOptionsSelect ===
                         'Federated Averaging with Momentum (FedAvgM)'
                             ? this.step3Form!.value.federatedConfForm
-                                .momentumInput
+                                  .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
                     noise_mult: this.step3Form!.value.federatedConfForm.dpInput
@@ -177,11 +177,11 @@ export class StepperFormComponent implements OnInit {
                     sampled_clients: this.step3Form!.value.federatedConfForm
                         .dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .sampledClientsNumInput
+                              .sampledClientsNumInput
                         : null,
                     clip_norm: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .clippingNormInput
+                              .clippingNormInput
                         : null,
                 };
                 request = this.deploymentsService.trainTool(
@@ -207,13 +207,13 @@ export class StepperFormComponent implements OnInit {
                             ?.doi === ''
                             ? []
                             : this.step3Form!.value.storageConfForm
-                                .datasetsList,
+                                  .datasetsList,
                 };
                 request = this.deploymentsService.postTrainModule(data);
             }
         }
         request.subscribe({
-            next: (result: statusReturn) => {
+            next: (result: StatusReturn) => {
                 this.isLoading = false;
 
                 if (result && result.status == 'success') {

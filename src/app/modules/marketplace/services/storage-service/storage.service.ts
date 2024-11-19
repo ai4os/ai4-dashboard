@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { Snapshot } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
@@ -22,12 +23,28 @@ export class StorageService {
         const url = `${base}${endpoints.snapshots.replace(
             ':storage_name',
             storageName
-        )}`;
+        )}/ls`;
         const params = new HttpParams()
             .set('storage_name', storageName)
             .set('vo', this.appConfigService.voName)
             .set('subpath', 'ai4os-storage/tools/cvat/backups');
 
         return this.http.get<Array<Snapshot>>(url, { params });
+    }
+
+    deleteSnapshot(
+        storageName: string,
+        filePath: string
+    ): Observable<StatusReturn> {
+        const url = `${base}${endpoints.snapshots.replace(
+            ':storage_name',
+            storageName
+        )}/rm`;
+        const params = new HttpParams()
+            .set('storage_name', storageName)
+            .set('vo', this.appConfigService.voName)
+            .set('subpath', 'ai4os-storage/tools/cvat/backups/' + filePath);
+
+        return this.http.delete<StatusReturn>(url, { params });
     }
 }

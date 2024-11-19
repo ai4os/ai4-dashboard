@@ -15,7 +15,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { Sort } from '@angular/material/sort';
 import {
     Deployment,
-    statusReturn,
+    StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -28,7 +28,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 
-const mockedDeleteToolResponse: statusReturn = {
+const mockedDeleteToolResponse: StatusReturn = {
     status: 'success',
 };
 
