@@ -26,7 +26,10 @@ import {
     SnapshotService,
     StatusReturnSnapshot,
 } from '@app/modules/deployments/services/snapshots-service/snapshot.service';
-import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
+import {
+    getDeploymentBadge,
+    getSnapshotBadge,
+} from '@app/modules/deployments/utils/deployment-badge';
 import { Router } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 
@@ -178,7 +181,11 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     }
 
     returnDeploymentBadge(status: string) {
-        return getDeploymentBadge(status);
+        let badge = getDeploymentBadge(status);
+        if (this.deploymentType === 'snapshot') {
+            badge = getSnapshotBadge(status);
+        }
+        return badge;
     }
 
     createSnapshot(e: MouseEvent, row: DeploymentTableRow) {
