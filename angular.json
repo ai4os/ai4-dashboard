@@ -66,6 +66,11 @@
                                     "output": "/assets/images/"
                                 },
                                 {
+                                    "glob": "**/*",
+                                    "input": "src/assets/i18n/",
+                                    "output": "/assets/i18n/"
+                                },
+                                {
                                     "glob": "config.json",
                                     "input": "src/assets/config/ai4eosc/",
                                     "output": "/assets/"

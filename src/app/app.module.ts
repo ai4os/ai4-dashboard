@@ -165,6 +165,12 @@ renderer.link = (href, title, text) => {
                             config.content!.href =
                                 appConfigService.legalLinks[1].url;
                         }
+                        if (
+                            appConfigService.apiURL &&
+                            appConfigService.apiURL !== ''
+                        ) {
+                            environment.api.base = appConfigService.apiURL;
+                        }
                     });
                 };
             },

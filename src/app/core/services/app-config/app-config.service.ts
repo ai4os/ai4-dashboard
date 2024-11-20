@@ -69,4 +69,9 @@ export class AppConfigService {
         this.checkConfigFileLoaded();
         return this.appConfig.analytics;
     }
+
+    get apiURL() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.apiURL;
+    }
 }
