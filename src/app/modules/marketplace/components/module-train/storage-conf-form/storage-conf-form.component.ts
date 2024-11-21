@@ -62,7 +62,7 @@ export class StorageConfFormComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)
-        datasetsListComponent!: DatasetsListComponent;
+    datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() set showHelp(showHelp: boolean) {
@@ -337,5 +337,18 @@ export class StorageConfFormComponent implements OnInit {
                 this.snapshotsLoading = false;
             },
         });
+    }
+
+    suggestedDatasetIsValid(): boolean {
+        const doiPattern = /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
+        const validDOI = doiPattern.test(this.suggestedDataset.title);
+        const validURL = urlPattern.test(this.suggestedDataset.title);
+
+        if (this.suggestedDataset.title !== '' && (validDOI || validURL)) {
+            return true;
+        }
+        return false;
     }
 }
