@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.1](https://github.com/ai4os/ai4-dashboard/compare/v2.29.0...v2.29.1) (2024-11-21)
+
+
+### Bug Fixes
+
+* docker url in module detail ([#264](https://github.com/ai4os/ai4-dashboard/issues/264)) ([08dd005](https://github.com/ai4os/ai4-dashboard/commit/08dd005a7554883f6c76a4d048068f1ef592d390))
+
 ## [2.29.0](https://github.com/ai4os/ai4-dashboard/compare/v2.28.1...v2.29.0) (2024-11-13)
 
 
