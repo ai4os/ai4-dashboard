@@ -209,6 +209,38 @@
         </mat-expansion-panel>
 
         @if (isCvatTool) {
+            <div class="snapshots-row">
+                <h4>
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOTS-CONF'
+                            | translate
+                    }}
+                </h4>
+
+                <span class="cvat-step-title">
+                    <span class="small-text"> Sort: </span>
+
+                    <mat-chip-listbox>
+                        <mat-chip-option
+                            [selected]="sortBy === 'name'"
+                            value="name"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'MODULES.SORTING.NAME' | translate
+                            }}</mat-chip-option
+                        >
+                        <mat-chip-option
+                            [selected]="sortBy === 'recent'"
+                            value="recent"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'MODULES.SORTING.MOST-RECENT' | translate
+                            }}</mat-chip-option
+                        >
+                    </mat-chip-listbox>
+                </span>
+            </div>
+
             <mat-form-field class="snapshots-container">
                 <mat-label>{{
                     'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT' | translate

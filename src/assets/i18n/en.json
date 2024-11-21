@@ -286,6 +286,7 @@
                 "STORAGE-CONF": "Storage configuration",
                 "DATASET-CONF": "Dataset configuration",
                 "RCLONE-CONF": "RCLONE configuration",
+                "SNAPSHOTS-CONF": "Snapshots configuration",
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",

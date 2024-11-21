@@ -22,6 +22,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { MatChipSelectionChange } from '@angular/material/chips';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -133,8 +134,10 @@ export class StorageConfFormComponent implements OnInit {
     protected storageServiceOptions: { value: string; viewValue: string }[] =
         [];
     protected snapshotOptions: { value: string; viewValue: string }[] = [];
+
     datasets: { doi: string; force_pull: boolean }[] = [];
     credentials: StorageCredential[] = [];
+    sortBy = 'recent';
     snapshots: Snapshot[] = [];
 
     private _mobileQueryListener: () => void;
@@ -367,5 +370,39 @@ export class StorageConfFormComponent implements OnInit {
                         });
                 }
             });
+    }
+
+    selectedSortingChip(event: MatChipSelectionChange) {
+        const selectedChipValue = event.source.value;
+
+        if (!event.selected && selectedChipValue === this.sortBy) {
+            event.source.select();
+            return;
+        }
+
+        if (event.selected) {
+            this.snapshotOptions = [];
+            if (selectedChipValue === 'name') {
+                this.sortBy = 'name';
+                this.snapshots.sort((a, b) => {
+                    return a.Name.localeCompare(b.Name);
+                });
+            } else if (selectedChipValue === 'recent') {
+                this.sortBy = 'recent';
+                this.snapshots.sort((a, b) => {
+                    return (
+                        new Date(b.ModTime).getTime() -
+                        new Date(a.ModTime).getTime()
+                    );
+                });
+            }
+
+            this.snapshots.forEach((snapshot: Snapshot) => {
+                this.snapshotOptions.push({
+                    value: snapshot.Name,
+                    viewValue: snapshot.Name,
+                });
+            });
+        }
     }
 }
