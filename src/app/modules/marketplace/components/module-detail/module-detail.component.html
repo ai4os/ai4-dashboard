@@ -20,7 +20,7 @@
         *ngIf="!isLoading"
         [ngClass]="{
             'module-detail-card-header-mobile': mobileQuery.matches,
-            'module-detail-card-header': !mobileQuery.matches
+            'module-detail-card-header': !mobileQuery.matches,
         }"
     >
         <mat-card-title
@@ -34,7 +34,7 @@
             *ngIf="!isTool"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
-                'action-buttons-container': !mobileQuery.matches
+                'action-buttons-container': !mobileQuery.matches,
             }"
         >
             <div
@@ -273,7 +273,7 @@
             *ngIf="isTool && isLoggedIn() && isAuthorized()"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
-                'action-buttons-container': !mobileQuery.matches
+                'action-buttons-container': !mobileQuery.matches,
             }"
         >
             <a
@@ -299,7 +299,7 @@
         <div
             [ngClass]="{
                 'grid-1-column': mobileQuery.matches,
-                'grid-2-columns-content': !mobileQuery.matches
+                'grid-2-columns-content': !mobileQuery.matches,
             }"
             *ngIf="!isLoading"
         >
@@ -467,7 +467,9 @@
                             *ngIf="module.links.docker_image"
                             class="action-button"
                             mat-raised-button
-                            href="{{ module.links.docker_image }}"
+                            href="https://hub.docker.com/r/{{
+                                module.links.docker_image
+                            }}"
                             target="_blank"
                         >
                             <span class="aligned-with-icon">
