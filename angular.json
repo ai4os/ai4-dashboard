@@ -51,13 +51,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -98,13 +100,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/imagine/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -139,13 +143,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -180,13 +186,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/imagine/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -220,13 +228,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -260,13 +270,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/imagine/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -307,13 +319,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -354,13 +368,15 @@
                                 }
                             ],
                             "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js"
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
                                 "src/theme/ai4life/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css"
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
                             ],
                             "assets": [
                                 {
@@ -387,28 +403,28 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "local-ai4eosc": {
-                          "buildTarget": "ai4-dashboard:build:local-ai4eosc"
+                            "buildTarget": "ai4-dashboard:build:local-ai4eosc"
                         },
                         "production-ai4eosc": {
-                          "buildTarget": "ai4-dashboard:build:production-ai4eosc"
+                            "buildTarget": "ai4-dashboard:build:production-ai4eosc"
                         },
                         "development-ai4eosc": {
-                          "buildTarget": "ai4-dashboard:build:development-ai4eosc"
+                            "buildTarget": "ai4-dashboard:build:development-ai4eosc"
                         },
                         "local-imagine": {
-                          "buildTarget": "ai4-dashboard:build:local-imagine"
+                            "buildTarget": "ai4-dashboard:build:local-imagine"
                         },
                         "production-imagine": {
-                          "buildTarget": "ai4-dashboard:build:production-imagine"
+                            "buildTarget": "ai4-dashboard:build:production-imagine"
                         },
                         "development-imagine": {
-                          "buildTarget": "ai4-dashboard:build:development-imagine"
+                            "buildTarget": "ai4-dashboard:build:development-imagine"
                         },
                         "tutorials-ai4eosc": {
-                          "buildTarget": "ai4-dashboard:build:tutorials-ai4eosc"
+                            "buildTarget": "ai4-dashboard:build:tutorials-ai4eosc"
                         },
                         "ai4life-ai4eosc": {
-                          "buildTarget": "ai4-dashboard:build:ai4life-ai4eosc"
+                            "buildTarget": "ai4-dashboard:build:ai4life-ai4eosc"
                         }
                     },
                     "defaultConfiguration": "local-ai4eosc"
@@ -416,7 +432,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                      "buildTarget": "ai4-dashboard:build"
+                        "buildTarget": "ai4-dashboard:build"
                     }
                 },
                 "lint": {

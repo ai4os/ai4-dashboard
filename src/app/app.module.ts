@@ -33,6 +33,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NotificationsButtonComponent } from './layout/top-navbar/notifications-button/notifications-button.component';
 import { CookieService } from 'ngx-cookie-service';
 import { gitInfo } from '@environments/version';
+import { IntroJSService } from 'introjs/introjs.service';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -172,6 +173,7 @@ renderer.link = (href, title, text) => {
         { provide: OAuthStorage, useFactory: storageFactory },
         Title,
         CookieService,
+        IntroJSService,
         provideHttpClient(withInterceptorsFromDi()),
     ],
 })
