@@ -46,7 +46,6 @@ export class ModuleDetailComponent implements OnInit {
 
     modulesList = [];
     module!: Module;
-    moduleId = '';
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
@@ -75,7 +74,6 @@ export class ModuleDetailComponent implements OnInit {
 
         this.route.params.subscribe((params) => {
             this.isLoading = true;
-            this.moduleId = params['id'];
             this.authService.userProfileSubject.subscribe((profile) => {
                 this.userProfile = profile;
             });
