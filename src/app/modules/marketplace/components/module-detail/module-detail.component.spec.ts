@@ -67,6 +67,7 @@ const mockedModule: Module = {
     tasks: ['task1'],
     categories: ['cat1'],
     tags: ['tag1'],
+    id: 'test',
 };
 
 const mockedMediaQueryList: MediaQueryList = {

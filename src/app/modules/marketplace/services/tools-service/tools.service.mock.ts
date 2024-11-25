@@ -17,6 +17,7 @@ export const module: Module = {
     links: {
         source_code: '',
     },
+    id: 'ai4os-testserver',
 };
 
 export const toolsSummaryList: Array<ModuleSummary> = [
@@ -28,6 +29,7 @@ export const toolsSummaryList: Array<ModuleSummary> = [
         name: 'ai4os-fedserver',
         libraries: [],
         tasks: [],
+        id: 'ai4os-fedserver',
     },
     {
         title: 'AI4OS Test Server',
@@ -37,5 +39,6 @@ export const toolsSummaryList: Array<ModuleSummary> = [
         name: 'ai4os-testserver',
         libraries: [],
         tasks: [],
+        id: 'ai4os-testserver',
     },
 ];

@@ -70,14 +70,11 @@ export class LoadingScreenComponent implements OnInit {
     }
 
     createGradioDeployment() {
-        const moduleName = this.module.links.source_code
-            .split('/')[4]
-            .toLowerCase();
         const moduleTitle = uniqueNamesGenerator({
             dictionaries: [colors, animals],
         });
         this.tryMeService
-            .createDeploymentGradio(moduleName, moduleTitle)
+            .createDeploymentGradio(this.module.id, moduleTitle)
             .subscribe({
                 next: (response: GradioCreateResponse) => {
                     if (response.status === 'success') {

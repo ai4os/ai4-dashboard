@@ -1,5 +1,6 @@
 export interface ModuleSummary {
     [x: string]: any;
+    id: string;
     name: string;
     title: string;
     summary: string;
@@ -12,6 +13,7 @@ export interface ModuleSummary {
 }
 
 export interface Module {
+    id: string;
     title: string;
     summary: string;
     description: string;

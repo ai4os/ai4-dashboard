@@ -17,6 +17,7 @@ export const module: Module = {
     links: {
         source_code: '',
     },
+    id: 'ai4-test',
 };
 
 export const modulesSummaryList: Array<ModuleSummary> = [
@@ -28,6 +29,7 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         name: 'ai4-test',
         libraries: [],
         tasks: [],
+        id: 'ai4-test',
     },
     {
         title: 'Test2',
@@ -37,5 +39,6 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         name: 'ai4-test',
         libraries: [],
         tasks: [],
+        id: 'ai4-test',
     },
 ];
