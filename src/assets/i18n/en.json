@@ -267,7 +267,6 @@
                 "DOCKER-TAG": "Docker tag",
                 "FEDERATED-SECRET": "Federated secret",
                 "ADD-FEDERATED-SECRET": "Create federated secret",
-                "OPEN-DOCUMENTATION": "Open documentation",
                 "CVAT-CREDENTIALS": "CVAT credentials",
                 "CVAT-USERNAME": "CVAT username",
                 "CVAT-PASSWORD": "CVAT password",
@@ -313,6 +312,7 @@
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
+                "DATASET-SUGGESTION": "This module has a suggested dataset. Click here to add it.",
                 "DOI-URL": {
                     "TITLE": "DOI / URL",
                     "ERROR": "Invalid DOI or URL format",
@@ -425,7 +425,8 @@
         "QUICK-SUBMIT": "Quick submit",
         "GITHUB": "GitHub",
         "DOCKERHUB": "Docker",
-        "REPORT-ISSUE": "Report issue"
+        "REPORT-ISSUE": "Report issue",
+        "OPEN-DOCUMENTATION": "Open documentation"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

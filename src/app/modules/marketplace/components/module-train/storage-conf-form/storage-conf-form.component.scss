@@ -46,10 +46,18 @@
     }
 }
 
-.aligned-with-icon {
-    gap: 5px;
-}
-
 .warning-icon {
     color: var(--warning-orange);
+}
+
+.title-with-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+
+    button {
+        padding: 0 10px;
+    }
 }
