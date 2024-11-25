@@ -25,6 +25,10 @@ import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 import { StorageService } from '@app/modules/marketplace/services/storage-service/storage.service';
 import { timeout, catchError, throwError } from 'rxjs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
+import { MatChipSelectionChange } from '@angular/material/chips';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
 import { DatasetsListComponent } from '../datasets/datasets-list/datasets-list.component';
@@ -50,8 +54,10 @@ export class StorageConfFormComponent implements OnInit {
         private profileService: ProfileService,
         private storageService: StorageService,
         private snackbarService: SnackbarService,
+        public translateService: TranslateService,
         private modulesService: ModulesService,
         private ctrlContainer: FormGroupDirective,
+        public confirmationDialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private changeDetectorRef: ChangeDetectorRef,
@@ -141,6 +147,7 @@ export class StorageConfFormComponent implements OnInit {
     protected storageServiceOptions: { value: string; viewValue: string }[] =
         [];
     protected snapshotOptions: { value: string; viewValue: string }[] = [];
+
     datasets: { doi: string; force_pull: boolean }[] = [];
     suggestedDataset: ZenodoSimpleDataset = {
         doiOrUrl: '',
@@ -149,6 +156,7 @@ export class StorageConfFormComponent implements OnInit {
         force_pull: false,
     };
     credentials: StorageCredential[] = [];
+    sortBy = 'recent';
     snapshots: Snapshot[] = [];
 
     private _mobileQueryListener: () => void;
@@ -314,7 +322,15 @@ export class StorageConfFormComponent implements OnInit {
         this.storageService.getSnapshots(storageName).subscribe({
             next: (snapshots: Snapshot[]) => {
                 this.snapshots = Object.values(snapshots);
+                // filter directories
                 this.snapshots = this.snapshots.filter((s) => s.IsDir);
+                // sort by date (newest first)
+                this.snapshots.sort((a, b) => {
+                    return (
+                        new Date(b.ModTime).getTime() -
+                        new Date(a.ModTime).getTime()
+                    );
+                });
                 if (this.snapshots.length > 0) {
                     this.snapshots.forEach((snapshot: Snapshot) => {
                         this.snapshotOptions.push({
@@ -337,6 +353,92 @@ export class StorageConfFormComponent implements OnInit {
                 this.snapshotsLoading = false;
             },
         });
+    }
+
+    deleteSnapshot(ev: Event, option: string) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: this.translateService.instant(
+                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
+                ),
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.snapshotsLoading = true;
+                    const storageServiceUrl = this.storageConfFormGroup.get(
+                        'storageServiceDatasetSelect'
+                    )?.value;
+                    const storageServiceName = storageServiceUrl?.replace(
+                        'https://',
+                        ''
+                    );
+                    this.storageService
+                        .deleteSnapshot(storageServiceName!, option)
+                        .subscribe({
+                            next: () => {
+                                this.snapshots = this.snapshots.filter(
+                                    (o) => o.Name !== option
+                                );
+                                this.snapshotOptions =
+                                    this.snapshotOptions.filter(
+                                        (o) => o.value !== option
+                                    );
+                                this.snapshotsLoading = false;
+                                this.snackbarService.openSuccess(
+                                    'Successfully deleted snapshot with name: ' +
+                                        option
+                                );
+                            },
+                            error: () => {
+                                this.snapshotsLoading = false;
+                                this.snackbarService.openError(
+                                    'Error deleting snapshot with name: ' +
+                                        option
+                                );
+                            },
+                            complete: () => {
+                                this.snapshotsLoading = false;
+                            },
+                        });
+                }
+            });
+    }
+
+    selectedSortingChip(event: MatChipSelectionChange) {
+        const selectedChipValue = event.source.value;
+
+        if (!event.selected && selectedChipValue === this.sortBy) {
+            event.source.select();
+            return;
+        }
+
+        if (event.selected) {
+            this.snapshotOptions = [];
+            if (selectedChipValue === 'name') {
+                this.sortBy = 'name';
+                this.snapshots.sort((a, b) => {
+                    return a.Name.localeCompare(b.Name);
+                });
+            } else if (selectedChipValue === 'recent') {
+                this.sortBy = 'recent';
+                this.snapshots.sort((a, b) => {
+                    return (
+                        new Date(b.ModTime).getTime() -
+                        new Date(a.ModTime).getTime()
+                    );
+                });
+            }
+
+            this.snapshots.forEach((snapshot: Snapshot) => {
+                this.snapshotOptions.push({
+                    value: snapshot.Name,
+                    viewValue: snapshot.Name,
+                });
+            });
+        }
     }
 
     suggestedDatasetIsValid(): boolean {

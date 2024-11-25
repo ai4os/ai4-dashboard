@@ -7,8 +7,8 @@ import {
     Deployment,
     DeploymentTableRow,
     Snapshot,
-    statusReturn,
     TableColumn,
+    StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -110,8 +110,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
-                        ) + deployment.docker_image.split(':')[1]
+                              'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                          ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,
@@ -143,7 +143,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
 
     removeModule(uuid: string) {
         this.deploymentsService.deleteDeploymentByUUID(uuid).subscribe({
-            next: (response: statusReturn) => {
+            next: (response: StatusReturn) => {
                 if (response && response['status'] == 'success') {
                     const itemIndex = this.modulesDataset.findIndex(
                         (obj) => obj['uuid'] === uuid
@@ -213,7 +213,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
 
     removeTool(uuid: string) {
         this.deploymentsService.deleteToolByUUID(uuid).subscribe({
-            next: (response: statusReturn) => {
+            next: (response: StatusReturn) => {
                 if (response && response['status'] == 'success') {
                     const itemIndex = this.toolsDataset.findIndex(
                         (obj) => obj['uuid'] === uuid

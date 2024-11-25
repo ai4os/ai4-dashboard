@@ -7,7 +7,7 @@ import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import {
     DeploymentTableRow,
-    statusReturn,
+    StatusReturn,
     TableColumn,
 } from '@app/shared/interfaces/deployment.interface';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
@@ -97,7 +97,7 @@ export class TryMeListComponent implements OnInit {
 
     removeTryMe(uuid: string) {
         this.tryMeService.deleteDeploymentByUUID(uuid).subscribe({
-            next: (response: statusReturn) => {
+            next: (response: StatusReturn) => {
                 if (response && response['status'] == 'success') {
                     const itemIndex = this.dataset.findIndex(
                         (obj) => obj['uuid'] === uuid
