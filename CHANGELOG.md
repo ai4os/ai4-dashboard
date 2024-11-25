@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.30.0](https://github.com/ai4os/ai4-dashboard/compare/v2.29.1...v2.30.0) (2024-11-25)
+
+
+### Features
+
+* button to add suggested dataset ([#262](https://github.com/ai4os/ai4-dashboard/issues/262)) ([7e26c77](https://github.com/ai4os/ai4-dashboard/commit/7e26c7742f71dfa2dd7c3f62872207452511672e))
+* rename train route ([#261](https://github.com/ai4os/ai4-dashboard/issues/261)) ([9d76f1a](https://github.com/ai4os/ai4-dashboard/commit/9d76f1a318fe7469fd99d4a0cb6d06c0ceaf877b))
+
+
+### Bug Fixes
+
+* use metadata id in try me ([#270](https://github.com/ai4os/ai4-dashboard/issues/270)) ([8d16217](https://github.com/ai4os/ai4-dashboard/commit/8d162171b2b8709f98f5f4744b22417516c201be))
+
 ## [2.29.1](https://github.com/ai4os/ai4-dashboard/compare/v2.29.0...v2.29.1) (2024-11-21)
 
 
