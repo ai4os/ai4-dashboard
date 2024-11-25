@@ -299,12 +299,29 @@
 
     @if (!isCvatTool) {
         <div class="dataset-options-container">
-            <h4>
-                {{
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
-                        | translate
-                }}
-            </h4>
+            <span class="title-with-button">
+                <h4>
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
+                            | translate
+                    }}
+                </h4>
+                <button
+                    *ngIf="suggestedDatasetIsValid()"
+                    mat-stroked-button
+                    (click)="
+                        datasetsListComponent.addDataset(this.suggestedDataset)
+                    "
+                >
+                    <span class="aligned-with-icon scale-icon-down">
+                        <mat-icon color="accent">emoji_objects</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-SUGGESTION'
+                                | translate
+                        }}
+                    </span>
+                </button></span
+            >
 
             <app-datasets-list
                 class="full-width"

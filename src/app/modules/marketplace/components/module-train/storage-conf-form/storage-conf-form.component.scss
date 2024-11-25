@@ -46,10 +46,6 @@
     }
 }
 
-.aligned-with-icon {
-    gap: 5px;
-}
-
 .warning-icon {
     color: var(--warning-orange);
 }
@@ -71,6 +67,18 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+
+.title-with-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+
+    button {
+        padding: 0 10px;
+    }
 }
 
 ::ng-deep .snapshot-class .mat-pseudo-checkbox {
