@@ -163,7 +163,7 @@ export class ModuleDetailComponent implements OnInit {
     }
 
     trainModule(service: string) {
-        this.router.navigate(['train'], {
+        this.router.navigate(['deploy'], {
             relativeTo: this.route,
             state: { service: service },
         });

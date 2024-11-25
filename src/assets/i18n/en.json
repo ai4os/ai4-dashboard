@@ -317,6 +317,7 @@
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
                 "DATASETS": "Datasets",
+                "DATASET-SUGGESTION": "This module has a suggested dataset. Click here to add it.",
                 "DOI-URL": {
                     "TITLE": "DOI / URL",
                     "ERROR": "Invalid DOI or URL format",
