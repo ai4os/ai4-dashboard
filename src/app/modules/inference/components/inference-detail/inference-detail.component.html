@@ -1,4 +1,4 @@
-<mat-toolbar class="mb-3">
+<mat-toolbar class="mb-3 detail-title">
     <span>
         {{ 'INFERENCE.INFERENCE-DETAIL.TITLE' | translate }}
 
@@ -21,7 +21,7 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches
+            'card-content-mobile': this.mobileQuery.matches,
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">
@@ -29,14 +29,14 @@
                 class=""
                 [ngClass]="{
                     'details-flex': mobileQuery.matches,
-                    'details-grid': !mobileQuery.matches
+                    'details-grid': !mobileQuery.matches,
                 }"
             >
                 <div
                     [ngClass]="{
                         'deployment-detail-container-mobile':
                             mobileQuery.matches,
-                        'deployment-detail-container': !mobileQuery.matches
+                        'deployment-detail-container': !mobileQuery.matches,
                     }"
                 >
                     <div>

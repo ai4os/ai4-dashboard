@@ -1,103 +1,3 @@
-.mat-mdc-header-row {
-    background: var(--light-gray);
-
-    .mat-mdc-header-cell {
-        border: 1px solid var(--border-gray);
-        color: var(--primary);
-        font-weight: bold;
-    }
-}
-
-.mat-column-actions {
-    max-width: 140px;
-
-    .mdc-button {
-        min-width: 40px;
-    }
-}
-
-.mat-column-gpus {
-    max-width: 100px;
-}
-
-.mat-column-status {
-    justify-content: center;
-    max-width: 150px;
-}
-
-.mat-column-name {
-    max-width: 300px;
-}
-
-.mat-column-deployedAt {
-    max-width: 125px;
-}
-
-.mat-column-creationTime {
-    max-width: 200px;
-}
-
-.mat-column-containerName {
-    white-space: nowrap;
-    min-width: 260px;
-}
-
-.mat-mdc-table .mat-mdc-row:hover {
-    background-color: var(--accent);
-    & .mat-mdc-cell {
-        color: var(--white);
-    }
-}
-
-.mat-mdc-table .mat-mdc-row:hover #accessIcon {
-    color: var(--white);
-}
-.mat-mdc-table .mat-mdc-row:hover #infoIcon {
-    color: var(--white);
-}
-
-.table-container {
-    overflow: auto;
-}
-
-.actions-container {
-    display: flex;
-    padding: 0px 5px;
-}
-
-.content-cell {
-    min-width: 130px;
-    padding: 0 16px 0 8px;
-}
-
-.no-deployment-message-container {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0;
-}
-
-.action-button-in-cell {
-    padding: 0px;
-}
-.action-button-in-cell:disabled #accessIcon {
-    color: var(--dark-gray) !important;
-}
-.action-button-in-cell:hover #accessIcon {
-    color: var(--dark-gray);
-}
-
-::ng-deep .action-button-in-cell .mat-badge-content {
-    font-family: 'Material Icons';
-}
-
-::ng-deep
-    .action-button-in-cell
-    .mat-badge-small.mat-badge-after
-    .mat-badge-content {
-    right: 0;
-    top: -4px;
-}
-
 .aligned-with-icon {
     display: flex;
     align-items: center;
@@ -108,6 +8,10 @@
     }
 }
 
-.smaller-spinner {
-    max-height: 150px !important;
+.tables-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 2em;
+    padding-bottom: 2em;
 }

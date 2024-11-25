@@ -1,0 +1,94 @@
+<mat-toolbar class="mb-3 marketplace-toolbar detail-title">
+    <span>
+        {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.SNAPSHOT-TITLE' | translate }}
+
+        <mat-icon>view_in_ar</mat-icon></span
+    >
+</mat-toolbar>
+
+<mat-card>
+    <ng-template #loading>
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    </ng-template>
+
+    <mat-card-header>
+        <mat-card-title class="deployment-detail-title">
+            <h2>{{ snapshot.title }}</h2>
+            <p>
+                <img
+                    *ngIf="data.snapshot"
+                    src="https://img.shields.io/badge/status-{{ statusBadge }}"
+                    width="125"
+                />
+            </p>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content
+        [ngClass]="{
+            'card-content-mobile': this.mobileQuery.matches,
+        }"
+    >
+        <div *ngIf="snapshotHasError">
+            <h4>
+                <mat-icon style="vertical-align: bottom" color="warn"
+                    >warning</mat-icon
+                >
+                <mat-error> Error: {{ snapshot.error_msg }}</mat-error>
+            </h4>
+        </div>
+        <ng-container *ngIf="!isLoading; else loading">
+            <div
+                [ngClass]="{
+                    'deployment-detail-container-mobile': mobileQuery.matches,
+                    'deployment-detail-container': !mobileQuery.matches,
+                }"
+            >
+                <div>
+                    <h3>
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.SNAPSHOT-ID'
+                                | translate
+                        }}
+                    </h3>
+                    <p>{{ snapshot.snapshot_ID }}</p>
+                </div>
+
+                <div>
+                    <h3>
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
+                                | translate
+                        }}
+                    </h3>
+                    <p>{{ snapshot.description }}</p>
+                </div>
+
+                <div>
+                    <h3>
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME'
+                                | translate
+                        }}
+                    </h3>
+                    <p>{{ snapshot.submit_time }}</p>
+                </div>
+                <div>
+                    <h3>
+                        {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.SIZE' | translate }}
+                    </h3>
+                    <p>{{ snapshot.size }} GiB</p>
+                </div>
+            </div>
+
+            <ng-template #noResources> - </ng-template>
+        </ng-container>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-raised-button mat-dialog-close>
+            {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+        </button>
+    </mat-card-actions>
+</mat-card>

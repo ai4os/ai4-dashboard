@@ -1,4 +1,7 @@
-import { Deployment } from '@app/shared/interfaces/deployment.interface';
+import {
+    Deployment,
+    statusReturn,
+} from '@app/shared/interfaces/deployment.interface';
 
 export const toolsList: Array<Deployment> = [
     {
@@ -85,3 +88,89 @@ export const deploymentsList: Array<Deployment> = [
         alloc_ID: 'bbadee9b-fccc-60dc-0ad0-80e507707d26',
     },
 ];
+
+export const mockedDeployments: Deployment[] = [
+    {
+        job_ID: 'module-test',
+        status: '',
+        owner: '',
+        title: '',
+        docker_image: 'ai4oshub/fast-neural-transfer:latest',
+        submit_time: '',
+        main_endpoint: '',
+        description: '',
+        datacenter: '',
+        error_msg: 'Test error',
+        resources: {
+            cpu_MHz: 0,
+            cpu_num: 0,
+            gpu_num: 1,
+            memory_MB: 10,
+            disk_MB: 20,
+        },
+    },
+    {
+        job_ID: 'module-test2',
+        status: '',
+        owner: '',
+        title: '',
+        docker_image: 'ai4oshub/fast-neural-transfer:latest',
+        submit_time: '',
+        main_endpoint: '',
+        description: '',
+        datacenter: '',
+        error_msg: 'Test error',
+        resources: {
+            cpu_MHz: 0,
+            cpu_num: 0,
+            gpu_num: 1,
+            memory_MB: 10,
+            disk_MB: 20,
+        },
+    },
+];
+
+export const mockedTools: Deployment[] = [
+    {
+        job_ID: 'tool-test',
+        status: '',
+        owner: '',
+        title: '',
+        docker_image: '',
+        submit_time: '',
+        main_endpoint: '',
+        description: '',
+        datacenter: '',
+        error_msg: 'Test error',
+        resources: {
+            cpu_MHz: 0,
+            cpu_num: 0,
+            gpu_num: 1,
+            memory_MB: 10,
+            disk_MB: 20,
+        },
+    },
+    {
+        job_ID: 'tool-test2',
+        status: '',
+        owner: '',
+        title: '',
+        docker_image: '',
+        submit_time: '',
+        main_endpoint: '',
+        description: '',
+        datacenter: '',
+        error_msg: 'Test error',
+        resources: {
+            cpu_MHz: 0,
+            cpu_num: 0,
+            gpu_num: 1,
+            memory_MB: 10,
+            disk_MB: 20,
+        },
+    },
+];
+
+export const mockedDeleteDeploymentResponse: statusReturn = {
+    status: 'success',
+};

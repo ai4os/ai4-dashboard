@@ -6,21 +6,13 @@ import {
     flush,
     tick,
 } from '@angular/core/testing';
-
 import { DeploymentsListComponent } from './deployments-list.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-    Deployment,
-    StatusReturn,
-} from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { ToolsTableComponent } from './tools-table/tools-table.component';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Sort } from '@angular/material/sort';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -28,47 +20,32 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-
-const mockedDeployment: Deployment = {
-    job_ID: 'tool-test',
-    status: '',
-    owner: '',
-    title: '',
-    docker_image: '',
-    submit_time: '',
-    main_endpoint: '',
-    description: '',
-    datacenter: '',
-    error_msg: 'Test error',
-    resources: {
-        cpu_MHz: 0,
-        cpu_num: 0,
-        gpu_num: 1,
-        memory_MB: 10,
-        disk_MB: 20,
-    },
-};
-const deploymentRow = {
-    uuid: 'tool-test',
-    name: '',
-    status: 'running',
-    containerName: '',
-    gpus: 1,
-    creationTime: '',
-    endpoints: {},
-    mainEndpoint: '',
-    error_msg: 'Test error',
-};
-
-const mockedDeleteDeploymentResponse: StatusReturn = {
-    status: 'success',
-};
+import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
+import { mockedSnapshots } from '../../services/snapshots-service/snapshot.service.mock';
+import {
+    mockedDeployments,
+    mockedDeleteDeploymentResponse,
+    mockedTools,
+} from '../../services/deployments-service/deployment.service.mock';
 
 const mockedConfigService: any = {};
-const mockedDeploymentServices: any = {
-    getDeployments: jest.fn().mockReturnValue(of([mockedDeployment])),
-    getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
+
+const mockedDeploymentService: any = {
+    getDeployments: jest.fn().mockReturnValue(of(mockedDeployments)),
+    getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployments[0])),
     deleteDeploymentByUUID: jest
+        .fn()
+        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
+    getTools: jest.fn().mockReturnValue(of(mockedTools)),
+    getToolByUUID: jest.fn().mockReturnValue(of(mockedTools[0])),
+    deleteToolByUUID: jest
+        .fn()
+        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
+};
+
+const mockedSnapshotService: any = {
+    getSnapshots: jest.fn().mockReturnValue(of(mockedSnapshots)),
+    deleteSnapshotByUUID: jest
         .fn()
         .mockReturnValue(of(mockedDeleteDeploymentResponse)),
 };
@@ -98,11 +75,7 @@ describe('DeploymentsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                DeploymentsListComponent,
-                ToolsTableComponent,
-                DeploymentDetailComponent,
-            ],
+            declarations: [DeploymentsListComponent, DeploymentDetailComponent],
             imports: [
                 SharedModule,
                 BrowserModule,
@@ -116,7 +89,11 @@ describe('DeploymentsListComponent', () => {
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: DeploymentsService,
-                    useValue: mockedDeploymentServices,
+                    useValue: mockedDeploymentService,
+                },
+                {
+                    provide: SnapshotService,
+                    useValue: mockedSnapshotService,
                 },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 {
@@ -128,7 +105,6 @@ describe('DeploymentsListComponent', () => {
 
         fixture = TestBed.createComponent(DeploymentsListComponent);
         component = fixture.componentInstance;
-        component.dataset = [];
         fixture.detectChanges();
     });
 
@@ -136,22 +112,45 @@ describe('DeploymentsListComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should get deployment list correctly', fakeAsync(() => {
-        const spyGetDeploymentsList = jest.spyOn(
-            component,
-            'getDeploymentsList'
-        );
-        const spyGetDeploymentsService = jest.spyOn(
-            mockedDeploymentServices,
+    it('should get deployments list correctly', fakeAsync(() => {
+        // get modules
+        const spyGetModulesList = jest.spyOn(component, 'getModulesList');
+        const spyGetModulesDeploymentsService = jest.spyOn(
+            mockedDeploymentService,
             'getDeployments'
         );
 
-        const expectedDataset = [
+        // get tools
+        const spyGetToolsList = jest.spyOn(component, 'getToolsList');
+        const spyGetToolsDeploymentsService = jest.spyOn(
+            mockedDeploymentService,
+            'getTools'
+        );
+
+        // get snapshots
+        const spyGetSnapshotsList = jest.spyOn(component, 'getSnapshotsList');
+        const spyGetSnapshotsDeploymentsService = jest.spyOn(
+            mockedSnapshotService,
+            'getSnapshots'
+        );
+
+        const expectedModulesDataset = [
             {
-                uuid: 'tool-test',
+                uuid: 'module-test',
                 name: '',
                 status: '',
-                containerName: '',
+                containerName: 'ai4oshub/fast-neural-transfer:latest',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+            {
+                uuid: 'module-test2',
+                name: '',
+                status: '',
+                containerName: 'ai4oshub/fast-neural-transfer:latest',
                 gpus: 1,
                 creationTime: '',
                 endpoints: undefined,
@@ -159,44 +158,8 @@ describe('DeploymentsListComponent', () => {
                 error_msg: 'Test error',
             },
         ];
-        component.ngOnInit();
-        tick(100);
-        expect(spyGetDeploymentsList).toHaveBeenCalledTimes(1);
-        expect(spyGetDeploymentsService).toHaveBeenCalled();
-        expect(component.dataset).toEqual(expectedDataset);
-        expect(component.dataSource.filteredData).toEqual(expectedDataset);
-        flush();
-        discardPeriodicTasks();
-    }));
 
-    it('should call confirmation dialog when trying to delete a deployment', fakeAsync(() => {
-        const mouseEvent = new MouseEvent('click');
-        const spyConfirmationDialog = jest.spyOn(
-            component.confirmationDialog,
-            'open'
-        );
-        component.removeDeployment(mouseEvent, deploymentRow);
-        expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should NOT delete a deployment if user does not confirm it', fakeAsync(() => {
-        const mouseEvent = new MouseEvent('click');
-        const spyConfirmationDialog = jest
-            .spyOn(component.confirmationDialog, 'open')
-            .mockReturnValue({ afterClosed: () => of(false) } as MatDialogRef<
-                typeof component
-            >);
-        const spyDeleteDeploymentByUUID = jest.spyOn(
-            mockedDeploymentServices,
-            'deleteDeploymentByUUID'
-        );
-        component.removeDeployment(mouseEvent, deploymentRow);
-        expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
-        expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(0);
-    }));
-
-    it('should DELETE a deployment correctly if confirmed and no error from API', fakeAsync(() => {
-        const initialDataset = [
+        const expectedToolsDataset = [
             {
                 uuid: 'tool-test',
                 name: '',
@@ -220,31 +183,116 @@ describe('DeploymentsListComponent', () => {
                 error_msg: 'Test error',
             },
         ];
-        const expectedDataset = [initialDataset[1]];
-        component.dataset = initialDataset;
-        const mouseEvent = new MouseEvent('click');
-        const spyConfirmationDialog = jest
-            .spyOn(component.confirmationDialog, 'open')
-            .mockReturnValue({ afterClosed: () => of(true) } as MatDialogRef<
-                typeof component
-            >);
-        const spyDeleteDeploymentByUUID = jest.spyOn(
-            mockedDeploymentServices,
+
+        const expectedSnapshotsDataset = [
+            {
+                uuid: 'snapshot-test',
+                name: '',
+                description: '',
+                status: '',
+                containerName: '',
+                tagName: 'snapshot-test',
+                size: '1.92',
+                creationTime: '',
+                snapshot_ID: 'snapshot-test',
+            },
+            {
+                uuid: 'snapshot-test2',
+                name: '',
+                description: '',
+                status: '',
+                containerName: '',
+                tagName: 'snapshot-test2',
+                size: '1.92',
+                creationTime: '',
+                snapshot_ID: 'snapshot-test2',
+            },
+        ];
+
+        component.ngOnInit();
+        tick(100);
+        expect(spyGetModulesList).toHaveBeenCalledTimes(1);
+        expect(spyGetModulesDeploymentsService).toHaveBeenCalled();
+        expect(component.modulesDataset).toEqual(expectedModulesDataset);
+        expect(component.modulesDataSource.filteredData).toEqual(
+            expectedModulesDataset
+        );
+        expect(spyGetToolsList).toHaveBeenCalledTimes(1);
+        expect(spyGetToolsDeploymentsService).toHaveBeenCalled();
+        expect(component.toolsDataset).toEqual(expectedToolsDataset);
+        expect(component.toolsDataSource.filteredData).toEqual(
+            expectedToolsDataset
+        );
+        expect(spyGetSnapshotsList).toHaveBeenCalledTimes(1);
+        expect(spyGetSnapshotsDeploymentsService).toHaveBeenCalled();
+        expect(component.snapshotsDataset).toEqual(expectedSnapshotsDataset);
+        expect(component.snapshotsDataSource.filteredData).toEqual(
+            expectedSnapshotsDataset
+        );
+
+        flush();
+        discardPeriodicTasks();
+    }));
+
+    it('should DELETE a module deployment correctly if confirmed and no error from API', fakeAsync(() => {
+        const spyRemoveModule = jest.spyOn(component, 'removeModule');
+        const spyRemoveModuleDeploymentsService = jest.spyOn(
+            mockedDeploymentService,
             'deleteDeploymentByUUID'
         );
         const spySuccessSnackbar = jest.spyOn(
             mockedSnackbarService,
             'openSuccess'
         );
-        component.removeDeployment(mouseEvent, deploymentRow);
-        expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
-        expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
+
+        const initialDataset = [
+            {
+                uuid: 'module-test',
+                name: '',
+                status: '',
+                containerName: 'ai4oshub/fast-neural-transfer:latest',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+            {
+                uuid: 'module-test2',
+                name: '',
+                status: '',
+                containerName: 'ai4oshub/fast-neural-transfer:latest',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+        ];
+
+        const expectedDataset = [initialDataset[1]];
+        component.modulesDataset = initialDataset;
+        component.removeModule('module-test');
+
+        expect(spyRemoveModule).toHaveBeenCalledTimes(1);
+        expect(spyRemoveModuleDeploymentsService).toHaveBeenCalled();
         expect(spySuccessSnackbar).toHaveBeenCalledTimes(1);
-        expect(component.dataset).toEqual(expectedDataset);
+        expect(component.modulesDataset).toEqual(expectedDataset);
+
         jest.clearAllMocks();
     }));
 
-    it('should NOT delete a deployment if API returns an error', fakeAsync(() => {
+    it('should DELETE a tool deployment correctly if confirmed and no error from API', fakeAsync(() => {
+        const spyRemoveTool = jest.spyOn(component, 'removeTool');
+        const spyRemoveToolDeploymentsService = jest.spyOn(
+            mockedDeploymentService,
+            'deleteToolByUUID'
+        );
+        const spySuccessSnackbar = jest.spyOn(
+            mockedSnackbarService,
+            'openSuccess'
+        );
+
         const initialDataset = [
             {
                 uuid: 'tool-test',
@@ -269,80 +317,186 @@ describe('DeploymentsListComponent', () => {
                 error_msg: 'Test error',
             },
         ];
-        const mouseEvent = new MouseEvent('click');
-        const spyConfirmationDialog = jest
-            .spyOn(component.confirmationDialog, 'open')
-            .mockReturnValue({ afterClosed: () => of(true) } as MatDialogRef<
-                typeof component
-            >);
-        const spyDeleteDeploymentByUUID = jest
-            .spyOn(mockedDeploymentServices, 'deleteDeploymentByUUID')
-            .mockReturnValue(of({ status: 'error' }));
-        const spyErrorSnackbar = jest.spyOn(mockedSnackbarService, 'openError');
-        component.dataset = initialDataset;
-        component.removeDeployment(mouseEvent, deploymentRow);
-        expect(spyConfirmationDialog).toHaveBeenCalledTimes(1);
-        expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
-        expect(spyErrorSnackbar).toHaveBeenCalledTimes(1);
-        expect(component.dataset).toEqual(initialDataset);
+
+        const expectedDataset = [initialDataset[1]];
+        component.toolsDataset = initialDataset;
+        component.removeTool('tool-test');
+
+        expect(spyRemoveTool).toHaveBeenCalledTimes(1);
+        expect(spyRemoveToolDeploymentsService).toHaveBeenCalled();
+        expect(spySuccessSnackbar).toHaveBeenCalledTimes(1);
+        expect(component.toolsDataset).toEqual(expectedDataset);
+
+        jest.clearAllMocks();
     }));
 
-    it('should return correctly a deployments status of running', () => {
-        // Check deployment runnning
-        let deploymentStatus = component.isDeploymentRunning(deploymentRow);
-        expect(deploymentStatus).toBe(true);
-        // Check deployment status is empty
-        deploymentRow.status = '';
-        deploymentStatus = component.isDeploymentRunning(deploymentRow);
-        expect(deploymentStatus).toBe(false);
-        // Check deployment status is random string
-        deploymentRow.status = 'dasdadasdnotrunning';
-        deploymentStatus = component.isDeploymentRunning(deploymentRow);
-        expect(deploymentStatus).toBe(false);
-    });
+    it('should DELETE a snapshot deployment correctly if confirmed and no error from API', fakeAsync(() => {
+        const spyRemoveSnapshot = jest.spyOn(component, 'removeSnapshot');
+        const spyRemoveSnapshotDeploymentsService = jest.spyOn(
+            mockedSnapshotService,
+            'deleteSnapshotByUUID'
+        );
+        const spySuccessSnackbar = jest.spyOn(
+            mockedSnackbarService,
+            'openSuccess'
+        );
 
-    it('should return correctly a deployments endpoints', () => {
-        //Endpoints undefined, should not crash
-        component.getDeploymentEndpoints(deploymentRow);
-        expect(component).toBeTruthy();
-        //Endpoints are returned correctly
-        const expectedEndpoints = {
-            test: 'test',
-        };
-        deploymentRow.endpoints = expectedEndpoints;
-        const endpoints = component.getDeploymentEndpoints(deploymentRow);
-        expect(endpoints).toEqual(expectedEndpoints);
-    });
+        const initialDataset = [
+            {
+                uuid: 'snapshot-test',
+                name: '',
+                description: '',
+                status: '',
+                containerName: '',
+                tagName: 'snapshot-test',
+                size: '1.92',
+                creationTime: '',
+                snapshot_ID: 'snapshot-test',
+            },
+            {
+                uuid: 'snapshot-test2',
+                name: '',
+                description: '',
+                status: '',
+                containerName: '',
+                tagName: 'snapshot-test2',
+                size: '1.92',
+                creationTime: '',
+                snapshot_ID: 'snapshot-test2',
+            },
+        ];
 
-    it('should return correctly a deployments error, if any', () => {
-        //Error undefined, should not crash
-        const nullData: unknown = undefined;
-        deploymentRow.error_msg = nullData as string;
-        component.hasDeploymentErrors(deploymentRow);
-        expect(component).toBeTruthy();
-        //Errors are returned correctly
-        deploymentRow.error_msg = 'Something failed';
-        const errorMsg = component.hasDeploymentErrors(deploymentRow);
-        expect(errorMsg).toEqual('Something failed');
-    });
+        const expectedDataset = [initialDataset[1]];
+        component.snapshotsDataset = initialDataset;
+        component.removeSnapshot('snapshot-test');
 
-    it('should return correctly a deployments badge correctly', () => {
-        // Status undefined, should not crash
-        const nullData: unknown = undefined;
-        jest.spyOn(component, 'returnDeploymentBadge');
-        component.returnDeploymentBadge(nullData as string);
-        expect(component.returnDeploymentBadge).toHaveReturned();
-        const badge = component.returnDeploymentBadge('running');
-        expect(badge).toEqual('running-brightgreen');
-    });
+        expect(spyRemoveSnapshot).toHaveBeenCalledTimes(1);
+        expect(spyRemoveSnapshotDeploymentsService).toHaveBeenCalled();
+        expect(spySuccessSnackbar).toHaveBeenCalledTimes(1);
+        expect(component.snapshotsDataset).toEqual(expectedDataset);
+
+        jest.clearAllMocks();
+    }));
+
+    it('should NOT delete a module if API returns an error', fakeAsync(() => {
+        const initialDataset = [
+            {
+                uuid: 'module-test',
+                name: '',
+                status: '',
+                containerName: 'ai4oshub/fast-neural-transfer:latest',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+            {
+                uuid: 'module-test2',
+                name: '',
+                status: '',
+                containerName: 'ai4oshub/fast-neural-transfer:latest',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+        ];
+        const spyDeleteDeploymentByUUID = jest
+            .spyOn(mockedDeploymentService, 'deleteDeploymentByUUID')
+            .mockReturnValue(of({ status: 'error' }));
+        const spyErrorSnackbar = jest.spyOn(mockedSnackbarService, 'openError');
+        component.modulesDataset = initialDataset;
+        component.removeModule('module-test');
+        expect(spyDeleteDeploymentByUUID).toHaveBeenCalledTimes(1);
+        expect(spyErrorSnackbar).toHaveBeenCalledTimes(1);
+        expect(component.modulesDataset).toEqual(initialDataset);
+
+        jest.clearAllMocks();
+    }));
+
+    it('should NOT delete a tool if API returns an error', fakeAsync(() => {
+        const initialDataset = [
+            {
+                uuid: 'tool-test',
+                name: '',
+                status: '',
+                containerName: '',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+            {
+                uuid: 'tool-test2',
+                name: '',
+                status: '',
+                containerName: '',
+                gpus: 1,
+                creationTime: '',
+                endpoints: undefined,
+                mainEndpoint: '',
+                error_msg: 'Test error',
+            },
+        ];
+        const spyDeleteToolByUUID = jest
+            .spyOn(mockedDeploymentService, 'deleteToolByUUID')
+            .mockReturnValue(of({ status: 'error' }));
+        const spyErrorSnackbar = jest.spyOn(mockedSnackbarService, 'openError');
+        component.toolsDataset = initialDataset;
+        component.removeTool('tool-test');
+        expect(spyDeleteToolByUUID).toHaveBeenCalledTimes(1);
+        expect(spyErrorSnackbar).toHaveBeenCalledTimes(1);
+        expect(component.toolsDataset).toEqual(initialDataset);
+
+        jest.clearAllMocks();
+    }));
+
+    it('should NOT delete a snapshot if API returns an error', fakeAsync(() => {
+        const initialDataset = [
+            {
+                uuid: 'snapshot-test',
+                name: '',
+                description: '',
+                status: '',
+                containerName: '',
+                tagName: 'snapshot-test',
+                size: '1.92',
+                creationTime: '',
+                snapshot_ID: 'snapshot-test',
+            },
+            {
+                uuid: 'snapshot-test2',
+                name: '',
+                description: '',
+                status: '',
+                containerName: '',
+                tagName: 'snapshot-test2',
+                size: '1.92',
+                creationTime: '',
+                snapshot_ID: 'snapshot-test2',
+            },
+        ];
+        const spyDeleteSnapshotByUUID = jest
+            .spyOn(mockedSnapshotService, 'deleteSnapshotByUUID')
+            .mockReturnValue(of({ status: 'error' }));
+        const spyErrorSnackbar = jest.spyOn(mockedSnackbarService, 'openError');
+        component.snapshotsDataset = initialDataset;
+        component.removeSnapshot('snapshot-test');
+        expect(spyDeleteSnapshotByUUID).toHaveBeenCalledTimes(1);
+        expect(spyErrorSnackbar).toHaveBeenCalledTimes(1);
+        expect(component.snapshotsDataset).toEqual(initialDataset);
+
+        jest.clearAllMocks();
+    }));
 
     it('should open deployment detail dialog correctly', fakeAsync(() => {
-        component.displayedColumns = [];
         component.ngOnInit();
         tick(100);
         fixture.detectChanges();
 
-        //open-deployment-detail-button
         jest.spyOn(component, 'openDeploymentDetailDialog');
         const openDeploymentDetailButton = fixture.debugElement.query(
             By.css('#infoButton')
@@ -351,20 +505,5 @@ describe('DeploymentsListComponent', () => {
         expect(component.openDeploymentDetailDialog).toHaveBeenCalledTimes(1);
         flush();
         discardPeriodicTasks();
-    }));
-
-    it('annnounces sort states changes correctly ', fakeAsync(() => {
-        const sortState: Sort = {
-            active: '',
-            direction: 'asc',
-        };
-        //Announce change in direction
-        const spyAnnounce = jest.spyOn(component['_liveAnnouncer'], 'announce');
-        component.announceSortChange(sortState);
-        sortState.direction = '';
-        expect(spyAnnounce).toHaveBeenCalledWith('Sorted ascending');
-        //Announce sorted cleared
-        component.announceSortChange(sortState);
-        expect(spyAnnounce).toHaveBeenCalledWith('Sorting cleared');
     }));
 });

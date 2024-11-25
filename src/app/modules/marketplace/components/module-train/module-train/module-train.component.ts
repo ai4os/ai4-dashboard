@@ -9,6 +9,7 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-module-train',
@@ -19,6 +20,7 @@ export class ModuleTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
+        public translateService: TranslateService,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -44,10 +46,51 @@ export class ModuleTrainComponent implements OnInit {
     service: string | undefined;
 
     ngOnInit(): void {
-        this.loadModule();
+        const deploymentType = sessionStorage.getItem('deploymentType');
+        if (deploymentType && deploymentType === 'snapshot') {
+            this.title = 'Snapshots';
+            sessionStorage.removeItem('deploymentType');
+            this.loadGenericModule();
+        } else {
+            this.loadSpecificModule();
+        }
     }
 
-    loadModule() {
+    loadGenericModule() {
+        this.modulesService
+            .getModuleConfiguration('ai4os-demo-app')
+            .subscribe((moduleConf: ModuleConfiguration) => {
+                this.generalConfDefaultValues = moduleConf.general;
+                this.hardwareConfDefaultValues = moduleConf.hardware;
+                this.storageConfDefaultValues = moduleConf.storage;
+
+                if (this.service) {
+                    this.generalConfDefaultValues.service.value = this.service;
+                }
+
+                const deploymentRow = sessionStorage.getItem('deploymentRow');
+                if (deploymentRow) {
+                    const deployment = JSON.parse(deploymentRow);
+                    const snapshotText =
+                        this.translateService.instant(
+                            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                        ) + deployment.snapshot_ID;
+                    this.generalConfDefaultValues.title.value = deployment.name;
+                    this.generalConfDefaultValues.desc!.value = deployment.desc
+                        ? deployment.desc + '\n' + snapshotText
+                        : snapshotText;
+                    this.generalConfDefaultValues.docker_image.value =
+                        deployment.containerName;
+                    this.generalConfDefaultValues.docker_tag.options = [
+                        deployment.tagName,
+                    ];
+                    this.generalConfDefaultValues.docker_tag.value =
+                        deployment.tagName;
+                }
+            });
+    }
+
+    loadSpecificModule() {
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;

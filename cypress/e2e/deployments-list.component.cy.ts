@@ -7,7 +7,6 @@ describe('deployments section', function () {
         cy.contains('Decline').click();
         cy.get('#deploy-tool-button', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
-        cy.wait(500);
         cy.contains('Quick submit').click();
     });
 

@@ -47,7 +47,6 @@ export class TryMeDetailComponent implements OnInit {
                     }
                     this.statusBadge = getDeploymentBadge(deployment.status);
                     this.deployment = deployment;
-                    console.log(deployment);
                 });
         }
     }

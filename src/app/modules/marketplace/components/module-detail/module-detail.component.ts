@@ -139,12 +139,12 @@ export class ModuleDetailComponent implements OnInit {
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(
-                                    'OSCAR service created with name ' +
+                                    'OSCAR service created with uuid ' +
                                         serviceName
                                 );
                             } else {
                                 this.snackbarService.openError(
-                                    'Error while creating service with name ' +
+                                    'Error while creating service with uuid ' +
                                         serviceName
                                 );
                             }

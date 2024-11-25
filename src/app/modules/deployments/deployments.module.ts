@@ -4,15 +4,15 @@ import { DeploymentsListComponent } from './components/deployments-list/deployme
 import { DeploymentsRoutingModule } from './deployments-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { DeploymentDetailComponent } from './components/deployment-detail/deployment-detail.component';
-import { ToolsTableComponent } from './components/deployments-list/tools-table/tools-table.component';
 import { SecretManagementDetailComponent } from './components/secret-management-detail/secret-management-detail.component';
+import { SnapshotDetailComponent } from './components/snapshot-detail/snapshot-detail.component';
 
 @NgModule({
     declarations: [
         DeploymentsListComponent,
         DeploymentDetailComponent,
-        ToolsTableComponent,
         SecretManagementDetailComponent,
+        SnapshotDetailComponent,
     ],
     imports: [CommonModule, DeploymentsRoutingModule, SharedModule],
 })

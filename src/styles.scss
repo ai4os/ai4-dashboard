@@ -107,6 +107,15 @@ body {
     }
 }
 
+.detail-title {
+    margin: 0 !important;
+    span {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+    }
+}
+
 //Cookie consent border
 .cc-window.cc-floating {
     border: 1px solid var(--border-gray);
