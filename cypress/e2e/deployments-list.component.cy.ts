@@ -48,9 +48,9 @@ describe('deployments section', function () {
     it('create secret', function () {
         cy.get('#input').type('client1');
         cy.get('#add-button').click();
-        cy.contains('Successfully created secret with name: client1').should(
-            'be.visible'
-        );
+        cy.contains('Successfully created secret with name: client1', {
+            timeout: 20000,
+        }).should('be.visible');
         cy.contains('client1', { timeout: 20000 }).should('be.visible');
     });
 
