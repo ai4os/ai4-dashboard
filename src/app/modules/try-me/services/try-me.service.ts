@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import {
     GradioCreateResponse,
     GradioDeployment,
@@ -50,11 +50,11 @@ export class TryMeService {
         return this.http.get<GradioDeployment[]>(url);
     }
 
-    deleteDeploymentByUUID(deploymentUUID: string): Observable<statusReturn> {
+    deleteDeploymentByUUID(deploymentUUID: string): Observable<StatusReturn> {
         const url = `${base}${endpoints.nomadTryMeDeployment.replace(
             ':deployment_uuid',
             deploymentUUID
         )}`;
-        return this.http.delete<statusReturn>(url, { params: this.voParam });
+        return this.http.delete<StatusReturn>(url, { params: this.voParam });
     }
 }

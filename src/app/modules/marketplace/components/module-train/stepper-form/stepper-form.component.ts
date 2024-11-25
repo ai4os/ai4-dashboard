@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
@@ -85,7 +85,7 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.isLoading = true;
-        let request: Observable<statusReturn>;
+        let request: Observable<StatusReturn>;
         const data: TrainModuleRequest = {
             general: {
                 title:
@@ -213,7 +213,7 @@ export class StepperFormComponent implements OnInit {
             }
         }
         request.subscribe({
-            next: (result: statusReturn) => {
+            next: (result: StatusReturn) => {
                 this.isLoading = false;
 
                 if (result && result.status == 'success') {

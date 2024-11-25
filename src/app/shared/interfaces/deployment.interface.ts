@@ -22,7 +22,7 @@ export interface Deployment {
     error_msg?: string;
 }
 
-export interface statusReturn {
+export interface StatusReturn {
     status: string;
     error_msg?: string;
     job_ID?: string;

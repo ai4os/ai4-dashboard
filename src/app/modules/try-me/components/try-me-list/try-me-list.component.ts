@@ -15,7 +15,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
@@ -160,7 +160,7 @@ export class TryMeListComponent implements OnInit, OnDestroy {
                 if (confirmed) {
                     const uuid = row.uuid;
                     this.tryMeService.deleteDeploymentByUUID(uuid).subscribe({
-                        next: (response: statusReturn) => {
+                        next: (response: StatusReturn) => {
                             if (response && response['status'] == 'success') {
                                 const itemIndex = this.dataset.findIndex(
                                     (obj) => obj['uuid'] === uuid

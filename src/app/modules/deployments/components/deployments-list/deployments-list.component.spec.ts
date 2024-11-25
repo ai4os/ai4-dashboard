@@ -14,7 +14,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
     Deployment,
-    statusReturn,
+    StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { of } from 'rxjs';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
@@ -60,7 +60,7 @@ const deploymentRow = {
     error_msg: 'Test error',
 };
 
-const mockedDeleteDeploymentResponse: statusReturn = {
+const mockedDeleteDeploymentResponse: StatusReturn = {
     status: 'success',
 };
 

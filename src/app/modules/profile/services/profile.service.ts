@@ -1,7 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import {
+    HttpClient,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import {
     RequestLoginResponse,
     CompleteLoginResponse,
@@ -56,24 +61,24 @@ export class ProfileService {
     addCredential(
         credential: StorageCredential,
         serviceName: string
-    ): Observable<statusReturn> {
+    ): Observable<StatusReturn> {
         const url = `${base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', '/services/storage/' + serviceName);
 
-        return this.http.post<statusReturn>(url, credential, {
+        return this.http.post<StatusReturn>(url, credential, {
             params: params,
         });
     }
 
-    deleteCredential(serviceName: string): Observable<statusReturn> {
+    deleteCredential(serviceName: string): Observable<StatusReturn> {
         const url = `${base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', '/services/storage/' + serviceName);
 
-        return this.http.delete<statusReturn>(url, {
+        return this.http.delete<StatusReturn>(url, {
             params: params,
         });
     }

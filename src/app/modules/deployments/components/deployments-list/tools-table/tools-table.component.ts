@@ -13,7 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
-    statusReturn,
+    StatusReturn,
     Deployment,
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, timer, takeUntil, switchMap } from 'rxjs';
@@ -97,7 +97,7 @@ export class ToolsTableComponent implements OnInit, OnDestroy {
                 if (confirmed) {
                     const uuid = row.uuid;
                     this.deploymentsService.deleteToolByUUID(uuid).subscribe({
-                        next: (response: statusReturn) => {
+                        next: (response: StatusReturn) => {
                             if (response && response['status'] == 'success') {
                                 const itemIndex = this.dataset.findIndex(
                                     (obj) => obj['uuid'] === uuid

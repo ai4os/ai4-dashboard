@@ -16,7 +16,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 import {
     Deployment,
-    statusReturn,
+    StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -114,7 +114,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     this.deploymentsService
                         .deleteDeploymentByUUID(uuid)
                         .subscribe({
-                            next: (response: statusReturn) => {
+                            next: (response: StatusReturn) => {
                                 if (
                                     response &&
                                     response['status'] == 'success'
