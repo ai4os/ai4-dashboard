@@ -2,7 +2,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
-import { getDeploymentBadge } from '../../utils/deployment-badge';
+import { getSnapshotBadge } from '../../utils/deployment-badge';
 
 @Component({
     selector: 'app-snapshot-detail',
@@ -39,6 +39,6 @@ export class SnapshotDetailComponent {
             this.snapshot.description = '-';
         }
 
-        this.statusBadge = getDeploymentBadge(this.snapshot.status);
+        this.statusBadge = getSnapshotBadge(this.snapshot.status);
     }
 }
