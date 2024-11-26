@@ -217,16 +217,20 @@ export class StorageConfFormComponent implements OnInit {
 
     getSuggestedDatasets() {
         this.route.parent?.params.subscribe((params) => {
-            this.modulesService.getModule(params['id']).subscribe((module) => {
-                if (module.links.dataset) {
-                    this.suggestedDataset = {
-                        doiOrUrl: module.links.dataset,
-                        title: module.links.dataset,
-                        source: 'http',
-                        force_pull: false,
-                    };
-                }
-            });
+            if (params['id'] !== 'snapshots') {
+                this.modulesService
+                    .getModule(params['id'])
+                    .subscribe((module) => {
+                        if (module.links.dataset) {
+                            this.suggestedDataset = {
+                                doiOrUrl: module.links.dataset,
+                                title: module.links.dataset,
+                                source: 'http',
+                                force_pull: false,
+                            };
+                        }
+                    });
+            }
         });
     }
 
