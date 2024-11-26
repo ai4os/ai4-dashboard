@@ -1,6 +1,6 @@
 import {
     Deployment,
-    statusReturn,
+    StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 
 export const toolsList: Array<Deployment> = [
@@ -171,6 +171,6 @@ export const mockedTools: Deployment[] = [
     },
 ];
 
-export const mockedDeleteDeploymentResponse: statusReturn = {
+export const mockedDeleteDeploymentResponse: StatusReturn = {
     status: 'success',
 };
