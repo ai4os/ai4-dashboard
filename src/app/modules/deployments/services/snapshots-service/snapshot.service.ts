@@ -22,6 +22,10 @@ export class SnapshotService {
     ) {}
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
+    readonly vosArrayParam = new HttpParams().set(
+        'vos',
+        this.appConfigService.voName
+    );
 
     createSnapshot(deploymentUUID: string): Observable<StatusReturnSnapshot> {
         const url = `${base}${endpoints.deploymentSnapshots}`;
@@ -38,7 +42,7 @@ export class SnapshotService {
     getSnapshots(): Observable<Snapshot[]> {
         const url = `${base}${endpoints.deploymentSnapshots}`;
         return this.http.get<Array<Snapshot>>(url, {
-            params: this.voParam,
+            params: this.vosArrayParam,
         });
     }
 
