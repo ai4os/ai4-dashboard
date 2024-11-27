@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.31.0](https://github.com/ai4os/ai4-dashboard/compare/v2.30.2...v2.31.0) (2024-11-27)
+
+
+### Features
+
+* homogeneize modules and tools icons ([#276](https://github.com/ai4os/ai4-dashboard/issues/276)) ([ab457d0](https://github.com/ai4os/ai4-dashboard/commit/ab457d0109d53b9db55006d4cdc0287a127875aa))
+* update nomad deploy button text ([#275](https://github.com/ai4os/ai4-dashboard/issues/275)) ([b68af8a](https://github.com/ai4os/ai4-dashboard/commit/b68af8a3a02087c15dab1b11c6930a99725edfb6))
+
 ## [2.30.0](https://github.com/ai4os/ai4-dashboard/compare/v2.29.1...v2.30.0) (2024-11-25)
 
 
