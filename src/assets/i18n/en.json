@@ -234,8 +234,8 @@
                 "TITLE": "Deploy",
                 "API-SERVERLESS": "Inference API (serverless)",
                 "OSCAR": "Serverless inference API on the project's OSCAR cluster",
-                "API-PLATFORM": "Inference API (dedicated)",
-                "NOMAD": "Dedicated inference API on the project's Nomad cluster",
+                "API-PLATFORM": "Inference API + UI (dedicated)",
+                "NOMAD": "Dedicated inference API + UI on the project's Nomad cluster",
                 "API-CLOUD": "Inference API (cloud)",
                 "IM": "Deploy on your own cloud resources via IM"
             },
