@@ -1,12 +1,12 @@
 <mat-card
     class="basic-card"
     [ngClass]="{
-        'tool-card': isTool
+        'tool-card': isTool,
     }"
     [routerLink]="[
         isTool && module.name !== 'ai4os-dev-env'
             ? 'tools/' + module.name
-            : 'modules/' + module.name
+            : 'modules/' + module.name,
     ]"
 >
     <mat-card-header class="basic-card-header">
@@ -15,7 +15,7 @@
                 *ngIf="isTool"
                 color="primary"
                 [matTooltip]="'MODULES.TOOL' | translate"
-                >build</mat-icon
+                >handyman</mat-icon
             >
             <mat-icon
                 *ngIf="!isTool"
