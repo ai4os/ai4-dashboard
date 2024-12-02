@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.0](https://github.com/ai4os/ai4-dashboard/compare/v2.31.0...v2.32.0) (2024-12-02)
+
+
+### Features
+
+* change IM link ([#280](https://github.com/ai4os/ai4-dashboard/issues/280)) ([3351c3e](https://github.com/ai4os/ai4-dashboard/commit/3351c3ed6dc8142b5923a1c7de0a8285d69dada4))
+
 ## [2.30.0](https://github.com/ai4os/ai4-dashboard/compare/v2.29.1...v2.30.0) (2024-11-25)
 
 
