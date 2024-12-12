@@ -22,6 +22,7 @@
     <mat-card-content
         [ngClass]="{
             'card-content-mobile': this.mobileQuery.matches,
+            'card-content': !this.mobileQuery.matches,
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">
@@ -100,13 +101,19 @@
                 </div>
 
                 <div>
+                    <h3 class="mb-0">
+                        {{
+                            'INFERENCE.INFERENCE-DETAIL.SYNC-CALLS' | translate
+                        }}
+                    </h3>
+
                     <span class="title-with-button">
-                        <h3>
+                        <h4>
                             {{
                                 'INFERENCE.INFERENCE-DETAIL.ENDPOINT'
                                     | translate
                             }}
-                        </h3>
+                        </h4>
                         <button
                             mat-icon-button
                             matTooltip="{{
@@ -140,50 +147,217 @@
                             >
                         </button>
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <h3>
-                        {{ 'INFERENCE.INFERENCE-DETAIL.TOKEN' | translate }}
-                    </h3>
-                    <div class="token-container">
-                        <mat-form-field
-                            class="full-width mr-3"
-                            subscriptSizing="dynamic"
-                        >
-                            <input
-                                matInput
-                                [type]="secretField.hide ? 'password' : 'text'"
-                                disabled="true"
-                                value="{{ secretField.value }}"
-                            />
+                    <div class="mb-3">
+                        <h4>
+                            {{ 'INFERENCE.INFERENCE-DETAIL.TOKEN' | translate }}
+                        </h4>
+                        <div class="token-container">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    [type]="
+                                        tokenField.hide ? 'password' : 'text'
+                                    "
+                                    disabled="true"
+                                    value="{{ tokenField.value }}"
+                                />
 
+                                <button
+                                    mat-icon-button
+                                    matSuffix
+                                    [matTooltip]="
+                                        tokenField.hide ? 'Show' : 'Hide'
+                                    "
+                                    (click)="tokenField.hide = !tokenField.hide"
+                                    [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="tokenField.hide"
+                                >
+                                    <mat-icon color="accent">{{
+                                        tokenField.hide
+                                            ? 'visibility_off'
+                                            : 'visibility'
+                                    }}</mat-icon>
+                                </button>
+                            </mat-form-field>
                             <button
                                 mat-icon-button
-                                matSuffix
-                                [matTooltip]="
-                                    secretField.hide ? 'Show' : 'Hide'
-                                "
-                                (click)="secretField.hide = !secretField.hide"
-                                [attr.aria-label]="'Hide password'"
-                                [attr.aria-pressed]="secretField.hide"
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="tokenField.value"
                             >
-                                <mat-icon color="accent">{{
-                                    secretField.hide
-                                        ? 'visibility_off'
-                                        : 'visibility'
-                                }}</mat-icon>
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
                             </button>
-                        </mat-form-field>
-                        <button
-                            mat-icon-button
-                            matTooltip="Copy"
-                            [copy-to-clipboard]="secretField.value"
-                        >
-                            <mat-icon matSuffix color="accent">
-                                content_copy</mat-icon
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="mb-0">
+                        {{
+                            'INFERENCE.INFERENCE-DETAIL.ASYNC-CALLS' | translate
+                        }}
+                    </h3>
+
+                    <div>
+                        <h4>
+                            {{
+                                'INFERENCE.INFERENCE-DETAIL.MINIO-BUCKET'
+                                    | translate
+                            }}
+                        </h4>
+                        <p>{{ service?.name }}</p>
+                    </div>
+
+                    <div>
+                        <h4>
+                            {{
+                                'INFERENCE.INFERENCE-DETAIL.MINIO-URL'
+                                    | translate
+                            }}
+                        </h4>
+
+                        <div class="token-container">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
                             >
-                        </button>
+                                <input
+                                    matInput
+                                    disabled="true"
+                                    value="{{
+                                        service?.storage_providers?.minio
+                                            ?.default?.endpoint
+                                    }}"
+                                />
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="
+                                    service?.storage_providers?.minio?.default
+                                        ?.endpoint
+                                "
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h4>
+                            {{
+                                'INFERENCE.INFERENCE-DETAIL.MINIO-KEY'
+                                    | translate
+                            }}
+                        </h4>
+                        <div class="token-container">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    [type]="
+                                        accessKeyField.hide
+                                            ? 'password'
+                                            : 'text'
+                                    "
+                                    disabled="true"
+                                    value="{{ accessKeyField.value }}"
+                                />
+
+                                <button
+                                    mat-icon-button
+                                    matSuffix
+                                    [matTooltip]="
+                                        accessKeyField.hide ? 'Show' : 'Hide'
+                                    "
+                                    (click)="
+                                        accessKeyField.hide =
+                                            !accessKeyField.hide
+                                    "
+                                    [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="accessKeyField.hide"
+                                >
+                                    <mat-icon color="accent">{{
+                                        accessKeyField.hide
+                                            ? 'visibility_off'
+                                            : 'visibility'
+                                    }}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="accessKeyField.value"
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h4>
+                            {{
+                                'INFERENCE.INFERENCE-DETAIL.MINIO-SECRET'
+                                    | translate
+                            }}
+                        </h4>
+                        <div class="token-container">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    [type]="
+                                        minioSecretField.hide
+                                            ? 'password'
+                                            : 'text'
+                                    "
+                                    disabled="true"
+                                    value="{{ minioSecretField.value }}"
+                                />
+
+                                <button
+                                    mat-icon-button
+                                    matSuffix
+                                    [matTooltip]="
+                                        minioSecretField.hide ? 'Show' : 'Hide'
+                                    "
+                                    (click)="
+                                        minioSecretField.hide =
+                                            !minioSecretField.hide
+                                    "
+                                    [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="minioSecretField.hide"
+                                >
+                                    <mat-icon color="accent">{{
+                                        minioSecretField.hide
+                                            ? 'visibility_off'
+                                            : 'visibility'
+                                    }}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="minioSecretField.value"
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
