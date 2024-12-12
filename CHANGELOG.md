@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.33.0](https://github.com/ai4os/ai4-dashboard/compare/v2.32.0...v2.33.0) (2024-12-12)
+
+
+### Features
+
+* add info to inference detail ([#283](https://github.com/ai4os/ai4-dashboard/issues/283)) ([8d3c971](https://github.com/ai4os/ai4-dashboard/commit/8d3c97161c87e8eca04b6c1c0ea20a533de22940))
+
 ## [2.32.0](https://github.com/ai4os/ai4-dashboard/compare/v2.31.0...v2.32.0) (2024-12-02)
 
 
