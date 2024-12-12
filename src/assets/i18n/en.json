@@ -151,8 +151,14 @@
             "CREATION-TIME": "Creation time (UTC)",
             "CPU": "CPUs",
             "MEMORY": "Memory",
+            "SYNC-CALLS": "Synchronous calls",
             "ENDPOINT": "Endpoint",
-            "TOKEN": "Token"
+            "TOKEN": "Token",
+            "ASYNC-CALLS": "Asynchronous calls",
+            "MINIO-BUCKET": "MINIO bucket",
+            "MINIO-URL": "MINIO URL",
+            "MINIO-KEY": "MINIO access key",
+            "MINIO-SECRET": "MINIO secret key"
         }
     },
     "TRY-ME": {
