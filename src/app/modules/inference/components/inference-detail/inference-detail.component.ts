@@ -62,7 +62,8 @@ export class InferenceDetailComponent implements OnInit {
                 this.service.submit_time =
                     service.environment.Variables.PAPI_CREATED;
                 this.tokenField.value = service.token;
-                this.accessKeyField.value = service.owner;
+                this.accessKeyField.value =
+                    service.storage_providers.minio.default.access_key;
                 this.minioSecretField.value =
                     service.storage_providers.minio.default.secret_key;
                 this.isLoading = false;
