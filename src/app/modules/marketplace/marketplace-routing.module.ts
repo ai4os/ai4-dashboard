@@ -24,10 +24,10 @@ const routes: Routes = [
                 data: { breadcrumb: { alias: 'moduleName' } },
             },
             {
-                path: 'train',
+                path: 'deploy',
                 canActivate: [AuthenticationGuard],
                 component: ModuleTrainComponent,
-                data: { breadcrumb: 'Train' },
+                data: { breadcrumb: 'Deploy' },
             },
             {
                 path: 'try-me-nomad',
@@ -46,10 +46,10 @@ const routes: Routes = [
                 data: { breadcrumb: { alias: 'moduleName' } },
             },
             {
-                path: 'train',
+                path: 'deploy',
                 canActivate: [AuthenticationGuard],
                 component: ToolTrainComponent,
-                data: { breadcrumb: 'Train' },
+                data: { breadcrumb: 'Deploy' },
             },
         ],
     },

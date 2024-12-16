@@ -1,5 +1,6 @@
 export interface ModuleSummary {
     [x: string]: any;
+    id: string;
     name: string;
     title: string;
     summary: string;
@@ -12,6 +13,7 @@ export interface ModuleSummary {
 }
 
 export interface Module {
+    id: string;
     title: string;
     summary: string;
     description: string;
@@ -78,6 +80,8 @@ export interface ModuleGeneralConfiguration {
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
+    cvat_username?: confObject;
+    cvat_password?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -116,6 +120,11 @@ export interface FederatedServerToolConfiguration {
     configuration: FederatedServerConfiguration;
 }
 
+export interface CvatToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    storage: ModuleStorageConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
@@ -124,8 +133,10 @@ export interface TrainModuleRequest {
         docker_tag: string;
         service: string;
         jupyter_password?: string;
+        cvat_username?: string;
+        cvat_password?: string;
     };
-    hardware: {
+    hardware?: {
         cpu_num: number;
         ram: number;
         disk: number;
@@ -138,7 +149,8 @@ export interface TrainModuleRequest {
         rclone_vendor: string;
         rclone_user: string;
         rclone_password: string;
-        datasets: Dataset[];
+        cvat_backup?: string;
+        datasets?: Dataset[];
     };
     configuration?: {
         rounds: number;
@@ -194,4 +206,13 @@ export interface GradioDeployment {
     main_endpoint: string;
     alloc_ID: string;
     datacenter: string;
+}
+
+export interface Snapshot {
+    Path: string;
+    Name: string;
+    Size: number;
+    MimeType: string;
+    ModTime: string;
+    IsDir: boolean;
 }

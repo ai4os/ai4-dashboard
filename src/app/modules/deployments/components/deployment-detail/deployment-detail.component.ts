@@ -5,6 +5,7 @@ import { DeploymentsService } from '../../services/deployments-service/deploymen
 import { getDeploymentBadge } from '../../utils/deployment-badge';
 import { KeyValue } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-deployment-detail',
@@ -14,6 +15,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 export class DeploymentDetailComponent implements OnInit {
     constructor(
         private deploymentsService: DeploymentsService,
+        public translateService: TranslateService,
         public confirmationDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA)
         public data: { uuid: string; isTool: boolean },
@@ -82,6 +84,12 @@ export class DeploymentDetailComponent implements OnInit {
                         if (deployment.datacenter == null) {
                             deployment.datacenter = '-';
                         }
+                        const conatinerName = deployment.docker_image.includes(
+                            'user-snapshots'
+                        )
+                            ? deployment.docker_image.split(':')[1]
+                            : deployment.docker_image;
+                        deployment.docker_image = conatinerName;
                         this.statusBadge = getDeploymentBadge(
                             deployment.status
                         );

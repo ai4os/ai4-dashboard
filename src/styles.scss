@@ -80,6 +80,10 @@ body {
     border: 1px solid var(--border-gray) !important;
 }
 
+.mat-mdc-raised-button.mat-accent {
+    color: white !important;
+}
+
 .aligned-with-icon {
     display: flex;
     align-items: center;
@@ -100,6 +104,15 @@ body {
         .mat-icon {
             transform: scale(0.7);
         }
+    }
+}
+
+.detail-title {
+    margin: 0 !important;
+    span {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
     }
 }
 

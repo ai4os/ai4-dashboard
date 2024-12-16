@@ -1,3 +1,7 @@
+.general-conf-form {
+    min-height: 575px;
+}
+
 .service-to-run-container {
     display: flex;
     justify-content: space-between;
@@ -13,7 +17,11 @@
 
 .service-to-run-chip.mdc-evolution-chip--selected {
     ::ng-deep .mdc-evolution-chip__text-label {
-        color: white;
+        color: white !important;
+    }
+
+    ::ng-deep .mdc-evolution-chip__checkmark {
+        color: white !important;
     }
 }
 

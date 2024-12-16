@@ -5,117 +5,15 @@
     </span>
 </mat-toolbar>
 
-<mat-card class="mt-3">
-    <span class="aligned-with-icon scale-icon-down ml-3 mt-3 mb-3">
-        {{ 'TRY-ME.GRADIO' | translate }}
-
-        <img
-            src="../../../../../assets/images/gradio-logo.png"
-            width="16"
-            height="16"
-        />
-    </span>
-
-    <mat-card-content>
-        <div class="table-container">
-            <table
-                mat-table
-                [dataSource]="dataSource"
-                class="mat-elevation-z8"
-                matSort
-                (matSortChange)="announceSortChange($event)"
-            >
-                <ng-container
-                    *ngFor="let column of columns"
-                    [matColumnDef]="column.columnDef"
-                    [sticky]="isSticky(column.columnDef)"
-                >
-                    <mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Sort by {column.header}"
-                        >{{ column.header | translate }}</mat-header-cell
-                    >
-                    <mat-cell
-                        *matCellDef="let row"
-                        [ngClass]="{
-                            'content-cell': column.columnDef === 'actions'
-                        }"
-                    >
-                        <div
-                            *ngIf="column.columnDef === 'actions'"
-                            class="actions-container"
-                        >
-                            <button
-                                id="infoButton"
-                                mat-button
-                                matTooltip="Info"
-                                class="action-button-in-cell"
-                                (click)="openTryMeDetailDialog(row)"
-                            >
-                                <mat-icon id="infoIcon" color="accent"
-                                    >info</mat-icon
-                                >
-                            </button>
-
-                            <div matTooltip="Quick access">
-                                <a
-                                    id="quickAccessButton"
-                                    mat-button
-                                    [disabled]="!isDeploymentRunning(row)"
-                                    [href]="row.endpoints?.ui"
-                                    target="_blank"
-                                    class="action-button-in-cell"
-                                    (click)="$event.stopPropagation()"
-                                >
-                                    <mat-icon color="accent" id="accessIcon"
-                                        >terminal</mat-icon
-                                    >
-                                </a>
-                            </div>
-
-                            <button
-                                id="deleteButton"
-                                mat-button
-                                matTooltip="Delete"
-                                class="action-button-in-cell"
-                                (click)="removeTryMe($event, row)"
-                            >
-                                <mat-icon color="warn">delete</mat-icon>
-                            </button>
-                        </div>
-                        <ng-container *ngIf="column.columnDef === 'status'">
-                            <img
-                                src="https://img.shields.io/badge/{{
-                                    returnDeploymentBadge(row[column.columnDef])
-                                }}"
-                                height="20"
-                            />
-                        </ng-container>
-                        <ng-container *ngIf="column.columnDef !== 'status'">
-                            {{ row[column.columnDef] }}
-                        </ng-container>
-                    </mat-cell>
-                </ng-container>
-
-                <mat-header-row
-                    *matHeaderRowDef="displayedColumns"
-                ></mat-header-row>
-                <mat-row
-                    *matRowDef="let row; columns: displayedColumns"
-                ></mat-row>
-
-                <!--No data in table message-->
-                <ng-container *ngIf="!isLoading">
-                    <div *matNoDataRow class="no-services-message-container">
-                        {{ 'TRY-ME.NO-DEPLOYMENTS' | translate }}
-                    </div>
-                </ng-container>
-            </table>
-        </div>
-
-        <div *ngIf="isLoading" class="smaller-spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div> </mat-card-content
-></mat-card>
+<app-deployments-table
+    cardName="{{ 'TRY-ME.GRADIO' | translate }}"
+    cardImage="gradio-logo.png"
+    deploymentType="try-me"
+    [showCardActions]="false"
+    [isLoading]="isLoading"
+    [dataset]="dataset"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    (showElementInfo)="openTryMeDetailDialog($event)"
+    (deleteElement)="removeTryMe($event)"
+></app-deployments-table>

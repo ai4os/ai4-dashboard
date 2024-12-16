@@ -49,6 +49,11 @@
     max-height: 450px;
 }
 
+.card-content {
+    overflow-y: scroll;
+    max-height: 650px;
+}
+
 .title-with-button {
     display: flex;
     align-items: center;

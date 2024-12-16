@@ -10,9 +10,9 @@ describe('try me section', function () {
             'be.visible'
         );
         cy.contains('Gradio', { timeout: 50000 }).should('be.visible');
-        cy.contains('Title', { timeout: 50000 }).should('be.visible');
+        cy.contains('Name', { timeout: 50000 }).should('be.visible');
         cy.contains('Status', { timeout: 50000 }).should('be.visible');
-        cy.contains('Image', { timeout: 50000 }).should('be.visible');
+        cy.contains('Container name', { timeout: 50000 }).should('be.visible');
         cy.contains('Creation time (UTC)', { timeout: 50000 }).should(
             'be.visible'
         );
@@ -55,9 +55,9 @@ describe('try me section', function () {
             'be.visible'
         );
         cy.contains('Gradio', { timeout: 50000 }).should('be.visible');
-        cy.contains('Title', { timeout: 50000 }).should('be.visible');
+        cy.contains('Name', { timeout: 50000 }).should('be.visible');
         cy.contains('Status', { timeout: 50000 }).should('be.visible');
-        cy.contains('Image', { timeout: 50000 }).should('be.visible');
+        cy.contains('Container name', { timeout: 50000 }).should('be.visible');
         cy.contains('Creation time (UTC)', { timeout: 50000 }).should(
             'be.visible'
         );
@@ -119,7 +119,6 @@ describe('try me section', function () {
         );
         cy.get('#uuid').then(($uuid) => {
             const uuid = $uuid.text();
-            console.log('uuid is ' + uuid);
 
             cy.window().then((win) => {
                 cy.spy(win, 'open').as('popup2');

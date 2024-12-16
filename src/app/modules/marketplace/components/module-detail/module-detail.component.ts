@@ -46,7 +46,6 @@ export class ModuleDetailComponent implements OnInit {
 
     modulesList = [];
     module!: Module;
-    moduleId = '';
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
@@ -75,7 +74,6 @@ export class ModuleDetailComponent implements OnInit {
 
         this.route.params.subscribe((params) => {
             this.isLoading = true;
-            this.moduleId = params['id'];
             this.authService.userProfileSubject.subscribe((profile) => {
                 this.userProfile = profile;
             });
@@ -139,12 +137,12 @@ export class ModuleDetailComponent implements OnInit {
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(
-                                    'OSCAR service created with name ' +
+                                    'OSCAR service created with uuid ' +
                                         serviceName
                                 );
                             } else {
                                 this.snackbarService.openError(
-                                    'Error while creating service with name ' +
+                                    'Error while creating service with uuid ' +
                                         serviceName
                                 );
                             }
@@ -163,7 +161,7 @@ export class ModuleDetailComponent implements OnInit {
     }
 
     trainModule(service: string) {
-        this.router.navigate(['train'], {
+        this.router.navigate(['deploy'], {
             relativeTo: this.route,
             state: { service: service },
         });

@@ -1,5 +1,53 @@
 # Changelog
 
+## [2.33.0](https://github.com/ai4os/ai4-dashboard/compare/v2.32.0...v2.33.0) (2024-12-12)
+
+
+### Features
+
+* add info to inference detail ([#283](https://github.com/ai4os/ai4-dashboard/issues/283)) ([8d3c971](https://github.com/ai4os/ai4-dashboard/commit/8d3c97161c87e8eca04b6c1c0ea20a533de22940))
+
+## [2.32.0](https://github.com/ai4os/ai4-dashboard/compare/v2.31.0...v2.32.0) (2024-12-02)
+
+
+### Features
+
+* change IM link ([#280](https://github.com/ai4os/ai4-dashboard/issues/280)) ([3351c3e](https://github.com/ai4os/ai4-dashboard/commit/3351c3ed6dc8142b5923a1c7de0a8285d69dada4))
+
+## [2.30.0](https://github.com/ai4os/ai4-dashboard/compare/v2.29.1...v2.30.0) (2024-11-25)
+
+
+### Features
+
+* button to add suggested dataset ([#262](https://github.com/ai4os/ai4-dashboard/issues/262)) ([7e26c77](https://github.com/ai4os/ai4-dashboard/commit/7e26c7742f71dfa2dd7c3f62872207452511672e))
+* rename train route ([#261](https://github.com/ai4os/ai4-dashboard/issues/261)) ([9d76f1a](https://github.com/ai4os/ai4-dashboard/commit/9d76f1a318fe7469fd99d4a0cb6d06c0ceaf877b))
+
+
+### Bug Fixes
+
+* use metadata id in try me ([#270](https://github.com/ai4os/ai4-dashboard/issues/270)) ([8d16217](https://github.com/ai4os/ai4-dashboard/commit/8d162171b2b8709f98f5f4744b22417516c201be))
+
+## [2.29.1](https://github.com/ai4os/ai4-dashboard/compare/v2.29.0...v2.29.1) (2024-11-21)
+
+
+### Bug Fixes
+
+* docker url in module detail ([#264](https://github.com/ai4os/ai4-dashboard/issues/264)) ([08dd005](https://github.com/ai4os/ai4-dashboard/commit/08dd005a7554883f6c76a4d048068f1ef592d390))
+
+## [2.29.0](https://github.com/ai4os/ai4-dashboard/compare/v2.28.1...v2.29.0) (2024-11-13)
+
+
+### Features
+
+* Feat 160 integrate cvat in the dashboard ([#187](https://github.com/ai4os/ai4-dashboard/issues/187)) ([f71b94e](https://github.com/ai4os/ai4-dashboard/commit/f71b94eb2d51d6767433ca3ceea73abf28e5b9f9))
+
+## [2.28.1](https://github.com/ai4os/ai4-dashboard/compare/v2.28.0...v2.28.1) (2024-11-04)
+
+
+### Bug Fixes
+
+* update storage configuration url ([#254](https://github.com/ai4os/ai4-dashboard/issues/254)) ([6dc2496](https://github.com/ai4os/ai4-dashboard/commit/6dc24964c77feffcad1e4b9af0a95c0ea3f505be))
+
 ## [2.28.0](https://github.com/ai4os/ai4-dashboard/compare/v2.27.0...v2.28.0) (2024-10-29)
 
 

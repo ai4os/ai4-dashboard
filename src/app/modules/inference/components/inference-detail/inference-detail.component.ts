@@ -33,7 +33,18 @@ export class InferenceDetailComponent implements OnInit {
     private _mobileQueryListener: () => void;
 
     service: OscarService | undefined;
-    secretField: SecretField = {
+
+    tokenField: SecretField = {
+        value: '',
+        hide: true,
+    };
+
+    accessKeyField: SecretField = {
+        value: '',
+        hide: true,
+    };
+
+    minioSecretField: SecretField = {
         value: '',
         hide: true,
     };
@@ -50,7 +61,11 @@ export class InferenceDetailComponent implements OnInit {
                 this.service.title = service.environment.Variables.PAPI_TITLE;
                 this.service.submit_time =
                     service.environment.Variables.PAPI_CREATED;
-                this.secretField.value = service.token;
+                this.tokenField.value = service.token;
+                this.accessKeyField.value =
+                    service.storage_providers.minio.default.access_key;
+                this.minioSecretField.value =
+                    service.storage_providers.minio.default.secret_key;
                 this.isLoading = false;
             },
             error: () => {

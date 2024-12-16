@@ -30,6 +30,7 @@ describe('ModuleCardComponent', () => {
             title: 'Test',
             libraries: ['test'],
             tasks: ['test'],
+            id: 'test',
         };
         fixture.detectChanges();
     });

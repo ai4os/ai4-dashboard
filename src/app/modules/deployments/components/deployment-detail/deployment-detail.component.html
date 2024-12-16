@@ -1,4 +1,4 @@
-<mat-toolbar class="mb-3 marketplace-toolbar">
+<mat-toolbar class="mb-3 marketplace-toolbar detail-title">
     <span>
         <ng-container *ngIf="data.isTool; else deploymentTitle">
             {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
@@ -33,7 +33,7 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches
+            'card-content-mobile': this.mobileQuery.matches,
         }"
     >
         <div *ngIf="deploymentHasError">
@@ -48,7 +48,7 @@
             <div
                 [ngClass]="{
                     'deployment-detail-container-mobile': mobileQuery.matches,
-                    'deployment-detail-container': !mobileQuery.matches
+                    'deployment-detail-container': !mobileQuery.matches,
                 }"
             >
                 <div>
