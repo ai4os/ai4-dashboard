@@ -18,16 +18,16 @@
             "url": "https://confluence.egi.eu/display/IMPAIP/Getting+Access"
         },
         {
+            "name": "SIDENAV.STORAGE",
+            "url": "https://share.services.ai4os.eu/"
+        },
+        {
             "name": "SIDENAV.EXPERIMENT-TRACKING",
             "url": "https://mlflow.cloud.imagine-ai.eu"
         },
         {
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
             "url": "https://forge.flows.dev.ai4eosc.eu/"
-        },
-        {
-            "name": "SIDENAV.STORAGE",
-            "url": "https://share.services.ai4os.eu/"
         },
         {
             "name": "SIDENAV.STATUS",
