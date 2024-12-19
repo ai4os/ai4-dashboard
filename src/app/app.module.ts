@@ -33,6 +33,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NotificationsButtonComponent } from './layout/top-navbar/notifications-button/notifications-button.component';
 import { CookieService } from 'ngx-cookie-service';
 import { gitInfo } from '@environments/version';
+import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -45,6 +46,16 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         '.json?v=' + gitInfo.version
     );
 }
+
+export function authConfigFactory(): OAuthModuleConfig {
+    return {
+        resourceServer: {
+            allowedUrls: [base],
+            sendAccessToken: true,
+        },
+    };
+}
+
 const { base } = environment.api;
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -109,12 +120,7 @@ renderer.link = (href, title, text) => {
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        OAuthModule.forRoot({
-            resourceServer: {
-                allowedUrls: [base],
-                sendAccessToken: true,
-            },
-        }),
+        OAuthModule.forRoot(),
         TranslateModule.forRoot({
             defaultLanguage: 'en',
             useDefaultLang: true,
@@ -176,6 +182,10 @@ renderer.link = (href, title, text) => {
             },
         },
         { provide: OAuthStorage, useFactory: storageFactory },
+        {
+            provide: OAuthModuleConfig,
+            useFactory: authConfigFactory,
+        },
         Title,
         CookieService,
         provideHttpClient(withInterceptorsFromDi()),
