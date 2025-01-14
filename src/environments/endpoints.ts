@@ -25,4 +25,6 @@ export const endpoints = {
     services: '/services',
     serviceByName: '/services/:name',
     runService: '/run/:name',
+    // LLM chatbot
+    chatCompletions: '/chat/completions',
 };

@@ -428,6 +428,11 @@
             }
         }
     },
+    "CHATBOT": {
+        "TITLE": "AI4EOSC Assistant",
+        "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
+        "QUESTION-PLACEHOLDER": "Type here your question"
+    },
     "GENERAL-BUTTONS": {
         "DELETE": "Delete",
         "ACCEPT": "Accept",

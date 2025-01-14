@@ -59,7 +59,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     },
     palette: {
         popup: {
-            background: 'var(--white-three)',
+            background: 'var(--white)',
             text: 'var(--primary-text)',
         },
         button: {
@@ -67,7 +67,7 @@ const cookieConfig: NgcCookieConsentConfig = {
         },
     },
     mobileForceFloat: true,
-    position: 'bottom-right',
+    position: 'bottom',
     theme: 'edgeless',
     type: 'opt-out',
 };

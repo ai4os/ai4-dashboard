@@ -32,6 +32,10 @@ jobs:
               run: |
                   echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc
 
+            - name: 'Inject LLM API Key'
+              run: |
+                  sed -i "s/llmApiKey: ''/llmApiKey: '${{ secrets.LLM_API_KEY }}'/" src/environments/environment.ts
+
             - name: Build and push
               uses: docker/build-push-action@v3
               with:

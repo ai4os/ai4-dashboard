@@ -1,0 +1,77 @@
+@if (open) {
+    <mat-card class="chat-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>
+                <mat-icon> smart_toy </mat-icon>
+                {{ 'CHATBOT.TITLE' | translate }}
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            @if (chatHistory.messages.length === 0) {
+                <div class="empty-chat">
+                    {{ 'CHATBOT.GREETING' | translate }}
+                </div>
+            } @else {
+                <div #messagesList class="messages-list">
+                    @for (message of chatHistory.messages; track message) {
+                        <div
+                            class="user-message"
+                            [ngClass]="{
+                                'user-message': message.role === 'user',
+                                'bot-message': message.role === 'assistant',
+                            }"
+                        >
+                            <markdown
+                                [data]="message.content"
+                                ngPreserveWhitespaces
+                                [disableSanitizer]="true"
+                            >
+                            </markdown>
+                        </div>
+                    }
+                </div>
+            }
+
+            @if (isLoading) {
+                <div class="typing-loader"></div>
+            }
+
+            <div class="user-input">
+                <mat-form-field
+                    subscriptSizing="dynamic"
+                    (keyup.enter)="sendMessage()"
+                >
+                    <input
+                        matInput
+                        [placeholder]="
+                            'CHATBOT.QUESTION-PLACEHOLDER' | translate
+                        "
+                        [disabled]="isLoading"
+                        [(ngModel)]="message"
+                    />
+                </mat-form-field>
+                <button
+                    mat-mini-fab
+                    [disabled]="isLoading || isQuestionEmpty()"
+                    (click)="sendMessage()"
+                >
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+}
+
+<button
+    mat-fab
+    extended
+    [ngClass]="{
+        'chat-closed': !open,
+        'chat-opened': open,
+    }"
+    (click)="manageChat()"
+>
+    <mat-icon>smart_toy</mat-icon>
+    Ask AI
+</button>
