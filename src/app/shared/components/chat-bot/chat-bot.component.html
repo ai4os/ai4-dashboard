@@ -1,9 +1,27 @@
 @if (open) {
-    <mat-card class="chat-card" appearance="outlined">
+    <mat-card
+        appearance="outlined"
+        [ngClass]="{ 'fullscreen-chat-card': expanded, 'chat-card': !expanded }"
+        [style.--chat-margin]="chatMargin"
+    >
         <mat-card-header>
             <mat-card-title>
-                <mat-icon> smart_toy </mat-icon>
-                {{ 'CHATBOT.TITLE' | translate }}
+                <span class="title">
+                    {{ 'CHATBOT.TITLE' | translate }}
+                    <p class="beta-warning">BETA</p>
+                </span>
+
+                <button
+                    mat-mini-fab
+                    class="resize-button"
+                    (click)="resizeChat()"
+                >
+                    @if (expanded) {
+                        <mat-icon>close_fullscreen</mat-icon>
+                    } @else {
+                        <mat-icon>open_in_full</mat-icon>
+                    }
+                </button>
             </mat-card-title>
         </mat-card-header>
 

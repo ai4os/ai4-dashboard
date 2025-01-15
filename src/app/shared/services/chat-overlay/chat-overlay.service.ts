@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import {
+    GlobalPositionStrategy,
+    Overlay,
+    OverlayRef,
+} from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ChatBotComponent } from '@app/shared/components/chat-bot/chat-bot.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
@@ -9,17 +13,20 @@ import { AuthService } from '@app/core/services/auth/auth.service';
 })
 export class ChatOverlayService {
     private overlayRef: OverlayRef;
+    private positionStrategy: GlobalPositionStrategy;
 
     constructor(
         private overlay: Overlay,
         private authService: AuthService
     ) {
+        this.positionStrategy = this.overlay
+            .position()
+            .global()
+            .bottom('20px')
+            .left('320px');
+
         this.overlayRef = this.overlay.create({
-            positionStrategy: this.overlay
-                .position()
-                .global()
-                .bottom('20px')
-                .right('20px'),
+            positionStrategy: this.positionStrategy,
             hasBackdrop: false,
             scrollStrategy: this.overlay.scrollStrategies.noop(),
         });
@@ -34,5 +41,15 @@ export class ChatOverlayService {
 
     closeChat() {
         this.overlayRef.detach();
+    }
+
+    showButtonWithSidebar() {
+        this.positionStrategy.left('320px');
+        this.overlayRef.updatePosition();
+    }
+
+    showButtonWithoutSidebar() {
+        this.positionStrategy.left('20px');
+        this.overlayRef.updatePosition();
     }
 }

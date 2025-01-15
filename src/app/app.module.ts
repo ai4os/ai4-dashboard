@@ -67,7 +67,7 @@ const cookieConfig: NgcCookieConsentConfig = {
         },
     },
     mobileForceFloat: true,
-    position: 'bottom',
+    position: 'bottom-right',
     theme: 'edgeless',
     type: 'opt-out',
 };

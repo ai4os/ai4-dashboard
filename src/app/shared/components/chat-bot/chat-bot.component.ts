@@ -5,6 +5,7 @@ import {
     ChatResponse,
 } from '@app/shared/interfaces/chat.interface';
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
+import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
@@ -16,23 +17,28 @@ export class ChatBotComponent {
     constructor(
         private chatBotService: ChatBotService,
         private renderer: Renderer2,
-        private snackbarService: SnackbarService
+        private snackbarService: SnackbarService,
+        private sidenavService: SidenavService
     ) {}
 
     @ViewChild('messagesList') private messagesList!: ElementRef;
 
     protected open = false;
+    protected expanded = false;
     protected isLoading = false;
     protected message: string = '';
     protected chatHistory: ChatRequest = {
         model: 'ai4eoscassistant',
         messages: [],
     };
+    protected chatMargin = '350px';
 
     manageChat() {
         this.open = !this.open;
         if (this.open) {
             setTimeout(() => this.scrollToBottom(), 0);
+        } else {
+            this.expanded = false;
         }
     }
 
@@ -86,13 +92,22 @@ export class ChatBotComponent {
     }
 
     scrollToBottom(): void {
-        const element = this.messagesList.nativeElement;
+        const element = this.messagesList?.nativeElement;
         if (element) {
             this.renderer.setProperty(
                 element,
                 'scrollTop',
                 element.scrollHeight
             );
+        }
+    }
+
+    resizeChat() {
+        this.expanded = !this.expanded;
+        if (this.sidenavService.isOpen()) {
+            this.chatMargin = '350px';
+        } else {
+            this.chatMargin = '50px';
         }
     }
 }
