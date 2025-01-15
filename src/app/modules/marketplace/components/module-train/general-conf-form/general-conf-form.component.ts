@@ -27,6 +27,7 @@ export interface showGeneralFormField {
     infoButton: boolean;
     cvatUsername: boolean;
     cvatPassword: boolean;
+    modelId: boolean;
 }
 
 @Component({
@@ -87,6 +88,7 @@ export class GeneralConfFormComponent implements OnInit {
         infoButton: false,
         cvatUsername: false,
         cvatPassword: false,
+        modelId: false,
     };
 
     @Input() set showFields(showFields: showGeneralFormField) {
@@ -144,6 +146,16 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('cvatPasswordInput')
                 ?.setValue(defaultFormValues.cvat_password?.value as string);
+
+            this.generalConfFormGroup
+                .get('modelIdSelect')
+                ?.setValue(defaultFormValues.model_id?.value as string);
+            defaultFormValues.model_id?.options?.forEach((tag: string) => {
+                this.modelIdOptions.push({
+                    value: tag,
+                    viewValue: tag,
+                });
+            });
         }
     }
 
@@ -164,9 +176,11 @@ export class GeneralConfFormComponent implements OnInit {
         federatedSecretInput: [{ value: '', disabled: true }],
         cvatUsernameInput: ['', [Validators.required]],
         cvatPasswordInput: ['', [Validators.required]],
+        modelIdSelect: [''],
     });
 
     dockerTagOptions: { value: string; viewValue: string }[] = [];
+    modelIdOptions: { value: string; viewValue: string }[] = [];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;

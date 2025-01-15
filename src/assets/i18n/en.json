@@ -286,7 +286,9 @@
                 "CVAT-USERNAME": "CVAT username",
                 "CVAT-PASSWORD": "CVAT password",
                 "CVAT-USERNAME-REQUIRED": "A username is required",
-                "CVAT-PASSWORD-REQUIRED": "A password is required"
+                "CVAT-PASSWORD-REQUIRED": "A password is required",
+                "MODEL-OPTIONS": "Model options",
+                "MODEL-ID": "Model ID"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",

@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/marketplace/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
-    ModuleStorageConfiguration,
-    CvatToolConfiguration,
+    ModuleHardwareConfiguration,
+    Ai4LifeLoaderToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
 
 @Component({
-    selector: 'app-cvat',
-    templateUrl: './cvat.component.html',
-    styleUrls: ['./cvat.component.scss'],
+    selector: 'app-ai4life-loader',
+    templateUrl: './ai4life-loader.component.html',
+    styleUrl: './ai4life-loader.component.scss',
 })
-export class CvatComponent implements OnInit {
+export class Ai4lifeLoaderComponent {
     constructor(
         private _formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -24,15 +25,15 @@ export class CvatComponent implements OnInit {
 
     title = '';
     step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'MODULES.MODULE-TRAIN.DATA-CONF';
+    step2Title = 'MODULES.MODULE-TRAIN.HARDWARE-CONF';
 
     showHelp = false;
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
-    storageConfForm: FormGroup = this._formBuilder.group({});
+    hardwareConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
-    storageConfDefaultValues!: ModuleStorageConfiguration;
+    hardwareConfDefaultValues!: ModuleHardwareConfiguration;
 
     showGeneralFields: showGeneralFormField = {
         titleInput: true,
@@ -42,9 +43,17 @@ export class CvatComponent implements OnInit {
         dockerImageInput: false,
         dockerTagSelect: false,
         infoButton: true,
-        cvatUsername: true,
-        cvatPassword: true,
-        modelId: false,
+        cvatUsername: false,
+        cvatPassword: false,
+        modelId: true,
+    };
+
+    showHardwareFields: showHardwareField = {
+        cpu_num: true,
+        ram: true,
+        disk: true,
+        gpu_num: true,
+        gpu_type: true,
     };
 
     ngOnInit(): void {
@@ -57,10 +66,10 @@ export class CvatComponent implements OnInit {
                 this.title = cvat.title;
             });
             this.toolsService
-                .getCvatConfiguration(params['id'])
-                .subscribe((toolConf: CvatToolConfiguration) => {
+                .getAi4LifeConfiguration(params['id'])
+                .subscribe((toolConf: Ai4LifeLoaderToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
-                    this.storageConfDefaultValues = toolConf.storage;
+                    this.hardwareConfDefaultValues = toolConf.hardware;
                 });
         });
     }
