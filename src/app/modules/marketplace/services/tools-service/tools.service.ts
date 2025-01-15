@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TagObject } from '@app/data/types/tags';
 import {
+    Ai4LifeLoaderToolConfiguration,
     CvatToolConfiguration,
     FederatedServerToolConfiguration,
     Module,
@@ -60,6 +61,18 @@ export class ToolsService {
             toolName
         )}`;
         return this.http.get<CvatToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    getAi4LifeConfiguration(
+        toolName: string
+    ): Observable<Ai4LifeLoaderToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<Ai4LifeLoaderToolConfiguration>(url, {
             params: this.voParam,
         });
     }

@@ -26,6 +26,7 @@ import { ToolTrainComponent } from './views/tool-train-view/tool-train.component
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
 import { FiltersConfigurationDialogComponent } from './components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
+import { Ai4lifeLoaderComponent } from './components/module-train/tool-train/ai4life-loader/ai4life-loader.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import { FiltersConfigurationDialogComponent } from './components/filters/filter
         DatasetsListComponent,
         DatasetCreationDetailComponent,
         CvatComponent,
+        Ai4lifeLoaderComponent,
         LoadingScreenComponent,
         FilterComponentComponent,
         FiltersConfigurationDialogComponent,
