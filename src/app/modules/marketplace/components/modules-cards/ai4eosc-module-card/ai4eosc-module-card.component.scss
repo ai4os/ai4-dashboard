@@ -32,15 +32,6 @@
     color: var(--dark-grey);
 }
 
-.basic-card-actions {
-    margin-top: auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    gap: 0.5em;
-}
-
 .tool-card {
     border: 2px solid var(--accent) !important;
 }

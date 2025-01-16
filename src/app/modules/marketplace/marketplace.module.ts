@@ -17,21 +17,28 @@ import { StorageConfFormComponent } from './components/module-train/storage-conf
 import { CvatComponent } from './components/module-train/tool-train/cvat/cvat.component';
 import { FederatedConfFormComponent } from './components/module-train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
 import { FederatedServerComponent } from './components/module-train/tool-train/federated-server/federated-server.component';
-import { ModuleCardComponent } from './components/modules-list/module-card/module-card.component';
+import { Ai4eoscModuleCardComponent } from './components/modules-cards/ai4eosc-module-card/ai4eosc-module-card.component';
 import { ModulesListComponent } from './components/modules-list/modules-list.component';
 import { MarketplaceRoutingModule } from './marketplace-routing.module';
-import { SearchPipe } from './pipes/search-card-pipe';
+import { SearchAi4eoscPipe, SearchAi4lifePipe } from './pipes/search-card-pipe';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
 import { FiltersConfigurationDialogComponent } from './components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
+import { Ai4lifeListComponent } from './components/modules-list/ai4life-list/ai4life-list.component';
+import { Ai4lifeModuleCardComponent } from './components/modules-cards/ai4life-module-card/ai4life-module-card.component';
+import { Ai4eoscListComponent } from './components/modules-list/ai4eosc-list/ai4eosc-list.component';
 
 @NgModule({
     declarations: [
         ModulesListComponent,
-        ModuleCardComponent,
-        SearchPipe,
+        Ai4eoscListComponent,
+        Ai4lifeListComponent,
+        Ai4eoscModuleCardComponent,
+        Ai4lifeModuleCardComponent,
+        SearchAi4eoscPipe,
+        SearchAi4lifePipe,
         ModuleDetailComponent,
         ModuleTrainComponent,
         GeneralConfFormComponent,

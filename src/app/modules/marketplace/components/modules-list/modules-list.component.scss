@@ -26,39 +26,17 @@
     row-gap: 0.5em;
 }
 
-.search-form-mobile {
-    width: 100%;
-}
-
-.search-field-mobile {
-    width: 100%;
-}
-
-.search-and-results-container {
+.marketplaces-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
     align-items: center;
-    justify-content: space-between;
-    gap: 1em;
-    & span {
-        display: flex;
-        align-items: center;
-        align-self: center;
-    }
+    gap: 2.5em;
 }
 
-.results-text {
-    font-style: italic;
-    font-size: small;
-    align-self: flex-end !important;
-}
-
-.search-filter-order-container {
+.marketplaces-buttons {
     display: flex;
-    width: 100%;
+    flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
     gap: 1em;
 
     mat-divider {
@@ -67,26 +45,11 @@
     }
 }
 
-.modules-cards-container {
-    display: grid;
-    grid-gap: 0.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+.ai4eosc-marketplace-button {
+    font-size: large;
+    color: var(--accent);
 }
 
-.small-text {
-    font-size: 17px;
-}
-
-::ng-deep .mat-mdc-tab-header {
-    width: 200px;
-    margin-left: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
-    border-radius: 50px;
-}
-
-::ng-deep .filter-selector .mdc-line-ripple {
-    display: none;
+.ai4life-marketplace-button {
+    color: #4bac5c;
 }

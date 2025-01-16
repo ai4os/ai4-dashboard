@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '@environments/environment';
 import {
+    Ai4lifeModuleSummary,
     Module,
     ModuleConfiguration,
     ModuleSummary,
@@ -49,5 +50,18 @@ export class ModulesService {
         return this.http.get<ModuleConfiguration>(url, {
             params: this.voParam,
         });
+    }
+
+    getAi4lifeModules(): Observable<Ai4lifeModuleSummary[]> {
+        const url = endpoints.ai4lifeModulesSummary;
+        return this.http.get<Array<any>>(url).pipe(
+            map((data) =>
+                Object.values(data).map((item) => ({
+                    id: item.id,
+                    name: item.name,
+                    description: item.description,
+                }))
+            )
+        );
     }
 }
