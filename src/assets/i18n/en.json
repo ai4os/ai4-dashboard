@@ -2,7 +2,7 @@
     "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Marketplace",
+        "MODULES": "Marketplaces",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
@@ -193,7 +193,7 @@
         }
     },
     "MODULES": {
-        "TITLE": "Marketplace",
+        "TITLE": "Marketplaces",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",

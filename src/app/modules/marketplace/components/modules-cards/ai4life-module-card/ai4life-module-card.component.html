@@ -1,0 +1,24 @@
+<mat-card class="basic-card">
+    <mat-card-header class="basic-card-header">
+        <mat-card-title>
+            <mat-icon color="primary" [matTooltip]="'MODULES.TOOL' | translate"
+                >biotech</mat-icon
+            >
+            <span>{{ module.name }}</span>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-divider></mat-divider>
+
+        <div class="basic-card-content">
+            <mat-card-subtitle class="mt-2">
+                <markdown
+                    [data]="module.description"
+                    ngPreserveWhitespaces
+                    [disableSanitizer]="true"
+                >
+                </markdown>
+            </mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -12,6 +12,12 @@ export interface ModuleSummary {
     'data-type'?: string[];
 }
 
+export interface Ai4lifeModuleSummary {
+    id: string;
+    name: string;
+    description: string;
+}
+
 export interface Module {
     id: string;
     title: string;
