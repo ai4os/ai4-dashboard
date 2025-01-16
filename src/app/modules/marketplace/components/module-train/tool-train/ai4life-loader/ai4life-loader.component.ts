@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from '@app/modules/marketplace/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
@@ -18,14 +18,19 @@ import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.c
 })
 export class Ai4lifeLoaderComponent {
     constructor(
+        private toolsService: ToolsService,
         private _formBuilder: FormBuilder,
         private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+        private router: Router
+    ) {
+        const navigation = this.router.lastSuccessfulNavigation;
+        this.modelId = navigation?.extras?.state?.['modelId'];
+    }
 
     title = '';
     step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
     step2Title = 'MODULES.MODULE-TRAIN.HARDWARE-CONF';
+    modelId: string = '';
 
     showHelp = false;
     showLoader = false;
@@ -69,6 +74,11 @@ export class Ai4lifeLoaderComponent {
                 .getAi4LifeConfiguration(params['id'])
                 .subscribe((toolConf: Ai4LifeLoaderToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
+                    if (this.generalConfDefaultValues.model_id) {
+                        this.generalConfDefaultValues.model_id.value =
+                            this.modelId;
+                    }
+
                     this.hardwareConfDefaultValues = toolConf.hardware;
                 });
         });
