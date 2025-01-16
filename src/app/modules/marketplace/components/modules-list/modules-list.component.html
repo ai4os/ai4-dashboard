@@ -16,7 +16,12 @@
                 <div class="marketplaces-buttons">
                     <button
                         mat-stroked-button
-                        class="ai4eosc-marketplace-button"
+                        [ngClass]="{
+                            'ai4eosc-marketplace-button':
+                                marketplaceName !== 'ai4eosc',
+                            'ai4eosc-marketplace-button-selected':
+                                marketplaceName === 'ai4eosc',
+                        }"
                         (click)="selectMarketplace('ai4eosc')"
                     >
                         AI4EOSC
@@ -26,7 +31,12 @@
 
                     <button
                         mat-stroked-button
-                        class="ai4life-marketplace-button"
+                        [ngClass]="{
+                            'ai4life-marketplace-button':
+                                marketplaceName !== 'ai4life',
+                            'ai4life-marketplace-button-selected':
+                                marketplaceName === 'ai4life',
+                        }"
                         (click)="selectMarketplace('ai4life')"
                     >
                         AI4Life

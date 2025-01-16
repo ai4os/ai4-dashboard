@@ -47,9 +47,27 @@
 
 .ai4eosc-marketplace-button {
     font-size: large;
-    color: var(--accent);
+    color: var(--accent) !important;
+    border: solid 3px var(--accent) !important;
+}
+
+.ai4eosc-marketplace-button-selected {
+    @extend .ai4eosc-marketplace-button;
+
+    background: var(--accent);
+    color: white !important;
+    font-weight: bold;
 }
 
 .ai4life-marketplace-button {
-    color: #4bac5c;
+    color: var(--accent) !important;
+    border: solid 3px var(--accent) !important;
+}
+
+.ai4life-marketplace-button-selected {
+    @extend .ai4life-marketplace-button;
+
+    background: var(--accent);
+    color: white !important;
+    font-weight: bold;
 }
