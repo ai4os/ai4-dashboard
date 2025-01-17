@@ -1,7 +1,7 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 1em;
 }
 
 .marketplace-toolbar {
@@ -33,41 +33,40 @@
     gap: 2.5em;
 }
 
-.marketplaces-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
+::ng-deep .mat-mdc-tab-header {
+    width: min-content;
+    align-self: center;
+    border-radius: 15px;
+    padding: 0 20px;
 
-    mat-divider {
-        height: 30px;
-        width: 1px;
-    }
+    box-shadow:
+        rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
-.ai4eosc-marketplace-button {
+::ng-deep .mat-mdc-tab-labels .mat-mdc-tab:first-child {
+    margin-right: 3.5em;
+    font-weight: bold;
     font-size: large;
-    color: var(--accent) !important;
-    border: solid 3px var(--accent) !important;
 }
 
-.ai4eosc-marketplace-button-selected {
-    @extend .ai4eosc-marketplace-button;
-
-    background: var(--accent);
-    color: white !important;
-    font-weight: bold;
+::ng-deep .mat-mdc-tab-labels .mat-mdc-tab:nth-child(2) {
+    padding: 0;
+    font-size: medium;
+    opacity: 0.8;
 }
 
-.ai4life-marketplace-button {
-    color: var(--accent) !important;
-    border: solid 3px var(--accent) !important;
+::ng-deep .mat-mdc-tab-labels .mat-mdc-tab {
+    font-size: medium;
+    padding: 0 2em;
 }
 
-.ai4life-marketplace-button-selected {
-    @extend .ai4life-marketplace-button;
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+    color: var(--white) !important;
+}
 
-    background: var(--accent);
-    color: white !important;
-    font-weight: bold;
+::ng-deep .mdc-tab-indicator .mdc-tab-indicator__content {
+    border-color: var(--white) !important;
+    border-width: 3px !important;
 }

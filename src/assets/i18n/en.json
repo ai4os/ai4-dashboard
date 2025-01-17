@@ -198,6 +198,7 @@
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
         "TOOL": "AI4 Tool",
+        "AI4LIFE": "AI4Life Module",
         "FILTERS": {
             "ADITIONAL-FILTERS": "Additional filters",
             "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",

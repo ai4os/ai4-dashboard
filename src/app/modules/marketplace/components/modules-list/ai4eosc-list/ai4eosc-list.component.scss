@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 2em;
+    padding-top: 1em;
 }
 
 .marketplace-toolbar {
@@ -75,12 +76,6 @@
 
 .small-text {
     font-size: 17px;
-}
-
-::ng-deep .mat-mdc-tab-header {
-    width: 200px;
-    margin-left: 0.5em;
-    margin-bottom: 0.5em;
 }
 
 ::ng-deep .filter-selector .mat-mdc-text-field-wrapper {

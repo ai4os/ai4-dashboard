@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import {
 } from '@app/shared/interfaces/module.interface';
 import { forkJoin } from 'rxjs';
 import { ToolsService } from '../../services/tools-service/tools.service';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-modules-list',
@@ -28,10 +29,13 @@ export class ModulesListComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
+    @ViewChild('tabGroup', { static: false }) tabGroup!: MatTabGroup;
+
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
     searchFormGroup!: FormGroup;
 
+    selectedTabIndex = 0;
     marketplaceName = 'ai4eosc';
 
     ai4eoscModules: ModuleSummary[] = [];
@@ -44,8 +48,21 @@ export class ModulesListComponent implements OnInit {
         this.ai4eoscModulesLoading = true;
         this.ai4lifeModulesLoading = true;
 
+        const marketplace = sessionStorage.getItem('selectedMarketplace');
+        if (marketplace) {
+            try {
+                this.marketplaceName = JSON.parse(marketplace);
+            } catch (e) {}
+        }
+
         this.getAi4eoscModules();
         this.getAi4lifeModules();
+
+        if (this.marketplaceName === 'ai4eosc') {
+            this.selectTab(0);
+        } else {
+            this.selectTab(2);
+        }
     }
 
     getAi4eoscModules() {
@@ -77,7 +94,15 @@ export class ModulesListComponent implements OnInit {
         });
     }
 
-    selectMarketplace(name: string) {
-        this.marketplaceName = name;
+    selectMarketplace(tabChangeEvent: MatTabChangeEvent): void {
+        this.marketplaceName = tabChangeEvent.tab.textLabel.toLowerCase();
+        sessionStorage.setItem(
+            'selectedMarketplace',
+            JSON.stringify(this.marketplaceName)
+        );
+    }
+
+    selectTab(index: number): void {
+        this.selectedTabIndex = index;
     }
 }

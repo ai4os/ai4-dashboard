@@ -12,48 +12,35 @@
                     {{ 'MODULES.TITLE' | translate }}
                     <mat-icon>shopping_cart</mat-icon>
                 </span>
-
-                <div class="marketplaces-buttons">
-                    <button
-                        mat-stroked-button
-                        [ngClass]="{
-                            'ai4eosc-marketplace-button':
-                                marketplaceName !== 'ai4eosc',
-                            'ai4eosc-marketplace-button-selected':
-                                marketplaceName === 'ai4eosc',
-                        }"
-                        (click)="selectMarketplace('ai4eosc')"
-                    >
-                        AI4EOSC
-                    </button>
-
-                    <mat-divider [vertical]="true"></mat-divider>
-
-                    <button
-                        mat-stroked-button
-                        [ngClass]="{
-                            'ai4life-marketplace-button':
-                                marketplaceName !== 'ai4life',
-                            'ai4life-marketplace-button-selected':
-                                marketplaceName === 'ai4life',
-                        }"
-                        (click)="selectMarketplace('ai4life')"
-                    >
-                        AI4Life
-                    </button>
-                </div>
             </div>
         </mat-toolbar>
     </ng-template>
 
-    @if (marketplaceName === 'ai4eosc' && !ai4eoscModulesLoading) {
-        <app-ai4eosc-list [elements]="ai4eoscModules"></app-ai4eosc-list>
-    } @else if (marketplaceName === 'ai4life' && !ai4lifeModulesLoading) {
-        <app-ai4life-list [modules]="ai4lifeModules"></app-ai4life-list>
-    } @else {
+    @if (ai4eoscModulesLoading || ai4lifeModulesLoading) {
         <div class="spinner">
             <mat-progress-spinner color="primary" mode="indeterminate">
             </mat-progress-spinner>
         </div>
+    } @else {
+        <mat-tab-group
+            #tabGroup
+            mat-stretch-tabs="false"
+            mat-align-tabs="center"
+            backgroundColor="accent"
+            [(selectedIndex)]="selectedTabIndex"
+            (selectedTabChange)="selectMarketplace($event)"
+        >
+            <mat-tab label="AI4EOSC" class="main-tab">
+                <app-ai4eosc-list [elements]="ai4eoscModules"></app-ai4eosc-list
+            ></mat-tab>
+
+            <mat-tab label="External marketplaces:" [disabled]="true">
+                ></mat-tab
+            >
+
+            <mat-tab label="AI4Life">
+                <app-ai4life-list [modules]="ai4lifeModules"></app-ai4life-list
+            ></mat-tab>
+        </mat-tab-group>
     }
 </div>
