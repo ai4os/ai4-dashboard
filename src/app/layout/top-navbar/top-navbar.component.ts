@@ -2,6 +2,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
+import { ChatOverlayService } from '@app/shared/services/chat-overlay/chat-overlay.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from '@environments/environment';
 
@@ -16,10 +17,17 @@ export class TopNavbarComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private sidenavService: SidenavService,
-        protected appConfigService: AppConfigService
+        protected appConfigService: AppConfigService,
+        private chatOverlayService: ChatOverlayService
     ) {
-        this._hideSidebarQueryListener = () =>
+        this._hideSidebarQueryListener = () => {
             changeDetectorRef.detectChanges();
+            if (this.hideSidebarQuery.matches) {
+                this.chatOverlayService.showButtonWithoutSidebar();
+            } else {
+                this.chatOverlayService.showButtonWithSidebar();
+            }
+        };
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.hideSidebarQuery = this.media.matchMedia('(max-width: 1366px)');
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
@@ -43,6 +51,11 @@ export class TopNavbarComponent implements OnInit {
 
     ngOnInit(): void {
         this.voName = this.appConfigService.voName;
+        if (this.hideSidebarQuery.matches) {
+            this.chatOverlayService.showButtonWithoutSidebar();
+        } else {
+            this.chatOverlayService.showButtonWithSidebar();
+        }
     }
 
     login() {
