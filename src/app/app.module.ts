@@ -158,26 +158,29 @@ renderer.link = (href, title, text) => {
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [AppConfigService, NgcCookieConsentConfig],
+            deps: [AppConfigService, NgcCookieConsentConfig, OAuthModuleConfig],
             useFactory: (
                 appConfigService: AppConfigService,
-                config: NgcCookieConsentConfig
+                config: NgcCookieConsentConfig,
+                authConfig: OAuthModuleConfig
             ) => {
                 return () => {
-                    return appConfigService.loadAppConfig().then(() => {
-                        if (config.cookie) {
-                            config.cookie.domain =
-                                appConfigService.analytics.domain;
-                            config.content!.href =
-                                appConfigService.legalLinks[1].url;
-                        }
-                        if (
-                            appConfigService.apiURL &&
-                            appConfigService.apiURL !== ''
-                        ) {
-                            environment.api.base = appConfigService.apiURL;
-                        }
-                    });
+                    return appConfigService
+                        .loadAppConfig(authConfig)
+                        .then(() => {
+                            if (config.cookie) {
+                                config.cookie.domain =
+                                    appConfigService.analytics.domain;
+                                config.content!.href =
+                                    appConfigService.legalLinks[1].url;
+                            }
+                            if (
+                                appConfigService.apiURL &&
+                                appConfigService.apiURL !== ''
+                            ) {
+                                environment.api.base = appConfigService.apiURL;
+                            }
+                        });
                 };
             },
         },
