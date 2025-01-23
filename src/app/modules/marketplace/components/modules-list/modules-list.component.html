@@ -25,12 +25,10 @@
         <mat-tab-group
             #tabGroup
             mat-stretch-tabs="false"
-            mat-align-tabs="center"
-            backgroundColor="accent"
             [(selectedIndex)]="selectedTabIndex"
             (selectedTabChange)="selectMarketplace($event)"
         >
-            <mat-tab label="AI4EOSC" class="main-tab">
+            <mat-tab label="AI4EOSC">
                 <app-ai4eosc-list [elements]="ai4eoscModules"></app-ai4eosc-list
             ></mat-tab>
 
