@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    ::ng-deep .mat-mdc-tab-body-content {
+        overflow: hidden;
+    }
 }
 
 .marketplace-toolbar {

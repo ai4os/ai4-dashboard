@@ -4,7 +4,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { ModulesService } from '../../services/modules-service/modules.service';
 import {
-    Ai4lifeModuleSummary,
+    Ai4lifeModule,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { forkJoin } from 'rxjs';
@@ -39,7 +39,7 @@ export class ModulesListComponent implements OnInit {
     marketplaceName = 'ai4eosc';
 
     ai4eoscModules: ModuleSummary[] = [];
-    ai4lifeModules: Ai4lifeModuleSummary[] = [];
+    ai4lifeModules: Ai4lifeModule[] = [];
 
     ai4eoscModulesLoading = false;
     ai4lifeModulesLoading = false;
@@ -84,7 +84,7 @@ export class ModulesListComponent implements OnInit {
 
     getAi4lifeModules() {
         this.modulesService.getAi4lifeModules().subscribe({
-            next: (modules: Ai4lifeModuleSummary[]) => {
+            next: (modules: Ai4lifeModule[]) => {
                 this.ai4lifeModules = modules;
                 this.ai4lifeModulesLoading = false;
             },

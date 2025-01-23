@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchAi4lifePipe } from '@app/modules/marketplace/pipes/search-card-pipe';
-import { Ai4lifeModuleSummary } from '@app/shared/interfaces/module.interface';
+import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
 
 @Component({
     selector: 'app-ai4life-list',
@@ -26,7 +26,7 @@ export class Ai4lifeListComponent implements OnInit {
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
 
-    @Input() modules: Ai4lifeModuleSummary[] = [];
+    @Input() modules: Ai4lifeModule[] = [];
 
     searchFormGroup!: FormGroup;
     filterPipe: SearchAi4lifePipe;

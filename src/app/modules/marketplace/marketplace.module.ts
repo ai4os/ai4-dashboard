@@ -6,7 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedModule } from '@shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
-import { ModuleDetailComponent } from './components/module-detail/module-detail.component';
+import { Ai4eoscModuleDetailComponent } from './components/modules-detail/ai4eosc-module-detail/ai4eosc-module-detail.component';
 import { DatasetCreationDetailComponent } from './components/module-train/datasets/dataset-creation-detail-component/dataset-creation-detail.component';
 import { DatasetsListComponent } from './components/module-train/datasets/datasets-list/datasets-list.component';
 import { GeneralConfFormComponent } from './components/module-train/general-conf-form/general-conf-form.component';
@@ -30,6 +30,7 @@ import { Ai4lifeLoaderComponent } from './components/module-train/tool-train/ai4
 import { Ai4lifeListComponent } from './components/modules-list/ai4life-list/ai4life-list.component';
 import { Ai4lifeModuleCardComponent } from './components/modules-cards/ai4life-module-card/ai4life-module-card.component';
 import { Ai4eoscListComponent } from './components/modules-list/ai4eosc-list/ai4eosc-list.component';
+import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4life-module-detail/ai4life-module-detail.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { Ai4eoscListComponent } from './components/modules-list/ai4eosc-list/ai4
         Ai4lifeModuleCardComponent,
         SearchAi4eoscPipe,
         SearchAi4lifePipe,
-        ModuleDetailComponent,
+        Ai4eoscModuleDetailComponent,
+        Ai4lifeModuleDetailComponent,
         ModuleTrainComponent,
         GeneralConfFormComponent,
         HardwareConfFormComponent,

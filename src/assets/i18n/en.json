@@ -225,6 +225,9 @@
             "TAGS": "Tags",
             "TASKS": "Tasks",
             "DATA-TYPES": "Data Types",
+            "ABOUT": "About",
+            "DOWNLOAD-COUNT": "Download Count",
+            "LICENSE": "License",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
@@ -451,7 +454,8 @@
         "GITHUB": "GitHub",
         "DOCKERHUB": "Docker",
         "REPORT-ISSUE": "Report issue",
-        "OPEN-DOCUMENTATION": "Open documentation"
+        "OPEN-DOCUMENTATION": "Open documentation",
+        "BIOIMAGE": "BioImage.IO"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

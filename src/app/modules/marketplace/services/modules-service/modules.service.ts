@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '@environments/environment';
 import {
-    Ai4lifeModuleSummary,
-    Module,
+    Ai4lifeModule,
+    Ai4eoscModule,
     ModuleConfiguration,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
@@ -35,9 +35,9 @@ export class ModulesService {
         }
     }
 
-    getModule(moduleName: string): Observable<Module> {
+    getModule(moduleName: string): Observable<Ai4eoscModule> {
         const url = `${base}${endpoints.module.replace(':name', moduleName)}`;
-        return this.http.get<Module>(url);
+        return this.http.get<Ai4eoscModule>(url);
     }
 
     getModuleConfiguration(
@@ -52,7 +52,7 @@ export class ModulesService {
         });
     }
 
-    getAi4lifeModules(): Observable<Ai4lifeModuleSummary[]> {
+    getAi4lifeModules(): Observable<Ai4lifeModule[]> {
         const url = endpoints.ai4lifeModulesSummary;
         return this.http.get<Array<any>>(url).pipe(
             map((data) =>
@@ -60,6 +60,12 @@ export class ModulesService {
                     id: item.id,
                     name: item.name,
                     description: item.description,
+                    doi: item.id,
+                    created: item.created.slice(0, 10),
+                    covers: item.covers,
+                    downloadCount: item.download_count,
+                    tags: item.tags,
+                    license: item.license,
                 }))
             )
         );

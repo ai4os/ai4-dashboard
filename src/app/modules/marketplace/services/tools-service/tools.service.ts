@@ -6,7 +6,7 @@ import {
     Ai4LifeLoaderToolConfiguration,
     CvatToolConfiguration,
     FederatedServerToolConfiguration,
-    Module,
+    Ai4eoscModule,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
@@ -38,9 +38,9 @@ export class ToolsService {
         }
     }
 
-    getTool(moduleName: string): Observable<Module> {
+    getTool(moduleName: string): Observable<Ai4eoscModule> {
         const url = `${base}${endpoints.tool.replace(':name', moduleName)}`;
-        return this.http.get<Module>(url);
+        return this.http.get<Ai4eoscModule>(url);
     }
 
     getFederatedServerConfiguration(

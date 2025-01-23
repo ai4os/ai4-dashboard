@@ -12,13 +12,7 @@ export interface ModuleSummary {
     'data-type'?: string[];
 }
 
-export interface Ai4lifeModuleSummary {
-    id: string;
-    name: string;
-    description: string;
-}
-
-export interface Module {
+export interface Ai4eoscModule {
     id: string;
     title: string;
     summary: string;
@@ -42,6 +36,18 @@ export interface Module {
     categories: string[];
     tags: string[];
     'data-type'?: string[];
+}
+
+export interface Ai4lifeModule {
+    id: string;
+    name: string;
+    description: string;
+    doi: string;
+    created: string;
+    covers: string[];
+    downloadCount: string;
+    tags: string[];
+    license: string;
 }
 
 export interface Dates {

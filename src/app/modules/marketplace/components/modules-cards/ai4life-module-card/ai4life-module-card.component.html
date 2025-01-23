@@ -1,4 +1,8 @@
-<mat-card class="basic-card" (click)="loadTool()">
+<mat-card
+    class="basic-card"
+    [routerLink]="['ai4lifeModules/' + module.name]"
+    (click)="loadModule()"
+>
     <mat-card-header class="basic-card-header">
         <mat-card-title>
             <mat-icon

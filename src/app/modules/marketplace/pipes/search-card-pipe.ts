@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {
-    Ai4lifeModuleSummary,
+    Ai4lifeModule,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 
@@ -23,11 +23,11 @@ export class SearchAi4eoscPipe implements PipeTransform {
     name: 'searchAi4lifeModule',
 })
 export class SearchAi4lifePipe implements PipeTransform {
-    public transform(value: Array<Ai4lifeModuleSummary>, searchValue: string) {
+    public transform(value: Array<Ai4lifeModule>, searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(
-            (v: Ai4lifeModuleSummary) =>
+            (v: Ai4lifeModule) =>
                 v.name.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ||
                 v.description.toLowerCase().indexOf(searchValue.toLowerCase()) >
                     -1
