@@ -74,8 +74,8 @@ export class Ai4lifeLoaderComponent {
                 .getAi4LifeConfiguration(params['id'])
                 .subscribe((toolConf: Ai4LifeLoaderToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
-                    if (this.generalConfDefaultValues.model_id) {
-                        this.generalConfDefaultValues.model_id.value =
+                    if (this.modelId) {
+                        this.generalConfDefaultValues.model_id!.value =
                             this.modelId;
                     }
 
