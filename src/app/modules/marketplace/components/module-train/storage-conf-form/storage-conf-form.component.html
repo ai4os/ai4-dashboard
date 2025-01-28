@@ -306,6 +306,15 @@
                             | translate
                     }}
                 </h4>
+                @if (!storageConfFormGroup.valid) {
+                    <mat-chip class="rclone-warning">
+                        <mat-icon matChipAvatar color="warn">warning</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-ERROR'
+                                | translate
+                        }}
+                    </mat-chip>
+                }
                 <button
                     *ngIf="suggestedDatasetIsValid()"
                     mat-stroked-button
