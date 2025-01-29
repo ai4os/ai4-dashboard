@@ -28,6 +28,10 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
+            - name: 'Inject LLM API Key'
+              run: |
+                  sed -i "s/llmApiKey: ''/llmApiKey: '${{ secrets.LLM_API_KEY }}'/" src/environments/environment.development.ts
+
             - name: Build and push
               uses: docker/build-push-action@v3
               with:

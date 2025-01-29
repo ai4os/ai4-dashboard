@@ -17,6 +17,7 @@ import {
 import { SnackbarService } from './shared/services/snackbar/snackbar.service';
 import { CookieService } from 'ngx-cookie-service';
 import * as yaml from 'js-yaml';
+import { ChatOverlayService } from './shared/services/chat-overlay/chat-overlay.service';
 
 @Component({
     selector: 'app-root',
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private platformStatusService: PlatformStatusService,
         private appConfigService: AppConfigService,
         private cookieConsentService: NgcCookieConsentService,
+        private chatOverlayService: ChatOverlayService,
         private snackbarService: SnackbarService,
         public dialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
@@ -165,6 +167,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.titleService.setTitle(this.appConfigService.title);
         this.cookieConsentHandler();
         this.checkPlatformStatus();
+        // TODO: delete this comment to make the chatbot available in production
+        // this.chatOverlayService.openChat();
     }
 
     ngOnDestroy() {

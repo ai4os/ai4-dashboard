@@ -22,4 +22,8 @@ export class SidenavService {
     public toggle(): void {
         this.sidenav.toggle();
     }
+
+    public isOpen(): boolean {
+        return this.sidenav.opened;
+    }
 }

@@ -1,7 +1,11 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 1em;
+
+    ::ng-deep .mat-mdc-tab-body-content {
+        overflow: hidden;
+    }
 }
 
 .marketplace-toolbar {
@@ -26,67 +30,9 @@
     row-gap: 0.5em;
 }
 
-.search-form-mobile {
-    width: 100%;
-}
-
-.search-field-mobile {
-    width: 100%;
-}
-
-.search-and-results-container {
+.marketplaces-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
     align-items: center;
-    justify-content: space-between;
-    gap: 1em;
-    & span {
-        display: flex;
-        align-items: center;
-        align-self: center;
-    }
-}
-
-.results-text {
-    font-style: italic;
-    font-size: small;
-    align-self: flex-end !important;
-}
-
-.search-filter-order-container {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1em;
-
-    mat-divider {
-        height: 30px;
-        width: 1px;
-    }
-}
-
-.modules-cards-container {
-    display: grid;
-    grid-gap: 0.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-}
-
-.small-text {
-    font-size: 17px;
-}
-
-::ng-deep .mat-mdc-tab-header {
-    width: 200px;
-    margin-left: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
-    border-radius: 50px;
-}
-
-::ng-deep .filter-selector .mdc-line-ripple {
-    display: none;
+    gap: 2.5em;
 }

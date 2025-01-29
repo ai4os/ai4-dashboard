@@ -1,6 +1,9 @@
-import { Module, ModuleSummary } from '@app/shared/interfaces/module.interface';
+import {
+    Ai4eoscModule,
+    ModuleSummary,
+} from '@app/shared/interfaces/module.interface';
 
-export const module: Module = {
+export const module: Ai4eoscModule = {
     categories: ['Machine Learning', 'Federated Learning'],
     'data-type': ['Model', 'Dataset'],
     dates: {
