@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.34.0](https://github.com/ai4os/ai4-dashboard/compare/v2.33.3...v2.34.0) (2025-01-29)
+
+
+### Features
+
+* Ai4life marketplace and tool ([#296](https://github.com/ai4os/ai4-dashboard/issues/296)) ([47fe57d](https://github.com/ai4os/ai4-dashboard/commit/47fe57d01ae6703c4d2cb5c3f84bee8e3da3a2b4))
+
 ## [2.33.0](https://github.com/ai4os/ai4-dashboard/compare/v2.32.0...v2.33.0) (2024-12-12)
 
 
