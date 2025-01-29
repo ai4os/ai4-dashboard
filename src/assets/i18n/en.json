@@ -310,6 +310,7 @@
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
+                "STORAGE-URL-ERROR": "Invalid URL format",
                 "STORAGE-SERVICE": "Storage service",
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
                 "PROFILE-SECTION": "profile section",
