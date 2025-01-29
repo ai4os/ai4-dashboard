@@ -167,7 +167,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.titleService.setTitle(this.appConfigService.title);
         this.cookieConsentHandler();
         this.checkPlatformStatus();
-        this.chatOverlayService.openChat();
+        // TODO: delete this comment to make the chatbot available in production
+        // this.chatOverlayService.openChat();
     }
 
     ngOnDestroy() {
