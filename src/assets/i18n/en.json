@@ -334,6 +334,7 @@
                 "FORCE-PULL": "Force pull",
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
+                "DATASET-ERROR": "To download a dataset, you need to select a storage or use your rclone credentials",
                 "DATASETS": "Datasets",
                 "DATASET-SUGGESTION": "This module has a suggested dataset. Click here to add it.",
                 "DOI-URL": {
