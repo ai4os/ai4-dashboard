@@ -10,6 +10,7 @@ import {
 import { forkJoin } from 'rxjs';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-modules-list',
@@ -22,6 +23,7 @@ export class ModulesListComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private modulesService: ModulesService,
         private toolsService: ToolsService,
+        private snackbarService: SnackbarService,
         public dialog: MatDialog
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
@@ -52,7 +54,11 @@ export class ModulesListComponent implements OnInit {
         if (marketplace) {
             try {
                 this.marketplaceName = JSON.parse(marketplace);
-            } catch (e) {}
+            } catch (e) {
+                this.snackbarService.openError(
+                    'Marketplace could not be loaded. Please try again later.'
+                );
+            }
         }
 
         this.getAi4eoscModules();

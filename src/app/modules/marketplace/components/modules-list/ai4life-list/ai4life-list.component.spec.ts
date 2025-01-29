@@ -4,7 +4,7 @@ import { Ai4lifeListComponent } from './ai4life-list.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SharedModule } from '@app/shared/shared.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -21,7 +21,7 @@ const mockedMediaMatcher: any = {
 };
 
 @Pipe({ name: 'searchAi4lifeModule' })
-class MockSearchPipe {
+class MockSearchPipe implements PipeTransform {
     transform(value: any): any {
         return value;
     }

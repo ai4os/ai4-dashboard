@@ -6,7 +6,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { SharedModule } from '@app/shared/shared.module';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const mockedConfigService: any = {};
 
@@ -25,7 +25,7 @@ const mockedMediaMatcher: any = {
 };
 
 @Pipe({ name: 'searchAi4eoscModule' })
-class MockSearchPipe {
+class MockSearchPipe implements PipeTransform {
     transform(value: any): any {
         return value;
     }
