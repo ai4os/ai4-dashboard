@@ -123,6 +123,11 @@ body {
 }
 
 // Intro.js (on boarding library)
+.introjs-tooltip {
+    min-width: 300px !important;
+    max-width: 350px !important;
+}
+
 .introjs-tooltiptext {
     color: black !important;
 }

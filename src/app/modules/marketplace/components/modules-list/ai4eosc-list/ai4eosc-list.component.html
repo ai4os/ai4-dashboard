@@ -110,6 +110,9 @@
                 class="m-2"
             >
                 <app-ai4eosc-module-card
+                    [attr.id]="
+                        element.id === 'ai4os-ai4life-loader' ? 'step2' : null
+                    "
                     [module]="element"
                 ></app-ai4eosc-module-card>
             </span>

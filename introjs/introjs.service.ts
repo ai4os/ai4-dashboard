@@ -13,42 +13,41 @@ export class IntroJSService {
         return localStorage.getItem(tourName) ?? 'false';
     }
 
-    /*  
-        EXAMPLE OF USAGE 
-        TODO: DELETE THIS WHEN THE FIRST TOUR IS CREATED
-    */
+    // New external marketplaces (AI4Life Marketplace)
+    ai4lifeMarketplace() {
+        if (this.checkIfTourHasShown('ai4lifeMarketplaceTour') === 'true') {
+            return;
+        }
 
-    // modulesList() {
-    //     if (this.checkIfTourHasShown('modulesListTour') === 'true') {
-    //         return;
-    //     }
+        this.introJS
+            .setOptions({
+                steps: [
+                    {
+                        title: 'New AI4Life marketplace! 🎉',
+                        intro: 'Apart from the main AI4EOSC marketplace, now we also support external marketplaces.',
+                    },
+                    {
+                        element: '#step1',
+                        title: 'New AI4Life marketplace! 🎉',
+                        intro: "Don't forget to check out the new AI4Life marketplace.",
+                        position: 'bottom',
+                    },
+                    {
+                        element: '#step2',
+                        title: 'New AI4Life marketplace! 🎉',
+                        intro: 'You can also use the AI4life model loader directly.',
+                        position: 'bottom',
+                    },
+                ],
+            })
+            .start();
 
-    //     this.introJS
-    //         .setOptions({
-    //             steps: [
-    //                 {
-    //                     element: '#step1',
-    //                     intro: 'Search your favourite modules here',
-    //                 },
-    //                 {
-    //                     element: '#step2',
-    //                     intro: 'Check how filters are applied and manage them here',
-    //                 },
-    //                 {
-    //                     element: '#step3',
-    //                     intro: 'Sort them using this chips.',
-    //                 },
-    //             ],
-    //             scrollToElement: false,
-    //         })
-    //         .start();
+        this.introJS.onexit(() => {
+            localStorage.setItem('ai4lifeMarketplaceTour', 'true');
+        });
 
-    //     this.introJS.onexit(() => {
-    //         localStorage.setItem('modulesListTour', 'true');
-    //     });
-
-    //     this.introJS.oncomplete(() => {
-    //         localStorage.setItem('modulesListTour', 'true');
-    //     });
-    // }
+        this.introJS.oncomplete(() => {
+            localStorage.setItem('ai4lifeMarketplaceTour', 'true');
+        });
+    }
 }
