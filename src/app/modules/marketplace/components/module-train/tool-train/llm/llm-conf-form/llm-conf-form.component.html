@@ -1,0 +1,115 @@
+<form [formGroup]="llmConfFormGroup">
+    <h4>{{ 'MODULES.MODULE-TRAIN.LLM-CONF-FORM.TITLE' | translate }}</h4>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <mat-form-field *ngIf="_showFields.gpu_memory_utilization">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.LLM-CONF-FORM.GPU-MEM-UTILIZATION'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                min="{{ _defaultFormValues.gpu_memory_utilization.range[0] }}"
+                max="{{ _defaultFormValues.gpu_memory_utilization.range[1] }}"
+                formControlName="gpuMemUtilizationInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.gpu_memory_utilization.description
+            }}</mat-hint>
+            <mat-error
+                *ngIf="
+                    llmConfFormGroup.get('gpuMemUtilizationInput')?.errors?.[
+                        'max'
+                    ] ||
+                    llmConfFormGroup.get('gpuMemUtilizationInput')?.errors?.[
+                        'min'
+                    ]
+                "
+            >
+                {{
+                    'MODULES.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
+                        | translate
+                            : {
+                                  min: _defaultFormValues.gpu_memory_utilization
+                                      .range[0],
+                                  max: _defaultFormValues.gpu_memory_utilization
+                                      .range[1],
+                              }
+                }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="_showFields.max_model_length">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.LLM-CONF-FORM.MAX-MODEL-LEN' | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                formControlName="maxModelLenInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.max_model_length.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="_showFields.tensor_parallel_size">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.LLM-CONF-FORM.TENSOR-PARALLEL-SIZE'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                formControlName="tensorParallelSizeInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.tensor_parallel_size.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="_showFields.huggingface_token">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="string"
+                formControlName="huggingFaceTokenInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.huggingface_token.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="_showFields.vllm_model">
+            <mat-label>{{
+                'MODULES.MODULE-TRAIN.LLM-CONF-FORM.VLLM-MODEL' | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="string"
+                formControlName="vllmModelInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.vllm_model.description
+            }}</mat-hint>
+        </mat-form-field>
+    </div>
+</form>

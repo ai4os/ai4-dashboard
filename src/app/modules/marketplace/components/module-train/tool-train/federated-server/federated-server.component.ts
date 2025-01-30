@@ -57,6 +57,7 @@ export class FederatedServerComponent implements OnInit {
         infoButton: true,
         cvatUsername: false,
         cvatPassword: false,
+        llmType: false,
     };
 
     ngOnInit(): void {

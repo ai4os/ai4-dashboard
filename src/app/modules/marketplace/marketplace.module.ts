@@ -26,6 +26,8 @@ import { ToolTrainComponent } from './views/tool-train-view/tool-train.component
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
 import { FiltersConfigurationDialogComponent } from './components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
+import { LlmComponent } from './components/module-train/tool-train/llm/llm.component';
+import { LlmConfFormComponent } from './components/module-train/tool-train/llm/llm-conf-form/llm-conf-form.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +39,7 @@ import { FiltersConfigurationDialogComponent } from './components/filters/filter
         GeneralConfFormComponent,
         HardwareConfFormComponent,
         StorageConfFormComponent,
+        LlmConfFormComponent,
         ModuleDetailViewComponent,
         ToolTrainComponent,
         FederatedServerComponent,
@@ -45,6 +48,7 @@ import { FiltersConfigurationDialogComponent } from './components/filters/filter
         DatasetsListComponent,
         DatasetCreationDetailComponent,
         CvatComponent,
+        LlmComponent,
         LoadingScreenComponent,
         FilterComponentComponent,
         FiltersConfigurationDialogComponent,

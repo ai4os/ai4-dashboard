@@ -5,6 +5,7 @@ import { TagObject } from '@app/data/types/tags';
 import {
     CvatToolConfiguration,
     FederatedServerToolConfiguration,
+    LlmToolConfiguration,
     Module,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
@@ -60,6 +61,16 @@ export class ToolsService {
             toolName
         )}`;
         return this.http.get<CvatToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    getVllmConfiguration(toolName: string): Observable<LlmToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<LlmToolConfiguration>(url, {
             params: this.voParam,
         });
     }

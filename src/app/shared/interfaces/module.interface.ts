@@ -82,6 +82,7 @@ export interface ModuleGeneralConfiguration {
     jupyter_password?: confObject;
     cvat_username?: confObject;
     cvat_password?: confObject;
+    type?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -108,6 +109,14 @@ export interface FederatedServerConfiguration {
     strategy: confObject;
 }
 
+export interface LlmConfiguration {
+    gpu_memory_utilization: confObjectRange;
+    max_model_length: confObjectRange;
+    tensor_parallel_size: confObjectRange;
+    huggingface_token: confObjectRange;
+    vllm_model: confObjectRange;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -125,6 +134,11 @@ export interface CvatToolConfiguration {
     storage: ModuleStorageConfiguration;
 }
 
+export interface LlmToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    vllm: LlmConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
@@ -135,6 +149,7 @@ export interface TrainModuleRequest {
         jupyter_password?: string;
         cvat_username?: string;
         cvat_password?: string;
+        type?: string;
     };
     hardware?: {
         cpu_num: number;
@@ -165,6 +180,13 @@ export interface TrainModuleRequest {
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;
+    };
+    vllm?: {
+        gpu_memory_utilization: number;
+        max_model_length: number;
+        tensor_parallel_size: number;
+        huggingface_token: string;
+        vllm_model: string;
     };
 }
 

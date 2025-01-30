@@ -264,6 +264,15 @@
             "HARDWARE-CONF": "Hardware configuration",
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
+            "LLM-CONF": "LLM configuration",
+            "LLM-CONF-FORM": {
+                "TITLE": "LLM options",
+                "GPU-MEM-UTILIZATION": "GPU memory utilization",
+                "MAX-MODEL-LEN": "Maximum model length",
+                "TENSOR-PARALLEL-SIZE": "Tensor parallel size",
+                "HUGGING-FACE-TOKEN": "Hugging Face token",
+                "VLLM-MODEL": "VLLM model"
+            },
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -286,7 +295,9 @@
                 "CVAT-USERNAME": "CVAT username",
                 "CVAT-PASSWORD": "CVAT password",
                 "CVAT-USERNAME-REQUIRED": "A username is required",
-                "CVAT-PASSWORD-REQUIRED": "A password is required"
+                "CVAT-PASSWORD-REQUIRED": "A password is required",
+                "DEPLOYMENT-TYPE": "Deployment type",
+                "TYPE": "Type"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
