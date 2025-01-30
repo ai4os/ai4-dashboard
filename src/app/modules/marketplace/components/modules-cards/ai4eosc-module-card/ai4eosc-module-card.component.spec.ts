@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ModuleCardComponent } from './module-card.component';
+import { Ai4eoscModuleCardComponent } from './ai4eosc-module-card.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 
 describe('ModuleCardComponent', () => {
-    let component: ModuleCardComponent;
-    let fixture: ComponentFixture<ModuleCardComponent>;
+    let component: Ai4eoscModuleCardComponent;
+    let fixture: ComponentFixture<Ai4eoscModuleCardComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ModuleCardComponent],
+            declarations: [Ai4eoscModuleCardComponent],
             imports: [
                 SharedModule,
                 RouterModule.forRoot([]),
@@ -20,7 +20,7 @@ describe('ModuleCardComponent', () => {
             providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ModuleCardComponent);
+        fixture = TestBed.createComponent(Ai4eoscModuleCardComponent);
         component = fixture.componentInstance;
         component.module = {
             name: 'Test',
@@ -30,6 +30,7 @@ describe('ModuleCardComponent', () => {
             title: 'Test',
             libraries: ['test'],
             tasks: ['test'],
+            id: 'test',
         };
         fixture.detectChanges();
     });

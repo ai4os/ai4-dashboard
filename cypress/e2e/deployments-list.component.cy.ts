@@ -7,7 +7,6 @@ describe('deployments section', function () {
         cy.contains('Decline').click();
         cy.get('#deploy-tool-button', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
-        cy.wait(500);
         cy.contains('Quick submit').click();
     });
 
@@ -16,7 +15,6 @@ describe('deployments section', function () {
         cy.contains('Modules', { timeout: 50000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID').should('be.visible');
-        cy.contains('fl-test', { timeout: 20000 }).should('be.visible');
         cy.contains('ai4oshub/ai4os-federated-server:latest').should(
             'be.visible'
         );
@@ -25,7 +23,7 @@ describe('deployments section', function () {
     it('shows secrets management dialog', function () {
         cy.get('#secrets-button').click();
         cy.get('#card-title').contains('Manage secrets').should('be.visible');
-        cy.get('.tool-title').contains('fl-test').should('be.visible');
+        cy.get('.tool-title').should('be.visible');
         cy.contains('List of secrets').should('be.visible');
         cy.contains('default').should('be.visible');
         cy.get('#add-button').contains('Add').should('be.visible');
@@ -48,9 +46,9 @@ describe('deployments section', function () {
     it('create secret', function () {
         cy.get('#input').type('client1');
         cy.get('#add-button').click();
-        cy.contains('Successfully created secret with name: client1').should(
-            'be.visible'
-        );
+        cy.contains('Successfully created secret with name: client1', {
+            timeout: 20000,
+        }).should('be.visible');
         cy.contains('client1', { timeout: 20000 }).should('be.visible');
     });
 

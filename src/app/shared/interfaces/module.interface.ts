@@ -1,5 +1,6 @@
 export interface ModuleSummary {
     [x: string]: any;
+    id: string;
     name: string;
     title: string;
     summary: string;
@@ -11,7 +12,8 @@ export interface ModuleSummary {
     'data-type'?: string[];
 }
 
-export interface Module {
+export interface Ai4eoscModule {
+    id: string;
     title: string;
     summary: string;
     description: string;
@@ -34,6 +36,18 @@ export interface Module {
     categories: string[];
     tags: string[];
     'data-type'?: string[];
+}
+
+export interface Ai4lifeModule {
+    id: string;
+    name: string;
+    description: string;
+    doi: string;
+    created: string;
+    covers: string[];
+    downloadCount: string;
+    tags: string[];
+    license: string;
 }
 
 export interface Dates {
@@ -80,6 +94,7 @@ export interface ModuleGeneralConfiguration {
     jupyter_password?: confObject;
     cvat_username?: confObject;
     cvat_password?: confObject;
+    model_id?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -123,6 +138,11 @@ export interface CvatToolConfiguration {
     storage: ModuleStorageConfiguration;
 }
 
+export interface Ai4LifeLoaderToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
@@ -133,6 +153,7 @@ export interface TrainModuleRequest {
         jupyter_password?: string;
         cvat_username?: string;
         cvat_password?: string;
+        model_id?: string;
     };
     hardware?: {
         cpu_num: number;

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { statusReturn } from '@app/shared/interfaces/deployment.interface';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { Secret } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
@@ -30,24 +30,24 @@ export class SecretsService {
         });
     }
 
-    createSecret(secret: Secret, secretPath: string): Observable<statusReturn> {
+    createSecret(secret: Secret, secretPath: string): Observable<StatusReturn> {
         const url = `${base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', secretPath);
 
-        return this.http.post<statusReturn>(url, secret, {
+        return this.http.post<StatusReturn>(url, secret, {
             params: params,
         });
     }
 
-    deleteSecret(secretPath: string): Observable<statusReturn> {
+    deleteSecret(secretPath: string): Observable<StatusReturn> {
         const url = `${base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('secret_path', secretPath);
 
-        return this.http.delete<statusReturn>(url, {
+        return this.http.delete<StatusReturn>(url, {
             params: params,
         });
     }

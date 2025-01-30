@@ -1,6 +1,9 @@
-import { Module, ModuleSummary } from '@app/shared/interfaces/module.interface';
+import {
+    Ai4eoscModule,
+    ModuleSummary,
+} from '@app/shared/interfaces/module.interface';
 
-export const module: Module = {
+export const module: Ai4eoscModule = {
     categories: ['Machine Learning', 'Federated Learning'],
     'data-type': ['Model', 'Dataset'],
     dates: {
@@ -17,6 +20,7 @@ export const module: Module = {
     links: {
         source_code: '',
     },
+    id: 'ai4-test',
 };
 
 export const modulesSummaryList: Array<ModuleSummary> = [
@@ -28,6 +32,7 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         name: 'ai4-test',
         libraries: [],
         tasks: [],
+        id: 'ai4-test',
     },
     {
         title: 'Test2',
@@ -37,5 +42,6 @@ export const modulesSummaryList: Array<ModuleSummary> = [
         name: 'ai4-test',
         libraries: [],
         tasks: [],
+        id: 'ai4-test',
     },
 ];

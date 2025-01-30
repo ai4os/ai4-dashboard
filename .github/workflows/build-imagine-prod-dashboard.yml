@@ -46,10 +46,6 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
-            - name: 'Create .npmrc'
-              run: |
-                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.AI4_DASHBOARD_TOKEN }}" > $HOME/.npmrc
-
             - name: Build and push
               uses: docker/build-push-action@v3
               with:

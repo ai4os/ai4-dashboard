@@ -44,6 +44,7 @@ export class CvatComponent implements OnInit {
         infoButton: true,
         cvatUsername: true,
         cvatPassword: true,
+        modelId: false,
     };
 
     ngOnInit(): void {

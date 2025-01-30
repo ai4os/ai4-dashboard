@@ -184,6 +184,18 @@
                     <mat-hint *ngIf="_showHelp">{{
                         _defaultFormValues.rclone_url.description
                     }}</mat-hint>
+                    <mat-error
+                        *ngIf="
+                            storageConfFormGroup
+                                .get('storageUrlInput')
+                                ?.hasError('invalidURL')
+                        "
+                    >
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-URL-ERROR'
+                                | translate
+                        }}
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
@@ -209,17 +221,70 @@
         </mat-expansion-panel>
 
         @if (isCvatTool) {
+            <div class="snapshots-row">
+                <h4>
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOTS-CONF'
+                            | translate
+                    }}
+                </h4>
+
+                <span class="cvat-step-title">
+                    <span class="small-text"> Sort: </span>
+
+                    <mat-chip-listbox>
+                        <mat-chip-option
+                            [selected]="sortBy === 'name'"
+                            value="name"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'MODULES.SORTING.NAME' | translate
+                            }}</mat-chip-option
+                        >
+                        <mat-chip-option
+                            [selected]="sortBy === 'recent'"
+                            value="recent"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'MODULES.SORTING.MOST-RECENT' | translate
+                            }}</mat-chip-option
+                        >
+                    </mat-chip-listbox>
+                </span>
+            </div>
+
             <mat-form-field class="snapshots-container">
                 <mat-label>{{
                     'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT' | translate
                 }}</mat-label>
-                <mat-select formControlName="snapshotDatasetSelect">
+                <mat-select
+                    formControlName="snapshotDatasetSelect"
+                    panelClass="snapshot-class"
+                >
+                    <mat-select-trigger>
+                        {{
+                            this.storageConfFormGroup.get(
+                                'snapshotDatasetSelect'
+                            )?.value
+                        }}
+                    </mat-select-trigger>
+
                     <mat-option>-</mat-option>
                     <mat-option
                         *ngFor="let snapshotOption of snapshotOptions"
                         [value]="snapshotOption.value"
+                        class="snapshot-option-container"
                     >
                         {{ snapshotOption.viewValue }}
+                        <button
+                            mat-icon-button
+                            color="warn"
+                            (click)="
+                                deleteSnapshot($event, snapshotOption.value)
+                            "
+                        >
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </mat-option>
                 </mat-select>
                 <mat-spinner
@@ -246,12 +311,38 @@
 
     @if (!isCvatTool) {
         <div class="dataset-options-container">
-            <h4>
-                {{
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
-                        | translate
-                }}
-            </h4>
+            <span class="title-with-button">
+                <h4>
+                    {{
+                        'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
+                            | translate
+                    }}
+                </h4>
+                @if (!storageConfFormGroup.valid) {
+                    <mat-chip class="rclone-warning">
+                        <mat-icon matChipAvatar color="warn">warning</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-ERROR'
+                                | translate
+                        }}
+                    </mat-chip>
+                }
+                <button
+                    *ngIf="suggestedDatasetIsValid()"
+                    mat-stroked-button
+                    (click)="
+                        datasetsListComponent.addDataset(this.suggestedDataset)
+                    "
+                >
+                    <span class="aligned-with-icon scale-icon-down">
+                        <mat-icon color="accent">emoji_objects</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-SUGGESTION'
+                                | translate
+                        }}
+                    </span>
+                </button></span
+            >
 
             <app-datasets-list
                 class="full-width"

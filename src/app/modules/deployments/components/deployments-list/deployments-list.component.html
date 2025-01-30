@@ -5,133 +5,37 @@
     </span>
 </mat-toolbar>
 
-<mat-card>
-    <span class="aligned-with-icon scale-icon-down ml-3 mt-2 mb-3"
-        >Modules <mat-icon>category</mat-icon></span
-    >
-    <mat-card-content>
-        <div class="table-container">
-            <table
-                mat-table
-                [dataSource]="dataSource"
-                class="mat-elevation-z8"
-                matSort
-                (matSortChange)="announceSortChange($event)"
-            >
-                <ng-container
-                    *ngFor="let column of columns"
-                    [matColumnDef]="column.columnDef"
-                    [sticky]="isSticky(column.columnDef)"
-                >
-                    <mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Sort by {column.header}"
-                        >{{ column.header | translate }}</mat-header-cell
-                    >
-                    <mat-cell
-                        *matCellDef="let row"
-                        [ngClass]="{
-                            'content-cell': column.columnDef === 'actions'
-                        }"
-                    >
-                        <div
-                            *ngIf="column.columnDef === 'actions'"
-                            class="actions-container"
-                        >
-                            <button
-                                id="infoButton"
-                                mat-button
-                                matTooltip="Info"
-                                matBadgeOverlap="false"
-                                matBadgeSize="small"
-                                [matBadgeHidden]="!hasDeploymentErrors(row)"
-                                matBadge="priority_high"
-                                matBadgeColor="warn"
-                                class="action-button-in-cell"
-                                (click)="openDeploymentDetailDialog(row)"
-                            >
-                                <mat-icon color="accent" id="infoIcon"
-                                    >info</mat-icon
-                                >
-                            </button>
+<div class="tables-container">
+    <app-deployments-table
+        cardName="Modules"
+        cardIcon="model_training"
+        [showCardActions]="true"
+        [isLoading]="isModulesTableLoading"
+        [dataset]="modulesDataset"
+        [dataSource]="modulesDataSource"
+        (showElementInfo)="openDeploymentDetailDialog($event, false)"
+        (deleteElement)="removeModule($event)"
+    ></app-deployments-table>
 
-                            <div matTooltip="Quick access">
-                                <a
-                                    mat-button
-                                    [disabled]="!isDeploymentRunning(row)"
-                                    [href]="getMainEndpoint(row)"
-                                    target="_blank"
-                                    class="action-button-in-cell"
-                                    (click)="$event.stopPropagation()"
-                                >
-                                    <mat-icon color="accent" id="accessIcon"
-                                        >terminal</mat-icon
-                                    >
-                                </a>
-                            </div>
+    <app-deployments-table
+        cardName="Tools"
+        cardIcon="handyman"
+        [isLoading]="isToolsTableLoading"
+        deploymentType="tool"
+        [dataset]="toolsDataset"
+        [dataSource]="toolsDataSource"
+        (showElementInfo)="openDeploymentDetailDialog($event, true)"
+        (deleteElement)="removeTool($event)"
+    ></app-deployments-table>
 
-                            <button
-                                mat-button
-                                matTooltip="Delete"
-                                class="action-button-in-cell"
-                                (click)="removeDeployment($event, row)"
-                            >
-                                <mat-icon color="warn">delete</mat-icon>
-                            </button>
-                        </div>
-                        <ng-container *ngIf="column.columnDef === 'status'">
-                            <img
-                                src="https://img.shields.io/badge/{{
-                                    returnDeploymentBadge(row[column.columnDef])
-                                }}"
-                                height="20"
-                            />
-                        </ng-container>
-                        <ng-container *ngIf="column.columnDef !== 'status'">
-                            {{ row[column.columnDef] }}
-                        </ng-container>
-                    </mat-cell>
-                </ng-container>
-
-                <mat-header-row
-                    *matHeaderRowDef="displayedColumns"
-                ></mat-header-row>
-                <mat-row
-                    *matRowDef="let row; columns: displayedColumns"
-                ></mat-row>
-
-                <!--No data in table message-->
-                <ng-container *ngIf="!isLoading">
-                    <div *matNoDataRow class="no-deployment-message-container">
-                        {{ 'DEPLOYMENTS.NO-DEPLOYMENTS' | translate }}
-                    </div>
-                </ng-container>
-            </table>
-        </div>
-
-        <div *ngIf="isLoading" class="smaller-spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div>
-    </mat-card-content>
-    <mat-card-actions align="end">
-        <a
-            mat-raised-button
-            aria-label=""
-            color="accent"
-            class="mt-2 mr-2 mb-2"
-            routerLink="/marketplace/modules/ai4os-dev-env/train"
-        >
-            {{ 'DEPLOYMENTS.NEW-DEPLOYMENT' | translate }}
-        </a>
-    </mat-card-actions>
-</mat-card>
-
-<mat-card class="mt-3">
-    <span class="aligned-with-icon scale-icon-down ml-3 mt-2 mb-3"
-        >{{ 'DEPLOYMENTS.TOOLS' | translate }}
-        <mat-icon>handyman</mat-icon>
-    </span>
-    <mat-card-content> <app-tools-table></app-tools-table> </mat-card-content
-></mat-card>
+    <app-deployments-table
+        cardName="Snapshots"
+        cardIcon="photo_camera"
+        [isLoading]="isSnapshotsTableLoading"
+        deploymentType="snapshot"
+        [dataset]="snapshotsDataset"
+        [dataSource]="snapshotsDataSource"
+        [columns]="snapshotColumns"
+        (deleteElement)="removeSnapshot($event)"
+    ></app-deployments-table>
+</div>

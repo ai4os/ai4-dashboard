@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModuleDetailComponent } from './module-detail.component';
+import { Ai4eoscModuleDetailComponent } from './ai4eosc-module-detail.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TopNavbarComponent } from '@app/layout/top-navbar/top-navbar.component';
-import { ModulesService } from '../../services/modules-service/modules.service';
+import { ModulesService } from '../../../services/modules-service/modules.service';
 import { ActivatedRoute } from '@angular/router';
-import { Module } from '@app/shared/interfaces/module.interface';
-import { ToolsService } from '../../services/tools-service/tools.service';
+import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
+import { ToolsService } from '../../../services/tools-service/tools.service';
 import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { of } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -56,7 +56,7 @@ const mockedAuthService: any = {
     loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
     isAuthenticated: jest.fn().mockReturnValue(of(true)),
 };
-const mockedModule: Module = {
+const mockedModule: Ai4eoscModule = {
     title: 'test',
     summary: 'summary',
     description: '',
@@ -67,6 +67,7 @@ const mockedModule: Module = {
     tasks: ['task1'],
     categories: ['cat1'],
     tags: ['tag1'],
+    id: 'test',
 };
 
 const mockedMediaQueryList: MediaQueryList = {
@@ -99,12 +100,12 @@ const mockedMediaMatcher: any = {
 };
 
 describe('ModuleDetailComponent', () => {
-    let component: ModuleDetailComponent;
-    let fixture: ComponentFixture<ModuleDetailComponent>;
+    let component: Ai4eoscModuleDetailComponent;
+    let fixture: ComponentFixture<Ai4eoscModuleDetailComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ModuleDetailComponent, TopNavbarComponent],
+            declarations: [Ai4eoscModuleDetailComponent, TopNavbarComponent],
             imports: [
                 MarkdownComponent,
                 SharedModule,
@@ -136,7 +137,7 @@ describe('ModuleDetailComponent', () => {
             ],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ModuleDetailComponent);
+        fixture = TestBed.createComponent(Ai4eoscModuleDetailComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
