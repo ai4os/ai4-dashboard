@@ -38,7 +38,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: 'ai4lifeModules/:id',
+        path: 'ai4life-modules/:name',
         component: ModuleDetailViewComponent,
         children: [
             {

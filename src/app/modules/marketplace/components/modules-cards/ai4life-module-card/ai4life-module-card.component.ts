@@ -10,8 +10,4 @@ export class Ai4lifeModuleCardComponent {
     constructor() {}
 
     @Input() module!: Ai4lifeModule;
-
-    loadModule() {
-        sessionStorage.setItem('ai4lifeModule', JSON.stringify(this.module));
-    }
 }

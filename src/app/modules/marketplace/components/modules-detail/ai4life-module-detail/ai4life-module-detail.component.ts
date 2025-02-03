@@ -1,7 +1,8 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
+import { ModulesService } from '@app/modules/marketplace/services/modules-service/modules.service';
 import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -17,6 +18,8 @@ export class Ai4lifeModuleDetailComponent implements OnInit {
         private authService: AuthService,
         private breadcrumbService: BreadcrumbService,
         private snackbarService: SnackbarService,
+        private modulesService: ModulesService,
+        private route: ActivatedRoute,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef
     ) {
@@ -29,7 +32,18 @@ export class Ai4lifeModuleDetailComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    module!: Ai4lifeModule;
+    module: Ai4lifeModule = {
+        id: '',
+        name: '',
+        description: '',
+        doi: '',
+        created: '',
+        covers: [],
+        downloadCount: '',
+        tags: [],
+        license: '',
+    };
+
     userProfile?: UserProfile;
     doiBadgeColor = '';
 
@@ -46,26 +60,43 @@ export class Ai4lifeModuleDetailComponent implements OnInit {
         const rs = getComputedStyle(r!);
         this.doiBadgeColor = rs.getPropertyValue('--primary');
 
-        this.authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
+        this.route.params.subscribe((params) => {
+            this.isLoading = true;
+
+            this.authService.userProfileSubject.subscribe((profile) => {
+                this.userProfile = profile;
+            });
+
+            this.modulesService.getAi4lifeModules().subscribe({
+                next: (modules: Ai4lifeModule[]) => {
+                    const ai4lifeModule =
+                        modules.find((m) => m.name === params['name']) ??
+                        this.module;
+
+                    if (ai4lifeModule.id !== '') {
+                        this.module = ai4lifeModule;
+                        this.breadcrumbService.set(
+                            '@moduleName',
+                            this.module.name
+                        );
+                        this.module.downloadCount =
+                            this.module.downloadCount === '?'
+                                ? 'Unknown'
+                                : this.module.downloadCount;
+                        this.tags = this.module.tags.slice(0, 7);
+                    } else {
+                        this.snackbarService.openError(
+                            "Couldn't retrieve AI4Life model. Try again later."
+                        );
+                    }
+
+                    this.isLoading = false;
+                },
+                error: () => {
+                    setTimeout(() => (this.isLoading = false), 3000);
+                },
+            });
         });
-
-        const data = sessionStorage.getItem('ai4lifeModule');
-        if (data) {
-            this.module = JSON.parse(data);
-
-            this.module.downloadCount =
-                this.module.downloadCount === '?'
-                    ? 'Unknown'
-                    : this.module.downloadCount;
-            this.tags = this.module.tags.slice(0, 7);
-
-            this.breadcrumbService.set('@moduleName', this.module.name);
-        } else {
-            this.snackbarService.openError(
-                "Couldn't retrieve AI4Life model. Try again later."
-            );
-        }
     }
 
     isLoggedIn() {
