@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { IntroJSService } from 'introjs/introjs.service';
 
 @Component({
     selector: 'app-modules-list',
@@ -24,6 +25,7 @@ export class ModulesListComponent implements OnInit {
         private modulesService: ModulesService,
         private toolsService: ToolsService,
         private snackbarService: SnackbarService,
+        private introService: IntroJSService,
         public dialog: MatDialog
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
@@ -69,6 +71,15 @@ export class ModulesListComponent implements OnInit {
         } else {
             this.selectTab(2);
         }
+    }
+
+    ngAfterViewInit(): void {
+        const interval = setInterval(() => {
+            if (!this.ai4eoscModulesLoading && !this.ai4lifeModulesLoading) {
+                clearInterval(interval);
+                this.introService.ai4lifeMarketplace();
+            }
+        }, 200);
     }
 
     getAi4eoscModules() {
