@@ -127,6 +127,10 @@
     cursor: pointer;
 }
 
+.tooltip-container {
+    height: fit-content;
+}
+
 mat-card-title {
     display: flex;
     justify-content: space-between;

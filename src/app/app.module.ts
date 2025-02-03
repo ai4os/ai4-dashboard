@@ -34,6 +34,7 @@ import { NotificationsButtonComponent } from './layout/top-navbar/notifications-
 import { CookieService } from 'ngx-cookie-service';
 import { gitInfo } from '@environments/version';
 import { IntroJSService } from 'introjs/introjs.service';
+import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -46,6 +47,16 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         '.json?v=' + gitInfo.version
     );
 }
+
+export function authConfigFactory(): OAuthModuleConfig {
+    return {
+        resourceServer: {
+            allowedUrls: [base],
+            sendAccessToken: true,
+        },
+    };
+}
+
 const { base } = environment.api;
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -110,12 +121,7 @@ renderer.link = (href, title, text) => {
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        OAuthModule.forRoot({
-            resourceServer: {
-                allowedUrls: [base],
-                sendAccessToken: true,
-            },
-        }),
+        OAuthModule.forRoot(),
         TranslateModule.forRoot({
             defaultLanguage: 'en',
             useDefaultLang: true,
@@ -153,24 +159,37 @@ renderer.link = (href, title, text) => {
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [AppConfigService, NgcCookieConsentConfig],
+            deps: [AppConfigService, NgcCookieConsentConfig, OAuthModuleConfig],
             useFactory: (
                 appConfigService: AppConfigService,
-                config: NgcCookieConsentConfig
+                config: NgcCookieConsentConfig,
+                authConfig: OAuthModuleConfig
             ) => {
                 return () => {
-                    return appConfigService.loadAppConfig().then(() => {
-                        if (config.cookie) {
-                            config.cookie.domain =
-                                appConfigService.analytics.domain;
-                            config.content!.href =
-                                appConfigService.legalLinks[1].url;
-                        }
-                    });
+                    return appConfigService
+                        .loadAppConfig(authConfig)
+                        .then(() => {
+                            if (config.cookie) {
+                                config.cookie.domain =
+                                    appConfigService.analytics.domain;
+                                config.content!.href =
+                                    appConfigService.legalLinks[1].url;
+                            }
+                            if (
+                                appConfigService.apiURL &&
+                                appConfigService.apiURL !== ''
+                            ) {
+                                environment.api.base = appConfigService.apiURL;
+                            }
+                        });
                 };
             },
         },
         { provide: OAuthStorage, useFactory: storageFactory },
+        {
+            provide: OAuthModuleConfig,
+            useFactory: authConfigFactory,
+        },
         Title,
         CookieService,
         IntroJSService,
