@@ -25,6 +25,13 @@ const mockedConfig = {
     ],
 };
 
+const mockedOauthConfig = {
+    resourceServer: {
+        allowedUrls: ['https://api.test.ai4eosc.eu/v1'],
+        sendAccessToken: true,
+    },
+};
+
 describe('AppConfigService', () => {
     let service: AppConfigService;
 
@@ -44,7 +51,7 @@ describe('AppConfigService', () => {
         const spy = jest
             .spyOn(service, 'loadAppConfig')
             .mockReturnValue(Promise.resolve());
-        service.loadAppConfig();
+        service.loadAppConfig(mockedOauthConfig);
         expect(spy).toHaveBeenCalledTimes(1);
         expect(service['appConfig']).toEqual(mockedConfig);
     });
