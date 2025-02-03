@@ -35,7 +35,7 @@ export class IntroJSService {
                     {
                         element: '#step2',
                         title: 'New AI4Life marketplace! 🎉',
-                        intro: 'You can also use the AI4life model loader directly.',
+                        intro: 'You can also use the AI4Life model loader directly.',
                         position: 'bottom',
                     },
                 ],
