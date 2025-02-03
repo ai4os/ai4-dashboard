@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
     GradioCreateResponse,
     GradioDeployment,
-    Module,
+    Ai4eoscModule,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -31,7 +31,7 @@ export class LoadingScreenComponent implements OnInit {
         private snackbarService: SnackbarService
     ) {}
 
-    module!: Module;
+    module!: Ai4eoscModule;
     loadingText = '';
 
     private stopPolling$ = timer(180000);

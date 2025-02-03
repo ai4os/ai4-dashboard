@@ -2,7 +2,7 @@
     "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Marketplace",
+        "MODULES": "Marketplaces",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
@@ -193,11 +193,12 @@
         }
     },
     "MODULES": {
-        "TITLE": "Marketplace",
+        "TITLE": "Marketplaces",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
         "TOOL": "AI4 Tool",
+        "AI4LIFE": "AI4Life Module",
         "FILTERS": {
             "ADITIONAL-FILTERS": "Additional filters",
             "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
@@ -224,6 +225,9 @@
             "TAGS": "Tags",
             "TASKS": "Tasks",
             "DATA-TYPES": "Data Types",
+            "ABOUT": "About",
+            "DOWNLOAD-COUNT": "Download Count",
+            "LICENSE": "License",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
@@ -286,7 +290,9 @@
                 "CVAT-USERNAME": "CVAT username",
                 "CVAT-PASSWORD": "CVAT password",
                 "CVAT-USERNAME-REQUIRED": "A username is required",
-                "CVAT-PASSWORD-REQUIRED": "A password is required"
+                "CVAT-PASSWORD-REQUIRED": "A password is required",
+                "MODEL-OPTIONS": "Model options",
+                "MODEL-ID": "Model ID"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -304,6 +310,7 @@
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
+                "STORAGE-URL-ERROR": "Invalid URL format",
                 "STORAGE-SERVICE": "Storage service",
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
                 "PROFILE-SECTION": "profile section",
@@ -328,6 +335,7 @@
                 "FORCE-PULL": "Force pull",
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
+                "DATASET-ERROR": "To download a dataset, you need to select a storage or use your rclone credentials",
                 "DATASETS": "Datasets",
                 "DATASET-SUGGESTION": "This module has a suggested dataset. Click here to add it.",
                 "DOI-URL": {
@@ -428,6 +436,11 @@
             }
         }
     },
+    "CHATBOT": {
+        "TITLE": "AI4EOSC Assistant",
+        "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
+        "QUESTION-PLACEHOLDER": "Type here your question"
+    },
     "GENERAL-BUTTONS": {
         "DELETE": "Delete",
         "ACCEPT": "Accept",
@@ -443,7 +456,8 @@
         "GITHUB": "GitHub",
         "DOCKERHUB": "Docker",
         "REPORT-ISSUE": "Report issue",
-        "OPEN-DOCUMENTATION": "Open documentation"
+        "OPEN-DOCUMENTATION": "Open documentation",
+        "BIOIMAGE": "BioImage.IO"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

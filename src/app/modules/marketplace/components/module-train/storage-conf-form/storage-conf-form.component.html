@@ -184,6 +184,18 @@
                     <mat-hint *ngIf="_showHelp">{{
                         _defaultFormValues.rclone_url.description
                     }}</mat-hint>
+                    <mat-error
+                        *ngIf="
+                            storageConfFormGroup
+                                .get('storageUrlInput')
+                                ?.hasError('invalidURL')
+                        "
+                    >
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-URL-ERROR'
+                                | translate
+                        }}
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
@@ -306,6 +318,15 @@
                             | translate
                     }}
                 </h4>
+                @if (!storageConfFormGroup.valid) {
+                    <mat-chip class="rclone-warning">
+                        <mat-icon matChipAvatar color="warn">warning</mat-icon>
+                        {{
+                            'MODULES.MODULE-TRAIN.DATA-CONF-FORM.DATASET-ERROR'
+                                | translate
+                        }}
+                    </mat-chip>
+                }
                 <button
                     *ngIf="suggestedDatasetIsValid()"
                     mat-stroked-button

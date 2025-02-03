@@ -110,6 +110,7 @@ export class StepperFormComponent implements OnInit {
                 cvat_password:
                     this.step1Form.getRawValue().generalConfForm
                         .cvatPasswordInput,
+                model_id: this.step1Form.value.generalConfForm.modelIdSelect,
             },
         };
 
@@ -186,6 +187,11 @@ export class StepperFormComponent implements OnInit {
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-federated-server',
+                    data
+                );
+            } else if (this.title == 'AI4life model loader') {
+                request = this.deploymentsService.trainTool(
+                    'ai4os-ai4life-loader',
                     data
                 );
             } else {
