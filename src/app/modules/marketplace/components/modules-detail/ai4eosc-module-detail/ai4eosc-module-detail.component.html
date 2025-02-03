@@ -270,21 +270,28 @@
         </div>
 
         <div
-            *ngIf="isTool && isLoggedIn() && isAuthorized()"
+            *ngIf="isTool && isLoggedIn()"
             [ngClass]="{
                 'action-buttons-container-mobile': mobileQuery.matches,
                 'action-buttons-container': !mobileQuery.matches,
             }"
         >
-            <a
-                class="action-button"
-                mat-raised-button
-                color="accent"
-                routerLink="deploy"
-                id="deploy-tool-button"
+            <div
+                class="tooltip-container"
+                [matTooltipDisabled]="isAuthorized()"
+                matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
             >
-                {{ 'MODULES.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
-            </a>
+                <a
+                    class="action-button"
+                    mat-raised-button
+                    color="accent"
+                    routerLink="deploy"
+                    id="deploy-tool-button"
+                    [disabled]="!isAuthorized()"
+                >
+                    {{ 'MODULES.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
+                </a>
+            </div>
         </div>
     </mat-card-header>
 
