@@ -8,6 +8,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+
+const mockedConfigService: any = {};
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
@@ -42,6 +47,9 @@ describe('Ai4lifeModuleDetailComponent', () => {
                 SharedModule,
             ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
+                { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
