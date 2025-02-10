@@ -211,11 +211,8 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
                                 );
                             }
                         },
-                        error: () => {
-                            this.snackbarService.openError(
-                                'Error creating snapshot of deployment with uuid: ' +
-                                    row.uuid
-                            );
+                        error: (error) => {
+                            this.snackbarService.openError(error);
                         },
                     });
                 }
