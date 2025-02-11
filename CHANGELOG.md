@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.35.0](https://github.com/ai4os/ai4-dashboard/compare/v2.34.0...v2.35.0) (2025-02-11)
+
+
+### Features
+
+* support docker image and tag in ai4life tool ([#314](https://github.com/ai4os/ai4-dashboard/issues/314)) ([2d4d334](https://github.com/ai4os/ai4-dashboard/commit/2d4d334e8dc8bb9257812bc89ca8818040ff249f))
+* validate storage url inside storage config (advanced settings) ([#299](https://github.com/ai4os/ai4-dashboard/issues/299)) ([93cf42d](https://github.com/ai4os/ai4-dashboard/commit/93cf42d44e2d4fa13d45e7caa0b0ea61b6f0615f))
+
+
+### Bug Fixes
+
+* 316 do not clear on boarding library local storage variables ([#318](https://github.com/ai4os/ai4-dashboard/issues/318)) ([dcfac0c](https://github.com/ai4os/ai4-dashboard/commit/dcfac0cdeae7889f29485c2b0c1945bf98d3428a))
+* do not select a snapshot by default ([#326](https://github.com/ai4os/ai4-dashboard/issues/326)) ([b332a71](https://github.com/ai4os/ai4-dashboard/commit/b332a71ece9b098684f3460d28d32fdd10aa1d49))
+* get url of ai4life module detail statically ([#312](https://github.com/ai4os/ai4-dashboard/issues/312)) ([bd6af19](https://github.com/ai4os/ai4-dashboard/commit/bd6af198ac2f80579e624df324222f75ac361c37))
+* restore on boarding library related variables after logout ([#317](https://github.com/ai4os/ai4-dashboard/issues/317)) ([cc21654](https://github.com/ai4os/ai4-dashboard/commit/cc216541352428f5929ff8cf95a1ff80774e3ef3))
+* show storage limit message ([#324](https://github.com/ai4os/ai4-dashboard/issues/324)) ([9b8089a](https://github.com/ai4os/ai4-dashboard/commit/9b8089af5517bce545837cfc66cf024d3c7e5f78))
+* show tools deploy button disabled when user does not belong to vo ([#311](https://github.com/ai4os/ai4-dashboard/issues/311)) ([b1b98d5](https://github.com/ai4os/ai4-dashboard/commit/b1b98d50eec753a5845c427e418852ba23960779))
+* update link ([#321](https://github.com/ai4os/ai4-dashboard/issues/321)) ([a2e9529](https://github.com/ai4os/ai4-dashboard/commit/a2e95293ffd1e32f1a1333f5fbf91036f5e45515))
+* wait for linked storage services to load ([#319](https://github.com/ai4os/ai4-dashboard/issues/319)) ([149c0dd](https://github.com/ai4os/ai4-dashboard/commit/149c0dd946c6db0d50398e1f21c58af42ed68c84))
+
 ## [2.34.0](https://github.com/ai4os/ai4-dashboard/compare/v2.33.3...v2.34.0) (2025-01-29)
 
 
