@@ -5,7 +5,6 @@
 
 ### Features
 
-* support docker image and tag in ai4life tool ([#314](https://github.com/ai4os/ai4-dashboard/issues/314)) ([2d4d334](https://github.com/ai4os/ai4-dashboard/commit/2d4d334e8dc8bb9257812bc89ca8818040ff249f))
 * validate storage url inside storage config (advanced settings) ([#299](https://github.com/ai4os/ai4-dashboard/issues/299)) ([93cf42d](https://github.com/ai4os/ai4-dashboard/commit/93cf42d44e2d4fa13d45e7caa0b0ea61b6f0615f))
 
 
