@@ -9,13 +9,13 @@
     <div
         [ngClass]="{
             'grid-1-column': mobileQuery.matches,
-            'breadcrumbs-and-help-container': !mobileQuery.matches
+            'breadcrumbs-and-help-container': !mobileQuery.matches,
         }"
     >
         <xng-breadcrumb
             [ngClass]="{
                 'mobile-breadcrumb': mobileQuery.matches,
-                'mb-3': !mobileQuery.matches
+                'mb-3': !mobileQuery.matches,
             }"
         ></xng-breadcrumb>
         <mat-slide-toggle
@@ -47,7 +47,7 @@
             <div
                 [ngClass]="{
                     'next-back-buttons-mobile': mobileQuery.matches,
-                    'next-back-buttons': !mobileQuery.matches
+                    'next-back-buttons': !mobileQuery.matches,
                 }"
             >
                 <button
@@ -56,7 +56,8 @@
                     (click)="submitTrainingRequest()"
                     [disabled]="
                         !checkFormValidity(step1Form) ||
-                        !checkFormValidity(step2Form)
+                        !checkFormValidity(step2Form) ||
+                        (step3Form && !checkFormValidity(step3Form))
                     "
                 >
                     {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
@@ -78,7 +79,7 @@
             <div
                 [ngClass]="{
                     'next-back-buttons-mobile': mobileQuery.matches,
-                    'next-back-buttons': !mobileQuery.matches
+                    'next-back-buttons': !mobileQuery.matches,
                 }"
             >
                 <ng-container
@@ -115,7 +116,7 @@
             <div
                 [ngClass]="{
                     'next-back-buttons-mobile': mobileQuery.matches,
-                    'next-back-buttons': !mobileQuery.matches
+                    'next-back-buttons': !mobileQuery.matches,
                 }"
             >
                 <button mat-raised-button matStepperPrevious class="mr-2">

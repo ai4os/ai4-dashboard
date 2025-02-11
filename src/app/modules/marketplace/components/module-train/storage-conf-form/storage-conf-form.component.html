@@ -318,7 +318,7 @@
                             | translate
                     }}
                 </h4>
-                @if (!storageConfFormGroup.valid) {
+                @if (!storageConfFormGroup.valid && datasets.length > 0) {
                     <mat-chip class="rclone-warning">
                         <mat-icon matChipAvatar color="warn">warning</mat-icon>
                         {{
