@@ -360,7 +360,7 @@ export class StorageConfFormComponent implements OnInit {
                     });
                     this.storageConfFormGroup
                         .get('snapshotDatasetSelect')
-                        ?.setValue(this.snapshotOptions[0].value);
+                        ?.setValue('-');
                     this.storageConfFormGroup
                         .get('snapshotDatasetSelect')
                         ?.enable();
