@@ -16,7 +16,7 @@ export interface showLlmField {
     max_model_length: boolean;
     tensor_parallel_size: boolean;
     huggingface_token: boolean;
-    vllm_model: boolean;
+    modelname: boolean;
 }
 
 const mockedConfObject: confObjectRange = {
@@ -48,7 +48,7 @@ export class LlmConfFormComponent {
         max_model_length: true,
         tensor_parallel_size: true,
         huggingface_token: true,
-        vllm_model: true,
+        modelname: true,
     };
 
     @Input() set showFields(showFields: showLlmField) {
@@ -61,7 +61,7 @@ export class LlmConfFormComponent {
         max_model_length: mockedConfObject,
         tensor_parallel_size: mockedConfObject,
         huggingface_token: mockedConfObject,
-        vllm_model: mockedConfObject,
+        modelname: mockedConfObject,
     };
 
     llmConfFormGroup = this.fb.group({
@@ -79,8 +79,10 @@ export class LlmConfFormComponent {
         maxModelLenInput: [0],
         tensorParallelSizeInput: [0],
         huggingFaceTokenInput: [''],
-        vllmModelInput: [''],
+        vllmModelSelect: [''],
     });
+
+    vllmModelOptions: any = [];
 
     protected _showHelp = false;
 
@@ -111,8 +113,14 @@ export class LlmConfFormComponent {
                 .get('huggingFaceTokenInput')
                 ?.setValue(defaultFormValues.huggingface_token.value as string);
             this.llmConfFormGroup
-                .get('vllmModelInput')
-                ?.setValue(defaultFormValues.vllm_model.value as string);
+                .get('vllmModelSelect')
+                ?.setValue(defaultFormValues.modelname.value as string);
+            defaultFormValues.modelname?.options?.forEach((option: any) => {
+                this.vllmModelOptions.push({
+                    value: option,
+                    viewValue: option,
+                });
+            });
         }
     }
 

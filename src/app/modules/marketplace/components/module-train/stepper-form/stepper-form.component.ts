@@ -140,7 +140,7 @@ export class StepperFormComponent implements OnInit {
                     this.step2Form.value.llmConfForm.tensorParallelSizeInput,
                 huggingface_token:
                     this.step2Form.value.llmConfForm.huggingFaceTokenInput,
-                vllm_model: this.step2Form.value.llmConfForm.vllmModelInput,
+                modelname: this.step2Form.value.llmConfForm.vllmModelSelect,
             };
             request = this.deploymentsService.trainTool('ai4-llm', data);
         } else {

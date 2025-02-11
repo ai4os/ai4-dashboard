@@ -40,8 +40,8 @@ export class LlmComponent {
         descriptionInput: true,
         serviceToRunChip: false,
         serviceToRunPassInput: false,
-        dockerImageInput: true,
-        dockerTagSelect: true,
+        dockerImageInput: false,
+        dockerTagSelect: false,
         infoButton: true,
         cvatUsername: false,
         cvatPassword: false,
@@ -53,7 +53,7 @@ export class LlmComponent {
         max_model_length: true,
         tensor_parallel_size: true,
         huggingface_token: true,
-        vllm_model: true,
+        modelname: true,
     };
 
     ngOnInit(): void {

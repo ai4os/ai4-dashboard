@@ -114,7 +114,7 @@ export interface LlmConfiguration {
     max_model_length: confObjectRange;
     tensor_parallel_size: confObjectRange;
     huggingface_token: confObjectRange;
-    vllm_model: confObjectRange;
+    modelname: confObjectRange;
 }
 
 export interface ModuleConfiguration {
@@ -186,7 +186,7 @@ export interface TrainModuleRequest {
         max_model_length: number;
         tensor_parallel_size: number;
         huggingface_token: string;
-        vllm_model: string;
+        modelname: string;
     };
 }
 

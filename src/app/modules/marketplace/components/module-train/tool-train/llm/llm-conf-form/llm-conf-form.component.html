@@ -96,19 +96,20 @@
             }}</mat-hint>
         </mat-form-field>
 
-        <mat-form-field *ngIf="_showFields.vllm_model">
+        <mat-form-field *ngIf="_showFields.modelname">
             <mat-label>{{
                 'MODULES.MODULE-TRAIN.LLM-CONF-FORM.VLLM-MODEL' | translate
             }}</mat-label>
-            <input
-                matInput
-                placeholder=""
-                value=""
-                type="string"
-                formControlName="vllmModelInput"
-            />
+            <mat-select formControlName="vllmModelSelect">
+                <mat-option
+                    *ngFor="let vllModel of vllmModelOptions"
+                    [value]="vllModel.value"
+                >
+                    {{ vllModel.viewValue }}
+                </mat-option>
+            </mat-select>
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.vllm_model.description
+                _defaultFormValues.modelname.description
             }}</mat-hint>
         </mat-form-field>
     </div>
