@@ -181,6 +181,7 @@ export interface TrainModuleRequest {
         fl: number;
         momentum: number;
         dp: boolean;
+        mp: boolean;
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;

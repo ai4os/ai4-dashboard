@@ -27,8 +27,15 @@ mat-form-field {
     }
 }
 
-.title-and-toggle {
+.title-and-toggles {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
 }
