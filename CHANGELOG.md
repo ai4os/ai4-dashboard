@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.36.0](https://github.com/ai4os/ai4-dashboard/compare/v2.35.0...v2.36.0) (2025-02-13)
+
+
+### Features
+
+* support docker image and tag in ai4life tool ([#325](https://github.com/ai4os/ai4-dashboard/issues/325)) ([216af05](https://github.com/ai4os/ai4-dashboard/commit/216af05f9216a7127b285b45eaa9ddff50b33fea))
+
 ## [2.35.0](https://github.com/ai4os/ai4-dashboard/compare/v2.34.0...v2.35.0) (2025-02-11)
 
 
