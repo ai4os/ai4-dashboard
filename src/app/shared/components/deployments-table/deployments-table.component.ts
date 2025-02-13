@@ -156,7 +156,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     }
 
     isFederatedServer(row: DeploymentTableRow) {
-        return row.mainEndpoint?.includes('fedserver');
+        return row.containerName?.includes('ai4os-federated-server');
     }
 
     getDeploymentEndpoints(row: DeploymentTableRow) {
