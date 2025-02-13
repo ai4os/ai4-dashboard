@@ -265,14 +265,6 @@
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
             "LLM-CONF": "LLM configuration",
-            "LLM-CONF-FORM": {
-                "TITLE": "LLM options",
-                "GPU-MEM-UTILIZATION": "GPU memory utilization",
-                "MAX-MODEL-LEN": "Maximum model length",
-                "TENSOR-PARALLEL-SIZE": "Tensor parallel size",
-                "HUGGING-FACE-TOKEN": "Hugging Face token",
-                "VLLM-MODEL": "VLLM model"
-            },
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -369,6 +361,19 @@
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
                 "CLIP-NORM": "Clipping norm"
+            },
+            "LLM-CONF-FORM": {
+                "TITLE": "LLM options",
+                "VLLM-MODEL": "VLLM model",
+                "UI-PASSWORD": "UI Password",
+                "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
+                "HUGGING-FACE-TOKEN": "Hugging Face token",
+                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "API-KEY": "OpenAI API key",
+                "API-KEY-REQUIRED": "Please add the OpenAI API key",
+                "API-URL": "OpenAI API base url",
+                "API-URL-REQUIRED": "Please add the OpenAI API base url",
+                "API-URL-FORMAT": "Invalid URL format"
             }
         },
         "MODULE-TRY": {

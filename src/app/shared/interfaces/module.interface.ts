@@ -110,11 +110,12 @@ export interface FederatedServerConfiguration {
 }
 
 export interface LlmConfiguration {
-    gpu_memory_utilization: confObjectRange;
-    max_model_length: confObjectRange;
-    tensor_parallel_size: confObjectRange;
-    huggingface_token: confObjectRange;
-    modelname: confObjectRange;
+    type: confObject;
+    model_id: confObjectRange;
+    ui_password: confObject;
+    HF_token: confObject;
+    openai_api_key: confObject;
+    openai_api_url: confObject;
 }
 
 export interface ModuleConfiguration {
@@ -149,7 +150,6 @@ export interface TrainModuleRequest {
         jupyter_password?: string;
         cvat_username?: string;
         cvat_password?: string;
-        type?: string;
     };
     hardware?: {
         cpu_num: number;
@@ -182,11 +182,12 @@ export interface TrainModuleRequest {
         clip_norm: number;
     };
     vllm?: {
-        gpu_memory_utilization: number;
-        max_model_length: number;
-        tensor_parallel_size: number;
-        huggingface_token: string;
-        modelname: string;
+        type: string;
+        model_id: string;
+        ui_password: string;
+        HF_token: string;
+        openai_api_key: string;
+        openai_api_url: string;
     };
 }
 
@@ -197,6 +198,12 @@ export interface Dataset {
 
 export interface Secret {
     token: string;
+}
+
+export interface VllmModelConfig {
+    name: string;
+    needs_HF_token?: boolean;
+    args: string[];
 }
 
 export interface GradioCreateResponse {

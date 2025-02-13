@@ -110,7 +110,6 @@ export class StepperFormComponent implements OnInit {
                 cvat_password:
                     this.step1Form.getRawValue().generalConfForm
                         .cvatPasswordInput,
-                type: this.step1Form.getRawValue().generalConfForm.type,
             },
         };
 
@@ -132,17 +131,17 @@ export class StepperFormComponent implements OnInit {
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else if (this.title == 'Deploy your LLM') {
             data.vllm = {
-                gpu_memory_utilization:
-                    this.step2Form.value.llmConfForm.gpuMemUtilizationInput,
-                max_model_length:
-                    this.step2Form.value.llmConfForm.maxModelLenInput,
-                tensor_parallel_size:
-                    this.step2Form.value.llmConfForm.tensorParallelSizeInput,
-                huggingface_token:
+                type: this.step2Form.value.llmConfForm.deploymentTypeSelect,
+                model_id: this.step2Form.value.llmConfForm.vllmModelSelect,
+                ui_password: this.step2Form.value.llmConfForm.uiPasswordInput,
+                HF_token:
                     this.step2Form.value.llmConfForm.huggingFaceTokenInput,
-                modelname: this.step2Form.value.llmConfForm.vllmModelSelect,
+                openai_api_key:
+                    this.step2Form.value.llmConfForm.openaiApiKeyInput,
+                openai_api_url:
+                    this.step2Form.value.llmConfForm.openaiApiUrlInput,
             };
-            request = this.deploymentsService.trainTool('ai4-llm', data);
+            request = this.deploymentsService.trainTool('ai4os-llm', data);
         } else {
             data.hardware = {
                 cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,

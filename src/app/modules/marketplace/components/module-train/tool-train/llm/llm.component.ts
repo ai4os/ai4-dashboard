@@ -45,15 +45,15 @@ export class LlmComponent {
         infoButton: true,
         cvatUsername: false,
         cvatPassword: false,
-        llmType: true,
     };
 
     showLlmFields: showLlmField = {
-        gpu_memory_utilization: true,
-        max_model_length: true,
-        tensor_parallel_size: true,
-        huggingface_token: true,
-        modelname: true,
+        type: true,
+        model_id: true,
+        ui_password: true,
+        HF_token: true,
+        openai_api_key: true,
+        openai_api_url: true,
     };
 
     ngOnInit(): void {

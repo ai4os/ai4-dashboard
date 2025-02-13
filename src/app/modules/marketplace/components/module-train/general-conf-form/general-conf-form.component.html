@@ -306,41 +306,4 @@
             </mat-form-field>
         </div>
     </ng-container>
-
-    @if (_showFields.llmType) {
-        <h4 [ngClass]="{ 'mt-3': _showHelp }">
-            {{
-                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TYPE'
-                    | translate
-            }}
-        </h4>
-        <mat-divider class="mt-3 mb-3"></mat-divider>
-        <div
-            [ngClass]="{
-                'form-flex': mobileQuery.matches,
-                'form-grid': !mobileQuery.matches,
-            }"
-        >
-            <mat-form-field>
-                <mat-label>{{
-                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TYPE' | translate
-                }}</mat-label>
-
-                <mat-select formControlName="deploymentTypeSelect">
-                    <mat-option
-                        *ngFor="
-                            let deploymentTypeOption of deploymentTypeOptions
-                        "
-                        [value]="deploymentTypeOption.value"
-                    >
-                        {{ deploymentTypeOption.viewValue }}
-                    </mat-option>
-                </mat-select>
-
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues.type?.description
-                }}</mat-hint>
-            </mat-form-field>
-        </div>
-    }
 </form>
