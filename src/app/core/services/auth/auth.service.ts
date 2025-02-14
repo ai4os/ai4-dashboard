@@ -15,16 +15,13 @@ import { AppConfigService } from '../app-config/app-config.service';
 export interface UserProfile {
     name: string;
     email: string;
-    eduperson_entitlement: string[];
+    group_membership: string[];
     isAuthorized: boolean;
-    isOperator: boolean;
+    isDeveloper: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    get router() {
-        return this.injector.get(Router);
-    }
     constructor(
         private oauthService: OAuthService,
         private injector: Injector,
@@ -73,8 +70,6 @@ export class AuthService {
 
         this.oauthService.configure(authCodeFlowConfig);
         this.oauthService.setupAutomaticSilentRefresh();
-
-        //this.configureOAuthService();
     }
 
     private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
@@ -89,6 +84,10 @@ export class AuthService {
     ]).pipe(map((values) => values.every((b) => b)));
 
     userProfileSubject = new Subject<UserProfile>();
+
+    get router() {
+        return this.injector.get(Router);
+    }
 
     public runInitialLoginSequence(state?: string): Promise<void> {
         // 0. LOAD CONFIG:
@@ -171,16 +170,16 @@ export class AuthService {
             const userProfile: UserProfile = {
                 name: profile['info']['name'],
                 isAuthorized: false,
-                isOperator: false,
+                isDeveloper: false,
                 email: profile['info']['email'],
-                eduperson_entitlement: profile['info']['eduperson_entitlement'],
+                group_membership: profile['info']['group_membership'],
             };
             if (
-                profile['info']['eduperson_entitlement'] &&
-                profile['info']['eduperson_entitlement'].length > 0
+                profile['info']['group_membership'] &&
+                profile['info']['group_membership'].length > 0
             ) {
                 const vos: string[] = this.parseVosFromProfile(
-                    profile['info']['eduperson_entitlement']
+                    profile['info']['group_membership']
                 );
                 vos.forEach((vo) => {
                     if (vo.includes(this.appConfigService.voName)) {
@@ -188,11 +187,11 @@ export class AuthService {
                     }
                 });
                 const roles: string[] = this.parseRolesFromProfile(
-                    profile['info']['eduperson_entitlement']
+                    profile['info']['group_membership']
                 );
                 roles.forEach((role) => {
-                    if (role.includes('vm_operator')) {
-                        userProfile.isOperator = true;
+                    if (role.includes('Developer Access')) {
+                        userProfile.isDeveloper = true;
                     }
                 });
             }
@@ -256,23 +255,44 @@ export class AuthService {
         return !!this.oauthService.getIdToken();
     }
 
-    parseVosFromProfile(entitlements: string[]): string[] {
-        const foundVos: string[] = [];
-        entitlements.forEach((vo) => {
-            if (vo.match('group:(.+?):')?.[0]) {
-                foundVos.push(vo.match('group:(.+?):')![0]);
+    parseVosFromProfile(group_membership: string[]): string[] {
+        const vos: string[] = [];
+
+        group_membership.forEach((vo) => {
+            const groupMatch = vo.match(
+                /^\/(Platform Access|Developer Access)\/([^\/]+)/
+            );
+            if (groupMatch) {
+                const voName = groupMatch[2];
+                if (!vos.includes(voName)) {
+                    vos.push(voName);
+                }
+            } else if (vo === '/Demo Access' && !vos.includes('demo')) {
+                vos.push('demo');
             }
         });
-        return foundVos;
+
+        return vos;
     }
 
-    parseRolesFromProfile(entitlements: string[]): string[] {
-        const foundRoles: string[] = [];
-        entitlements.forEach((role) => {
-            if (role.match('role=(.+)#')?.[0]) {
-                foundRoles.push(role.match('role=(.+)#')![0]);
+    parseRolesFromProfile(group_membership: string[]): string[] {
+        const roles: string[] = [];
+
+        group_membership.forEach((e) => {
+            const groupMatch = e.match(
+                /^\/(Platform Access|Developer Access)\/([^\/]+)/
+            );
+
+            if (groupMatch) {
+                const accessType = groupMatch[1];
+                if (!roles.includes(accessType)) {
+                    roles.push(accessType);
+                }
+            } else if (e === '/Demo Access' && !roles.includes('Demo Access')) {
+                roles.push('Demo Access');
             }
         });
-        return foundRoles;
+
+        return roles;
     }
 }

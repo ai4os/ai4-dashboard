@@ -21,7 +21,7 @@ const mockedConfigService: any = {
 const mockedUserProfile: UserProfile = {
     name: 'Test',
     isAuthorized: true,
-    isOperator: true,
+    isDeveloper: true,
     email: 'test@ifca.unican.es',
     eduperson_entitlement: [
         'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',

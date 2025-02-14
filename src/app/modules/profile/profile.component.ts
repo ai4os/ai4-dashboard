@@ -105,8 +105,8 @@ export class ProfileComponent implements OnInit {
             this.email = profile.email;
             this.isAuthorized = profile.isAuthorized;
 
-            if (profile.eduperson_entitlement) {
-                this.getVoInfo(profile.eduperson_entitlement);
+            if (profile.group_membership) {
+                this.getVoInfo(profile.group_membership);
             }
 
             if (this.isAuthorized) {
@@ -117,23 +117,29 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    getVoInfo(eduperson_entitlement: string[]) {
-        this.vos = [];
-        eduperson_entitlement.forEach((e) => {
-            const voMatch = e.match(/vo\.[^:]+/);
-            const roleMatch = e.match(/role=([^#]+)/);
+    getVoInfo(group_membership: string[]) {
+        group_membership.forEach((e) => {
+            const groupMatch = e.match(
+                /^\/(Platform Access|Developer Access)\/([^\/]+)/
+            );
 
-            let voName = voMatch ? voMatch[0] : '';
-            voName = voName.substring(3);
-            voName = voName.substring(0, voName.length - 3);
-            const role = roleMatch ? roleMatch[1] : '';
+            if (groupMatch) {
+                const accessType = groupMatch[1]; // "Platform Access" or "Developer Access"
+                const voName = groupMatch[2]; // e.g. "vo.ai4eosc.eu"
 
-            const index = this.vos.findIndex((v) => v.name === voName);
-            if (index !== -1) {
-                this.vos[index].roles.push(role);
-            } else {
-                const newVo = { name: voName, roles: [role] };
-                this.vos.push(newVo);
+                const index = this.vos.findIndex((v) => v.name === voName);
+                if (index === -1) {
+                    this.vos.push({ name: voName, roles: [accessType] });
+                } else {
+                    if (!this.vos[index].roles.includes(accessType)) {
+                        this.vos[index].roles.push(accessType);
+                    }
+                }
+            } else if (e === '/Demo Access') {
+                const demoIndex = this.vos.findIndex((v) => v.name === 'demo');
+                if (demoIndex === -1) {
+                    this.vos.push({ name: 'demo', roles: ['Demo Access'] });
+                }
             }
         });
     }
