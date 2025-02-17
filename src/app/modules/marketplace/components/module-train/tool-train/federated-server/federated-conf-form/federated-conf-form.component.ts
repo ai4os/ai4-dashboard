@@ -91,6 +91,7 @@ export class FederatedConfFormComponent implements OnInit {
             ],
         ],
         dpInput: false,
+        mpInput: false,
         noiseMultInput: [
             '',
             [
@@ -167,6 +168,15 @@ export class FederatedConfFormComponent implements OnInit {
                 .get('dpInput')
                 ?.setValue(defaultFormValues.dp?.value);
             this.federatedConfFormGroup
+                .get('mpInput')
+                ?.setValue(defaultFormValues.mp?.value);
+            defaultFormValues.mp?.options?.forEach((option: any) => {
+                this.mpOptions.push({
+                    value: option,
+                    viewValue: option,
+                });
+            });
+            this.federatedConfFormGroup
                 .get('noiseMultInput')
                 ?.setValue(defaultFormValues.noise_mult?.value);
             this.federatedConfFormGroup
@@ -186,6 +196,7 @@ export class FederatedConfFormComponent implements OnInit {
     metrics: string[] = ['accuracy'];
     defaultMetrics: string[] = ['accuracy', 'mse', 'mae', 'rmse'];
     strategyOptions: any = [];
+    mpOptions: any = [];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -209,6 +220,12 @@ export class FederatedConfFormComponent implements OnInit {
         } else {
             this.showStrategiesInfo = false;
         }
+    }
+
+    openDocumentationWeb(): void {
+        const url =
+            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
+        window.open(url);
     }
 
     // Chip Input Functions

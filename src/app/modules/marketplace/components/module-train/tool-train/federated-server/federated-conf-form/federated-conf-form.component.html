@@ -1,17 +1,16 @@
 <form [formGroup]="federatedConfFormGroup" class="federated-conf-form">
     <span class="title-and-toggle">
         <h4>
-            {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.TITLE' | translate }}
+            {{
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.FED-TITLE' | translate
+            }}
         </h4>
-        <mat-slide-toggle formControlName="dpInput">
-            {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.DP' | translate }}
-        </mat-slide-toggle>
     </span>
 
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
-            'form-grid': !mobileQuery.matches
+            'form-grid': !mobileQuery.matches,
         }"
     >
         <mat-form-field>
@@ -215,8 +214,58 @@
                 }}</mat-hint>
             </mat-form-field>
         </ng-container>
+    </div>
 
-        <ng-container *ngIf="federatedConfFormGroup.value.dpInput">
+    <span class="title-and-toggles">
+        <span class="title-container">
+            <h4>
+                {{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.PRIVACY-TITLE'
+                        | translate
+                }}
+            </h4>
+
+            <button
+                mat-icon-button
+                matTooltip="{{
+                    'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                }}"
+                [matTooltipPosition]="'above'"
+                (click)="openDocumentationWeb()"
+            >
+                <mat-icon color="accent">help</mat-icon>
+            </button>
+        </span>
+
+        <mat-slide-toggle formControlName="dpInput">
+            {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.DP' | translate }}
+        </mat-slide-toggle>
+    </span>
+
+    @if (federatedConfFormGroup.value.dpInput) {
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'form-grid': !mobileQuery.matches,
+            }"
+        >
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MP' | translate
+                }}</mat-label>
+                <mat-select formControlName="mpInput">
+                    <mat-option
+                        *ngFor="let mpOption of mpOptions"
+                        [value]="mpOption.value"
+                    >
+                        {{ mpOption.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="_showHelp" class="html-tags-div">
+                    <div [innerHTML]="_defaultFormValues?.mp.description"></div
+                ></mat-hint>
+            </mat-form-field>
+
             <mat-form-field>
                 <mat-label>{{
                     'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.NOISE-MULT'
@@ -269,6 +318,6 @@
                     _defaultFormValues?.clip_norm.description
                 }}</mat-hint>
             </mat-form-field>
-        </ng-container>
-    </div>
+        </div>
+    }
 </form>
