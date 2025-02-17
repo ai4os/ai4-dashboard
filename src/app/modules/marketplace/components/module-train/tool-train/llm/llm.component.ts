@@ -69,7 +69,7 @@ export class LlmComponent {
                 .getVllmConfiguration(params['id'])
                 .subscribe((toolConf: LlmToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
-                    this.llmConfDefaultValues = toolConf.vllm;
+                    this.llmConfDefaultValues = toolConf.llm;
                 });
         });
     }

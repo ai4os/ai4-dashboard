@@ -130,7 +130,7 @@ export class StepperFormComponent implements OnInit {
             };
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else if (this.title == 'Deploy your LLM') {
-            data.vllm = {
+            data.llm = {
                 type: this.step2Form.value.llmConfForm.deploymentTypeSelect,
                 model_id: this.step2Form.value.llmConfForm.vllmModelSelect,
                 ui_password: this.step2Form.value.llmConfForm.uiPasswordInput,

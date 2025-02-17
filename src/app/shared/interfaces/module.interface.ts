@@ -137,7 +137,7 @@ export interface CvatToolConfiguration {
 
 export interface LlmToolConfiguration {
     general: ModuleGeneralConfiguration;
-    vllm: LlmConfiguration;
+    llm: LlmConfiguration;
 }
 
 export interface TrainModuleRequest {
@@ -181,7 +181,7 @@ export interface TrainModuleRequest {
         sampled_clients: number;
         clip_norm: number;
     };
-    vllm?: {
+    llm?: {
         type: string;
         model_id: string;
         ui_password: string;
