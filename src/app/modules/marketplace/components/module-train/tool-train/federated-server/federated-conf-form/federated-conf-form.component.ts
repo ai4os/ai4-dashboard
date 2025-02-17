@@ -224,7 +224,7 @@ export class FederatedConfFormComponent implements OnInit {
 
     openDocumentationWeb(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-server.html#server-side-differential-privacy';
         window.open(url);
     }
 
