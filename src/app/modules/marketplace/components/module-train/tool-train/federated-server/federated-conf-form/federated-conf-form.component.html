@@ -217,29 +217,28 @@
     </div>
 
     <span class="title-and-toggles">
-        <span class="title-container">
-            <h4>
-                {{
-                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.PRIVACY-TITLE'
-                        | translate
-                }}
-            </h4>
+        <h4>
+            {{
+                'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.PRIVACY-TITLE'
+                    | translate
+            }}
+        </h4>
 
+        <div class="toggle-and-info">
+            <mat-slide-toggle formControlName="dpInput">
+                {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.DP' | translate }}
+            </mat-slide-toggle>
             <button
                 mat-icon-button
                 matTooltip="{{
                     'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
                 }}"
                 [matTooltipPosition]="'above'"
-                (click)="openDocumentationWeb()"
+                (click)="openDifferentialPrivacyDocs()"
             >
                 <mat-icon color="accent">help</mat-icon>
             </button>
-        </span>
-
-        <mat-slide-toggle formControlName="dpInput">
-            {{ 'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.DP' | translate }}
-        </mat-slide-toggle>
+        </div>
     </span>
 
     @if (federatedConfFormGroup.value.dpInput) {
@@ -249,22 +248,37 @@
                 'form-grid': !mobileQuery.matches,
             }"
         >
-            <mat-form-field>
-                <mat-label>{{
-                    'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MP' | translate
-                }}</mat-label>
-                <mat-select formControlName="mpInput">
-                    <mat-option
-                        *ngFor="let mpOption of mpOptions"
-                        [value]="mpOption.value"
-                    >
-                        {{ mpOption.viewValue }}
-                    </mat-option>
-                </mat-select>
-                <mat-hint *ngIf="_showHelp" class="html-tags-div">
-                    <div [innerHTML]="_defaultFormValues?.mp.description"></div
-                ></mat-hint>
-            </mat-form-field>
+            <div class="field-with-info">
+                <mat-form-field class="full-width">
+                    <mat-label>{{
+                        'MODULES.MODULE-TRAIN.FEDERATED-CONF-FORM.MP'
+                            | translate
+                    }}</mat-label>
+                    <mat-select formControlName="mpInput">
+                        <mat-option
+                            *ngFor="let mpOption of mpOptions"
+                            [value]="mpOption.value"
+                        >
+                            {{ mpOption.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint *ngIf="_showHelp" class="html-tags-div">
+                        <div
+                            [innerHTML]="_defaultFormValues?.mp.description"
+                        ></div
+                    ></mat-hint>
+                </mat-form-field>
+                <button
+                    mat-icon-button
+                    matTooltip="{{
+                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                    }}"
+                    [matTooltipPosition]="'above'"
+                    (click)="openMetricPrivacyDocs()"
+                >
+                    <mat-icon color="accent">help</mat-icon>
+                </button>
+            </div>
 
             <mat-form-field>
                 <mat-label>{{
