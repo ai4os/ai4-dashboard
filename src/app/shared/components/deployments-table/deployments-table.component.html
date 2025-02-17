@@ -71,23 +71,9 @@
                                         >vpn_key</mat-icon
                                     >
                                 </button>
-
-                                <div matTooltip="Copy to clipboard">
-                                    <a
-                                        mat-button
-                                        [disabled]="!isDeploymentRunning(row)"
-                                        class="action-button-in-cell"
-                                        [copy-to-clipboard]="row.mainEndpoint"
-                                    >
-                                        <mat-icon color="accent" id="accessIcon"
-                                            >content_copy</mat-icon
-                                        >
-                                    </a>
-                                </div>
                             }
 
                             @if (
-                                !isFederatedServer(row) &&
                                 deploymentType !== 'inference' &&
                                 deploymentType !== 'snapshot'
                             ) {
