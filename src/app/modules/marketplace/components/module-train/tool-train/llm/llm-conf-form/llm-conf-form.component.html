@@ -1,4 +1,4 @@
-<form [formGroup]="llmConfFormGroup">
+<form [formGroup]="llmConfFormGroup" class="llm-conf-form">
     <h4>{{ 'MODULES.MODULE-TRAIN.LLM-CONF-FORM.TITLE' | translate }}</h4>
     <div
         [ngClass]="{
@@ -101,40 +101,6 @@
         }
 
         @if (
-            _showFields.openai_api_key &&
-            this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                'open-webui'
-        ) {
-            <mat-form-field>
-                <mat-label>{{
-                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-KEY' | translate
-                }}</mat-label>
-                <input
-                    matInput
-                    placeholder=""
-                    value=""
-                    type="string"
-                    formControlName="openaiApiKeyInput"
-                />
-                <mat-error
-                    *ngIf="
-                        llmConfFormGroup.get('openaiApiKeyInput')?.errors?.[
-                            'required'
-                        ]
-                    "
-                >
-                    {{
-                        'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-KEY-REQUIRED'
-                            | translate
-                    }}
-                </mat-error>
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues.openai_api_key.description
-                }}</mat-hint>
-            </mat-form-field>
-        }
-
-        @if (
             _showFields.openai_api_url &&
             this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
                 'open-webui'
@@ -175,6 +141,40 @@
                 }
                 <mat-hint *ngIf="_showHelp">{{
                     _defaultFormValues.openai_api_url.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+
+        @if (
+            _showFields.openai_api_key &&
+            this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                'open-webui'
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-KEY' | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="string"
+                    formControlName="openaiApiKeyInput"
+                />
+                <mat-error
+                    *ngIf="
+                        llmConfFormGroup.get('openaiApiKeyInput')?.errors?.[
+                            'required'
+                        ]
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-KEY-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.openai_api_key.description
                 }}</mat-hint>
             </mat-form-field>
         }
