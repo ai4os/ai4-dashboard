@@ -45,6 +45,7 @@ export class LlmComponent {
         infoButton: true,
         cvatUsername: false,
         cvatPassword: false,
+        modelId: false,
     };
 
     showLlmFields: showLlmField = {

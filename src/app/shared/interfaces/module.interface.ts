@@ -94,6 +94,7 @@ export interface ModuleGeneralConfiguration {
     jupyter_password?: confObject;
     cvat_username?: confObject;
     cvat_password?: confObject;
+    model_id?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
