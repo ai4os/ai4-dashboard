@@ -32,10 +32,6 @@
     row-gap: 1em;
 }
 
-.snapshots-container {
-    margin: -1em;
-}
-
 .step-title {
     display: flex;
     align-items: center;
@@ -75,9 +71,21 @@
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    gap: 1em;
 
     button {
         padding: 0 10px;
+    }
+}
+
+.rclone-warning {
+    font-size: 12px;
+    line-height: 20px;
+    border: solid 2px var(--neon-red);
+    background-color: var(--white) !important;
+
+    mat-icon {
+        color: var(--neon-red);
     }
 }
 

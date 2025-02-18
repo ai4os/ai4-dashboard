@@ -12,6 +12,8 @@ import { CopyToClipboardDirective } from './directives/copy-to-clipboard-directi
 import { PopupComponent } from './components/popup/popup/popup.component';
 import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-icon.component';
 import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
+import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
     declarations: [
@@ -20,6 +22,7 @@ import { DeploymentsTableComponent } from './components/deployments-table/deploy
         PopupComponent,
         ChipWithIconComponent,
         DeploymentsTableComponent,
+        ChatBotComponent,
     ],
     imports: [
         CommonModule,
@@ -27,6 +30,7 @@ import { DeploymentsTableComponent } from './components/deployments-table/deploy
         FormsModule,
         TranslateModule,
         RouterModule,
+        MarkdownModule.forChild(),
     ],
     exports: [
         ReactiveFormsModule,
@@ -37,6 +41,7 @@ import { DeploymentsTableComponent } from './components/deployments-table/deploy
         CopyToClipboardDirective,
         ChipWithIconComponent,
         DeploymentsTableComponent,
+        ChatBotComponent,
     ],
 })
 export class SharedModule {}

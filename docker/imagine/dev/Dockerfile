@@ -2,7 +2,7 @@
 FROM node:20.5.1 as node
 WORKDIR /app
 COPY . .
-RUN --mount=type=secret,id=npmrc,target=/app/.npmrc npm ci
+RUN npm ci
 RUN npm run generate-version-file
 RUN npm run build-imagine-dev
 #stage 2

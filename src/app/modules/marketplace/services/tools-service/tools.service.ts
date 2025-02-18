@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TagObject } from '@app/data/types/tags';
 import {
+    Ai4LifeLoaderToolConfiguration,
     CvatToolConfiguration,
     FederatedServerToolConfiguration,
     LlmToolConfiguration,
-    Module,
+    Ai4eoscModule,
     ModuleSummary,
     VllmModelConfig,
 } from '@app/shared/interfaces/module.interface';
@@ -40,9 +41,9 @@ export class ToolsService {
         }
     }
 
-    getTool(moduleName: string): Observable<Module> {
+    getTool(moduleName: string): Observable<Ai4eoscModule> {
         const url = `${base}${endpoints.tool.replace(':name', moduleName)}`;
-        return this.http.get<Module>(url);
+        return this.http.get<Ai4eoscModule>(url);
     }
 
     getFederatedServerConfiguration(
@@ -63,6 +64,18 @@ export class ToolsService {
             toolName
         )}`;
         return this.http.get<CvatToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    getAi4LifeConfiguration(
+        toolName: string
+    ): Observable<Ai4LifeLoaderToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<Ai4LifeLoaderToolConfiguration>(url, {
             params: this.voParam,
         });
     }

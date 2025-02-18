@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
-import { ModulesService } from '../../services/modules-service/modules.service';
+import { ModulesService } from '../../../services/modules-service/modules.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
-import { Module } from '@app/shared/interfaces/module.interface';
-import { ToolsService } from '../../services/tools-service/tools.service';
+import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
+import { ToolsService } from '../../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
@@ -15,10 +15,10 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 @Component({
     selector: 'app-module-detail',
-    templateUrl: './module-detail.component.html',
-    styleUrls: ['./module-detail.component.scss'],
+    templateUrl: './ai4eosc-module-detail.component.html',
+    styleUrls: ['./ai4eosc-module-detail.component.scss'],
 })
-export class ModuleDetailComponent implements OnInit {
+export class Ai4eoscModuleDetailComponent implements OnInit {
     constructor(
         private modulesService: ModulesService,
         private toolsService: ToolsService,
@@ -44,8 +44,7 @@ export class ModuleDetailComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    modulesList = [];
-    module!: Module;
+    module!: Ai4eoscModule;
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';

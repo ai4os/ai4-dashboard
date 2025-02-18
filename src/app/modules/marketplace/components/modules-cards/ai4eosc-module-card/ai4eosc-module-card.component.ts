@@ -3,12 +3,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 
 @Component({
-    selector: 'app-module-card',
-    templateUrl: './module-card.component.html',
-    styleUrls: ['./module-card.component.scss'],
+    selector: 'app-ai4eosc-module-card',
+    templateUrl: './ai4eosc-module-card.component.html',
+    styleUrls: ['./ai4eosc-module-card.component.scss'],
     providers: [TitleCasePipe],
 })
-export class ModuleCardComponent implements OnInit {
+export class Ai4eoscModuleCardComponent implements OnInit {
     constructor(public titleCasePipe: TitleCasePipe) {}
 
     @Input() module!: ModuleSummary;

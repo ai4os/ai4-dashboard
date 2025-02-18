@@ -306,4 +306,38 @@
             </mat-form-field>
         </div>
     </ng-container>
+
+    <ng-container *ngIf="_showFields.modelId">
+        <h4 [ngClass]="{ 'mt-3': _showHelp }">
+            {{
+                'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.MODEL-OPTIONS'
+                    | translate
+            }}
+        </h4>
+        <mat-divider class="mt-3 mb-3"></mat-divider>
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'form-grid': !mobileQuery.matches,
+            }"
+        >
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.MODEL-ID'
+                        | translate
+                }}</mat-label>
+                <mat-select formControlName="modelIdSelect">
+                    <mat-option
+                        *ngFor="let modelIdOption of modelIdOptions"
+                        [value]="modelIdOption.value"
+                    >
+                        {{ modelIdOption.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.model_id?.description
+                }}</mat-hint>
+            </mat-form-field>
+        </div>
+    </ng-container>
 </form>

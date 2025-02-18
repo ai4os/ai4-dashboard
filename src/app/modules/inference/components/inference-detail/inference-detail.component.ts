@@ -76,8 +76,7 @@ export class InferenceDetailComponent implements OnInit {
     }
 
     openDocumentationWeb(): void {
-        const url =
-            'https://docs.ai4os.eu/en/latest/user/howto/deploy/oscar.html';
+        const url = 'https://docs.ai4os.eu/en/latest/howtos/deploy/oscar.html';
         window.open(url);
     }
 }

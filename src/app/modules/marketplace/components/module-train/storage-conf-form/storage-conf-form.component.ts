@@ -7,10 +7,13 @@ import {
     ViewChild,
 } from '@angular/core';
 import {
+    AbstractControl,
     FormBuilder,
     FormControl,
     FormGroup,
     FormGroupDirective,
+    ValidationErrors,
+    ValidatorFn,
     Validators,
 } from '@angular/forms';
 import {
@@ -43,6 +46,19 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
     value: { stringValue: '', booleanValue: false },
     description: '',
 };
+
+export function urlValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
+        const value = control.value;
+        let validURL = true;
+        if (value.trim().length > 0) {
+            validURL = urlPattern.test(value);
+        }
+        return validURL ? null : { invalidURL: true };
+    };
+}
 
 @Component({
     selector: 'app-storage-conf-form',
@@ -109,19 +125,16 @@ export class StorageConfFormComponent implements OnInit {
     parentForm!: FormGroup;
 
     storageConfFormGroup = this.fb.group({
-        storageServiceDatasetSelect: new FormControl({
-            value: '',
-            disabled: true,
-        }),
+        storageServiceDatasetSelect: ['', [Validators.required]],
         snapshotDatasetSelect: new FormControl({
             value: '',
             disabled: true,
         }),
         rcloneConfInput: [''],
-        storageUrlInput: [''],
+        storageUrlInput: ['', [urlValidator()]],
         rcloneVendorSelect: [''],
-        rcloneUserInput: ['', [Validators.required]],
-        rclonePasswordInput: ['', [Validators.required]],
+        rcloneUserInput: [''],
+        rclonePasswordInput: [''],
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
@@ -278,6 +291,14 @@ export class StorageConfFormComponent implements OnInit {
                 error: () => {
                     this.credentialsLoading = false;
                 },
+                complete: () => {
+                    const storageServiceDatasetSelect =
+                        this.storageConfFormGroup.get(
+                            'storageServiceDatasetSelect'
+                        );
+                    storageServiceDatasetSelect?.clearValidators();
+                    storageServiceDatasetSelect?.updateValueAndValidity();
+                },
             });
     }
 
@@ -344,7 +365,7 @@ export class StorageConfFormComponent implements OnInit {
                     });
                     this.storageConfFormGroup
                         .get('snapshotDatasetSelect')
-                        ?.setValue(this.snapshotOptions[0].value);
+                        ?.setValue('-');
                     this.storageConfFormGroup
                         .get('snapshotDatasetSelect')
                         ?.enable();
