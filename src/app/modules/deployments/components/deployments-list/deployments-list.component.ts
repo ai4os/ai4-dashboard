@@ -265,7 +265,9 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         creationTime: snapshot.submit_time,
                         snapshot_ID: snapshot.snapshot_ID,
                     };
-
+                    if (snapshot.error_msg) {
+                        row.error_msg = snapshot.error_msg;
+                    }
                     this.snapshotsDataset.push(row);
                 });
                 this.snapshotsDataSource =

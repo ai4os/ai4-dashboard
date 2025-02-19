@@ -103,6 +103,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
                 size: +row.size!,
                 nomad_ID: '',
                 description: row.description,
+                error_msg: row.error_msg,
             };
             this.openSnapshotDetailDialog(snapshot);
         } else {

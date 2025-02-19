@@ -39,14 +39,14 @@
                         >
                             <button
                                 id="infoButton"
+                                class="action-button-in-cell"
                                 mat-button
                                 matTooltip="Info"
                                 matBadgeOverlap="false"
                                 matBadgeSize="small"
-                                [matBadgeHidden]="!hasDeploymentErrors(row)"
                                 matBadge="priority_high"
                                 matBadgeColor="warn"
-                                class="action-button-in-cell"
+                                [matBadgeHidden]="!hasDeploymentErrors(row)"
                                 (click)="openDeploymentDetailDialog(row)"
                             >
                                 <mat-icon color="accent" id="infoIcon"
