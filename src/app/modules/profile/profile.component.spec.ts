@@ -9,12 +9,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedProfile } from '@app/core/services/auth/user-profile.mock';
+import { mockedUserProfile } from '@app/core/services/auth/user-profile.mock';
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
     userProfileSubject: of({}),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
+    loadUserProfile: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(mockedUserProfile)),
 };
 
 const mockedMediaQueryList: MediaQueryList = {

@@ -11,7 +11,7 @@ import { MarketplaceModule } from '@app/modules/marketplace/marketplace.module';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-import { mockedProfile } from './user-profile.mock';
+import { mockedUserProfile } from './user-profile.mock';
 
 const mockedOAuthService = {
     configure: jest.fn().mockReturnValue(void 0),
@@ -27,7 +27,9 @@ const mockedOAuthService = {
     loadDiscoveryDocumentAndTryLogin: jest
         .fn()
         .mockReturnValue(Promise.resolve(true)),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
+    loadUserProfile: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(mockedUserProfile)),
     restartSessionChecksIfStillLoggedIn: jest.fn().mockReturnValue(void 0),
     setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
     silentRefresh: jest

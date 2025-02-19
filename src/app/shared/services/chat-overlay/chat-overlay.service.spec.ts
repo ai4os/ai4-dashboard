@@ -3,12 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { ChatOverlayService } from './chat-overlay.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { of } from 'rxjs';
-import { mockedProfile } from '@app/core/services/auth/user-profile.mock';
+import { mockedUserProfile } from '@app/core/services/auth/user-profile.mock';
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
     userProfileSubject: of({}),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
+    loadUserProfile: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(mockedUserProfile)),
     login: jest.fn(),
     logout: jest.fn(),
 };

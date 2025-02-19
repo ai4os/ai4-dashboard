@@ -14,12 +14,14 @@ import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { of } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedProfile } from '@app/core/services/auth/user-profile.mock';
+import { mockedUserProfile } from '@app/core/services/auth/user-profile.mock';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
     userProfileSubject: of({}),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
+    loadUserProfile: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(mockedUserProfile)),
     isAuthenticated: jest.fn().mockReturnValue(of(true)),
 };
 const mockedModule: Ai4eoscModule = {

@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
-import { Subject, of } from 'rxjs';
+import { OAuthEvent } from 'angular-oauth2-oidc';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { By } from '@angular/platform-browser';
@@ -20,14 +20,17 @@ import {
 import { expect } from '@jest/globals';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedProfile } from '@app/core/services/auth/user-profile.mock';
+import { mockedUserProfile } from '@app/core/services/auth/user-profile.mock';
 
 const mockedConfigService: any = {};
 
-const mockedOAuthService = {
+const mockedAuthService = {
     configure: jest.fn().mockReturnValue(void 0),
     hasValidAccessToken: jest.fn().mockReturnValue(true),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
+    loadUserProfile: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(mockedUserProfile)),
+    userProfileSubject: new BehaviorSubject(mockedUserProfile),
     setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
     events: of(Subject<OAuthEvent>),
 };
@@ -67,13 +70,11 @@ describe('DashboardComponent', () => {
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                AuthService,
-                { provide: OAuthService, useValue: mockedOAuthService },
+                { provide: AuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: StatsService, useValue: mockedStatsService },
             ],
-            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(DashboardComponent);
