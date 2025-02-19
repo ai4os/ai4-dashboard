@@ -260,7 +260,7 @@ export class AuthService {
 
         group_membership.forEach((vo) => {
             const groupMatch = vo.match(
-                /^\/(Platform Access|Developer Access)\/([^\/]+)/
+                /^\/(Platform Access|Developer Access)\/([^/]+)/
             );
             if (groupMatch) {
                 const voName = groupMatch[2];
@@ -280,7 +280,7 @@ export class AuthService {
 
         group_membership.forEach((e) => {
             const groupMatch = e.match(
-                /^\/(Platform Access|Developer Access)\/([^\/]+)/
+                /^\/(Platform Access|Developer Access)\/([^/]+)/
             );
 
             if (groupMatch) {

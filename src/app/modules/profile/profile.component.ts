@@ -120,7 +120,7 @@ export class ProfileComponent implements OnInit {
     getVoInfo(group_membership: string[]) {
         group_membership.forEach((e) => {
             const groupMatch = e.match(
-                /^\/(Platform Access|Developer Access)\/([^\/]+)/
+                /^\/(Platform Access|Developer Access)\/([^/]+)/
             );
 
             if (groupMatch) {
