@@ -17,8 +17,16 @@
     background: var(--white-three);
 }
 
+.main-info {
+    display: flex;
+    flex-direction: column;
+}
+
 ::ng-deep .sidenav .mat-drawer-inner-container {
-    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow-x: hidden !important;
 }
 @media (max-width: 1250px) {
     ::ng-deep .sidenav .mat-drawer-inner-container {
@@ -63,6 +71,7 @@
     display: flex;
     align-items: center;
     color: var(--warm-grey);
+    margin-bottom: 0.5em;
     & .mat-icon {
         transform: scale(0.7);
     }
@@ -70,15 +79,6 @@
 
 .mat-drawer-content {
     background-color: var(--white-three);
-}
-
-.sidenav-footer {
-    position: absolute;
-    bottom: 0;
-}
-
-.sidenav-footer-mobile {
-    position: relative;
 }
 
 .dashboard-logo-container {
