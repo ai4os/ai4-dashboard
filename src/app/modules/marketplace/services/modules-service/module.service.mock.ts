@@ -21,6 +21,7 @@ export const module: Ai4eoscModule = {
         source_code: '',
     },
     id: 'ai4-test',
+    license: 'MIT',
 };
 
 export const modulesSummaryList: Array<ModuleSummary> = [

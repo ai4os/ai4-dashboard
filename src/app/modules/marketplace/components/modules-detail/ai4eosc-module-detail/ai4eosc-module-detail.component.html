@@ -321,27 +321,42 @@
 
             <div class="info-container">
                 <div class="flex-container">
-                    <a href="{{ module.links.cicd_url }}" target="_blank"
-                        ><img
-                            alt="Build Status"
-                            src="{{ module.links.cicd_badge }}"
-                    /></a>
+                    @if (module.license !== '') {
+                        <app-chip-with-icon
+                            icon="license"
+                            text="{{ module.license }}"
+                            tooltip=" {{
+                                'MODULES.MODULE-DETAIL.LICENSE' | translate
+                            }}"
+                        ></app-chip-with-icon>
+                    }
 
-                    <div *ngIf="module.doi">
-                        <a
-                            *ngIf="module.links.zenodo_doi; else staticDoiBadge"
-                            href="{{ module.links.zenodo_doi }}"
-                            target="_blank"
+                    <div class="license-and-badges">
+                        <a href="{{ module.links.cicd_url }}" target="_blank"
                             ><img
                                 alt="Build Status"
-                                src="{{ getDOIBadgeUrl(module.doi) }}"
+                                src="{{ module.links.cicd_badge }}"
                         /></a>
-                        <ng-template #staticDoiBadge>
-                            <img
-                                alt="Build Status"
-                                src="{{ getDOIBadgeUrl(module.doi) }}"
-                            />
-                        </ng-template>
+
+                        @if (module.doi) {
+                            <a
+                                *ngIf="
+                                    module.links.zenodo_doi;
+                                    else staticDoiBadge
+                                "
+                                href="{{ module.links.zenodo_doi }}"
+                                target="_blank"
+                                ><img
+                                    alt="Build Status"
+                                    src="{{ getDOIBadgeUrl(module.doi) }}"
+                            /></a>
+                            <ng-template #staticDoiBadge>
+                                <img
+                                    alt="Build Status"
+                                    src="{{ getDOIBadgeUrl(module.doi) }}"
+                                />
+                            </ng-template>
+                        }
                     </div>
                 </div>
 
