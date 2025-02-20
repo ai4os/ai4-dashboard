@@ -89,6 +89,7 @@ export interface confObjectStringBoolean {
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
+    co2?: confObject;
     docker_image: confObject;
     docker_tag: confObject;
     service: confObject;
@@ -148,6 +149,7 @@ export interface TrainModuleRequest {
     general: {
         title: string;
         desc?: string;
+        co2?: boolean;
         docker_image: string;
         docker_tag: string;
         service: string;

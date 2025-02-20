@@ -1,5 +1,30 @@
 <form [formGroup]="generalConfFormGroup" class="general-conf-form">
-    <h4>{{ 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TITLE' | translate }}</h4>
+    <span class="title-and-toggles">
+        <h4>
+            {{ 'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TITLE' | translate }}
+        </h4>
+
+        @if (_showFields.co2EmissionsInput) {
+            <div class="toggle-and-info">
+                <mat-slide-toggle formControlName="co2EmissionsInput">
+                    {{
+                        'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.CO2' | translate
+                    }}
+                </mat-slide-toggle>
+                <button
+                    mat-icon-button
+                    matTooltip="{{
+                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                    }}"
+                    [matTooltipPosition]="'above'"
+                    (click)="openCo2Docs()"
+                >
+                    <mat-icon color="accent">help</mat-icon>
+                </button>
+            </div>
+        }
+    </span>
+
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
@@ -99,7 +124,7 @@
                                 'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
                             }}"
                             [matTooltipPosition]="'above'"
-                            (click)="openDocumentationWeb()"
+                            (click)="openFedServerDocs()"
                         >
                             <mat-icon color="accent">help</mat-icon>
                         </button>

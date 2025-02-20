@@ -21,6 +21,7 @@ export interface showGeneralFormField {
     descriptionInput: boolean;
     serviceToRunChip: boolean;
     titleInput: boolean;
+    co2EmissionsInput: boolean;
     serviceToRunPassInput: boolean;
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
@@ -82,6 +83,7 @@ export class GeneralConfFormComponent implements OnInit {
         descriptionInput: true,
         serviceToRunChip: true,
         titleInput: true,
+        co2EmissionsInput: false,
         serviceToRunPassInput: true,
         dockerImageInput: true,
         dockerTagSelect: true,
@@ -111,6 +113,9 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('descriptionInput')
                 ?.setValue(defaultFormValues.desc?.value as string);
+            this.generalConfFormGroup
+                .get('co2EmissionsInput')
+                ?.setValue(defaultFormValues.co2?.value as boolean);
             this.generalConfFormGroup
                 .get('dockerImageInput')
                 ?.setValue(defaultFormValues.docker_image?.value as string);
@@ -167,6 +172,7 @@ export class GeneralConfFormComponent implements OnInit {
         descriptionInput: [''],
         serviceToRunChip: ['deepaas'],
         titleInput: ['', [Validators.maxLength(45)]],
+        co2EmissionsInput: false,
         serviceToRunPassInput: [
             { value: '', disabled: true },
             [Validators.required, Validators.minLength(9)],
@@ -220,7 +226,14 @@ export class GeneralConfFormComponent implements OnInit {
         }
     }
 
-    openDocumentationWeb(): void {
+    openFedServerDocs(): void {
+        const url =
+            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
+        window.open(url);
+    }
+
+    openCo2Docs(): void {
+        // TODO: update url
         const url =
             'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
         window.open(url);

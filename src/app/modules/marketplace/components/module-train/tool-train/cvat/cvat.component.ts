@@ -37,6 +37,7 @@ export class CvatComponent implements OnInit {
     showGeneralFields: showGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
+        co2EmissionsInput: false,
         serviceToRunChip: false,
         serviceToRunPassInput: false,
         dockerImageInput: false,
