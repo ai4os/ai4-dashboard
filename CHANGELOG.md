@@ -1,5 +1,44 @@
 # Changelog
 
+## [2.37.0](https://github.com/ai4os/ai4-dashboard/compare/v2.36.0...v2.37.0) (2025-02-19)
+
+
+### Features
+
+* add license to module detail ([#335](https://github.com/ai4os/ai4-dashboard/issues/335)) ([ec9ce8f](https://github.com/ai4os/ai4-dashboard/commit/ec9ce8ff93d0c2e47bb8f5de3b4c0a4bdebb72da))
+* update sidenav information ([#332](https://github.com/ai4os/ai4-dashboard/issues/332)) ([a9f9924](https://github.com/ai4os/ai4-dashboard/commit/a9f9924056d45c7555bdd493d89b12c8555199ab))
+
+
+### Bug Fixes
+
+* detect if tool is fedserver by container name ([#331](https://github.com/ai4os/ai4-dashboard/issues/331)) ([1d83c4f](https://github.com/ai4os/ai4-dashboard/commit/1d83c4fb5e018cbdfc16d12440062a2d85fc460b))
+
+## [2.36.0](https://github.com/ai4os/ai4-dashboard/compare/v2.35.0...v2.36.0) (2025-02-13)
+
+
+### Features
+
+* support docker image and tag in ai4life tool ([#325](https://github.com/ai4os/ai4-dashboard/issues/325)) ([216af05](https://github.com/ai4os/ai4-dashboard/commit/216af05f9216a7127b285b45eaa9ddff50b33fea))
+
+## [2.35.0](https://github.com/ai4os/ai4-dashboard/compare/v2.34.0...v2.35.0) (2025-02-11)
+
+
+### Features
+
+* validate storage url inside storage config (advanced settings) ([#299](https://github.com/ai4os/ai4-dashboard/issues/299)) ([93cf42d](https://github.com/ai4os/ai4-dashboard/commit/93cf42d44e2d4fa13d45e7caa0b0ea61b6f0615f))
+
+
+### Bug Fixes
+
+* 316 do not clear on boarding library local storage variables ([#318](https://github.com/ai4os/ai4-dashboard/issues/318)) ([dcfac0c](https://github.com/ai4os/ai4-dashboard/commit/dcfac0cdeae7889f29485c2b0c1945bf98d3428a))
+* do not select a snapshot by default ([#326](https://github.com/ai4os/ai4-dashboard/issues/326)) ([b332a71](https://github.com/ai4os/ai4-dashboard/commit/b332a71ece9b098684f3460d28d32fdd10aa1d49))
+* get url of ai4life module detail statically ([#312](https://github.com/ai4os/ai4-dashboard/issues/312)) ([bd6af19](https://github.com/ai4os/ai4-dashboard/commit/bd6af198ac2f80579e624df324222f75ac361c37))
+* restore on boarding library related variables after logout ([#317](https://github.com/ai4os/ai4-dashboard/issues/317)) ([cc21654](https://github.com/ai4os/ai4-dashboard/commit/cc216541352428f5929ff8cf95a1ff80774e3ef3))
+* show storage limit message ([#324](https://github.com/ai4os/ai4-dashboard/issues/324)) ([9b8089a](https://github.com/ai4os/ai4-dashboard/commit/9b8089af5517bce545837cfc66cf024d3c7e5f78))
+* show tools deploy button disabled when user does not belong to vo ([#311](https://github.com/ai4os/ai4-dashboard/issues/311)) ([b1b98d5](https://github.com/ai4os/ai4-dashboard/commit/b1b98d50eec753a5845c427e418852ba23960779))
+* update link ([#321](https://github.com/ai4os/ai4-dashboard/issues/321)) ([a2e9529](https://github.com/ai4os/ai4-dashboard/commit/a2e95293ffd1e32f1a1333f5fbf91036f5e45515))
+* wait for linked storage services to load ([#319](https://github.com/ai4os/ai4-dashboard/issues/319)) ([149c0dd](https://github.com/ai4os/ai4-dashboard/commit/149c0dd946c6db0d50398e1f21c58af42ed68c84))
+
 ## [2.34.0](https://github.com/ai4os/ai4-dashboard/compare/v2.33.3...v2.34.0) (2025-01-29)
 
 

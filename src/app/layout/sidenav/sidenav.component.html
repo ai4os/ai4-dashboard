@@ -8,78 +8,79 @@
         [fixedTopGap]="options.value.top"
         [fixedBottomGap]="options.value.bottom"
     >
-        <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
-        <div class="dashboard-logo-container">
-            <button
-                *ngIf="mobileQuery.matches"
-                mat-icon-button
-                (click)="toggleSidenav()"
-                style="z-index: 99"
-            >
-                <mat-icon>menu</mat-icon>
-            </button>
-            <a routerLink="">
-                <img src="../../../assets/images/dashboard-logo.png" />
-            </a>
-        </div>
+        <span class="main-info">
+            <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
+            <div class="dashboard-logo-container">
+                <button
+                    *ngIf="mobileQuery.matches"
+                    mat-icon-button
+                    (click)="toggleSidenav()"
+                    style="z-index: 99"
+                >
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <a routerLink="">
+                    <img src="../../../assets/images/dashboard-logo.png" />
+                </a>
+            </div>
 
-        <nav id="sidebarMenu" class="">
-            <mat-nav-list>
-                <ng-container *ngFor="let link of mainLinks">
+            <nav id="sidebarMenu" class="">
+                <mat-nav-list>
+                    <ng-container *ngFor="let link of mainLinks">
+                        <mat-list-item
+                            *ngIf="
+                                !link.isRestricted ||
+                                (link.isRestricted && isLoggedIn())
+                            "
+                            class="sidenav-item"
+                            [disabled]="link.isDisabled"
+                            matTooltip=" {{
+                                'ERRORS.UNAUTHORIZED' | translate
+                            }}"
+                            [matTooltipPosition]="'right'"
+                            [matTooltipDisabled]="!link.isDisabled"
+                        >
+                            <a
+                                mat-list-item
+                                [routerLink]="
+                                    !link.isDisabled ? link.url : null
+                                "
+                                routerLinkActive="active"
+                                class="sidenav-link"
+                                [routerLinkActiveOptions]="
+                                    link.url === '/'
+                                        ? { exact: true }
+                                        : { exact: false }
+                                "
+                                >{{ link.name | translate }}</a
+                            >
+                        </mat-list-item>
+                    </ng-container>
+
+                    <mat-divider class="mt-3 mb-3"></mat-divider>
+                    <h4 class="other-links ml-3">
+                        {{ 'SIDENAV.OTHER-LINKS' | translate }}
+                        <mat-icon>open_in_new</mat-icon>
+                    </h4>
+
                     <mat-list-item
-                        *ngIf="
-                            !link.isRestricted ||
-                            (link.isRestricted && isLoggedIn())
-                        "
+                        *ngFor="let link of otherLinks"
                         class="sidenav-item"
-                        [disabled]="link.isDisabled"
-                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
-                        [matTooltipPosition]="'right'"
-                        [matTooltipDisabled]="!link.isDisabled"
                     >
                         <a
                             mat-list-item
-                            [routerLink]="!link.isDisabled ? link.url : null"
+                            href="{{ link.url }}"
                             routerLinkActive="active"
                             class="sidenav-link"
-                            [routerLinkActiveOptions]="
-                                link.url === '/'
-                                    ? { exact: true }
-                                    : { exact: false }
-                            "
+                            target="_blank"
                             >{{ link.name | translate }}</a
                         >
                     </mat-list-item>
-                </ng-container>
+                </mat-nav-list>
+            </nav>
+        </span>
 
-                <mat-divider class="mt-3 mb-3"></mat-divider>
-                <h4 class="other-links ml-3">
-                    {{ 'SIDENAV.OTHER-LINKS' | translate }}
-                    <mat-icon>open_in_new</mat-icon>
-                </h4>
-
-                <mat-list-item
-                    *ngFor="let link of otherLinks"
-                    class="sidenav-item"
-                >
-                    <a
-                        mat-list-item
-                        href="{{ link.url }}"
-                        routerLinkActive="active"
-                        class="sidenav-link"
-                        target="_blank"
-                        >{{ link.name | translate }}</a
-                    >
-                </mat-list-item>
-            </mat-nav-list>
-        </nav>
-        <div
-            class="mb-3 ml-3"
-            [ngClass]="{
-                'sidenav-footer-mobile': this.mobileQuery.matches,
-                'sidenav-footer': !mobileQuery.matches,
-            }"
-        >
+        <div class="ml-3">
             <img
                 src="../../../assets/images/eu-flag.jpg"
                 width="50"
@@ -107,7 +108,12 @@
                     >{{ gitInfo.version }}</a
                 >
             </div>
-            <div *ngIf="projectName === 'iMagine'" class="powered-by-container">
+            <div
+                *ngIf="
+                    voName === 'vo.imagine-ai.eu' || voName === 'vo.ai4life.eu'
+                "
+                class="powered-by-container"
+            >
                 <p class="acknowledgments">
                     {{ 'SIDENAV.POWERED-BY' | translate }}
                     <a href="https://ai4eosc.eu/" target="_blank">
@@ -128,7 +134,6 @@
             'pl-1 pr-1': this.mobileQuery.matches,
             'pl-3 pr-3': !mobileQuery.matches,
         }"
-        (scroll)="doSomethingOnScroll($event)"
     >
         <app-top-navbar class="top-navbar"></app-top-navbar>
         <router-outlet></router-outlet>

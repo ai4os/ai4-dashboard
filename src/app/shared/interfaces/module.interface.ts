@@ -17,6 +17,7 @@ export interface Ai4eoscModule {
     title: string;
     summary: string;
     description: string;
+    license: string;
     doi?: string;
     links: {
         source_code: string;
