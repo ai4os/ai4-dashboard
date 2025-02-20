@@ -134,6 +134,7 @@
             'pl-1 pr-1': this.mobileQuery.matches,
             'pl-3 pr-3': !mobileQuery.matches,
         }"
+        (scroll)="checkScroll($event)"
     >
         <app-top-navbar class="top-navbar"></app-top-navbar>
         <router-outlet></router-outlet>

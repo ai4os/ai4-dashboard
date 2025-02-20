@@ -138,7 +138,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.sidenavService.toggle();
     }
 
-    doSomethingOnScroll(event: Event) {
+    checkScroll(event: Event) {
         const target = event.target as HTMLElement;
         const href = window.location.href;
         const marketplaceRegex = /\/marketplace$/;
