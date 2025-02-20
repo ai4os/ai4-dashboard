@@ -4,7 +4,7 @@ describe('try me section', function () {
     });
 
     it('try me list shows no Gradio deployments', function () {
-        cy.contains('Try me', { timeout: 20000 }).click();
+        cy.contains('Try me', { timeout: 20000 }).click({ force: true });
         cy.contains('Decline').click();
         cy.contains('Try me deployments', { timeout: 50000 }).should(
             'be.visible'

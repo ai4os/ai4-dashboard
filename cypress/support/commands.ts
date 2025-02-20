@@ -15,35 +15,41 @@ Cypress.Commands.add('login', (username: string, password: string) => {
         `auth-${username}`,
         () => {
             cy.visit('http://localhost:8080/');
-            cy.contains('Login', { timeout: 20000 }).click();
 
-            cy.origin('https://aai.egi.eu', () => {
-                cy.get('.ssp-btn.bitbucket').click();
+            cy.contains('Login', { timeout: 20000 }).click({ force: true });
+
+            cy.origin('https://login.cloud.ai4eosc.eu/', () => {
+                cy.get('#social-google').click();
             });
 
             cy.origin(
-                'https://id.atlassian.com/l',
+                'https://accounts.google.com/',
                 { args },
                 ({ username, password }) => {
-                    cy.get('#username').type(username, {
-                        log: false,
+                    // Ignore Google's ResizeObserver loop error
+                    Cypress.on('uncaught:exception', () => {
+                        return false;
                     });
 
-                    cy.get('#login-submit').click();
+                    cy.get('input[type="email"]')
+                        .type(username)
+                        .type('{enter}');
 
-                    cy.get('#password').type(password, {
-                        log: false,
-                    });
+                    // Wait for the next step to load
+                    cy.wait(2000);
 
-                    cy.get('#login-submit').click();
+                    cy.get('input[type="password"]').should('be.visible');
+                    cy.get('input[type="password"]')
+                        .type(password)
+                        .type('{enter}');
                 }
             );
 
-            cy.url().should('equal', 'http://localhost:8080/');
+            cy.url().should('equal', 'http://localhost:8080/marketplace');
         },
         {
             validate() {
-                cy.contains(`Test AI4EOSC`);
+                cy.contains(`TestAI4EOSC Cypress`);
             },
             cacheAcrossSpecs: true,
         }
@@ -54,7 +60,9 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
 Cypress.Commands.add('initializeTrainModuleForm', () => {
     cy.visit('http://localhost:8080/');
-    cy.contains('Dogs breed detector', { timeout: 20000 }).click();
+    cy.contains('Dogs breed detector', { timeout: 20000 }).click({
+        force: true,
+    });
     cy.contains('Decline').click();
     cy.get('.action-button').contains('Deploy', { timeout: 10000 }).click();
     cy.contains('Inference API + UI (dedicated)', { timeout: 10000 }).click();

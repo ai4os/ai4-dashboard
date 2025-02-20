@@ -8,6 +8,7 @@ export default defineConfig({
     chromeWebSecurity: false,
     e2e: {
         testIsolation: false,
+        experimentalModifyObstructiveThirdPartyCode: true,
     },
     video: true,
 });
