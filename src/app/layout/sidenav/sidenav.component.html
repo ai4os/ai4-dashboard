@@ -77,7 +77,7 @@
             class="mb-3 ml-3"
             [ngClass]="{
                 'sidenav-footer-mobile': this.mobileQuery.matches,
-                'sidenav-footer': !mobileQuery.matches
+                'sidenav-footer': !mobileQuery.matches,
             }"
         >
             <img
@@ -126,8 +126,9 @@
         class="sidenav-content"
         [ngClass]="{
             'pl-1 pr-1': this.mobileQuery.matches,
-            'pl-3 pr-3': !mobileQuery.matches
+            'pl-3 pr-3': !mobileQuery.matches,
         }"
+        (scroll)="doSomethingOnScroll($event)"
     >
         <app-top-navbar class="top-navbar"></app-top-navbar>
         <router-outlet></router-outlet>

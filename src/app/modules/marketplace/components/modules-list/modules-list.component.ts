@@ -7,11 +7,12 @@ import {
     Ai4lifeModule,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
-import { forkJoin } from 'rxjs';
+import { filter, forkJoin } from 'rxjs';
 import { ToolsService } from '../../services/tools-service/tools.service';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { IntroJSService } from 'introjs/introjs.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
     selector: 'app-modules-list',
@@ -20,6 +21,7 @@ import { IntroJSService } from 'introjs/introjs.service';
 })
 export class ModulesListComponent implements OnInit {
     constructor(
+        private router: Router,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef,
         private modulesService: ModulesService,
@@ -31,6 +33,23 @@ export class ModulesListComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+
+        // scroll to last scrollY position
+        this.router.events
+            .pipe(filter((event) => event instanceof NavigationEnd))
+            .subscribe(() => {
+                const scrollTop = sessionStorage.getItem('scrollTop');
+                if (scrollTop) {
+                    setTimeout(() => {
+                        const content = document.querySelector(
+                            '.sidenav-content'
+                        ) as HTMLElement;
+                        if (content) {
+                            content.scrollTop = +scrollTop;
+                        }
+                    }, 100);
+                }
+            });
     }
 
     @ViewChild('tabGroup', { static: false }) tabGroup!: MatTabGroup;
