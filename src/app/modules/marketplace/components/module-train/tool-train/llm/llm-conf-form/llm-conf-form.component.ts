@@ -9,6 +9,7 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
+import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '@app/modules/marketplace/services/tools-service/tools.service';
 import {
     LlmConfiguration,
@@ -50,6 +51,7 @@ export function urlValidator(): ValidatorFn {
 })
 export class LlmConfFormComponent {
     constructor(
+        private readonly authService: AuthService,
         private toolsService: ToolsService,
         private snackbarService: SnackbarService,
         private ctrlContainer: FormGroupDirective,
@@ -112,6 +114,11 @@ export class LlmConfFormComponent {
             this.llmConfFormGroup
                 .get('openaiApiUrlInput')
                 ?.setValue(defaultFormValues.openai_api_url.value as string);
+
+            this.authService.userProfileSubject.subscribe((profile) => {
+                const email = profile.email;
+                this.llmConfFormGroup.get('uiUsernameInput')?.setValue(email);
+            });
         }
     }
 
@@ -136,6 +143,7 @@ export class LlmConfFormComponent {
         deploymentTypeSelect: ['', Validators.required],
         vllmModelSelect: ['', Validators.required],
         uiPasswordInput: ['', Validators.required],
+        uiUsernameInput: [{ value: '', disabled: true }, Validators.required],
         huggingFaceTokenInput: [
             { value: '', disabled: true },
             Validators.required,

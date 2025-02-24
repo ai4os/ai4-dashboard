@@ -66,6 +66,21 @@
         ) {
             <mat-form-field>
                 <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME'
+                        | translate
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="text"
+                    formControlName="uiUsernameInput"
+                />
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>{{
                     'MODULES.MODULE-TRAIN.LLM-CONF-FORM.UI-PASSWORD' | translate
                 }}</mat-label>
                 <input

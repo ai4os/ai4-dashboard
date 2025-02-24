@@ -378,6 +378,7 @@
             "LLM-CONF-FORM": {
                 "TITLE": "LLM options",
                 "VLLM-MODEL": "VLLM model",
+                "UI-USERNAME": "UI Username",
                 "UI-PASSWORD": "UI Password",
                 "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
                 "HUGGING-FACE-TOKEN": "Hugging Face token",
