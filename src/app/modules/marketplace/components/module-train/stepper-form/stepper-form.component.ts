@@ -185,6 +185,9 @@ export class StepperFormComponent implements OnInit {
                                 .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
+                    mp: this.step3Form!.value.federatedConfForm.dpInput
+                        ? this.step3Form!.value.federatedConfForm.mpInput
+                        : null,
                     noise_mult: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm.noiseMultInput
                         : null,

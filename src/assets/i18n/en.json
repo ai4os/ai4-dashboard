@@ -360,7 +360,7 @@
                 }
             },
             "FEDERATED-CONF-FORM": {
-                "TITLE": "Federated options",
+                "FED-TITLE": "Federated options",
                 "ROUNDS": "Number of rounds",
                 "METRIC": "Evaluation metric",
                 "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
@@ -370,7 +370,9 @@
                 "FL": "Server-side learning rate",
                 "MOMENTUM": "Server-side momentum",
                 "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
+                "PRIVACY-TITLE": "Privacy options",
                 "DP": "Differential privacy",
+                "MP": "Metric privacy",
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
                 "CLIP-NORM": "Clipping norm"
