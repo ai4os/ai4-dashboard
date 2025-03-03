@@ -10,6 +10,8 @@ export const authCodeFlowConfig: AuthConfig = {
     // The SPA's id. The SPA is registerd with this id at the auth-server
     clientId: 'ai4eosc-dashboard',
 
+    dummyClientSecret: '',
+
     // Authorization Code Flow
     responseType: 'code',
 
