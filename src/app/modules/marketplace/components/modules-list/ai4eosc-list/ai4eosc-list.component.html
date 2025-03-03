@@ -108,11 +108,16 @@
                                   ?.value as elements
                 "
                 class="m-2"
+                [ngStyle]="{
+                    display:
+                        voName === 'vo.imagine-ai.eu' &&
+                        element.id === 'ai4os-llm'
+                            ? 'none'
+                            : '',
+                }"
             >
                 <app-ai4eosc-module-card
-                    [attr.id]="
-                        element.id === 'ai4os-ai4life-loader' ? 'step2' : null
-                    "
+                    [attr.id]="element.id === 'ai4os-llm' ? 'step1' : null"
                     [module]="element"
                 ></app-ai4eosc-module-card>
             </span>

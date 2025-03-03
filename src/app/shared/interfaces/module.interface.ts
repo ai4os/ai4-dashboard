@@ -122,6 +122,15 @@ export interface FederatedServerConfiguration {
     strategy: confObject;
 }
 
+export interface LlmConfiguration {
+    type: confObject;
+    model_id: confObjectRange;
+    ui_password: confObject;
+    HF_token: confObject;
+    openai_api_key: confObject;
+    openai_api_url: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -137,6 +146,11 @@ export interface FederatedServerToolConfiguration {
 export interface CvatToolConfiguration {
     general: ModuleGeneralConfiguration;
     storage: ModuleStorageConfiguration;
+}
+
+export interface LlmToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    llm: LlmConfiguration;
 }
 
 export interface Ai4LifeLoaderToolConfiguration {
@@ -187,6 +201,14 @@ export interface TrainModuleRequest {
         sampled_clients: number;
         clip_norm: number;
     };
+    llm?: {
+        type: string;
+        model_id: string;
+        ui_password: string;
+        HF_token: string;
+        openai_api_key: string;
+        openai_api_url: string;
+    };
 }
 
 export interface Dataset {
@@ -196,6 +218,12 @@ export interface Dataset {
 
 export interface Secret {
     token: string;
+}
+
+export interface VllmModelConfig {
+    name: string;
+    needs_HF_token?: boolean;
+    args: string[];
 }
 
 export interface GradioCreateResponse {

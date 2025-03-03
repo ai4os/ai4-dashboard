@@ -6,11 +6,14 @@ import {
     Ai4LifeLoaderToolConfiguration,
     CvatToolConfiguration,
     FederatedServerToolConfiguration,
+    LlmToolConfiguration,
     Ai4eoscModule,
     ModuleSummary,
+    VllmModelConfig,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import * as yaml from 'js-yaml';
 
 const { base, endpoints } = environment.api;
 
@@ -75,5 +78,34 @@ export class ToolsService {
         return this.http.get<Ai4LifeLoaderToolConfiguration>(url, {
             params: this.voParam,
         });
+    }
+
+    getVllmConfiguration(toolName: string): Observable<LlmToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<LlmToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    getVllmModelConfiguration(): Observable<VllmModelConfig[]> {
+        const url =
+            'https://raw.githubusercontent.com/ai4os/ai4-papi/feat/vllm-tools/etc/vllm.yaml';
+        return this.http.get(url, { responseType: 'text' }).pipe(
+            map((yamlText) => {
+                const parsedYaml = yaml.load(yamlText) as {
+                    models: Record<string, Omit<VllmModelConfig, 'name'>>;
+                };
+
+                return Object.entries(parsedYaml.models).map(
+                    ([name, config]) => ({
+                        name, // model name
+                        ...config,
+                    })
+                );
+            })
+        );
     }
 }
