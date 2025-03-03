@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/ai4os/ai4-dashboard/compare/v3.0.0...v3.0.1) (2025-03-03)
+
+
+### Bug Fixes
+
+* update vllm models url ([#343](https://github.com/ai4os/ai4-dashboard/issues/343)) ([a8d249a](https://github.com/ai4os/ai4-dashboard/commit/a8d249af4421cd000aabec8d777200e7f4d41508))
+
 ## [3.0.0](https://github.com/ai4os/ai4-dashboard/compare/v2.37.1...v3.0.0) (2025-03-03)
 
 
