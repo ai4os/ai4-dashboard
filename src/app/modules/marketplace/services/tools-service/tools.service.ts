@@ -92,7 +92,7 @@ export class ToolsService {
 
     getVllmModelConfiguration(): Observable<VllmModelConfig[]> {
         const url =
-            'https://raw.githubusercontent.com/ai4os/ai4-papi/feat/vllm-tools/etc/vllm.yaml';
+            'https://raw.githubusercontent.com/ai4os/ai4-papi/refs/heads/master/etc/vllm.yaml';
         return this.http.get(url, { responseType: 'text' }).pipe(
             map((yamlText) => {
                 const parsedYaml = yaml.load(yamlText) as {

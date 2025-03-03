@@ -63,8 +63,8 @@ export class LlmComponent {
 
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
-            this.toolsService.getTool(params['id']).subscribe((cvat) => {
-                this.title = cvat.title;
+            this.toolsService.getTool(params['id']).subscribe((tool) => {
+                this.title = tool.title;
             });
             this.toolsService
                 .getVllmConfiguration(params['id'])
