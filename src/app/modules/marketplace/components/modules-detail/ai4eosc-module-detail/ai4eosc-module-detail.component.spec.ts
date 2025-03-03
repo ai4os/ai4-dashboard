@@ -68,6 +68,7 @@ const mockedModule: Ai4eoscModule = {
     categories: ['cat1'],
     tags: ['tag1'],
     id: 'test',
+    license: 'MIT',
 };
 
 const mockedMediaQueryList: MediaQueryList = {

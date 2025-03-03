@@ -103,6 +103,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
                 size: +row.size!,
                 nomad_ID: '',
                 description: row.description,
+                error_msg: row.error_msg,
             };
             this.openSnapshotDetailDialog(snapshot);
         } else {
@@ -156,7 +157,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     }
 
     isFederatedServer(row: DeploymentTableRow) {
-        return row.mainEndpoint?.includes('fedserver');
+        return row.containerName?.includes('ai4os-federated-server');
     }
 
     getDeploymentEndpoints(row: DeploymentTableRow) {

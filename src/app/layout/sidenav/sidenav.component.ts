@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
@@ -125,7 +126,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
                 } else {
                     link.isDisabled = !this.isAuthorized;
                 }
-            } 
+            }
         });
     }
 
@@ -135,5 +136,20 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
     toggleSidenav() {
         this.sidenavService.toggle();
+    }
+
+    checkScroll(event: Event) {
+        const target = event.target as HTMLElement;
+        const href = window.location.href;
+        const marketplaceRegex = /\/marketplace$/;
+        const marketplaceElementRegex = /\/marketplace\//;
+
+        // if the user has scrolled and the page is the main marketplace (/marketplace)
+        if (target.scrollTop !== 0 && marketplaceRegex.test(href)) {
+            sessionStorage.setItem('scrollTop', target.scrollTop.toString());
+            // if the page is a module detail (/marketplace/*)
+        } else if (!marketplaceElementRegex.test(href)) {
+            sessionStorage.setItem('scrollTop', '0');
+        }
     }
 }

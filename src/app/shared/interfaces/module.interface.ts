@@ -17,6 +17,7 @@ export interface Ai4eoscModule {
     title: string;
     summary: string;
     description: string;
+    license: string;
     doi?: string;
     links: {
         source_code: string;
@@ -195,6 +196,7 @@ export interface TrainModuleRequest {
         fl: number;
         momentum: number;
         dp: boolean;
+        mp: boolean;
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;

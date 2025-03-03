@@ -25,7 +25,7 @@ export function getDeploymentBadge(status: string) {
         statusBadge = status + '-lightgrey';
         break;
     default:
-        statusBadge = 'unknown-lightgrey';
+        statusBadge = status + '-lightgrey';
         break;
     }
     return statusBadge;
@@ -46,6 +46,7 @@ export function getSnapshotBadge(status: string) {
     case 'running':
         statusBadge = status + '-brightgreen';
         break;
+    case 'failed':
     case 'error':
         statusBadge = status + '-red';
         break;
@@ -53,7 +54,7 @@ export function getSnapshotBadge(status: string) {
         statusBadge = status + '-brightgreen';
         break;
     default:
-        statusBadge = 'unknown-lightgrey';
+        statusBadge = status + '-lightgrey';
         break;
     }
     return statusBadge;

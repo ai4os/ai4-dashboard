@@ -67,6 +67,16 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     private _mobileQueryListener: () => void;
 
     ngOnInit(): void {
+        // scroll to top
+        setTimeout(() => {
+            const content = document.querySelector(
+                '.sidenav-content'
+            ) as HTMLElement;
+            if (content) {
+                content.scrollTop = 0;
+            }
+        }, 100);
+
         const r = document.querySelector(':root');
         const rs = getComputedStyle(r!);
         this.doiBadgeColor = rs.getPropertyValue('--primary');

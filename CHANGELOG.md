@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.37.0](https://github.com/ai4os/ai4-dashboard/compare/v2.36.0...v2.37.0) (2025-02-19)
+
+
+### Features
+
+* add license to module detail ([#335](https://github.com/ai4os/ai4-dashboard/issues/335)) ([ec9ce8f](https://github.com/ai4os/ai4-dashboard/commit/ec9ce8ff93d0c2e47bb8f5de3b4c0a4bdebb72da))
+* update sidenav information ([#332](https://github.com/ai4os/ai4-dashboard/issues/332)) ([a9f9924](https://github.com/ai4os/ai4-dashboard/commit/a9f9924056d45c7555bdd493d89b12c8555199ab))
+
+
+### Bug Fixes
+
+* detect if tool is fedserver by container name ([#331](https://github.com/ai4os/ai4-dashboard/issues/331)) ([1d83c4f](https://github.com/ai4os/ai4-dashboard/commit/1d83c4fb5e018cbdfc16d12440062a2d85fc460b))
+
 ## [2.36.0](https://github.com/ai4os/ai4-dashboard/compare/v2.35.0...v2.36.0) (2025-02-13)
 
 
