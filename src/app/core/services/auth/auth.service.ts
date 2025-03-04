@@ -244,8 +244,8 @@ export class AuthService {
         this.router.navigateByUrl('/marketplace');
 
         // do not remove 'on boarding library' related variables
-        const tourName = 'ai4lifeMarketplaceTour';
-        const value = localStorage.getItem('ai4lifeMarketplaceTour');
+        const tourName = 'llmToolTour';
+        const value = localStorage.getItem('llmToolTour');
         localStorage.clear();
         if (value) {
             localStorage.setItem(tourName, value);

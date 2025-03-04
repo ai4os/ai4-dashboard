@@ -3,7 +3,7 @@ name: Build AI4EOSC:tutorials docker image
 on:
     push:
         tags:
-            - v2.**
+            - v*.*
 
 jobs:
     build:

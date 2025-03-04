@@ -13,9 +13,9 @@ export class IntroJSService {
         return localStorage.getItem(tourName) ?? 'false';
     }
 
-    // New external marketplaces (AI4Life Marketplace)
-    ai4lifeMarketplace() {
-        if (this.checkIfTourHasShown('ai4lifeMarketplaceTour') === 'true') {
+    // New LLM tool
+    llmTool() {
+        if (this.checkIfTourHasShown('llmToolTour') === 'true') {
             return;
         }
 
@@ -23,19 +23,13 @@ export class IntroJSService {
             .setOptions({
                 steps: [
                     {
-                        title: 'New AI4Life marketplace! 🎉',
-                        intro: 'Apart from the main AI4EOSC marketplace, now we also support external marketplaces.',
+                        title: 'New LLM tool 🧠💬',
+                        intro: 'Check out the new LLM tool!',
                     },
                     {
                         element: '#step1',
-                        title: 'New AI4Life marketplace! 🎉',
-                        intro: "Don't forget to check out the new AI4Life marketplace.",
-                        position: 'bottom',
-                    },
-                    {
-                        element: '#step2',
-                        title: 'New AI4Life marketplace! 🎉',
-                        intro: 'You can also use the AI4Life model loader directly.',
+                        title: 'New LLM tool 🧠💬',
+                        intro: 'This tool enables you to launch and manage your own LLM instances using VLLM and OpenWebUI.',
                         position: 'bottom',
                     },
                 ],
@@ -43,11 +37,11 @@ export class IntroJSService {
             .start();
 
         this.introJS.onexit(() => {
-            localStorage.setItem('ai4lifeMarketplaceTour', 'true');
+            localStorage.setItem('llmToolTour', 'true');
         });
 
         this.introJS.oncomplete(() => {
-            localStorage.setItem('ai4lifeMarketplaceTour', 'true');
+            localStorage.setItem('llmToolTour', 'true');
         });
     }
 }
