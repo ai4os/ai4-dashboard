@@ -23,11 +23,23 @@
 }
 
 .nomad-banner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-self: center;
     border: 5px var(--neon-red) solid;
-    padding: 10px;
-    text-align: center;
-    font-size: 1.5em;
     border-radius: 20px;
+    width: 70%;
+    background: rgb(255, 0, 0, 0.1);
+    margin: 0.5em;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: red;
+    mat-icon {
+        overflow: visible;
+    }
 }
 
 ::ng-deep .sidenav .mat-drawer-inner-container {

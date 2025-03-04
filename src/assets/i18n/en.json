@@ -491,6 +491,6 @@
             "TITLE": "Warning"
         },
         "UNAUTHORIZED": "Only available for project members",
-        "DEPLOYED-IN-NOMAD": "You are accessing a backup instance of the {{projectName}} dashboard. Some functionalities (eg. storage, user stats) might be missing or failing. Check the <a href='{{statusURL}}' target='_blank'>status</a> page for more details."
+        "DEPLOYED-IN-NOMAD": "You are accessing a backup instance of the {{voName}} dashboard. Some functionalities (eg. storage, user stats) might be missing or failing. Check the <a href='{{statusURL}}' target='_blank'>status</a> page for more details"
     }
 }
