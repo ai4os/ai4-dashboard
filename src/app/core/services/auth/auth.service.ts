@@ -11,11 +11,13 @@ import {
 } from 'rxjs';
 import { authCodeFlowConfig } from './auth.config';
 import { AppConfigService } from '../app-config/app-config.service';
+import { jwtDecode } from 'jwt-decode';
+import { KeycloakToken } from '@app/shared/interfaces/keycloak-token.interface';
 
 export interface UserProfile {
     name: string;
     email: string;
-    group_membership: string[];
+    roles: string[];
     isAuthorized: boolean;
     isDeveloper: boolean;
 }
@@ -39,10 +41,6 @@ export class AuthService {
             this.isAuthenticatedSubject$.next(
                 this.oauthService.hasValidAccessToken()
             );
-
-            if (!this.oauthService.hasValidAccessToken()) {
-                //this.navigateToLoginPage();
-            }
         });
 
         this.oauthService.events.subscribe(() => {
@@ -166,35 +164,36 @@ export class AuthService {
     }
 
     loadUserProfile() {
-        this.oauthService.loadUserProfile().then((profile: any) => {
-            const userProfile: UserProfile = {
-                name: profile['info']['name'],
-                isAuthorized: false,
-                isDeveloper: false,
-                email: profile['info']['email'],
-                group_membership: profile['info']['group_membership'],
-            };
-            if (
-                profile['info']['group_membership'] &&
-                profile['info']['group_membership'].length > 0
-            ) {
-                const vos: string[] = this.parseVosFromProfile(
-                    profile['info']['group_membership']
-                );
-                vos.forEach((vo) => {
-                    if (vo.includes(this.appConfigService.voName)) {
-                        userProfile.isAuthorized = true;
-                    }
-                });
-                const roles: string[] = this.parseRolesFromProfile(
-                    profile['info']['group_membership']
-                );
-                roles.forEach((role) => {
-                    if (role.includes('Developer Access')) {
-                        userProfile.isDeveloper = true;
-                    }
-                });
-            }
+        const token = this.oauthService.getAccessToken();
+        const parsedToken = jwtDecode(token) as KeycloakToken;
+
+        const userProfile: UserProfile = {
+            name: parsedToken.name,
+            isAuthorized: false,
+            isDeveloper: false,
+            email: parsedToken.email,
+            roles: parsedToken.realm_access.roles,
+        };
+
+        if (userProfile.roles && userProfile.roles.length > 0) {
+            const vos: string[] = this.parseVosFromProfile(userProfile.roles);
+            vos.forEach((vo) => {
+                if (vo.includes(this.appConfigService.voName)) {
+                    userProfile.isAuthorized = true;
+                }
+            });
+
+            const roles: string[] = this.parseRolesFromProfile(
+                userProfile.roles
+            );
+            roles.forEach((role) => {
+                if (role.includes('developer-access')) {
+                    userProfile.isDeveloper = true;
+                }
+            });
+        }
+
+        this.oauthService.loadUserProfile().then(() => {
             this.userProfileSubject.next(userProfile);
         });
     }
@@ -255,20 +254,18 @@ export class AuthService {
         return !!this.oauthService.getIdToken();
     }
 
-    parseVosFromProfile(group_membership: string[]): string[] {
+    parseVosFromProfile(roles: string[]): string[] {
         const vos: string[] = [];
 
-        group_membership.forEach((vo) => {
-            const groupMatch = vo.match(
-                /^\/(Platform Access|Developer Access)\/([^/]+)/
+        roles.forEach((role) => {
+            const match = role.match(
+                /^(platform-access|developer-access):([^:]+)$/
             );
-            if (groupMatch) {
-                const voName = groupMatch[2];
+            if (match) {
+                const voName = match[2];
                 if (!vos.includes(voName)) {
                     vos.push(voName);
                 }
-            } else if (vo === '/Demo Access' && !vos.includes('demo')) {
-                vos.push('demo');
             }
         });
 
@@ -278,18 +275,16 @@ export class AuthService {
     parseRolesFromProfile(group_membership: string[]): string[] {
         const roles: string[] = [];
 
-        group_membership.forEach((e) => {
-            const groupMatch = e.match(
-                /^\/(Platform Access|Developer Access)\/([^/]+)/
+        group_membership.forEach((role) => {
+            const match = role.match(
+                /^(platform-access|developer-access)(?::([^:]+))?$/
             );
 
-            if (groupMatch) {
-                const accessType = groupMatch[1];
+            if (match) {
+                const accessType = match[1];
                 if (!roles.includes(accessType)) {
                     roles.push(accessType);
                 }
-            } else if (e === '/Demo Access' && !roles.includes('Demo Access')) {
-                roles.push('Demo Access');
             }
         });
 

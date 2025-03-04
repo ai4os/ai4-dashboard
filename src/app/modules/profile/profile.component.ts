@@ -105,8 +105,8 @@ export class ProfileComponent implements OnInit {
             this.email = profile.email;
             this.isAuthorized = profile.isAuthorized;
 
-            if (profile.group_membership) {
-                this.getVoInfo(profile.group_membership);
+            if (profile.roles) {
+                this.getVoInfo(profile.roles);
             }
 
             if (this.isAuthorized) {
@@ -117,16 +117,13 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    getVoInfo(group_membership: string[]) {
-        group_membership.forEach((e) => {
-            const groupMatch = e.match(
-                /^\/(Platform Access|Developer Access)\/([^/]+)/
-            );
+    getVoInfo(roles: string[]) {
+        roles.forEach((role) => {
+            const match = role.match(/^(platform-access|demo):([^:]+)$/);
 
-            if (groupMatch) {
-                const accessType = groupMatch[1]; // "Platform Access" or "Developer Access"
-                const voName = groupMatch[2]; // e.g. "vo.ai4eosc.eu"
-
+            if (match) {
+                const accessType = match[1]; // "platform-access", "developer-access", "demo"
+                const voName = match[2]; // e.g. "vo.ai4eosc.eu"
                 const index = this.vos.findIndex((v) => v.name === voName);
                 if (index === -1) {
                     this.vos.push({ name: voName, roles: [accessType] });
@@ -135,13 +132,12 @@ export class ProfileComponent implements OnInit {
                         this.vos[index].roles.push(accessType);
                     }
                 }
-            } else if (e === '/Demo Access') {
-                const demoIndex = this.vos.findIndex((v) => v.name === 'demo');
-                if (demoIndex === -1) {
-                    this.vos.push({ name: 'demo', roles: ['Demo Access'] });
-                }
             }
         });
+
+        if (roles.includes('developer-access')) {
+            this.vos.map((vo) => vo.roles.push('developer-access'));
+        }
     }
 
     getExistingRcloneCredentials() {
