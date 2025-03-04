@@ -233,9 +233,8 @@ export class GeneralConfFormComponent implements OnInit {
     }
 
     openCo2Docs(): void {
-        // TODO: update url
         const url =
-            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
+            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html#monitoring-of-training-co2-emissions';
         window.open(url);
     }
 }
