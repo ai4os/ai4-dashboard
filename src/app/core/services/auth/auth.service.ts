@@ -258,4 +258,37 @@ export class AuthService {
         });
         return foundRoles;
     }
+
+    /**
+     * Configure the oauth service, tries to login and saves the user profile for display.
+     *
+     *
+     * @memberof AuthService
+     */
+    configureOAuthService() {
+        this.oauthService.configure(authCodeFlowConfig);
+        this.oauthService.setupAutomaticSilentRefresh();
+        this.oauthService
+            .loadDiscoveryDocumentAndTryLogin()
+            .then((isLoggedIn) => {
+                if (isLoggedIn && this.isAuthenticated()) {
+                    if (this.oauthService.hasValidAccessToken()) {
+                        if (
+                            this.oauthService.state &&
+                            this.oauthService.state !== 'undefined' &&
+                            this.oauthService.state !== 'null'
+                        ) {
+                            let stateUrl = this.oauthService.state;
+                            if (stateUrl.startsWith('/') === false) {
+                                stateUrl = decodeURIComponent(stateUrl);
+                            }
+                            this.router.navigateByUrl(stateUrl);
+                        }
+                    } else {
+                        // Force logout as we have no access to refresh tokens without client secret
+                        this.logout();
+                    }
+                }
+            });
+    }
 }
