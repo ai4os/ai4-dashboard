@@ -80,4 +80,9 @@ export class AppConfigService {
         this.checkConfigFileLoaded();
         return this.appConfig.apiURL;
     }
+
+    get deployedInNomad() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.deployedInNomad;
+    }
 }

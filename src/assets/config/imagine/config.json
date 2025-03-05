@@ -62,5 +62,6 @@
     "analytics": {
         "domain": "dashboard.cloud.imagine-ai.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
-    }
+    },
+    "deployedInNomad": false
 }
