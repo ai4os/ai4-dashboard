@@ -43,6 +43,7 @@ export class Ai4lifeLoaderComponent {
     showGeneralFields: showGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
+        co2EmissionsInput: false,
         serviceToRunChip: false,
         serviceToRunPassInput: false,
         dockerImageInput: true,

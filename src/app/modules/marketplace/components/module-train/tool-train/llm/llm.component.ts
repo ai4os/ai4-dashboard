@@ -46,6 +46,7 @@ export class LlmComponent {
         cvatUsername: false,
         cvatPassword: false,
         modelId: false,
+        co2EmissionsInput: false,
     };
 
     showLlmFields: showLlmField = {

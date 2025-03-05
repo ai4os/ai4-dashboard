@@ -51,6 +51,7 @@ export class FederatedServerComponent implements OnInit {
         descriptionInput: true,
         serviceToRunChip: true,
         titleInput: true,
+        co2EmissionsInput: true,
         serviceToRunPassInput: true,
         dockerImageInput: true,
         dockerTagSelect: true,

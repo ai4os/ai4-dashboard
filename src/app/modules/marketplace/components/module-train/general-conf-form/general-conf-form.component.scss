@@ -2,6 +2,17 @@
     min-height: 575px;
 }
 
+.title-and-toggles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-and-info {
+    display: flex;
+    align-items: center;
+}
+
 .service-to-run-container {
     display: flex;
     justify-content: space-between;
