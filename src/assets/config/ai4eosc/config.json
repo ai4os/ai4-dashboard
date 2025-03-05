@@ -49,5 +49,8 @@
         "src": "https://stats.services.ai4os.eu/js/script.js"
     },
     "apiURL": "",
+    "issuer": "",
+    "clientId": "",
+    "dummyClientSecret": "",
     "deployedInNomad": false
 }

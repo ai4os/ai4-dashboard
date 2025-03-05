@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
+import {
+    OAuthEvent,
+    OAuthModuleConfig,
+    OAuthService,
+} from 'angular-oauth2-oidc';
 import { Subject, of } from 'rxjs';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -86,6 +90,8 @@ const mockedStatsService: any = {
     getClusterStats: jest.fn().mockReturnValue(of(mockedClusterStats)),
 };
 
+const mockedOAuthModuleConfig: any = {};
+
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
     let fixture: ComponentFixture<DashboardComponent>;
@@ -106,6 +112,10 @@ describe('DashboardComponent', () => {
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: StatsService, useValue: mockedStatsService },
+                {
+                    provide: OAuthModuleConfig,
+                    useValue: mockedOAuthModuleConfig,
+                },
             ],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
