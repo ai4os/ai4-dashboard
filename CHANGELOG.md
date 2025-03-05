@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-05)
+
+
+### Features
+
+* dashboard nomad deployment ([#349](https://github.com/ai4os/ai4-dashboard/issues/349)) ([ac58112](https://github.com/ai4os/ai4-dashboard/commit/ac581127a342526539304bbcfb256447dffda8f0))
+
 ## [3.0.1](https://github.com/ai4os/ai4-dashboard/compare/v3.0.0...v3.0.1) (2025-03-03)
 
 
