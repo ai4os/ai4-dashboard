@@ -98,6 +98,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             url: '',
         },
     ];
+    isDeployedInNomad = '';
 
     isLoggedIn(): boolean {
         return this.authService.isAuthenticated();
@@ -116,6 +117,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.projectUrl = this.appConfigService.projectUrl;
         this.voName = this.appConfigService.voName;
         this.legalLinks = this.appConfigService.legalLinks;
+        this.isDeployedInNomad = this.appConfigService.deployedInNomad;
     }
 
     updateMainLinks() {

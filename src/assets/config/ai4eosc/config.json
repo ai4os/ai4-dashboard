@@ -51,5 +51,6 @@
     "apiURL": "",
     "issuer": "",
     "clientId": "",
-    "dummyClientSecret": ""
+    "dummyClientSecret": "",
+    "deployedInNomad": false
 }

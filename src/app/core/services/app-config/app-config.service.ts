@@ -94,4 +94,9 @@ export class AppConfigService {
         this.checkConfigFileLoaded();
         return this.appConfig.dummyClientSecret;
     }
+
+    get deployedInNomad() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.deployedInNomad;
+    }
 }

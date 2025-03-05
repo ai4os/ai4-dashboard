@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.0.1](https://github.com/ai4os/ai4-dashboard/compare/v3.0.0...v3.0.1) (2025-03-03)
+
+
+### Bug Fixes
+
+* update vllm models url ([#343](https://github.com/ai4os/ai4-dashboard/issues/343)) ([a8d249a](https://github.com/ai4os/ai4-dashboard/commit/a8d249af4421cd000aabec8d777200e7f4d41508))
+
+## [3.0.0](https://github.com/ai4os/ai4-dashboard/compare/v2.37.1...v3.0.0) (2025-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* add vllm tool ([#342](https://github.com/ai4os/ai4-dashboard/issues/342))
+
+### Features
+
+* add auto scroll to the marketplace ([#340](https://github.com/ai4os/ai4-dashboard/issues/340)) ([1cdf93e](https://github.com/ai4os/ai4-dashboard/commit/1cdf93e273d95f6672d9ee753ec4a384cc01f582))
+* add vllm tool ([#342](https://github.com/ai4os/ai4-dashboard/issues/342)) ([3e038d9](https://github.com/ai4os/ai4-dashboard/commit/3e038d963a6b1cece9770d3b1ca8c73c1b7d111d))
+* integrate metric privacy fedserver ([#334](https://github.com/ai4os/ai4-dashboard/issues/334)) ([868e1b0](https://github.com/ai4os/ai4-dashboard/commit/868e1b0ce4d7dd03c2803ff820f7ed2130483319))
+
 ## [2.37.0](https://github.com/ai4os/ai4-dashboard/compare/v2.36.0...v2.37.0) (2025-02-19)
 
 

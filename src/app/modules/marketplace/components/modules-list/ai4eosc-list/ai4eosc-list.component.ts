@@ -26,10 +26,12 @@ export class Ai4eoscListComponent {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+        this.voName = this.appConfigService.voName;
     }
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
     searchFormGroup!: FormGroup;
+    voName = '';
 
     @Input() elements: ModuleSummary[] = [];
 

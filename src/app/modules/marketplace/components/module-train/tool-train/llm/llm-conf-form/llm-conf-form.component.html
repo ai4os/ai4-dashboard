@@ -1,0 +1,235 @@
+<form [formGroup]="llmConfFormGroup" class="llm-conf-form">
+    <h4>{{ 'MODULES.MODULE-TRAIN.LLM-CONF-FORM.TITLE' | translate }}</h4>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        @if (_showFields.type) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.TYPE' | translate
+                }}</mat-label>
+
+                <mat-select formControlName="deploymentTypeSelect">
+                    <mat-option
+                        *ngFor="
+                            let deploymentTypeOption of deploymentTypeOptions
+                        "
+                        [value]="deploymentTypeOption.value"
+                    >
+                        {{ deploymentTypeOption.viewValue }}
+                    </mat-option>
+                </mat-select>
+
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.type.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+
+        @if (
+            _showFields.model_id &&
+            (this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                'both' ||
+                this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                    'vllm')
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.VLLM-MODEL' | translate
+                }}</mat-label>
+                <mat-select
+                    formControlName="vllmModelSelect"
+                    (selectionChange)="modelChanged()"
+                >
+                    <mat-option
+                        *ngFor="let vllModel of vllmModelOptions"
+                        [value]="vllModel.value"
+                    >
+                        {{ vllModel.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.model_id.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+
+        @if (
+            _showFields.ui_password &&
+            (this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                'both' ||
+                this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                    'open-webui')
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME'
+                        | translate
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="text"
+                    formControlName="uiUsernameInput"
+                />
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.UI-PASSWORD' | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    formControlName="uiPasswordInput"
+                    [type]="hideUiPassword ? 'password' : 'text'"
+                />
+                <mat-icon
+                    matSuffix
+                    (click)="hideUiPassword = !hideUiPassword"
+                    color="accent"
+                >
+                    {{ hideUiPassword ? 'visibility_off' : 'visibility' }}
+                </mat-icon>
+                <mat-error
+                    *ngIf="
+                        llmConfFormGroup.get('uiPasswordInput')?.errors?.[
+                            'required'
+                        ]
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.LLM-CONF-FORM.UI-PASSWORD-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.ui_password.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+
+        @if (
+            _showFields.openai_api_url &&
+            this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                'open-webui'
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-URL' | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="string"
+                    formControlName="openaiApiUrlInput"
+                />
+                @if (
+                    llmConfFormGroup.get('openaiApiUrlInput')?.errors?.[
+                        'required'
+                    ]
+                ) {
+                    <mat-error>
+                        {{
+                            'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-URL-REQUIRED'
+                                | translate
+                        }}
+                    </mat-error>
+                } @else if (
+                    llmConfFormGroup
+                        .get('openaiApiUrlInput')
+                        ?.hasError('invalidURL')
+                ) {
+                    <mat-error>
+                        {{
+                            'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-URL-FORMAT'
+                                | translate
+                        }}
+                    </mat-error>
+                }
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.openai_api_url.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+
+        @if (
+            _showFields.openai_api_key &&
+            this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                'open-webui'
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-KEY' | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="string"
+                    formControlName="openaiApiKeyInput"
+                />
+                <mat-error
+                    *ngIf="
+                        llmConfFormGroup.get('openaiApiKeyInput')?.errors?.[
+                            'required'
+                        ]
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.LLM-CONF-FORM.API-KEY-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.openai_api_key.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+
+        @if (
+            _showFields.HF_token &&
+            modelNeedsToken &&
+            (this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                'both' ||
+                this.llmConfFormGroup.get('deploymentTypeSelect')?.value ===
+                    'vllm')
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'MODULES.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN'
+                        | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    placeholder=""
+                    value=""
+                    type="string"
+                    formControlName="huggingFaceTokenInput"
+                />
+                <mat-error
+                    *ngIf="
+                        llmConfFormGroup.get('huggingFaceTokenInput')?.errors?.[
+                            'required'
+                        ]
+                    "
+                >
+                    {{
+                        'MODULES.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN-REQUIRED'
+                            | translate
+                    }}
+                </mat-error>
+                <mat-hint *ngIf="_showHelp">{{
+                    _defaultFormValues.HF_token.description
+                }}</mat-hint>
+            </mat-form-field>
+        }
+    </div>
+</form>

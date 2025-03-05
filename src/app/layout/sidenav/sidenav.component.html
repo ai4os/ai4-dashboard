@@ -137,6 +137,23 @@
         (scroll)="checkScroll($event)"
     >
         <app-top-navbar class="top-navbar"></app-top-navbar>
+        @if (isDeployedInNomad) {
+            <div class="nomad-banner">
+                <mat-icon class="icon">warning</mat-icon>
+
+                <div
+                    [innerHTML]="
+                        'ERRORS.DEPLOYED-IN-NOMAD'
+                            | translate
+                                : {
+                                      voName: this.voName,
+                                      statusURL: 'https://status.ai4eosc.eu/',
+                                  }
+                    "
+                ></div>
+                <mat-icon class="icon">warning</mat-icon>
+            </div>
+        }
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
