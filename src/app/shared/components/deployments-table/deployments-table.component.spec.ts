@@ -6,6 +6,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
+import { TranslateModule } from '@ngx-translate/core';
 
 const deploymentRow = {
     uuid: 'module-test',
@@ -44,6 +45,7 @@ describe('DeploymentsTableComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
+            imports: [TranslateModule.forRoot()],
             declarations: [DeploymentsTableComponent],
             providers: [
                 provideHttpClient(),
