@@ -47,7 +47,10 @@ export class NotificationsButtonComponent implements OnInit {
                             this.notifications.push(notification);
                         }
                     });
-                    this.filterByDateAndVo(this.notifications);
+                    this.displayedNotifications =
+                        this.platformStatusService.filterByDateAndVo(
+                            this.notifications
+                        );
                 } else {
                     this.notifications = [];
                 }
@@ -58,28 +61,6 @@ export class NotificationsButtonComponent implements OnInit {
                     'Error retrieving the platform notifications'
                 );
             },
-        });
-    }
-
-    filterByDateAndVo(notifications: StatusNotification[]) {
-        const now = new Date().getTime();
-        notifications.forEach((n) => {
-            // filter by vo
-            if (
-                (n.vo !== '' && n.vo === this.appConfigService.voName) ||
-                n.vo === null
-            ) {
-                // filter by date
-                if (n.start && n.end) {
-                    n.start = new Date(n.start);
-                    n.end = new Date(n.end);
-                    if (n.start.getTime() <= now && n.end.getTime() > now) {
-                        this.displayedNotifications.push(n);
-                    }
-                } else {
-                    this.displayedNotifications.push(n);
-                }
-            }
         });
     }
 }

@@ -13,4 +13,7 @@ export interface StatusNotification {
     summary?: string;
     start?: Date;
     end?: Date;
+    downtimeStart?: Date;
+    downtimeEnd?: Date;
+    datacenters?: string[];
 }
