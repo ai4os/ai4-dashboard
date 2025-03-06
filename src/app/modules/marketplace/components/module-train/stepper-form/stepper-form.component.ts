@@ -95,6 +95,7 @@ export class StepperFormComponent implements OnInit {
                         })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
+                co2: this.step1Form.value.generalConfForm.co2EmissionsInput,
                 docker_image:
                     this.step1Form.getRawValue().generalConfForm
                         .dockerImageInput,

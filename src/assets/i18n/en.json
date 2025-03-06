@@ -281,6 +281,7 @@
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
                 "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
+                "CO2": "Monitor CO2 emissions",
                 "SERVICE-TO-RUN": "Service to run",
                 "PASSWORD": "Password",
                 "JUPYTERLAB-PASS": "JupyterLab password",
