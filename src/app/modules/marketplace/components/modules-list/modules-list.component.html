@@ -1,7 +1,9 @@
 <div class="content">
     <ng-container *ngIf="mobileQuery.matches; else desktop">
         <mat-toolbar class="mb-3 marketplace-toolbar mobile">
-            <span>Marketplace <mat-icon>shopping_cart</mat-icon></span>
+            <span class="aligned-with-icon"
+                >Marketplace <mat-icon>shopping_cart</mat-icon></span
+            >
         </mat-toolbar>
     </ng-container>
 

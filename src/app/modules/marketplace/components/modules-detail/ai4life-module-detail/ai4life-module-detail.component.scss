@@ -135,6 +135,7 @@ mat-card-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    word-break: break-all;
 }
 
 mat-card-subtitle {

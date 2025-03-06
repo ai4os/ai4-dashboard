@@ -26,8 +26,8 @@
 .mobile {
     display: flex;
     flex-direction: column;
-    padding: 0;
-    row-gap: 0.5em;
+    padding: 0 16px;
+    margin-bottom: 0px !important;
 }
 
 .marketplaces-container {
