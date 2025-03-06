@@ -38,7 +38,7 @@ export class PlatformStatusService {
     filterByDateAndVo(
         notifications: StatusNotification[]
     ): StatusNotification[] {
-        let displayedNotifications: StatusNotification[] = [];
+        const displayedNotifications: StatusNotification[] = [];
         const now = new Date().getTime();
         notifications.forEach((n) => {
             // filter by vo

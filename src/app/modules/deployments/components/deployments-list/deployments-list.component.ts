@@ -159,15 +159,15 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getDeployments())
             )
             .subscribe((deploymentsList: Deployment[]) => {
-                let updatedModulesDataset: Array<DeploymentTableRow> = [];
+                const updatedModulesDataset: Array<DeploymentTableRow> = [];
                 this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
                     const containerName = deployment.docker_image.includes(
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                              'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
-                          ) + deployment.docker_image.split(':')[1]
+                            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                        ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,
@@ -244,7 +244,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getTools())
             )
             .subscribe((tools) => {
-                let updatedToolsDataset: Array<DeploymentTableRow> = [];
+                const updatedToolsDataset: Array<DeploymentTableRow> = [];
                 this.isToolsTableLoading = false;
                 tools.forEach((tool: Deployment) => {
                     const row: DeploymentTableRow = {
