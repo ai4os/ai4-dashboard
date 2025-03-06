@@ -30,7 +30,6 @@ export class AppConfigService {
         }
     }
 
-    // This is an example property ... you can make it however you want.
     get title() {
         this.checkConfigFileLoaded();
         return this.appConfig.title;
@@ -79,6 +78,21 @@ export class AppConfigService {
     get apiURL() {
         this.checkConfigFileLoaded();
         return this.appConfig.apiURL;
+    }
+
+    get issuer() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.issuer;
+    }
+
+    get clientId() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.clientId;
+    }
+
+    get dummyClientSecret() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.dummyClientSecret;
     }
 
     get deployedInNomad() {
