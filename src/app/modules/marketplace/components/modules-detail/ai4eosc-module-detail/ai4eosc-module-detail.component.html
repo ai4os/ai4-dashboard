@@ -84,7 +84,7 @@
                 <button mat-menu-item [disabled]="true" style="display: none">
                     <span class="button-with-icon">
                         <img
-                            src="../../../../../assets/images/swagger-logo.svg"
+                            src="../../../../../assets/images/module-detail/swagger-logo.svg"
                         />
                         <div class="button-texts">
                             <b>
@@ -160,7 +160,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/nomad-icon.svg"
+                                src="../../../../../assets/images/module-detail/nomad-icon.svg"
                             />
                             <div class="button-texts">
                                 <b>
@@ -189,7 +189,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/im-logo.png"
+                                src="../../../../../assets/images/module-detail/im-logo.png"
                             />
                             <div class="button-texts">
                                 <b>
@@ -234,7 +234,7 @@
                     <button mat-menu-item (click)="trainModule('jupyter')">
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/jupyter-logo.png"
+                                src="../../../../../assets/images/module-detail/jupyter-logo.png"
                             />
                             <div class="button-texts">
                                 <b>
@@ -253,7 +253,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/vscode-logo.png"
+                                src="../../../../../assets/images/module-detail/vscode-logo.png"
                             />
                             <div class="button-texts">
                                 <b>
@@ -413,7 +413,9 @@
                         <app-chip-with-icon
                             *ngFor="let tag of module.tags"
                             text="{{ tag }}"
-                            [image]="'../../../assets/images/tag.png'"
+                            [image]="
+                                '../../../assets/images/module-detail/tag.png'
+                            "
                             chipStyle="default"
                         ></app-chip-with-icon>
                     </div>
@@ -448,7 +450,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/github-icon.png"
+                                    src="../../../../../assets/images/module-detail/github-icon.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.GITHUB' | translate }}
                             </span>
@@ -462,7 +464,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/github-icon.png"
+                                    src="../../../../../assets/images/module-detail/github-icon.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.REPORT-ISSUE' | translate }}
                             </span>
@@ -476,7 +478,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/database.png"
+                                    src="../../../../../assets/images/module-detail/database.png"
                                 />
                                 {{
                                     'MODULES.MODULE-DETAIL.ADDITIONAL-RESOURCES.DATASET'
@@ -496,7 +498,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/dockerhub.png"
+                                    src="../../../../../assets/images/module-detail/dockerhub.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}
                             </span>
