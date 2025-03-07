@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     PlatformStatus,
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
+import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-sanitizer.service';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import * as yaml from 'js-yaml';
@@ -15,9 +17,9 @@ import * as yaml from 'js-yaml';
 })
 export class NotificationsButtonComponent implements OnInit {
     constructor(
-        private platformStatusService: PlatformStatusService,
-        private appConfigService: AppConfigService,
-        private snackbarService: SnackbarService
+        protected platformStatusService: PlatformStatusService,
+        private snackbarService: SnackbarService,
+        protected htmlSanitizerService: HtmlSanitizerService
     ) {}
 
     notifications: StatusNotification[] = [];

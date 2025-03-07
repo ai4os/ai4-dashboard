@@ -5,7 +5,8 @@ import {
     PlatformStatus,
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
-import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -13,19 +14,46 @@ import { Observable } from 'rxjs';
 export class PlatformStatusService {
     constructor(
         private appConfigService: AppConfigService,
+        private translateService: TranslateService,
         private http: HttpClient
     ) {}
 
     getPlatformPopup(): Observable<PlatformStatus[]> {
         const url =
-            'https://api.github.com/repos/AI4EOSC/status/issues?state=open&filter=all&sort=created&direction=desc&labels=dashboard-popup';
-        return this.http.get<Array<PlatformStatus>>(url);
+            'https://api.github.com/repos/AI4EOSC/status/issues?state=open&filter=all&sort=created&direction=desc';
+
+        return this.http
+            .get<PlatformStatus[]>(url)
+            .pipe(
+                map((issues) =>
+                    issues.filter((issue) =>
+                        issue.labels.some(
+                            (label) =>
+                                label.name === 'dashboard-popup' ||
+                                label.name === 'nomad-maintenance'
+                        )
+                    )
+                )
+            );
     }
 
     getPlatformNotifications(): Observable<PlatformStatus[]> {
         const url =
-            'https://api.github.com/repos/AI4EOSC/status/issues?state=open&filter=all&sort=created&direction=desc&labels=dashboard-notification';
-        return this.http.get<Array<PlatformStatus>>(url);
+            'https://api.github.com/repos/AI4EOSC/status/issues?state=open&filter=all&sort=created&direction=desc';
+
+        return this.http
+            .get<PlatformStatus[]>(url)
+            .pipe(
+                map((issues) =>
+                    issues.filter((issue) =>
+                        issue.labels.some(
+                            (label) =>
+                                label.name === 'dashboard-notification' ||
+                                label.name === 'nomad-maintenance'
+                        )
+                    )
+                )
+            );
     }
 
     getNomadClusterNotifications(): Observable<PlatformStatus[]> {
@@ -59,5 +87,21 @@ export class PlatformStatusService {
             }
         });
         return displayedNotifications;
+    }
+
+    getMaintenanceInfo(notification: StatusNotification): string {
+        return (
+            '\n' +
+            this.translateService.instant(
+                'DEPLOYMENTS.DATACENTER-DOWNTIME-DESC',
+                {
+                    datacenters: notification.datacenters,
+                    startDate:
+                        notification.downtimeStart?.toLocaleDateString('es-ES'),
+                    endDate:
+                        notification.downtimeEnd?.toLocaleDateString('es-ES'),
+                }
+            )
+        );
     }
 }

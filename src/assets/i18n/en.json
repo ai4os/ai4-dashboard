@@ -144,7 +144,8 @@
         "NAMESPACE": "Namespace",
         "NEW-DEPLOYMENT": "New deployment",
         "NO-DEPLOYMENTS": "Nothing deployed yet",
-        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
+        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
+        "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",

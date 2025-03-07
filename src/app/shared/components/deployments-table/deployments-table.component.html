@@ -32,6 +32,12 @@
                         [ngClass]="{
                             'content-cell': column.columnDef === 'actions',
                         }"
+                        [matTooltip]="getMaintenanceInfo(row)"
+                        matTooltipPosition="right"
+                        [matTooltipDisabled]="
+                            column.columnDef !== 'name' ||
+                            !hasDatacenterUnderMaintenance(row)
+                        "
                     >
                         <div
                             *ngIf="column.columnDef === 'actions'"
@@ -148,11 +154,6 @@
                                 matBadgeColor="warn"
                                 matBadgeOverlap="false"
                                 [matBadgeHidden]="
-                                    !hasDatacenterUnderMaintenance(row)
-                                "
-                                [matTooltip]="getMaintenanceInfo(row)"
-                                matTooltipPosition="right"
-                                [matTooltipDisabled]="
                                     !hasDatacenterUnderMaintenance(row)
                                 "
                             >
