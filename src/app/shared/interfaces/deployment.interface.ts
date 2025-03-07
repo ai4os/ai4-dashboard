@@ -49,6 +49,7 @@ export interface DeploymentTableRow {
     error_msg?: string;
     description?: string;
     snapshot_ID?: string;
+    datacenter?: string;
 }
 
 export interface Snapshot {

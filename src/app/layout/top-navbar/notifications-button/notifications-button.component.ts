@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     PlatformStatus,
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
+import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-sanitizer.service';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import * as yaml from 'js-yaml';
@@ -15,9 +17,9 @@ import * as yaml from 'js-yaml';
 })
 export class NotificationsButtonComponent implements OnInit {
     constructor(
-        private platformStatusService: PlatformStatusService,
-        private appConfigService: AppConfigService,
-        private snackbarService: SnackbarService
+        protected platformStatusService: PlatformStatusService,
+        private snackbarService: SnackbarService,
+        protected htmlSanitizerService: HtmlSanitizerService
     ) {}
 
     notifications: StatusNotification[] = [];
@@ -47,7 +49,10 @@ export class NotificationsButtonComponent implements OnInit {
                             this.notifications.push(notification);
                         }
                     });
-                    this.filterByDateAndVo(this.notifications);
+                    this.displayedNotifications =
+                        this.platformStatusService.filterByDateAndVo(
+                            this.notifications
+                        );
                 } else {
                     this.notifications = [];
                 }
@@ -58,28 +63,6 @@ export class NotificationsButtonComponent implements OnInit {
                     'Error retrieving the platform notifications'
                 );
             },
-        });
-    }
-
-    filterByDateAndVo(notifications: StatusNotification[]) {
-        const now = new Date().getTime();
-        notifications.forEach((n) => {
-            // filter by vo
-            if (
-                (n.vo !== '' && n.vo === this.appConfigService.voName) ||
-                n.vo === null
-            ) {
-                // filter by date
-                if (n.start && n.end) {
-                    n.start = new Date(n.start);
-                    n.end = new Date(n.end);
-                    if (n.start.getTime() <= now && n.end.getTime() > now) {
-                        this.displayedNotifications.push(n);
-                    }
-                } else {
-                    this.displayedNotifications.push(n);
-                }
-            }
         });
     }
 }

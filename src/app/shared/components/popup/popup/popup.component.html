@@ -3,7 +3,7 @@
     {{ data.title }}
 </h1>
 <div mat-dialog-content>
-    <p>{{ data.summary }}</p>
+    <p [innerHTML]="htmlSanitizerService.getSanitizedText(data.summary)"></p>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button mat-dialog-close>Close</button>

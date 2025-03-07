@@ -13,6 +13,7 @@
         [isLoading]="isModulesTableLoading"
         [dataset]="modulesDataset"
         [dataSource]="modulesDataSource"
+        [datacentersNotifications]="displayedNotifications"
         (showElementInfo)="openDeploymentDetailDialog($event, false)"
         (deleteElement)="removeModule($event)"
     ></app-deployments-table>
@@ -24,6 +25,7 @@
         deploymentType="tool"
         [dataset]="toolsDataset"
         [dataSource]="toolsDataSource"
+        [datacentersNotifications]="displayedNotifications"
         (showElementInfo)="openDeploymentDetailDialog($event, true)"
         (deleteElement)="removeTool($event)"
     ></app-deployments-table>

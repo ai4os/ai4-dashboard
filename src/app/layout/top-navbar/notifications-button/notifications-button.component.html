@@ -74,7 +74,25 @@
                     role="region"
                     [style.display]="accordionItem.expanded ? '' : 'none'"
                 >
-                    <i class="grey-text">{{ notification.summary }}</i>
+                    <i
+                        class="grey-text"
+                        [innerHTML]="
+                            htmlSanitizerService.getSanitizedText(
+                                notification.summary!
+                            )
+                        "
+                    ></i>
+                    @if (
+                        notification.downtimeStart &&
+                        notification.downtimeEnd &&
+                        notification.datacenters
+                    ) {
+                        <i class="grey-text">{{
+                            platformStatusService.getMaintenanceInfo(
+                                notification
+                            )
+                        }}</i>
+                    }
                 </div>
             </cdk-accordion-item>
         </cdk-accordion>
