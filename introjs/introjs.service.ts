@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from '@app/core/services/auth/auth.service';
 import introJs from 'intro.js';
 
 @Injectable({
     providedIn: 'root',
 })
 export class IntroJSService {
-    constructor() {}
+    constructor(protected authService: AuthService) {}
 
     introJS = introJs();
 
@@ -15,7 +16,10 @@ export class IntroJSService {
 
     // New LLM tool
     llmTool() {
-        if (this.checkIfTourHasShown('llmToolTour') === 'true') {
+        if (
+            this.checkIfTourHasShown('llmToolTour') === 'true' ||
+            !this.isLoggedIn()
+        ) {
             return;
         }
 
@@ -43,5 +47,9 @@ export class IntroJSService {
         this.introJS.oncomplete(() => {
             localStorage.setItem('llmToolTour', 'true');
         });
+    }
+
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
     }
 }
