@@ -90,6 +90,8 @@ export class AuthService {
 
         // Some OICD providers only have issuer and clientId (EGI CheckIn)
         if (
+            this.appConfigService.issuer &&
+            this.appConfigService.clientId &&
             this.appConfigService.issuer !== '' &&
             this.appConfigService.clientId !== ''
         ) {
@@ -98,7 +100,10 @@ export class AuthService {
         }
 
         // Others also need a dummyClientSecret (Keycloak)
-        if (this.appConfigService.dummyClientSecret !== '') {
+        if (
+            this.appConfigService.dummyClientSecret &&
+            this.appConfigService.dummyClientSecret !== ''
+        ) {
             authCodeFlowConfig.dummyClientSecret =
                 this.appConfigService.dummyClientSecret;
         }
