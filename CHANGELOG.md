@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
+
+
+### Features
+
+* add cluster maintenance notifications ([#352](https://github.com/ai4os/ai4-dashboard/issues/352)) ([911f788](https://github.com/ai4os/ai4-dashboard/commit/911f788d3b6842f547e846e53ac37bca6a5b5323))
+* dashboard nomad deployment ([#349](https://github.com/ai4os/ai4-dashboard/issues/349)) ([ac58112](https://github.com/ai4os/ai4-dashboard/commit/ac581127a342526539304bbcfb256447dffda8f0))
+* monitor co2 emissions fedserver ([#348](https://github.com/ai4os/ai4-dashboard/issues/348)) ([9b2ef2b](https://github.com/ai4os/ai4-dashboard/commit/9b2ef2b12ff2f851f02a681cba361f56d7f663bc))
+* support for custom auth config ([#350](https://github.com/ai4os/ai4-dashboard/issues/350)) ([152078a](https://github.com/ai4os/ai4-dashboard/commit/152078acb734543939441ed5d48bd2a252c68381))
+
+
+### Bug Fixes
+
+* show on boarding tours only to logged users ([#355](https://github.com/ai4os/ai4-dashboard/issues/355)) ([0bd6aca](https://github.com/ai4os/ai4-dashboard/commit/0bd6acaf8ae1b0b0d6de9394899c67e9bf6e9ead))
+
 ## [3.0.1](https://github.com/ai4os/ai4-dashboard/compare/v3.0.0...v3.0.1) (2025-03-03)
 
 
