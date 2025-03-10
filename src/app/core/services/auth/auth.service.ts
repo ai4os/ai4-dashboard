@@ -226,12 +226,22 @@ export class AuthService {
         }
         this.router.navigateByUrl('/marketplace');
 
-        // do not remove 'on boarding library' related variables
-        const tourName = 'llmToolTour';
-        const value = localStorage.getItem('llmToolTour');
+        // save 'on boarding library' related variables
+        const tours: { [key: string]: string | null } = {};
+        for (const key of Object.keys(localStorage)) {
+            if (key.endsWith('Tour')) {
+                tours[key] = localStorage.getItem(key);
+            }
+        }
+
+        // clear all local storage variables
         localStorage.clear();
-        if (value) {
-            localStorage.setItem(tourName, value);
+
+        // restore 'on boarding library' related variables
+        for (const [key, value] of Object.entries(tours)) {
+            if (value !== null) {
+                localStorage.setItem(key, value);
+            }
         }
     }
 
