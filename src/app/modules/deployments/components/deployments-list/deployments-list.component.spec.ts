@@ -145,6 +145,7 @@ describe('DeploymentsListComponent', () => {
                 endpoints: undefined,
                 mainEndpoint: '',
                 error_msg: 'Test error',
+                datacenter: '',
             },
             {
                 uuid: 'module-test2',
@@ -156,6 +157,7 @@ describe('DeploymentsListComponent', () => {
                 endpoints: undefined,
                 mainEndpoint: '',
                 error_msg: 'Test error',
+                datacenter: '',
             },
         ];
 
@@ -170,6 +172,7 @@ describe('DeploymentsListComponent', () => {
                 endpoints: undefined,
                 mainEndpoint: '',
                 error_msg: 'Test error',
+                datacenter: '',
             },
             {
                 uuid: 'tool-test2',
@@ -181,6 +184,7 @@ describe('DeploymentsListComponent', () => {
                 endpoints: undefined,
                 mainEndpoint: '',
                 error_msg: 'Test error',
+                datacenter: '',
             },
         ];
 

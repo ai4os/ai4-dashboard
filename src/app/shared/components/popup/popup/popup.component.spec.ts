@@ -4,6 +4,11 @@ import { PopupComponent } from './popup.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-sanitizer.service';
+
+const mockedHtmlSanitizerService: any = {
+    getSanitizedText: jest.fn(),
+};
 
 describe('PopupComponent', () => {
     let component: PopupComponent;
@@ -16,6 +21,10 @@ describe('PopupComponent', () => {
             providers: [
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MatDialogRef, useValue: {} },
+                {
+                    provide: HtmlSanitizerService,
+                    useValue: mockedHtmlSanitizerService,
+                },
             ],
         }).compileComponents();
 

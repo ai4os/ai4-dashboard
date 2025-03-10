@@ -89,6 +89,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
     openPopup(statusNotification: StatusNotification) {
         const width = this.mobileQuery.matches ? '300px' : '650px';
+        if (
+            statusNotification.downtimeStart &&
+            statusNotification.downtimeEnd &&
+            statusNotification.datacenters
+        ) {
+            statusNotification.summary = statusNotification.summary?.concat(
+                this.platformStatusService.getMaintenanceInfo(
+                    statusNotification
+                )
+            );
+        }
         this.dialog.open(PopupComponent, {
             data: {
                 title: statusNotification.title,
