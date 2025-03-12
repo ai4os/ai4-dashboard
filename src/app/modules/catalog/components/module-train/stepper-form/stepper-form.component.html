@@ -1,0 +1,136 @@
+<mat-toolbar class="title">
+    <h4>
+        {{ 'CATALOG.MODULE-TRAIN.TITLE' | translate }}:
+        <strong>{{ title }}</strong>
+    </h4>
+</mat-toolbar>
+
+<form class="example-form" [formGroup]="showHelpForm" ngNativeValidate>
+    <div
+        [ngClass]="{
+            'grid-1-column': mobileQuery.matches,
+            'breadcrumbs-and-help-container': !mobileQuery.matches,
+        }"
+    >
+        <xng-breadcrumb
+            [ngClass]="{
+                'mobile-breadcrumb': mobileQuery.matches,
+                'mb-3': !mobileQuery.matches,
+            }"
+        ></xng-breadcrumb>
+        <mat-slide-toggle
+            *ngIf="!mobileQuery.matches"
+            color="accent"
+            formControlName="showHelpToggleButton"
+            #showHelpToggle
+            (change)="showHelpButtonChange($event)"
+        >
+            Show help
+        </mat-slide-toggle>
+    </div>
+</form>
+
+<div *ngIf="isLoading; else stepper" class="spinner">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</div>
+<ng-template #stepper>
+    <mat-stepper
+        [orientation]="getStepperOrientation()"
+        linear
+        #stepper
+        class="mb-4"
+    >
+        <mat-step [stepControl]="step1Form">
+            <ng-template matStepLabel>{{ step1Title | translate }}</ng-template>
+            <ng-container [ngTemplateOutlet]="step1"></ng-container>
+            <div
+                [ngClass]="{
+                    'next-back-buttons-mobile': mobileQuery.matches,
+                    'next-back-buttons': !mobileQuery.matches,
+                }"
+            >
+                <button
+                    mat-raised-button
+                    class="mr-2"
+                    (click)="submitTrainingRequest()"
+                    [disabled]="
+                        !checkFormValidity(step1Form) ||
+                        !checkFormValidity(step2Form) ||
+                        (step3Form && !checkFormValidity(step3Form))
+                    "
+                >
+                    {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
+                </button>
+                <button
+                    type="button"
+                    mat-raised-button
+                    matStepperNext
+                    color="accent"
+                    [disabled]="!step1Form.valid"
+                >
+                    {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                </button>
+            </div>
+        </mat-step>
+        <mat-step [stepControl]="step2Form">
+            <ng-template matStepLabel>{{ step2Title | translate }}</ng-template>
+            <ng-container [ngTemplateOutlet]="step2"></ng-container>
+            <div
+                [ngClass]="{
+                    'next-back-buttons-mobile': mobileQuery.matches,
+                    'next-back-buttons': !mobileQuery.matches,
+                }"
+            >
+                <ng-container
+                    *ngIf="numberOfSteps === 2; else middleStepButtons"
+                >
+                    <button mat-raised-button matStepperPrevious class="mr-2">
+                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                    </button>
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="submitTrainingRequest()"
+                        [disabled]="!checkFormValidity(step2Form!)"
+                    >
+                        {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                    </button>
+                </ng-container>
+                <ng-template #middleStepButtons>
+                    <button mat-raised-button matStepperPrevious class="mr-2">
+                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                    </button>
+
+                    <button mat-raised-button matStepperNext color="accent">
+                        {{ 'GENERAL-BUTTONS.NEXT' | translate }}
+                    </button>
+                </ng-template>
+            </div>
+        </mat-step>
+        <mat-step *ngIf="numberOfSteps === 3">
+            <ng-template matStepLabel>{{
+                step3Title! | translate
+            }}</ng-template>
+            <ng-container [ngTemplateOutlet]="step3"></ng-container>
+            <div
+                [ngClass]="{
+                    'next-back-buttons-mobile': mobileQuery.matches,
+                    'next-back-buttons': !mobileQuery.matches,
+                }"
+            >
+                <button mat-raised-button matStepperPrevious class="mr-2">
+                    {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                </button>
+                <button
+                    mat-raised-button
+                    color="accent"
+                    (click)="submitTrainingRequest()"
+                    [disabled]="!checkFormValidity(step3Form!)"
+                >
+                    {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                </button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</ng-template>

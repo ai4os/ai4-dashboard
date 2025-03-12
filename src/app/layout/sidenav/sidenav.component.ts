@@ -66,34 +66,34 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     catalogLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.MODULES',
-            url: '/marketplace/modules',
+            url: '/catalog/modules',
         },
         {
             name: 'SIDENAV.TOOLS',
-            url: '/marketplace/tools',
+            url: '/catalog/tools',
         },
         {
             name: 'SIDENAV.LLMS',
-            url: '/marketplace/llms',
+            url: '/catalog/llms',
         },
     ];
 
     runtimeLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.TRY-ME',
-            url: '/try-me',
+            url: '/runtimes/try-me',
             isRestricted: true,
             isDisabled: !this.isLoggedIn(),
         },
         {
             name: 'SIDENAV.DEPLOYMENTS',
-            url: '/deployments',
+            url: '/runtimes/deployments',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
         },
         {
             name: 'SIDENAV.INFERENCE',
-            url: '/inference',
+            url: '/runtimes/inference',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
         },
@@ -159,15 +159,15 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
     checkScroll(event: Event) {
         const target = event.target as HTMLElement;
-        const href = window.location.href;
-        const marketplaceRegex = /\/marketplace$/;
-        const marketplaceElementRegex = /\/marketplace\//;
+        const href = window.location.pathname;
+        const catalogRegex = /^\/catalog\/[^/]+$/; // e.g. /catalog/<category>
+        const catalogElementRegex = /^\/catalog\/[^/]+\/[^/]+$/; // e.g. /catalog/<category>/<element>
 
-        // if the user has scrolled and the page is the main marketplace (/marketplace)
-        if (target.scrollTop !== 0 && marketplaceRegex.test(href)) {
+        // if the user has scrolled and the page is the main catalog (/catalog/<category>)
+        if (target.scrollTop !== 0 && catalogRegex.test(href)) {
             sessionStorage.setItem('scrollTop', target.scrollTop.toString());
-            // if the page is a module detail (/marketplace/*)
-        } else if (!marketplaceElementRegex.test(href)) {
+            // if the page is a module detail (/catalog/<category>/<element>)
+        } else if (!catalogElementRegex.test(href)) {
             sessionStorage.setItem('scrollTop', '0');
         }
     }

@@ -262,7 +262,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         sessionStorage.setItem('deploymentType', this.deploymentType);
         sessionStorage.setItem('deploymentRow', JSON.stringify(row));
-        this.router.navigate(['/marketplace/modules/snapshots/deploy']);
+        this.router.navigate(['/catalog/modules/snapshots/deploy']);
     }
 
     isSticky(columnDef: string): boolean {

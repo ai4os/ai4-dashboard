@@ -7,11 +7,10 @@ const routes: Routes = [
     {
         path: '',
         component: ContentLayoutComponent,
-        //canActivate: [NoAuthGuard], // Should be replaced with actual auth guard
         children: [
             {
                 path: '',
-                redirectTo: 'marketplace',
+                redirectTo: '/catalog/modules',
                 pathMatch: 'full',
             },
             {
@@ -22,35 +21,40 @@ const routes: Routes = [
                     ),
             },
             {
-                path: 'marketplace',
+                path: 'catalog',
                 loadChildren: () =>
-                    import('@modules/marketplace/marketplace.module').then(
-                        (m) => m.MarketplaceModule
+                    import('@app/modules/catalog/catalog.module').then(
+                        (m) => m.CatalogModule
                     ),
             },
             {
-                path: 'deployments',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () =>
-                    import('@modules/deployments/deployments.module').then(
-                        (m) => m.DeploymentsModule
-                    ),
-            },
-            {
-                path: 'inference',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () =>
-                    import('@app/modules/inference/inference.module').then(
-                        (m) => m.InferenceModule
-                    ),
-            },
-            {
-                path: 'try-me',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () =>
-                    import('@app/modules/try-me/try-me.module').then(
-                        (m) => m.TryMeModule
-                    ),
+                path: 'runtimes',
+                children: [
+                    {
+                        path: 'deployments',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import(
+                                '@modules/deployments/deployments.module'
+                            ).then((m) => m.DeploymentsModule),
+                    },
+                    {
+                        path: 'inference',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import(
+                                '@app/modules/inference/inference.module'
+                            ).then((m) => m.InferenceModule),
+                    },
+                    {
+                        path: 'try-me',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import('@app/modules/try-me/try-me.module').then(
+                                (m) => m.TryMeModule
+                            ),
+                    },
+                ],
             },
             {
                 path: 'forbidden',

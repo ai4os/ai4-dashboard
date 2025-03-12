@@ -229,7 +229,7 @@ export class AuthService {
         if (this.oauthService.hasValidIdToken()) {
             this.oauthService.logOut(true);
         }
-        this.router.navigateByUrl('/marketplace');
+        this.router.navigateByUrl('/catalog/modules');
 
         // save 'on boarding library' related variables
         const tours: { [key: string]: string | null } = {};

@@ -200,8 +200,10 @@
             }
         }
     },
-    "MODULES": {
-        "TITLE": "Marketplaces",
+    "CATALOG": {
+        "MODULES-TITLE": "Modules",
+        "TOOLS-TITLE": "Tools",
+        "LLMS-TITLE": "LLMs",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
