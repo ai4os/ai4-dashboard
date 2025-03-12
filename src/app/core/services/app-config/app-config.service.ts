@@ -40,6 +40,11 @@ export class AppConfigService {
         return this.appConfig.sidenavMenu;
     }
 
+    get footerLinks() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.footerLinks;
+    }
+
     get tags() {
         this.checkConfigFileLoaded();
         return this.appConfig.tags;
@@ -63,11 +68,6 @@ export class AppConfigService {
     get projectUrl() {
         this.checkConfigFileLoaded();
         return this.appConfig.projectUrl;
-    }
-
-    get legalLinks() {
-        this.checkConfigFileLoaded();
-        return this.appConfig.legalLinks;
     }
 
     get analytics() {

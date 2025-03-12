@@ -2,18 +2,6 @@
     "title": "AI4EOSC - Dashboard",
     "sidenavMenu": [
         {
-            "name": "SIDENAV.PROJECT-PAGE",
-            "url": "https://ai4eosc.eu"
-        },
-        {
-            "name": "SIDENAV.AI4EOSC-DOCUMENTATION",
-            "url": "https://docs.ai4eosc.eu/"
-        },
-        {
-            "name": "SIDENAV.IAM",
-            "url": "https://aai.egi.eu/"
-        },
-        {
             "name": "SIDENAV.STORAGE",
             "url": "https://share.services.ai4os.eu/"
         },
@@ -24,17 +12,21 @@
         {
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
             "url": "https://forge.flows.dev.ai4eosc.eu/"
-        },
+        }
+    ],
+    "footerLinks": [
         {
             "name": "SIDENAV.STATUS",
             "url": "https://status.ai4eosc.eu "
-        }
-    ],
-    "voName": "training.egi.eu",
-    "projectName": "AI4EOSC",
-    "projectUrl": "https://ai4eosc.eu",
-    "acknowledgments": "The AI4EOSC dashboard is a service provided by CSIC, co-funded by ",
-    "legalLinks": [
+        },
+        {
+            "name": "SIDENAV.PROJECT-PAGE",
+            "url": "https://ai4eosc.eu"
+        },
+        {
+            "name": "SIDENAV.DOCUMENTATION",
+            "url": "https://docs.ai4eosc.eu/"
+        },
         {
             "name": "SIDENAV.TERMS-OF-USE",
             "url": "https://ai4eosc.eu/platform/acceptable-use-policy/"
@@ -44,6 +36,10 @@
             "url": "https://ai4eosc.eu/platform/privacy-policy/"
         }
     ],
+    "voName": "training.egi.eu",
+    "projectName": "AI4EOSC",
+    "projectUrl": "https://ai4eosc.eu",
+    "acknowledgments": "The AI4EOSC dashboard is a service provided by CSIC, co-funded by ",
     "analytics": {
         "domain": "dashboard.cloud.ai4eosc.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"

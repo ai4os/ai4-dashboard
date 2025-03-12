@@ -35,6 +35,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { gitInfo } from '@environments/version';
 import { IntroJSService } from 'introjs/introjs.service';
 import { OAuthModuleConfig } from 'angular-oauth2-oidc';
+import { FooterComponent } from './layout/footer/footer.component';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -113,6 +114,7 @@ renderer.link = (href, title, text) => {
         AppComponent,
         ContentLayoutComponent,
         SidenavComponent,
+        FooterComponent,
         TopNavbarComponent,
         NotificationsButtonComponent,
     ],
@@ -173,7 +175,7 @@ renderer.link = (href, title, text) => {
                                 config.cookie.domain =
                                     appConfigService.analytics.domain;
                                 config.content!.href =
-                                    appConfigService.legalLinks[1].url;
+                                    appConfigService.footerLinks[4].url;
                             }
                             if (
                                 appConfigService.apiURL &&

@@ -8,12 +8,18 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from 'src/environments/environment';
 import { gitInfo } from 'src/environments/version';
+
+export interface ProjectLink {
+    name: string;
+    url: string;
+    isRestricted?: boolean;
+    isDisabled?: boolean;
+}
 
 @Component({
     selector: 'app-sidenav',
@@ -21,8 +27,6 @@ import { gitInfo } from 'src/environments/version';
     styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
-    @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
-
     constructor(
         private _formBuilder: FormBuilder,
         protected authService: AuthService,
@@ -36,10 +40,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
+    @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
+
+    public isAuthorized = false;
     protected environment = environment;
     protected gitInfo = gitInfo;
     protected userProfile?: UserProfile;
-    public isAuthorized = false;
 
     options = this._formBuilder.group({
         bottom: 0,
@@ -50,17 +56,29 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
-    mainLinks = [
-        {
-            name: 'SIDENAV.DASHBOARD',
-            url: '/dashboard',
-            isRestricted: true,
-            isDisabled: !this.isAuthorized,
-        },
+    dashboardLink: ProjectLink = {
+        name: 'SIDENAV.DASHBOARD',
+        url: '/dashboard',
+        isRestricted: true,
+        isDisabled: !this.isAuthorized,
+    };
+
+    catalogLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.MODULES',
-            url: '/marketplace',
+            url: '/marketplace/modules',
         },
+        {
+            name: 'SIDENAV.TOOLS',
+            url: '/marketplace/tools',
+        },
+        {
+            name: 'SIDENAV.LLMS',
+            url: '/marketplace/llms',
+        },
+    ];
+
+    runtimeLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.TRY-ME',
             url: '/try-me',
@@ -81,28 +99,13 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         },
     ];
 
-    otherLinks = [
-        {
-            name: 'SIDENAV.IAM',
-            url: 'https://aai.egi.eu/',
-        },
-    ];
+    otherLinks: ProjectLink[] = [];
 
     acknowledgments = '';
     projectName = '';
     projectUrl = '';
     voName = '';
-    legalLinks = [
-        {
-            name: '',
-            url: '',
-        },
-    ];
     isDeployedInNomad = '';
-
-    isLoggedIn(): boolean {
-        return this.authService.isAuthenticated();
-    }
 
     ngOnInit(): void {
         this.authService.userProfileSubject.subscribe((profile) => {
@@ -116,12 +119,22 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.projectName = this.appConfigService.projectName;
         this.projectUrl = this.appConfigService.projectUrl;
         this.voName = this.appConfigService.voName;
-        this.legalLinks = this.appConfigService.legalLinks;
         this.isDeployedInNomad = this.appConfigService.deployedInNomad;
+        console.log('fuera', this.runtimeLinks);
+    }
+
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
     }
 
     updateMainLinks() {
-        this.mainLinks.map((link) => {
+        this.catalogLinks.map((link) => {
+            if (link.isRestricted) {
+                link.isDisabled = !this.isAuthorized;
+            }
+        });
+
+        this.runtimeLinks.map((link) => {
             if (link.isRestricted) {
                 if (link.name === 'SIDENAV.TRY-ME') {
                     link.isDisabled = !this.isLoggedIn();
@@ -130,6 +143,10 @@ export class SidenavComponent implements OnInit, AfterViewInit {
                 }
             }
         });
+
+        if (this.dashboardLink.isRestricted) {
+            this.dashboardLink.isDisabled = !this.isAuthorized;
+        }
     }
 
     ngAfterViewInit(): void {
