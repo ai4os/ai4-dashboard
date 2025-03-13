@@ -7,7 +7,7 @@ import {
     Ai4lifeModule,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
-import { filter, forkJoin } from 'rxjs';
+import { filter } from 'rxjs';
 import { ToolsService } from '../../../services/tools-service/tools.service';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -92,19 +92,6 @@ export class ModulesListComponent implements OnInit {
         } else {
             this.selectTab(2);
         }
-    }
-
-    ngAfterViewInit(): void {
-        const interval = setInterval(() => {
-            if (
-                !this.ai4eoscModulesLoading &&
-                !this.ai4lifeModulesLoading &&
-                this.appConfigService.voName !== 'vo.imagine-ai.eu'
-            ) {
-                clearInterval(interval);
-                this.introService.llmTool();
-            }
-        }, 200);
     }
 
     getAi4eoscModules() {

@@ -57,18 +57,6 @@ export class ToolsListComponent {
         this.getTools();
     }
 
-    ngAfterViewInit(): void {
-        const interval = setInterval(() => {
-            if (
-                !this.toolsLoading &&
-                this.appConfigService.voName !== 'vo.imagine-ai.eu'
-            ) {
-                clearInterval(interval);
-                this.introService.llmTool();
-            }
-        }, 200);
-    }
-
     getTools() {
         this.toolsService.getToolsSummary().subscribe({
             next: (tools) => {
