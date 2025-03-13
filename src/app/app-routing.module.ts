@@ -14,6 +14,11 @@ const routes: Routes = [
                 pathMatch: 'full',
             },
             {
+                path: 'marketplace',
+                redirectTo: '/catalog/modules',
+                pathMatch: 'full',
+            },
+            {
                 path: 'dashboard',
                 loadChildren: () =>
                     import('@modules/dashboard/dashboard.module').then(
