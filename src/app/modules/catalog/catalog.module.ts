@@ -20,7 +20,11 @@ import { FederatedServerComponent } from './components/module-train/tool-train/f
 import { Ai4eoscModuleCardComponent } from './components/modules-cards/ai4eosc-module-card/ai4eosc-module-card.component';
 import { ModulesListComponent } from './components/lists/modules-list/modules-list.component';
 import { CatalogRoutingModule } from './routes/catalog-routing.module';
-import { SearchAi4eoscPipe, SearchAi4lifePipe } from './pipes/search-card-pipe';
+import {
+    SearchAi4eoscPipe,
+    SearchAi4lifePipe,
+    SearchLlmsPipe,
+} from './pipes/search-card-pipe';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
@@ -35,6 +39,8 @@ import { Ai4eoscListComponent } from './components/lists/modules-list/ai4eosc-li
 import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4life-module-detail/ai4life-module-detail.component';
 import { CatalogListComponent } from './components/catalog-list/catalog-list.component';
 import { ToolsListComponent } from './components/lists/tools-list/tools-list.component';
+import { LlmsListComponent } from './components/lists/llms-list/llms-list.component';
+import { LlmCardComponent } from './components/modules-cards/llm-card/llm-card.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +51,7 @@ import { ToolsListComponent } from './components/lists/tools-list/tools-list.com
         Ai4lifeModuleCardComponent,
         SearchAi4eoscPipe,
         SearchAi4lifePipe,
+        SearchLlmsPipe,
         Ai4eoscModuleDetailComponent,
         Ai4lifeModuleDetailComponent,
         ModuleTrainComponent,
@@ -67,6 +74,8 @@ import { ToolsListComponent } from './components/lists/tools-list/tools-list.com
         FiltersConfigurationDialogComponent,
         CatalogListComponent,
         ToolsListComponent,
+        LlmsListComponent,
+        LlmCardComponent,
     ],
     imports: [
         CommonModule,

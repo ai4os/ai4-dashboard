@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
@@ -18,10 +18,14 @@ import { showLlmField } from './llm-conf-form/llm-conf-form.component';
 })
 export class LlmComponent {
     constructor(
+        private toolsService: ToolsService,
         private _formBuilder: FormBuilder,
         private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+        private router: Router
+    ) {
+        const navigation = this.router.lastSuccessfulNavigation;
+        this.llmId = navigation?.extras?.state?.['llmId'];
+    }
 
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
@@ -29,6 +33,8 @@ export class LlmComponent {
 
     showHelp = false;
     showLoader = false;
+
+    llmId = '';
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     llmConfForm: FormGroup = this._formBuilder.group({});
@@ -72,6 +78,9 @@ export class LlmComponent {
                 .subscribe((toolConf: LlmToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
                     this.llmConfDefaultValues = toolConf.llm;
+                    if (this.llmId !== '') {
+                        this.llmConfDefaultValues.model_id.value = this.llmId;
+                    }
                 });
         });
     }

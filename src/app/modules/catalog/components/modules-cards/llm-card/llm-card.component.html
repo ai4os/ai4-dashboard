@@ -1,0 +1,24 @@
+<mat-card class="basic-card" (click)="loadLLM()">
+    <mat-card-header class="basic-card-header">
+        <mat-card-title>
+            <mat-icon color="primary" [matTooltip]="'CATALOG.LLM' | translate"
+                >network_intel_node</mat-icon
+            >
+            <span>{{ llm.name }}</span>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-divider></mat-divider>
+
+        <div class="basic-card-content">
+            <mat-card-subtitle class="mt-2">
+                <markdown
+                    [data]="llm.description"
+                    ngPreserveWhitespaces
+                    [disableSanitizer]="true"
+                >
+                </markdown>
+            </mat-card-subtitle>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -12,6 +12,10 @@
 
     & .mat-mdc-card-title {
         font-size: 1.1rem;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        display: flex;
+        align-items: flex-start;
     }
 
     & .mat-mdc-card-content {

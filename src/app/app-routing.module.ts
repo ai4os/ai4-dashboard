@@ -22,10 +22,16 @@ const routes: Routes = [
             },
             {
                 path: 'catalog',
+                data: { breadcrumb: { skip: true } },
                 loadChildren: () =>
                     import('@app/modules/catalog/catalog.module').then(
                         (m) => m.CatalogModule
                     ),
+            },
+            {
+                path: 'runtimes',
+                redirectTo: '/runtimes/deployments',
+                pathMatch: 'full',
             },
             {
                 path: 'runtimes',

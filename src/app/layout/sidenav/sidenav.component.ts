@@ -120,7 +120,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.projectUrl = this.appConfigService.projectUrl;
         this.voName = this.appConfigService.voName;
         this.isDeployedInNomad = this.appConfigService.deployedInNomad;
-        console.log('fuera', this.runtimeLinks);
     }
 
     isLoggedIn(): boolean {

@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {
     Ai4lifeModule,
     ModuleSummary,
+    VllmModelConfig,
 } from '@app/shared/interfaces/module.interface';
 
 @Pipe({
@@ -28,6 +29,22 @@ export class SearchAi4lifePipe implements PipeTransform {
 
         return value.filter(
             (v: Ai4lifeModule) =>
+                v.name.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ||
+                v.description.toLowerCase().indexOf(searchValue.toLowerCase()) >
+                    -1
+        );
+    }
+}
+
+@Pipe({
+    name: 'searchLlms',
+})
+export class SearchLlmsPipe implements PipeTransform {
+    public transform(value: Array<VllmModelConfig>, searchValue: string) {
+        if (!searchValue) return value;
+
+        return value.filter(
+            (v: VllmModelConfig) =>
                 v.name.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ||
                 v.description.toLowerCase().indexOf(searchValue.toLowerCase()) >
                     -1

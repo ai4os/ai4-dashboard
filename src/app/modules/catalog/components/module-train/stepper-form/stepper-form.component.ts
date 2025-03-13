@@ -91,8 +91,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 co2: this.step1Form.value.generalConfForm.co2EmissionsInput,
@@ -183,7 +183,7 @@ export class StepperFormComponent implements OnInit {
                             .strategyOptionsSelect ===
                         'Federated Averaging with Momentum (FedAvgM)'
                             ? this.step3Form!.value.federatedConfForm
-                                .momentumInput
+                                  .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
                     mp: this.step3Form!.value.federatedConfForm.dpInput
@@ -195,11 +195,11 @@ export class StepperFormComponent implements OnInit {
                     sampled_clients: this.step3Form!.value.federatedConfForm
                         .dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .sampledClientsNumInput
+                              .sampledClientsNumInput
                         : null,
                     clip_norm: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .clippingNormInput
+                              .clippingNormInput
                         : null,
                 };
                 request = this.deploymentsService.trainTool(
@@ -230,7 +230,7 @@ export class StepperFormComponent implements OnInit {
                             ?.doi === ''
                             ? []
                             : this.step3Form!.value.storageConfForm
-                                .datasetsList,
+                                  .datasetsList,
                 };
                 request = this.deploymentsService.postTrainModule(data);
             }
@@ -241,7 +241,7 @@ export class StepperFormComponent implements OnInit {
 
                 if (result && result.status == 'success') {
                     this.router
-                        .navigate(['/deployments'])
+                        .navigate(['/runtimes/deployments'])
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(

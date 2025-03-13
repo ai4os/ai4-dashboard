@@ -167,6 +167,7 @@ export class LlmConfFormComponent {
         this.toolsService.getVllmModelConfiguration().subscribe({
             next: (config: VllmModelConfig[]) => {
                 this.vllModelsConfigurations = config;
+                this.modelChanged();
             },
             error: () => {
                 this.snackbarService.openError(
@@ -179,8 +180,9 @@ export class LlmConfFormComponent {
     modelChanged() {
         const model = this.llmConfFormGroup.get('vllmModelSelect')?.value;
         this.modelNeedsToken =
-            this.vllModelsConfigurations.find((m) => m.name === model)
-                ?.needs_HF_token ?? false;
+            this.vllModelsConfigurations.find(
+                (m) => m.family + '/' + m.name === model
+            )?.needs_HF_token ?? false;
         if (this.modelNeedsToken) {
             this.llmConfFormGroup.get('huggingFaceTokenInput')?.enable();
         } else {
