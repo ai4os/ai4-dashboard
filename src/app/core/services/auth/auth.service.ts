@@ -17,6 +17,7 @@ import { KeycloakToken } from '@app/shared/interfaces/keycloak-token.interface';
 export interface UserProfile {
     name: string;
     email: string;
+    sub: string;
     roles: string[];
     isAuthorized: boolean;
     isDeveloper: boolean;
@@ -169,6 +170,7 @@ export class AuthService {
 
         const userProfile: UserProfile = {
             name: parsedToken.name,
+            sub: parsedToken.sub,
             isAuthorized: false,
             isDeveloper: false,
             email: parsedToken.email,

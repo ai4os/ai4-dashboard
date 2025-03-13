@@ -1,6 +1,6 @@
 <mat-toolbar
     [ngClass]="{
-        'mb-3': !mobileQuery.matches
+        'mb-3': !mobileQuery.matches,
     }"
 >
     <span id="title" class="aligned-with-icon">
@@ -21,14 +21,24 @@
     <div
         [ngClass]="{
             'grid-mobile': mobileQuery.matches,
-            grid: !mobileQuery.matches
+            grid: !mobileQuery.matches,
         }"
     >
         <mat-card appearance="outlined" class="card">
             <mat-card-header>
-                <mat-card-title>{{
-                    'PROFILE.DETAILS' | translate
-                }}</mat-card-title>
+                <mat-card-title
+                    >{{ 'PROFILE.DETAILS' | translate }}
+                    <button
+                        mat-icon-button
+                        matTooltip=" {{
+                            'PROFILE.OPEN-PROFILE-WEB' | translate
+                        }}"
+                        [matTooltipPosition]="'above'"
+                        (click)="openProfileInfo()"
+                    >
+                        <mat-icon color="accent">open_in_new</mat-icon>
+                    </button></mat-card-title
+                >
             </mat-card-header>
 
             <mat-card-content class="info-container">
@@ -40,6 +50,11 @@
                 <div>
                     <p class="grey-text">Email</p>
                     <p>{{ this.email }}</p>
+                </div>
+
+                <div>
+                    <p class="grey-text">sub</p>
+                    <p>{{ this.sub }}</p>
                 </div>
             </mat-card-content>
         </mat-card>
@@ -98,6 +113,7 @@
                         *ngIf="!credentialsExist(ai4osEndpoint); else resync"
                     >
                         <button
+                            class="link-button"
                             mat-fab
                             extended
                             (click)="syncRclone(ai4osEndpoint)"
@@ -159,6 +175,7 @@
                             "
                         >
                             <button
+                                class="link-button"
                                 mat-fab
                                 extended
                                 (click)="syncRclone(service.server)"
@@ -246,6 +263,7 @@
                     <button
                         mat-fab
                         extended
+                        class="link-button"
                         color="accent"
                         matTooltip="{{ 'PROFILE.ADD' | translate }}"
                         [disabled]="

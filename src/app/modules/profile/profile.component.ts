@@ -88,6 +88,9 @@ export class ProfileComponent implements OnInit {
 
     protected name = '';
     protected email = '';
+    protected sub = '';
+    protected roles: string[] = [];
+
     protected isAuthorized = false;
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint = 'share.services.ai4os.eu';
@@ -103,6 +106,7 @@ export class ProfileComponent implements OnInit {
         this.authService.userProfileSubject.subscribe((profile) => {
             this.name = profile.name;
             this.email = profile.email;
+            this.sub = profile.sub;
             this.isAuthorized = profile.isAuthorized;
 
             if (profile.roles) {
@@ -119,7 +123,9 @@ export class ProfileComponent implements OnInit {
 
     getVoInfo(roles: string[]) {
         roles.forEach((role) => {
-            const match = role.match(/^(platform-access|demo):([^:]+)$/);
+            const match = role.match(
+                /^(platform-access|demo|developer-access):([^:]+)$/
+            );
 
             if (match) {
                 const accessType = match[1]; // "platform-access", "developer-access", "demo"
@@ -134,10 +140,6 @@ export class ProfileComponent implements OnInit {
                 }
             }
         });
-
-        if (roles.includes('developer-access')) {
-            this.vos.map((vo) => vo.roles.push('developer-access'));
-        }
     }
 
     getExistingRcloneCredentials() {
@@ -326,6 +328,11 @@ export class ProfileComponent implements OnInit {
     openCustomNextcloudDocumentationWeb(): void {
         const url =
             'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
+        window.open(url);
+    }
+
+    openProfileInfo(): void {
+        const url = 'https://login.cloud.ai4eosc.eu/realms/ai4eosc/account/';
         window.open(url);
     }
 }
