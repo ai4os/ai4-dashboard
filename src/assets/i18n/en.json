@@ -2,11 +2,12 @@
     "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
+        "STATS": "Statistics",
         "CATALOG": "Catalog",
         "MODULES": "Modules",
         "TOOLS": "Tools",
         "LLMS": "LLMs",
-        "RUNTIMES": "Runtimes",
+        "TASKS": "Tasks",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",

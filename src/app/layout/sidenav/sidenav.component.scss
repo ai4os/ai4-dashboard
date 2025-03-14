@@ -46,10 +46,22 @@
     align-items: center;
     white-space: nowrap;
     height: 80px;
-    margin-left: 0.6rem;
+    justify-content: center;
 
     & img {
         max-width: 200px;
+    }
+}
+
+.sidenav-title {
+    display: flex;
+    align-items: center;
+    color: var(--warm-grey);
+    margin-bottom: 0.5em;
+    margin-left: 1rem;
+    gap: 0.5em;
+    & .mat-icon {
+        transform: scale(0.8);
     }
 }
 
@@ -65,18 +77,6 @@
 
     & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text {
         white-space: break-spaces;
-    }
-}
-
-.links-title {
-    display: flex;
-    align-items: center;
-    color: var(--warm-grey);
-    margin-bottom: 0.5em;
-    margin-left: 1rem;
-    gap: 0.5em;
-    & .mat-icon {
-        transform: scale(0.8);
     }
 }
 
@@ -141,6 +141,7 @@
     justify-content: space-between !important;
     overflow-x: hidden !important;
 }
+
 @media (max-width: 1250px) {
     ::ng-deep .sidenav .mat-drawer-inner-container {
         overflow: scroll !important;

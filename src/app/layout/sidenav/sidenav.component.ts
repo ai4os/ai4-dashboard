@@ -57,8 +57,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     private _mobileQueryListener: () => void;
 
     dashboardLink: ProjectLink = {
-        name: 'SIDENAV.DASHBOARD',
-        url: '/dashboard',
+        name: 'SIDENAV.STATS',
+        url: '/statistics',
         isRestricted: true,
         isDisabled: !this.isAuthorized,
     };
@@ -81,19 +81,19 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     runtimeLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.TRY-ME',
-            url: '/runtimes/try-me',
+            url: '/tasks/try-me',
             isRestricted: true,
             isDisabled: !this.isLoggedIn(),
         },
         {
             name: 'SIDENAV.DEPLOYMENTS',
-            url: '/runtimes/deployments',
+            url: '/tasks/deployments',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
         },
         {
             name: 'SIDENAV.INFERENCE',
-            url: '/runtimes/inference',
+            url: '/tasks/inference',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
         },
@@ -159,13 +159,13 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     checkScroll(event: Event) {
         const target = event.target as HTMLElement;
         const href = window.location.pathname;
-        const catalogRegex = /^\/catalog\/[^/]+$/; // e.g. /catalog/<category>
-        const catalogElementRegex = /^\/catalog\/[^/]+\/[^/]+$/; // e.g. /catalog/<category>/<element>
+        const catalogRegex = /^\/catalog\/modules$/; // e.g. /catalog/modules
+        const catalogElementRegex = /^\/catalog\/modules(?:\/ai4life)?\/[^/]+$/; // e.g. /catalog/modules/<element> or /catalog/modules/ai4life/<element>
 
-        // if the user has scrolled and the page is the main catalog (/catalog/<category>)
+        // if the user has scrolled and the page is the modules catalog (/catalog/modules)
         if (target.scrollTop !== 0 && catalogRegex.test(href)) {
             sessionStorage.setItem('scrollTop', target.scrollTop.toString());
-            // if the page is a module detail (/catalog/<category>/<element>)
+            // if the page is a module detail (/catalog/modules/<element>)
         } else if (!catalogElementRegex.test(href)) {
             sessionStorage.setItem('scrollTop', '0');
         }

@@ -27,23 +27,6 @@ export class ToolsListComponent {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-
-        // scroll to last scrollY position
-        this.router.events
-            .pipe(filter((event) => event instanceof NavigationEnd))
-            .subscribe(() => {
-                const scrollTop = sessionStorage.getItem('scrollTop');
-                if (scrollTop) {
-                    setTimeout(() => {
-                        const content = document.querySelector(
-                            '.sidenav-content'
-                        ) as HTMLElement;
-                        if (content) {
-                            content.scrollTop = +scrollTop;
-                        }
-                    }, 100);
-                }
-            });
     }
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;

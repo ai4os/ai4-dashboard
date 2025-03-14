@@ -32,6 +32,10 @@
             <nav id="sidebarMenu">
                 <mat-nav-list>
                     @if (isLoggedIn()) {
+                        <h4 class="sidenav-title">
+                            {{ 'SIDENAV.DASHBOARD' | translate }}
+                            <mat-icon>dashboard</mat-icon>
+                        </h4>
                         <mat-list-item
                             class="sidenav-item"
                             matTooltip=" {{
@@ -60,7 +64,7 @@
                         </mat-list-item>
                     }
 
-                    <h4 class="links-title">
+                    <h4 class="sidenav-title">
                         {{ 'SIDENAV.CATALOG' | translate }}
                         <mat-icon>menu_book</mat-icon>
                     </h4>
@@ -97,8 +101,8 @@
                     }
 
                     @if (isLoggedIn()) {
-                        <h4 class="links-title">
-                            {{ 'SIDENAV.RUNTIMES' | translate }}
+                        <h4 class="sidenav-title">
+                            {{ 'SIDENAV.TASKS' | translate }}
                             <mat-icon>avg_pace</mat-icon>
                         </h4>
                         @for (link of runtimeLinks; track link) {
@@ -134,7 +138,7 @@
                         }
                     }
 
-                    <h4 class="links-title">
+                    <h4 class="sidenav-title">
                         {{ 'SIDENAV.PLATFORM-SERVICES' | translate }}
                         <mat-icon>open_in_new</mat-icon>
                     </h4>

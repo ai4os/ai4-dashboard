@@ -43,6 +43,16 @@ export class StepperFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.cdr.detectChanges();
+
+        // scroll to top
+        setTimeout(() => {
+            const content = document.querySelector(
+                '.sidenav-content'
+            ) as HTMLElement;
+            if (content) {
+                content.scrollTop = 0;
+            }
+        }, 100);
     }
 
     @Input() title!: string;
@@ -241,7 +251,7 @@ export class StepperFormComponent implements OnInit {
 
                 if (result && result.status == 'success') {
                     this.router
-                        .navigate(['/runtimes/deployments'])
+                        .navigate(['/tasks/deployments'])
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(

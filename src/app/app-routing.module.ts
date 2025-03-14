@@ -19,9 +19,9 @@ const routes: Routes = [
                 pathMatch: 'full',
             },
             {
-                path: 'dashboard',
+                path: 'statistics',
                 loadChildren: () =>
-                    import('@modules/dashboard/dashboard.module').then(
+                    import('@app/modules/statistics/dashboard.module').then(
                         (m) => m.DashboardModule
                     ),
             },
@@ -34,12 +34,12 @@ const routes: Routes = [
                     ),
             },
             {
-                path: 'runtimes',
-                redirectTo: '/runtimes/deployments',
+                path: 'tasks',
+                redirectTo: '/tasks/deployments',
                 pathMatch: 'full',
             },
             {
-                path: 'runtimes',
+                path: 'tasks',
                 children: [
                     {
                         path: 'deployments',
