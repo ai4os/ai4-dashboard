@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { StatisticsRoutingModule } from './statistics-routing.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { TimeSeriesChartComponent } from './components/time-series-chart/time-series-chart.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -30,9 +30,9 @@ import { SmallStatsCardComponent } from './components/small-stats-card/small-sta
     ],
     imports: [
         CommonModule,
-        DashboardRoutingModule,
+        StatisticsRoutingModule,
         NgxEchartsModule.forChild(),
         SharedModule,
     ],
 })
-export class DashboardModule {}
+export class StatisticsModule {}

@@ -21,8 +21,8 @@ const routes: Routes = [
             {
                 path: 'statistics',
                 loadChildren: () =>
-                    import('@app/modules/statistics/dashboard.module').then(
-                        (m) => m.DashboardModule
+                    import('@app/modules/statistics/statistics.module').then(
+                        (m) => m.StatisticsModule
                     ),
             },
             {
