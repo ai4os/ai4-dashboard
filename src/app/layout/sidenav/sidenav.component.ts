@@ -108,6 +108,15 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     isDeployedInNomad = '';
 
     ngOnInit(): void {
+        // get the current profile if it already exists
+        const currentProfile = this.authService.userProfileSubject.getValue();
+        if (currentProfile) {
+            this.userProfile = currentProfile;
+            this.isAuthorized = currentProfile.isAuthorized;
+            this.updateMainLinks();
+        }
+
+        // subscribe to receive future updates
         this.authService.userProfileSubject.subscribe((profile) => {
             this.userProfile = profile;
             this.isAuthorized = profile.isAuthorized;
