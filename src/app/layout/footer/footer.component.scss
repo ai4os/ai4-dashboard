@@ -7,6 +7,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: var(--warm-grey);
+    font-size: small;
 }
 
 .links {
@@ -14,6 +16,12 @@
     justify-items: center;
     justify-content: center;
     gap: 2em;
+    a:link {
+        color: var(--warm-grey);
+    }
+    a:visited {
+        color: var(--greyish-brown);
+    }
 }
 
 .dashboard-version {
