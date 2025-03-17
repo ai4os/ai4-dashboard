@@ -89,13 +89,15 @@
 
 .acknowledgments {
     text-align: center;
-    font-size: 0.9rem;
+    font-size: small;
+    color: var(--warm-grey);
 }
 
 .bottom-images {
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: scale(0.9);
     gap: 1em;
 }
 
