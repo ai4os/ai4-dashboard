@@ -49,9 +49,9 @@ export class Ai4lifeLoaderComponent {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
-        cvatUsername: false,
-        cvatPassword: false,
-        modelId: true,
+        cvatFields: false,
+        ai4lifeFields: true,
+        llmFields: false,
     };
 
     showHardwareFields: showHardwareField = {

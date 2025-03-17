@@ -1,12 +1,9 @@
 <app-stepper-form
     [title]="title"
-    [numberOfSteps]="2"
+    [numberOfSteps]="1"
     [step1]="step1"
-    [step2]="step2"
     [step1Form]="generalConfForm"
-    [step2Form]="llmConfForm"
     [step1Title]="step1Title"
-    [step2Title]="step2Title"
     [isLoading]="showLoader"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
 >
@@ -18,16 +15,6 @@
                 [showHelp]="showHelp"
                 [showFields]="showGeneralFields"
             ></app-general-conf-form>
-        </form>
-    </ng-template>
-    <ng-template #step2>
-        <form [formGroup]="llmConfForm">
-            <app-llm-conf-form
-                class="child-form-container"
-                [defaultFormValues]="llmConfDefaultValues"
-                [showHelp]="showHelp"
-                [showFields]="showLlmFields"
-            ></app-llm-conf-form>
         </form>
     </ng-template>
 </app-stepper-form>

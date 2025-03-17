@@ -122,6 +122,17 @@ export class StepperFormComponent implements OnInit {
                     this.step1Form.getRawValue().generalConfForm
                         .cvatPasswordInput,
                 model_id: this.step1Form.value.generalConfForm.modelIdSelect,
+                type: this.step1Form.value.generalConfForm.deploymentTypeSelect,
+                vllm_model_id:
+                    this.step1Form.value.generalConfForm.vllmModelSelect,
+                ui_password:
+                    this.step1Form.value.generalConfForm.uiPasswordInput,
+                HF_token:
+                    this.step1Form.value.generalConfForm.huggingFaceTokenInput,
+                openai_api_key:
+                    this.step1Form.value.generalConfForm.openaiApiKeyInput,
+                openai_api_url:
+                    this.step1Form.value.generalConfForm.openaiApiUrlInput,
             },
         };
 
@@ -142,17 +153,6 @@ export class StepperFormComponent implements OnInit {
             };
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else if (this.title == 'Deploy your LLM') {
-            data.llm = {
-                type: this.step2Form.value.llmConfForm.deploymentTypeSelect,
-                model_id: this.step2Form.value.llmConfForm.vllmModelSelect,
-                ui_password: this.step2Form.value.llmConfForm.uiPasswordInput,
-                HF_token:
-                    this.step2Form.value.llmConfForm.huggingFaceTokenInput,
-                openai_api_key:
-                    this.step2Form.value.llmConfForm.openaiApiKeyInput,
-                openai_api_url:
-                    this.step2Form.value.llmConfForm.openaiApiUrlInput,
-            };
             request = this.deploymentsService.trainTool('ai4os-llm', data);
         } else {
             data.hardware = {

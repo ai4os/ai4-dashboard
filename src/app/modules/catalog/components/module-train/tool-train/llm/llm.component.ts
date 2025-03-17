@@ -5,11 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
-    LlmConfiguration,
     LlmToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
-import { showLlmField } from './llm-conf-form/llm-conf-form.component';
 
 @Component({
     selector: 'app-llm',
@@ -37,9 +35,7 @@ export class LlmComponent {
     llmId = '';
 
     generalConfForm: FormGroup = this._formBuilder.group({});
-    llmConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
-    llmConfDefaultValues!: LlmConfiguration;
 
     showGeneralFields: showGeneralFormField = {
         titleInput: true,
@@ -49,19 +45,10 @@ export class LlmComponent {
         dockerImageInput: false,
         dockerTagSelect: false,
         infoButton: true,
-        cvatUsername: false,
-        cvatPassword: false,
-        modelId: false,
         co2EmissionsInput: false,
-    };
-
-    showLlmFields: showLlmField = {
-        type: true,
-        model_id: true,
-        ui_password: true,
-        HF_token: true,
-        openai_api_key: true,
-        openai_api_url: true,
+        cvatFields: false,
+        ai4lifeFields: false,
+        llmFields: true,
     };
 
     ngOnInit(): void {
@@ -77,9 +64,9 @@ export class LlmComponent {
                 .getVllmConfiguration(params['id'])
                 .subscribe((toolConf: LlmToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
-                    this.llmConfDefaultValues = toolConf.llm;
                     if (this.llmId !== '') {
-                        this.llmConfDefaultValues.model_id.value = this.llmId;
+                        this.generalConfDefaultValues.vllm_model_id!.value =
+                            this.llmId;
                     }
                 });
         });
