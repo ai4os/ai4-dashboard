@@ -31,7 +31,6 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
 import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
 import { FiltersConfigurationDialogComponent } from './components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
 import { LlmComponent } from './components/module-train/tool-train/llm/llm.component';
-import { LlmConfFormComponent } from './components/module-train/tool-train/llm/llm-conf-form/llm-conf-form.component';
 import { Ai4lifeLoaderComponent } from './components/module-train/tool-train/ai4life-loader/ai4life-loader.component';
 import { Ai4lifeListComponent } from './components/lists/modules-list/ai4life-list/ai4life-list.component';
 import { Ai4lifeModuleCardComponent } from './components/modules-cards/ai4life-module-card/ai4life-module-card.component';
@@ -58,7 +57,6 @@ import { LlmCardComponent } from './components/modules-cards/llm-card/llm-card.c
         GeneralConfFormComponent,
         HardwareConfFormComponent,
         StorageConfFormComponent,
-        LlmConfFormComponent,
         ModuleDetailViewComponent,
         ToolTrainComponent,
         FederatedServerComponent,

@@ -8,14 +8,32 @@ import {
 } from '@angular/animations';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
+    AbstractControl,
     FormBuilder,
     FormGroup,
     FormGroupDirective,
+    ValidationErrors,
+    ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
+import {
+    ModuleGeneralConfiguration,
+    VllmModelConfig,
+} from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
+import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+
+export function urlValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
+        const value = control.value;
+        const validURL = urlPattern.test(value);
+        return validURL ? null : { invalidURL: true };
+    };
+}
 
 export interface showGeneralFormField {
     descriptionInput: boolean;
@@ -26,9 +44,12 @@ export interface showGeneralFormField {
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
     infoButton: boolean;
-    cvatUsername: boolean;
-    cvatPassword: boolean;
-    modelId: boolean;
+    // cvat
+    cvatFields: boolean;
+    // ai4life
+    ai4lifeFields: boolean;
+    // llm
+    llmFields: boolean;
 }
 
 @Component({
@@ -58,6 +79,8 @@ export interface showGeneralFormField {
 export class GeneralConfFormComponent implements OnInit {
     constructor(
         private readonly authService: AuthService,
+        private toolsService: ToolsService,
+        private snackbarService: SnackbarService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
@@ -75,6 +98,14 @@ export class GeneralConfFormComponent implements OnInit {
     protected _showHelp = false;
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
+    dockerTagOptions: { value: string; viewValue: string }[] = [];
+    modelIdOptions: { value: string; viewValue: string }[] = [];
+    deploymentTypeOptions: { value: string; viewValue: string }[] = [];
+    vllmModelOptions: any = [];
+    vllModelsConfigurations: VllmModelConfig[] = [];
+
+    modelNeedsToken = false;
+    hideUiPassword = true;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -88,9 +119,9 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: false,
-        cvatUsername: false,
-        cvatPassword: false,
-        modelId: false,
+        cvatFields: false,
+        ai4lifeFields: false,
+        llmFields: false,
     };
 
     @Input() set showFields(showFields: showGeneralFormField) {
@@ -144,14 +175,15 @@ export class GeneralConfFormComponent implements OnInit {
                 });
             });
 
+            // CVAT
             this.generalConfFormGroup
                 .get('cvatUsernameInput')
                 ?.setValue(defaultFormValues.cvat_username?.value as string);
-
             this.generalConfFormGroup
                 .get('cvatPasswordInput')
                 ?.setValue(defaultFormValues.cvat_password?.value as string);
 
+            // AI4LIFE
             this.generalConfFormGroup
                 .get('modelIdSelect')
                 ?.setValue(defaultFormValues.model_id?.value as string);
@@ -160,6 +192,48 @@ export class GeneralConfFormComponent implements OnInit {
                     value: tag,
                     viewValue: tag,
                 });
+            });
+
+            // LLM
+            this.generalConfFormGroup
+                .get('deploymentTypeSelect')
+                ?.setValue(defaultFormValues.type?.value as string);
+            defaultFormValues.type?.options?.forEach((type: string) => {
+                this.deploymentTypeOptions.push({
+                    value: type,
+                    viewValue: type,
+                });
+            });
+            defaultFormValues.vllm_model_id?.options?.forEach((option: any) => {
+                this.vllmModelOptions.push({
+                    value: option,
+                    viewValue: option,
+                });
+            });
+            this.generalConfFormGroup
+                .get('vllmModelSelect')
+                ?.setValue(this.vllmModelOptions[0].value);
+            this.generalConfFormGroup
+                .get('uiPasswordInput')
+                ?.setValue(defaultFormValues.ui_password?.value as string);
+            this.generalConfFormGroup
+                .get('huggingFaceTokenInput')
+                ?.setValue(defaultFormValues.HF_token?.value as string);
+            this.generalConfFormGroup
+                .get('openaiApiKeyInput')
+                ?.setValue(defaultFormValues.openai_api_key?.value as string);
+            this.generalConfFormGroup
+                .get('openaiApiUrlInput')
+                ?.setValue(defaultFormValues.openai_api_url?.value as string);
+
+            this.authService.userProfileSubject.subscribe((profile) => {
+                const email = profile.email;
+                this.generalConfFormGroup
+                    .get('cvatUsernameInput')
+                    ?.setValue(email);
+                this.generalConfFormGroup
+                    .get('uiUsernameInput')
+                    ?.setValue(email);
             });
         }
     }
@@ -180,13 +254,23 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
         federatedSecretInput: [{ value: '', disabled: true }],
+        // CVAT
         cvatUsernameInput: ['', [Validators.required]],
         cvatPasswordInput: ['', [Validators.required]],
+        // AI4LIFE
         modelIdSelect: [''],
+        // LLM
+        deploymentTypeSelect: ['', Validators.required],
+        vllmModelSelect: ['', Validators.required],
+        uiPasswordInput: ['', Validators.required],
+        uiUsernameInput: [{ value: '', disabled: true }, Validators.required],
+        huggingFaceTokenInput: [
+            { value: '', disabled: true },
+            Validators.required,
+        ],
+        openaiApiKeyInput: ['', Validators.required],
+        openaiApiUrlInput: ['', [Validators.required, urlValidator()]],
     });
-
-    dockerTagOptions: { value: string; viewValue: string }[] = [];
-    modelIdOptions: { value: string; viewValue: string }[] = [];
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -213,17 +297,77 @@ export class GeneralConfFormComponent implements OnInit {
                 }
             });
 
-        if (this._showFields.cvatUsername && this._showFields.cvatPassword) {
-            this.authService.userProfileSubject.subscribe((profile) => {
-                const email = profile.email;
-                this.generalConfFormGroup
-                    .get('cvatUsernameInput')
-                    ?.setValue(email);
-            });
-        } else {
-            this.generalConfFormGroup.get('cvatUsernameInput')?.disable();
-            this.generalConfFormGroup.get('cvatPasswordInput')?.disable();
+        if (this._showFields.llmFields) {
+            this.getModelsConfig();
+            this.setupValidationLogic();
         }
+    }
+
+    getModelsConfig() {
+        this.toolsService.getVllmModelConfiguration().subscribe({
+            next: (config: VllmModelConfig[]) => {
+                this.vllModelsConfigurations = config;
+                this.modelChanged();
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    "Couldn't retrieve model configuration. Please try again later."
+                );
+            },
+        });
+    }
+
+    modelChanged() {
+        const model = this.generalConfFormGroup.get('vllmModelSelect')?.value;
+        this.modelNeedsToken =
+            this.vllModelsConfigurations.find(
+                (m) => m.family + '/' + m.name === model
+            )?.needs_HF_token ?? false;
+        if (this.modelNeedsToken) {
+            this.generalConfFormGroup.get('huggingFaceTokenInput')?.enable();
+        } else {
+            this.generalConfFormGroup.get('huggingFaceTokenInput')?.disable();
+        }
+    }
+
+    private setupValidationLogic() {
+        this.generalConfFormGroup
+            .get('deploymentTypeSelect')!
+            .valueChanges.subscribe((value) => {
+                if (value === 'vllm') {
+                    this.enableFields(['vllmModelSelect']);
+                    this.disableFields([
+                        'uiPasswordInput',
+                        'openaiApiKeyInput',
+                        'openaiApiUrlInput',
+                    ]);
+                } else if (value === 'open-webui') {
+                    this.enableFields([
+                        'uiPasswordInput',
+                        'openaiApiKeyInput',
+                        'openaiApiUrlInput',
+                    ]);
+                    this.disableFields(['vllmModelSelect']);
+                } else if (value === 'both') {
+                    this.enableFields(['vllmModelSelect', 'uiPasswordInput']);
+                    this.disableFields([
+                        'openaiApiKeyInput',
+                        'openaiApiUrlInput',
+                    ]);
+                }
+            });
+    }
+
+    private enableFields(fields: string[]) {
+        fields.forEach((field) => {
+            this.generalConfFormGroup.get(field)?.enable();
+        });
+    }
+
+    private disableFields(fields: string[]) {
+        fields.forEach((field) => {
+            this.generalConfFormGroup.get(field)?.disable();
+        });
     }
 
     openFedServerDocs(): void {

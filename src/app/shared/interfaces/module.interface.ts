@@ -94,9 +94,18 @@ export interface ModuleGeneralConfiguration {
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
+    // CVAT
     cvat_username?: confObject;
     cvat_password?: confObject;
+    // AI4LIFE
     model_id?: confObject;
+    // LLM
+    type?: confObject;
+    vllm_model_id?: confObjectRange;
+    ui_password?: confObject;
+    HF_token?: confObject;
+    openai_api_key?: confObject;
+    openai_api_url?: confObject;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -123,15 +132,6 @@ export interface FederatedServerConfiguration {
     strategy: confObject;
 }
 
-export interface LlmConfiguration {
-    type: confObject;
-    model_id: confObjectRange;
-    ui_password: confObject;
-    HF_token: confObject;
-    openai_api_key: confObject;
-    openai_api_url: confObject;
-}
-
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -151,7 +151,6 @@ export interface CvatToolConfiguration {
 
 export interface LlmToolConfiguration {
     general: ModuleGeneralConfiguration;
-    llm: LlmConfiguration;
 }
 
 export interface Ai4LifeLoaderToolConfiguration {
@@ -168,9 +167,18 @@ export interface TrainModuleRequest {
         docker_tag: string;
         service: string;
         jupyter_password?: string;
+        // cvat
         cvat_username?: string;
         cvat_password?: string;
+        // ai4life
         model_id?: string;
+        // llm
+        type?: string;
+        vllm_model_id?: string;
+        ui_password?: string;
+        HF_token?: string;
+        openai_api_key?: string;
+        openai_api_url?: string;
     };
     hardware?: {
         cpu_num: number;
@@ -202,14 +210,6 @@ export interface TrainModuleRequest {
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;
-    };
-    llm?: {
-        type: string;
-        model_id: string;
-        ui_password: string;
-        HF_token: string;
-        openai_api_key: string;
-        openai_api_url: string;
     };
 }
 
