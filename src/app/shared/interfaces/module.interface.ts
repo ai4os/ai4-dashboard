@@ -141,7 +141,7 @@ export interface ModuleConfiguration {
 export interface FederatedServerToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
-    configuration: FederatedServerConfiguration;
+    flower: FederatedServerConfiguration;
 }
 
 export interface CvatToolConfiguration {
@@ -188,7 +188,7 @@ export interface TrainModuleRequest {
         cvat_backup?: string;
         datasets?: Dataset[];
     };
-    configuration?: {
+    flower?: {
         rounds: number;
         metric: string[];
         min_fit_clients: number;
