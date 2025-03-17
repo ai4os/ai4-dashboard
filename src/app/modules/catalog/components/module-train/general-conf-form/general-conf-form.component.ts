@@ -225,16 +225,6 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('openaiApiUrlInput')
                 ?.setValue(defaultFormValues.openai_api_url?.value as string);
-
-            this.authService.userProfileSubject.subscribe((profile) => {
-                const email = profile.email;
-                this.generalConfFormGroup
-                    .get('cvatUsernameInput')
-                    ?.setValue(email);
-                this.generalConfFormGroup
-                    .get('uiUsernameInput')
-                    ?.setValue(email);
-            });
         }
     }
 
@@ -262,8 +252,8 @@ export class GeneralConfFormComponent implements OnInit {
         // LLM
         deploymentTypeSelect: ['', Validators.required],
         vllmModelSelect: ['', Validators.required],
+        uiUsernameInput: ['', Validators.required],
         uiPasswordInput: ['', Validators.required],
-        uiUsernameInput: [{ value: '', disabled: true }, Validators.required],
         huggingFaceTokenInput: [
             { value: '', disabled: true },
             Validators.required,
@@ -297,9 +287,31 @@ export class GeneralConfFormComponent implements OnInit {
                 }
             });
 
+        this.authService.userProfileSubject.subscribe((profile) => {
+            const email = profile.email;
+            if (this._showFields.llmFields) {
+                this.generalConfFormGroup
+                    .get('uiUsernameInput')
+                    ?.setValue(email);
+            } else if (this._showFields.cvatFields) {
+                this.generalConfFormGroup
+                    .get('cvatUsernameInput')
+                    ?.setValue(email);
+            }
+        });
+
         if (this._showFields.llmFields) {
             this.getModelsConfig();
             this.setupValidationLogic();
+            this.generalConfFormGroup.get('cvatUsernameInput')?.disable();
+            this.generalConfFormGroup.get('cvatPasswordInput')?.disable();
+        } else if (this._showFields.cvatFields) {
+            this.generalConfFormGroup.get('deploymentTypeSelect')?.disable();
+            this.generalConfFormGroup.get('vllmModelSelect')?.disable();
+            this.generalConfFormGroup.get('uiPasswordInput')?.disable();
+            this.generalConfFormGroup.get('uiUsernameInput')?.disable();
+            this.generalConfFormGroup.get('openaiApiKeyInput')?.disable();
+            this.generalConfFormGroup.get('openaiApiUrlInput')?.disable();
         }
     }
 
