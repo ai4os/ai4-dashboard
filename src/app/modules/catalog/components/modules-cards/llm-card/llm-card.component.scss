@@ -15,7 +15,15 @@
         overflow-wrap: break-word;
         word-break: break-word;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
+        gap: 0.5em;
+
+        & img {
+            overflow: visible;
+            width: 20px;
+            top: 5px;
+            left: -4px;
+        }
     }
 
     & .mat-mdc-card-content {
@@ -25,16 +33,22 @@
     border: 1px solid var(--border-gray);
 }
 
-.basic-card-header .mat-icon {
-    overflow: visible;
-    transform: scale(0.8);
-    position: relative;
-    top: 5px;
-    left: -4px;
-}
-
 .basic-card-content {
     color: var(--dark-grey);
+}
+
+.basic-card-footer {
+    padding: 16px;
+    transform: scale(0.9);
+
+    ::ng-deep .mdc-evolution-chip-set__chips {
+        justify-content: space-evenly;
+        gap: 1em;
+    }
+}
+
+.chip-set {
+    display: block;
 }
 
 mat-card-subtitle {

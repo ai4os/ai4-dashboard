@@ -240,6 +240,7 @@
             "ABOUT": "About",
             "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
+            "CONTEXT": "Tokens",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",

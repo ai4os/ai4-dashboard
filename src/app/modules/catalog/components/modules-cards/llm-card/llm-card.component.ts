@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
 
@@ -7,10 +7,16 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     templateUrl: './llm-card.component.html',
     styleUrl: './llm-card.component.scss',
 })
-export class LlmCardComponent {
+export class LlmCardComponent implements OnInit {
     constructor(private router: Router) {}
 
     @Input() llm!: VllmModelConfig;
+
+    image = '';
+
+    ngOnInit(): void {
+        this.image = this.llm.family;
+    }
 
     loadLLM() {
         this.router.navigate(['catalog/tools/ai4os-llm/deploy'], {
