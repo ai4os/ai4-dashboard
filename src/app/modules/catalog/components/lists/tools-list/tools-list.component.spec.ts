@@ -3,21 +3,21 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolsListComponent } from './tools-list.component';
 
 describe('ToolsListComponent', () => {
-  let component: ToolsListComponent;
-  let fixture: ComponentFixture<ToolsListComponent>;
+    let component: ToolsListComponent;
+    let fixture: ComponentFixture<ToolsListComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ToolsListComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [ToolsListComponent]
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(ToolsListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(ToolsListComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
