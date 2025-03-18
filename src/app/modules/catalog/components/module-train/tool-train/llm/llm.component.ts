@@ -64,8 +64,9 @@ export class LlmComponent {
                 .getVllmConfiguration(params['id'])
                 .subscribe((toolConf: LlmToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
-                    if (this.llmId !== '') {
-                        this.generalConfDefaultValues.vllm_model_id!.value =
+                    this.generalConfDefaultValues.llm = toolConf.llm;
+                    if (this.llmId && this.llmId !== '') {
+                        this.generalConfDefaultValues.llm.vllm_model_id.value =
                             this.llmId;
                     }
                 });

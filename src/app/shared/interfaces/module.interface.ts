@@ -100,12 +100,7 @@ export interface ModuleGeneralConfiguration {
     // AI4LIFE
     model_id?: confObject;
     // LLM
-    type?: confObject;
-    vllm_model_id?: confObjectRange;
-    ui_password?: confObject;
-    HF_token?: confObject;
-    openai_api_key?: confObject;
-    openai_api_url?: confObject;
+    llm?: LlmConfiguration;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -132,6 +127,15 @@ export interface FederatedServerConfiguration {
     strategy: confObject;
 }
 
+export interface LlmConfiguration {
+    type: confObject;
+    vllm_model_id: confObjectRange;
+    ui_password: confObject;
+    HF_token: confObject;
+    openai_api_key: confObject;
+    openai_api_url: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -151,6 +155,7 @@ export interface CvatToolConfiguration {
 
 export interface LlmToolConfiguration {
     general: ModuleGeneralConfiguration;
+    llm: LlmConfiguration;
 }
 
 export interface Ai4LifeLoaderToolConfiguration {
@@ -172,13 +177,6 @@ export interface TrainModuleRequest {
         cvat_password?: string;
         // ai4life
         model_id?: string;
-        // llm
-        type?: string;
-        vllm_model_id?: string;
-        ui_password?: string;
-        HF_token?: string;
-        openai_api_key?: string;
-        openai_api_url?: string;
     };
     hardware?: {
         cpu_num: number;
@@ -210,6 +208,14 @@ export interface TrainModuleRequest {
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;
+    };
+    llm?: {
+        type: string;
+        vllm_model_id: string;
+        ui_password: string;
+        HF_token: string;
+        openai_api_key: string;
+        openai_api_url: string;
     };
 }
 

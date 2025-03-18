@@ -197,34 +197,42 @@ export class GeneralConfFormComponent implements OnInit {
             // LLM
             this.generalConfFormGroup
                 .get('deploymentTypeSelect')
-                ?.setValue(defaultFormValues.type?.value as string);
-            defaultFormValues.type?.options?.forEach((type: string) => {
+                ?.setValue(defaultFormValues.llm?.type.value as string);
+            defaultFormValues.llm?.type.options?.forEach((type: string) => {
                 this.deploymentTypeOptions.push({
                     value: type,
                     viewValue: type,
                 });
             });
-            defaultFormValues.vllm_model_id?.options?.forEach((option: any) => {
-                this.vllmModelOptions.push({
-                    value: option,
-                    viewValue: option,
-                });
-            });
             this.generalConfFormGroup
                 .get('vllmModelSelect')
-                ?.setValue(this.vllmModelOptions[0].value);
+                ?.setValue(
+                    defaultFormValues.llm?.vllm_model_id.value as string
+                );
+            defaultFormValues.llm?.vllm_model_id.options?.forEach(
+                (option: any) => {
+                    this.vllmModelOptions.push({
+                        value: option,
+                        viewValue: option,
+                    });
+                }
+            );
             this.generalConfFormGroup
                 .get('uiPasswordInput')
-                ?.setValue(defaultFormValues.ui_password?.value as string);
+                ?.setValue(defaultFormValues.llm?.ui_password.value as string);
             this.generalConfFormGroup
                 .get('huggingFaceTokenInput')
-                ?.setValue(defaultFormValues.HF_token?.value as string);
+                ?.setValue(defaultFormValues.llm?.HF_token.value as string);
             this.generalConfFormGroup
                 .get('openaiApiKeyInput')
-                ?.setValue(defaultFormValues.openai_api_key?.value as string);
+                ?.setValue(
+                    defaultFormValues.llm?.openai_api_key.value as string
+                );
             this.generalConfFormGroup
                 .get('openaiApiUrlInput')
-                ?.setValue(defaultFormValues.openai_api_url?.value as string);
+                ?.setValue(
+                    defaultFormValues.llm?.openai_api_url.value as string
+                );
         }
     }
 
@@ -245,21 +253,33 @@ export class GeneralConfFormComponent implements OnInit {
         dockerTagSelect: [''],
         federatedSecretInput: [{ value: '', disabled: true }],
         // CVAT
-        cvatUsernameInput: ['', [Validators.required]],
-        cvatPasswordInput: ['', [Validators.required]],
+        cvatUsernameInput: [
+            { value: '', disabled: true },
+            [Validators.required],
+        ],
+        cvatPasswordInput: [
+            { value: '', disabled: true },
+            [Validators.required],
+        ],
         // AI4LIFE
         modelIdSelect: [''],
         // LLM
-        deploymentTypeSelect: ['', Validators.required],
-        vllmModelSelect: ['', Validators.required],
-        uiUsernameInput: ['', Validators.required],
-        uiPasswordInput: ['', Validators.required],
+        deploymentTypeSelect: [
+            { value: '', disabled: true },
+            Validators.required,
+        ],
+        vllmModelSelect: [{ value: '', disabled: true }, Validators.required],
+        uiUsernameInput: [{ value: '', disabled: true }, Validators.required],
+        uiPasswordInput: [{ value: '', disabled: true }, Validators.required],
         huggingFaceTokenInput: [
             { value: '', disabled: true },
             Validators.required,
         ],
-        openaiApiKeyInput: ['', Validators.required],
-        openaiApiUrlInput: ['', [Validators.required, urlValidator()]],
+        openaiApiKeyInput: [{ value: '', disabled: true }, Validators.required],
+        openaiApiUrlInput: [
+            { value: '', disabled: true },
+            [Validators.required, urlValidator()],
+        ],
     });
 
     ngOnInit(): void {
@@ -303,15 +323,13 @@ export class GeneralConfFormComponent implements OnInit {
         if (this._showFields.llmFields) {
             this.getModelsConfig();
             this.setupValidationLogic();
-            this.generalConfFormGroup.get('cvatUsernameInput')?.disable();
-            this.generalConfFormGroup.get('cvatPasswordInput')?.disable();
+            this.generalConfFormGroup.get('deploymentTypeSelect')?.enable();
+            this.generalConfFormGroup.get('vllmModelSelect')?.enable();
+            this.generalConfFormGroup.get('uiPasswordInput')?.enable();
+            this.generalConfFormGroup.get('uiUsernameInput')?.enable();
         } else if (this._showFields.cvatFields) {
-            this.generalConfFormGroup.get('deploymentTypeSelect')?.disable();
-            this.generalConfFormGroup.get('vllmModelSelect')?.disable();
-            this.generalConfFormGroup.get('uiPasswordInput')?.disable();
-            this.generalConfFormGroup.get('uiUsernameInput')?.disable();
-            this.generalConfFormGroup.get('openaiApiKeyInput')?.disable();
-            this.generalConfFormGroup.get('openaiApiUrlInput')?.disable();
+            this.generalConfFormGroup.get('cvatUsernameInput')?.enable();
+            this.generalConfFormGroup.get('cvatPasswordInput')?.enable();
         }
     }
 

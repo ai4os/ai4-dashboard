@@ -394,7 +394,7 @@
                 </mat-select>
 
                 <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues.type?.description
+                    _defaultFormValues.llm?.type?.description
                 }}</mat-hint>
             </mat-form-field>
 
@@ -421,7 +421,7 @@
                         </mat-option>
                     </mat-select>
                     <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.vllm_model_id?.description
+                        _defaultFormValues.llm?.vllm_model_id?.description
                     }}</mat-hint>
                 </mat-form-field>
             }
@@ -478,7 +478,7 @@
                         }}
                     </mat-error>
                     <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.ui_password?.description
+                        _defaultFormValues.llm?.ui_password?.description
                     }}</mat-hint>
                 </mat-form-field>
             }
@@ -522,7 +522,7 @@
                         </mat-error>
                     }
                     <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.openai_api_url?.description
+                        _defaultFormValues.llm?.openai_api_url?.description
                     }}</mat-hint>
                 </mat-form-field>
             }
@@ -554,7 +554,7 @@
                         }}
                     </mat-error>
                     <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.openai_api_key?.description
+                        _defaultFormValues.llm?.openai_api_key?.description
                     }}</mat-hint>
                 </mat-form-field>
             }
@@ -590,7 +590,7 @@
                         }}
                     </mat-error>
                     <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.HF_token?.description
+                        _defaultFormValues.llm?.HF_token?.description
                     }}</mat-hint>
                 </mat-form-field>
             }
