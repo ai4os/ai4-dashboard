@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
@@ -28,8 +28,9 @@ export class StorageService {
             .set('storage_name', storageName)
             .set('vo', this.appConfigService.voName)
             .set('subpath', 'ai4os-storage/tools/cvat/backups');
+        const headers = new HttpHeaders().set('X-Silent-Error', 'true');
 
-        return this.http.get<Array<Snapshot>>(url, { params });
+        return this.http.get<Array<Snapshot>>(url, { headers, params });
     }
 
     deleteSnapshot(

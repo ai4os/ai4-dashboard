@@ -54,6 +54,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 retry(1),
 
                 catchError((error: HttpErrorResponse) => {
+                    const silentError = request.headers.has('X-Silent-Error');
                     let errorMessage = '';
 
                     // client-side error
@@ -96,6 +97,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         )
                     ) {
                         return throwError(() => errorMessage);
+                    }
+
+                    // Silent errors (e.g. cvat backups directory does not exist)
+                    if (error.status === 404 && silentError) {
+                        return throwError(() => error);
                     }
 
                     this.showSnackbar('ERRORS.API-ERROR', errorMessage);
