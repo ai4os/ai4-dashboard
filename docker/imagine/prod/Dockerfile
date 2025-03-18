@@ -7,6 +7,7 @@ RUN npm run generate-version-file
 RUN npm run build-imagine-prod
 #stage 2
 FROM nginx:alpine
+RUN apk add --no-cache jq bash
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["sh", "-c", "\
   CLEAN_API_SERVER=$(echo $API_SERVER | sed 's:/*$::') && \
