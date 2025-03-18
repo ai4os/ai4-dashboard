@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/ai4os/ai4-dashboard/compare/v3.1.0...v3.1.1) (2025-03-18)
+
+
+### Bug Fixes
+
+* add silent errors to http interceptor ([#365](https://github.com/ai4os/ai4-dashboard/issues/365)) ([b8914ba](https://github.com/ai4os/ai4-dashboard/commit/b8914ba28123da901f27ceef90b7b7473360d206))
+
 ## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
 
 
