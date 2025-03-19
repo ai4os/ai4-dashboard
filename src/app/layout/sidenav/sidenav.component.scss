@@ -17,8 +17,36 @@
     background: var(--white-three);
 }
 
+.main-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.nomad-banner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-self: center;
+    border: 5px var(--neon-red) solid;
+    border-radius: 20px;
+    width: 70%;
+    background: rgb(255, 0, 0, 0.1);
+    margin: 0.5em;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: red;
+    mat-icon {
+        overflow: visible;
+    }
+}
+
 ::ng-deep .sidenav .mat-drawer-inner-container {
-    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow-x: hidden !important;
 }
 @media (max-width: 1250px) {
     ::ng-deep .sidenav .mat-drawer-inner-container {
@@ -63,6 +91,7 @@
     display: flex;
     align-items: center;
     color: var(--warm-grey);
+    margin-bottom: 0.5em;
     & .mat-icon {
         transform: scale(0.7);
     }
@@ -70,15 +99,6 @@
 
 .mat-drawer-content {
     background-color: var(--white-three);
-}
-
-.sidenav-footer {
-    position: absolute;
-    bottom: 0;
-}
-
-.sidenav-footer-mobile {
-    position: relative;
 }
 
 .dashboard-logo-container {

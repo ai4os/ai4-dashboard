@@ -6,6 +6,9 @@ import { getDeploymentBadge } from '../../utils/deployment-badge';
 import { KeyValue } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService } from '@ngx-translate/core';
+import { SecretsService } from '../../services/secrets-service/secrets.service';
+import { SecretField } from '@app/modules/inference/components/inference-detail/inference-detail.component';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-deployment-detail',
@@ -15,7 +18,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class DeploymentDetailComponent implements OnInit {
     constructor(
         private deploymentsService: DeploymentsService,
+        private secretsService: SecretsService,
         public translateService: TranslateService,
+        private snackbarService: SnackbarService,
         public confirmationDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA)
         public data: { uuid: string; isTool: boolean },
@@ -29,8 +34,13 @@ export class DeploymentDetailComponent implements OnInit {
 
     deployment: Deployment | undefined;
     statusBadge = '';
+
     isLoading = false;
     protected deploymentHasError = false;
+    tokenField: SecretField = {
+        value: '',
+        hide: true,
+    };
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -49,7 +59,6 @@ export class DeploymentDetailComponent implements OnInit {
                 this.deploymentsService
                     .getToolByUUID(this.data.uuid)
                     .subscribe((deployment: Deployment) => {
-                        this.isLoading = false;
                         if (
                             deployment.error_msg &&
                             deployment.error_msg != ''
@@ -66,12 +75,17 @@ export class DeploymentDetailComponent implements OnInit {
                             deployment.status
                         );
                         this.deployment = deployment;
+
+                        if (deployment.tool_name === 'ai4os-llm') {
+                            this.getVllmKey();
+                        } else {
+                            this.isLoading = false;
+                        }
                     });
             } else {
                 this.deploymentsService
                     .getDeploymentByUUID(this.data.uuid)
                     .subscribe((deployment: Deployment) => {
-                        this.isLoading = false;
                         if (
                             deployment.error_msg &&
                             deployment.error_msg != ''
@@ -93,7 +107,10 @@ export class DeploymentDetailComponent implements OnInit {
                         this.statusBadge = getDeploymentBadge(
                             deployment.status
                         );
+
                         this.deployment = deployment;
+
+                        this.isLoading = false;
                     });
             }
         }
@@ -107,5 +124,22 @@ export class DeploymentDetailComponent implements OnInit {
             resourceValue = resourceValue.concat(' MHz');
         }
         return resourceValue;
+    }
+
+    getVllmKey() {
+        const subpath = '/deployments/' + this.data.uuid + '/llm';
+        this.secretsService.getSecrets(subpath).subscribe({
+            next: (tokens) => {
+                this.tokenField.value = Object.values(tokens)[0].token ?? '';
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    "Couldn't retrieve VLLM Token. Please try again later."
+                );
+            },
+            complete: () => {
+                this.isLoading = false;
+            },
+        });
     }
 }

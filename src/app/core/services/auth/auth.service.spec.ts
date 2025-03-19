@@ -2,6 +2,7 @@ import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import {
     OAuthEvent,
+    OAuthModuleConfig,
     OAuthService,
     OAuthSuccessEvent,
 } from 'angular-oauth2-oidc';
@@ -52,6 +53,8 @@ const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',
 };
 
+const mockedOAuthModuleConfig: any = {};
+
 describe('AuthService', () => {
     let service: AuthService;
     beforeEach(() => {
@@ -67,6 +70,10 @@ describe('AuthService', () => {
                 AuthService,
                 { provide: OAuthService, useValue: mockedOAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
+                {
+                    provide: OAuthModuleConfig,
+                    useValue: mockedOAuthModuleConfig,
+                },
             ],
         });
 

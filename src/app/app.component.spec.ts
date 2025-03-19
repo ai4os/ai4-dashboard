@@ -10,6 +10,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './core/services/auth/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 const mockedConfigService: any = {
     analytics: {
@@ -53,7 +54,11 @@ describe('AppComponent', () => {
         statusChangeSubscription = new Subscription();
 
         await TestBed.configureTestingModule({
-            imports: [RouterModule.forRoot([]), SharedModule],
+            imports: [
+                RouterModule.forRoot([]),
+                SharedModule,
+                TranslateModule.forRoot(),
+            ],
             declarations: [AppComponent],
             providers: [
                 provideHttpClient(),

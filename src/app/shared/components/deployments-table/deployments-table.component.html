@@ -32,6 +32,12 @@
                         [ngClass]="{
                             'content-cell': column.columnDef === 'actions',
                         }"
+                        [matTooltip]="getMaintenanceInfo(row)"
+                        matTooltipPosition="right"
+                        [matTooltipDisabled]="
+                            column.columnDef !== 'name' ||
+                            !hasDatacenterUnderMaintenance(row)
+                        "
                     >
                         <div
                             *ngIf="column.columnDef === 'actions'"
@@ -39,14 +45,13 @@
                         >
                             <button
                                 id="infoButton"
+                                class="action-button-in-cell"
                                 mat-button
                                 matTooltip="Info"
-                                matBadgeOverlap="false"
                                 matBadgeSize="small"
-                                [matBadgeHidden]="!hasDeploymentErrors(row)"
                                 matBadge="priority_high"
                                 matBadgeColor="warn"
-                                class="action-button-in-cell"
+                                [matBadgeHidden]="!hasDeploymentErrors(row)"
                                 (click)="openDeploymentDetailDialog(row)"
                             >
                                 <mat-icon color="accent" id="infoIcon"
@@ -59,11 +64,6 @@
                                     id="secrets-button"
                                     mat-button
                                     matTooltip="Manage secrets"
-                                    matBadgeOverlap="false"
-                                    matBadgeSize="small"
-                                    [matBadgeHidden]="!hasDeploymentErrors(row)"
-                                    matBadge="priority_high"
-                                    matBadgeColor="warn"
                                     class="action-button-in-cell"
                                     (click)="openToolSecretsDialog(row)"
                                 >
@@ -71,23 +71,9 @@
                                         >vpn_key</mat-icon
                                     >
                                 </button>
-
-                                <div matTooltip="Copy to clipboard">
-                                    <a
-                                        mat-button
-                                        [disabled]="!isDeploymentRunning(row)"
-                                        class="action-button-in-cell"
-                                        [copy-to-clipboard]="row.mainEndpoint"
-                                    >
-                                        <mat-icon color="accent" id="accessIcon"
-                                            >content_copy</mat-icon
-                                        >
-                                    </a>
-                                </div>
                             }
 
                             @if (
-                                !isFederatedServer(row) &&
                                 deploymentType !== 'inference' &&
                                 deploymentType !== 'snapshot'
                             ) {
@@ -153,17 +139,29 @@
                                 <mat-icon color="warn">delete</mat-icon>
                             </button>
                         </div>
-                        <ng-container *ngIf="column.columnDef === 'status'">
+
+                        @if (column.columnDef === 'status') {
                             <img
                                 src="https://img.shields.io/badge/{{
                                     returnDeploymentBadge(row[column.columnDef])
                                 }}"
                                 height="20"
                             />
-                        </ng-container>
-                        <ng-container *ngIf="column.columnDef !== 'status'">
+                        } @else if (column.columnDef === 'name') {
+                            <span
+                                matBadgeSize="small"
+                                matBadge="priority_high"
+                                matBadgeColor="warn"
+                                matBadgeOverlap="false"
+                                [matBadgeHidden]="
+                                    !hasDatacenterUnderMaintenance(row)
+                                "
+                            >
+                                {{ row[column.columnDef] }}
+                            </span>
+                        } @else {
                             {{ row[column.columnDef] }}
-                        </ng-container>
+                        }
                     </mat-cell>
                 </ng-container>
 

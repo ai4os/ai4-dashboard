@@ -1,5 +1,79 @@
 # Changelog
 
+## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
+
+
+### Features
+
+* add cluster maintenance notifications ([#352](https://github.com/ai4os/ai4-dashboard/issues/352)) ([911f788](https://github.com/ai4os/ai4-dashboard/commit/911f788d3b6842f547e846e53ac37bca6a5b5323))
+* dashboard nomad deployment ([#349](https://github.com/ai4os/ai4-dashboard/issues/349)) ([ac58112](https://github.com/ai4os/ai4-dashboard/commit/ac581127a342526539304bbcfb256447dffda8f0))
+* monitor co2 emissions fedserver ([#348](https://github.com/ai4os/ai4-dashboard/issues/348)) ([9b2ef2b](https://github.com/ai4os/ai4-dashboard/commit/9b2ef2b12ff2f851f02a681cba361f56d7f663bc))
+* support for custom auth config ([#350](https://github.com/ai4os/ai4-dashboard/issues/350)) ([152078a](https://github.com/ai4os/ai4-dashboard/commit/152078acb734543939441ed5d48bd2a252c68381))
+
+
+### Bug Fixes
+
+* show on boarding tours only to logged users ([#355](https://github.com/ai4os/ai4-dashboard/issues/355)) ([0bd6aca](https://github.com/ai4os/ai4-dashboard/commit/0bd6acaf8ae1b0b0d6de9394899c67e9bf6e9ead))
+
+## [3.0.1](https://github.com/ai4os/ai4-dashboard/compare/v3.0.0...v3.0.1) (2025-03-03)
+
+
+### Bug Fixes
+
+* update vllm models url ([#343](https://github.com/ai4os/ai4-dashboard/issues/343)) ([a8d249a](https://github.com/ai4os/ai4-dashboard/commit/a8d249af4421cd000aabec8d777200e7f4d41508))
+
+## [3.0.0](https://github.com/ai4os/ai4-dashboard/compare/v2.37.1...v3.0.0) (2025-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* add vllm tool ([#342](https://github.com/ai4os/ai4-dashboard/issues/342))
+
+### Features
+
+* add auto scroll to the marketplace ([#340](https://github.com/ai4os/ai4-dashboard/issues/340)) ([1cdf93e](https://github.com/ai4os/ai4-dashboard/commit/1cdf93e273d95f6672d9ee753ec4a384cc01f582))
+* add vllm tool ([#342](https://github.com/ai4os/ai4-dashboard/issues/342)) ([3e038d9](https://github.com/ai4os/ai4-dashboard/commit/3e038d963a6b1cece9770d3b1ca8c73c1b7d111d))
+* integrate metric privacy fedserver ([#334](https://github.com/ai4os/ai4-dashboard/issues/334)) ([868e1b0](https://github.com/ai4os/ai4-dashboard/commit/868e1b0ce4d7dd03c2803ff820f7ed2130483319))
+
+## [2.37.0](https://github.com/ai4os/ai4-dashboard/compare/v2.36.0...v2.37.0) (2025-02-19)
+
+
+### Features
+
+* add license to module detail ([#335](https://github.com/ai4os/ai4-dashboard/issues/335)) ([ec9ce8f](https://github.com/ai4os/ai4-dashboard/commit/ec9ce8ff93d0c2e47bb8f5de3b4c0a4bdebb72da))
+* update sidenav information ([#332](https://github.com/ai4os/ai4-dashboard/issues/332)) ([a9f9924](https://github.com/ai4os/ai4-dashboard/commit/a9f9924056d45c7555bdd493d89b12c8555199ab))
+
+
+### Bug Fixes
+
+* detect if tool is fedserver by container name ([#331](https://github.com/ai4os/ai4-dashboard/issues/331)) ([1d83c4f](https://github.com/ai4os/ai4-dashboard/commit/1d83c4fb5e018cbdfc16d12440062a2d85fc460b))
+
+## [2.36.0](https://github.com/ai4os/ai4-dashboard/compare/v2.35.0...v2.36.0) (2025-02-13)
+
+
+### Features
+
+* support docker image and tag in ai4life tool ([#325](https://github.com/ai4os/ai4-dashboard/issues/325)) ([216af05](https://github.com/ai4os/ai4-dashboard/commit/216af05f9216a7127b285b45eaa9ddff50b33fea))
+
+## [2.35.0](https://github.com/ai4os/ai4-dashboard/compare/v2.34.0...v2.35.0) (2025-02-11)
+
+
+### Features
+
+* validate storage url inside storage config (advanced settings) ([#299](https://github.com/ai4os/ai4-dashboard/issues/299)) ([93cf42d](https://github.com/ai4os/ai4-dashboard/commit/93cf42d44e2d4fa13d45e7caa0b0ea61b6f0615f))
+
+
+### Bug Fixes
+
+* 316 do not clear on boarding library local storage variables ([#318](https://github.com/ai4os/ai4-dashboard/issues/318)) ([dcfac0c](https://github.com/ai4os/ai4-dashboard/commit/dcfac0cdeae7889f29485c2b0c1945bf98d3428a))
+* do not select a snapshot by default ([#326](https://github.com/ai4os/ai4-dashboard/issues/326)) ([b332a71](https://github.com/ai4os/ai4-dashboard/commit/b332a71ece9b098684f3460d28d32fdd10aa1d49))
+* get url of ai4life module detail statically ([#312](https://github.com/ai4os/ai4-dashboard/issues/312)) ([bd6af19](https://github.com/ai4os/ai4-dashboard/commit/bd6af198ac2f80579e624df324222f75ac361c37))
+* restore on boarding library related variables after logout ([#317](https://github.com/ai4os/ai4-dashboard/issues/317)) ([cc21654](https://github.com/ai4os/ai4-dashboard/commit/cc216541352428f5929ff8cf95a1ff80774e3ef3))
+* show storage limit message ([#324](https://github.com/ai4os/ai4-dashboard/issues/324)) ([9b8089a](https://github.com/ai4os/ai4-dashboard/commit/9b8089af5517bce545837cfc66cf024d3c7e5f78))
+* show tools deploy button disabled when user does not belong to vo ([#311](https://github.com/ai4os/ai4-dashboard/issues/311)) ([b1b98d5](https://github.com/ai4os/ai4-dashboard/commit/b1b98d50eec753a5845c427e418852ba23960779))
+* update link ([#321](https://github.com/ai4os/ai4-dashboard/issues/321)) ([a2e9529](https://github.com/ai4os/ai4-dashboard/commit/a2e95293ffd1e32f1a1333f5fbf91036f5e45515))
+* wait for linked storage services to load ([#319](https://github.com/ai4os/ai4-dashboard/issues/319)) ([149c0dd](https://github.com/ai4os/ai4-dashboard/commit/149c0dd946c6db0d50398e1f21c58af42ed68c84))
+
 ## [2.34.0](https://github.com/ai4os/ai4-dashboard/compare/v2.33.3...v2.34.0) (2025-01-29)
 
 

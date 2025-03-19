@@ -25,6 +25,21 @@
     max-height: 450px;
 }
 
+.card-content {
+    overflow-y: auto;
+    max-height: 650px;
+}
+
 .datacenter-info {
     margin-bottom: 2.5rem;
+}
+
+.token-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.full-width {
+    width: 100%;
 }

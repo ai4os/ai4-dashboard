@@ -114,6 +114,11 @@
                 "DISK_MB": "Disk memory",
                 "MEMORY_MB": "RAM memory",
                 "CPU_MHZ": "CPU frequency"
+            },
+            "VLLM": {
+                "DETAILS": "VLLM details",
+                "URL": "URL",
+                "TOKEN": "Token"
             }
         },
         "DEPLOYMENT-SECRETS": {
@@ -139,7 +144,9 @@
         "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
         "NEW-DEPLOYMENT": "New deployment",
-        "NO-DEPLOYMENTS": "Nothing deployed yet"
+        "NO-DEPLOYMENTS": "Nothing deployed yet",
+        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
+        "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
@@ -269,6 +276,7 @@
             "HARDWARE-CONF": "Hardware configuration",
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
+            "LLM-CONF": "LLM configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -276,6 +284,7 @@
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
                 "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
+                "CO2": "Monitor CO2 emissions",
                 "SERVICE-TO-RUN": "Service to run",
                 "PASSWORD": "Password",
                 "JUPYTERLAB-PASS": "JupyterLab password",
@@ -292,6 +301,8 @@
                 "CVAT-PASSWORD": "CVAT password",
                 "CVAT-USERNAME-REQUIRED": "A username is required",
                 "CVAT-PASSWORD-REQUIRED": "A password is required",
+                "DEPLOYMENT-TYPE": "Deployment type",
+                "TYPE": "Type",
                 "MODEL-OPTIONS": "Model options",
                 "MODEL-ID": "Model ID"
             },
@@ -353,7 +364,7 @@
                 }
             },
             "FEDERATED-CONF-FORM": {
-                "TITLE": "Federated options",
+                "FED-TITLE": "Federated options",
                 "ROUNDS": "Number of rounds",
                 "METRIC": "Evaluation metric",
                 "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
@@ -363,10 +374,26 @@
                 "FL": "Server-side learning rate",
                 "MOMENTUM": "Server-side momentum",
                 "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
+                "PRIVACY-TITLE": "Privacy options",
                 "DP": "Differential privacy",
+                "MP": "Metric privacy",
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
                 "CLIP-NORM": "Clipping norm"
+            },
+            "LLM-CONF-FORM": {
+                "TITLE": "LLM options",
+                "VLLM-MODEL": "VLLM model",
+                "UI-USERNAME": "UI Username",
+                "UI-PASSWORD": "UI Password",
+                "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
+                "HUGGING-FACE-TOKEN": "Hugging Face token",
+                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "API-KEY": "OpenAI API Key",
+                "API-KEY-REQUIRED": "Please add the OpenAI API Key",
+                "API-URL": "OpenAI API base URL",
+                "API-URL-REQUIRED": "Please add the OpenAI API base URL",
+                "API-URL-FORMAT": "Invalid URL format"
             }
         },
         "MODULE-TRY": {
@@ -467,6 +494,7 @@
         "UNDER-MAINTENANCE-POPUP": {
             "TITLE": "Warning"
         },
-        "UNAUTHORIZED": "Only available for project members"
+        "UNAUTHORIZED": "Only available for project members",
+        "DEPLOYED-IN-NOMAD": "You are accessing a backup instance of the {{voName}} dashboard. Some functionalities (eg. storage, user stats) might be missing or failing. Check the <a href='{{statusURL}}' target='_blank'>status</a> page for more details"
     }
 }

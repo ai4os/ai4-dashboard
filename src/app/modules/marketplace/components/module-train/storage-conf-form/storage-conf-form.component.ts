@@ -125,10 +125,7 @@ export class StorageConfFormComponent implements OnInit {
     parentForm!: FormGroup;
 
     storageConfFormGroup = this.fb.group({
-        storageServiceDatasetSelect: new FormControl({
-            value: '',
-            disabled: true,
-        }),
+        storageServiceDatasetSelect: ['', [Validators.required]],
         snapshotDatasetSelect: new FormControl({
             value: '',
             disabled: true,
@@ -294,6 +291,14 @@ export class StorageConfFormComponent implements OnInit {
                 error: () => {
                     this.credentialsLoading = false;
                 },
+                complete: () => {
+                    const storageServiceDatasetSelect =
+                        this.storageConfFormGroup.get(
+                            'storageServiceDatasetSelect'
+                        );
+                    storageServiceDatasetSelect?.clearValidators();
+                    storageServiceDatasetSelect?.updateValueAndValidity();
+                },
             });
     }
 
@@ -360,7 +365,7 @@ export class StorageConfFormComponent implements OnInit {
                     });
                     this.storageConfFormGroup
                         .get('snapshotDatasetSelect')
-                        ?.setValue(this.snapshotOptions[0].value);
+                        ?.setValue('-');
                     this.storageConfFormGroup
                         .get('snapshotDatasetSelect')
                         ?.enable();

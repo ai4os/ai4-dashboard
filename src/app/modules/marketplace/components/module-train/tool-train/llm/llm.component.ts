@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/marketplace/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
-    ModuleStorageConfiguration,
-    CvatToolConfiguration,
+    LlmConfiguration,
+    LlmToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { showLlmField } from './llm-conf-form/llm-conf-form.component';
 
 @Component({
-    selector: 'app-cvat',
-    templateUrl: './cvat.component.html',
-    styleUrls: ['./cvat.component.scss'],
+    selector: 'app-llm',
+    templateUrl: './llm.component.html',
+    styleUrl: './llm.component.scss',
 })
-export class CvatComponent implements OnInit {
+export class LlmComponent {
     constructor(
         private _formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -24,28 +25,37 @@ export class CvatComponent implements OnInit {
 
     title = '';
     step1Title = 'MODULES.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'MODULES.MODULE-TRAIN.DATA-CONF';
+    step2Title = 'MODULES.MODULE-TRAIN.LLM-CONF';
 
     showHelp = false;
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
-    storageConfForm: FormGroup = this._formBuilder.group({});
+    llmConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
-    storageConfDefaultValues!: ModuleStorageConfiguration;
+    llmConfDefaultValues!: LlmConfiguration;
 
     showGeneralFields: showGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
-        co2EmissionsInput: false,
         serviceToRunChip: false,
         serviceToRunPassInput: false,
         dockerImageInput: false,
         dockerTagSelect: false,
         infoButton: true,
-        cvatUsername: true,
-        cvatPassword: true,
+        cvatUsername: false,
+        cvatPassword: false,
         modelId: false,
+        co2EmissionsInput: false,
+    };
+
+    showLlmFields: showLlmField = {
+        type: true,
+        model_id: true,
+        ui_password: true,
+        HF_token: true,
+        openai_api_key: true,
+        openai_api_url: true,
     };
 
     ngOnInit(): void {
@@ -54,14 +64,14 @@ export class CvatComponent implements OnInit {
 
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
-            this.toolsService.getTool(params['id']).subscribe((cvat) => {
-                this.title = cvat.title;
+            this.toolsService.getTool(params['id']).subscribe((tool) => {
+                this.title = tool.title;
             });
             this.toolsService
-                .getCvatConfiguration(params['id'])
-                .subscribe((toolConf: CvatToolConfiguration) => {
+                .getVllmConfiguration(params['id'])
+                .subscribe((toolConf: LlmToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
-                    this.storageConfDefaultValues = toolConf.storage;
+                    this.llmConfDefaultValues = toolConf.llm;
                 });
         });
     }

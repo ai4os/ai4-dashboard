@@ -26,6 +26,8 @@ import { ToolTrainComponent } from './views/tool-train-view/tool-train.component
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FilterComponentComponent } from './components/filters/filter-component/filter-component.component';
 import { FiltersConfigurationDialogComponent } from './components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
+import { LlmComponent } from './components/module-train/tool-train/llm/llm.component';
+import { LlmConfFormComponent } from './components/module-train/tool-train/llm/llm-conf-form/llm-conf-form.component';
 import { Ai4lifeLoaderComponent } from './components/module-train/tool-train/ai4life-loader/ai4life-loader.component';
 import { Ai4lifeListComponent } from './components/modules-list/ai4life-list/ai4life-list.component';
 import { Ai4lifeModuleCardComponent } from './components/modules-cards/ai4life-module-card/ai4life-module-card.component';
@@ -47,6 +49,7 @@ import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4lif
         GeneralConfFormComponent,
         HardwareConfFormComponent,
         StorageConfFormComponent,
+        LlmConfFormComponent,
         ModuleDetailViewComponent,
         ToolTrainComponent,
         FederatedServerComponent,
@@ -55,6 +58,7 @@ import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4lif
         DatasetsListComponent,
         DatasetCreationDetailComponent,
         CvatComponent,
+        LlmComponent,
         Ai4lifeLoaderComponent,
         LoadingScreenComponent,
         FilterComponentComponent,

@@ -34,6 +34,7 @@
     <mat-card-content
         [ngClass]="{
             'card-content-mobile': this.mobileQuery.matches,
+            'card-content': !this.mobileQuery.matches,
         }"
     >
         <div *ngIf="deploymentHasError">
@@ -172,8 +173,103 @@
                     </ng-container>
                 </div>
             </div>
-
             <ng-template #noResources> - </ng-template>
+
+            @if (
+                deployment?.tool_name === 'ai4os-llm' && tokenField.value !== ''
+            ) {
+                <div>
+                    <h3 class="mb-0">
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.DETAILS'
+                                | translate
+                        }}
+                    </h3>
+
+                    <div>
+                        <h4>
+                            {{
+                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.URL'
+                                    | translate
+                            }}
+                        </h4>
+
+                        <div class="token-container">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    disabled="true"
+                                    value="{{ deployment?.endpoints?.vllm }}/v1"
+                                />
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                copy-to-clipboard="{{
+                                    deployment?.endpoints?.vllm
+                                }}/v1"
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h4>
+                            {{
+                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.TOKEN'
+                                    | translate
+                            }}
+                        </h4>
+                        <div class="token-container">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    [type]="
+                                        tokenField.hide ? 'password' : 'text'
+                                    "
+                                    disabled="true"
+                                    value="{{ tokenField.value }}"
+                                />
+
+                                <button
+                                    mat-icon-button
+                                    matSuffix
+                                    [matTooltip]="
+                                        tokenField.hide ? 'Show' : 'Hide'
+                                    "
+                                    (click)="tokenField.hide = !tokenField.hide"
+                                    [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="tokenField.hide"
+                                >
+                                    <mat-icon color="accent">{{
+                                        tokenField.hide
+                                            ? 'visibility_off'
+                                            : 'visibility'
+                                    }}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="tokenField.value"
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
         </ng-container>
     </mat-card-content>
     <mat-card-actions align="end">

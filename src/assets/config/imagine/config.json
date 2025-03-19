@@ -48,7 +48,7 @@
     "voName": "vo.imagine-ai.eu",
     "projectName": "iMagine",
     "projectUrl": "https://www.imagine-ai.eu/",
-    "acknowledgments": "The iMagine platform dashboard is a service provided by CSIC, co-funded by ",
+    "acknowledgments": "The iMagine dashboard is a service provided by CSIC, co-funded by ",
     "legalLinks": [
         {
             "name": "SIDENAV.TERMS-OF-USE",
@@ -62,5 +62,6 @@
     "analytics": {
         "domain": "dashboard.cloud.imagine-ai.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
-    }
+    },
+    "deployedInNomad": false
 }

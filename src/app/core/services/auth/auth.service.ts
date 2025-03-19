@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import {
     BehaviorSubject,
     Observable,
@@ -28,7 +28,8 @@ export class AuthService {
     constructor(
         private oauthService: OAuthService,
         private injector: Injector,
-        private appConfigService: AppConfigService
+        private appConfigService: AppConfigService,
+        private oauthConfig: OAuthModuleConfig
     ) {
         window.addEventListener('storage', (event) => {
             // The `key` is `null` if the event was caused by `.clear()`
@@ -88,7 +89,28 @@ export class AuthService {
         return this.injector.get(Router);
     }
 
-    public runInitialLoginSequence(state?: string): Promise<void> {
+    public async runInitialLoginSequence(state?: string): Promise<void> {
+        await this.appConfigService.loadAppConfig(this.oauthConfig);
+
+        // Some OICD providers only have issuer and clientId (EGI CheckIn)
+        if (
+            this.appConfigService.issuer !== '' &&
+            this.appConfigService.clientId !== ''
+        ) {
+            authCodeFlowConfig.issuer = this.appConfigService.issuer;
+            authCodeFlowConfig.clientId = this.appConfigService.clientId;
+        }
+
+        // Others also need a dummyClientSecret (Keycloak)
+        if (this.appConfigService.dummyClientSecret !== '') {
+            authCodeFlowConfig.dummyClientSecret =
+                this.appConfigService.dummyClientSecret;
+        }
+
+        // Configure OAuthService with the updated config
+        this.oauthService.configure(authCodeFlowConfig);
+        this.oauthService.setupAutomaticSilentRefresh();
+
         // 0. LOAD CONFIG:
         return (
             this.oauthService
@@ -200,39 +222,6 @@ export class AuthService {
         });
     }
 
-    /**
-     * Configure the oauth service, tries to login and saves the user profile for display.
-     *
-     *
-     * @memberof AuthService
-     */
-    configureOAuthService() {
-        this.oauthService.configure(authCodeFlowConfig);
-        this.oauthService.setupAutomaticSilentRefresh();
-        this.oauthService
-            .loadDiscoveryDocumentAndTryLogin()
-            .then((isLoggedIn) => {
-                if (isLoggedIn && this.isAuthenticated()) {
-                    if (this.oauthService.hasValidAccessToken()) {
-                        if (
-                            this.oauthService.state &&
-                            this.oauthService.state !== 'undefined' &&
-                            this.oauthService.state !== 'null'
-                        ) {
-                            let stateUrl = this.oauthService.state;
-                            if (stateUrl.startsWith('/') === false) {
-                                stateUrl = decodeURIComponent(stateUrl);
-                            }
-                            this.router.navigateByUrl(stateUrl);
-                        }
-                    } else {
-                        // Force logout as we have no access to refresh tokens without client secret
-                        this.logout();
-                    }
-                }
-            });
-    }
-
     login(url?: string) {
         this.oauthService.initLoginFlow(url);
     }
@@ -243,12 +232,22 @@ export class AuthService {
         }
         this.router.navigateByUrl('/marketplace');
 
-        // do not remove 'on boarding library' related variables
-        const tourName = 'ai4lifeMarketplaceTour';
-        const value = localStorage.getItem('ai4lifeMarketplaceTour');
+        // save 'on boarding library' related variables
+        const tours: { [key: string]: string | null } = {};
+        for (const key of Object.keys(localStorage)) {
+            if (key.endsWith('Tour')) {
+                tours[key] = localStorage.getItem(key);
+            }
+        }
+
+        // clear all local storage variables
         localStorage.clear();
-        if (value) {
-            localStorage.setItem(tourName, value);
+
+        // restore 'on boarding library' related variables
+        for (const [key, value] of Object.entries(tours)) {
+            if (value !== null) {
+                localStorage.setItem(key, value);
+            }
         }
     }
 
@@ -291,5 +290,38 @@ export class AuthService {
         });
 
         return roles;
+    }
+
+    /**
+     * Configure the oauth service, tries to login and saves the user profile for display.
+     *
+     *
+     * @memberof AuthService
+     */
+    configureOAuthService() {
+        this.oauthService.configure(authCodeFlowConfig);
+        this.oauthService.setupAutomaticSilentRefresh();
+        this.oauthService
+            .loadDiscoveryDocumentAndTryLogin()
+            .then((isLoggedIn) => {
+                if (isLoggedIn && this.isAuthenticated()) {
+                    if (this.oauthService.hasValidAccessToken()) {
+                        if (
+                            this.oauthService.state &&
+                            this.oauthService.state !== 'undefined' &&
+                            this.oauthService.state !== 'null'
+                        ) {
+                            let stateUrl = this.oauthService.state;
+                            if (stateUrl.startsWith('/') === false) {
+                                stateUrl = decodeURIComponent(stateUrl);
+                            }
+                            this.router.navigateByUrl(stateUrl);
+                        }
+                    } else {
+                        // Force logout as we have no access to refresh tokens without client secret
+                        this.logout();
+                    }
+                }
+            });
     }
 }

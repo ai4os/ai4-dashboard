@@ -12,6 +12,8 @@ export const authCodeFlowConfig: AuthConfig = {
 
     dummyClientSecret: '',
 
+    dummyClientSecret: '',
+
     // Authorization Code Flow
     responseType: 'code',
 

@@ -95,6 +95,7 @@ export class StepperFormComponent implements OnInit {
                         })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
+                co2: this.step1Form.value.generalConfForm.co2EmissionsInput,
                 docker_image:
                     this.step1Form.getRawValue().generalConfForm
                         .dockerImageInput,
@@ -130,6 +131,19 @@ export class StepperFormComponent implements OnInit {
                     this.step2Form.value.storageConfForm.snapshotDatasetSelect,
             };
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
+        } else if (this.title == 'Deploy your LLM') {
+            data.llm = {
+                type: this.step2Form.value.llmConfForm.deploymentTypeSelect,
+                model_id: this.step2Form.value.llmConfForm.vllmModelSelect,
+                ui_password: this.step2Form.value.llmConfForm.uiPasswordInput,
+                HF_token:
+                    this.step2Form.value.llmConfForm.huggingFaceTokenInput,
+                openai_api_key:
+                    this.step2Form.value.llmConfForm.openaiApiKeyInput,
+                openai_api_url:
+                    this.step2Form.value.llmConfForm.openaiApiUrlInput,
+            };
+            request = this.deploymentsService.trainTool('ai4os-llm', data);
         } else {
             data.hardware = {
                 cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,
@@ -172,6 +186,9 @@ export class StepperFormComponent implements OnInit {
                                 .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
+                    mp: this.step3Form!.value.federatedConfForm.dpInput
+                        ? this.step3Form!.value.federatedConfForm.mpInput
+                        : null,
                     noise_mult: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm.noiseMultInput
                         : null,

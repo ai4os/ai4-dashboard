@@ -17,6 +17,7 @@ export interface Ai4eoscModule {
     title: string;
     summary: string;
     description: string;
+    license: string;
     doi?: string;
     links: {
         source_code: string;
@@ -88,6 +89,7 @@ export interface confObjectStringBoolean {
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
+    co2?: confObject;
     docker_image: confObject;
     docker_tag: confObject;
     service: confObject;
@@ -121,6 +123,15 @@ export interface FederatedServerConfiguration {
     strategy: confObject;
 }
 
+export interface LlmConfiguration {
+    type: confObject;
+    model_id: confObjectRange;
+    ui_password: confObject;
+    HF_token: confObject;
+    openai_api_key: confObject;
+    openai_api_url: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -138,6 +149,11 @@ export interface CvatToolConfiguration {
     storage: ModuleStorageConfiguration;
 }
 
+export interface LlmToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    llm: LlmConfiguration;
+}
+
 export interface Ai4LifeLoaderToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -147,6 +163,7 @@ export interface TrainModuleRequest {
     general: {
         title: string;
         desc?: string;
+        co2?: boolean;
         docker_image: string;
         docker_tag: string;
         service: string;
@@ -181,9 +198,18 @@ export interface TrainModuleRequest {
         fl: number;
         momentum: number;
         dp: boolean;
+        mp: boolean;
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;
+    };
+    llm?: {
+        type: string;
+        model_id: string;
+        ui_password: string;
+        HF_token: string;
+        openai_api_key: string;
+        openai_api_url: string;
     };
 }
 
@@ -194,6 +220,12 @@ export interface Dataset {
 
 export interface Secret {
     token: string;
+}
+
+export interface VllmModelConfig {
+    name: string;
+    needs_HF_token?: boolean;
+    args: string[];
 }
 
 export interface GradioCreateResponse {
