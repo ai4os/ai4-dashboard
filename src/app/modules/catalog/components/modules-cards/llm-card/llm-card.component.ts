@@ -19,7 +19,7 @@ export class LlmCardComponent implements OnInit {
     }
 
     loadLLM() {
-        this.router.navigate(['catalog/tools/ai4os-llm/deploy'], {
+        this.router.navigate(['catalog/llms/ai4os-llm/deploy'], {
             state: { llmId: this.llm.family + '/' + this.llm.name },
         });
     }
