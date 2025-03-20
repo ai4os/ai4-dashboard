@@ -132,6 +132,16 @@ export interface LlmConfiguration {
     openai_api_url: confObject;
 }
 
+export interface NvflareConfiguration {
+    username: confObject;
+    password: confObject;
+    app_location: confObject;
+    public_project: confObjectRange;
+    frozen_project: confObjectRange;
+    starting_date: confObject;
+    end_date: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -157,6 +167,12 @@ export interface LlmToolConfiguration {
 export interface Ai4LifeLoaderToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
+}
+
+export interface NvflareToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+    nvflare: NvflareConfiguration;
 }
 
 export interface TrainModuleRequest {
@@ -210,6 +226,15 @@ export interface TrainModuleRequest {
         HF_token: string;
         openai_api_key: string;
         openai_api_url: string;
+    };
+    nvflare?: {
+        username: string;
+        password: string;
+        app_location: string;
+        public_project: boolean;
+        frozen_project: boolean;
+        starting_date: string;
+        end_date: string;
     };
 }
 

@@ -33,6 +33,8 @@ import { Ai4lifeListComponent } from './components/modules-list/ai4life-list/ai4
 import { Ai4lifeModuleCardComponent } from './components/modules-cards/ai4life-module-card/ai4life-module-card.component';
 import { Ai4eoscListComponent } from './components/modules-list/ai4eosc-list/ai4eosc-list.component';
 import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4life-module-detail/ai4life-module-detail.component';
+import { NvflareComponent } from './components/module-train/tool-train/nvflare/nvflare.component';
+import { NvflareConfFormComponent } from './components/module-train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +65,8 @@ import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4lif
         LoadingScreenComponent,
         FilterComponentComponent,
         FiltersConfigurationDialogComponent,
+        NvflareComponent,
+        NvflareConfFormComponent,
     ],
     imports: [
         CommonModule,

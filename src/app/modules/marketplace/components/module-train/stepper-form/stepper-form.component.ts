@@ -211,6 +211,29 @@ export class StepperFormComponent implements OnInit {
                     'ai4os-ai4life-loader',
                     data
                 );
+            } else if (this.title == 'Federated learning with NVFlare') {
+                data.nvflare = {
+                    username:
+                        this.step3Form!.value.nvflareConfForm.usernameInput,
+                    password:
+                        this.step3Form!.value.nvflareConfForm.passwordInput,
+                    app_location:
+                        this.step3Form!.value.nvflareConfForm.appLocationInput,
+                    public_project:
+                        this.step3Form!.value.nvflareConfForm
+                            .publicProjectSelect,
+                    frozen_project:
+                        this.step3Form!.value.nvflareConfForm
+                            .frozenProjectSelect,
+                    starting_date:
+                        this.step3Form!.value.nvflareConfForm.startingDateInput,
+                    end_date:
+                        this.step3Form!.value.nvflareConfForm.endDateInput,
+                };
+                request = this.deploymentsService.trainTool(
+                    'ai4os-nvflare',
+                    data
+                );
             } else {
                 data.storage = {
                     rclone_conf:
