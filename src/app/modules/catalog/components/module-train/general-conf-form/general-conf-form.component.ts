@@ -212,7 +212,6 @@ export class GeneralConfFormComponent implements OnInit {
                         ?.disable();
                 }
             });
-
         if (this._showFields.cvatUsername && this._showFields.cvatPassword) {
             this.authService.userProfileSubject.subscribe((profile) => {
                 const email = profile.email;

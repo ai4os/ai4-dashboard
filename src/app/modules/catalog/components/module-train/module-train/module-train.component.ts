@@ -10,6 +10,7 @@ import {
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
+import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 
 @Component({
     selector: 'app-module-train',
@@ -20,12 +21,15 @@ export class ModuleTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
+        private toolsService: ToolsService,
         public translateService: TranslateService,
         private route: ActivatedRoute,
         private router: Router
     ) {
         const navigation = this.router.getCurrentNavigation();
-        this.service = navigation?.extras?.state?.['service'];
+        this.service =
+            navigation?.extras?.state?.['service'] ||
+            history.state?.['service'];
     }
 
     title = '';
@@ -94,19 +98,36 @@ export class ModuleTrainComponent implements OnInit {
         this.route.parent?.params.subscribe((params) => {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;
-            });
-            this.modulesService
-                .getModuleConfiguration(params['id'])
-                .subscribe((moduleConf: ModuleConfiguration) => {
-                    this.generalConfDefaultValues = moduleConf.general;
-                    this.hardwareConfDefaultValues = moduleConf.hardware;
-                    this.storageConfDefaultValues = moduleConf.storage;
 
-                    if (this.service) {
-                        this.generalConfDefaultValues.service.value =
-                            this.service;
-                    }
-                });
+                if (this.title === 'AI4OS Development Environment') {
+                    this.toolsService
+                        .getDevEnvConfiguration(params['id'])
+                        .subscribe((moduleConf: ModuleConfiguration) => {
+                            this.generalConfDefaultValues = moduleConf.general;
+                            this.hardwareConfDefaultValues =
+                                moduleConf.hardware;
+                            this.storageConfDefaultValues = moduleConf.storage;
+                            if (this.service) {
+                                this.generalConfDefaultValues.service.value =
+                                    this.service;
+                            }
+                        });
+                } else {
+                    this.modulesService
+                        .getModuleConfiguration(params['id'])
+                        .subscribe((moduleConf: ModuleConfiguration) => {
+                            this.generalConfDefaultValues = moduleConf.general;
+                            this.hardwareConfDefaultValues =
+                                moduleConf.hardware;
+                            this.storageConfDefaultValues = moduleConf.storage;
+
+                            if (this.service) {
+                                this.generalConfDefaultValues.service.value =
+                                    this.service;
+                            }
+                        });
+                }
+            });
         });
     }
 
