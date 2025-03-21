@@ -66,7 +66,7 @@ export interface FilterGroup {
 
 export interface confObject {
     name: string;
-    value: string | number | boolean;
+    value: string | number | boolean | Date;
     description: string;
     options?: string[];
 }
