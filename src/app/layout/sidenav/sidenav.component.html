@@ -1,133 +1,200 @@
-<mat-sidenav-container class="container mat-primary">
+<mat-sidenav-container class="container">
     <mat-sidenav
         #sidenav
+        class="sidenav"
         [mode]="mobileQuery.matches ? 'over' : 'side'"
         [opened]="!mobileQuery.matches"
-        class="sidenav"
         [fixedInViewport]="options.value.fixed"
         [fixedTopGap]="options.value.top"
         [fixedBottomGap]="options.value.bottom"
     >
         <span class="main-info">
-            <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
+            @if (environment.develop) {
+                <div class="corner-ribbon">Dev</div>
+            }
+
             <div class="dashboard-logo-container">
-                <button
-                    *ngIf="mobileQuery.matches"
-                    mat-icon-button
-                    (click)="toggleSidenav()"
-                    style="z-index: 99"
-                >
-                    <mat-icon>menu</mat-icon>
-                </button>
+                @if (mobileQuery.matches) {
+                    <button
+                        mat-icon-button
+                        (click)="toggleSidenav()"
+                        style="z-index: 99"
+                    >
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                }
+
                 <a routerLink="">
                     <img src="../../../assets/images/dashboard-logo.png" />
                 </a>
             </div>
 
-            <nav id="sidebarMenu" class="">
+            <nav id="sidebarMenu">
                 <mat-nav-list>
-                    <ng-container *ngFor="let link of mainLinks">
+                    @if (isLoggedIn()) {
+                        <h4 class="sidenav-title">
+                            {{ 'SIDENAV.DASHBOARD' | translate }}
+                            <mat-icon>dashboard</mat-icon>
+                        </h4>
                         <mat-list-item
-                            *ngIf="
-                                !link.isRestricted ||
-                                (link.isRestricted && isLoggedIn())
-                            "
                             class="sidenav-item"
-                            [disabled]="link.isDisabled"
                             matTooltip=" {{
                                 'ERRORS.UNAUTHORIZED' | translate
                             }}"
                             [matTooltipPosition]="'right'"
-                            [matTooltipDisabled]="!link.isDisabled"
+                            [matTooltipDisabled]="!dashboardLink.isDisabled"
+                            [disabled]="dashboardLink.isDisabled"
                         >
                             <a
                                 mat-list-item
-                                [routerLink]="
-                                    !link.isDisabled ? link.url : null
-                                "
-                                routerLinkActive="active"
                                 class="sidenav-link"
+                                routerLinkActive="active"
+                                [routerLink]="
+                                    !dashboardLink.isDisabled
+                                        ? dashboardLink.url
+                                        : null
+                                "
                                 [routerLinkActiveOptions]="
-                                    link.url === '/'
+                                    dashboardLink.url === '/'
                                         ? { exact: true }
                                         : { exact: false }
                                 "
+                                >{{ dashboardLink.name | translate }}</a
+                            >
+                        </mat-list-item>
+                    }
+
+                    <h4 class="sidenav-title">
+                        {{ 'SIDENAV.CATALOG' | translate }}
+                        <mat-icon>menu_book</mat-icon>
+                    </h4>
+                    @for (link of catalogLinks; track link) {
+                        @if (
+                            !link.isRestricted ||
+                            (link.isRestricted && isLoggedIn())
+                        ) {
+                            <mat-list-item
+                                class="sidenav-item"
+                                matTooltip=" {{
+                                    'ERRORS.UNAUTHORIZED' | translate
+                                }}"
+                                [matTooltipPosition]="'right'"
+                                [matTooltipDisabled]="!link.isDisabled"
+                                [disabled]="link.isDisabled"
+                            >
+                                <a
+                                    mat-list-item
+                                    class="sidenav-link"
+                                    routerLinkActive="active"
+                                    [routerLink]="
+                                        !link.isDisabled ? link.url : null
+                                    "
+                                    [routerLinkActiveOptions]="
+                                        link.url === '/'
+                                            ? { exact: true }
+                                            : { exact: false }
+                                    "
+                                    >{{ link.name | translate }}</a
+                                >
+                            </mat-list-item>
+                        }
+                    }
+
+                    @if (isLoggedIn()) {
+                        <h4 class="sidenav-title">
+                            {{ 'SIDENAV.TASKS' | translate }}
+                            <mat-icon>avg_pace</mat-icon>
+                        </h4>
+                        @for (link of runtimeLinks; track link) {
+                            @if (
+                                !link.isRestricted ||
+                                (link.isRestricted && isLoggedIn())
+                            ) {
+                                <mat-list-item
+                                    class="sidenav-item"
+                                    matTooltip=" {{
+                                        'ERRORS.UNAUTHORIZED' | translate
+                                    }}"
+                                    [matTooltipPosition]="'right'"
+                                    [matTooltipDisabled]="!link.isDisabled"
+                                    [disabled]="link.isDisabled"
+                                >
+                                    <a
+                                        class="sidenav-link"
+                                        mat-list-item
+                                        routerLinkActive="active"
+                                        [routerLink]="
+                                            !link.isDisabled ? link.url : null
+                                        "
+                                        [routerLinkActiveOptions]="
+                                            link.url === '/'
+                                                ? { exact: true }
+                                                : { exact: false }
+                                        "
+                                        >{{ link.name | translate }}</a
+                                    >
+                                </mat-list-item>
+                            }
+                        }
+                    }
+
+                    <h4 class="sidenav-title">
+                        {{ 'SIDENAV.PLATFORM-SERVICES' | translate }}
+                        <mat-icon>open_in_new</mat-icon>
+                    </h4>
+                    @for (link of otherLinks; track link) {
+                        <mat-list-item class="sidenav-item">
+                            <a
+                                mat-list-item
+                                href="{{ link.url }}"
+                                routerLinkActive="active"
+                                class="sidenav-link"
+                                target="_blank"
                                 >{{ link.name | translate }}</a
                             >
                         </mat-list-item>
-                    </ng-container>
-
-                    <mat-divider class="mt-3 mb-3"></mat-divider>
-                    <h4 class="other-links ml-3">
-                        {{ 'SIDENAV.OTHER-LINKS' | translate }}
-                        <mat-icon>open_in_new</mat-icon>
-                    </h4>
-
-                    <mat-list-item
-                        *ngFor="let link of otherLinks"
-                        class="sidenav-item"
-                    >
-                        <a
-                            mat-list-item
-                            href="{{ link.url }}"
-                            routerLinkActive="active"
-                            class="sidenav-link"
-                            target="_blank"
-                            >{{ link.name | translate }}</a
-                        >
-                    </mat-list-item>
+                    }
                 </mat-nav-list>
             </nav>
         </span>
 
-        <div class="ml-3">
-            <img
-                src="../../../assets/images/eu-flag.jpg"
-                width="50"
-                class="mr-2"
-            />
-            <img
-                src="../../../assets/images/dashboard-logo.png"
-                width="100"
-                class="mb-1"
-            />
+        <div class="bottom-content">
             <p class="acknowledgments">
                 {{ acknowledgments }}
                 <a [href]="projectUrl">{{ projectName }}</a>
             </p>
-            <ng-container *ngFor="let link of legalLinks">
-                <a href="{{ link.url }}" class="sidenav-link" target="_blank">{{
-                    link.name | translate
-                }}</a>
-            </ng-container>
-            <div class="dashboard-version">
-                <a
-                    href="https://github.com/ai4os/ai4-dashboard/releases"
-                    target="_blank"
-                    class="sidenav-link"
-                    >{{ gitInfo.version }}</a
-                >
-            </div>
-            <div
-                *ngIf="
-                    voName === 'vo.imagine-ai.eu' || voName === 'vo.ai4life.eu'
-                "
-                class="powered-by-container"
-            >
-                <p class="acknowledgments">
-                    {{ 'SIDENAV.POWERED-BY' | translate }}
-                    <a href="https://ai4eosc.eu/" target="_blank">
-                        {{ 'SIDENAV.AI4OS' | translate }}</a
-                    >
-                </p>
+
+            <div class="bottom-images">
                 <img
-                    src="../../../assets/images/ai4-logo.png"
+                    src="../../../assets/images/eu-flag.jpg"
+                    width="50"
+                    class="mr-2"
+                />
+                <img
+                    src="../../../assets/images/dashboard-logo.png"
                     width="100"
                     class="mb-1"
                 />
             </div>
+
+            @if (voName === 'vo.imagine-ai.eu' || voName === 'vo.ai4life.eu') {
+                <div class="powered-by-container">
+                    <p class="acknowledgments">
+                        {{ 'SIDENAV.POWERED-BY' | translate }}
+                        <a href="https://ai4eosc.eu/" target="_blank">
+                            {{ 'SIDENAV.AI4OS' | translate }}</a
+                        >
+                    </p>
+                    <img
+                        src="../../../assets/images/ai4-logo.png"
+                        width="100"
+                        class="mb-1"
+                    />
+                </div>
+            }
         </div>
     </mat-sidenav>
+
     <mat-sidenav-content
         class="sidenav-content"
         [ngClass]="{
@@ -136,24 +203,27 @@
         }"
         (scroll)="checkScroll($event)"
     >
-        <app-top-navbar class="top-navbar"></app-top-navbar>
-        @if (isDeployedInNomad) {
-            <div class="nomad-banner">
-                <mat-icon class="icon">warning</mat-icon>
-
-                <div
-                    [innerHTML]="
-                        'ERRORS.DEPLOYED-IN-NOMAD'
-                            | translate
-                                : {
-                                      voName: this.voName,
-                                      statusURL: 'https://status.ai4eosc.eu/',
-                                  }
-                    "
-                ></div>
-                <mat-icon class="icon">warning</mat-icon>
-            </div>
-        }
-        <router-outlet></router-outlet>
+        <span>
+            <app-top-navbar></app-top-navbar>
+            @if (isDeployedInNomad) {
+                <div class="nomad-banner">
+                    <mat-icon>warning</mat-icon>
+                    <div
+                        [innerHTML]="
+                            'ERRORS.DEPLOYED-IN-NOMAD'
+                                | translate
+                                    : {
+                                          voName: this.voName,
+                                          statusURL:
+                                              'https://status.ai4eosc.eu/',
+                                      }
+                        "
+                    ></div>
+                    <mat-icon>warning</mat-icon>
+                </div>
+            }
+            <router-outlet></router-outlet>
+        </span>
+        <app-footer></app-footer>
     </mat-sidenav-content>
 </mat-sidenav-container>

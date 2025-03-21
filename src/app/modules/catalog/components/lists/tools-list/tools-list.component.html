@@ -1,0 +1,30 @@
+<div class="content">
+    <ng-container *ngIf="mobileQuery.matches; else desktop">
+        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+            <span
+                >{{ 'CATALOG.TOOLS-TITLE' | translate }}
+                <mat-icon>handyman</mat-icon></span
+            >
+        </mat-toolbar>
+    </ng-container>
+
+    <ng-template #desktop>
+        <mat-toolbar class="marketplace-toolbar">
+            <div class="marketplaces-container">
+                <span class="aligned-with-icon">
+                    {{ 'CATALOG.TOOLS-TITLE' | translate }}
+                    <mat-icon>handyman</mat-icon>
+                </span>
+            </div>
+        </mat-toolbar>
+    </ng-template>
+
+    @if (toolsLoading) {
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    } @else {
+        <app-catalog-list [elements]="tools"></app-catalog-list>
+    }
+</div>

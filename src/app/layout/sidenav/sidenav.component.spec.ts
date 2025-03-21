@@ -9,13 +9,18 @@ import { MaterialModule } from '@app/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 const mockedConfigService: any = {};
+
+const mockedUserProfile = new BehaviorSubject({});
+
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
-    userProfileSubject: of({}),
+    userProfileSubject: mockedUserProfile,
+    getValue: jest.fn(() => mockedUserProfile.getValue()),
 };
+
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
     media: 'test',

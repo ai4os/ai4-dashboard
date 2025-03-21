@@ -83,7 +83,13 @@ export class AuthService {
         this.isDoneLoading$,
     ]).pipe(map((values) => values.every((b) => b)));
 
-    userProfileSubject = new Subject<UserProfile>();
+    userProfileSubject = new BehaviorSubject<UserProfile>({
+        name: '',
+        email: '',
+        eduperson_entitlement: [],
+        isAuthorized: false,
+        isOperator: false,
+    });
 
     public async runInitialLoginSequence(state?: string): Promise<void> {
         await this.appConfigService.loadAppConfig(this.oauthConfig);
@@ -229,7 +235,7 @@ export class AuthService {
         if (this.oauthService.hasValidIdToken()) {
             this.oauthService.logOut(true);
         }
-        this.router.navigateByUrl('/marketplace');
+        this.router.navigateByUrl('/catalog/modules');
 
         // save 'on boarding library' related variables
         const tours: { [key: string]: string | null } = {};

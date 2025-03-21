@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="links">
+        <div class="dashboard-version">
+            <a
+                href="https://github.com/ai4os/ai4-dashboard/releases"
+                target="_blank"
+                >{{ gitInfo.version }}</a
+            >
+        </div>
+        @for (link of footerLinks; track link) {
+            <a href="{{ link.url }}" target="_blank">{{
+                link.name | translate
+            }}</a>
+        }
+    </div>
+    <p>Licensed under the Apache License 2.0. © {{ year }}</p>
+</div>

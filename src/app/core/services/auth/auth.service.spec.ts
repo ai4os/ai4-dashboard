@@ -8,7 +8,7 @@ import {
 } from 'angular-oauth2-oidc';
 import { AppConfigService } from '../app-config/app-config.service';
 import { Subject, of } from 'rxjs';
-import { MarketplaceModule } from '@app/modules/marketplace/marketplace.module';
+import { CatalogModule } from '@app/modules/catalog/catalog.module';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
@@ -93,7 +93,7 @@ describe('AuthService', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterModule.forRoot([
-                    { path: 'marketplace', component: MarketplaceModule },
+                    { path: 'marketplace', component: CatalogModule },
                 ]),
             ],
             providers: [

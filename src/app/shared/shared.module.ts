@@ -14,7 +14,6 @@ import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-ico
 import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 import { MarkdownModule } from 'ngx-markdown';
-
 @NgModule({
     declarations: [
         ConfirmationDialogComponent,

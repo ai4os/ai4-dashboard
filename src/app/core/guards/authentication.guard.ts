@@ -12,6 +12,6 @@ export const AuthenticationGuard = () => {
     }
 
     return authService.canActivateProtectedRoutes$.pipe(
-        tap(() => router.navigate(['/marketplace']))
+        tap(() => router.navigate(['/catalog/modules']))
     );
 };

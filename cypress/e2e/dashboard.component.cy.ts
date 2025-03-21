@@ -118,7 +118,7 @@ describe('dashboard section', function () {
             fixture: null,
         });
 
-        cy.visit('http://localhost:8080/dashboard');
+        cy.visit('http://localhost:8080/statistics');
         cy.reload();
 
         cy.contains('Statistics are not available at the moment', {
