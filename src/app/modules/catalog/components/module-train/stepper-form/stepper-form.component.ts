@@ -242,7 +242,15 @@ export class StepperFormComponent implements OnInit {
                             : this.step3Form!.value.storageConfForm
                                   .datasetsList,
                 };
-                request = this.deploymentsService.postTrainModule(data);
+
+                if (this.title === 'AI4OS Development Environment') {
+                    request = this.deploymentsService.trainTool(
+                        'ai4os-dev-env',
+                        data
+                    );
+                } else {
+                    request = this.deploymentsService.postTrainModule(data);
+                }
             }
         }
         request.subscribe({
