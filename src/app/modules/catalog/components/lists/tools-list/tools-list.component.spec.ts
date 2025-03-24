@@ -6,6 +6,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '@app/core/services/auth/auth.service';
+import { of } from 'rxjs';
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -24,6 +26,11 @@ const mockedMediaMatcher: any = {
 
 const mockedConfigService: any = {};
 
+const mockedAuthService: any = {
+    isAuthenticated: jest.fn(),
+    userProfileSubject: of({}),
+};
+
 describe('ToolsListComponent', () => {
     let component: ToolsListComponent;
     let fixture: ComponentFixture<ToolsListComponent>;
@@ -37,6 +44,7 @@ describe('ToolsListComponent', () => {
                 provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: AuthService, useValue: mockedAuthService },
             ],
         }).compileComponents();
 
