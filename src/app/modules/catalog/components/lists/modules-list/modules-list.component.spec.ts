@@ -10,6 +10,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 const mockedConfigService: any = {};
 const mockedAuthService: any = {
@@ -37,7 +38,11 @@ describe('ModulesListComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ModulesListComponent, SearchAi4eoscPipe],
-            imports: [SharedModule, NoopAnimationsModule],
+            imports: [
+                SharedModule,
+                NoopAnimationsModule,
+                TranslateModule.forRoot(),
+            ],
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
