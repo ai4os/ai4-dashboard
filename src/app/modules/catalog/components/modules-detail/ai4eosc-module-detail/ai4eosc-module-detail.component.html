@@ -281,16 +281,6 @@
                 [matTooltipDisabled]="isAuthorized()"
                 matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
             >
-                <a
-                    class="action-button"
-                    mat-raised-button
-                    color="accent"
-                    routerLink="deploy"
-                    id="deploy-tool-button"
-                    [disabled]="!isAuthorized()"
-                >
-                    {{ 'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
-                </a>
                 @if (module.id === 'ai4os-dev-env') {
                     <a
                         class="action-button"

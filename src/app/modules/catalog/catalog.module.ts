@@ -35,10 +35,10 @@ import { Ai4lifeLoaderComponent } from './components/module-train/tool-train/ai4
 import { Ai4lifeListComponent } from './components/lists/modules-list/ai4life-list/ai4life-list.component';
 import { Ai4lifeModuleCardComponent } from './components/modules-cards/ai4life-module-card/ai4life-module-card.component';
 import { Ai4lifeModuleDetailComponent } from './components/modules-detail/ai4life-module-detail/ai4life-module-detail.component';
-import { CatalogListComponent } from './components/catalog-list/catalog-list.component';
 import { ToolsListComponent } from './components/lists/tools-list/tools-list.component';
 import { LlmsListComponent } from './components/lists/llms-list/llms-list.component';
 import { LlmCardComponent } from './components/modules-cards/llm-card/llm-card.component';
+import { CatalogListComponent } from './components/lists/catalog-list/catalog-list.component';
 
 @NgModule({
     declarations: [
