@@ -225,10 +225,17 @@ export class StepperFormComponent implements OnInit {
                     frozen_project:
                         this.step3Form!.value.nvflareConfForm
                             .frozenProjectSelect,
-                    starting_date:
-                        this.step3Form!.value.nvflareConfForm.startingDateInput,
-                    end_date:
-                        this.step3Form!.value.nvflareConfForm.endDateInput,
+                    // convert dates: CET to UTC
+                    starting_date: new Date(
+                        this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
+                            this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
+                                60000
+                    ).toISOString(),
+                    end_date: new Date(
+                        this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
+                            this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
+                                60000
+                    ).toISOString(),
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-nvflare',
