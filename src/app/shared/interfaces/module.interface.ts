@@ -224,7 +224,11 @@ export interface Secret {
 
 export interface VllmModelConfig {
     name: string;
-    needs_HF_token?: boolean;
+    description: string;
+    family: string;
+    license: string;
+    context: string;
+    needs_HF_token: boolean;
     args: string[];
 }
 

@@ -1,0 +1,54 @@
+<div
+    class="basic-card"
+    [class]="{ 'default-cursor': !isAuthorized }"
+    [matTooltip]="'CATALOG.MODULE-DETAIL.UNAUTHORIZED' | translate"
+    [matTooltipDisabled]="isAuthorized"
+>
+    <mat-card
+        class="basic-card"
+        [class]="{ 'disabled-card': !isAuthorized }"
+        (click)="loadLLM()"
+    >
+        <span></span>
+        <mat-card-header class="basic-card-header">
+            <mat-card-title>
+                <img
+                    [matTooltip]="llm.family"
+                    src="../../../assets/images/llm-companies/{{
+                        image
+                    }}_logo.png"
+                />
+
+                <span>{{ llm.name }}</span>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-divider></mat-divider>
+            <div class="basic-card-content">
+                <mat-card-subtitle class="mt-2">
+                    <markdown
+                        [data]="llm.description"
+                        ngPreserveWhitespaces
+                        [disableSanitizer]="true"
+                    >
+                    </markdown>
+                </mat-card-subtitle>
+            </div>
+        </mat-card-content>
+
+        <mat-card-footer class="basic-card-footer">
+            <mat-chip-set class="chip-set">
+                <app-chip-with-icon
+                    icon="straighten"
+                    [text]="llm.context"
+                    tooltip=" {{ 'CATALOG.MODULE-DETAIL.CONTEXT' | translate }}"
+                ></app-chip-with-icon>
+                <app-chip-with-icon
+                    icon="license"
+                    [text]="llm.license"
+                    tooltip=" {{ 'CATALOG.MODULE-DETAIL.LICENSE' | translate }}"
+                ></app-chip-with-icon>
+            </mat-chip-set>
+        </mat-card-footer>
+    </mat-card>
+</div>
