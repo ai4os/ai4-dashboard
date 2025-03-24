@@ -55,6 +55,15 @@
     display: block;
 }
 
+.disabled-card {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.default-cursor {
+    cursor: default !important;
+}
+
 mat-card-subtitle {
     display: flex;
     flex-wrap: wrap;

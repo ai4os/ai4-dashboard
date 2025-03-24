@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@app/core/services/auth/auth.service';
 import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
 
 @Component({
@@ -8,14 +9,22 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     styleUrl: './llm-card.component.scss',
 })
 export class LlmCardComponent implements OnInit {
-    constructor(private router: Router) {}
+    constructor(
+        protected authService: AuthService,
+        private router: Router
+    ) {}
 
     @Input() llm!: VllmModelConfig;
 
+    isAuthorized = false;
     image = '';
 
     ngOnInit(): void {
         this.image = this.llm.family;
+
+        this.authService.userProfileSubject.subscribe((profile) => {
+            this.isAuthorized = profile.isAuthorized;
+        });
     }
 
     loadLLM() {
