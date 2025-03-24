@@ -108,6 +108,21 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     isDeployedInNomad = '';
 
     ngOnInit(): void {
+        // save config and check vo
+        this.otherLinks = this.appConfigService.sidenavMenu;
+        this.acknowledgments = this.appConfigService.acknowledgments;
+        this.projectName = this.appConfigService.projectName;
+        this.projectUrl = this.appConfigService.projectUrl;
+        this.voName = this.appConfigService.voName;
+        this.isDeployedInNomad = this.appConfigService.deployedInNomad;
+
+        // remove LLM menu
+        if (this.voName === 'vo.imagine-ai.eu') {
+            this.catalogLinks = this.catalogLinks.filter(
+                (link) => link.name !== 'SIDENAV.LLMS'
+            );
+        }
+
         // get the current profile if it already exists
         const currentProfile = this.authService.userProfileSubject.getValue();
         if (currentProfile) {
@@ -122,13 +137,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             this.isAuthorized = profile.isAuthorized;
             this.updateMainLinks();
         });
-
-        this.otherLinks = this.appConfigService.sidenavMenu;
-        this.acknowledgments = this.appConfigService.acknowledgments;
-        this.projectName = this.appConfigService.projectName;
-        this.projectUrl = this.appConfigService.projectUrl;
-        this.voName = this.appConfigService.voName;
-        this.isDeployedInNomad = this.appConfigService.deployedInNomad;
     }
 
     isLoggedIn(): boolean {
