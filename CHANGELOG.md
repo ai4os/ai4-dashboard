@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.2.0](https://github.com/ai4os/ai4-dashboard/compare/v3.1.0...v3.2.0) (2025-03-24)
+
+
+### Features
+
+* merge configuration steps in llm tool ([#371](https://github.com/ai4os/ai4-dashboard/issues/371)) ([0638f4f](https://github.com/ai4os/ai4-dashboard/commit/0638f4f92109e51583108a4aeb48198b0366b452))
+* reorganize left navigation bar ([#370](https://github.com/ai4os/ai4-dashboard/issues/370)) ([444f021](https://github.com/ai4os/ai4-dashboard/commit/444f0211aec6d2f815c3661c3e2b37562719de44))
+
+
+### Bug Fixes
+
+* add silent errors to http interceptor ([#365](https://github.com/ai4os/ai4-dashboard/issues/365)) ([b8914ba](https://github.com/ai4os/ai4-dashboard/commit/b8914ba28123da901f27ceef90b7b7473360d206))
+
 ## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
 
 
