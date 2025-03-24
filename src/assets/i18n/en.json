@@ -241,7 +241,7 @@
             "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
             "CONTEXT": "Tokens",
-            "UNAUTHORIZED": "You must login and be a member of an authorized VO to use this",
+            "UNAUTHORIZED": "You must login and be a member of project to use this",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
