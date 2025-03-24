@@ -276,6 +276,7 @@
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
             "LLM-CONF": "LLM configuration",
+            "NVFLARE-CONF": "NVFlare configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -393,6 +394,18 @@
                 "API-URL": "OpenAI API base URL",
                 "API-URL-REQUIRED": "Please add the OpenAI API base URL",
                 "API-URL-FORMAT": "Invalid URL format"
+            },
+            "NVFLARE-CONF-FORM": {
+                "TITLE": "NVFlare options",
+                "USERNAME": "Username",
+                "PASSWORD": "Password",
+                "PASSWORD-REQUIRED": "Please add a password",
+                "APP-LOCATION": "Docker image",
+                "PUBLIC-PROJECT": "Make project public",
+                "FROZEN-PROJECT": "Freeze the NVFLARE configuration",
+                "STARTING-DATE": "Starting date",
+                "END-DATE": "End date",
+                "DATES": "Select start and end date"
             }
         },
         "MODULE-TRY": {
