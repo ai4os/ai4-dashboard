@@ -16,6 +16,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { of } from 'rxjs';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+
+const mockedConfigService: any = {};
 
 const mockDefaultFormValues: ModuleGeneralConfiguration = {
     title: { name: '', value: '', description: '' },
@@ -104,6 +107,7 @@ describe('GeneralConfFormComponent', () => {
                 provideHttpClient(),
                 FormGroupDirective,
                 FormBuilder,
+                { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: FormGroupDirective, useValue: formGroupDirective },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

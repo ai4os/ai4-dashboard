@@ -94,9 +94,13 @@ export interface ModuleGeneralConfiguration {
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
+    // CVAT
     cvat_username?: confObject;
     cvat_password?: confObject;
+    // AI4LIFE
     model_id?: confObject;
+    // LLM
+    llm?: LlmConfiguration;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -125,7 +129,7 @@ export interface FederatedServerConfiguration {
 
 export interface LlmConfiguration {
     type: confObject;
-    model_id: confObjectRange;
+    vllm_model_id: confObjectRange;
     ui_password: confObject;
     HF_token: confObject;
     openai_api_key: confObject;
@@ -168,8 +172,10 @@ export interface TrainModuleRequest {
         docker_tag: string;
         service: string;
         jupyter_password?: string;
+        // cvat
         cvat_username?: string;
         cvat_password?: string;
+        // ai4life
         model_id?: string;
     };
     hardware?: {
@@ -205,7 +211,7 @@ export interface TrainModuleRequest {
     };
     llm?: {
         type: string;
-        model_id: string;
+        vllm_model_id: string;
         ui_password: string;
         HF_token: string;
         openai_api_key: string;

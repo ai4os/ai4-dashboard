@@ -43,9 +43,9 @@ export class CvatComponent implements OnInit {
         dockerImageInput: false,
         dockerTagSelect: false,
         infoButton: true,
-        cvatUsername: true,
-        cvatPassword: true,
-        modelId: false,
+        cvatFields: true,
+        ai4lifeFields: false,
+        llmFields: false,
     };
 
     ngOnInit(): void {
