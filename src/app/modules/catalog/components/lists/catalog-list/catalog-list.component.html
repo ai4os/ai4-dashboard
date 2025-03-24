@@ -102,7 +102,7 @@
             <span
                 fxFlex
                 *ngFor="
-                    let element of sortedTools
+                    let element of displayedElements
                         | searchAi4eoscModule
                             : this.searchFormGroup.get('search')
                                   ?.value as elements
@@ -118,28 +118,6 @@
             >
                 <app-ai4eosc-module-card
                     [attr.id]="element.id === 'ai4os-llm' ? 'step1' : null"
-                    [module]="element"
-                ></app-ai4eosc-module-card>
-            </span>
-        </div>
-
-        <mat-divider
-            *ngIf="sortedTools.length > 0 && sortedModules.length > 0"
-            class="m-3"
-        ></mat-divider>
-
-        <div class="modules-cards-container">
-            <span
-                fxFlex
-                *ngFor="
-                    let element of sortedModules
-                        | searchAi4eoscModule
-                            : this.searchFormGroup.get('search')
-                                  ?.value as elements
-                "
-                class="m-2"
-            >
-                <app-ai4eosc-module-card
                     [module]="element"
                 ></app-ai4eosc-module-card>
             </span>

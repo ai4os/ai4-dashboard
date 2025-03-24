@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Ai4eoscListComponent } from './ai4eosc-list.component';
+
+import { CatalogListComponent } from './catalog-list.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { SharedModule } from '@app/shared/shared.module';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { SharedModule } from '@app/shared/shared.module';
+import { SearchAi4eoscPipe } from '@app/modules/catalog/pipes/search-card-pipe';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Pipe, PipeTransform } from '@angular/core';
-
-const mockedConfigService: any = {};
 
 const mockedMediaQueryList: MediaQueryList = {
     matches: true,
@@ -20,34 +19,30 @@ const mockedMediaQueryList: MediaQueryList = {
     dispatchEvent: jest.fn(),
     removeEventListener: jest.fn(),
 };
+
 const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
-@Pipe({ name: 'searchAi4eoscModule' })
-class MockSearchPipe implements PipeTransform {
-    transform(value: any): any {
-        return value;
-    }
-}
+const mockedConfigService: any = {};
 
-describe('AI4EOSCListComponent', () => {
-    let component: Ai4eoscListComponent;
-    let fixture: ComponentFixture<Ai4eoscListComponent>;
+describe('CatalogListComponent', () => {
+    let component: CatalogListComponent;
+    let fixture: ComponentFixture<CatalogListComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4eoscListComponent, MockSearchPipe],
+            declarations: [CatalogListComponent, SearchAi4eoscPipe],
+            imports: [SharedModule, NoopAnimationsModule],
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
-            imports: [SharedModule, NoopAnimationsModule],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(Ai4eoscListComponent);
+        fixture = TestBed.createComponent(CatalogListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

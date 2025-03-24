@@ -291,6 +291,65 @@
                 >
                     {{ 'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
                 </a>
+                @if (module.id === 'ai4os-dev-env') {
+                    <a
+                        class="action-button"
+                        mat-raised-button
+                        color="accent"
+                        [matMenuTriggerFor]="deployMenu"
+                        [disabled]="!isAuthorized()"
+                    >
+                        {{ 'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
+
+                        <mat-icon class="arrow-button">
+                            keyboard_arrow_down
+                        </mat-icon>
+                    </a>
+
+                    <mat-menu #deployMenu="matMenu" xPosition="before">
+                        <button mat-menu-item (click)="trainModule('jupyter')">
+                            <span class="button-with-icon">
+                                <img
+                                    src="../../../../../assets/images/jupyter-logo.png"
+                                />
+                                <div class="button-texts">
+                                    <b>
+                                        {{
+                                            'CATALOG.MODULE-DETAIL.CODESPACES.JUPYTERLAB'
+                                                | translate
+                                        }}</b
+                                    >
+                                </div>
+                            </span>
+                        </button>
+                        <button mat-menu-item (click)="trainModule('vscode')">
+                            <span class="button-with-icon">
+                                <img
+                                    src="../../../../../assets/images/vscode-logo.png"
+                                />
+                                <div class="button-texts">
+                                    <b>
+                                        {{
+                                            'CATALOG.MODULE-DETAIL.CODESPACES.VSCODE'
+                                                | translate
+                                        }}</b
+                                    >
+                                </div>
+                            </span>
+                        </button>
+                    </mat-menu>
+                } @else {
+                    <a
+                        class="action-button"
+                        mat-raised-button
+                        color="accent"
+                        routerLink="deploy"
+                        id="deploy-tool-button"
+                        [disabled]="!isAuthorized()"
+                    >
+                        {{ 'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
+                    </a>
+                }
             </div>
         </div>
     </mat-card-header>
@@ -391,7 +450,12 @@
                     </div>
                 </div>
 
-                <div *ngIf="module['data-type']" class="box-container">
+                <div
+                    *ngIf="
+                        module['data-type'] && module['data-type'].length > 0
+                    "
+                    class="box-container"
+                >
                     <div class="box-title">
                         {{ 'CATALOG.MODULE-DETAIL.DATA-TYPES' | translate }}
                     </div>

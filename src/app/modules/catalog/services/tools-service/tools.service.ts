@@ -10,6 +10,7 @@ import {
     Ai4eoscModule,
     ModuleSummary,
     VllmModelConfig,
+    ModuleConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { map, Observable } from 'rxjs';
@@ -44,6 +45,17 @@ export class ToolsService {
     getTool(moduleName: string): Observable<Ai4eoscModule> {
         const url = `${base}${endpoints.tool.replace(':name', moduleName)}`;
         return this.http.get<Ai4eoscModule>(url);
+    }
+
+    getDevEnvConfiguration(toolName: string): Observable<ModuleConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+
+        return this.http.get<ModuleConfiguration>(url, {
+            params: this.voParam,
+        });
     }
 
     getFederatedServerConfiguration(

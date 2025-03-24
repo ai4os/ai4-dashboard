@@ -94,7 +94,10 @@
                                 </div>
                             }
 
-                            @if (deploymentType === 'module') {
+                            @if (
+                                deploymentType === 'module' ||
+                                row.containerName?.includes('ai4os-dev-env')
+                            ) {
                                 <div matTooltip="Create snapshot">
                                     <a
                                         id="snapshot-button"

@@ -4,18 +4,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { FiltersConfigurationDialogComponent } from '@app/modules/catalog/components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
 import {
     ModuleSummary,
     FilterGroup,
 } from '@app/shared/interfaces/module.interface';
-import { FiltersConfigurationDialogComponent } from '../../../filters/filters-configuration-dialog/filters-configuration-dialog.component';
 
 @Component({
-    selector: 'app-ai4eosc-list',
-    templateUrl: './ai4eosc-list.component.html',
-    styleUrl: './ai4eosc-list.component.scss',
+    selector: 'app-catalog-list',
+    templateUrl: './catalog-list.component.html',
+    styleUrl: './catalog-list.component.scss',
 })
-export class Ai4eoscListComponent {
+export class CatalogListComponent {
     constructor(
         private fb: FormBuilder,
         private appConfigService: AppConfigService,
@@ -28,17 +28,15 @@ export class Ai4eoscListComponent {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
         this.voName = this.appConfigService.voName;
     }
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
-    searchFormGroup!: FormGroup;
-    voName = '';
-
     @Input() elements: ModuleSummary[] = [];
 
+    private _mobileQueryListener: () => void;
+    mobileQuery: MediaQueryList;
+
     displayedElements: ModuleSummary[] = [];
-    sortedTools: ModuleSummary[] = [];
-    sortedModules: ModuleSummary[] = [];
+    searchFormGroup!: FormGroup;
     resultsFound = 0;
+    voName = '';
 
     // sorting
     sortBy = 'name';
@@ -336,44 +334,16 @@ export class Ai4eoscListComponent {
     }
 
     orderElements() {
-        // TODO: delete second condition when ai4os-dev-end is returned in /tools
-        this.sortedTools = this.displayedElements.filter(
-            (m) =>
-                m.categories.includes('AI4 tools') || m.name === 'ai4os-dev-env'
-        );
-        this.sortedModules = this.displayedElements.filter(
-            (m) =>
-                !m.categories.includes('AI4 tools') &&
-                m.name !== 'ai4os-dev-env'
-        );
-
         // sort by name
         if (this.sortBy === 'name') {
-            this.sortedTools.sort((a, b) => {
-                return a.title.localeCompare(b.title);
-            });
-            this.sortedModules.sort((a, b) => {
+            this.displayedElements.sort((a, b) => {
                 return a.title.localeCompare(b.title);
             });
         }
 
         // order by most recent
         if (this.sortBy === 'recent') {
-            this.sortedTools.sort((a, b) => {
-                // handle cases where dates are missing
-                if (a.dates === undefined) return 1;
-                if (b.dates === undefined) return -1;
-
-                const dateA = new Date(a.dates.updated).getTime();
-                const dateB = new Date(b.dates.updated).getTime();
-
-                // handle cases where updated dates are invalid or missing
-                if (isNaN(dateA)) return 1;
-                if (isNaN(dateB)) return -1;
-
-                return dateB - dateA;
-            });
-            this.sortedModules.sort((a, b) => {
+            this.displayedElements.sort((a, b) => {
                 // handle cases where dates are missing
                 if (a.dates === undefined) return 1;
                 if (b.dates === undefined) return -1;
@@ -388,8 +358,6 @@ export class Ai4eoscListComponent {
                 return dateB - dateA;
             });
         }
-
-        this.displayedElements = [...this.sortedTools, ...this.sortedModules];
     }
 
     resetFilters() {
