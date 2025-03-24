@@ -56,7 +56,7 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-    storageConfFormGroup!: FormGroup;
+        storageConfFormGroup!: FormGroup;
 
     @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
