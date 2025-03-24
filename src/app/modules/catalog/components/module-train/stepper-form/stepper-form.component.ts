@@ -166,7 +166,7 @@ export class StepperFormComponent implements OnInit {
             };
 
             if (this.title == 'Federated learning server') {
-                data.configuration = {
+                data.flower = {
                     rounds: this.step3Form!.value.federatedConfForm.roundsInput,
                     metric: this.step3Form!.value.federatedConfForm.metricInput,
                     min_fit_clients:

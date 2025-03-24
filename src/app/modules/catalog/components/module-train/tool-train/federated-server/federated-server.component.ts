@@ -77,7 +77,7 @@ export class FederatedServerComponent implements OnInit {
                 .subscribe((moduleConf: FederatedServerToolConfiguration) => {
                     this.generalConfDefaultValues = moduleConf.general;
                     this.hardwareConfDefaultValues = moduleConf.hardware;
-                    this.federatedConfDefaultValues = moduleConf.configuration;
+                    this.federatedConfDefaultValues = moduleConf.flower;
                 });
         });
     }
