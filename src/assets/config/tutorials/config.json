@@ -44,5 +44,9 @@
         "domain": "dashboard.cloud.ai4eosc.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
     },
+    "apiURL": "",
+    "issuer": "",
+    "clientId": "",
+    "dummyClientSecret": "",
     "deployedInNomad": false
 }
