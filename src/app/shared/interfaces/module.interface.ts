@@ -130,6 +130,7 @@ export interface FederatedServerConfiguration {
 export interface LlmConfiguration {
     type: confObject;
     vllm_model_id: confObjectRange;
+    ui_username: confObject;
     ui_password: confObject;
     HF_token: confObject;
     openai_api_key: confObject;
@@ -212,6 +213,7 @@ export interface TrainModuleRequest {
     llm?: {
         type: string;
         vllm_model_id: string;
+        ui_username: string;
         ui_password: string;
         HF_token: string;
         openai_api_key: string;

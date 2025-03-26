@@ -445,6 +445,28 @@
                         type="text"
                         formControlName="uiUsernameInput"
                     />
+                    <mat-error
+                        *ngIf="
+                            generalConfFormGroup.get('uiUsernameInput')
+                                ?.errors?.['required']
+                        "
+                    >
+                        {{
+                            'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME-REQUIRED'
+                                | translate
+                        }}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="
+                            generalConfFormGroup.get('uiUsernameInput')
+                                ?.errors?.['invalidEmail']
+                        "
+                    >
+                        {{
+                            'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME-INVALID'
+                                | translate
+                        }}
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
