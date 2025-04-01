@@ -17,12 +17,19 @@ const mockedConfig = {
     projectUrl: 'https://ai4eosc.eu',
     acknowledgments:
         'The AI4EOSC dashboard is a service provided by CSIC, co-funded by ',
-    legalLinks: [
+    footerLinks: [
         {
             name: 'SIDENAV.TERMS-OF-USE',
             url: 'https://ai4eosc.eu/platform/acceptable-use-policy/',
         },
     ],
+};
+
+const mockedOauthConfig = {
+    resourceServer: {
+        allowedUrls: ['https://api.test.ai4eosc.eu/v1'],
+        sendAccessToken: true,
+    },
 };
 
 describe('AppConfigService', () => {
@@ -44,7 +51,7 @@ describe('AppConfigService', () => {
         const spy = jest
             .spyOn(service, 'loadAppConfig')
             .mockReturnValue(Promise.resolve());
-        service.loadAppConfig();
+        service.loadAppConfig(mockedOauthConfig);
         expect(spy).toHaveBeenCalledTimes(1);
         expect(service['appConfig']).toEqual(mockedConfig);
     });
@@ -98,7 +105,7 @@ describe('AppConfigService', () => {
     });
 
     it('should return legalLinks correctly', () => {
-        const legalLinks = service.legalLinks;
-        expect(legalLinks).toBe(mockedConfig.legalLinks);
+        const legalLinks = service.footerLinks;
+        expect(legalLinks).toBe(mockedConfig.footerLinks);
     });
 });

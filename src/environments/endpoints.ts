@@ -25,6 +25,9 @@ export const endpoints = {
     services: '/services',
     serviceByName: '/services/:name',
     runService: '/run/:name',
+    // AI4Life modules
+    ai4lifeModulesSummary:
+        'https://raw.githubusercontent.com/ai4os/ai4os-ai4life-loader/main/models/filtered_models.json',
     // LLM chatbot
     chatCompletions: '/chat/completions',
 };

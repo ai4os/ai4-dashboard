@@ -20,6 +20,7 @@ export interface Deployment {
     main_endpoint: string;
     alloc_ID?: string;
     error_msg?: string;
+    tool_name?: string;
 }
 
 export interface StatusReturn {
@@ -48,6 +49,7 @@ export interface DeploymentTableRow {
     error_msg?: string;
     description?: string;
     snapshot_ID?: string;
+    datacenter?: string;
 }
 
 export interface Snapshot {

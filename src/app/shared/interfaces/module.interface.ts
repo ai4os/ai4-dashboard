@@ -12,11 +12,12 @@ export interface ModuleSummary {
     'data-type'?: string[];
 }
 
-export interface Module {
+export interface Ai4eoscModule {
     id: string;
     title: string;
     summary: string;
     description: string;
+    license: string;
     doi?: string;
     links: {
         source_code: string;
@@ -36,6 +37,18 @@ export interface Module {
     categories: string[];
     tags: string[];
     'data-type'?: string[];
+}
+
+export interface Ai4lifeModule {
+    id: string;
+    name: string;
+    description: string;
+    doi: string;
+    created: string;
+    covers: string[];
+    downloadCount: string;
+    tags: string[];
+    license: string;
 }
 
 export interface Dates {
@@ -76,12 +89,18 @@ export interface confObjectStringBoolean {
 export interface ModuleGeneralConfiguration {
     title: confObject;
     desc?: confObject;
+    co2?: confObject;
     docker_image: confObject;
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
+    // CVAT
     cvat_username?: confObject;
     cvat_password?: confObject;
+    // AI4LIFE
+    model_id?: confObject;
+    // LLM
+    llm?: LlmConfiguration;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -108,6 +127,15 @@ export interface FederatedServerConfiguration {
     strategy: confObject;
 }
 
+export interface LlmConfiguration {
+    type: confObject;
+    vllm_model_id: confObjectRange;
+    ui_password: confObject;
+    HF_token: confObject;
+    openai_api_key: confObject;
+    openai_api_url: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -117,7 +145,7 @@ export interface ModuleConfiguration {
 export interface FederatedServerToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
-    configuration: FederatedServerConfiguration;
+    flower: FederatedServerConfiguration;
 }
 
 export interface CvatToolConfiguration {
@@ -125,16 +153,30 @@ export interface CvatToolConfiguration {
     storage: ModuleStorageConfiguration;
 }
 
+export interface LlmToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    llm: LlmConfiguration;
+}
+
+export interface Ai4LifeLoaderToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
         desc?: string;
+        co2?: boolean;
         docker_image: string;
         docker_tag: string;
         service: string;
         jupyter_password?: string;
+        // cvat
         cvat_username?: string;
         cvat_password?: string;
+        // ai4life
+        model_id?: string;
     };
     hardware?: {
         cpu_num: number;
@@ -152,7 +194,7 @@ export interface TrainModuleRequest {
         cvat_backup?: string;
         datasets?: Dataset[];
     };
-    configuration?: {
+    flower?: {
         rounds: number;
         metric: string[];
         min_fit_clients: number;
@@ -162,9 +204,18 @@ export interface TrainModuleRequest {
         fl: number;
         momentum: number;
         dp: boolean;
+        mp: boolean;
         noise_mult: number;
         sampled_clients: number;
         clip_norm: number;
+    };
+    llm?: {
+        type: string;
+        vllm_model_id: string;
+        ui_password: string;
+        HF_token: string;
+        openai_api_key: string;
+        openai_api_url: string;
     };
 }
 
@@ -175,6 +226,16 @@ export interface Dataset {
 
 export interface Secret {
     token: string;
+}
+
+export interface VllmModelConfig {
+    name: string;
+    description: string;
+    family: string;
+    license: string;
+    context: string;
+    needs_HF_token: boolean;
+    args: string[];
 }
 
 export interface GradioCreateResponse {

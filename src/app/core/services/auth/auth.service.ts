@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import {
     BehaviorSubject,
     Observable,
@@ -28,7 +28,8 @@ export class AuthService {
     constructor(
         private oauthService: OAuthService,
         private injector: Injector,
-        private appConfigService: AppConfigService
+        private appConfigService: AppConfigService,
+        private oauthConfig: OAuthModuleConfig
     ) {
         window.addEventListener('storage', (event) => {
             // The `key` is `null` if the event was caused by `.clear()`
@@ -42,10 +43,6 @@ export class AuthService {
             this.isAuthenticatedSubject$.next(
                 this.oauthService.hasValidAccessToken()
             );
-
-            if (!this.oauthService.hasValidAccessToken()) {
-                //this.navigateToLoginPage();
-            }
         });
 
         this.oauthService.events.subscribe(() => {
@@ -73,8 +70,6 @@ export class AuthService {
 
         this.oauthService.configure(authCodeFlowConfig);
         this.oauthService.setupAutomaticSilentRefresh();
-
-        //this.configureOAuthService();
     }
 
     private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
@@ -88,9 +83,41 @@ export class AuthService {
         this.isDoneLoading$,
     ]).pipe(map((values) => values.every((b) => b)));
 
-    userProfileSubject = new Subject<UserProfile>();
+    userProfileSubject = new BehaviorSubject<UserProfile>({
+        name: '',
+        email: '',
+        eduperson_entitlement: [],
+        isAuthorized: false,
+        isOperator: false,
+    });
 
-    public runInitialLoginSequence(state?: string): Promise<void> {
+    public async runInitialLoginSequence(state?: string): Promise<void> {
+        await this.appConfigService.loadAppConfig(this.oauthConfig);
+
+        // Some OICD providers only have issuer and clientId (EGI CheckIn)
+        if (
+            this.appConfigService.issuer &&
+            this.appConfigService.clientId &&
+            this.appConfigService.issuer !== '' &&
+            this.appConfigService.clientId !== ''
+        ) {
+            authCodeFlowConfig.issuer = this.appConfigService.issuer;
+            authCodeFlowConfig.clientId = this.appConfigService.clientId;
+        }
+
+        // Others also need a dummyClientSecret (Keycloak)
+        if (
+            this.appConfigService.dummyClientSecret &&
+            this.appConfigService.dummyClientSecret !== ''
+        ) {
+            authCodeFlowConfig.dummyClientSecret =
+                this.appConfigService.dummyClientSecret;
+        }
+
+        // Configure OAuthService with the updated config
+        this.oauthService.configure(authCodeFlowConfig);
+        this.oauthService.setupAutomaticSilentRefresh();
+
         // 0. LOAD CONFIG:
         return (
             this.oauthService
@@ -200,6 +227,59 @@ export class AuthService {
         });
     }
 
+    login(url?: string) {
+        this.oauthService.initLoginFlow(url);
+    }
+
+    logout() {
+        if (this.oauthService.hasValidIdToken()) {
+            this.oauthService.logOut(true);
+        }
+        this.router.navigateByUrl('/catalog/modules');
+
+        // save 'on boarding library' related variables
+        const tours: { [key: string]: string | null } = {};
+        for (const key of Object.keys(localStorage)) {
+            if (key.endsWith('Tour')) {
+                tours[key] = localStorage.getItem(key);
+            }
+        }
+
+        // clear all local storage variables
+        localStorage.clear();
+
+        // restore 'on boarding library' related variables
+        for (const [key, value] of Object.entries(tours)) {
+            if (value !== null) {
+                localStorage.setItem(key, value);
+            }
+        }
+    }
+
+    isAuthenticated(): boolean {
+        return !!this.oauthService.getIdToken();
+    }
+
+    parseVosFromProfile(entitlements: string[]): string[] {
+        const foundVos: string[] = [];
+        entitlements.forEach((vo) => {
+            if (vo.match('group:(.+?):')?.[0]) {
+                foundVos.push(vo.match('group:(.+?):')![0]);
+            }
+        });
+        return foundVos;
+    }
+
+    parseRolesFromProfile(entitlements: string[]): string[] {
+        const foundRoles: string[] = [];
+        entitlements.forEach((role) => {
+            if (role.match('role=(.+)#')?.[0]) {
+                foundRoles.push(role.match('role=(.+)#')![0]);
+            }
+        });
+        return foundRoles;
+    }
+
     /**
      * Configure the oauth service, tries to login and saves the user profile for display.
      *
@@ -231,41 +311,5 @@ export class AuthService {
                     }
                 }
             });
-    }
-
-    login(url?: string) {
-        this.oauthService.initLoginFlow(url);
-    }
-
-    logout() {
-        if (this.oauthService.hasValidIdToken()) {
-            this.oauthService.logOut(true);
-        }
-        this.router.navigateByUrl('/marketplace');
-        localStorage.clear();
-    }
-
-    isAuthenticated(): boolean {
-        return !!this.oauthService.getIdToken();
-    }
-
-    parseVosFromProfile(entitlements: string[]): string[] {
-        const foundVos: string[] = [];
-        entitlements.forEach((vo) => {
-            if (vo.match('group:(.+?):')?.[0]) {
-                foundVos.push(vo.match('group:(.+?):')![0]);
-            }
-        });
-        return foundVos;
-    }
-
-    parseRolesFromProfile(entitlements: string[]): string[] {
-        const foundRoles: string[] = [];
-        entitlements.forEach((role) => {
-            if (role.match('role=(.+)#')?.[0]) {
-                foundRoles.push(role.match('role=(.+)#')![0]);
-            }
-        });
-        return foundRoles;
     }
 }

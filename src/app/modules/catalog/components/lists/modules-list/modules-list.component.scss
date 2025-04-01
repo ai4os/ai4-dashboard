@@ -1,0 +1,38 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    ::ng-deep .mat-mdc-tab-body-content {
+        overflow: hidden;
+    }
+}
+
+.marketplace-toolbar {
+    margin-top: 16px;
+    gap: 2em;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    height: min-content;
+    background-color: var(--white);
+    & span {
+        display: flex;
+        align-items: center;
+        align-self: baseline;
+    }
+}
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    row-gap: 0.5em;
+}
+
+.marketplaces-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2.5em;
+}

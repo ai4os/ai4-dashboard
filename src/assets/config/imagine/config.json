@@ -2,22 +2,6 @@
     "title": "iMagine platform dashboard",
     "sidenavMenu": [
         {
-            "name": "SIDENAV.PROJECT-PAGE",
-            "url": "https://www.imagine-ai.eu/"
-        },
-        {
-            "name": "SIDENAV.AI4EOSC-DOCUMENTATION",
-            "url": "https://docs.ai4eosc.eu/"
-        },
-        {
-            "name": "SIDENAV.IMAGINE-DOCUMENTATION",
-            "url": "https://confluence.egi.eu/display/IMPAIP/User+guide"
-        },
-        {
-            "name": "SIDENAV.IAM",
-            "url": "https://confluence.egi.eu/display/IMPAIP/Getting+Access"
-        },
-        {
             "name": "SIDENAV.STORAGE",
             "url": "https://share.services.ai4os.eu/"
         },
@@ -28,10 +12,29 @@
         {
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
             "url": "https://forge.flows.dev.ai4eosc.eu/"
-        },
+        }
+    ],
+
+    "footerLinks": [
         {
             "name": "SIDENAV.STATUS",
             "url": "https://imagine-ai-project.github.io/status/"
+        },
+        {
+            "name": "SIDENAV.PROJECT-PAGE",
+            "url": "https://www.imagine-ai.eu/"
+        },
+        {
+            "name": "SIDENAV.DOCUMENTATION",
+            "url": "https://confluence.egi.eu/display/IMPAIP/User+guide"
+        },
+        {
+            "name": "SIDENAV.TERMS-OF-USE",
+            "url": "https://confluence.egi.eu/display/IMPAIP/Acceptable+Use+Policy"
+        },
+        {
+            "name": "SIDENAV.PRIVACY-POLICY",
+            "url": "https://confluence.egi.eu/display/IMPAIP/Privacy+Policy"
         }
     ],
     "tags": [
@@ -48,19 +51,10 @@
     "voName": "vo.imagine-ai.eu",
     "projectName": "iMagine",
     "projectUrl": "https://www.imagine-ai.eu/",
-    "acknowledgments": "The iMagine platform dashboard is a service provided by CSIC, co-funded by ",
-    "legalLinks": [
-        {
-            "name": "SIDENAV.TERMS-OF-USE",
-            "url": "https://confluence.egi.eu/display/IMPAIP/Acceptable+Use+Policy"
-        },
-        {
-            "name": "SIDENAV.PRIVACY-POLICY",
-            "url": "https://confluence.egi.eu/display/IMPAIP/Privacy+Policy"
-        }
-    ],
+    "acknowledgments": "The iMagine dashboard is a service provided by CSIC, co-funded by ",
     "analytics": {
         "domain": "dashboard.cloud.imagine-ai.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
-    }
+    },
+    "deployedInNomad": false
 }

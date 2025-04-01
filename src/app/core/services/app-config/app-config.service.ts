@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -10,10 +11,15 @@ export class AppConfigService {
 
     constructor(private http: HttpClient) {}
 
-    loadAppConfig() {
+    loadAppConfig(oauthConfig: OAuthModuleConfig) {
         return firstValueFrom(this.http.get('/assets/config.json')).then(
             (config) => {
                 this.appConfig = config;
+                if (this.appConfig.apiURL && this.appConfig.apiURL !== '') {
+                    oauthConfig.resourceServer.allowedUrls = [
+                        this.appConfig.apiURL,
+                    ];
+                }
             }
         );
     }
@@ -24,7 +30,6 @@ export class AppConfigService {
         }
     }
 
-    // This is an example property ... you can make it however you want.
     get title() {
         this.checkConfigFileLoaded();
         return this.appConfig.title;
@@ -33,6 +38,11 @@ export class AppConfigService {
     get sidenavMenu() {
         this.checkConfigFileLoaded();
         return this.appConfig.sidenavMenu;
+    }
+
+    get footerLinks() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.footerLinks;
     }
 
     get tags() {
@@ -60,13 +70,33 @@ export class AppConfigService {
         return this.appConfig.projectUrl;
     }
 
-    get legalLinks() {
-        this.checkConfigFileLoaded();
-        return this.appConfig.legalLinks;
-    }
-
     get analytics() {
         this.checkConfigFileLoaded();
         return this.appConfig.analytics;
+    }
+
+    get apiURL() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.apiURL;
+    }
+
+    get issuer() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.issuer;
+    }
+
+    get clientId() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.clientId;
+    }
+
+    get dummyClientSecret() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.dummyClientSecret;
+    }
+
+    get deployedInNomad() {
+        this.checkConfigFileLoaded();
+        return this.appConfig.deployedInNomad;
     }
 }

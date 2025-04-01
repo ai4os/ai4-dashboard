@@ -2,22 +2,24 @@
     "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Marketplace",
+        "STATS": "Statistics",
+        "CATALOG": "Catalog",
+        "MODULES": "Modules",
+        "TOOLS": "Tools",
+        "LLMS": "LLMs",
+        "TASKS": "Tasks",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
-        "IAM": "Identity and Access",
+        "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
-        "AI4EOSC-DOCUMENTATION": "AI4OS documentation",
-        "IMAGINE-DOCUMENTATION": "iMagine documentation",
+        "DOCUMENTATION": "Docs",
         "STORAGE": "Storage",
-        "STATUS": "Status of services",
+        "STATUS": "Status",
         "PROJECT-PAGE": "Homepage",
-        "OTHER-LINKS": "Useful links",
         "TERMS-OF-USE": "Terms of use",
         "PRIVACY-POLICY": "Privacy policy",
-        "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by",
         "POWERED-BY": "Powered by",
         "AI4OS": "AI4OS"
     },
@@ -113,6 +115,11 @@
                 "DISK_MB": "Disk memory",
                 "MEMORY_MB": "RAM memory",
                 "CPU_MHZ": "CPU frequency"
+            },
+            "VLLM": {
+                "DETAILS": "VLLM details",
+                "URL": "URL",
+                "TOKEN": "Token"
             }
         },
         "DEPLOYMENT-SECRETS": {
@@ -138,7 +145,9 @@
         "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
         "NEW-DEPLOYMENT": "New deployment",
-        "NO-DEPLOYMENTS": "Nothing deployed yet"
+        "NO-DEPLOYMENTS": "Nothing deployed yet",
+        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
+        "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
@@ -192,12 +201,16 @@
             }
         }
     },
-    "MODULES": {
-        "TITLE": "Marketplace",
+    "CATALOG": {
+        "MODULES-TITLE": "Modules",
+        "TOOLS-TITLE": "Tools",
+        "LLMS-TITLE": "LLMs",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
         "TOOL": "AI4 Tool",
+        "AI4LIFE": "AI4Life Module",
+        "LLM": "LLM Module",
         "FILTERS": {
             "ADITIONAL-FILTERS": "Additional filters",
             "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
@@ -224,6 +237,11 @@
             "TAGS": "Tags",
             "TASKS": "Tasks",
             "DATA-TYPES": "Data Types",
+            "ABOUT": "About",
+            "DOWNLOAD-COUNT": "Download Count",
+            "LICENSE": "License",
+            "CONTEXT": "Tokens",
+            "UNAUTHORIZED": "You must login and be a member of project to use this",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
@@ -264,6 +282,7 @@
             "HARDWARE-CONF": "Hardware configuration",
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
+            "LLM-CONF": "LLM configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -271,6 +290,7 @@
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
                 "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
+                "CO2": "Monitor CO2 emissions",
                 "SERVICE-TO-RUN": "Service to run",
                 "PASSWORD": "Password",
                 "JUPYTERLAB-PASS": "JupyterLab password",
@@ -286,7 +306,11 @@
                 "CVAT-USERNAME": "CVAT username",
                 "CVAT-PASSWORD": "CVAT password",
                 "CVAT-USERNAME-REQUIRED": "A username is required",
-                "CVAT-PASSWORD-REQUIRED": "A password is required"
+                "CVAT-PASSWORD-REQUIRED": "A password is required",
+                "DEPLOYMENT-TYPE": "Deployment type",
+                "TYPE": "Type",
+                "MODEL-OPTIONS": "Model options",
+                "MODEL-ID": "Model ID"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -304,6 +328,7 @@
                 "DATASET-LIST": "Datasets list",
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-URL": "Storage URL",
+                "STORAGE-URL-ERROR": "Invalid URL format",
                 "STORAGE-SERVICE": "Storage service",
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
                 "PROFILE-SECTION": "profile section",
@@ -328,6 +353,7 @@
                 "FORCE-PULL": "Force pull",
                 "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
                 "ADD-DATASET": "Add dataset",
+                "DATASET-ERROR": "To download a dataset, you need to select a storage or use your rclone credentials",
                 "DATASETS": "Datasets",
                 "DATASET-SUGGESTION": "This module has a suggested dataset. Click here to add it.",
                 "DOI-URL": {
@@ -344,7 +370,7 @@
                 }
             },
             "FEDERATED-CONF-FORM": {
-                "TITLE": "Federated options",
+                "FED-TITLE": "Federated options",
                 "ROUNDS": "Number of rounds",
                 "METRIC": "Evaluation metric",
                 "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
@@ -354,10 +380,26 @@
                 "FL": "Server-side learning rate",
                 "MOMENTUM": "Server-side momentum",
                 "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
+                "PRIVACY-TITLE": "Privacy options",
                 "DP": "Differential privacy",
+                "MP": "Metric privacy",
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
                 "CLIP-NORM": "Clipping norm"
+            },
+            "LLM-CONF-FORM": {
+                "TITLE": "LLM options",
+                "VLLM-MODEL": "VLLM model",
+                "UI-USERNAME": "UI Username",
+                "UI-PASSWORD": "UI Password",
+                "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
+                "HUGGING-FACE-TOKEN": "Hugging Face token",
+                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "API-KEY": "OpenAI API Key",
+                "API-KEY-REQUIRED": "Please add the OpenAI API Key",
+                "API-URL": "OpenAI API base URL",
+                "API-URL-REQUIRED": "Please add the OpenAI API base URL",
+                "API-URL-FORMAT": "Invalid URL format"
             }
         },
         "MODULE-TRY": {
@@ -448,7 +490,8 @@
         "GITHUB": "GitHub",
         "DOCKERHUB": "Docker",
         "REPORT-ISSUE": "Report issue",
-        "OPEN-DOCUMENTATION": "Open documentation"
+        "OPEN-DOCUMENTATION": "Open documentation",
+        "BIOIMAGE": "BioImage.IO"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",
@@ -457,6 +500,7 @@
         "UNDER-MAINTENANCE-POPUP": {
             "TITLE": "Warning"
         },
-        "UNAUTHORIZED": "Only available for project members"
+        "UNAUTHORIZED": "Only available for project members",
+        "DEPLOYED-IN-NOMAD": "You are accessing a backup instance of the {{voName}} dashboard. Some functionalities (eg. storage, user stats) might be missing or failing. Check the <a href='{{statusURL}}' target='_blank'>status</a> page for more details"
     }
 }

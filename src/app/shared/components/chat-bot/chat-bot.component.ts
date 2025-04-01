@@ -45,7 +45,7 @@ export class ChatBotComponent {
     sendMessage() {
         this.isLoading = true;
 
-        let newMessage: ChatMessage = {
+        const newMessage: ChatMessage = {
             role: 'user',
             content: this.message,
         };
@@ -53,7 +53,7 @@ export class ChatBotComponent {
 
         this.message = '';
 
-        let request: ChatRequest = {
+        const request: ChatRequest = {
             model: 'ai4eoscassistant',
             messages: [],
         };
@@ -66,7 +66,7 @@ export class ChatBotComponent {
 
         this.chatBotService.requestResponse(request).subscribe({
             next: (response: ChatResponse) => {
-                let message: ChatMessage = {
+                const message: ChatMessage = {
                     role: 'assistant',
                     content: response.choices[0].message.content,
                 };
