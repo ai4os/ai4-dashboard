@@ -35,6 +35,15 @@ export function urlValidator(): ValidatorFn {
     };
 }
 
+export function emailValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const value = control.value;
+        const validEmail = emailPattern.test(value);
+        return validEmail ? null : { invalidEmail: true };
+    };
+}
+
 export interface showGeneralFormField {
     descriptionInput: boolean;
     serviceToRunChip: boolean;
@@ -269,7 +278,10 @@ export class GeneralConfFormComponent implements OnInit {
             Validators.required,
         ],
         vllmModelSelect: [{ value: '', disabled: true }, Validators.required],
-        uiUsernameInput: [{ value: '', disabled: true }, Validators.required],
+        uiUsernameInput: [
+            { value: '', disabled: true },
+            [Validators.required, emailValidator()],
+        ],
         uiPasswordInput: [{ value: '', disabled: true }, Validators.required],
         huggingFaceTokenInput: [
             { value: '', disabled: true },

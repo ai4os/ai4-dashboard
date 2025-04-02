@@ -146,6 +146,8 @@ export class StepperFormComponent implements OnInit {
                 type: this.step1Form.value.generalConfForm.deploymentTypeSelect,
                 vllm_model_id:
                     this.step1Form.value.generalConfForm.vllmModelSelect,
+                ui_username:
+                    this.step1Form.value.generalConfForm.uiUsernameInput,
                 ui_password:
                     this.step1Form.value.generalConfForm.uiPasswordInput,
                 HF_token:
