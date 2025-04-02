@@ -44,7 +44,6 @@
         "js-yaml": "^4.1.0",
         "marked": "^12.0.2",
         "ngx-cookie-service": "^18.0.0",
-        "ngx-cookieconsent": "^5.0.0",
         "ngx-echarts": "^15.0.3",
         "ngx-markdown": "^18.1.0",
         "ol": "^9.1.0",
