@@ -8,5 +8,4 @@ export const environment = {
         base: 'https://api.cloud.ai4eosc.eu/v1',
         endpoints,
     },
-    llmApiKey: '',
 };

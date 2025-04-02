@@ -137,14 +137,14 @@
     background-color: var(--accent);
     color: white;
     border: solid var(--accent);
-    float: left;
+    float: right;
 }
 
 .chat-opened {
     background-color: var(--white);
     color: var(--accent);
     border: solid;
-    float: left;
+    float: right;
 }
 
 .typing-loader {
