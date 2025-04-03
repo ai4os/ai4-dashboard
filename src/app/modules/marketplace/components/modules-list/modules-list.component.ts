@@ -102,7 +102,7 @@ export class ModulesListComponent implements OnInit {
                 this.appConfigService.voName !== 'vo.imagine-ai.eu'
             ) {
                 clearInterval(interval);
-                this.introService.llmTool();
+                this.introService.nvFlareTool();
             }
         }, 200);
     }
