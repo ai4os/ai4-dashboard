@@ -23,7 +23,8 @@ export class LlmCardComponent implements OnInit {
         this.image = this.llm.family;
 
         this.authService.userProfileSubject.subscribe((profile) => {
-            this.isAuthorized = profile.isAuthorized;
+            this.isAuthorized =
+                this.authService.isAuthenticated() && profile.isAuthorized;
         });
     }
 
