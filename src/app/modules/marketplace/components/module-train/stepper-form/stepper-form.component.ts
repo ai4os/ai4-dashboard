@@ -226,16 +226,24 @@ export class StepperFormComponent implements OnInit {
                         this.step3Form!.value.nvflareConfForm
                             .frozenProjectSelect,
                     // convert dates: CET to UTC
-                    starting_date: new Date(
-                        this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
-                            this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
-                                60000
-                    ).toISOString(),
-                    end_date: new Date(
-                        this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
-                            this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
-                                60000
-                    ).toISOString(),
+                    starting_date:
+                        this.step3Form!.value.nvflareConfForm
+                            .startingDateInput === ''
+                            ? ''
+                            : new Date(
+                                  this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
+                                      this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
+                                          60000
+                            ).toISOString(),
+                    end_date:
+                        this.step3Form!.value.nvflareConfForm.endDateInput ===
+                        ''
+                            ? ''
+                            : new Date(
+                                  this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
+                                      this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
+                                          60000
+                            ).toISOString(),
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-nvflare',
