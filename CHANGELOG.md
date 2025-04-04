@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.2.0](https://github.com/ai4os/ai4-dashboard/compare/v3.1.0...v3.2.0) (2025-04-03)
+
+
+### Features
+
+* configure ui username in llm tool ([#380](https://github.com/ai4os/ai4-dashboard/issues/380)) ([d714410](https://github.com/ai4os/ai4-dashboard/commit/d7144107bbb1dcc73bbc9ff483abc8bc667d135e))
+* merge configuration steps in llm tool ([#371](https://github.com/ai4os/ai4-dashboard/issues/371)) ([0638f4f](https://github.com/ai4os/ai4-dashboard/commit/0638f4f92109e51583108a4aeb48198b0366b452))
+* remove cookie consent banner ([#378](https://github.com/ai4os/ai4-dashboard/issues/378)) ([b2a39f1](https://github.com/ai4os/ai4-dashboard/commit/b2a39f1755340bf2c886235a96ea0947082b4fb5))
+* reorganize left navigation bar ([#370](https://github.com/ai4os/ai4-dashboard/issues/370)) ([444f021](https://github.com/ai4os/ai4-dashboard/commit/444f0211aec6d2f815c3661c3e2b37562719de44))
+
+
+### Bug Fixes
+
+* add silent errors to http interceptor ([#365](https://github.com/ai4os/ai4-dashboard/issues/365)) ([b8914ba](https://github.com/ai4os/ai4-dashboard/commit/b8914ba28123da901f27ceef90b7b7473360d206))
+* update vllm ([#381](https://github.com/ai4os/ai4-dashboard/issues/381)) ([6d7c58d](https://github.com/ai4os/ai4-dashboard/commit/6d7c58de3841d34f856bf34f9c8fe5572a49da64))
+
 ## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
 
 
