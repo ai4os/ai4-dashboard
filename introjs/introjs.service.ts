@@ -14,10 +14,10 @@ export class IntroJSService {
         return localStorage.getItem(tourName) ?? 'false';
     }
 
-    // New LLM tool
-    llmTool() {
+    // Federated learning with NVFlare
+    nvFlareTool() {
         if (
-            this.checkIfTourHasShown('llmToolTour') === 'true' ||
+            this.checkIfTourHasShown('nvFlareToolTour') === 'true' ||
             !this.isLoggedIn()
         ) {
             return;
@@ -27,13 +27,13 @@ export class IntroJSService {
             .setOptions({
                 steps: [
                     {
-                        title: 'New LLM tool 🧠💬',
-                        intro: 'Check out the new LLM tool!',
+                        title: 'New NVFlare tool 🎓🌐',
+                        intro: 'You can use this tool to adapt existing ML/DL workflows to a federated paradigm.',
                     },
                     {
                         element: '#step1',
-                        title: 'New LLM tool 🧠💬',
-                        intro: 'This tool enables you to launch and manage your own LLM instances using VLLM and OpenWebUI.',
+                        title: 'New NVFlare tool 🎓🌐',
+                        intro: 'It enables platform developers to build a secure, privacy-preserving offering for a distributed multi-party collaboration.',
                         position: 'bottom',
                     },
                 ],
@@ -41,11 +41,11 @@ export class IntroJSService {
             .start();
 
         this.introJS.onexit(() => {
-            localStorage.setItem('llmToolTour', 'true');
+            localStorage.setItem('nvFlareToolTour', 'true');
         });
 
         this.introJS.oncomplete(() => {
-            localStorage.setItem('llmToolTour', 'true');
+            localStorage.setItem('nvFlareToolTour', 'true');
         });
     }
 

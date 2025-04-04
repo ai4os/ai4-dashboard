@@ -65,7 +65,6 @@ export class HardwareConfFormComponent implements OnInit {
     };
 
     isGpuModelSelectDisabled = true;
-    //this.hardwareConfFormGroup.get('gpuNumberInput')?.value! < 1
 
     hardwareConfFormGroup = this.fb.group({
         cpuNumberInput: [

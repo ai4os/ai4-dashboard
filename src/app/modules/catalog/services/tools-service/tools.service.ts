@@ -10,6 +10,7 @@ import {
     Ai4eoscModule,
     ModuleSummary,
     VllmModelConfig,
+    NvflareToolConfiguration,
     ModuleConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
@@ -120,5 +121,17 @@ export class ToolsService {
                 );
             })
         );
+    }
+
+    getNvflareConfiguration(
+        toolName: string
+    ): Observable<NvflareToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<NvflareToolConfiguration>(url, {
+            params: this.voParam,
+        });
     }
 }
