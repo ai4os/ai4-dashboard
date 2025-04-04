@@ -20,10 +20,6 @@ import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
 
 import { MarkdownModule, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
-import {
-    NgcCookieConsentModule,
-    NgcCookieConsentConfig,
-} from 'ngx-cookieconsent';
 import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -36,6 +32,7 @@ import { gitInfo } from '@environments/version';
 import { IntroJSService } from 'introjs/introjs.service';
 import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { FooterComponent } from './layout/footer/footer.component';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -59,31 +56,6 @@ export function authConfigFactory(): OAuthModuleConfig {
 }
 
 const { base } = environment.api;
-
-const cookieConfig: NgcCookieConsentConfig = {
-    cookie: {
-        domain: 'not-set-yet', // or 'your.domain.com' // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
-    },
-    content: {
-        message:
-            'This platform uses cookies to ensure you get the best experience using it.',
-        link: 'Learn more',
-        href: 'not-set-yet',
-    },
-    palette: {
-        popup: {
-            background: 'var(--white)',
-            text: 'var(--primary-text)',
-        },
-        button: {
-            background: 'var(--accent)',
-        },
-    },
-    mobileForceFloat: true,
-    position: 'bottom-right',
-    theme: 'edgeless',
-    type: 'opt-out',
-};
 
 const renderer = new MarkedRenderer();
 
@@ -114,6 +86,7 @@ renderer.link = (href, title, text) => {
         AppComponent,
         ContentLayoutComponent,
         SidenavComponent,
+        FooterComponent,
         TopNavbarComponent,
         NotificationsButtonComponent,
     ],
@@ -146,7 +119,6 @@ renderer.link = (href, title, text) => {
                 },
             },
         }),
-        NgcCookieConsentModule.forRoot(cookieConfig),
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
         }),
@@ -161,22 +133,15 @@ renderer.link = (href, title, text) => {
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [AppConfigService, NgcCookieConsentConfig, OAuthModuleConfig],
+            deps: [AppConfigService, OAuthModuleConfig],
             useFactory: (
                 appConfigService: AppConfigService,
-                config: NgcCookieConsentConfig,
                 authConfig: OAuthModuleConfig
             ) => {
                 return () => {
                     return appConfigService
                         .loadAppConfig(authConfig)
                         .then(() => {
-                            if (config.cookie) {
-                                config.cookie.domain =
-                                    appConfigService.analytics.domain;
-                                config.content!.href =
-                                    appConfigService.legalLinks[1].url;
-                            }
                             if (
                                 appConfigService.apiURL &&
                                 appConfigService.apiURL !== ''

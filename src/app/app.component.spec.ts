@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { AppConfigService } from './core/services/app-config/app-config.service';
-import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { Subscription, of } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from './shared/shared.module';
@@ -22,11 +21,6 @@ const mockedConfigService: any = {
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
     userProfileSubject: of({}),
-};
-
-const mockedCookieConsentService: any = {
-    hasConsented: jest.fn().mockReturnValue(true),
-    statusChange$: of('test'),
 };
 
 const mockedMediaQueryList: MediaQueryList = {
@@ -65,10 +59,6 @@ describe('AppComponent', () => {
                 provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
-                {
-                    provide: NgcCookieConsentService,
-                    useValue: mockedCookieConsentService,
-                },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],

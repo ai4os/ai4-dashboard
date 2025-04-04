@@ -1,0 +1,127 @@
+<div class="content">
+    <ng-container *ngIf="mobileQuery.matches; else desktop">
+        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+            <form [formGroup]="searchFormGroup" class="search-form-mobile">
+                <mat-form-field
+                    class="search-field-mobile"
+                    subscriptSizing="dynamic"
+                >
+                    <mat-icon matPrefix>search</mat-icon>
+                    <mat-label>Search</mat-label>
+                    <input
+                        matInput
+                        type="search"
+                        formControlName="search"
+                        placeholder="Enter text to search"
+                    />
+                </mat-form-field>
+            </form>
+        </mat-toolbar>
+    </ng-container>
+
+    <ng-template #desktop>
+        <mat-toolbar class="marketplace-toolbar">
+            <div class="search-and-results-container">
+                <div class="search-filter-order-container">
+                    <form [formGroup]="searchFormGroup">
+                        <mat-form-field
+                            class="filter-selector full-width"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-icon matPrefix>search</mat-icon>
+                            <mat-label>Search</mat-label>
+                            <input
+                                matInput
+                                type="search"
+                                formControlName="search"
+                                placeholder="Enter text to search"
+                                (input)="updateFilters()"
+                            />
+                        </mat-form-field>
+                    </form>
+
+                    <mat-chip
+                        color="accent"
+                        [matBadge]="selectedFilters.length"
+                        matBadgePosition="above after"
+                        (click)="openFiltersConfiguration()"
+                    >
+                        {{ 'CATALOG.FILTERS.ADITIONAL-FILTERS' | translate }}
+                    </mat-chip>
+
+                    <mat-divider [vertical]="true"></mat-divider>
+
+                    <span class="small-text"> Sort: </span>
+
+                    <mat-chip-listbox>
+                        <mat-chip-option
+                            [selected]="sortBy === 'name'"
+                            value="name"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'CATALOG.SORTING.NAME' | translate
+                            }}</mat-chip-option
+                        >
+                        <mat-chip-option
+                            [selected]="sortBy === 'recent'"
+                            value="recent"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'CATALOG.SORTING.MOST-RECENT' | translate
+                            }}</mat-chip-option
+                        >
+                    </mat-chip-listbox>
+                </div>
+
+                <span>
+                    <p class="results-text">
+                        {{ resultsFound }}
+                        {{ 'CATALOG.NUM-RESULTS' | translate }}
+                    </p>
+                </span>
+            </div>
+        </mat-toolbar>
+
+        <app-filter-component
+            [libraries]="librariesList"
+            [tasks]="tasksList"
+            [categories]="categoriesList"
+            [datatypes]="datatypesList"
+            [tags]="tagsList"
+            (librariesChanged)="filterByLibrary($event)"
+            (tasksChanged)="filterByTask($event)"
+            (categoriesChanged)="filterByCategory($event)"
+            (datatypesChanged)="filterByDatatype($event)"
+            (tagsChanged)="filterByTag($event)"
+            (changeDetected)="addFilter($event)"
+        ></app-filter-component>
+    </ng-template>
+
+    <div>
+        <div class="modules-cards-container">
+            <span
+                fxFlex
+                *ngFor="
+                    let element of displayedElements
+                        | searchAi4eoscModule
+                            : this.searchFormGroup.get('search')
+                                  ?.value as elements
+                "
+                class="m-2"
+                [ngStyle]="{
+                    display:
+                        voName === 'vo.imagine-ai.eu' &&
+                        (element.id === 'ai4os-llm' ||
+                            element.id === 'ai4os-nvflare')
+                            ? 'none'
+                            : '',
+                }"
+            >
+                <app-ai4eosc-module-card
+                    [attr.id]="element.id === 'ai4os-nvflare' ? 'step1' : null"
+                    [module]="element"
+                ></app-ai4eosc-module-card>
+            </span>
+        </div>
+    </div>
+</div>
