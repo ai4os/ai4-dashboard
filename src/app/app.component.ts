@@ -178,7 +178,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.titleService.setTitle(this.appConfigService.title);
         this.cookieConsentHandler();
         this.checkPlatformStatus();
-        this.chatOverlayService.openChat();
+        if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
+            this.chatOverlayService.openChat();
+        }
     }
 
     ngOnDestroy() {
