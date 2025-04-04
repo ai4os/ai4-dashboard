@@ -17,16 +17,10 @@ export class TopNavbarComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private sidenavService: SidenavService,
-        protected appConfigService: AppConfigService,
-        private chatOverlayService: ChatOverlayService
+        protected appConfigService: AppConfigService
     ) {
         this._hideSidebarQueryListener = () => {
             changeDetectorRef.detectChanges();
-            if (this.hideSidebarQuery.matches) {
-                this.chatOverlayService.showButtonWithoutSidebar();
-            } else {
-                this.chatOverlayService.showButtonWithSidebar();
-            }
         };
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.hideSidebarQuery = this.media.matchMedia('(max-width: 1366px)');
@@ -51,11 +45,6 @@ export class TopNavbarComponent implements OnInit {
 
     ngOnInit(): void {
         this.voName = this.appConfigService.voName;
-        if (this.hideSidebarQuery.matches) {
-            this.chatOverlayService.showButtonWithoutSidebar();
-        } else {
-            this.chatOverlayService.showButtonWithSidebar();
-        }
     }
 
     login() {

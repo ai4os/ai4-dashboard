@@ -23,7 +23,7 @@ export class ChatOverlayService {
             .position()
             .global()
             .bottom('20px')
-            .left('320px');
+            .right('40px');
 
         this.overlayRef = this.overlay.create({
             positionStrategy: this.positionStrategy,
@@ -41,15 +41,5 @@ export class ChatOverlayService {
 
     closeChat() {
         this.overlayRef.detach();
-    }
-
-    showButtonWithSidebar() {
-        this.positionStrategy.left('320px');
-        this.overlayRef.updatePosition();
-    }
-
-    showButtonWithoutSidebar() {
-        this.positionStrategy.left('20px');
-        this.overlayRef.updatePosition();
     }
 }
