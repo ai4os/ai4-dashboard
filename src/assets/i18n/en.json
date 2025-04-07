@@ -391,6 +391,8 @@
                 "TITLE": "LLM options",
                 "VLLM-MODEL": "VLLM model",
                 "UI-USERNAME": "UI Username",
+                "UI-USERNAME-REQUIRED": "Please add a username for the UI",
+                "UI-USERNAME-INVALID": "Invalid email format",
                 "UI-PASSWORD": "UI Password",
                 "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
                 "HUGGING-FACE-TOKEN": "Hugging Face token",

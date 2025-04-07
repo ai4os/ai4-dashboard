@@ -2,10 +2,6 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { Subscription } from 'rxjs';
-import {
-    NgcCookieConsentService,
-    NgcStatusChangeEvent,
-} from 'ngx-cookieconsent';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from './shared/components/popup/popup/popup.component';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -33,7 +29,6 @@ export class AppComponent implements OnInit, OnDestroy {
         private titleService: Title,
         private platformStatusService: PlatformStatusService,
         private appConfigService: AppConfigService,
-        private cookieConsentService: NgcCookieConsentService,
         private chatOverlayService: ChatOverlayService,
         private snackbarService: SnackbarService,
         public dialog: MatDialog,
@@ -49,23 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
-    cookieConsentHandler() {
-        // Check if the "cookieconsent_status" cookie is set to allow, needed for loading the script after reloading the page
-        if (this.cookieConsentService.hasConsented()) {
-            this.addPlausibleScript();
-        }
-        this.statusChangeSubscription =
-            this.cookieConsentService.statusChange$.subscribe(
-                (event: NgcStatusChangeEvent) => {
-                    if (event.status == 'allow' || event.status == 'dismiss') {
-                        this.addPlausibleScript();
-                    } else if (event.status == 'deny') {
-                        this.removePlausibleScript();
-                    }
-                }
-            );
-    }
-
     addPlausibleScript() {
         const scriptElement = document.getElementById('plausible-script');
         if (!scriptElement) {
@@ -80,11 +58,6 @@ export class AppComponent implements OnInit, OnDestroy {
             );
             document.getElementsByTagName('head')[0].appendChild(node);
         }
-    }
-
-    removePlausibleScript() {
-        const scriptElement = document.getElementById('plausible-script');
-        scriptElement?.parentElement?.removeChild(scriptElement);
     }
 
     openPopup(statusNotification: StatusNotification) {
@@ -176,7 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.titleService.setTitle(this.appConfigService.title);
-        this.cookieConsentHandler();
+        this.addPlausibleScript();
         this.checkPlatformStatus();
         if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
             this.chatOverlayService.openChat();

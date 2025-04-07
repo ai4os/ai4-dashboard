@@ -56,5 +56,9 @@
         "domain": "dashboard.cloud.imagine-ai.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
     },
+    "apiURL": "",
+    "issuer": "",
+    "clientId": "",
+    "dummyClientSecret": "",
     "deployedInNomad": false
 }
