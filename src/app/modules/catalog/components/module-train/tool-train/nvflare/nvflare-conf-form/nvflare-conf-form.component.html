@@ -77,19 +77,18 @@
 
         <mat-form-field>
             <mat-label>{{
-                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.FROZEN-PROJECT'
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.APP-LOCATION'
                     | translate
             }}</mat-label>
-            <mat-select formControlName="frozenProjectSelect">
-                <mat-option
-                    *ngFor="let option of frozenProjectOptions"
-                    [value]="option.value"
-                >
-                    {{ option.viewValue }}
-                </mat-option>
-            </mat-select>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="text"
+                formControlName="appLocationInput"
+            />
             <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.frozen_project.description
+                _defaultFormValues.app_location.description
             }}</mat-hint>
         </mat-form-field>
 
@@ -136,23 +135,6 @@
                 [for]="endDatePicker"
             ></mat-datepicker-toggle>
             <mat-datepicker #endDatePicker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>{{
-                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.APP-LOCATION'
-                    | translate
-            }}</mat-label>
-            <input
-                matInput
-                placeholder=""
-                value=""
-                type="text"
-                formControlName="appLocationInput"
-            />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues.app_location.description
-            }}</mat-hint>
         </mat-form-field>
     </div>
 </form>

@@ -62,17 +62,6 @@ export class NvflareConfFormComponent {
                 }
             );
             this.nvflareConfFormGroup
-                .get('frozenProjectSelect')
-                ?.setValue(defaultFormValues.frozen_project.value as string);
-            defaultFormValues.frozen_project?.options?.forEach(
-                (type: string) => {
-                    this.frozenProjectOptions.push({
-                        value: type,
-                        viewValue: type,
-                    });
-                }
-            );
-            this.nvflareConfFormGroup
                 .get('startingDateInput')
                 ?.setValue(defaultFormValues.starting_date.value as Date);
             this.nvflareConfFormGroup
@@ -91,7 +80,6 @@ export class NvflareConfFormComponent {
         password: mockedConfObject,
         app_location: mockedConfObject,
         public_project: mockedConfObject,
-        frozen_project: mockedConfObject,
         starting_date: mockedConfObject,
         end_date: mockedConfObject,
     };
@@ -105,13 +93,11 @@ export class NvflareConfFormComponent {
         passwordInput: ['', Validators.required],
         appLocationInput: [''],
         publicProjectSelect: [''],
-        frozenProjectSelect: [''],
         startingDateInput: [new Date()],
         endDateInput: [new Date()],
     });
 
     publicProjectOptions: { value: string; viewValue: string }[] = [];
-    frozenProjectOptions: { value: string; viewValue: string }[] = [];
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;

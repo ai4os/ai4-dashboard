@@ -236,9 +236,6 @@ export class StepperFormComponent implements OnInit {
                     public_project:
                         this.step3Form!.value.nvflareConfForm
                             .publicProjectSelect,
-                    frozen_project:
-                        this.step3Form!.value.nvflareConfForm
-                            .frozenProjectSelect,
                     // convert dates: CET to UTC
                     starting_date:
                         this.step3Form!.value.nvflareConfForm

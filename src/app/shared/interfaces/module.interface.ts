@@ -142,7 +142,6 @@ export interface NvflareConfiguration {
     password: confObject;
     app_location: confObject;
     public_project: confObjectRange;
-    frozen_project: confObjectRange;
     starting_date: confObject;
     end_date: confObject;
 }
@@ -240,7 +239,6 @@ export interface TrainModuleRequest {
         password: string;
         app_location: string;
         public_project: boolean;
-        frozen_project: boolean;
         starting_date: string;
         end_date: string;
     };

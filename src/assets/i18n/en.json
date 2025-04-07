@@ -411,7 +411,6 @@
                 "PASSWORD-REQUIRED": "Please add a password",
                 "APP-LOCATION": "Docker image",
                 "PUBLIC-PROJECT": "Make project public",
-                "FROZEN-PROJECT": "Freeze the NVFLARE configuration",
                 "STARTING-DATE": "Starting date",
                 "END-DATE": "End date",
                 "DATES": "Select start and end date"
