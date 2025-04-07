@@ -39,6 +39,8 @@ import { ToolsListComponent } from './components/lists/tools-list/tools-list.com
 import { LlmsListComponent } from './components/lists/llms-list/llms-list.component';
 import { LlmCardComponent } from './components/modules-cards/llm-card/llm-card.component';
 import { CatalogListComponent } from './components/lists/catalog-list/catalog-list.component';
+import { NvflareComponent } from './components/module-train/tool-train/nvflare/nvflare.component';
+import { NvflareConfFormComponent } from './components/module-train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component';
 
 @NgModule({
     declarations: [
@@ -68,6 +70,8 @@ import { CatalogListComponent } from './components/lists/catalog-list/catalog-li
         LoadingScreenComponent,
         FilterComponentComponent,
         FiltersConfigurationDialogComponent,
+        NvflareComponent,
+        NvflareConfFormComponent,
         CatalogListComponent,
         ToolsListComponent,
         LlmsListComponent,

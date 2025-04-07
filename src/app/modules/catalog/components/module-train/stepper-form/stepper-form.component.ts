@@ -225,6 +225,41 @@ export class StepperFormComponent implements OnInit {
                     'ai4os-ai4life-loader',
                     data
                 );
+            } else if (this.title == 'Federated learning with NVFlare') {
+                data.nvflare = {
+                    username:
+                        this.step3Form!.value.nvflareConfForm.usernameInput,
+                    password:
+                        this.step3Form!.value.nvflareConfForm.passwordInput,
+                    app_location:
+                        this.step3Form!.value.nvflareConfForm.appLocationInput,
+                    public_project:
+                        this.step3Form!.value.nvflareConfForm
+                            .publicProjectSelect,
+                    // convert dates: CET to UTC
+                    starting_date:
+                        this.step3Form!.value.nvflareConfForm
+                            .startingDateInput === ''
+                            ? ''
+                            : new Date(
+                                  this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
+                                      this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
+                                          60000
+                            ).toISOString(),
+                    end_date:
+                        this.step3Form!.value.nvflareConfForm.endDateInput ===
+                        ''
+                            ? ''
+                            : new Date(
+                                  this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
+                                      this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
+                                          60000
+                            ).toISOString(),
+                };
+                request = this.deploymentsService.trainTool(
+                    'ai4os-nvflare',
+                    data
+                );
             } else {
                 data.storage = {
                     rclone_conf:

@@ -386,7 +386,7 @@ export class StorageConfFormComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: this.translateService.instant(
-                    'MODULES.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
+                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
                 ),
             })
             .afterClosed()

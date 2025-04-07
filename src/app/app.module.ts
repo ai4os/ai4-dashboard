@@ -31,6 +31,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { gitInfo } from '@environments/version';
 import { IntroJSService } from 'introjs/introjs.service';
 import { OAuthModuleConfig } from 'angular-oauth2-oidc';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FooterComponent } from './layout/footer/footer.component';
 
 export function storageFactory(): OAuthStorage {
@@ -123,6 +124,7 @@ renderer.link = (href, title, text) => {
         }),
     ],
     providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
