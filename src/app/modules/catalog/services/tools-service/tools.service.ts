@@ -103,9 +103,8 @@ export class ToolsService {
     }
 
     getVllmModelConfiguration(): Observable<VllmModelConfig[]> {
-        // TODO: cambiar a la url de master
         const url =
-            'https://raw.githubusercontent.com/ai4os/ai4-papi/refs/heads/refactor-vllm-file/etc/vllm.yaml';
+            'https://raw.githubusercontent.com/ai4os/ai4-papi/refs/heads/master/etc/vllm.yaml';
         return this.http.get(url, { responseType: 'text' }).pipe(
             map((yamlText) => {
                 const parsedYaml = yaml.load(yamlText) as {
