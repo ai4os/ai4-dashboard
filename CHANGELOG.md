@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/ai4os/ai4-dashboard/compare/v3.2.1...v3.3.0) (2025-04-07)
+
+
+### Features
+
+* add nvflare tool ([#372](https://github.com/ai4os/ai4-dashboard/issues/372)) ([890f41b](https://github.com/ai4os/ai4-dashboard/commit/890f41b9d5214486ae1256082c08032b2f9afd0b))
+
 ## [3.2.0](https://github.com/ai4os/ai4-dashboard/compare/v3.1.0...v3.2.0) (2025-04-03)
 
 
