@@ -487,7 +487,10 @@
     "CHATBOT": {
         "TITLE": "AI4EOSC Assistant",
         "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
-        "QUESTION-PLACEHOLDER": "Type here your question"
+        "QUESTION-PLACEHOLDER": "Type here your question",
+        "RESET": "Reset chat",
+        "OPEN_FS": "Open fullscreen",
+        "CLOSE_FS": "Minimize"
     },
     "GENERAL-BUTTONS": {
         "DELETE": "Delete",

@@ -151,8 +151,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.titleService.setTitle(this.appConfigService.title);
         this.addPlausibleScript();
         this.checkPlatformStatus();
-        // TODO: delete this comment to make the chatbot available in production
-        // this.chatOverlayService.openChat();
+        if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
+            this.chatOverlayService.openChat();
+        }
     }
 
     ngOnDestroy() {

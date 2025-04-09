@@ -27,6 +27,7 @@ export class ChatBotComponent {
     protected expanded = false;
     protected isLoading = false;
     protected message: string = '';
+    protected response: string = '';
     protected chatHistory: ChatRequest = {
         model: 'ai4eoscassistant',
         messages: [],
@@ -52,6 +53,7 @@ export class ChatBotComponent {
         this.addMessage(newMessage);
 
         this.message = '';
+        this.response = '';
 
         const request: ChatRequest = {
             model: 'ai4eoscassistant',
@@ -65,15 +67,28 @@ export class ChatBotComponent {
         }
 
         this.chatBotService.requestResponse(request).subscribe({
-            next: (response: ChatResponse) => {
-                const message: ChatMessage = {
-                    role: 'assistant',
-                    content: response.choices[0].message.content,
-                };
+            next: (chunk: string) => {
+                if (this.response === '') {
+                    this.response += chunk;
+                    const message: ChatMessage = {
+                        role: 'assistant',
+                        content: this.response,
+                    };
+                    this.addMessage(message);
+                } else {
+                    this.response += chunk;
+                    this.chatHistory.messages[
+                        this.chatHistory.messages.length - 1
+                    ].content = this.response;
+                    setTimeout(() => this.scrollToBottom(), 0);
+                }
+            },
+            complete: () => {
                 this.isLoading = false;
-                this.addMessage(message);
+                this.response = '';
             },
             error: () => {
+                this.response = '';
                 this.isLoading = false;
                 this.snackbarService.openError(
                     'Error connecting to the LLM, please try again later'
@@ -109,5 +124,9 @@ export class ChatBotComponent {
         } else {
             this.chatMargin = '50px';
         }
+    }
+
+    resetChat() {
+        this.chatHistory.messages = [];
     }
 }
