@@ -44,7 +44,8 @@
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
             "INVALID-DOMAIN": "Invalid domain format"
-        }
+        },
+        "SERVICES": "Other services"
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",

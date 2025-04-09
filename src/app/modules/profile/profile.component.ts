@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import {
     catchError,
+    distinctUntilChanged,
     finalize,
     interval,
     of,
@@ -26,10 +27,19 @@ import {
 import { ProfileService } from './services/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { SecretsService } from '../deployments/services/secrets-service/secrets.service';
 
 export interface VoInfo {
     name: string;
     roles: string[];
+}
+
+export interface MLflowCredentials {
+    username: string;
+    password: {
+        value: string;
+        hide: boolean;
+    };
 }
 
 export function domainValidator(): ValidatorFn {
@@ -60,6 +70,7 @@ export class ProfileComponent implements OnInit {
     constructor(
         private readonly authService: AuthService,
         private profileService: ProfileService,
+        private secretsService: SecretsService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -74,8 +85,10 @@ export class ProfileComponent implements OnInit {
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
-    protected isLoading = true;
     protected isLoginLoading = false;
+
+    protected isStorageLoading = true;
+    protected isOtherLoading = true;
 
     private stopPolling$ = timer(300000);
     private loginResponse: RequestLoginResponse = {
@@ -99,22 +112,36 @@ export class ProfileComponent implements OnInit {
     protected serviceCredentials: StorageCredential[] = [];
     protected customServiceCredentials: StorageCredential[] = [];
 
+    protected mlflowCredentials: MLflowCredentials = {
+        username: '',
+        password: {
+            value: '',
+            hide: true,
+        },
+    };
+
     ngOnInit(): void {
-        this.authService.userProfileSubject.subscribe((profile) => {
-            this.name = profile.name;
-            this.email = profile.email;
-            this.isAuthorized = profile.isAuthorized;
+        this.authService.userProfileSubject
+            .pipe(
+                distinctUntilChanged(
+                    (prev, curr) =>
+                        JSON.stringify(prev) === JSON.stringify(curr)
+                )
+            )
+            .subscribe((profile) => {
+                this.name = profile.name;
+                this.email = profile.email;
+                this.isAuthorized = profile.isAuthorized;
 
-            if (profile.eduperson_entitlement) {
-                this.getVoInfo(profile.eduperson_entitlement);
-            }
+                if (profile.eduperson_entitlement) {
+                    this.getVoInfo(profile.eduperson_entitlement);
+                }
 
-            if (this.isAuthorized) {
-                this.getExistingRcloneCredentials();
-            } else {
-                this.isLoading = false;
-            }
-        });
+                if (this.isAuthorized) {
+                    this.getExistingRcloneCredentials();
+                    this.getMLflowCredentials();
+                }
+            });
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -157,10 +184,10 @@ export class ProfileComponent implements OnInit {
                 this.customServiceCredentials = this.serviceCredentials.filter(
                     (c) => c.server !== 'share.services.ai4os.eu'
                 );
-                this.isLoading = false;
+                this.isStorageLoading = false;
             },
             error: () => {
-                this.isLoading = false;
+                this.isStorageLoading = false;
             },
         });
     }
@@ -173,7 +200,6 @@ export class ProfileComponent implements OnInit {
     }
 
     syncRclone(serviceName: string) {
-        this.isLoading = true;
         this.isLoginLoading = true;
         serviceName = serviceName.replace(/^(https?:\/\/)/, '');
         serviceName = serviceName.split(/[/\s]/)[0];
@@ -184,7 +210,6 @@ export class ProfileComponent implements OnInit {
                 this.pollRcloneCredentials(serviceName);
             },
             error: () => {
-                this.isLoading = false;
                 this.isLoginLoading = false;
                 this.snackbarService.openError(
                     'Error syncronizing your account. Check you are using a valid domain.'
@@ -224,7 +249,7 @@ export class ProfileComponent implements OnInit {
                             'The login process was successfully completed'
                         );
                     } else {
-                        this.isLoading = false;
+                        this.isLoginLoading = false;
                         this.snackbarService.openError(
                             'The login process could not be completed. Try again.'
                         );
@@ -254,7 +279,6 @@ export class ProfileComponent implements OnInit {
                                     );
                                 },
                                 error: () => {
-                                    this.isLoading = false;
                                     this.isLoginLoading = false;
                                     this.snackbarService.openError(
                                         'Error generating ' +
@@ -266,7 +290,6 @@ export class ProfileComponent implements OnInit {
                     }
                 },
                 error: () => {
-                    this.isLoading = false;
                     this.isLoginLoading = false;
                 },
             });
@@ -280,7 +303,7 @@ export class ProfileComponent implements OnInit {
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    this.isLoading = true;
+                    this.isStorageLoading = true;
                     serviceName = serviceName.replace(/^(https?:\/\/)/, '');
                     serviceName = serviceName.split(/[/\s]/)[0];
                     this.profileService
@@ -295,7 +318,6 @@ export class ProfileComponent implements OnInit {
                                 );
                             },
                             error: () => {
-                                this.isLoading = false;
                                 this.isLoginLoading = false;
                                 this.snackbarService.openError(
                                     'Error deleting ' +
@@ -325,5 +347,26 @@ export class ProfileComponent implements OnInit {
         const url =
             'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
         window.open(url);
+    }
+
+    getMLflowCredentials() {
+        const subpath = '/services/mlflow';
+        this.secretsService.getSecrets(subpath).subscribe({
+            next: (tokens) => {
+                this.mlflowCredentials.username =
+                    Object.values(tokens)[0].username ?? '';
+                this.mlflowCredentials.password.value =
+                    Object.values(tokens)[0].password ?? '';
+            },
+            error: () => {
+                this.isOtherLoading = false;
+                this.snackbarService.openError(
+                    "Couldn't retrieve MLflow credentials. Please try again later."
+                );
+            },
+            complete: () => {
+                this.isOtherLoading = false;
+            },
+        });
     }
 }
