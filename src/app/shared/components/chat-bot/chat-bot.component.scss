@@ -103,18 +103,19 @@
         rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     padding: 0px 15px;
     border-radius: 15px;
+    max-width: 85%;
 }
 
 .user-message {
     @extend .message-base;
     margin-left: auto;
-    border: solid var(--primary) 2px;
+    background: var(--accent);
+    color: white;
 }
 
 .bot-message {
     @extend .message-base;
     margin-right: auto;
-    border: solid var(--accent) 2px;
 }
 
 .user-input {
