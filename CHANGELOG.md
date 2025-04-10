@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/ai4os/ai4-dashboard/compare/v3.4.0...v3.4.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* update navigation path ([#391](https://github.com/ai4os/ai4-dashboard/issues/391)) ([dcd9a48](https://github.com/ai4os/ai4-dashboard/commit/dcd9a480541f8078c52770bbfc58dc0c6af0b4e1))
+
 ## [3.4.0](https://github.com/ai4os/ai4-dashboard/compare/v3.3.0...v3.4.0) (2025-04-09)
 
 
