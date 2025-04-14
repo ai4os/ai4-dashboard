@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.4.1](https://github.com/ai4os/ai4-dashboard/compare/v3.4.0...v3.4.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* update navigation path ([#391](https://github.com/ai4os/ai4-dashboard/issues/391)) ([dcd9a48](https://github.com/ai4os/ai4-dashboard/commit/dcd9a480541f8078c52770bbfc58dc0c6af0b4e1))
+
+## [3.4.0](https://github.com/ai4os/ai4-dashboard/compare/v3.3.0...v3.4.0) (2025-04-09)
+
+
+### Features
+
+* integrate chatbot ([#379](https://github.com/ai4os/ai4-dashboard/issues/379)) ([5579f84](https://github.com/ai4os/ai4-dashboard/commit/5579f8460015f708085aa79826bf212c68c78cee))
+
+
+### Bug Fixes
+
+* change button ([#389](https://github.com/ai4os/ai4-dashboard/issues/389)) ([1f3b851](https://github.com/ai4os/ai4-dashboard/commit/1f3b8519bd8ab58a64dbe673ec7d5aae8bf78335))
+
 ## [3.3.0](https://github.com/ai4os/ai4-dashboard/compare/v3.2.1...v3.3.0) (2025-04-07)
 
 

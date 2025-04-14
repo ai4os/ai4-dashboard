@@ -142,7 +142,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                 this.isLoading = false;
                 if (serviceName != '') {
                     this.router
-                        .navigate(['/inference'])
+                        .navigate(['/tasks/inference'])
                         .then((navigated: boolean) => {
                             if (navigated) {
                                 this.snackbarService.openSuccess(

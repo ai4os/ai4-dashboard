@@ -9,7 +9,6 @@
     <app-deployments-table
         cardName="Modules"
         cardIcon="model_training"
-        [showCardActions]="true"
         [isLoading]="isModulesTableLoading"
         [dataset]="modulesDataset"
         [dataSource]="modulesDataSource"
@@ -21,6 +20,7 @@
     <app-deployments-table
         cardName="Tools"
         cardIcon="handyman"
+        [showCardActions]="true"
         [isLoading]="isToolsTableLoading"
         deploymentType="tool"
         [dataset]="toolsDataset"

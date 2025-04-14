@@ -145,7 +145,7 @@
         "CREATION-TIME": "Creation time (UTC)",
         "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
-        "NEW-DEPLOYMENT": "New deployment",
+        "NEW-DEV-ENV": "New DevEnv",
         "NO-DEPLOYMENTS": "Nothing deployed yet",
         "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
         "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
@@ -488,7 +488,10 @@
     "CHATBOT": {
         "TITLE": "AI4EOSC Assistant",
         "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
-        "QUESTION-PLACEHOLDER": "Type here your question"
+        "QUESTION-PLACEHOLDER": "Type here your question",
+        "RESET": "Reset chat",
+        "OPEN_FS": "Open fullscreen",
+        "CLOSE_FS": "Minimize"
     },
     "GENERAL-BUTTONS": {
         "DELETE": "Delete",
