@@ -46,6 +46,10 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
+            - name: Replace Hugging Face client secret
+              run: |
+                sed -i "s/huggingFaceClientSecret: ''/huggingFaceClientSecret: '${{ secrets.HF_CLIENT_SECRET }}'/" src/environments/environment.production.ts
+
             - name: Build and push
               uses: docker/build-push-action@v3
               with:

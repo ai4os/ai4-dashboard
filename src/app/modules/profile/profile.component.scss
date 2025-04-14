@@ -88,6 +88,7 @@
 
 .divider {
     grid-column: 1 / 5;
+    width: 100%;
 }
 
 .cursor-default {
@@ -107,9 +108,27 @@ mat-list {
     gap: 1.5em;
 }
 
+.hf-credentials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.5em;
+    align-items: center;
+}
+
 .form-field {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+}
+
+.other-services-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
     width: 100%;
 }

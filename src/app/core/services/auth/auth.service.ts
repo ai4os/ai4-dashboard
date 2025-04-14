@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 import { authCodeFlowConfig } from './auth.config';
 import { AppConfigService } from '../app-config/app-config.service';
+import { ProfileService } from '@app/modules/profile/services/profile.service';
 
 export interface UserProfile {
     name: string;
@@ -29,6 +30,7 @@ export class AuthService {
         private oauthService: OAuthService,
         private injector: Injector,
         private appConfigService: AppConfigService,
+        private profileService: ProfileService,
         private oauthConfig: OAuthModuleConfig
     ) {
         window.addEventListener('storage', (event) => {
@@ -92,6 +94,17 @@ export class AuthService {
     });
 
     public async runInitialLoginSequence(state?: string): Promise<void> {
+        // Process HF state token if exists
+        const urlParams = new URLSearchParams(window.location.search);
+        const receivedCode = urlParams.get('code');
+        const receivedState = urlParams.get('state');
+        if (receivedCode && receivedState) {
+            await this.profileService.validateOAuthRedirect(
+                receivedCode,
+                receivedState
+            );
+        }
+
         await this.appConfigService.loadAppConfig(this.oauthConfig);
 
         // Some OICD providers only have issuer and clientId (EGI CheckIn)

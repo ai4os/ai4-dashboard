@@ -85,9 +85,10 @@ export class ProfileComponent implements OnInit {
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
-    protected isLoginLoading = false;
 
+    protected isLoginLoading = false;
     protected isStorageLoading = true;
+    protected isHfTokenLoading = false;
     protected isOtherLoading = true;
 
     private stopPolling$ = timer(300000);
@@ -120,6 +121,11 @@ export class ProfileComponent implements OnInit {
         },
     };
 
+    protected hfToken = {
+        value: '',
+        hide: true,
+    };
+
     ngOnInit(): void {
         this.authService.userProfileSubject
             .pipe(
@@ -142,6 +148,24 @@ export class ProfileComponent implements OnInit {
                     this.getMLflowCredentials();
                 }
             });
+
+        this.hfToken.value = localStorage.getItem('hf_access_token') ?? '';
+        if (this.hfToken.value === '') {
+            this.isHfTokenLoading = true;
+            const subpath = '/services/huggingface';
+            this.secretsService.getSecrets(subpath).subscribe({
+                next: (tokens) => {
+                    this.hfToken.value = Object.values(tokens)[0]?.token ?? '';
+                    this.isHfTokenLoading = false;
+                },
+                error: () => {
+                    this.snackbarService.openError(
+                        "Couldn't retrieve your Hugging Face token. Please try again later."
+                    );
+                    this.isHfTokenLoading = false;
+                },
+            });
+        }
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -349,6 +373,7 @@ export class ProfileComponent implements OnInit {
         window.open(url);
     }
 
+    // MLFlow
     getMLflowCredentials() {
         const subpath = '/services/mlflow';
         this.secretsService.getSecrets(subpath).subscribe({
@@ -368,5 +393,10 @@ export class ProfileComponent implements OnInit {
                 this.isOtherLoading = false;
             },
         });
+    }
+
+    // Hugging Face
+    startLoginWithHuggingFace() {
+        this.profileService.loginWithHuggingFace();
     }
 }
