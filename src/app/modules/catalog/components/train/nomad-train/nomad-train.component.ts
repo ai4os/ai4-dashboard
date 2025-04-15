@@ -13,11 +13,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 
 @Component({
-    selector: 'app-module-train',
-    templateUrl: './module-train.component.html',
-    styleUrls: ['./module-train.component.scss'],
+    selector: 'app-nomad-train',
+    templateUrl: './nomad-train.component.html',
+    styleUrls: ['./nomad-train.component.scss'],
 })
-export class ModuleTrainComponent implements OnInit {
+export class NomadTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,

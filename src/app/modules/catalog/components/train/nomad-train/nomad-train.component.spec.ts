@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModuleTrainComponent } from './module-train.component';
+import { NomadTrainComponent } from './nomad-train.component';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
@@ -30,9 +30,9 @@ const mockedMediaMatcher: any = {
     matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
 };
 
-describe('ModuleTrainComponent', () => {
-    let component: ModuleTrainComponent;
-    let fixture: ComponentFixture<ModuleTrainComponent>;
+describe('NomadTrainComponent', () => {
+    let component: NomadTrainComponent;
+    let fixture: ComponentFixture<NomadTrainComponent>;
     const mockedConfigService: any = {};
 
     beforeEach(async () => {
@@ -44,7 +44,7 @@ describe('ModuleTrainComponent', () => {
 
         await TestBed.configureTestingModule({
             declarations: [
-                ModuleTrainComponent,
+                NomadTrainComponent,
                 StorageConfFormComponent,
                 HardwareConfFormComponent,
                 GeneralConfFormComponent,
@@ -67,7 +67,7 @@ describe('ModuleTrainComponent', () => {
             ],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ModuleTrainComponent);
+        fixture = TestBed.createComponent(NomadTrainComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
