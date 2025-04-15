@@ -48,6 +48,7 @@ export class ModuleTrainComponent implements OnInit {
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
     service: string | undefined;
+    warningMessage = '';
 
     ngOnInit(): void {
         const deploymentType = sessionStorage.getItem('deploymentType');
@@ -91,6 +92,15 @@ export class ModuleTrainComponent implements OnInit {
                     this.generalConfDefaultValues.docker_tag.value =
                         deployment.tagName;
                 }
+
+                // Check if config has a warning
+                if (
+                    this.hardwareConfDefaultValues.warning &&
+                    this.hardwareConfDefaultValues.warning !== ''
+                ) {
+                    this.warningMessage =
+                        this.hardwareConfDefaultValues.warning;
+                }
             });
     }
 
@@ -111,6 +121,14 @@ export class ModuleTrainComponent implements OnInit {
                                 this.generalConfDefaultValues.service.value =
                                     this.service;
                             }
+                            // Check if config has a warning
+                            if (
+                                this.hardwareConfDefaultValues.warning &&
+                                this.hardwareConfDefaultValues.warning !== ''
+                            ) {
+                                this.warningMessage =
+                                    this.hardwareConfDefaultValues.warning;
+                            }
                         });
                 } else {
                     this.modulesService
@@ -124,6 +142,14 @@ export class ModuleTrainComponent implements OnInit {
                             if (this.service) {
                                 this.generalConfDefaultValues.service.value =
                                     this.service;
+                            }
+                            // Check if config has a warning
+                            if (
+                                this.hardwareConfDefaultValues.warning &&
+                                this.hardwareConfDefaultValues.warning !== ''
+                            ) {
+                                this.warningMessage =
+                                    this.hardwareConfDefaultValues.warning;
                             }
                         });
                 }

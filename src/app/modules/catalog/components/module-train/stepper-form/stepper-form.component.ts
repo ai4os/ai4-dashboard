@@ -66,6 +66,7 @@ export class StepperFormComponent implements OnInit {
     @Input() step1Title!: string;
     @Input() step2Title!: string;
     @Input() step3Title?: string;
+    @Input() warningMessage?: string = '';
     @Input() isLoading!: boolean;
 
     @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();

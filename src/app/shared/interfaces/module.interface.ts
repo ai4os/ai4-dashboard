@@ -109,6 +109,7 @@ export interface ModuleHardwareConfiguration {
     disk: confObjectRange;
     gpu_num: confObjectRange;
     gpu_type?: confObject;
+    warning?: string;
 }
 
 export interface ModuleStorageConfiguration {

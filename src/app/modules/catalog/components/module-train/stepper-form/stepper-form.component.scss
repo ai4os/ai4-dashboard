@@ -17,6 +17,8 @@
     display: flex;
     justify-content: space-between;
     margin: 0 1rem;
+    gap: 1.5em;
+    align-items: center;
 }
 
 .mobile-breadcrumb {
@@ -24,6 +26,31 @@
     font-size: 0.83em;
     display: flex;
     justify-content: center;
+}
+
+.warning-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.warning-chip {
+    font-size: 12px;
+    line-height: 20px;
+    border: solid 2px var(--neon-red);
+    background-color: var(--white) !important;
+    height: fit-content;
+    padding: 0.5em;
+    align-self: center;
+
+    mat-icon {
+        color: var(--neon-red);
+        transform: scale(1.5);
+    }
+}
+
+::ng-deep .warning-chip .mat-mdc-chip-action-label {
+    text-wrap-mode: wrap;
 }
 
 ::ng-deep .child-form-container-show-help form {
