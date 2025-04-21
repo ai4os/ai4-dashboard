@@ -241,6 +241,7 @@ export class GeneralConfFormComponent implements OnInit {
                     });
                 }
             );
+            this.modelChanged();
 
             this.generalConfFormGroup
                 .get('uiPasswordInput')
