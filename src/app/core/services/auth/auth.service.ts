@@ -83,13 +83,21 @@ export class AuthService {
         this.isDoneLoading$,
     ]).pipe(map((values) => values.every((b) => b)));
 
-    userProfileSubject = new Subject<UserProfile>();
+    userProfileSubject = new BehaviorSubject<UserProfile>({
+        name: '',
+        email: '',
+        eduperson_entitlement: [],
+        isAuthorized: false,
+        isOperator: false,
+    });
 
     public async runInitialLoginSequence(state?: string): Promise<void> {
         await this.appConfigService.loadAppConfig(this.oauthConfig);
 
         // Some OICD providers only have issuer and clientId (EGI CheckIn)
         if (
+            this.appConfigService.issuer &&
+            this.appConfigService.clientId &&
             this.appConfigService.issuer !== '' &&
             this.appConfigService.clientId !== ''
         ) {
@@ -98,7 +106,10 @@ export class AuthService {
         }
 
         // Others also need a dummyClientSecret (Keycloak)
-        if (this.appConfigService.dummyClientSecret !== '') {
+        if (
+            this.appConfigService.dummyClientSecret &&
+            this.appConfigService.dummyClientSecret !== ''
+        ) {
             authCodeFlowConfig.dummyClientSecret =
                 this.appConfigService.dummyClientSecret;
         }
@@ -224,14 +235,24 @@ export class AuthService {
         if (this.oauthService.hasValidIdToken()) {
             this.oauthService.logOut(true);
         }
-        this.router.navigateByUrl('/marketplace');
+        this.router.navigateByUrl('/catalog/modules');
 
-        // do not remove 'on boarding library' related variables
-        const tourName = 'llmToolTour';
-        const value = localStorage.getItem('llmToolTour');
+        // save 'on boarding library' related variables
+        const tours: { [key: string]: string | null } = {};
+        for (const key of Object.keys(localStorage)) {
+            if (key.endsWith('Tour')) {
+                tours[key] = localStorage.getItem(key);
+            }
+        }
+
+        // clear all local storage variables
         localStorage.clear();
-        if (value) {
-            localStorage.setItem(tourName, value);
+
+        // restore 'on boarding library' related variables
+        for (const [key, value] of Object.entries(tours)) {
+            if (value !== null) {
+                localStorage.setItem(key, value);
+            }
         }
     }
 

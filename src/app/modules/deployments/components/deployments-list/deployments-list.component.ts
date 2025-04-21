@@ -18,6 +18,12 @@ import {
     StatusReturnSnapshot,
 } from '../../services/snapshots-service/snapshot.service';
 import { TranslateService } from '@ngx-translate/core';
+import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
+import {
+    PlatformStatus,
+    StatusNotification,
+} from '@app/shared/interfaces/platform-status.interface';
+import * as yaml from 'js-yaml';
 
 @Component({
     selector: 'app-deployments-list',
@@ -31,6 +37,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         private snackbarService: SnackbarService,
         private snapshotService: SnapshotService,
         public translateService: TranslateService,
+        private platformStatusService: PlatformStatusService,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef
     ) {
@@ -63,6 +70,10 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     isToolsTableLoading = false;
     isSnapshotsTableLoading = false;
 
+    notificationsUpdated = false;
+    notifications: StatusNotification[] = [];
+    displayedNotifications: StatusNotification[] = [];
+
     modulesDataset: Array<DeploymentTableRow> = [];
     toolsDataset: Array<DeploymentTableRow> = [];
     snapshotsDataset: Array<DeploymentTableRow> = [];
@@ -94,6 +105,51 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         this.getSnapshotsList();
     }
 
+    /**     NOTIFICATIONS     **/
+    checkAndUpdateNotifications() {
+        if (
+            !this.notificationsUpdated &&
+            !this.isModulesTableLoading &&
+            !this.isToolsTableLoading
+        ) {
+            this.platformStatusService
+                .getNomadClusterNotifications()
+                .subscribe({
+                    next: (filteredPlatformStatus: PlatformStatus[]) => {
+                        if (filteredPlatformStatus.length > 0) {
+                            filteredPlatformStatus.forEach((status) => {
+                                if (status.body != null) {
+                                    const yamlBody = status.body
+                                        .replace(/```yaml/g, '')
+                                        .replace(/```[\s\S]*/, '');
+                                    const notification: StatusNotification =
+                                        yaml.load(
+                                            yamlBody
+                                        ) as StatusNotification;
+                                    this.notifications.push(notification);
+                                }
+                            });
+                            this.displayedNotifications =
+                                this.platformStatusService.filterByDateAndVo(
+                                    this.notifications
+                                );
+                        } else {
+                            this.notifications = [];
+                            this.displayedNotifications = [];
+                        }
+                        this.notificationsUpdated = true;
+                    },
+                    error: () => {
+                        this.notifications = [];
+                        this.displayedNotifications = [];
+                        this.snackbarService.openError(
+                            'Error retrieving the platform notifications'
+                        );
+                    },
+                });
+        }
+    }
+
     /**     MODULES METHODS     **/
     getModulesList() {
         this.isModulesTableLoading = true;
@@ -103,14 +159,14 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getDeployments())
             )
             .subscribe((deploymentsList: Deployment[]) => {
-                this.modulesDataset = [];
+                const updatedModulesDataset: Array<DeploymentTableRow> = [];
                 this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
                     const containerName = deployment.docker_image.includes(
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
                         ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
@@ -122,6 +178,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         creationTime: deployment.submit_time,
                         endpoints: deployment.endpoints,
                         mainEndpoint: deployment.main_endpoint,
+                        datacenter: deployment.datacenter,
                     };
                     if (deployment.error_msg) {
                         row.error_msg = deployment.error_msg;
@@ -132,12 +189,19 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     ) {
                         row.gpus = deployment.resources.gpu_num;
                     }
-                    this.modulesDataset.push(row);
+                    updatedModulesDataset.push(row);
                 });
-                this.modulesDataSource =
-                    new MatTableDataSource<DeploymentTableRow>(
-                        this.modulesDataset
-                    );
+                if (
+                    JSON.stringify(this.modulesDataset) !==
+                    JSON.stringify(updatedModulesDataset)
+                ) {
+                    this.modulesDataset = updatedModulesDataset;
+                    this.modulesDataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.modulesDataset
+                        );
+                }
+                this.checkAndUpdateNotifications();
             });
     }
 
@@ -180,7 +244,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getTools())
             )
             .subscribe((tools) => {
-                this.toolsDataset = [];
+                const updatedToolsDataset: Array<DeploymentTableRow> = [];
                 this.isToolsTableLoading = false;
                 tools.forEach((tool: Deployment) => {
                     const row: DeploymentTableRow = {
@@ -192,6 +256,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         creationTime: tool.submit_time,
                         endpoints: tool.endpoints,
                         mainEndpoint: tool.main_endpoint,
+                        datacenter: tool.datacenter,
                     };
                     if (tool.error_msg) {
                         row.error_msg = tool.error_msg;
@@ -202,12 +267,19 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     ) {
                         row.gpus = tool.resources.gpu_num;
                     }
-                    this.toolsDataset.push(row);
+                    updatedToolsDataset.push(row);
                 });
-                this.toolsDataSource =
-                    new MatTableDataSource<DeploymentTableRow>(
-                        this.toolsDataset
-                    );
+                if (
+                    JSON.stringify(this.toolsDataset) !==
+                    JSON.stringify(updatedToolsDataset)
+                ) {
+                    this.toolsDataset = updatedToolsDataset;
+                    this.toolsDataSource =
+                        new MatTableDataSource<DeploymentTableRow>(
+                            this.toolsDataset
+                        );
+                }
+                this.checkAndUpdateNotifications();
             });
     }
 

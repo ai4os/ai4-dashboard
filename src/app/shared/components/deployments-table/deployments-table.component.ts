@@ -32,6 +32,8 @@ import {
 } from '@app/modules/deployments/utils/deployment-badge';
 import { Router } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
+import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-deployments-table',
@@ -43,6 +45,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private snackbarService: SnackbarService,
         private snapshotService: SnapshotService,
+        public translateService: TranslateService,
         public confirmationDialog: MatDialog,
         private media: MediaMatcher,
         private router: Router,
@@ -63,6 +66,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     @Input() isLoading = false;
     @Input() dataset: Array<DeploymentTableRow> = [];
     @Input() dataSource!: MatTableDataSource<DeploymentTableRow>;
+    @Input() datacentersNotifications: StatusNotification[] = [];
 
     @Output() showElementInfo = new EventEmitter<string>();
     @Output() deleteElement = new EventEmitter<string>();
@@ -76,6 +80,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
         { columnDef: 'endpoints', header: '', hidden: true },
         { columnDef: 'description', header: '', hidden: true },
+        { columnDef: 'datacenter', header: '', hidden: true },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
 
@@ -181,6 +186,39 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         return row.error_msg;
     }
 
+    hasDatacenterUnderMaintenance(row: DeploymentTableRow) {
+        return (
+            row.datacenter &&
+            this.datacentersNotifications.find((n) =>
+                n.datacenters?.includes(row.datacenter!)
+            )
+        );
+    }
+
+    getMaintenanceInfo(row: DeploymentTableRow): string {
+        let info = '';
+        const datacenterNotification = this.datacentersNotifications.find((n) =>
+            n.datacenters?.includes(row.datacenter!)
+        );
+        if (datacenterNotification) {
+            info = this.translateService.instant(
+                'DEPLOYMENTS.DATACENTER-DOWNTIME-NOTIFICATION',
+                {
+                    datacenter: row.datacenter,
+                    startDate:
+                        datacenterNotification.downtimeStart?.toLocaleDateString(
+                            'es-ES'
+                        ),
+                    endDate:
+                        datacenterNotification.downtimeEnd?.toLocaleDateString(
+                            'es-ES'
+                        ),
+                }
+            );
+        }
+        return info;
+    }
+
     returnDeploymentBadge(status: string) {
         let badge = getDeploymentBadge(status);
         if (this.deploymentType === 'snapshot') {
@@ -224,7 +262,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         sessionStorage.setItem('deploymentType', this.deploymentType);
         sessionStorage.setItem('deploymentRow', JSON.stringify(row));
-        this.router.navigate(['/marketplace/modules/snapshots/deploy']);
+        this.router.navigate(['/catalog/modules/snapshots/deploy']);
     }
 
     isSticky(columnDef: string): boolean {

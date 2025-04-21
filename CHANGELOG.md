@@ -1,5 +1,62 @@
 # Changelog
 
+## [3.4.1](https://github.com/ai4os/ai4-dashboard/compare/v3.4.0...v3.4.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* update navigation path ([#391](https://github.com/ai4os/ai4-dashboard/issues/391)) ([dcd9a48](https://github.com/ai4os/ai4-dashboard/commit/dcd9a480541f8078c52770bbfc58dc0c6af0b4e1))
+
+## [3.4.0](https://github.com/ai4os/ai4-dashboard/compare/v3.3.0...v3.4.0) (2025-04-09)
+
+
+### Features
+
+* integrate chatbot ([#379](https://github.com/ai4os/ai4-dashboard/issues/379)) ([5579f84](https://github.com/ai4os/ai4-dashboard/commit/5579f8460015f708085aa79826bf212c68c78cee))
+
+
+### Bug Fixes
+
+* change button ([#389](https://github.com/ai4os/ai4-dashboard/issues/389)) ([1f3b851](https://github.com/ai4os/ai4-dashboard/commit/1f3b8519bd8ab58a64dbe673ec7d5aae8bf78335))
+
+## [3.3.0](https://github.com/ai4os/ai4-dashboard/compare/v3.2.1...v3.3.0) (2025-04-07)
+
+
+### Features
+
+* add nvflare tool ([#372](https://github.com/ai4os/ai4-dashboard/issues/372)) ([890f41b](https://github.com/ai4os/ai4-dashboard/commit/890f41b9d5214486ae1256082c08032b2f9afd0b))
+
+## [3.2.0](https://github.com/ai4os/ai4-dashboard/compare/v3.1.0...v3.2.0) (2025-04-03)
+
+
+### Features
+
+* configure ui username in llm tool ([#380](https://github.com/ai4os/ai4-dashboard/issues/380)) ([d714410](https://github.com/ai4os/ai4-dashboard/commit/d7144107bbb1dcc73bbc9ff483abc8bc667d135e))
+* merge configuration steps in llm tool ([#371](https://github.com/ai4os/ai4-dashboard/issues/371)) ([0638f4f](https://github.com/ai4os/ai4-dashboard/commit/0638f4f92109e51583108a4aeb48198b0366b452))
+* remove cookie consent banner ([#378](https://github.com/ai4os/ai4-dashboard/issues/378)) ([b2a39f1](https://github.com/ai4os/ai4-dashboard/commit/b2a39f1755340bf2c886235a96ea0947082b4fb5))
+* reorganize left navigation bar ([#370](https://github.com/ai4os/ai4-dashboard/issues/370)) ([444f021](https://github.com/ai4os/ai4-dashboard/commit/444f0211aec6d2f815c3661c3e2b37562719de44))
+
+
+### Bug Fixes
+
+* add silent errors to http interceptor ([#365](https://github.com/ai4os/ai4-dashboard/issues/365)) ([b8914ba](https://github.com/ai4os/ai4-dashboard/commit/b8914ba28123da901f27ceef90b7b7473360d206))
+* update vllm ([#381](https://github.com/ai4os/ai4-dashboard/issues/381)) ([6d7c58d](https://github.com/ai4os/ai4-dashboard/commit/6d7c58de3841d34f856bf34f9c8fe5572a49da64))
+
+## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
+
+
+### Features
+
+* add cluster maintenance notifications ([#352](https://github.com/ai4os/ai4-dashboard/issues/352)) ([911f788](https://github.com/ai4os/ai4-dashboard/commit/911f788d3b6842f547e846e53ac37bca6a5b5323))
+* dashboard nomad deployment ([#349](https://github.com/ai4os/ai4-dashboard/issues/349)) ([ac58112](https://github.com/ai4os/ai4-dashboard/commit/ac581127a342526539304bbcfb256447dffda8f0))
+* monitor co2 emissions fedserver ([#348](https://github.com/ai4os/ai4-dashboard/issues/348)) ([9b2ef2b](https://github.com/ai4os/ai4-dashboard/commit/9b2ef2b12ff2f851f02a681cba361f56d7f663bc))
+* support for custom auth config ([#350](https://github.com/ai4os/ai4-dashboard/issues/350)) ([152078a](https://github.com/ai4os/ai4-dashboard/commit/152078acb734543939441ed5d48bd2a252c68381))
+
+
+### Bug Fixes
+
+* show on boarding tours only to logged users ([#355](https://github.com/ai4os/ai4-dashboard/issues/355)) ([0bd6aca](https://github.com/ai4os/ai4-dashboard/commit/0bd6acaf8ae1b0b0d6de9394899c67e9bf6e9ead))
+
 ## [3.0.1](https://github.com/ai4os/ai4-dashboard/compare/v3.0.0...v3.0.1) (2025-03-03)
 
 

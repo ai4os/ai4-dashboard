@@ -1,0 +1,140 @@
+<form [formGroup]="nvflareConfFormGroup" class="nvflare-conf-form">
+    <h4>{{ 'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.TITLE' | translate }}</h4>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <mat-form-field>
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.USERNAME' | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="text"
+                formControlName="usernameInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.username.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.PASSWORD' | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                formControlName="passwordInput"
+                [type]="hidePassword ? 'password' : 'text'"
+            />
+            <mat-icon
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                color="accent"
+            >
+                {{ hidePassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+            <mat-error
+                *ngIf="
+                    nvflareConfFormGroup.get('passwordInput')?.errors?.[
+                        'required'
+                    ]
+                "
+            >
+                {{
+                    'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.PASSWORD-REQUIRED'
+                        | translate
+                }}
+            </mat-error>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.password.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.PUBLIC-PROJECT'
+                    | translate
+            }}</mat-label>
+            <mat-select formControlName="publicProjectSelect">
+                <mat-option
+                    *ngFor="let option of publicProjectOptions"
+                    [value]="option.value"
+                >
+                    {{ option.viewValue }}
+                </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.public_project.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.APP-LOCATION'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="text"
+                formControlName="appLocationInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.app_location.description
+            }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.STARTING-DATE'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                readonly
+                formControlName="startingDateInput"
+                [matDatepicker]="startDatePicker"
+                [max]="maxStartDate"
+                (click)="startDatePicker.open()"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.starting_date.description
+            }}</mat-hint>
+            <mat-datepicker-toggle
+                matIconSuffix
+                [for]="startDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.NVFLARE-CONF-FORM.END-DATE' | translate
+            }}</mat-label>
+            <input
+                matInput
+                readonly
+                formControlName="endDateInput"
+                [matDatepicker]="endDatePicker"
+                [min]="minEndDate"
+                (click)="endDatePicker.open()"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.end_date.description
+            }}</mat-hint>
+            <mat-datepicker-toggle
+                matIconSuffix
+                [for]="endDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+</form>

@@ -1,5 +1,5 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
-import { AuthService } from './auth.service';
+import { AuthService, UserProfile } from './auth.service';
 import {
     OAuthEvent,
     OAuthModuleConfig,
@@ -7,11 +7,19 @@ import {
     OAuthSuccessEvent,
 } from 'angular-oauth2-oidc';
 import { AppConfigService } from '../app-config/app-config.service';
-import { Subject, of } from 'rxjs';
-import { MarketplaceModule } from '@app/modules/marketplace/marketplace.module';
+import { BehaviorSubject, Subject, of } from 'rxjs';
+import { CatalogModule } from '@app/modules/catalog/catalog.module';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
+
+const mockedUserProfile = new BehaviorSubject<UserProfile>({
+    name: 'AI4EOSC Dasboard Test',
+    email: '',
+    eduperson_entitlement: [],
+    isAuthorized: true,
+    isOperator: false,
+});
 
 const mockedProfile = {
     info: {
@@ -79,6 +87,7 @@ const mockedOAuthService = {
     hasValidIdToken: jest.fn().mockReturnValue(Promise.resolve(true)),
     initLoginFlow: jest.fn(),
     events: of(Subject<OAuthEvent>),
+    userProfileSubject: mockedUserProfile,
 };
 
 const mockedConfigService: any = {
@@ -93,7 +102,7 @@ describe('AuthService', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterModule.forRoot([
-                    { path: 'marketplace', component: MarketplaceModule },
+                    { path: 'marketplace', component: CatalogModule },
                 ]),
             ],
             providers: [
@@ -110,6 +119,7 @@ describe('AuthService', () => {
         });
 
         service = TestBed.inject(AuthService);
+        service.userProfileSubject = mockedUserProfile;
     });
 
     afterEach(() => {
@@ -126,14 +136,19 @@ describe('AuthService', () => {
             mockedOAuthService,
             'loadDiscoveryDocumentAndTryLogin'
         );
+
         service.configureOAuthService();
+        service.login();
+
         expect(spyLoadDiscoveryDocumentAndTryLogin).toHaveBeenCalled();
+
         service.userProfileSubject.subscribe((profile) => {
             expect(profile).toMatchObject({
                 isAuthorized: true,
                 name: 'AI4EOSC Dasboard Test',
             });
         });
+
         flush();
     }));
 

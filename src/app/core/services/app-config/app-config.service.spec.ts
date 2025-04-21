@@ -17,7 +17,7 @@ const mockedConfig = {
     projectUrl: 'https://ai4eosc.eu',
     acknowledgments:
         'The AI4EOSC dashboard is a service provided by CSIC, co-funded by ',
-    legalLinks: [
+    footerLinks: [
         {
             name: 'SIDENAV.TERMS-OF-USE',
             url: 'https://ai4eosc.eu/platform/acceptable-use-policy/',
@@ -105,7 +105,7 @@ describe('AppConfigService', () => {
     });
 
     it('should return legalLinks correctly', () => {
-        const legalLinks = service.legalLinks;
-        expect(legalLinks).toBe(mockedConfig.legalLinks);
+        const legalLinks = service.footerLinks;
+        expect(legalLinks).toBe(mockedConfig.footerLinks);
     });
 });

@@ -2,22 +2,24 @@
     "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Marketplaces",
+        "STATS": "Statistics",
+        "CATALOG": "Catalog",
+        "MODULES": "Modules",
+        "TOOLS": "Tools",
+        "LLMS": "LLMs",
+        "TASKS": "Tasks",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
-        "IAM": "Identity and Access",
+        "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
-        "AI4EOSC-DOCUMENTATION": "AI4OS documentation",
-        "IMAGINE-DOCUMENTATION": "iMagine documentation",
+        "DOCUMENTATION": "Docs",
         "STORAGE": "Storage",
-        "STATUS": "Status of services",
+        "STATUS": "Status",
         "PROJECT-PAGE": "Homepage",
-        "OTHER-LINKS": "Useful links",
         "TERMS-OF-USE": "Terms of use",
         "PRIVACY-POLICY": "Privacy policy",
-        "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by",
         "POWERED-BY": "Powered by",
         "AI4OS": "AI4OS"
     },
@@ -142,8 +144,10 @@
         "CREATION-TIME": "Creation time (UTC)",
         "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
-        "NEW-DEPLOYMENT": "New deployment",
-        "NO-DEPLOYMENTS": "Nothing deployed yet"
+        "NEW-DEV-ENV": "New DevEnv",
+        "NO-DEPLOYMENTS": "Nothing deployed yet",
+        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
+        "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
     },
     "INFERENCE": {
         "TITLE-HEADER": "Inference",
@@ -197,13 +201,16 @@
             }
         }
     },
-    "MODULES": {
-        "TITLE": "Marketplaces",
+    "CATALOG": {
+        "MODULES-TITLE": "Modules",
+        "TOOLS-TITLE": "Tools",
+        "LLMS-TITLE": "LLMs",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
         "TOOL": "AI4 Tool",
         "AI4LIFE": "AI4Life Module",
+        "LLM": "LLM Module",
         "FILTERS": {
             "ADITIONAL-FILTERS": "Additional filters",
             "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
@@ -233,6 +240,8 @@
             "ABOUT": "About",
             "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
+            "CONTEXT": "Tokens",
+            "UNAUTHORIZED": "You must login and be a member of project to use this",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
@@ -274,6 +283,7 @@
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
             "LLM-CONF": "LLM configuration",
+            "NVFLARE-CONF": "NVFlare configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -281,6 +291,7 @@
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
                 "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
+                "CO2": "Monitor CO2 emissions",
                 "SERVICE-TO-RUN": "Service to run",
                 "PASSWORD": "Password",
                 "JUPYTERLAB-PASS": "JupyterLab password",
@@ -381,6 +392,8 @@
                 "TITLE": "LLM options",
                 "VLLM-MODEL": "VLLM model",
                 "UI-USERNAME": "UI Username",
+                "UI-USERNAME-REQUIRED": "Please add a username for the UI",
+                "UI-USERNAME-INVALID": "Invalid email format",
                 "UI-PASSWORD": "UI Password",
                 "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
                 "HUGGING-FACE-TOKEN": "Hugging Face token",
@@ -390,6 +403,17 @@
                 "API-URL": "OpenAI API base URL",
                 "API-URL-REQUIRED": "Please add the OpenAI API base URL",
                 "API-URL-FORMAT": "Invalid URL format"
+            },
+            "NVFLARE-CONF-FORM": {
+                "TITLE": "NVFlare options",
+                "USERNAME": "Username",
+                "PASSWORD": "Password",
+                "PASSWORD-REQUIRED": "Please add a password",
+                "APP-LOCATION": "Docker image",
+                "PUBLIC-PROJECT": "Make project public",
+                "STARTING-DATE": "Starting date",
+                "END-DATE": "End date",
+                "DATES": "Select start and end date"
             }
         },
         "MODULE-TRY": {
@@ -463,7 +487,10 @@
     "CHATBOT": {
         "TITLE": "AI4EOSC Assistant",
         "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
-        "QUESTION-PLACEHOLDER": "Type here your question"
+        "QUESTION-PLACEHOLDER": "Type here your question",
+        "RESET": "Reset chat",
+        "OPEN_FS": "Open fullscreen",
+        "CLOSE_FS": "Minimize"
     },
     "GENERAL-BUTTONS": {
         "DELETE": "Delete",

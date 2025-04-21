@@ -1,0 +1,91 @@
+<mat-card class="card">
+    <mat-card-content class="filters-container">
+        <mat-accordion class="mb-3">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ 'CATALOG.FILTERS.INFO-FILTERS-TITLE' | translate }}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div
+                    [innerHTML]="'CATALOG.FILTERS.INFO-FILTERS' | translate"
+                ></div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div
+            *ngFor="let filter of filters; let i = index"
+            class="filter-container"
+        >
+            <div class="box-container">
+                <div class="box-title">Filter #{{ i + 1 }}</div>
+                <div class="box-content">
+                    <app-chip-with-icon
+                        *ngFor="let library of filter.libraries"
+                        text="{{ library }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let task of filter.tasks"
+                        text="{{ task }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let category of filter.categories"
+                        text="{{ category }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let datatype of filter.datatypes"
+                        text="{{ datatype }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                    <app-chip-with-icon
+                        *ngFor="let tag of filter.tags"
+                        text="{{ tag }}"
+                        chipStyle="default"
+                    ></app-chip-with-icon>
+                </div>
+                <button
+                    mat-mini-fab
+                    color="warn"
+                    class="delete-button"
+                    [matTooltip]="'GENERAL-BUTTONS.DELETE' | translate"
+                    matTooltipPosition="above"
+                    (click)="deleteFilter(i)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions class="actions-container" align="end">
+        <div *ngIf="filters.length > 0; else noFilters">
+            <button
+                class="white-text-button"
+                mat-raised-button
+                color="warn"
+                (click)="resetFilters()"
+                [matTooltip]="'CATALOG.FILTERS.RESET-TOOLTIP' | translate"
+                matTooltipPosition="above"
+            >
+                {{ 'CATALOG.FILTERS.RESET' | translate }}
+            </button>
+            <button
+                class="white-text-button ml-3"
+                mat-raised-button
+                color="accent"
+                [mat-dialog-close]="filters"
+                [matTooltip]="'CATALOG.FILTERS.APPLY-TOOLTIP' | translate"
+                matTooltipPosition="above"
+            >
+                {{ 'CATALOG.FILTERS.APPLY' | translate }}
+            </button>
+        </div>
+        <ng-template #noFilters>
+            <button mat-button mat-raised-button (click)="closeDialog()">
+                {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+            </button>
+        </ng-template>
+    </mat-card-actions>
+</mat-card>

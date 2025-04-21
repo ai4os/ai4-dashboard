@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { AppConfigService } from './core/services/app-config/app-config.service';
-import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { Subscription, of } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from './shared/shared.module';
@@ -10,6 +9,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './core/services/auth/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 const mockedConfigService: any = {
     analytics: {
@@ -21,11 +21,6 @@ const mockedConfigService: any = {
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
     userProfileSubject: of({}),
-};
-
-const mockedCookieConsentService: any = {
-    hasConsented: jest.fn().mockReturnValue(true),
-    statusChange$: of('test'),
 };
 
 const mockedMediaQueryList: MediaQueryList = {
@@ -53,17 +48,17 @@ describe('AppComponent', () => {
         statusChangeSubscription = new Subscription();
 
         await TestBed.configureTestingModule({
-            imports: [RouterModule.forRoot([]), SharedModule],
+            imports: [
+                RouterModule.forRoot([]),
+                SharedModule,
+                TranslateModule.forRoot(),
+            ],
             declarations: [AppComponent],
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
-                {
-                    provide: NgcCookieConsentService,
-                    useValue: mockedCookieConsentService,
-                },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
