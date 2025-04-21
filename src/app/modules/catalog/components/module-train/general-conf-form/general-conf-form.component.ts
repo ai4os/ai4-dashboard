@@ -241,7 +241,6 @@ export class GeneralConfFormComponent implements OnInit {
                     });
                 }
             );
-            this.modelChanged();
 
             this.generalConfFormGroup
                 .get('uiPasswordInput')
@@ -373,6 +372,7 @@ export class GeneralConfFormComponent implements OnInit {
         this.toolsService.getVllmModelConfiguration().subscribe({
             next: (config: VllmModelConfig[]) => {
                 this.vllModelsConfigurations = config;
+                this.modelChanged();
             },
             error: () => {
                 this.snackbarService.openError(
