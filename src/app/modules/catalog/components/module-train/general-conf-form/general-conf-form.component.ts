@@ -456,7 +456,7 @@ export class GeneralConfFormComponent implements OnInit {
             next: (tokens) => {
                 this.generalConfFormGroup
                     .get('huggingFaceTokenInput')
-                    ?.setValue(Object.values(tokens)[0].token ?? '');
+                    ?.setValue(Object.values(tokens)[0]?.token ?? '');
                 this.isLoading = false;
             },
             error: () => {
