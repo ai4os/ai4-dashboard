@@ -13,10 +13,11 @@ import {
     RequestLoginResponse,
     CompleteLoginResponse,
     StorageCredential,
+    HuggingFaceTokenResponse,
 } from '@app/shared/interfaces/profile.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 
 const { base, endpoints } = environment.api;
 
@@ -101,7 +102,7 @@ export class ProfileService {
     /*************************************************/
     private clientId = 'eb8235ce-5257-426d-ac97-edf66beb7b7e';
     private clientSecret = environment.huggingFaceClientSecret;
-    private redirectUri = window.location.origin + window.location.pathname;
+    private redirectUri = `${window.location.origin}/profile/huggingface-callback`;
     private scope = 'read-repos';
     private stateKey = 'hf_nonce';
 
@@ -120,7 +121,7 @@ export class ProfileService {
         window.location.href = `https://huggingface.co/oauth/authorize?${params.toString()}`;
     }
 
-    validateOAuthRedirect(code: string, state: string) {
+    validateOAuthRedirect(code: string, state: string): Observable<void> {
         const savedState = localStorage.getItem(this.stateKey);
         localStorage.removeItem(this.stateKey);
 
@@ -128,14 +129,18 @@ export class ProfileService {
             this.snackbarService.openError(
                 'Error creating Hugging Face token: OAuth state mismatch or missing code'
             );
-        } else {
-            this.exchangeCodeForToken(code);
+            return throwError(
+                () => new Error('State mismatch or missing code')
+            );
         }
+
+        return this.exchangeCodeForToken(code);
     }
 
-    private exchangeCodeForToken(code: string): void {
+    private exchangeCodeForToken(code: string): Observable<void> {
         const tokenUrl = 'https://huggingface.co/oauth/token';
-        const body = new URLSearchParams({
+
+        const requestBody = new URLSearchParams({
             grant_type: 'authorization_code',
             code: code,
             redirect_uri: this.redirectUri,
@@ -143,40 +148,36 @@ export class ProfileService {
             client_secret: this.clientSecret,
         });
 
-        this.http
-            .post(tokenUrl, body.toString(), {
-                headers: new HttpHeaders().set(
-                    'Content-Type',
-                    'application/x-www-form-urlencoded'
-                ),
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/x-www-form-urlencoded',
+        });
+
+        return this.http
+            .post<HuggingFaceTokenResponse>(tokenUrl, requestBody.toString(), {
+                headers,
             })
-            .subscribe({
-                next: (response: any) => {
+            .pipe(
+                switchMap((response) => {
                     const accessToken = response.access_token;
                     const token: Secret = {
                         token: accessToken ?? '',
                     };
                     const subpath = '/services/huggingface/token';
                     localStorage.setItem('hf_access_token', accessToken);
-
-                    this.secretsService.createSecret(token, subpath).subscribe({
-                        next: () => {
-                            this.snackbarService.openSuccess(
-                                'Successfully created Hugging Face token'
-                            );
-                        },
-                        error: () => {
-                            this.snackbarService.openError(
-                                'Error creating Hugging Face token'
-                            );
-                        },
-                    });
-                },
-                error: () => {
+                    return this.secretsService.createSecret(token, subpath);
+                }),
+                tap(() => {
+                    this.snackbarService.openSuccess(
+                        'Successfully created Hugging Face token'
+                    );
+                }),
+                catchError((err) => {
                     this.snackbarService.openError(
                         'Error creating Hugging Face token'
                     );
-                },
-            });
+                    return throwError(() => err);
+                }),
+                map(() => void 0)
+            );
     }
 }

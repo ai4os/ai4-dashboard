@@ -93,21 +93,11 @@ export class AuthService {
         isOperator: false,
     });
 
-    public async runInitialLoginSequence(state?: string): Promise<void> {
-        // Process HF state token if exists
-        const urlParams = new URLSearchParams(window.location.search);
-        const receivedCode = urlParams.get('code');
-        const receivedState = urlParams.get('state');
-        if (receivedCode && receivedState) {
-            await this.profileService.validateOAuthRedirect(
-                receivedCode,
-                receivedState
-            );
-        }
-
+    private async prepareOAuthService(): Promise<void> {
+        // Load configuration
         await this.appConfigService.loadAppConfig(this.oauthConfig);
 
-        // Some OICD providers only have issuer and clientId (EGI CheckIn)
+        // Configure issuer and clientId
         if (
             this.appConfigService.issuer &&
             this.appConfigService.clientId &&
@@ -118,7 +108,7 @@ export class AuthService {
             authCodeFlowConfig.clientId = this.appConfigService.clientId;
         }
 
-        // Others also need a dummyClientSecret (Keycloak)
+        // Some OICD providers require dummyClientSecret
         if (
             this.appConfigService.dummyClientSecret &&
             this.appConfigService.dummyClientSecret !== ''
@@ -127,9 +117,27 @@ export class AuthService {
                 this.appConfigService.dummyClientSecret;
         }
 
-        // Configure OAuthService with the updated config
+        // Apply configuration
         this.oauthService.configure(authCodeFlowConfig);
         this.oauthService.setupAutomaticSilentRefresh();
+        await this.oauthService.loadDiscoveryDocument();
+    }
+
+    public async checkLoginSequence(): Promise<void> {
+        const isHuggingFaceRedirect =
+            window.location.pathname === '/profile/huggingface-callback';
+
+        if (isHuggingFaceRedirect) {
+            await this.prepareOAuthService();
+            this.isDoneLoadingSubject$.next(true);
+            return Promise.resolve();
+        }
+
+        return this.runInitialLoginSequence();
+    }
+
+    public async runInitialLoginSequence(state?: string): Promise<void> {
+        await this.prepareOAuthService();
 
         // 0. LOAD CONFIG:
         return (
@@ -137,7 +145,6 @@ export class AuthService {
                 .loadDiscoveryDocument()
                 // 1. HASH LOGIN:
                 .then(() => this.oauthService.tryLogin())
-
                 .then(() => {
                     if (this.oauthService.hasValidAccessToken()) {
                         this.loadUserProfile();

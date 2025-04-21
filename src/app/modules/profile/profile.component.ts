@@ -5,6 +5,7 @@ import {
     catchError,
     distinctUntilChanged,
     finalize,
+    forkJoin,
     interval,
     of,
     switchMap,
@@ -80,16 +81,15 @@ export class ProfileComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-        authService.loadUserProfile();
     }
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
     protected isLoginLoading = false;
-    protected isStorageLoading = true;
+    protected isStorageLoading = false;
     protected isHfTokenLoading = false;
-    protected isOtherLoading = true;
+    protected isOtherLoading = false;
 
     private stopPolling$ = timer(300000);
     private loginResponse: RequestLoginResponse = {
@@ -127,6 +127,12 @@ export class ProfileComponent implements OnInit {
     };
 
     ngOnInit(): void {
+        this.authService.isDoneLoading$.subscribe((done) => {
+            if (done) {
+                this.authService.loadUserProfile();
+            }
+        });
+
         this.authService.userProfileSubject
             .pipe(
                 distinctUntilChanged(
@@ -145,27 +151,9 @@ export class ProfileComponent implements OnInit {
 
                 if (this.isAuthorized) {
                     this.getExistingRcloneCredentials();
-                    this.getMLflowCredentials();
+                    this.getOtherServicesCredentials();
                 }
             });
-
-        this.hfToken.value = localStorage.getItem('hf_access_token') ?? '';
-        if (this.hfToken.value === '') {
-            this.isHfTokenLoading = true;
-            const subpath = '/services/huggingface';
-            this.secretsService.getSecrets(subpath).subscribe({
-                next: (tokens) => {
-                    this.hfToken.value = Object.values(tokens)[0]?.token ?? '';
-                    this.isHfTokenLoading = false;
-                },
-                error: () => {
-                    this.snackbarService.openError(
-                        "Couldn't retrieve your Hugging Face token. Please try again later."
-                    );
-                    this.isHfTokenLoading = false;
-                },
-            });
-        }
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -190,6 +178,7 @@ export class ProfileComponent implements OnInit {
     }
 
     getExistingRcloneCredentials() {
+        this.isStorageLoading = true;
         this.profileService.getExistingCredentials().subscribe({
             next: (credentials) => {
                 this.serviceCredentials = [];
@@ -373,20 +362,26 @@ export class ProfileComponent implements OnInit {
         window.open(url);
     }
 
-    // MLFlow
-    getMLflowCredentials() {
-        const subpath = '/services/mlflow';
-        this.secretsService.getSecrets(subpath).subscribe({
-            next: (tokens) => {
+    getOtherServicesCredentials() {
+        this.isOtherLoading = true;
+
+        const mlflow$ = this.secretsService.getSecrets('/services/mlflow');
+        const hf$ = this.secretsService.getSecrets('/services/huggingface');
+
+        forkJoin([mlflow$, hf$]).subscribe({
+            next: ([mlflowTokens, hfTokens]) => {
+                // MLflow
                 this.mlflowCredentials.username =
-                    Object.values(tokens)[0].username ?? '';
+                    Object.values(mlflowTokens)[0].username ?? '';
                 this.mlflowCredentials.password.value =
-                    Object.values(tokens)[0].password ?? '';
+                    Object.values(mlflowTokens)[0].password ?? '';
+
+                // Hugging Face
+                this.hfToken.value = Object.values(hfTokens)[0].token ?? '';
             },
             error: () => {
-                this.isOtherLoading = false;
                 this.snackbarService.openError(
-                    "Couldn't retrieve MLflow credentials. Please try again later."
+                    "Couldn't retrieve credentials. Please try again later."
                 );
             },
             complete: () => {
@@ -395,7 +390,6 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    // Hugging Face
     startLoginWithHuggingFace() {
         this.profileService.loginWithHuggingFace();
     }
