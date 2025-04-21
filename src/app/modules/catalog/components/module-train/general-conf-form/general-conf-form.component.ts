@@ -372,6 +372,14 @@ export class GeneralConfFormComponent implements OnInit {
         this.toolsService.getVllmModelConfiguration().subscribe({
             next: (config: VllmModelConfig[]) => {
                 this.vllModelsConfigurations = config;
+                console.log(
+                    'vllModelsConfigurations',
+                    this.vllModelsConfigurations
+                );
+                console.log(
+                    'vllmModelSelect',
+                    this.generalConfFormGroup.get('vllmModelSelect')?.value
+                );
                 this.modelChanged();
             },
             error: () => {
@@ -388,6 +396,10 @@ export class GeneralConfFormComponent implements OnInit {
             this.vllModelsConfigurations.find(
                 (m) => m.family + '/' + m.name === model
             )?.needs_HF_token ?? false;
+
+        console.log('vllModelsConfigurations', this.vllModelsConfigurations);
+        console.log('model', model);
+
         if (this.modelNeedsToken) {
             this.generalConfFormGroup.get('huggingFaceTokenInput')?.enable();
         } else {
