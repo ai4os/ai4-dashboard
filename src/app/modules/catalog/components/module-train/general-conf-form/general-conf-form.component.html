@@ -364,7 +364,10 @@
                         'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.MODEL-ID'
                             | translate
                     }}</mat-label>
-                    <mat-select formControlName="modelIdSelect">
+                    <mat-select
+                        formControlName="modelIdSelect"
+                        (selectionChange)="modelChanged()"
+                    >
                         <mat-option
                             *ngFor="let modelIdOption of modelIdOptions"
                             [value]="modelIdOption.value"
