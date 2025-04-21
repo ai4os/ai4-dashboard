@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -33,6 +34,7 @@ export class StepperFormComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         private deploymentsService: DeploymentsService,
+        private oscarInferenceService: OscarInferenceService,
         private router: Router,
         private snackbarService: SnackbarService
     ) {
@@ -67,6 +69,7 @@ export class StepperFormComponent implements OnInit {
     @Input() step2Title!: string;
     @Input() step3Title?: string;
     @Input() warningMessage?: string = '';
+    @Input() platform?: string = 'nomad';
     @Input() isLoading!: boolean;
 
     @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
@@ -96,14 +99,23 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.isLoading = true;
+
+        if (this.platform === 'nomad') {
+            this.createNomadService();
+        } else {
+            this.createOscarService();
+        }
+    }
+
+    createNomadService() {
         let request: Observable<StatusReturn>;
         const data: TrainModuleRequest = {
             general: {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 co2: this.step1Form.value.generalConfForm.co2EmissionsInput,
@@ -198,7 +210,7 @@ export class StepperFormComponent implements OnInit {
                             .strategyOptionsSelect ===
                         'Federated Averaging with Momentum (FedAvgM)'
                             ? this.step3Form!.value.federatedConfForm
-                                .momentumInput
+                                  .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
                     mp: this.step3Form!.value.federatedConfForm.dpInput
@@ -210,11 +222,11 @@ export class StepperFormComponent implements OnInit {
                     sampled_clients: this.step3Form!.value.federatedConfForm
                         .dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .sampledClientsNumInput
+                              .sampledClientsNumInput
                         : null,
                     clip_norm: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .clippingNormInput
+                              .clippingNormInput
                         : null,
                 };
                 request = this.deploymentsService.trainTool(
@@ -246,7 +258,7 @@ export class StepperFormComponent implements OnInit {
                                   this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
                                       this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
                                           60000
-                            ).toISOString(),
+                              ).toISOString(),
                     end_date:
                         this.step3Form!.value.nvflareConfForm.endDateInput ===
                         ''
@@ -255,7 +267,7 @@ export class StepperFormComponent implements OnInit {
                                   this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
                                       this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
                                           60000
-                            ).toISOString(),
+                              ).toISOString(),
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-nvflare',
@@ -280,7 +292,7 @@ export class StepperFormComponent implements OnInit {
                             ?.doi === ''
                             ? []
                             : this.step3Form!.value.storageConfForm
-                                .datasetsList,
+                                  .datasetsList,
                 };
 
                 if (this.title === 'AI4OS Development Environment') {
@@ -321,6 +333,56 @@ export class StepperFormComponent implements OnInit {
                 this.isLoading = false;
             },
             complete: () => {
+                this.isLoading = false;
+            },
+        });
+    }
+
+    createOscarService() {
+        this.isLoading = true;
+        const data: TrainModuleRequest = {
+            general: {
+                title:
+                    this.step1Form.value.generalConfForm.titleInput === ''
+                        ? uniqueNamesGenerator({
+                              dictionaries: [colors, animals],
+                          })
+                        : this.step1Form.value.generalConfForm.titleInput,
+                desc: this.step1Form.value.generalConfForm.descriptionInput,
+                docker_image:
+                    this.step1Form.getRawValue().generalConfForm
+                        .dockerImageInput,
+                docker_tag:
+                    this.step1Form.value.generalConfForm.dockerTagSelect,
+            },
+            hardware: {
+                cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,
+                ram: this.step2Form.value.hardwareConfForm.ramMemoryInput,
+            },
+        };
+
+        this.oscarInferenceService.createService(data).subscribe({
+            next: (serviceName: string) => {
+                this.isLoading = false;
+                if (serviceName != '') {
+                    this.router
+                        .navigate(['/tasks/inference'])
+                        .then((navigated: boolean) => {
+                            if (navigated) {
+                                this.snackbarService.openSuccess(
+                                    'OSCAR service created with uuid ' +
+                                        serviceName
+                                );
+                            } else {
+                                this.snackbarService.openError(
+                                    'Error while creating service with uuid ' +
+                                        serviceName
+                                );
+                            }
+                        });
+                }
+            },
+            error: () => {
                 this.isLoading = false;
             },
         });

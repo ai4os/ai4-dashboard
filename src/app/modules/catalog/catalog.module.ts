@@ -41,6 +41,8 @@ import { LlmCardComponent } from './components/modules-cards/llm-card/llm-card.c
 import { CatalogListComponent } from './components/lists/catalog-list/catalog-list.component';
 import { NvflareComponent } from './components/train/tool-train/nvflare/nvflare.component';
 import { NvflareConfFormComponent } from './components/train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component';
+import { OscarTrainComponent } from './components/train/oscar-train/oscar-train.component';
+import { ModuleTrainViewComponent } from './views/module-train-view/module-train-view.component';
 
 @NgModule({
     declarations: [
@@ -76,6 +78,8 @@ import { NvflareConfFormComponent } from './components/train/tool-train/nvflare/
         ToolsListComponent,
         LlmsListComponent,
         LlmCardComponent,
+        OscarTrainComponent,
+        ModuleTrainViewComponent,
     ],
     imports: [
         CommonModule,

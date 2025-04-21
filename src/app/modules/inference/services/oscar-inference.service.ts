@@ -1,10 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import {
-    OscarService,
-    OscarServiceRequest,
-} from '@app/shared/interfaces/oscar-service.interface';
+import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
+import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -40,7 +38,7 @@ export class OscarInferenceService {
         });
     }
 
-    createService(serviceConf: OscarServiceRequest): Observable<string> {
+    createService(serviceConf: TrainModuleRequest): Observable<string> {
         const url = `${base}${endpoints.oscarServices}`;
         const params = new HttpParams().set('vo', this.appConfigService.voName);
         return this.http.post<string>(url, serviceConf, {

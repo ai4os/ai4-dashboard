@@ -187,7 +187,7 @@ export interface TrainModuleRequest {
         co2?: boolean;
         docker_image: string;
         docker_tag: string;
-        service: string;
+        service?: string;
         jupyter_password?: string;
         // cvat
         cvat_username?: string;
@@ -198,8 +198,8 @@ export interface TrainModuleRequest {
     hardware?: {
         cpu_num: number;
         ram: number;
-        disk: number;
-        gpu_num: number;
+        disk?: number;
+        gpu_num?: number;
         gpu_type?: string;
     };
     storage?: {
