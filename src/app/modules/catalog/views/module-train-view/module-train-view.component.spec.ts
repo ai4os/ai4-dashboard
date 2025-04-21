@@ -8,9 +8,15 @@ describe('ModuleTrainViewComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ModuleTrainViewComponent]
-        })
-            .compileComponents();
+            declarations: [ModuleTrainViewComponent],
+        }).compileComponents();
+
+        Object.defineProperty(window, 'history', {
+            value: {
+                state: { platform: 'nomnad' },
+            },
+            writable: true,
+        });
 
         fixture = TestBed.createComponent(ModuleTrainViewComponent);
         component = fixture.componentInstance;

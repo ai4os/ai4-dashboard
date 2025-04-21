@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-module-train-view',
@@ -7,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
     styleUrl: './module-train-view.component.scss',
 })
 export class ModuleTrainViewComponent implements OnInit {
-    constructor(private route: ActivatedRoute) {}
+    constructor() {}
 
     protected platform = '';
 
