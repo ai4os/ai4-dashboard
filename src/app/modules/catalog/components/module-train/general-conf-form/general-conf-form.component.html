@@ -67,7 +67,7 @@
                 }}</mat-hint>
             </mat-form-field>
 
-            <mat-form-field class="example-full-width">
+            <mat-form-field>
                 <mat-label>{{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-DESCRIPTION'
                         | translate
@@ -232,7 +232,7 @@
                     'form-grid': !mobileQuery.matches,
                 }"
             >
-                <mat-form-field class="example-full-width">
+                <mat-form-field>
                     <mat-label>{{
                         'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
                             | translate
@@ -247,7 +247,7 @@
                         _defaultFormValues.docker_image.description
                     }}</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field>
                     <mat-label>{{
                         'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG'
                             | translate
@@ -608,46 +608,61 @@
                         this.generalConfFormGroup.get('deploymentTypeSelect')
                             ?.value === 'vllm')
                 ) {
-                    <mat-form-field>
-                        <mat-label>{{
-                            'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN'
-                                | translate
-                        }}</mat-label>
-                        <input
-                            matInput
-                            placeholder=""
-                            value=""
-                            [type]="hideHFToken ? 'password' : 'text'"
-                            formControlName="huggingFaceTokenInput"
-                        />
+                    <div class="field-with-info">
+                        <mat-form-field class="full-width">
+                            <mat-label>{{
+                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN'
+                                    | translate
+                            }}</mat-label>
+                            <input
+                                matInput
+                                placeholder=""
+                                value=""
+                                [type]="hideHFToken ? 'password' : 'text'"
+                                formControlName="huggingFaceTokenInput"
+                            />
+                            <button
+                                mat-icon-button
+                                matSuffix
+                                [matTooltip]="hideHFToken ? 'Show' : 'Hide'"
+                                (click)="hideHFToken = !hideHFToken"
+                                [attr.aria-label]="'Hide token'"
+                                [attr.aria-pressed]="hideHFToken"
+                            >
+                                <mat-icon color="accent">{{
+                                    hideHFToken
+                                        ? 'visibility_off'
+                                        : 'visibility'
+                                }}</mat-icon>
+                            </button>
+                            <mat-error
+                                *ngIf="
+                                    generalConfFormGroup.get(
+                                        'huggingFaceTokenInput'
+                                    )?.errors?.['required']
+                                "
+                            >
+                                {{
+                                    'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN-REQUIRED'
+                                        | translate
+                                }}
+                            </mat-error>
+                            <mat-hint *ngIf="_showHelp">{{
+                                _defaultFormValues.llm?.HF_token?.description
+                            }}</mat-hint>
+                        </mat-form-field>
                         <button
                             mat-icon-button
-                            matSuffix
-                            [matTooltip]="hideHFToken ? 'Show' : 'Hide'"
-                            (click)="hideHFToken = !hideHFToken"
-                            [attr.aria-label]="'Hide token'"
-                            [attr.aria-pressed]="hideHFToken"
-                        >
-                            <mat-icon color="accent">{{
-                                hideHFToken ? 'visibility_off' : 'visibility'
-                            }}</mat-icon>
-                        </button>
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get(
-                                    'huggingFaceTokenInput'
-                                )?.errors?.['required']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN-REQUIRED'
+                            matTooltip="{{
+                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN-TERMS'
                                     | translate
-                            }}
-                        </mat-error>
-                        <mat-hint *ngIf="_showHelp">{{
-                            _defaultFormValues.llm?.HF_token?.description
-                        }}</mat-hint>
-                    </mat-form-field>
+                            }}"
+                            [matTooltipPosition]="'above'"
+                            (click)="openHFModel()"
+                        >
+                            <mat-icon color="accent">help</mat-icon>
+                        </button>
+                    </div>
                 }
             </div>
         }

@@ -371,13 +371,19 @@ export class ProfileComponent implements OnInit {
         forkJoin([mlflow$, hf$]).subscribe({
             next: ([mlflowTokens, hfTokens]) => {
                 // MLflow
-                this.mlflowCredentials.username =
-                    Object.values(mlflowTokens)[0].username ?? '';
-                this.mlflowCredentials.password.value =
-                    Object.values(mlflowTokens)[0].password ?? '';
+                const mlflowSecrets = Object.values(mlflowTokens);
+                if (mlflowSecrets.length > 0) {
+                    this.mlflowCredentials.username =
+                        mlflowSecrets[0].username ?? '';
+                    this.mlflowCredentials.password.value =
+                        mlflowSecrets[0].password ?? '';
+                }
 
                 // Hugging Face
-                this.hfToken.value = Object.values(hfTokens)[0].token ?? '';
+                const hfSecrets = Object.values(hfTokens);
+                if (hfSecrets.length > 0) {
+                    this.hfToken.value = hfSecrets[0].token ?? '';
+                }
             },
             error: () => {
                 this.snackbarService.openError(
@@ -392,5 +398,36 @@ export class ProfileComponent implements OnInit {
 
     startLoginWithHuggingFace() {
         this.profileService.loginWithHuggingFace();
+    }
+
+    unsyncHuggingFace() {
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: `Are you sure you want to revoke your Hugging Face token?`,
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.isHfTokenLoading = true;
+                    this.secretsService
+                        .deleteSecret('/services/huggingface/token')
+                        .subscribe({
+                            next: () => {
+                                this.hfToken.value = '';
+                                localStorage.removeItem('hf_access_token');
+                                this.isHfTokenLoading = false;
+                                this.snackbarService.openSuccess(
+                                    'Successfully deleted Hugging Face token'
+                                );
+                            },
+                            error: () => {
+                                this.isHfTokenLoading = false;
+                                this.snackbarService.openError(
+                                    'Error deleting Hugging Face token'
+                                );
+                            },
+                        });
+                }
+            });
     }
 }

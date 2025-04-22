@@ -248,7 +248,7 @@ export class GeneralConfFormComponent implements OnInit {
                 ?.setValue(defaultFormValues.llm?.ui_password.value as string);
 
             const hfToken = localStorage.getItem('hf_access_token') ?? '';
-            if (hfToken === '') {
+            if (this._showFields.llmFields && hfToken === '') {
                 this.getHFToken();
             } else {
                 this.generalConfFormGroup
@@ -466,5 +466,12 @@ export class GeneralConfFormComponent implements OnInit {
                 this.isLoading = false;
             },
         });
+    }
+
+    openHFModel() {
+        const url =
+            'https://huggingface.co/' +
+            this.generalConfFormGroup.get('vllmModelSelect')?.value;
+        window.open(url);
     }
 }

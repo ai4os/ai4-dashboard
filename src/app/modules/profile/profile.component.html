@@ -397,71 +397,90 @@
                                 src="../../../../../assets/images/data-repositories/hf-logo.png"
                             />
                         </button>
+                        <span
+                            class="buttons-container"
+                            [ngStyle]="{
+                                width: hfToken.value !== '' ? '100%' : '',
+                            }"
+                        >
+                            @if (hfToken.value !== '') {
+                                <div class="form-field">
+                                    <mat-form-field
+                                        class="full-width mr-3"
+                                        subscriptSizing="dynamic"
+                                    >
+                                        <input
+                                            matInput
+                                            [type]="
+                                                hfToken.hide
+                                                    ? 'password'
+                                                    : 'text'
+                                            "
+                                            disabled="true"
+                                            [value]="hfToken.value"
+                                        />
 
-                        @if (hfToken.value !== '') {
-                            <div class="form-field">
-                                <mat-form-field
-                                    class="full-width mr-3"
-                                    subscriptSizing="dynamic"
-                                >
-                                    <input
-                                        matInput
-                                        [type]="
-                                            hfToken.hide ? 'password' : 'text'
-                                        "
-                                        disabled="true"
-                                        [value]="hfToken.value"
-                                    />
-
+                                        <button
+                                            mat-icon-button
+                                            matSuffix
+                                            [matTooltip]="
+                                                hfToken.hide ? 'Show' : 'Hide'
+                                            "
+                                            (click)="
+                                                hfToken.hide = !hfToken.hide
+                                            "
+                                            [attr.aria-label]="'Hide token'"
+                                            [attr.aria-pressed]="hfToken.hide"
+                                        >
+                                            <mat-icon color="accent">{{
+                                                hfToken.hide
+                                                    ? 'visibility_off'
+                                                    : 'visibility'
+                                            }}</mat-icon>
+                                        </button>
+                                    </mat-form-field>
                                     <button
                                         mat-icon-button
-                                        matSuffix
-                                        [matTooltip]="
-                                            hfToken.hide ? 'Show' : 'Hide'
-                                        "
-                                        (click)="hfToken.hide = !hfToken.hide"
-                                        [attr.aria-label]="'Hide token'"
-                                        [attr.aria-pressed]="hfToken.hide"
+                                        matTooltip="Copy"
+                                        [copy-to-clipboard]="hfToken.value"
                                     >
-                                        <mat-icon color="accent">{{
-                                            hfToken.hide
-                                                ? 'visibility_off'
-                                                : 'visibility'
-                                        }}</mat-icon>
+                                        <mat-icon matSuffix color="accent">
+                                            content_copy</mat-icon
+                                        >
                                     </button>
-                                </mat-form-field>
-                                <button
-                                    mat-icon-button
-                                    matTooltip="Copy"
-                                    [copy-to-clipboard]="hfToken.value"
-                                >
-                                    <mat-icon matSuffix color="accent">
-                                        content_copy</mat-icon
-                                    >
-                                </button>
-                            </div>
+                                </div>
 
+                                <button
+                                    class="custom-sync-button"
+                                    mat-fab
+                                    extended
+                                    (click)="startLoginWithHuggingFace()"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                    Re-link
+                                </button>
+                            } @else {
+                                <button
+                                    mat-fab
+                                    extended
+                                    style="color: white"
+                                    (click)="startLoginWithHuggingFace()"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                    Link
+                                </button>
+                            }
                             <button
-                                class="custom-sync-button"
-                                mat-fab
-                                extended
-                                (click)="startLoginWithHuggingFace()"
+                                [disabled]="hfToken.value === ''"
+                                matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
+                                mat-mini-fab
+                                color="warn"
+                                class="mr-1"
+                                (click)="unsyncHuggingFace()"
                             >
-                                <mat-icon>link</mat-icon>
-                                Re-link
+                                <mat-icon>delete</mat-icon>
                             </button>
-                        } @else {
-                            <button
-                                mat-fab
-                                extended
-                                style="color: white"
-                                (click)="startLoginWithHuggingFace()"
-                            >
-                                <mat-icon>link</mat-icon>
-                                Link
-                            </button>
-                        }
-                        <ng-template #resync> </ng-template>
+                        </span>
                     </div>
                 </div>
             </mat-card-content>
