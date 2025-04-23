@@ -63,7 +63,7 @@ export class NomadTrainComponent implements OnInit {
 
     loadGenericModule() {
         this.modulesService
-            .getModuleConfiguration('ai4os-demo-app')
+            .getModuleNomadConfiguration('ai4os-demo-app')
             .subscribe((moduleConf: ModuleConfiguration) => {
                 this.generalConfDefaultValues = moduleConf.general;
                 this.hardwareConfDefaultValues = moduleConf.hardware;
@@ -132,7 +132,7 @@ export class NomadTrainComponent implements OnInit {
                         });
                 } else {
                     this.modulesService
-                        .getModuleConfiguration(params['id'])
+                        .getModuleNomadConfiguration(params['id'])
                         .subscribe((moduleConf: ModuleConfiguration) => {
                             this.generalConfDefaultValues = moduleConf.general;
                             this.hardwareConfDefaultValues =

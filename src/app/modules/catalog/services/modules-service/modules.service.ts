@@ -40,15 +40,27 @@ export class ModulesService {
         return this.http.get<Ai4eoscModule>(url);
     }
 
-    getModuleConfiguration(
+    getModuleNomadConfiguration(
         moduleName: string
     ): Observable<ModuleConfiguration> {
-        const url = `${base}${endpoints.moduleConfiguration.replace(
+        const url = `${base}${endpoints.moduleNomadConfiguration.replace(
             ':name',
             moduleName
         )}`;
         return this.http.get<ModuleConfiguration>(url, {
             params: this.voParam,
+        });
+    }
+
+    getModuleOscarConfiguration(
+        moduleName: string
+    ): Observable<ModuleConfiguration> {
+        const url = `${base}${endpoints.moduleOscarConfiguration}`;
+        const params = new HttpParams()
+            .set('item_name', moduleName)
+            .set('vo', this.appConfigService.voName);
+        return this.http.get<ModuleConfiguration>(url, {
+            params: params,
         });
     }
 

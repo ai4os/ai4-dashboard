@@ -79,7 +79,7 @@ export class OscarTrainComponent implements OnInit {
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;
                 this.modulesService
-                    .getModuleConfiguration(params['id'])
+                    .getModuleOscarConfiguration(params['id'])
                     .subscribe((moduleConf: ModuleConfiguration) => {
                         this.generalConfDefaultValues = moduleConf.general;
                         this.hardwareConfDefaultValues = moduleConf.hardware;

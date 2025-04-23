@@ -51,7 +51,9 @@ export class OscarInferenceService {
             ':serviceName',
             name
         )}`;
-        const params = new HttpParams().set('vo', this.appConfigService.voName);
+        const params = new HttpParams()
+            .set('vo', this.appConfigService.voName)
+            .set('service_name', name);
         return this.http.delete<string>(url, {
             params: params,
         });

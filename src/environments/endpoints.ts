@@ -1,7 +1,8 @@
 export const endpoints = {
     modulesSummary: '/catalog/modules/detail',
     module: '/catalog/modules/:name/metadata',
-    moduleConfiguration: '/catalog/modules/:name/config',
+    moduleNomadConfiguration: '/catalog/modules/:name/config',
+    moduleOscarConfiguration: '/inference/oscar/conf',
     trainModule: '/deployments/modules',
     trainTool: '/deployments/tools',
     deploymentByUUID: '/deployments/modules/:deploymentUUID',
