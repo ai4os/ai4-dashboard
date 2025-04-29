@@ -3,7 +3,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import {
     catchError,
+    distinctUntilChanged,
     finalize,
+    forkJoin,
     interval,
     of,
     switchMap,
@@ -26,10 +28,19 @@ import {
 import { ProfileService } from './services/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { SecretsService } from '../deployments/services/secrets-service/secrets.service';
 
 export interface VoInfo {
     name: string;
     roles: string[];
+}
+
+export interface MLflowCredentials {
+    username: string;
+    password: {
+        value: string;
+        hide: boolean;
+    };
 }
 
 export function domainValidator(): ValidatorFn {
@@ -60,6 +71,7 @@ export class ProfileComponent implements OnInit {
     constructor(
         private readonly authService: AuthService,
         private profileService: ProfileService,
+        private secretsService: SecretsService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -69,13 +81,15 @@ export class ProfileComponent implements OnInit {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-        authService.loadUserProfile();
     }
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
-    protected isLoading = true;
+
     protected isLoginLoading = false;
+    protected isStorageLoading = false;
+    protected isHfTokenLoading = false;
+    protected isOtherLoading = false;
 
     private stopPolling$ = timer(300000);
     private loginResponse: RequestLoginResponse = {
@@ -99,22 +113,47 @@ export class ProfileComponent implements OnInit {
     protected serviceCredentials: StorageCredential[] = [];
     protected customServiceCredentials: StorageCredential[] = [];
 
+    protected mlflowCredentials: MLflowCredentials = {
+        username: '',
+        password: {
+            value: '',
+            hide: true,
+        },
+    };
+
+    protected hfToken = {
+        value: '',
+        hide: true,
+    };
+
     ngOnInit(): void {
-        this.authService.userProfileSubject.subscribe((profile) => {
-            this.name = profile.name;
-            this.email = profile.email;
-            this.isAuthorized = profile.isAuthorized;
-
-            if (profile.eduperson_entitlement) {
-                this.getVoInfo(profile.eduperson_entitlement);
-            }
-
-            if (this.isAuthorized) {
-                this.getExistingRcloneCredentials();
-            } else {
-                this.isLoading = false;
+        this.authService.isDoneLoading$.subscribe((done) => {
+            if (done) {
+                this.authService.loadUserProfile();
             }
         });
+
+        this.authService.userProfileSubject
+            .pipe(
+                distinctUntilChanged(
+                    (prev, curr) =>
+                        JSON.stringify(prev) === JSON.stringify(curr)
+                )
+            )
+            .subscribe((profile) => {
+                this.name = profile.name;
+                this.email = profile.email;
+                this.isAuthorized = profile.isAuthorized;
+
+                if (profile.eduperson_entitlement) {
+                    this.getVoInfo(profile.eduperson_entitlement);
+                }
+
+                if (this.isAuthorized) {
+                    this.getExistingRcloneCredentials();
+                    this.getOtherServicesCredentials();
+                }
+            });
     }
 
     getVoInfo(eduperson_entitlement: string[]) {
@@ -139,6 +178,7 @@ export class ProfileComponent implements OnInit {
     }
 
     getExistingRcloneCredentials() {
+        this.isStorageLoading = true;
         this.profileService.getExistingCredentials().subscribe({
             next: (credentials) => {
                 this.serviceCredentials = [];
@@ -157,10 +197,10 @@ export class ProfileComponent implements OnInit {
                 this.customServiceCredentials = this.serviceCredentials.filter(
                     (c) => c.server !== 'share.services.ai4os.eu'
                 );
-                this.isLoading = false;
+                this.isStorageLoading = false;
             },
             error: () => {
-                this.isLoading = false;
+                this.isStorageLoading = false;
             },
         });
     }
@@ -173,7 +213,6 @@ export class ProfileComponent implements OnInit {
     }
 
     syncRclone(serviceName: string) {
-        this.isLoading = true;
         this.isLoginLoading = true;
         serviceName = serviceName.replace(/^(https?:\/\/)/, '');
         serviceName = serviceName.split(/[/\s]/)[0];
@@ -184,7 +223,6 @@ export class ProfileComponent implements OnInit {
                 this.pollRcloneCredentials(serviceName);
             },
             error: () => {
-                this.isLoading = false;
                 this.isLoginLoading = false;
                 this.snackbarService.openError(
                     'Error syncronizing your account. Check you are using a valid domain.'
@@ -224,7 +262,7 @@ export class ProfileComponent implements OnInit {
                             'The login process was successfully completed'
                         );
                     } else {
-                        this.isLoading = false;
+                        this.isLoginLoading = false;
                         this.snackbarService.openError(
                             'The login process could not be completed. Try again.'
                         );
@@ -254,7 +292,6 @@ export class ProfileComponent implements OnInit {
                                     );
                                 },
                                 error: () => {
-                                    this.isLoading = false;
                                     this.isLoginLoading = false;
                                     this.snackbarService.openError(
                                         'Error generating ' +
@@ -266,7 +303,6 @@ export class ProfileComponent implements OnInit {
                     }
                 },
                 error: () => {
-                    this.isLoading = false;
                     this.isLoginLoading = false;
                 },
             });
@@ -280,7 +316,7 @@ export class ProfileComponent implements OnInit {
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    this.isLoading = true;
+                    this.isStorageLoading = true;
                     serviceName = serviceName.replace(/^(https?:\/\/)/, '');
                     serviceName = serviceName.split(/[/\s]/)[0];
                     this.profileService
@@ -295,7 +331,6 @@ export class ProfileComponent implements OnInit {
                                 );
                             },
                             error: () => {
-                                this.isLoading = false;
                                 this.isLoginLoading = false;
                                 this.snackbarService.openError(
                                     'Error deleting ' +
@@ -325,5 +360,74 @@ export class ProfileComponent implements OnInit {
         const url =
             'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
         window.open(url);
+    }
+
+    getOtherServicesCredentials() {
+        this.isOtherLoading = true;
+
+        const mlflow$ = this.secretsService.getSecrets('/services/mlflow');
+        const hf$ = this.secretsService.getSecrets('/services/huggingface');
+
+        forkJoin([mlflow$, hf$]).subscribe({
+            next: ([mlflowTokens, hfTokens]) => {
+                // MLflow
+                const mlflowSecrets = Object.values(mlflowTokens);
+                if (mlflowSecrets.length > 0) {
+                    this.mlflowCredentials.username =
+                        mlflowSecrets[0].username ?? '';
+                    this.mlflowCredentials.password.value =
+                        mlflowSecrets[0].password ?? '';
+                }
+
+                // Hugging Face
+                const hfSecrets = Object.values(hfTokens);
+                if (hfSecrets.length > 0) {
+                    this.hfToken.value = hfSecrets[0].token ?? '';
+                }
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    "Couldn't retrieve credentials. Please try again later."
+                );
+            },
+            complete: () => {
+                this.isOtherLoading = false;
+            },
+        });
+    }
+
+    startLoginWithHuggingFace() {
+        this.profileService.loginWithHuggingFace();
+    }
+
+    unsyncHuggingFace() {
+        this.confirmationDialog
+            .open(ConfirmationDialogComponent, {
+                data: `Are you sure you want to revoke your Hugging Face token?`,
+            })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    this.isHfTokenLoading = true;
+                    this.secretsService
+                        .deleteSecret('/services/huggingface/token')
+                        .subscribe({
+                            next: () => {
+                                this.hfToken.value = '';
+                                localStorage.removeItem('hf_access_token');
+                                this.isHfTokenLoading = false;
+                                this.snackbarService.openSuccess(
+                                    'Successfully deleted Hugging Face token'
+                                );
+                            },
+                            error: () => {
+                                this.isHfTokenLoading = false;
+                                this.snackbarService.openError(
+                                    'Error deleting Hugging Face token'
+                                );
+                            },
+                        });
+                }
+            });
     }
 }

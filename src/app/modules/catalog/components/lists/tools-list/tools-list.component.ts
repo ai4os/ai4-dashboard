@@ -39,10 +39,7 @@ export class ToolsListComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         const interval = setInterval(() => {
-            if (
-                !this.toolsLoading &&
-                this.appConfigService.voName !== 'vo.imagine-ai.eu'
-            ) {
+            if (!this.toolsLoading) {
                 clearInterval(interval);
                 this.introService.nvFlareTool();
             }

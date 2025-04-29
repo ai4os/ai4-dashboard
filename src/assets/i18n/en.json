@@ -44,7 +44,8 @@
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
             "INVALID-DOMAIN": "Invalid domain format"
-        }
+        },
+        "SERVICES": "Other services"
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -241,6 +242,7 @@
             "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
             "CONTEXT": "Tokens",
+            "LINK": "Link to model",
             "UNAUTHORIZED": "You must login and be a member of project to use this",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
@@ -398,6 +400,7 @@
                 "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
                 "HUGGING-FACE-TOKEN": "Hugging Face token",
                 "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "HUGGING-FACE-TOKEN-TERMS": "You have to accept the terms to be able to use the model",
                 "API-KEY": "OpenAI API Key",
                 "API-KEY-REQUIRED": "Please add the OpenAI API Key",
                 "API-URL": "OpenAI API base URL",

@@ -33,4 +33,11 @@ export class LlmCardComponent implements OnInit {
             state: { llmId: this.llm.family + '/' + this.llm.name },
         });
     }
+
+    openLink(e: MouseEvent) {
+        e.stopPropagation();
+        const url =
+            'https://huggingface.co/' + this.llm.family + '/' + this.llm.name;
+        window.open(url);
+    }
 }

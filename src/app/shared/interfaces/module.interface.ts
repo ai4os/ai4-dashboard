@@ -251,7 +251,9 @@ export interface Dataset {
 }
 
 export interface Secret {
-    token: string;
+    token?: string;
+    username?: string;
+    password?: string;
 }
 
 export interface VllmModelConfig {
