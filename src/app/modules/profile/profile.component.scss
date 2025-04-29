@@ -8,7 +8,6 @@
     display: grid;
     grid-gap: 1rem 2rem;
     grid-template-columns: 1fr 1fr;
-    padding-bottom: 1.5em;
 }
 
 .grid-mobile {
@@ -24,6 +23,7 @@
     flex-direction: column;
     align-items: flex-start;
     min-width: fit-content;
+    margin-bottom: 1.5em;
 }
 
 .info-container {
@@ -47,6 +47,7 @@
 
 .full-width {
     width: 100%;
+    margin: 0px !important;
 }
 
 .buttons {
@@ -63,14 +64,10 @@
     border: 0;
 }
 
-.icon-button .icon {
-    width: 28px;
-}
-
 .services-grid {
     width: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 1fr 5fr 1.1fr;
+    grid-template-columns: auto auto minmax(auto, 1fr) auto;
     grid-template-rows: repeat(2, 1fr);
     align-items: center;
     grid-gap: 0.8em;
@@ -86,10 +83,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5em;
 }
 
 .divider {
     grid-column: 1 / 5;
+    width: 100%;
 }
 
 .cursor-default {
@@ -97,5 +96,39 @@
 }
 
 mat-list {
+    width: 100%;
+}
+
+.mlflow-credentials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-around;
+    gap: 1.5em;
+}
+
+.hf-credentials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.5em;
+    align-items: center;
+}
+
+.form-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.other-services-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
     width: 100%;
 }

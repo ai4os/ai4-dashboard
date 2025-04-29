@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from './profile.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
@@ -49,6 +49,7 @@ const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
     userProfileSubject: of({}),
     loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
+    isDoneLoading$: new BehaviorSubject<boolean>(false),
 };
 
 const mockedMediaQueryList: MediaQueryList = {

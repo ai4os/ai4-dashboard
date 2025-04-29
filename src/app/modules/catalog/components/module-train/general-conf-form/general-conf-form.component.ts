@@ -24,6 +24,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { Router } from '@angular/router';
+import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 
 export function urlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -90,10 +92,12 @@ export class GeneralConfFormComponent implements OnInit {
         private readonly authService: AuthService,
         private toolsService: ToolsService,
         private snackbarService: SnackbarService,
+        private secretsService: SecretsService,
         private ctrlContainer: FormGroupDirective,
         private fb: FormBuilder,
         private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
+        private media: MediaMatcher,
+        private router: Router
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -105,6 +109,7 @@ export class GeneralConfFormComponent implements OnInit {
 
     protected _defaultFormValues!: ModuleGeneralConfiguration;
     protected _showHelp = false;
+    protected isLoading = false;
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
     dockerTagOptions: { value: string; viewValue: string }[] = [];
@@ -115,6 +120,7 @@ export class GeneralConfFormComponent implements OnInit {
 
     modelNeedsToken = false;
     hideUiPassword = true;
+    hideHFToken = true;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -213,11 +219,20 @@ export class GeneralConfFormComponent implements OnInit {
                     viewValue: type,
                 });
             });
-            this.generalConfFormGroup
-                .get('vllmModelSelect')
-                ?.setValue(
-                    defaultFormValues.llm?.vllm_model_id.value as string
-                );
+
+            const selectedModel =
+                this.router.lastSuccessfulNavigation?.extras?.state?.['llmId'];
+            if (selectedModel) {
+                this.generalConfFormGroup
+                    .get('vllmModelSelect')
+                    ?.setValue(selectedModel);
+            } else {
+                this.generalConfFormGroup
+                    .get('vllmModelSelect')
+                    ?.setValue(
+                        defaultFormValues.llm?.vllm_model_id.value as string
+                    );
+            }
             defaultFormValues.llm?.vllm_model_id.options?.forEach(
                 (option: any) => {
                     this.vllmModelOptions.push({
@@ -226,12 +241,21 @@ export class GeneralConfFormComponent implements OnInit {
                     });
                 }
             );
+            this.modelChanged();
+
             this.generalConfFormGroup
                 .get('uiPasswordInput')
                 ?.setValue(defaultFormValues.llm?.ui_password.value as string);
-            this.generalConfFormGroup
-                .get('huggingFaceTokenInput')
-                ?.setValue(defaultFormValues.llm?.HF_token.value as string);
+
+            const hfToken = localStorage.getItem('hf_access_token') ?? '';
+            if (this._showFields.llmFields && hfToken === '') {
+                this.getHFToken();
+            } else {
+                this.generalConfFormGroup
+                    .get('huggingFaceTokenInput')
+                    ?.setValue(hfToken);
+            }
+
             this.generalConfFormGroup
                 .get('openaiApiKeyInput')
                 ?.setValue(
@@ -365,6 +389,7 @@ export class GeneralConfFormComponent implements OnInit {
             this.vllModelsConfigurations.find(
                 (m) => m.family + '/' + m.name === model
             )?.needs_HF_token ?? false;
+
         if (this.modelNeedsToken) {
             this.generalConfFormGroup.get('huggingFaceTokenInput')?.enable();
         } else {
@@ -421,6 +446,32 @@ export class GeneralConfFormComponent implements OnInit {
     openCo2Docs(): void {
         const url =
             'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html#monitoring-of-training-co2-emissions';
+        window.open(url);
+    }
+
+    getHFToken() {
+        this.isLoading = true;
+        const subpath = '/services/huggingface';
+        this.secretsService.getSecrets(subpath).subscribe({
+            next: (tokens) => {
+                this.generalConfFormGroup
+                    .get('huggingFaceTokenInput')
+                    ?.setValue(Object.values(tokens)[0]?.token ?? '');
+                this.isLoading = false;
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    "Couldn't retrieve your Hugging Face token. Please try again later."
+                );
+                this.isLoading = false;
+            },
+        });
+    }
+
+    openHFModel() {
+        const url =
+            'https://huggingface.co/' +
+            this.generalConfFormGroup.get('vllmModelSelect')?.value;
         window.open(url);
     }
 }

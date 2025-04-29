@@ -39,6 +39,12 @@
         <mat-card-footer class="basic-card-footer">
             <mat-chip-set class="chip-set">
                 <app-chip-with-icon
+                    [image]="'../../../assets/images/llm-companies/hf_logo.png'"
+                    text="Card"
+                    tooltip=" {{ 'CATALOG.MODULE-DETAIL.LINK' | translate }}"
+                    (click)="openLink($event)"
+                ></app-chip-with-icon>
+                <app-chip-with-icon
                     icon="straighten"
                     [text]="llm.context"
                     tooltip=" {{ 'CATALOG.MODULE-DETAIL.CONTEXT' | translate }}"

@@ -81,7 +81,7 @@ export class SecretManagementDetailComponent implements OnInit {
                         name: Object.keys(secrets)[i].substring(
                             Object.keys(secrets)[i].lastIndexOf('/') + 1
                         ),
-                        value: Object.values(secrets)[i].token,
+                        value: Object.values(secrets)[i].token!,
                         hide: true,
                     };
                     this.secrets.push(secret);
@@ -111,7 +111,7 @@ export class SecretManagementDetailComponent implements OnInit {
                     this.secretFormGroup.markAsUntouched();
                     this.secrets.push({
                         name: name,
-                        value: secret.token,
+                        value: secret.token!,
                         hide: true,
                     });
                     this.secrets.sort((a, b) => a.name.localeCompare(b.name));
