@@ -31,6 +31,7 @@ export class Ai4lifeLoaderComponent {
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
     step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
     modelId: string = '';
+    warningMessage = '';
 
     showHelp = false;
     showLoader = false;
@@ -81,6 +82,14 @@ export class Ai4lifeLoaderComponent {
                     }
 
                     this.hardwareConfDefaultValues = toolConf.hardware;
+                    // Check if config has a warning
+                    if (
+                        this.hardwareConfDefaultValues.warning &&
+                        this.hardwareConfDefaultValues.warning !== ''
+                    ) {
+                        this.warningMessage =
+                            this.hardwareConfDefaultValues.warning;
+                    }
                 });
         });
     }

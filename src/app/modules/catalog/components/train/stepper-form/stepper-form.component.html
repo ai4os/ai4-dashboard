@@ -6,27 +6,37 @@
 </mat-toolbar>
 
 <form class="example-form" [formGroup]="showHelpForm" ngNativeValidate>
-    <div
-        [ngClass]="{
-            'grid-1-column': mobileQuery.matches,
-            'breadcrumbs-and-help-container': !mobileQuery.matches,
-        }"
-    >
-        <xng-breadcrumb
+    <div class="warning-container">
+        @if (warningMessage !== '') {
+            <mat-chip class="warning-chip">
+                <mat-icon matChipAvatar color="warn">warning</mat-icon>
+                <div [innerHTML]="warningMessage"></div>
+            </mat-chip>
+        }
+
+        <div
             [ngClass]="{
-                'mobile-breadcrumb': mobileQuery.matches,
-                'mb-3': !mobileQuery.matches,
+                'grid-1-column': mobileQuery.matches,
+                'breadcrumbs-and-help-container': !mobileQuery.matches,
             }"
-        ></xng-breadcrumb>
-        <mat-slide-toggle
-            *ngIf="!mobileQuery.matches"
-            color="accent"
-            formControlName="showHelpToggleButton"
-            #showHelpToggle
-            (change)="showHelpButtonChange($event)"
         >
-            Show help
-        </mat-slide-toggle>
+            <xng-breadcrumb
+                [ngClass]="{
+                    'mobile-breadcrumb': mobileQuery.matches,
+                    'mb-3': !mobileQuery.matches,
+                }"
+            ></xng-breadcrumb>
+
+            <mat-slide-toggle
+                *ngIf="!mobileQuery.matches"
+                color="accent"
+                formControlName="showHelpToggleButton"
+                #showHelpToggle
+                (change)="showHelpButtonChange($event)"
+            >
+                Show help
+            </mat-slide-toggle>
+        </div>
     </div>
 </form>
 

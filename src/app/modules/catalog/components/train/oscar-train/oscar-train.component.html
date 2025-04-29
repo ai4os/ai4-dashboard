@@ -1,15 +1,14 @@
 <app-stepper-form
     [title]="title"
-    [numberOfSteps]="3"
+    [numberOfSteps]="2"
     [step1]="step1"
     [step2]="step2"
-    [step3]="step3"
     [step1Form]="generalConfForm"
     [step2Form]="hardwareConfForm"
-    [step3Form]="storageConfForm"
     [step1Title]="step1Title"
     [step2Title]="step2Title"
-    [step3Title]="step3Title"
+    [warningMessage]="warningMessage"
+    [platform]="'oscar'"
     [isLoading]="showLoader"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
 >
@@ -18,6 +17,7 @@
             <app-general-conf-form
                 class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
+                [showFields]="showGeneralFields"
                 [showHelp]="showHelp"
             ></app-general-conf-form>
         </form>
@@ -27,17 +27,9 @@
             <app-hardware-conf-form
                 class="child-form-container"
                 [defaultFormValues]="hardwareConfDefaultValues"
+                [showFields]="showHardwareFields"
                 [showHelp]="showHelp"
             ></app-hardware-conf-form>
-        </form>
-    </ng-template>
-    <ng-template #step3>
-        <form [formGroup]="storageConfForm">
-            <app-storage-conf-form
-                class="child-form-container"
-                [defaultFormValues]="storageConfDefaultValues"
-                [showHelp]="showHelp"
-            ></app-storage-conf-form>
         </form>
     </ng-template>
 </app-stepper-form>

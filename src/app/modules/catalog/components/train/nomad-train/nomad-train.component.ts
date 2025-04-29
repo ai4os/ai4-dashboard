@@ -13,11 +13,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 
 @Component({
-    selector: 'app-module-train',
-    templateUrl: './module-train.component.html',
-    styleUrls: ['./module-train.component.scss'],
+    selector: 'app-nomad-train',
+    templateUrl: './nomad-train.component.html',
+    styleUrls: ['./nomad-train.component.scss'],
 })
-export class ModuleTrainComponent implements OnInit {
+export class NomadTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
@@ -48,6 +48,7 @@ export class ModuleTrainComponent implements OnInit {
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
     service: string | undefined;
+    warningMessage = '';
 
     ngOnInit(): void {
         const deploymentType = sessionStorage.getItem('deploymentType');
@@ -62,7 +63,7 @@ export class ModuleTrainComponent implements OnInit {
 
     loadGenericModule() {
         this.modulesService
-            .getModuleConfiguration('ai4os-demo-app')
+            .getModuleNomadConfiguration('ai4os-demo-app')
             .subscribe((moduleConf: ModuleConfiguration) => {
                 this.generalConfDefaultValues = moduleConf.general;
                 this.hardwareConfDefaultValues = moduleConf.hardware;
@@ -91,6 +92,15 @@ export class ModuleTrainComponent implements OnInit {
                     this.generalConfDefaultValues.docker_tag.value =
                         deployment.tagName;
                 }
+
+                // Check if config has a warning
+                if (
+                    this.hardwareConfDefaultValues.warning &&
+                    this.hardwareConfDefaultValues.warning !== ''
+                ) {
+                    this.warningMessage =
+                        this.hardwareConfDefaultValues.warning;
+                }
             });
     }
 
@@ -111,10 +121,18 @@ export class ModuleTrainComponent implements OnInit {
                                 this.generalConfDefaultValues.service.value =
                                     this.service;
                             }
+                            // Check if config has a warning
+                            if (
+                                this.hardwareConfDefaultValues.warning &&
+                                this.hardwareConfDefaultValues.warning !== ''
+                            ) {
+                                this.warningMessage =
+                                    this.hardwareConfDefaultValues.warning;
+                            }
                         });
                 } else {
                     this.modulesService
-                        .getModuleConfiguration(params['id'])
+                        .getModuleNomadConfiguration(params['id'])
                         .subscribe((moduleConf: ModuleConfiguration) => {
                             this.generalConfDefaultValues = moduleConf.general;
                             this.hardwareConfDefaultValues =
@@ -124,6 +142,14 @@ export class ModuleTrainComponent implements OnInit {
                             if (this.service) {
                                 this.generalConfDefaultValues.service.value =
                                     this.service;
+                            }
+                            // Check if config has a warning
+                            if (
+                                this.hardwareConfDefaultValues.warning &&
+                                this.hardwareConfDefaultValues.warning !== ''
+                            ) {
+                                this.warningMessage =
+                                    this.hardwareConfDefaultValues.warning;
                             }
                         });
                 }

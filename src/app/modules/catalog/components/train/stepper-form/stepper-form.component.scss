@@ -1,0 +1,66 @@
+.title {
+    white-space: normal;
+    text-align: center;
+}
+
+.next-back-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.next-back-buttons-mobile {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.breadcrumbs-and-help-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1rem;
+    gap: 1.5em;
+    align-items: center;
+}
+
+.mobile-breadcrumb {
+    padding-top: 10px;
+    font-size: 0.83em;
+    display: flex;
+    justify-content: center;
+}
+
+.warning-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.warning-chip {
+    font-size: 12px;
+    line-height: 20px;
+    border: solid 2px var(--warning-orange);
+    background-color: color-mix(
+        in srgb,
+        var(--warning-orange) 15%,
+        transparent
+    ) !important;
+    height: fit-content;
+    padding: 0.5em;
+    align-self: center;
+    color: #9b3100;
+    max-width: fit-content;
+    width: 50%;
+
+    mat-icon {
+        color: var(--warning-orange);
+        transform: scale(1.5);
+    }
+}
+
+::ng-deep .warning-chip .mat-mdc-chip-action-label {
+    color: #9b3100 !important;
+    text-wrap-mode: wrap;
+}
+
+::ng-deep .child-form-container-show-help form {
+    min-height: 575px;
+}

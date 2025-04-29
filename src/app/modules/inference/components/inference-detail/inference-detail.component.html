@@ -52,6 +52,18 @@
                         </p>
                     </div>
 
+                    @if (service?.description !== '') {
+                        <div>
+                            <h3>
+                                {{
+                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
+                                        | translate
+                                }}
+                            </h3>
+                            <p>{{ service?.description }}</p>
+                        </div>
+                    }
+
                     <div>
                         <h3>
                             {{
