@@ -11,25 +11,13 @@ import { OAuthStorage } from 'angular-oauth2-oidc';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-
-const mockedConfigService: any = {};
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedModulesService } from '@app/shared/mocks/modules-service.mock';
+import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
 
 describe('ModulesListComponent', () => {
     let component: ModulesListComponent;
@@ -50,6 +38,8 @@ describe('ModulesListComponent', () => {
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: ModulesService, useValue: mockedModulesService },
+                { provide: SnackbarService, useValue: mockedSnackbarService },
             ],
         }).compileComponents();
 
@@ -60,5 +50,60 @@ describe('ModulesListComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+        sessionStorage.clear();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should call getAi4eoscModules and getAi4lifeModules on init', () => {
+        const getAi4eoscModulesSpy = jest.spyOn(
+            mockedModulesService,
+            'getModulesSummary'
+        );
+        const getAi4lifeModulesSpy = jest.spyOn(
+            mockedModulesService,
+            'getAi4lifeModules'
+        );
+
+        component.ngOnInit();
+
+        expect(getAi4eoscModulesSpy).toHaveBeenCalled();
+        expect(getAi4lifeModulesSpy).toHaveBeenCalled();
+    });
+
+    it('should load marketplace from sessionStorage and select correct tab', () => {
+        sessionStorage.setItem(
+            'selectedMarketplace',
+            JSON.stringify('ai4life')
+        );
+        const selectTabSpy = jest.spyOn(component, 'selectTab');
+
+        component.ngOnInit();
+
+        expect(component.marketplaceName).toBe('ai4life');
+        expect(selectTabSpy).toHaveBeenCalledWith(2);
+    });
+
+    it('should call snackbarService if marketplace is invalid', () => {
+        sessionStorage.setItem('selectedMarketplace', 'invalid');
+        component.ngOnInit();
+
+        expect(mockedSnackbarService.openError).toHaveBeenCalledWith(
+            'Marketplace could not be loaded. Please try again later.'
+        );
+    });
+
+    it('should change marketplace and store it in sessionStorage on tab change', () => {
+        const event = { tab: { textLabel: 'AI4LIFE' } } as any;
+        component.selectMarketplace(event);
+
+        expect(component.marketplaceName).toBe('ai4life');
+        expect(sessionStorage.getItem('selectedMarketplace')).toBe('"ai4life"');
     });
 });

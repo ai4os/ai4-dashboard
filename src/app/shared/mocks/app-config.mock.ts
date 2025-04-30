@@ -1,0 +1,1 @@
+export const mockedConfigService: any = {};
