@@ -120,7 +120,7 @@
                         *ngIf="module.links.docker_image"
                         class="action-button sub-button"
                         mat-menu-item
-                        (click)="createOscarService()"
+                        (click)="trainModulePlatform('oscar')"
                         [disabled]="
                             !isAuthorized() ||
                             module.links.docker_image === undefined
@@ -152,7 +152,7 @@
                     <button
                         mat-menu-item
                         class="action-button sub-button"
-                        routerLink="deploy"
+                        (click)="trainModulePlatform('nomad')"
                         [disabled]="!isAuthorized()"
                         matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                         [matTooltipPosition]="'left'"
@@ -231,7 +231,10 @@
                 </div>
 
                 <mat-menu #codespacesMenu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="trainModule('jupyter')">
+                    <button
+                        mat-menu-item
+                        (click)="trainModuleCodespaces('jupyter')"
+                    >
                         <span class="button-with-icon">
                             <img
                                 src="../../../../../assets/images/module-detail/jupyter-logo.png"
@@ -249,7 +252,7 @@
                     <button
                         *ngIf="module.title === 'AI4OS Development Environment'"
                         mat-menu-item
-                        (click)="trainModule('vscode')"
+                        (click)="trainModuleCodespaces('vscode')"
                     >
                         <span class="button-with-icon">
                             <img
@@ -297,7 +300,10 @@
                     </a>
 
                     <mat-menu #deployMenu="matMenu" xPosition="before">
-                        <button mat-menu-item (click)="trainModule('jupyter')">
+                        <button
+                            mat-menu-item
+                            (click)="trainModuleCodespaces('jupyter')"
+                        >
                             <span class="button-with-icon">
                                 <img
                                     src="../../../../../assets/images/jupyter-logo.png"
@@ -312,7 +318,10 @@
                                 </div>
                             </span>
                         </button>
-                        <button mat-menu-item (click)="trainModule('vscode')">
+                        <button
+                            mat-menu-item
+                            (click)="trainModuleCodespaces('vscode')"
+                        >
                             <span class="button-with-icon">
                                 <img
                                     src="../../../../../assets/images/vscode-logo.png"

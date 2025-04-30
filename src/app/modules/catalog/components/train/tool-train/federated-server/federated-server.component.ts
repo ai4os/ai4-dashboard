@@ -31,6 +31,7 @@ export class FederatedServerComponent implements OnInit {
 
     showHelp = false;
     showLoader = false;
+    warningMessage = '';
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
@@ -78,6 +79,15 @@ export class FederatedServerComponent implements OnInit {
                     this.generalConfDefaultValues = moduleConf.general;
                     this.hardwareConfDefaultValues = moduleConf.hardware;
                     this.federatedConfDefaultValues = moduleConf.flower;
+
+                    // Check if config has a warning
+                    if (
+                        this.hardwareConfDefaultValues.warning &&
+                        this.hardwareConfDefaultValues.warning !== ''
+                    ) {
+                        this.warningMessage =
+                            this.hardwareConfDefaultValues.warning;
+                    }
                 });
         });
     }

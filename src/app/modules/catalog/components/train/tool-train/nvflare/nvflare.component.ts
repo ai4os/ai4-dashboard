@@ -31,6 +31,7 @@ export class NvflareComponent {
 
     showHelp = false;
     showLoader = false;
+    warningMessage = '';
 
     generalConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
@@ -76,6 +77,15 @@ export class NvflareComponent {
                     this.generalConfDefaultValues = toolConf.general;
                     this.hardwareConfDefaultValues = toolConf.hardware;
                     this.nvflareConfDefaultValues = toolConf.nvflare;
+
+                    // Check if config has a warning
+                    if (
+                        this.hardwareConfDefaultValues.warning &&
+                        this.hardwareConfDefaultValues.warning !== ''
+                    ) {
+                        this.warningMessage =
+                            this.hardwareConfDefaultValues.warning;
+                    }
                 });
         });
     }

@@ -1,6 +1,6 @@
 <mat-toolbar
     [ngClass]="{
-        'mb-3': !mobileQuery.matches
+        'mb-3': !mobileQuery.matches,
     }"
 >
     <span id="title" class="aligned-with-icon">
@@ -17,11 +17,16 @@
     </div>
 </ng-template>
 
-<ng-container *ngIf="!isLoading; else loading">
+<ng-container
+    *ngIf="
+        !isStorageLoading && !isHfTokenLoading && !isOtherLoading;
+        else loading
+    "
+>
     <div
         [ngClass]="{
             'grid-mobile': mobileQuery.matches,
-            grid: !mobileQuery.matches
+            grid: !mobileQuery.matches,
         }"
     >
         <mat-card appearance="outlined" class="card">
@@ -67,78 +72,25 @@
         </mat-card>
     </div>
 
-    <mat-card *ngIf="isAuthorized" appearance="outlined" class="card">
-        <mat-card-header class="mb-3">
-            <mat-card-title>{{
-                'PROFILE.STORAGE-PROVIDERS' | translate
-            }}</mat-card-title>
-        </mat-card-header>
+    @if (isAuthorized) {
+        <mat-card appearance="outlined" class="card">
+            <mat-card-header class="mb-3">
+                <mat-card-title>{{
+                    'PROFILE.STORAGE-PROVIDERS' | translate
+                }}</mat-card-title>
+            </mat-card-header>
 
-        <mat-card-content class="info-container">
-            <div class="services-grid">
-                <button class="icon-button">
-                    <img
-                        class="icon"
-                        src="../../../../../assets/images/nextcloud-logo.png"
-                    />
-                </button>
-                <p class="service-name">
-                    {{ 'PROFILE.NEXTCLOUD.AI4OS' | translate }}
-                </p>
-                <mat-form-field class="full-width" subscriptSizing="dynamic">
-                    <input
-                        matInput
-                        disabled="true"
-                        value="{{ ai4osEndpoint }}"
-                    />
-                </mat-form-field>
-
-                <div class="buttons-container">
-                    <ng-container
-                        *ngIf="!credentialsExist(ai4osEndpoint); else resync"
-                    >
-                        <button
-                            mat-fab
-                            extended
-                            (click)="syncRclone(ai4osEndpoint)"
-                        >
-                            <mat-icon>link</mat-icon>
-                            Link
-                        </button>
-                    </ng-container>
-
-                    <ng-template #resync>
-                        <button
-                            class="custom-sync-button"
-                            mat-fab
-                            extended
-                            (click)="resyncRclone(ai4osEndpoint)"
-                        >
-                            <mat-icon>link</mat-icon>
-                            Re-link
-                        </button>
-                    </ng-template>
-
-                    <button
-                        [disabled]="!credentialsExist(ai4osEndpoint)"
-                        matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
-                        mat-mini-fab
-                        color="warn"
-                        (click)="unsyncRclone(ai4osEndpoint)"
-                    >
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </div>
-
-                <ng-container *ngFor="let service of customServiceCredentials">
+            <mat-card-content class="info-container">
+                <div class="services-grid">
                     <button class="icon-button">
                         <img
                             class="icon"
+                            width="45px"
                             src="../../../../../assets/images/nextcloud-logo.png"
                         />
                     </button>
                     <p class="service-name">
-                        {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
+                        {{ 'PROFILE.NEXTCLOUD.AI4OS' | translate }}
                     </p>
                     <mat-form-field
                         class="full-width"
@@ -147,21 +99,22 @@
                         <input
                             matInput
                             disabled="true"
-                            value="{{ service.server }}"
+                            value="{{ ai4osEndpoint }}"
                         />
                     </mat-form-field>
 
                     <div class="buttons-container">
                         <ng-container
                             *ngIf="
-                                !credentialsExist(service.server);
+                                !credentialsExist(ai4osEndpoint);
                                 else resync
                             "
                         >
                             <button
                                 mat-fab
                                 extended
-                                (click)="syncRclone(service.server)"
+                                style="color: white"
+                                (click)="syncRclone(ai4osEndpoint)"
                             >
                                 <mat-icon>link</mat-icon>
                                 Link
@@ -173,7 +126,7 @@
                                 class="custom-sync-button"
                                 mat-fab
                                 extended
-                                (click)="resyncRclone(service.server)"
+                                (click)="resyncRclone(ai4osEndpoint)"
                             >
                                 <mat-icon>link</mat-icon>
                                 Re-link
@@ -181,92 +134,356 @@
                         </ng-template>
 
                         <button
-                            [disabled]="!credentialsExist(service.server)"
+                            [disabled]="!credentialsExist(ai4osEndpoint)"
                             matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                             mat-mini-fab
                             color="warn"
-                            (click)="unsyncRclone(service.server)"
+                            (click)="unsyncRclone(ai4osEndpoint)"
                         >
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
-                </ng-container>
 
-                <mat-divider class="divider"></mat-divider>
-
-                <button class="icon-button" disabled>
-                    <img
-                        class="icon"
-                        src="../../../../../assets/images/nextcloud-logo.png"
-                    />
-                </button>
-                <span class="aligned-with-icon">
-                    <p class="service-name">
-                        {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
-                    </p>
-
-                    <button
-                        mat-icon-button
-                        matTooltip="{{
-                            'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
-                        }}"
-                        [matTooltipPosition]="'above'"
-                        (click)="openCustomNextcloudDocumentationWeb()"
+                    <ng-container
+                        *ngFor="let service of customServiceCredentials"
                     >
-                        <mat-icon color="accent">help</mat-icon>
-                    </button>
-                </span>
+                        <button class="icon-button">
+                            <img
+                                class="icon"
+                                width="45px"
+                                src="../../../../../assets/images/nextcloud-logo.png"
+                            />
+                        </button>
+                        <p class="service-name">
+                            {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
+                        </p>
+                        <mat-form-field
+                            class="full-width"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                disabled="true"
+                                value="{{ service.server }}"
+                            />
+                        </mat-form-field>
 
-                <form [formGroup]="customEndpointFormGroup">
-                    <mat-form-field
-                        class="full-width"
-                        subscriptSizing="dynamic"
-                    >
-                        <input
-                            matInput
-                            formControlName="value"
-                            placeholder="Custom domain"
-                            value="{{ customEndpoint }}"
+                        <div class="buttons-container">
+                            <ng-container
+                                *ngIf="
+                                    !credentialsExist(service.server);
+                                    else resync
+                                "
+                            >
+                                <button
+                                    mat-fab
+                                    extended
+                                    style="color: white"
+                                    (click)="syncRclone(service.server)"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                    Link
+                                </button>
+                            </ng-container>
+
+                            <ng-template #resync>
+                                <button
+                                    class="custom-sync-button"
+                                    mat-fab
+                                    extended
+                                    (click)="resyncRclone(service.server)"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                    Re-link
+                                </button>
+                            </ng-template>
+
+                            <button
+                                [disabled]="!credentialsExist(service.server)"
+                                matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
+                                mat-mini-fab
+                                color="warn"
+                                (click)="unsyncRclone(service.server)"
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </ng-container>
+
+                    <mat-divider class="divider"></mat-divider>
+
+                    <button class="icon-button" disabled>
+                        <img
+                            class="icon"
+                            width="45px"
+                            src="../../../../../assets/images/nextcloud-logo.png"
                         />
-                        <mat-error
-                            *ngIf="
-                                customEndpointFormGroup.get('value')?.value !==
-                                    '' &&
+                    </button>
+                    <span class="aligned-with-icon">
+                        <p class="service-name">
+                            {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
+                        </p>
+
+                        <button
+                            mat-icon-button
+                            matTooltip="{{
+                                'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                            }}"
+                            [matTooltipPosition]="'above'"
+                            (click)="openCustomNextcloudDocumentationWeb()"
+                        >
+                            <mat-icon color="accent">help</mat-icon>
+                        </button>
+                    </span>
+
+                    <form [formGroup]="customEndpointFormGroup">
+                        <mat-form-field
+                            class="full-width"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                formControlName="value"
+                                placeholder="Custom domain"
+                                value="{{ customEndpoint }}"
+                            />
+                            <mat-error
+                                *ngIf="
+                                    customEndpointFormGroup.get('value')
+                                        ?.value !== '' &&
+                                    customEndpointFormGroup
+                                        .get('value')
+                                        ?.hasError('invalidDomain')
+                                "
+                            >
+                                {{
+                                    'PROFILE.NEXTCLOUD.INVALID-DOMAIN'
+                                        | translate
+                                }}
+                            </mat-error>
+                        </mat-form-field>
+                    </form>
+
+                    <div class="buttons-container">
+                        <button
+                            mat-fab
+                            extended
+                            color="accent"
+                            matTooltip="{{ 'PROFILE.ADD' | translate }}"
+                            [disabled]="
+                                customEndpointFormGroup.get('value')?.value ===
+                                    '' ||
                                 customEndpointFormGroup
                                     .get('value')
                                     ?.hasError('invalidDomain')
                             "
+                            (click)="
+                                syncRclone(
+                                    customEndpointFormGroup.get('value')
+                                        ?.value ?? ''
+                                )
+                            "
                         >
-                            {{ 'PROFILE.NEXTCLOUD.INVALID-DOMAIN' | translate }}
-                        </mat-error>
-                    </mat-form-field>
-                </form>
-
-                <div class="buttons-container">
-                    <button
-                        mat-fab
-                        extended
-                        color="accent"
-                        matTooltip="{{ 'PROFILE.ADD' | translate }}"
-                        [disabled]="
-                            customEndpointFormGroup.get('value')?.value ===
-                                '' ||
-                            customEndpointFormGroup
-                                .get('value')
-                                ?.hasError('invalidDomain')
-                        "
-                        (click)="
-                            syncRclone(
-                                customEndpointFormGroup.get('value')?.value ??
-                                    ''
-                            )
-                        "
-                    >
-                        <mat-icon>add</mat-icon>
-                        {{ 'PROFILE.ADD' | translate }}
-                    </button>
+                            <mat-icon>add</mat-icon>
+                            {{ 'PROFILE.ADD' | translate }}
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="card">
+            <mat-card-header class="mb-3">
+                <mat-card-title>{{
+                    'PROFILE.SERVICES' | translate
+                }}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content class="info-container">
+                <div class="other-services-container">
+                    <div class="mlflow-credentials-container">
+                        <button class="icon-button" disabled>
+                            <img
+                                class="icon"
+                                width="80px"
+                                src="../../../../../assets/images/mlflow-logo.png"
+                            />
+                        </button>
+
+                        <div class="form-field">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    disabled="true"
+                                    [value]="mlflowCredentials.username"
+                                />
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="mlflowCredentials.username"
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field
+                                class="full-width mr-3"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    [type]="
+                                        mlflowCredentials.password.hide
+                                            ? 'password'
+                                            : 'text'
+                                    "
+                                    disabled="true"
+                                    value="{{
+                                        mlflowCredentials.password.value
+                                    }}"
+                                />
+
+                                <button
+                                    mat-icon-button
+                                    matSuffix
+                                    [matTooltip]="
+                                        mlflowCredentials.password.hide
+                                            ? 'Show'
+                                            : 'Hide'
+                                    "
+                                    (click)="
+                                        mlflowCredentials.password.hide =
+                                            !mlflowCredentials.password.hide
+                                    "
+                                    [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="
+                                        mlflowCredentials.password.hide
+                                    "
+                                >
+                                    <mat-icon color="accent">{{
+                                        mlflowCredentials.password.hide
+                                            ? 'visibility_off'
+                                            : 'visibility'
+                                    }}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                [copy-to-clipboard]="
+                                    mlflowCredentials.password.value
+                                "
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+
+                    <mat-divider class="divider"></mat-divider>
+
+                    <div class="hf-credentials-container">
+                        <button class="icon-button" disabled>
+                            <img
+                                class="icon"
+                                width="140px"
+                                src="../../../../../assets/images/data-repositories/hf-logo.png"
+                            />
+                        </button>
+                        <span
+                            class="buttons-container"
+                            [ngStyle]="{
+                                width: hfToken.value !== '' ? '100%' : '',
+                            }"
+                        >
+                            @if (hfToken.value !== '') {
+                                <div class="form-field">
+                                    <mat-form-field
+                                        class="full-width mr-3"
+                                        subscriptSizing="dynamic"
+                                    >
+                                        <input
+                                            matInput
+                                            [type]="
+                                                hfToken.hide
+                                                    ? 'password'
+                                                    : 'text'
+                                            "
+                                            disabled="true"
+                                            [value]="hfToken.value"
+                                        />
+
+                                        <button
+                                            mat-icon-button
+                                            matSuffix
+                                            [matTooltip]="
+                                                hfToken.hide ? 'Show' : 'Hide'
+                                            "
+                                            (click)="
+                                                hfToken.hide = !hfToken.hide
+                                            "
+                                            [attr.aria-label]="'Hide token'"
+                                            [attr.aria-pressed]="hfToken.hide"
+                                        >
+                                            <mat-icon color="accent">{{
+                                                hfToken.hide
+                                                    ? 'visibility_off'
+                                                    : 'visibility'
+                                            }}</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                    <button
+                                        mat-icon-button
+                                        matTooltip="Copy"
+                                        [copy-to-clipboard]="hfToken.value"
+                                    >
+                                        <mat-icon matSuffix color="accent">
+                                            content_copy</mat-icon
+                                        >
+                                    </button>
+                                </div>
+
+                                <button
+                                    class="custom-sync-button"
+                                    mat-fab
+                                    extended
+                                    (click)="startLoginWithHuggingFace()"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                    Re-link
+                                </button>
+                            } @else {
+                                <button
+                                    mat-fab
+                                    extended
+                                    style="color: white"
+                                    (click)="startLoginWithHuggingFace()"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                    Link
+                                </button>
+                            }
+                            <button
+                                [disabled]="hfToken.value === ''"
+                                matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
+                                mat-mini-fab
+                                color="warn"
+                                class="mr-1"
+                                (click)="unsyncHuggingFace()"
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    }
 </ng-container>

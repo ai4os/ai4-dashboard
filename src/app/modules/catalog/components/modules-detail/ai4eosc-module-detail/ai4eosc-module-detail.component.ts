@@ -7,11 +7,7 @@ import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
-import { OscarServiceRequest } from '@app/shared/interfaces/oscar-service.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 @Component({
     selector: 'app-module-detail',
@@ -22,14 +18,12 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     constructor(
         private modulesService: ModulesService,
         private toolsService: ToolsService,
-        private oscarInferenceService: OscarInferenceService,
         private authService: AuthService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
         public translateService: TranslateService,
         public location: Location,
         private router: Router,
-        private snackbarService: SnackbarService,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -126,53 +120,22 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
         );
     }
 
-    createOscarService() {
-        this.isLoading = true;
-        const requestBody: OscarServiceRequest = {
-            allowed_users: [],
-            cpu: 2,
-            image: this.module.links.docker_image!,
-            memory: 3000,
-            title: uniqueNamesGenerator({
-                dictionaries: [colors, animals],
-            }),
-        };
-        this.oscarInferenceService.createService(requestBody).subscribe({
-            next: (serviceName: string) => {
-                this.isLoading = false;
-                if (serviceName != '') {
-                    this.router
-                        .navigate(['/tasks/inference'])
-                        .then((navigated: boolean) => {
-                            if (navigated) {
-                                this.snackbarService.openSuccess(
-                                    'OSCAR service created with uuid ' +
-                                        serviceName
-                                );
-                            } else {
-                                this.snackbarService.openError(
-                                    'Error while creating service with uuid ' +
-                                        serviceName
-                                );
-                            }
-                        });
-                }
-            },
-            error: () => {
-                this.isLoading = false;
-            },
-        });
-    }
-
     createGradioDeployment() {
         sessionStorage.setItem('moduleData', JSON.stringify(this.module));
         window.open(`${window.location.href}/try-me-nomad`);
     }
 
-    trainModule(service: string) {
+    trainModuleCodespaces(service: string) {
         this.router.navigate(['deploy'], {
             relativeTo: this.route,
             state: { service: service },
+        });
+    }
+
+    trainModulePlatform(platform: string) {
+        this.router.navigate(['deploy'], {
+            relativeTo: this.route,
+            state: { platform: platform },
         });
     }
 }
