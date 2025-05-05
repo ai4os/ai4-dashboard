@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StorageConfFormComponent } from './storage-conf-form.component';
+import {
+    StorageConfFormComponent,
+    urlValidator,
+} from './storage-conf-form.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormBuilder, FormGroupDirective } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroupDirective } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -11,23 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedConfigService: any = {};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;
@@ -80,5 +68,53 @@ describe('StorageConfFormComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should validate URL correctly', () => {
+        const validator = urlValidator();
+        const validControl = new FormControl('https://example.com');
+        const invalidControl = new FormControl('notaurl');
+
+        expect(validator(validControl)).toBeNull();
+        expect(validator(invalidControl)).toEqual({ invalidURL: true });
+    });
+
+    it('should add dataset and apply required validators', () => {
+        const dataset = {
+            doiOrUrl: '10.5281/zenodo.1234567',
+            title: 'Test Dataset',
+            source: 'http',
+            force_pull: false,
+        };
+        component.addDataset(dataset);
+        expect(component.datasets.length).toBe(1);
+        const rcloneUser =
+            component.storageConfFormGroup.get('rcloneUserInput');
+        const rclonePassword = component.storageConfFormGroup.get(
+            'rclonePasswordInput'
+        );
+
+        expect(rcloneUser?.validator).toBeTruthy();
+        expect(rclonePassword?.validator).toBeTruthy();
+    });
+
+    it('should remove dataset and clear validators if empty', () => {
+        const dataset = {
+            doiOrUrl: '10.5281/zenodo.1234567',
+            title: 'Test Dataset',
+            source: 'http',
+            force_pull: false,
+        };
+        component.addDataset(dataset);
+        component.deleteDataset(dataset);
+
+        expect(component.datasets.length).toBe(0);
+        const rcloneUser =
+            component.storageConfFormGroup.get('rcloneUserInput');
+        const rclonePassword = component.storageConfFormGroup.get(
+            'rclonePasswordInput'
+        );
+        expect(rcloneUser?.validator).toBeNull();
+        expect(rclonePassword?.validator).toBeNull();
     });
 });

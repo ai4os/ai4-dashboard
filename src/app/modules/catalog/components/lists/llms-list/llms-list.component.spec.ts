@@ -17,7 +17,7 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
 import {
     mockedToolsService,
     mockedToolsServiceWithError,
-    mockVllms,
+    mockedVllmsConfig,
 } from '@app/shared/mocks/tools-service.mock';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
 
@@ -59,8 +59,8 @@ describe('LlmsListComponent', () => {
 
     it('should load LLMs on init', () => {
         expect(mockedToolsService.getVllmModelConfiguration).toHaveBeenCalled();
-        expect(component.llms).toEqual(mockVllms);
-        expect(component.resultsFound).toBe(mockVllms.length);
+        expect(component.llms).toEqual(mockedVllmsConfig);
+        expect(component.resultsFound).toBe(mockedVllmsConfig.length);
         expect(component.llmsLoading).toBe(false);
     });
 

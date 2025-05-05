@@ -6,10 +6,6 @@ import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import {
-    ZenodoCommunity,
-    ZenodoSimpleDataset,
-} from '@app/shared/interfaces/dataset.interface';
 import { By } from '@angular/platform-browser';
 import { ZenodoService } from '@app/modules/catalog/services/zenodo-service/zenodo.service';
 import { of } from 'rxjs';
@@ -17,41 +13,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedConfigService: any = {};
-
-const mockedCommunities: ZenodoCommunity = {
-    id: '1',
-    title: 'https://zenodo.org/communities/test',
-    link: 'Community Test',
-};
-
-const mockedDataset: ZenodoSimpleDataset = {
-    doiOrUrl: '10.1234/example',
-    title: 'Example Dataset',
-    source: 'zenodo',
-    force_pull: false,
-};
-
-const mockedZenodoService: any = {
-    getCommunities: jest.fn().mockReturnValue(of(mockedCommunities)),
-    getDataset: jest.fn().mockReturnValue(of(mockedDataset)),
-};
+import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import {
+    mockedDataset,
+    mockedZenodoService,
+} from '@app/shared/mocks/zenodo-service.mock';
 
 describe('DatasetCreationDetailComponent', () => {
     let component: DatasetCreationDetailComponent;

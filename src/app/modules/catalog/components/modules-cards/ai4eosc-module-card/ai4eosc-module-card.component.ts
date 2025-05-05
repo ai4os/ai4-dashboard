@@ -14,21 +14,10 @@ export class Ai4eoscModuleCardComponent implements OnInit {
     @Input() module!: ModuleSummary;
 
     isTool = false;
-    displayedKeywords: string[] = [];
 
     ngOnInit(): void {
         if (this.module) {
             this.isTool = this.module.categories.includes('AI4 tools');
-            const displayedKeywordsArray = this.module.categories
-                .filter(
-                    (category) =>
-                        category.includes('AI4 inference') ||
-                        category.includes('AI4 trainable') ||
-                        category.includes('AI4 pre trained') ||
-                        category.includes('AI4 tools')
-                )
-                .map((keyword) => this.titleCasePipe.transform(keyword));
-            this.displayedKeywords = displayedKeywordsArray;
         }
     }
 }

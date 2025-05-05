@@ -1,10 +1,12 @@
 import { of } from 'rxjs';
-import { Ai4lifeModule, ModuleSummary } from '../interfaces/module.interface';
-
-export const mockedModulesService = {
-    getModulesSummary: jest.fn(() => of(mockModuleSummaryList)),
-    getAi4lifeModules: jest.fn(() => of([])),
-};
+import {
+    Ai4eoscModule,
+    Ai4lifeModule,
+    ModuleSummary,
+} from '../interfaces/module.interface';
+import { hardwareDefaultFormValues } from '@app/modules/catalog/components/train/hardware-conf-form/hardware-conf-form.component.mock';
+import { generalDefaultFormValues } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component.mock';
+import { storageDefaultFormValues } from '@app/modules/catalog/components/train/storage-conf-form/storage-conf-form.component.mock';
 
 export const mockModuleSummaryList: ModuleSummary[] = [
     {
@@ -45,6 +47,29 @@ export const mockModuleSummaryList: ModuleSummary[] = [
     },
 ];
 
+export const mockAi4eoscModules: Ai4eoscModule[] = [
+    {
+        title: 'Artistic Style Transfer',
+        summary: 'A module to apply artistic style transfer using Pytorch.',
+        description:
+            'This is neural_transfer application using DEEPaaS API. The module allows you to take the content of an image and reproduce it with a new artistic style using the style of a different image.',
+        links: {
+            source_code: 'https://github.com/ai4os-hub/fast-neural-transfer',
+            docker_image: 'ai4oshub/fast-neural-transfer',
+            cicd_badge:
+                'https://jenkins.services.ai4os.eu/buildStatus/icon?job=ai4os-hub/fast-neural-transfer/main',
+            cicd_url:
+                'https://jenkins.services.ai4os.eu/job/ai4os-hub/job/fast-neural-transfer/job/main/',
+        },
+        libraries: ['PyTorch'],
+        tasks: ['Computer Vision'],
+        categories: ['AI4 pre trained', 'AI4 inference'],
+        tags: ['deep learning', 'image style transfer'],
+        id: 'test',
+        license: 'MIT',
+    },
+];
+
 export const mockAi4lifeModules: Ai4lifeModule[] = [
     {
         name: 'Cellpose Plant Nuclei ResNet',
@@ -72,7 +97,23 @@ export const mockAi4lifeModules: Ai4lifeModule[] = [
     },
 ];
 
-export const mockedModuleService = {
+const mockedModuleConfiguration = {
+    general: generalDefaultFormValues,
+    hardware: hardwareDefaultFormValues,
+    storage: storageDefaultFormValues,
+};
+
+export const mockedModulesService = {
+    getModulesSummary: jest.fn(() => of(mockModuleSummaryList)),
+    getAi4lifeModules: jest.fn(() => of([])),
+    getModule: jest.fn().mockReturnValue(of(mockAi4eoscModules[0])),
     createDeploymentGradio: jest.fn().mockReturnValue(of()),
     getDeploymentGradio: jest.fn().mockReturnValue(of()),
+    getModuleNomadConfiguration: jest
+        .fn()
+        .mockReturnValue(of(mockedModuleConfiguration)),
+    getModuleOscarConfiguration: jest
+        .fn()
+        .mockReturnValue(of(mockedModuleConfiguration)),
+    trainTool: jest.fn().mockReturnValue(of({ id: '12345' })),
 };

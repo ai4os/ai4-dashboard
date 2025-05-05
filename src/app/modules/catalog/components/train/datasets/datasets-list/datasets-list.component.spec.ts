@@ -10,35 +10,11 @@ import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MatTableDataSource } from '@angular/material/table';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedDataset: ZenodoSimpleDataset = {
-    doiOrUrl: '10.1234/example.doi',
-    title: 'Example Dataset',
-    source: 'zenodo',
-    force_pull: false,
-};
-
-const datasetRow = {
-    doi: '10.1234/example.doi',
-    name: 'Example Dataset',
-    source: 'Zenodo',
-    forcePull: true,
-};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import {
+    mockedDataset,
+    mockedDatasetRow,
+} from '@app/shared/mocks/zenodo-service.mock';
 
 describe('DatasetsListComponent', () => {
     let component: DatasetsListComponent;
@@ -172,7 +148,7 @@ describe('DatasetsListComponent', () => {
 
         // Delete dataset
         const mouseEvent = new MouseEvent('click');
-        component.removeDataset(mouseEvent, datasetRow);
+        component.removeDataset(mouseEvent, mockedDatasetRow);
         fixture.detectChanges();
 
         // Check
@@ -206,7 +182,7 @@ describe('DatasetsListComponent', () => {
 
         // Delete dataset
         const mouseEvent = new MouseEvent('click');
-        component.removeDataset(mouseEvent, datasetRow);
+        component.removeDataset(mouseEvent, mockedDatasetRow);
         fixture.detectChanges();
 
         // Check
