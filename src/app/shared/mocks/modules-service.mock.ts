@@ -97,7 +97,7 @@ export const mockAi4lifeModules: Ai4lifeModule[] = [
     },
 ];
 
-const mockedModuleConfiguration = {
+export const mockedModuleConfiguration = {
     general: generalDefaultFormValues,
     hardware: hardwareDefaultFormValues,
     storage: storageDefaultFormValues,
