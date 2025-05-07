@@ -3,33 +3,9 @@ import { SnapshotDetailComponent } from './snapshot-detail.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
-import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { SharedModule } from '@app/shared/shared.module';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const snapshotMock: Snapshot = {
-    snapshot_ID: '1234',
-    title: 'SnapshotTest',
-    status: 'complete',
-    submit_time: '2024-11-12 09:30:40',
-    docker_image:
-        'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
-    size: 2064652547,
-    nomad_ID: '',
-};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedSnapshots } from '@app/shared/mocks/snapshots.service.mock';
 
 describe('SnapshotDetailComponent', () => {
     let component: SnapshotDetailComponent;
@@ -42,7 +18,7 @@ describe('SnapshotDetailComponent', () => {
             providers: [
                 {
                     provide: MAT_DIALOG_DATA,
-                    useValue: { snapshot: snapshotMock },
+                    useValue: { snapshot: mockedSnapshots[0] },
                 },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
@@ -55,5 +31,20 @@ describe('SnapshotDetailComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should initialize snapshot from data and set statusBadge', () => {
+        component.ngOnInit();
+        expect(component.snapshot).toEqual(
+            expect.objectContaining(mockedSnapshots[0])
+        );
+        expect(component.statusBadge).toBeDefined();
+        expect(typeof component.statusBadge).toBe('string');
+    });
+
+    it('should detect error if error_msg is present', () => {
+        component.data.snapshot.error_msg = 'Error message';
+        component.ngOnInit();
+        expect(component['snapshotHasError']).toBe(true);
     });
 });
