@@ -1,9 +1,10 @@
 import {
+    ZenodoCommunity,
     ZenodoDataset,
     ZenodoDatasetVersion,
 } from '@app/shared/interfaces/dataset.interface';
 
-export const datasets: ZenodoDataset[] = [
+export const mockedDatasets: ZenodoDataset[] = [
     {
         id: '1',
         created: '2024-03-15T10:50:47.284986+00:00',
@@ -28,7 +29,7 @@ export const datasets: ZenodoDataset[] = [
     },
 ];
 
-export const versions: ZenodoDatasetVersion[] = [
+export const mockedVersions: ZenodoDatasetVersion[] = [
     {
         id: '10777412',
         title: 'EyeOnWater training dataset for assessing the inclusion of water images',
@@ -42,5 +43,18 @@ export const versions: ZenodoDatasetVersion[] = [
         doi: '10.5281/zenodo.10777441',
         version: '1',
         lastest: true,
+    },
+];
+
+export const mockedCommunities: ZenodoCommunity[] = [
+    {
+        id: 'ai4eosc',
+        title: 'AI4EOSC',
+        link: 'www.ai4eosc.eu',
+    },
+    {
+        id: 'imagine-project',
+        title: 'iMagine',
+        link: 'www.imagine-project.eu',
     },
 ];

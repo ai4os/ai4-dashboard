@@ -37,19 +37,6 @@ describe('ModulesService', () => {
         });
         service = TestBed.inject(ModulesService);
         httpMock = TestBed.inject(HttpTestingController);
-        jest.mock('./modules.service', () => ({
-            getModulesSummary: jest
-                .fn()
-                .mockReturnValue(of(mockModuleSummaryList))
-                .mockReturnValue(of(mockModuleSummaryList[0])),
-            getModule: jest.fn().mockReturnValue(of(mockAi4eoscModules[0])),
-            getModuleNomadConfiguration: jest
-                .fn()
-                .mockReturnValue(of(mockedModuleConfiguration)),
-            getAi4lifeModules: jest
-                .fn()
-                .mockReturnValue(of(mockAi4lifeModules)),
-        }));
     });
 
     afterEach(() => {
@@ -61,7 +48,7 @@ describe('ModulesService', () => {
     });
 
     it('getModulesSummary should return a list of detailed modules', (done) => {
-        const url = `${base}${endpoints.modulesSummary}`;
+        const expectedUrl = `${base}${endpoints.modulesSummary}`;
 
         service.getModulesSummary().subscribe((asyncData) => {
             try {
@@ -72,15 +59,20 @@ describe('ModulesService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'GET' &&
+                r.url === expectedUrl &&
+                !r.params.has('tags') // sin filtro
+        );
+
         req.flush(mockModuleSummaryList);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
     });
 
     it('getModulesSummary should return a list of detailed modules by tag', (done) => {
         const tag: TagObject = { tags: 'development' };
-        const url = `${base}${endpoints.modulesSummary}?tags=` + tag.tags;
+        const expectedUrl =
+            `${base}${endpoints.modulesSummary}?tags=` + tag.tags;
 
         service.getModulesSummary(tag).subscribe((asyncData) => {
             try {
@@ -91,15 +83,19 @@ describe('ModulesService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'GET' &&
+                r.url === expectedUrl &&
+                r.params.get('tags') === tag.tags
+        );
+
         req.flush(mockModuleSummaryList[0]);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
     });
 
     it('getModule should return the metadata of a module', (done) => {
         const moduleName = 'test';
-        const url = `${base}${endpoints.module.replace(':name', moduleName)}`;
+        const expectedUrl = `${base}${endpoints.module.replace(':name', moduleName)}`;
 
         service.getModule(moduleName).subscribe((asyncData) => {
             try {
@@ -110,15 +106,16 @@ describe('ModulesService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) => r.method === 'GET' && r.url === expectedUrl
+        );
+
         req.flush(mockModuleSummaryList[0]);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
     });
 
     it('getModuleNomadConfiguration should return the nomad configuration for a module', (done) => {
         const moduleName = 'test';
-        const url = `${base}${endpoints.moduleNomadConfiguration.replace(':name', moduleName)}?vo=vo.ai4eosc.eu`;
+        const expectedUrl = `${base}${endpoints.moduleNomadConfiguration.replace(':name', moduleName)}`;
 
         service
             .getModuleNomadConfiguration(moduleName)
@@ -131,15 +128,19 @@ describe('ModulesService', () => {
                 }
             });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'GET' &&
+                r.url === expectedUrl &&
+                r.params.get('vo') === 'vo.ai4eosc.eu'
+        );
+
         req.flush(mockedModuleConfiguration);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
     });
 
     it('getModuleOscarConfiguration should return the oscar configuration for a module', (done) => {
         const moduleName = 'test';
-        const url = `${base}${endpoints.moduleOscarConfiguration}?item_name=test&vo=vo.ai4eosc.eu`;
+        const expectedUrl = `${base}${endpoints.moduleOscarConfiguration}`;
 
         service
             .getModuleOscarConfiguration(moduleName)
@@ -152,14 +153,19 @@ describe('ModulesService', () => {
                 }
             });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'GET' &&
+                r.url === expectedUrl &&
+                r.params.get('item_name') === moduleName &&
+                r.params.get('vo') === 'vo.ai4eosc.eu'
+        );
+
         req.flush(mockedModuleConfiguration);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
     });
 
     it('getAi4lifeModules should return mapped ai4life modules', (done) => {
-        const url = endpoints.ai4lifeModulesSummary;
+        const expectedUrl = endpoints.ai4lifeModulesSummary;
 
         service.getAi4lifeModules().subscribe((modules) => {
             try {
@@ -171,8 +177,10 @@ describe('ModulesService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) => r.method === 'GET' && r.url === expectedUrl
+        );
+
         req.flush(mockAi4lifeModules);
-        expect(req.request.method).toBe('GET');
     });
 });

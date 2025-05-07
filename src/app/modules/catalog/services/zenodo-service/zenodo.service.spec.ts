@@ -6,16 +6,19 @@ import {
     provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { environment } from '@environments/environment';
-import { datasets, versions } from './zenodo.service.mock';
+import {
+    mockedCommunities,
+    mockedDatasets,
+    mockedVersions,
+} from './zenodo.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
+import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
 
 const { base, endpoints } = environment.api;
 
-const mockedConfigService: any = {};
-const datasetListMock = datasets;
-const datasetVersionsListMock = versions;
+const datasetListMock = mockedDatasets;
+const datasetVersionsListMock = mockedVersions;
 
 describe('ZenodoService', () => {
     let service: ZenodoService;
@@ -31,17 +34,35 @@ describe('ZenodoService', () => {
         });
         service = TestBed.inject(ZenodoService);
         httpMock = TestBed.inject(HttpTestingController);
-        jest.mock('./zenodo.service', () => ({
-            getDatasets: jest.fn().mockReturnValue(of(datasetListMock)),
-        }));
     });
 
     it('should be created', () => {
         expect(service).toBeTruthy();
     });
 
+    it('getCommunities should return a list of Zenodo communities', (done) => {
+        const expectedUrl = '../../../assets/json/zenodo_communities.json';
+
+        service.getCommunities().subscribe((data) => {
+            try {
+                expect(data).toBe(mockedCommunities);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+
+        const req = httpMock.expectOne(
+            (r) => r.method === 'GET' && r.url === expectedUrl
+        );
+
+        req.flush(mockedCommunities);
+        httpMock.verify();
+    });
+
     it('getDatasets should return a list of datasets', (done) => {
-        const url = `${base}${endpoints.zenodo}?api_route=communities/ai4eosc/records`;
+        const expectedUrl = `${base}${endpoints.zenodo}`;
+        const expectedParam = 'communities/ai4eosc/records';
 
         service.getDatasets('ai4eosc').subscribe((asyncData) => {
             try {
@@ -52,16 +73,23 @@ describe('ZenodoService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'POST' &&
+                r.url === expectedUrl &&
+                r.params.get('api_route') === expectedParam
+        );
+
         req.flush(datasetListMock);
         httpMock.verify();
-        expect(req.request.method).toBe('POST');
     });
 
     it('getDatasetVersions should return a list of versions', (done) => {
-        const url = `${base}${endpoints.zenodo}?api_route=records/1234/versions`;
+        const id = '10777412';
+        const expectedUrl = `${base}${endpoints.zenodo}`;
+        const expectedParam = 'records/' + id + '/versions';
 
-        service.getDatasetVersions('1234').subscribe((asyncData) => {
+        service.getDatasetVersions('10777412').subscribe((asyncData) => {
             try {
                 expect(asyncData).toBe(datasetVersionsListMock);
                 done();
@@ -70,9 +98,39 @@ describe('ZenodoService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'POST' &&
+                r.url === expectedUrl &&
+                r.params.get('api_route') === expectedParam
+        );
+
         req.flush(datasetVersionsListMock);
         httpMock.verify();
-        expect(req.request.method).toBe('POST');
+    });
+
+    it('getDataset should return a dataset by ID', (done) => {
+        const id = '5678';
+        const expectedUrl = `${base}${endpoints.zenodo}`;
+        const expectedParam = 'records/' + id;
+
+        service.getDataset(id).subscribe((data) => {
+            try {
+                expect(data).toBe(mockedDatasets[0]);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'POST' &&
+                r.url === expectedUrl &&
+                r.params.get('api_route') === expectedParam
+        );
+
+        req.flush(mockedDatasets[0]);
+        httpMock.verify();
     });
 });
