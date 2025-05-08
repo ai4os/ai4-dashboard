@@ -1,6 +1,9 @@
+import { of } from 'rxjs';
+
 import {
     UserStats,
     ClusterStats,
+    GlobalStats,
 } from '@app/shared/interfaces/stats.interface';
 
 export const mockedUserStats: UserStats = {
@@ -156,4 +159,20 @@ export const mockedClusterStats: ClusterStats = {
             ],
         },
     ],
+};
+
+export const mockedGlobalStats: GlobalStats = {
+    cpuNumAgg: 14,
+    cpuNumTotal: 345,
+    memoryMBAgg: 234,
+    memoryMBTotal: 234234,
+    diskMBAgg: 234,
+    diskMBTotal: 2346,
+    gpuNumAgg: 12,
+    gpuNumTotal: 545,
+};
+
+export const mockedStatsService: any = {
+    getUserStats: jest.fn().mockReturnValue(of(mockedUserStats)),
+    getClusterStats: jest.fn().mockReturnValue(of(mockedClusterStats)),
 };
