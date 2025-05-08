@@ -9,35 +9,12 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { MaterialModule } from '@app/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
-import { BehaviorSubject, of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-
-const mockedUserProfile = new BehaviorSubject({});
-
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-    userProfileSubject: mockedUserProfile,
-    getValue: jest.fn(() => mockedUserProfile.getValue()),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedConfigService: any = {};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
 
 describe('ContentLayoutComponent', () => {
     let component: ContentLayoutComponent;

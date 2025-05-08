@@ -1,5 +1,5 @@
 import { UserProfile } from '@app/core/services/auth/auth.service';
-import { OAuthEvent } from 'angular-oauth2-oidc';
+import { OAuthEvent, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 
 const mockedUserProfile = {
@@ -37,8 +37,8 @@ const mockedUserProfile = {
     },
 };
 
-export const mockedParsedUserProfile: UserProfile = {
-    name: 'Test',
+export const mockedParsedUserProfile = new BehaviorSubject<UserProfile>({
+    name: 'AI4EOSC Dasboard Test',
     isAuthorized: true,
     isOperator: true,
     email: 'test@ifca.unican.es',
@@ -48,7 +48,7 @@ export const mockedParsedUserProfile: UserProfile = {
         'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
         'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
     ],
-};
+});
 
 export const mockedAuthService: any = {
     analytics: {
@@ -56,7 +56,7 @@ export const mockedAuthService: any = {
         src: 'http://locahost/js/script.js',
     },
     isAuthenticated: jest.fn(),
-    userProfileSubject: mockedUserProfile,
+    userProfileSubject: mockedParsedUserProfile,
     getValue: jest.fn(() => mockedUserProfile),
     login: jest.fn(),
     logout: jest.fn(),
@@ -68,4 +68,29 @@ export const mockedAuthService: any = {
     hasValidAccessToken: jest.fn().mockReturnValue(true),
     setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
     events: of(Subject<OAuthEvent>),
+    loadDiscoveryDocument: jest
+        .fn()
+        .mockReturnValue(
+            Promise.resolve(new OAuthSuccessEvent('discovery_document_loaded'))
+        ),
+    loadDiscoveryDocumentAndLogin: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(false)),
+    loadDiscoveryDocumentAndTryLogin: jest
+        .fn()
+        .mockReturnValue(Promise.resolve(true)),
+    restartSessionChecksIfStillLoggedIn: jest.fn().mockReturnValue(void 0),
+    silentRefresh: jest
+        .fn()
+        .mockReturnValue(
+            Promise.resolve(new OAuthSuccessEvent('silently_refreshed'))
+        ),
+    stopAutomaticRefresh: jest.fn().mockReturnValue(void 0),
+    tryLogin: jest.fn().mockReturnValue(Promise.resolve(false)),
+    tryLoginCodeFlow: jest.fn().mockReturnValue(Promise.resolve(void 0)),
+    tryLoginImplicitFlow: jest.fn().mockReturnValue(Promise.resolve(false)),
+    logOut: jest.fn(),
+    getIdToken: jest.fn().mockReturnValue(Promise.resolve('dasdsad')),
+    hasValidIdToken: jest.fn().mockReturnValue(Promise.resolve(true)),
+    initLoginFlow: jest.fn(),
 };
