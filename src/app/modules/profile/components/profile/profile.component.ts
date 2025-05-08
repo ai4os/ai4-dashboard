@@ -25,10 +25,10 @@ import {
     RequestLoginResponse,
     StorageCredential,
 } from '@app/shared/interfaces/profile.interface';
-import { ProfileService } from './services/profile.service';
+import { ProfileService } from '../../services/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { SecretsService } from '../deployments/services/secrets-service/secrets.service';
+import { SecretsService } from '../../../deployments/services/secrets-service/secrets.service';
 
 export interface VoInfo {
     name: string;
@@ -100,9 +100,9 @@ export class ProfileComponent implements OnInit {
         login: '',
     };
 
-    protected name = '';
-    protected email = '';
-    protected isAuthorized = false;
+    name = '';
+    email = '';
+    isAuthorized = false;
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint = 'share.services.ai4os.eu';
     protected customEndpoint = '';
