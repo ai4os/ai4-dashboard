@@ -8,6 +8,8 @@ import { ToolsService } from '../../../services/tools-service/tools.service';
 import { Location } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService } from '@ngx-translate/core';
+import { IframeDialogComponent } from '@app/shared/components/iframe-dialog/iframe-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-module-detail',
@@ -22,6 +24,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
         public translateService: TranslateService,
+        public dialog: MatDialog,
         public location: Location,
         private router: Router,
         private changeDetectorRef: ChangeDetectorRef,
@@ -136,6 +139,17 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
         this.router.navigate(['deploy'], {
             relativeTo: this.route,
             state: { platform: platform },
+        });
+    }
+
+    openProvenanceIframeDialog(): void {
+        const url =
+            'https://dev.ai4eosc.predictia.es/?applicationId=' + this.module.id;
+
+        this.dialog.open(IframeDialogComponent, {
+            data: { url: url },
+            width: '80vw',
+            height: '80vh',
         });
     }
 }

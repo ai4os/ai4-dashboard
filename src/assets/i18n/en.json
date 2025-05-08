@@ -1,5 +1,4 @@
 {
-    "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
         "STATS": "Statistics",
@@ -244,6 +243,12 @@
             "CONTEXT": "Tokens",
             "LINK": "Link to model",
             "UNAUTHORIZED": "You must login and be a member of project to use this",
+            "PROVENANCE": {
+                "TITLE": "Provenance",
+                "VIEW": "View",
+                "DOWNLOAD": "Download RDF",
+                "DIALOG": "Provenance graph"
+            },
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",

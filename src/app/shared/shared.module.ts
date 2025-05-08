@@ -14,6 +14,7 @@ import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-ico
 import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { IframeDialogComponent } from './components/iframe-dialog/iframe-dialog.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { MarkdownModule } from 'ngx-markdown';
         ChipWithIconComponent,
         DeploymentsTableComponent,
         ChatBotComponent,
+        IframeDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -42,6 +44,7 @@ import { MarkdownModule } from 'ngx-markdown';
         ChipWithIconComponent,
         DeploymentsTableComponent,
         ChatBotComponent,
+        IframeDialogComponent,
     ],
 })
 export class SharedModule {}
