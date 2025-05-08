@@ -76,8 +76,7 @@ describe('ModuleDetailComponent', () => {
         component.isTool = false;
         const spyGetModules = jest.spyOn(mockedModulesService, 'getModule');
         const spyGetTool = jest.spyOn(mockedToolsService, 'getTool');
-        component.ngOnInit();
-        fixture.detectChanges();
+
         expect(spyGetModules).toHaveBeenCalledWith('test');
         expect(spyGetTool).toHaveBeenCalledTimes(0);
         expect(component.module).toMatchObject(mockedModule);
@@ -87,8 +86,9 @@ describe('ModuleDetailComponent', () => {
     it('should load tool information correctly', () => {
         component.isTool = true;
         const spyGetTool = jest.spyOn(mockedToolsService, 'getTool');
+
         component.ngOnInit();
-        fixture.detectChanges();
+
         expect(spyGetTool).toHaveBeenCalledWith('test');
         expect(component.module).toMatchObject(mockedModule);
         expect(component.isLoading).toBe(false);

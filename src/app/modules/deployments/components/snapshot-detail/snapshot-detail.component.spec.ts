@@ -34,7 +34,6 @@ describe('SnapshotDetailComponent', () => {
     });
 
     it('should initialize snapshot from data and set statusBadge', () => {
-        component.ngOnInit();
         expect(component.snapshot).toEqual(
             expect.objectContaining(mockedSnapshots[0])
         );

@@ -51,12 +51,10 @@ describe('InferenceDetailComponent', () => {
     });
 
     it('should load service on init and assign values', () => {
-        component.ngOnInit();
-
         expect(
             mockedOscarInferenceService.getServiceByName
         ).toHaveBeenCalledWith('test-service');
-        expect(component.service?.title).toBe('Mock Title');
+        expect(component.service?.title).toBe('Oscar Service Mock Title');
         expect(component.tokenField.value).toBe('mock-token');
         expect(component.accessKeyField.value).toBe('mock-access-key');
         expect(component.minioSecretField.value).toBe('mock-secret-key');

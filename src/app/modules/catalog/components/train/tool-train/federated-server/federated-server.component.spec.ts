@@ -78,8 +78,6 @@ describe('FederatedServerComponent', () => {
     });
 
     it('should load tool and federated server configuration on init', () => {
-        component.ngOnInit();
-
         expect(mockedToolsService.getTool).toHaveBeenCalledWith(
             'ai4os-federated-server'
         );

@@ -68,8 +68,6 @@ describe('DashboardComponent', () => {
     });
 
     it('should show tabs', () => {
-        component.ngOnInit();
-
         // first tab is selected
         checkSelectedIndex(0, fixture);
 

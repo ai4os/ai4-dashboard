@@ -53,8 +53,6 @@ describe('NvflareComponent', () => {
     });
 
     it('should load module and set data', () => {
-        component.ngOnInit();
-
         expect(mockedToolsService.getTool).toHaveBeenCalledWith(
             'ai4os-nvflare'
         );

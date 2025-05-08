@@ -48,7 +48,6 @@ describe('FederatedConfFormComponent', () => {
     });
 
     it('should initialize form and add control to parent form', () => {
-        component.ngOnInit();
         expect(component.parentForm.contains('federatedConfForm')).toBe(true);
     });
 

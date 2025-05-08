@@ -52,7 +52,6 @@ describe('LlmComponent', () => {
     });
 
     it('should call loadModule and set title and generalConfDefaultValues', () => {
-        component.ngOnInit();
         expect(mockedToolsService.getTool).toHaveBeenCalledWith('ai4os-llm');
         expect(mockedToolsService.getVllmConfiguration).toHaveBeenCalledWith(
             'ai4os-llm'

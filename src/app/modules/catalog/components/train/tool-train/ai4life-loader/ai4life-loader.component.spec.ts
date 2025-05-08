@@ -52,8 +52,6 @@ describe('Ai4lifeLoaderComponent', () => {
     });
 
     it('should load tool data', () => {
-        component.ngOnInit();
-
         expect(mockedToolsService.getTool).toHaveBeenCalledWith(
             'ai4os-ai4life-loader'
         );

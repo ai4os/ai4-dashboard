@@ -52,8 +52,6 @@ describe('CvatComponent', () => {
     });
 
     it('should load module data and set title and configurations', () => {
-        component.ngOnInit();
-
         expect(mockedToolsService.getTool).toHaveBeenCalledWith('ai4os-cvat');
         expect(mockedToolsService.getCvatConfiguration).toHaveBeenCalledWith(
             'ai4os-cvat'

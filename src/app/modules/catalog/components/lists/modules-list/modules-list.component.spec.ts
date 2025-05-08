@@ -71,8 +71,6 @@ describe('ModulesListComponent', () => {
             'getAi4lifeModules'
         );
 
-        component.ngOnInit();
-
         expect(getAi4eoscModulesSpy).toHaveBeenCalled();
         expect(getAi4lifeModulesSpy).toHaveBeenCalled();
     });
