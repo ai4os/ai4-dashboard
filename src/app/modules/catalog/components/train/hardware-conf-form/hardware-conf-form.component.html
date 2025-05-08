@@ -6,7 +6,7 @@
             'form-grid': !mobileQuery.matches,
         }"
     >
-        <mat-form-field *ngIf="_showFields.cpu_num" class="example-full-width">
+        <mat-form-field *ngIf="_showFields.cpu_num">
             <mat-label>{{
                 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS'
                     | translate
@@ -38,7 +38,7 @@
                 }}
             </mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="_showFields.gpu_num" class="example-full-width">
+        <mat-form-field *ngIf="_showFields.gpu_num">
             <mat-label>{{
                 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-GPUS'
                     | translate
@@ -73,7 +73,7 @@
                 }}
             </mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="_showFields.gpu_type" class="example-full-width">
+        <mat-form-field *ngIf="_showFields.gpu_type">
             <mat-label>{{
                 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.GPU-MODEL' | translate
             }}</mat-label>
@@ -89,7 +89,7 @@
                 _defaultFormValues.gpu_type?.description
             }}</mat-hint>
         </mat-form-field>
-        <mat-form-field *ngIf="_showFields.ram" class="example-full-width">
+        <mat-form-field *ngIf="_showFields.ram">
             <mat-label>{{
                 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.RAM-MEMORY' | translate
             }}</mat-label>
@@ -120,7 +120,7 @@
                 }}
             </mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="_showFields.disk" class="example-full-width">
+        <mat-form-field *ngIf="_showFields.disk">
             <mat-label>{{
                 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.DISK-MEMORY'
                     | translate

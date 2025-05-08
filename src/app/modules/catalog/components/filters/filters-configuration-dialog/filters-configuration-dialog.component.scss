@@ -6,6 +6,23 @@
     }
 }
 
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1.5em;
+    padding: 35px 20px 20px 20px !important;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1em;
+}
+
 .box-container {
     border: 1px solid var(--border-gray);
     border-radius: 10px;
@@ -36,23 +53,6 @@
     justify-content: flex-start;
     gap: 0.5em;
     margin-top: 10px;
-}
-
-.filters-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 1.5em;
-    padding: 35px 20px 20px 20px !important;
-}
-
-.filter-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 1em;
 }
 
 .delete-button {

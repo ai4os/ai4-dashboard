@@ -21,53 +21,11 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
-import { mockedSnapshots } from '../../services/snapshots-service/snapshot.service.mock';
-import {
-    mockedDeployments,
-    mockedDeleteDeploymentResponse,
-    mockedTools,
-} from '../../services/deployments-service/deployment.service.mock';
-
-const mockedConfigService: any = {};
-
-const mockedDeploymentService: any = {
-    getDeployments: jest.fn().mockReturnValue(of(mockedDeployments)),
-    getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployments[0])),
-    deleteDeploymentByUUID: jest
-        .fn()
-        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-    getTools: jest.fn().mockReturnValue(of(mockedTools)),
-    getToolByUUID: jest.fn().mockReturnValue(of(mockedTools[0])),
-    deleteToolByUUID: jest
-        .fn()
-        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-};
-
-const mockedSnapshotService: any = {
-    getSnapshots: jest.fn().mockReturnValue(of(mockedSnapshots)),
-    deleteSnapshotByUUID: jest
-        .fn()
-        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedSnackbarService: any = {
-    openSuccess: jest.fn(),
-    openError: jest.fn(),
-};
+import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedDeploymentService } from '@app/shared/mocks/deployments.service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSnapshotService } from '@app/shared/mocks/snapshots.service.mock';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
