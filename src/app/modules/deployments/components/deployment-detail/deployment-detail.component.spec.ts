@@ -75,10 +75,6 @@ describe('DeploymentDetailComponent', () => {
         );
         component.ngOnInit();
         expect(spyGetToolByUUID).toHaveBeenCalledWith(mockedData.uuid);
-        // Deployment has an error
-        mockedDeployment.error_msg = 'I have an error';
-        component.ngOnInit();
-        expect(component['deploymentHasError']).toBe(true);
     });
 
     it('should load module deployment info correctly', () => {

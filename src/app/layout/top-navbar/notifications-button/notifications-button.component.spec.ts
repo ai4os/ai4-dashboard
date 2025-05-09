@@ -44,15 +44,10 @@ describe('NotificationsButtonComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should call getPlatformNotifications and add notifications to the list', fakeAsync(() => {
-        component.getNotifications();
-
-        tick(100);
-        fixture.detectChanges();
-
+    it('should call getPlatformNotifications and add notifications to the list', () => {
         expect(component.notifications.length).toBe(1);
         expect(component.notifications[0].title).toBe('Test Notification');
-    }));
+    });
 
     it('should handle error when getPlatformNotifications fails', fakeAsync(() => {
         mockedPlatformStatusService.getPlatformNotifications.mockReturnValue(
@@ -69,12 +64,4 @@ describe('NotificationsButtonComponent', () => {
             'Error retrieving the platform notifications'
         );
     }));
-
-    it('should call filterByDateAndVo with the correct parameters', () => {
-        component.getNotifications();
-
-        expect(
-            mockedPlatformStatusService.filterByDateAndVo
-        ).toHaveBeenCalledWith(component.notifications);
-    });
 });

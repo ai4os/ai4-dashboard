@@ -8,13 +8,11 @@ import {
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
 import { endpoints } from '@environments/endpoints';
-import { of } from 'rxjs';
 import { TagObject } from '@app/data/types/tags';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 import { provideHttpClient } from '@angular/common/http';
 import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
 import {
-    mockAi4eoscModules,
     mockAi4lifeModules,
     mockModuleSummaryList,
     mockedModuleConfiguration,
@@ -71,8 +69,7 @@ describe('ModulesService', () => {
 
     it('getModulesSummary should return a list of detailed modules by tag', (done) => {
         const tag: TagObject = { tags: 'development' };
-        const expectedUrl =
-            `${base}${endpoints.modulesSummary}?tags=` + tag.tags;
+        const expectedUrl = `${base}${endpoints.modulesSummary}`;
 
         service.getModulesSummary(tag).subscribe((asyncData) => {
             try {

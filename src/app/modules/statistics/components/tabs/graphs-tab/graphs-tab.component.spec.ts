@@ -38,7 +38,7 @@ describe('GraphsTabComponent', () => {
         fixture = TestBed.createComponent(GraphsTabComponent);
         component = fixture.componentInstance;
         component.userGlobalStats = mockedGlobalStats;
-        component.userProfile = mockedParsedUserProfile;
+        component.userProfile = mockedParsedUserProfile.value;
         fixture.detectChanges();
     });
 
@@ -122,8 +122,8 @@ describe('GraphsTabComponent', () => {
         expect(container.properties.totalDisk).toBe(2346);
         expect(container.properties.usedGpuNum).toBe(12);
         expect(container.properties.totalGpuNum).toBe(545);
-        expect(container.properties.usedLabel).toBe('Test');
-        expect(container.properties.freeLabel).toBe('TestAI4EOSC');
+        expect(container.properties.usedLabel).toBe('AI4EOSC Dashboard Test');
+        expect(container.properties.freeLabel).toBe('Test AI4EOSC');
     });
 });
 

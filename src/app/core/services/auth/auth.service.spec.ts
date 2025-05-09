@@ -62,7 +62,7 @@ describe('AuthService', () => {
         service.userProfileSubject.subscribe((profile) => {
             expect(profile).toMatchObject({
                 isAuthorized: true,
-                name: 'AI4EOSC Dasboard Test',
+                name: 'AI4EOSC Dashboard Test',
             });
         });
 

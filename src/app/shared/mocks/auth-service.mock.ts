@@ -19,13 +19,13 @@ const mockedUserProfile = {
         sid: 'b27a9b7a-818c-46d4-ad87-1b9a1818c43f',
         voperson_verified_email: ['test@ifca.unican.es'],
         email_verified: true,
-        name: 'AI4EOSC Dasboard Test',
+        name: 'AI4EOSC Dashboard Test',
         preferred_username: 'ai4dash',
         eduperson_assurance: [
             'https://refeds.org/assurance/IAP/low',
             'https://aai.egi.eu/LoA#Low',
         ],
-        given_name: 'AI4EOSC Dasboard ',
+        given_name: 'AI4EOSC Dashboard ',
         family_name: 'Test',
         email: 'test@ifca.unican.es',
         eduperson_entitlement: [
@@ -38,7 +38,7 @@ const mockedUserProfile = {
 };
 
 export const mockedParsedUserProfile = new BehaviorSubject<UserProfile>({
-    name: 'AI4EOSC Dasboard Test',
+    name: 'AI4EOSC Dashboard Test',
     isAuthorized: true,
     isOperator: true,
     email: 'test@ifca.unican.es',

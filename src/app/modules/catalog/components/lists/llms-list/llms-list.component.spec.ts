@@ -65,7 +65,7 @@ describe('LlmsListComponent', () => {
     });
 
     it('should update resultsFound based on search input', () => {
-        component.searchFormGroup.controls['search'].setValue('Test');
+        component.searchFormGroup.controls['search'].setValue('Qwen');
         component.updateResultsFound();
         expect(component.resultsFound).toBeGreaterThan(0);
     });
