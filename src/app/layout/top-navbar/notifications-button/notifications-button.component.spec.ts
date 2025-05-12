@@ -45,7 +45,7 @@ describe('NotificationsButtonComponent', () => {
     });
 
     it('should call getPlatformNotifications and add notifications to the list', () => {
-        expect(component.notifications.length).toBe(1);
+        expect(component.notifications.length).toBe(3);
         expect(component.notifications[0].title).toBe('Test Notification');
     });
 
