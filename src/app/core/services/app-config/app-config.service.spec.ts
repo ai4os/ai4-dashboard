@@ -3,34 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { AppConfigService } from './app-config.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-const mockedConfig = {
-    title: 'AI4EOSC - Dashboard',
-    sidenavMenu: [
-        {
-            name: 'SIDENAV.IAM',
-            url: 'https://aai.egi.eu/',
-        },
-    ],
-    voName: 'vo.ai4eosc.eu',
-    projectName: 'AI4EOSC',
-    projectUrl: 'https://ai4eosc.eu',
-    acknowledgments:
-        'The AI4EOSC dashboard is a service provided by CSIC, co-funded by ',
-    footerLinks: [
-        {
-            name: 'SIDENAV.TERMS-OF-USE',
-            url: 'https://ai4eosc.eu/platform/acceptable-use-policy/',
-        },
-    ],
-};
-
-const mockedOauthConfig = {
-    resourceServer: {
-        allowedUrls: ['https://api.test.ai4eosc.eu/v1'],
-        sendAccessToken: true,
-    },
-};
+import {
+    mockedConfig,
+    mockedOAuthModuleConfig,
+} from '@app/shared/mocks/oauth.module.config.mock';
 
 describe('AppConfigService', () => {
     let service: AppConfigService;
@@ -51,7 +27,7 @@ describe('AppConfigService', () => {
         const spy = jest
             .spyOn(service, 'loadAppConfig')
             .mockReturnValue(Promise.resolve());
-        service.loadAppConfig(mockedOauthConfig);
+        service.loadAppConfig(mockedOAuthModuleConfig);
         expect(spy).toHaveBeenCalledTimes(1);
         expect(service['appConfig']).toEqual(mockedConfig);
     });

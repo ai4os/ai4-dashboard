@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ForbiddenComponent } from './forbidden.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
     {

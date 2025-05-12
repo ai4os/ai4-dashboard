@@ -7,20 +7,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 
 describe('StatCardComponent', () => {
     let component: StatCardComponent;

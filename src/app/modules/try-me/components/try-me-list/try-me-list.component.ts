@@ -16,7 +16,6 @@ import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 @Component({
     selector: 'app-try-me-list',
     templateUrl: './try-me-list.component.html',
-    styleUrls: ['./try-me-list.component.scss'],
 })
 export class TryMeListComponent implements OnInit {
     constructor(

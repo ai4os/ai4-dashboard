@@ -113,7 +113,9 @@
                         <app-chip-with-icon
                             *ngFor="let tag of tags"
                             text="{{ tag }}"
-                            [image]="'../../../assets/images/tag.png'"
+                            [image]="
+                                '../../../assets/images/module-detail/tag.png'
+                            "
                             chipStyle="default"
                         ></app-chip-with-icon>
                     </div>
@@ -142,7 +144,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/bioimage-logo.png"
+                                    src="../../../../../assets/images/module-detail/bioimage-logo.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.BIOIMAGE' | translate }}
                             </span>

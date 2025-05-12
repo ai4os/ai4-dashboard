@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { PopupComponent } from './shared/components/popup/popup/popup.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { PlatformStatusService } from './shared/services/platform-status/platform-status.service';
 import {
@@ -14,6 +13,7 @@ import { SnackbarService } from './shared/services/snackbar/snackbar.service';
 import { CookieService } from 'ngx-cookie-service';
 import * as yaml from 'js-yaml';
 import { ChatOverlayService } from './shared/services/chat-overlay/chat-overlay.service';
+import { PopupComponent } from './shared/components/popup/popup.component';
 
 @Component({
     selector: 'app-root',

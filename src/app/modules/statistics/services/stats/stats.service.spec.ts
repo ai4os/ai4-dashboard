@@ -7,10 +7,12 @@ import {
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
-import { of } from 'rxjs';
-import { mockedClusterStats, mockedUserStats } from './stats.service.mock';
 import { expect } from '@jest/globals';
 import { provideHttpClient } from '@angular/common/http';
+import {
+    mockedClusterStats,
+    mockedUserStats,
+} from '@app/shared/mocks/stats.service.mock';
 
 const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',
@@ -32,11 +34,6 @@ describe('StatsServiceService', () => {
 
         service = TestBed.inject(StatsService);
         httpMock = TestBed.inject(HttpTestingController);
-
-        jest.mock('./stats.service', () => ({
-            getUserStats: jest.fn().mockReturnValue(of(mockedUserStats)),
-            getClusterStats: jest.fn().mockReturnValue(of(mockedClusterStats)),
-        }));
     });
 
     afterEach(() => {

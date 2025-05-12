@@ -75,11 +75,6 @@
     height: fit-content;
 }
 
-.spinner-with-description {
-    display: flex;
-    flex-direction: column;
-}
-
 .button-with-icon {
     display: flex;
     flex-direction: row;
@@ -156,6 +151,7 @@ mat-card-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    word-break: break-all;
 }
 
 mat-card-subtitle {
