@@ -8,7 +8,7 @@ import {
     ModuleHardwareConfiguration,
     Ai4LifeLoaderToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
 
 @Component({
@@ -41,7 +41,7 @@ export class Ai4lifeLoaderComponent {
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
         co2EmissionsInput: false,
@@ -53,6 +53,7 @@ export class Ai4lifeLoaderComponent {
         cvatFields: false,
         ai4lifeFields: true,
         llmFields: false,
+        batchFields: false,
     };
 
     showHardwareFields: showHardwareField = {

@@ -1,0 +1,14 @@
+<input type="file" class="file-input" (change)="onChange($event)" #fileUpload />
+
+@if (file) {
+    <div>
+        <section class="file-info">
+            File details:
+            <ul>
+                <li>Name: {{ file.name }}</li>
+                <li>Type: {{ file.type }}</li>
+                <li>Size: {{ file.size }} bytes</li>
+            </ul>
+        </section>
+    </div>
+}

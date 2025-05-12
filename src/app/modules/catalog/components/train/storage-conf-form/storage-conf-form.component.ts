@@ -87,6 +87,7 @@ export class StorageConfFormComponent implements OnInit {
         datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
+    @Input() rcloneIsRequired = false;
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
@@ -298,6 +299,18 @@ export class StorageConfFormComponent implements OnInit {
                         );
                     storageServiceDatasetSelect?.clearValidators();
                     storageServiceDatasetSelect?.updateValueAndValidity();
+
+                    if (this.rcloneIsRequired) {
+                        const rcloneUser =
+                            this.storageConfFormGroup.get('rcloneUserInput');
+                        const rclonePassword = this.storageConfFormGroup.get(
+                            'rclonePasswordInput'
+                        );
+                        rcloneUser?.setValidators([Validators.required]);
+                        rclonePassword?.setValidators([Validators.required]);
+                        rcloneUser?.updateValueAndValidity();
+                        rclonePassword?.updateValueAndValidity();
+                    }
                 },
             });
     }
@@ -310,6 +323,7 @@ export class StorageConfFormComponent implements OnInit {
         const storageServiceCredentials = this.credentials.find(
             (c) => c.server === storageServiceUrl
         );
+
         if (storageServiceName && storageServiceCredentials) {
             this.storageConfFormGroup
                 .get('rcloneUserInput')

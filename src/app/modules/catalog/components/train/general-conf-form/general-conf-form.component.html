@@ -666,5 +666,25 @@
                 }
             </div>
         }
+
+        @if (_showFields.batchFields) {
+            <h4 [ngClass]="{ 'mt-3': _showHelp }">
+                {{
+                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-OPTIONS'
+                        | translate
+                }}
+            </h4>
+            <mat-divider class="mt-3 mb-3"></mat-divider>
+            <div
+                [ngClass]="{
+                    'form-flex': mobileQuery.matches,
+                    'form-grid': !mobileQuery.matches,
+                }"
+            >
+                <app-single-file-upload
+                    (fileUploaded)="updateBatchFile($event)"
+                ></app-single-file-upload>
+            </div>
+        }
     </form>
 }

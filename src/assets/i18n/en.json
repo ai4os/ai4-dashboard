@@ -11,6 +11,7 @@
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
+        "BATCH": "Batch",
         "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
@@ -175,6 +176,12 @@
             "MINIO-SECRET": "MINIO secret key"
         }
     },
+    "BATCH": {
+        "TITLE-HEADER": "Batch",
+        "DETAIL": {
+            "TITLE": "Batch deployment detail"
+        }
+    },
     "TRY-ME": {
         "TITLE-HEADER": "Try me deployments",
         "GRADIO": "Gradio",
@@ -260,6 +267,9 @@
                 "INFERENCE-API": "REST API",
                 "OSCAR-SWAGGER": "// TODO"
             },
+            "BATCH": {
+                "TITLE": "Batch"
+            },
             "DEPLOY": {
                 "TITLE": "Deploy",
                 "API-SERVERLESS": "Inference API (serverless)",
@@ -313,7 +323,9 @@
                 "DEPLOYMENT-TYPE": "Deployment type",
                 "TYPE": "Type",
                 "MODEL-OPTIONS": "Model options",
-                "MODEL-ID": "Model ID"
+                "MODEL-ID": "Model ID",
+                "BATCH-OPTIONS": "Batch options",
+                "BATCH-FILE": "Batch command file"
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -346,6 +358,7 @@
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
                 "RCLONE-REQUIRED": "You must specify a RCLONE account",
+                "RCLONE-ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
                 "ADVANCED-SETTINGS": "Advanced settings",
                 "ZENODO-TITLE": "Zenodo",
                 "ZENODO-COMMUNITY": "Zenodo community",

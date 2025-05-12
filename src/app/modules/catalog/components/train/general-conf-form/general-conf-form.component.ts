@@ -10,6 +10,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
+    FormControl,
     FormGroup,
     FormGroupDirective,
     ValidationErrors,
@@ -46,7 +47,7 @@ export function emailValidator(): ValidatorFn {
     };
 }
 
-export interface showGeneralFormField {
+export interface ShowGeneralFormField {
     descriptionInput: boolean;
     serviceToRunChip: boolean;
     titleInput: boolean;
@@ -61,6 +62,8 @@ export interface showGeneralFormField {
     ai4lifeFields: boolean;
     // llm
     llmFields: boolean;
+    // batch
+    batchFields: boolean;
 }
 
 @Component({
@@ -137,9 +140,10 @@ export class GeneralConfFormComponent implements OnInit {
         cvatFields: false,
         ai4lifeFields: false,
         llmFields: false,
+        batchFields: false,
     };
 
-    @Input() set showFields(showFields: showGeneralFormField) {
+    @Input() set showFields(showFields: ShowGeneralFormField) {
         this._showFields = showFields;
     }
 
@@ -316,6 +320,10 @@ export class GeneralConfFormComponent implements OnInit {
             { value: '', disabled: true },
             [Validators.required, urlValidator()],
         ],
+        batchFile: new FormControl<File | null>(
+            { value: null, disabled: true },
+            Validators.required
+        ),
     });
 
     ngOnInit(): void {
@@ -366,6 +374,8 @@ export class GeneralConfFormComponent implements OnInit {
         } else if (this._showFields.cvatFields) {
             this.generalConfFormGroup.get('cvatUsernameInput')?.enable();
             this.generalConfFormGroup.get('cvatPasswordInput')?.enable();
+        } else if (this._showFields.batchFields) {
+            this.generalConfFormGroup.get('batchFile')?.enable();
         }
     }
 
@@ -473,5 +483,9 @@ export class GeneralConfFormComponent implements OnInit {
             'https://huggingface.co/' +
             this.generalConfFormGroup.get('vllmModelSelect')?.value;
         window.open(url);
+    }
+
+    updateBatchFile(file: File) {
+        this.generalConfFormGroup.get('batchFile')?.setValue(file);
     }
 }

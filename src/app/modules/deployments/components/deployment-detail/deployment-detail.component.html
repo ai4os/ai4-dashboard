@@ -1,11 +1,12 @@
 <mat-toolbar class="mb-3 marketplace-toolbar detail-title">
     <span>
-        <ng-container *ngIf="data.isTool; else deploymentTitle">
+        @if (data.type === 'module') {
+            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.MODULE-TITLE' | translate }}
+        } @else if (data.type === 'tool') {
             {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
-        </ng-container>
-        <ng-template #deploymentTitle>
-            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TITLE' | translate }}
-        </ng-template>
+        } @else if (data.type === 'batch') {
+            {{ 'BATCH.DETAIL.TITLE' | translate }}
+        }
 
         <mat-icon>view_in_ar</mat-icon></span
     >

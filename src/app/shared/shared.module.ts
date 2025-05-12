@@ -14,6 +14,8 @@ import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-ico
 import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
+import { MultipleActionsDialogComponent } from './components/multiple-actions-dialog/multiple-actions-dialog.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +25,8 @@ import { MarkdownModule } from 'ngx-markdown';
         ChipWithIconComponent,
         DeploymentsTableComponent,
         ChatBotComponent,
+        SingleFileUploadComponent,
+        MultipleActionsDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -42,6 +46,8 @@ import { MarkdownModule } from 'ngx-markdown';
         ChipWithIconComponent,
         DeploymentsTableComponent,
         ChatBotComponent,
+        SingleFileUploadComponent,
+        MultipleActionsDialogComponent,
     ],
 })
 export class SharedModule {}

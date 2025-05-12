@@ -5,7 +5,7 @@ import {
     NvflareConfiguration,
     NvflareToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -40,7 +40,7 @@ export class NvflareComponent {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     nvflareConfDefaultValues!: NvflareConfiguration;
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
         serviceToRunChip: false,
@@ -52,6 +52,7 @@ export class NvflareComponent {
         cvatFields: false,
         ai4lifeFields: false,
         llmFields: false,
+        batchFields: false,
     };
 
     showHardwareFields: showHardwareField = {

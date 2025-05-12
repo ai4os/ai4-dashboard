@@ -34,6 +34,7 @@ import { Router } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
 
 @Component({
     selector: 'app-deployments-table',
@@ -260,9 +261,26 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
 
     redeploySnapshot(e: MouseEvent, row: DeploymentTableRow) {
         e.stopPropagation();
-        sessionStorage.setItem('deploymentType', this.deploymentType);
-        sessionStorage.setItem('deploymentRow', JSON.stringify(row));
-        this.router.navigate(['/catalog/modules/snapshots/deploy']);
+
+        this.dialog
+            .open(MultipleActionsDialogComponent, {
+                data: {
+                    title: 'How do you want to redeploy this snapshot?',
+                    optionA: 'Regular deployment',
+                    optionB: 'Batch deployment',
+                },
+            })
+            .afterClosed()
+            .subscribe((action: string) => {
+                console.log(action);
+                sessionStorage.setItem('deploymentType', this.deploymentType);
+                sessionStorage.setItem('deploymentRow', JSON.stringify(row));
+                if (action === 'Regular deployment') {
+                    this.router.navigate(['/catalog/modules/snapshots/deploy']);
+                } else if (action === 'Batch deployment') {
+                    this.router.navigate(['/catalog/modules/snapshots/batch']);
+                }
+            });
     }
 
     isSticky(columnDef: string): boolean {

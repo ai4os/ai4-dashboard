@@ -8,7 +8,7 @@ import {
     ModuleStorageConfiguration,
     CvatToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 
 @Component({
     selector: 'app-cvat',
@@ -34,7 +34,7 @@ export class CvatComponent implements OnInit {
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
         co2EmissionsInput: false,
@@ -46,6 +46,7 @@ export class CvatComponent implements OnInit {
         cvatFields: true,
         ai4lifeFields: false,
         llmFields: false,
+        batchFields: false,
     };
 
     ngOnInit(): void {
