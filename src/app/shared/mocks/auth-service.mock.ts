@@ -66,6 +66,7 @@ export const mockedAuthService: any = {
     isDoneLoading$: new BehaviorSubject<boolean>(false),
     configure: jest.fn().mockReturnValue(void 0),
     hasValidAccessToken: jest.fn().mockReturnValue(true),
+    getAccessToken: jest.fn(),
     setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
     events: of(Subject<OAuthEvent>),
     loadDiscoveryDocument: jest

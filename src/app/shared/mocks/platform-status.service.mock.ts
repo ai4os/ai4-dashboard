@@ -6,9 +6,19 @@ import {
 
 export const mockedPlatformStatusNotifications: PlatformStatus[] = [
     {
+        labels: [{ name: 'dashboard-popup' }],
         id: 0,
         title: 'Test Notification',
-        labels: [],
+    },
+    {
+        labels: [{ name: 'nomad-maintenance' }],
+        id: 1,
+        title: 'Warning: Nomad Cluster Maintenance',
+    },
+    {
+        labels: [{ name: 'unrelated-label' }],
+        id: 2,
+        title: 'Unrelated Notification',
     },
 ];
 

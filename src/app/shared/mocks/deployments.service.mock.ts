@@ -1,5 +1,9 @@
 import { of } from 'rxjs';
-import { Deployment, StatusReturn } from '../interfaces/deployment.interface';
+import {
+    Deployment,
+    DeploymentTableRow,
+    StatusReturn,
+} from '../interfaces/deployment.interface';
 
 export const mockedDeployment: Deployment = {
     job_ID: 'tool-test',
@@ -126,6 +130,122 @@ export const mockedTools: Deployment[] = [
 
 export const mockedDeleteDeploymentResponse: StatusReturn = {
     status: 'success',
+};
+
+export const expectedModulesDataset: DeploymentTableRow[] = [
+    {
+        uuid: '3639771e-35c1-11ee-867a-0242ac110002',
+        name: 'Test title 1',
+        status: 'running',
+        containerName: 'deephdc/ai4os-dev-env:latest',
+        gpus: 0,
+        creationTime: '2023-08-08 07:57:26',
+        endpoints: {
+            api: 'http://deepaas-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+            monitor:
+                'http://monitor-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+            ide: 'http://ide-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+        },
+        mainEndpoint:
+            'http://ide-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+        datacenter: 'ai-ifca',
+    },
+    {
+        uuid: '26d3fb98-32b8-11ee-a694-0242ac110003',
+        name: 'Test tittle 2',
+        status: 'running',
+        containerName: 'deephdc/ai4os-dev-env:latest',
+        gpus: 0,
+        creationTime: '2023-08-04 18:48:28',
+        endpoints: {
+            api: 'http://deepaas-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+            monitor:
+                'http://monitor-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+            ide: 'http://ide-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+        },
+        mainEndpoint:
+            'http://ide-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+        datacenter: 'ai-ifca',
+    },
+];
+
+export const expectedToolsDataset: DeploymentTableRow[] = [
+    {
+        uuid: '9a76ae28-465a-11ee-9920-0242ac110003',
+        name: 'Testing federated',
+        status: 'running',
+        containerName: 'ai4oshub/ai4os-federated-server:latest',
+        gpus: 0,
+        creationTime: '2023-08-29 10:55:46',
+        endpoints: {
+            fedserver:
+                'http://fedserver-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+            ide: 'http://ide-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+        },
+        mainEndpoint:
+            'http://fedserver-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+
+        datacenter: 'ai-ifca',
+    },
+    {
+        uuid: '4576ae28-465a-11ee-9920-0242ac110003',
+        name: 'Testing cvat',
+        status: 'running',
+        containerName: 'ai4oshub/ai4os-cvat:latest',
+        gpus: 0,
+        creationTime: '2023-08-29 10:55:46',
+        endpoints: {
+            cvat: 'http://cvat-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+            ide: 'http://ide-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+        },
+        mainEndpoint:
+            'http://cvat-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+
+        datacenter: 'ai-ifca',
+    },
+];
+
+export const expectedSnapshotsDataset: DeploymentTableRow[] = [
+    {
+        uuid: 'snapshot-test',
+        name: 'SnapshotTest',
+        description: '',
+        status: 'complete',
+        containerName:
+            'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
+
+        tagName: 'snapshot-test',
+        size: '1.92',
+        creationTime: '2024-11-12 09:30:40',
+        snapshot_ID: 'snapshot-test',
+    },
+    {
+        uuid: 'snapshot-test2',
+        name: 'SnapshotTest2',
+        description: '',
+        status: 'complete',
+        containerName:
+            'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
+
+        tagName: 'snapshot-test2',
+        size: '1.92',
+        creationTime: '2024-11-12 09:30:40',
+        snapshot_ID: 'snapshot-test2',
+    },
+];
+
+export const deploymentRow = {
+    uuid: 'module-test',
+    name: '',
+    status: 'running',
+    containerName: 'ai4oshub/fast-neural-transfer:latest',
+    gpus: 1,
+    creationTime: '',
+    endpoints: {
+        test: 'test',
+    },
+    mainEndpoint: '',
+    error_msg: 'Test error',
 };
 
 export const mockedDeploymentService = {

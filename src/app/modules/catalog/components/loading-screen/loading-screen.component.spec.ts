@@ -5,7 +5,7 @@ import {
     TestBed,
     fakeAsync,
     tick,
-    flush,
+    discardPeriodicTasks,
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -88,6 +88,6 @@ describe('LoadingScreenComponent', () => {
         expect(component.module).toEqual(fakeModule);
         expect(spy).toHaveBeenCalled();
 
-        flush();
+        discardPeriodicTasks();
     }));
 });

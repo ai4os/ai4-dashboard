@@ -3,4 +3,5 @@ export const mockedSidenavService = {
     open: jest.fn(),
     close: jest.fn(),
     setSidenav: jest.fn(),
+    isOpen: jest.fn(),
 };
