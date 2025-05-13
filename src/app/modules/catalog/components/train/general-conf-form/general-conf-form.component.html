@@ -675,15 +675,16 @@
                 }}
             </h4>
             <mat-divider class="mt-3 mb-3"></mat-divider>
-            <div
-                [ngClass]="{
-                    'form-flex': mobileQuery.matches,
-                    'form-grid': !mobileQuery.matches,
-                }"
-            >
+            <div class="form-flex">
                 <app-single-file-upload
                     (fileUploaded)="updateBatchFile($event)"
                 ></app-single-file-upload>
+                <mat-hint *ngIf="_showHelp" style="font-size: 12px">
+                    {{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-HELP'
+                            | translate
+                    }}
+                </mat-hint>
             </div>
         }
     </form>

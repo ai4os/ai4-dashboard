@@ -122,6 +122,10 @@
                 "DETAILS": "VLLM details",
                 "URL": "URL",
                 "TOKEN": "Token"
+            },
+            "BATCH": {
+                "DETAILS": "Batch details",
+                "COMMAND": "Commands"
             }
         },
         "DEPLOYMENT-SECRETS": {
@@ -325,7 +329,7 @@
                 "MODEL-OPTIONS": "Model options",
                 "MODEL-ID": "Model ID",
                 "BATCH-OPTIONS": "Batch options",
-                "BATCH-FILE": "Batch command file"
+                "BATCH-HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -525,6 +529,9 @@
         "REPORT-ISSUE": "Report issue",
         "OPEN-DOCUMENTATION": "Open documentation",
         "BIOIMAGE": "BioImage.IO"
+    },
+    "FILE-UPLOAD": {
+        "SELECT": "Select file"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

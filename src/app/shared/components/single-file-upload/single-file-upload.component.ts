@@ -20,4 +20,15 @@ export class SingleFileUploadComponent {
             this.fileUploaded.emit(file);
         }
     }
+
+    getFileSize(sizeInBytes: number): string {
+        const sizeInKB = sizeInBytes / 1024;
+        const sizeInMB = sizeInBytes / (1024 * 1024);
+
+        if (sizeInMB < 1) {
+            return sizeInKB.toFixed(2) + ' KB';
+        } else {
+            return sizeInMB.toFixed(2) + ' MB';
+        }
+    }
 }

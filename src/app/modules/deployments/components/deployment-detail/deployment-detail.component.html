@@ -271,6 +271,29 @@
                     </div>
                 </div>
             }
+            @if (data.type === 'batch') {
+                <div>
+                    <h3 class="mb-0">
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.DETAILS'
+                                | translate
+                        }}
+                    </h3>
+
+                    <div>
+                        <h4 class="mb-3">
+                            {{
+                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
+                                    | translate
+                            }}
+                        </h4>
+
+                        <div class="command-container">
+                            {{ deployment?.templates?.['local/batch.sh'] }}
+                        </div>
+                    </div>
+                </div>
+            }
         </ng-container>
     </mat-card-content>
     <mat-card-actions align="end">
