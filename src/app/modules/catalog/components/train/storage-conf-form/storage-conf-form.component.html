@@ -29,6 +29,9 @@
             ] ||
                 storageConfFormGroup.get('rclonePasswordInput')?.errors?.[
                     'required'
+                ] ||
+                storageConfFormGroup.get('storageUrlInput')?.errors?.[
+                    'required'
                 ])
         ) {
             <mat-chip class="rclone-warning">

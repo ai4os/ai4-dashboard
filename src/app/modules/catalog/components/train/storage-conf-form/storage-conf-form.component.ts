@@ -306,10 +306,14 @@ export class StorageConfFormComponent implements OnInit {
                         const rclonePassword = this.storageConfFormGroup.get(
                             'rclonePasswordInput'
                         );
+                        const storageUrl =
+                            this.storageConfFormGroup.get('storageUrlInput');
                         rcloneUser?.setValidators([Validators.required]);
                         rclonePassword?.setValidators([Validators.required]);
+                        storageUrl?.setValidators([Validators.required]);
                         rcloneUser?.updateValueAndValidity();
                         rclonePassword?.updateValueAndValidity();
+                        storageUrl?.updateValueAndValidity();
                     }
                 },
             });

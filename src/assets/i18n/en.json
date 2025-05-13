@@ -98,7 +98,7 @@
         "TITLE": "Deployments",
         "TOOLS": "Tools",
         "DEPLOYMENT-DETAIL": {
-            "TITLE": "Deployment detail",
+            "MODULE-TITLE": "Deployment detail",
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
