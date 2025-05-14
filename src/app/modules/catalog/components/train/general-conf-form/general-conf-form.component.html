@@ -668,13 +668,25 @@
         }
 
         @if (_showFields.batchFields) {
-            <h4 [ngClass]="{ 'mt-3': _showHelp }">
-                {{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-OPTIONS'
-                        | translate
-                }}
-            </h4>
-            <mat-divider class="mt-3 mb-3"></mat-divider>
+            <span class="toggle-and-info">
+                <h4 [ngClass]="{ 'mt-3': _showHelp }">
+                    {{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-OPTIONS'
+                            | translate
+                    }}
+                </h4>
+                <button
+                    mat-icon-button
+                    matTooltip="{{
+                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                    }}"
+                    [matTooltipPosition]="'above'"
+                    (click)="openBatchTrainingDocs()"
+                >
+                    <mat-icon color="accent">help</mat-icon>
+                </button>
+            </span>
+            <mat-divider class="mb-3"></mat-divider>
             <div class="form-flex">
                 <app-single-file-upload
                     (fileUploaded)="updateBatchFile($event)"

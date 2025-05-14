@@ -272,26 +272,28 @@
                 </div>
             }
             @if (data.type === 'batch') {
-                <div>
-                    <h3 class="mb-0">
+                <div class="mb-3">
+                    <h3>
                         {{
                             'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.DETAILS'
                                 | translate
                         }}
                     </h3>
 
-                    <div>
-                        <h4 class="mb-3">
-                            {{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
-                                    | translate
-                            }}
-                        </h4>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{
+                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
+                                        | translate
+                                }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
                         <div class="command-container">
                             {{ deployment?.templates?.['local/batch.sh'] }}
                         </div>
-                    </div>
+                    </mat-expansion-panel>
                 </div>
             }
         </ng-container>

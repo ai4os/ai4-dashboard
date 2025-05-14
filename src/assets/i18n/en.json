@@ -11,7 +11,7 @@
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
-        "BATCH": "Batch",
+        "BATCH": "Batch training",
         "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
@@ -125,7 +125,7 @@
             },
             "BATCH": {
                 "DETAILS": "Batch details",
-                "COMMAND": "Commands"
+                "COMMAND    ": "Commands"
             }
         },
         "DEPLOYMENT-SECRETS": {
@@ -181,7 +181,7 @@
         }
     },
     "BATCH": {
-        "TITLE-HEADER": "Batch",
+        "TITLE-HEADER": "Batch training",
         "DETAIL": {
             "TITLE": "Batch deployment detail"
         }
@@ -531,7 +531,8 @@
         "BIOIMAGE": "BioImage.IO"
     },
     "FILE-UPLOAD": {
-        "SELECT": "Select file"
+        "SELECT": "Select file",
+        "ALLOWED-FILE-TYPE": "Supported formats: .sh, .bash, .command, .run"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

@@ -488,4 +488,10 @@ export class GeneralConfFormComponent implements OnInit {
     updateBatchFile(file: File) {
         this.generalConfFormGroup.get('batchFile')?.setValue(file);
     }
+
+    openBatchTrainingDocs() {
+        const url =
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions'; // TODO: update url
+        window.open(url);
+    }
 }

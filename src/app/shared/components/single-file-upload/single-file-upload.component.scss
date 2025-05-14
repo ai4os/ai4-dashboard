@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 4em;
 }
 
@@ -10,10 +10,14 @@
     background-color: var(--white);
     color: var(--accent);
     border: solid;
+    margin-bottom: 1em;
+    width: 100%;
 }
 
 .no-file-uploaded-button {
     color: var(--white);
+    margin-bottom: 1em;
+    width: 100%;
 }
 
 .file-details {
@@ -39,5 +43,20 @@
     .metadata {
         color: var(--warm-grey);
         font-size: 12px;
+    }
+}
+
+.select-file-area {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    .subtitle {
+        color: var(--warm-grey);
+        font-size: 15px;
+        margin: 0;
     }
 }

@@ -1,23 +1,33 @@
 <div class="container">
     <input
         type="file"
+        accept=".sh,.bash,.command,.run"
+        type="file"
         class="file-input"
         (change)="onChange($event)"
         #fileUpload
         hidden
     />
-    <button
-        mat-fab
-        extended
-        [ngClass]="{
-            'file-uploaded-button': this.file,
-            'no-file-uploaded-button': !this.file,
-        }"
-        (click)="fileUpload.click()"
-    >
-        <mat-icon>attach_file</mat-icon>
-        {{ 'FILE-UPLOAD.SELECT' | translate }}*
-    </button>
+
+    <div class="select-file-area">
+        <button
+            mat-fab
+            extended
+            [ngClass]="{
+                'file-uploaded-button': this.file,
+                'no-file-uploaded-button': !this.file,
+            }"
+            (click)="fileUpload.click()"
+        >
+            <mat-icon>attach_file</mat-icon>
+            {{ 'FILE-UPLOAD.SELECT' | translate }}*
+        </button>
+        <span>
+            <p class="subtitle">
+                {{ 'FILE-UPLOAD.ALLOWED-FILE-TYPE' | translate }}
+            </p>
+        </span>
+    </div>
 
     @if (file) {
         <div class="file-details">
