@@ -358,7 +358,7 @@ export class ProfileComponent implements OnInit {
 
     openCustomNextcloudDocumentationWeb(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
+            'https://docs.ai4os.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
         window.open(url);
     }
 
