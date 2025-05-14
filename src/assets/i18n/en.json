@@ -475,16 +475,7 @@
                 "SERVICE-DESCRIPTION": "Service description",
                 "SERVICE-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active services",
                 "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG": "Docker tag",
-                "ENVIRONMENT-VARIABLES": "Environment variables",
-                "ENVIRONMENT-KEY": "variable name",
-                "ENVIRONMENT-VALUE": "variable value",
-                "LABELS": "Labels",
-                "LABEL-KEY": "label name",
-                "LABEL-VALUE": "label value",
-                "SERVICE-SCRIPT": "Service script",
-                "SERVICE-SCRIPT-LABEL": "Choose file",
-                "SERVICE-SCRIPT-REQUIRED": "Please add a script file to the service"
+                "DOCKER-TAG": "Docker tag"
             },
             "COMPUTE-CONF-FORM": {
                 "TITLE": "Compute options",

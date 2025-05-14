@@ -125,7 +125,9 @@ export class GeneralConfFormComponent implements OnInit {
     hideUiPassword = true;
     hideHFToken = true;
 
+    initialCommandText: string = '';
     commandText: string = '';
+    textManuallyModified = false;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -499,6 +501,7 @@ export class GeneralConfFormComponent implements OnInit {
 
     createFileFromText(): void {
         const content = this.commandText.trim();
+        this.initialCommandText = content;
         const blob = new Blob([content], { type: 'text/x-shellscript' });
         const file = new File([blob], 'script-from-text.sh', {
             type: 'text/x-shellscript',
@@ -507,10 +510,16 @@ export class GeneralConfFormComponent implements OnInit {
         this.snackbarService.openSuccess(
             'Batch command file generated successfully!'
         );
+        this.onCommandTextChange();
     }
 
     clearFileData(): void {
         this.generalConfFormGroup.get('batchFile')?.setValue(null);
         this.commandText = '';
+    }
+
+    onCommandTextChange(): void {
+        this.textManuallyModified =
+            this.commandText.trim() !== this.initialCommandText.trim();
     }
 }

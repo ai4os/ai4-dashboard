@@ -716,7 +716,7 @@
                                 {{
                                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-COMMANDS'
                                         | translate
-                                }}</mat-label
+                                }}*</mat-label
                             >
                             <textarea
                                 matInput
@@ -724,20 +724,21 @@
                                 cols="35"
                                 [(ngModel)]="commandText"
                                 [ngModelOptions]="{ standalone: true }"
+                                (input)="onCommandTextChange()"
                             ></textarea>
                         </mat-form-field>
-
                         <button
                             mat-fab
                             extended
-                            class="file-upload-button"
                             [ngClass]="{
-                                'file-uploaded-button':
-                                    this.generalConfFormGroup.get('batchFile')
-                                        ?.value !== null,
                                 'no-file-uploaded-button':
-                                    this.generalConfFormGroup.get('batchFile')
+                                    textManuallyModified ||
+                                    generalConfFormGroup.get('batchFile')
                                         ?.value === null,
+                                'file-uploaded-button':
+                                    !textManuallyModified &&
+                                    generalConfFormGroup.get('batchFile')
+                                        ?.value !== null,
                             }"
                             [disabled]="commandText === ''"
                             (click)="createFileFromText()"
