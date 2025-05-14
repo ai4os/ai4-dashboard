@@ -125,6 +125,8 @@ export class GeneralConfFormComponent implements OnInit {
     hideUiPassword = true;
     hideHFToken = true;
 
+    commandText: string = '';
+
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
@@ -493,5 +495,22 @@ export class GeneralConfFormComponent implements OnInit {
         const url =
             'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions'; // TODO: update url
         window.open(url);
+    }
+
+    createFileFromText(): void {
+        const content = this.commandText.trim();
+        const blob = new Blob([content], { type: 'text/x-shellscript' });
+        const file = new File([blob], 'script-from-text.sh', {
+            type: 'text/x-shellscript',
+        });
+        this.updateBatchFile(file);
+        this.snackbarService.openSuccess(
+            'Batch command file generated successfully!'
+        );
+    }
+
+    clearFileData(): void {
+        this.generalConfFormGroup.get('batchFile')?.setValue(null);
+        this.commandText = '';
     }
 }

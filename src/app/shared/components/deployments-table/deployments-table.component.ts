@@ -272,7 +272,6 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
             })
             .afterClosed()
             .subscribe((action: string) => {
-                console.log(action);
                 sessionStorage.setItem('deploymentType', this.deploymentType);
                 sessionStorage.setItem('deploymentRow', JSON.stringify(row));
                 if (action === 'Regular deployment') {
