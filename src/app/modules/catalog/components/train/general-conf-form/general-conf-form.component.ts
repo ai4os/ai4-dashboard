@@ -453,13 +453,13 @@ export class GeneralConfFormComponent implements OnInit {
 
     openFedServerDocs(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html';
         window.open(url);
     }
 
     openCo2Docs(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html#monitoring-of-training-co2-emissions';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions';
         window.open(url);
     }
 

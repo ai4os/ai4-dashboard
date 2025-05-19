@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.5.0](https://github.com/ai4os/ai4-dashboard/compare/v3.4.2...v3.5.0) (2025-04-29)
+
+
+### Features
+
+* adapt to papi changes for min requirements ([#395](https://github.com/ai4os/ai4-dashboard/issues/395)) ([a119003](https://github.com/ai4os/ai4-dashboard/commit/a1190038fb1b29dafca6a3762950e4c88bb59d86))
+* show linked services in profile ([#393](https://github.com/ai4os/ai4-dashboard/issues/393)) ([40fe64c](https://github.com/ai4os/ai4-dashboard/commit/40fe64c59e21407132e7e79d97ce7dc902124e2c))
+
 ## [3.4.1](https://github.com/ai4os/ai4-dashboard/compare/v3.4.0...v3.4.1) (2025-04-10)
 
 
