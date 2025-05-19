@@ -28,10 +28,9 @@ jobs:
             --retry=2 --concurrency=5 --timeout=10000 \
             > link-report.txt
 
-          cat link-report.txt
-
-          if grep -q "✗" link-report.txt; then
+          if grep -q "\[404\]" link-report.txt; then
             echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
+            grep "\[404\]" link-report.txt
             exit 1
           else
             echo "✅ All docs.ai4eosc.eu links are valid."
