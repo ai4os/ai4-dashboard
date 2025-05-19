@@ -2,7 +2,6 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import {
     ChatMessage,
     ChatRequest,
-    ChatResponse,
 } from '@app/shared/interfaces/chat.interface';
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
@@ -91,7 +90,7 @@ export class ChatBotComponent {
                 this.response = '';
                 this.isLoading = false;
                 this.snackbarService.openError(
-                    'Error connecting to the LLM, please try again later'
+                    'Error connecting to the LLM, please try logging in and out'
                 );
             },
         });
