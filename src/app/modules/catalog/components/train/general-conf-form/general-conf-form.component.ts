@@ -495,7 +495,7 @@ export class GeneralConfFormComponent implements OnInit {
 
     openBatchTrainingDocs() {
         const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions'; // TODO: update url
+            'https://docs.ai4os.eu/en/latest/howtos/train/batch.html#configuring-a-batch-job';
         window.open(url);
     }
 
