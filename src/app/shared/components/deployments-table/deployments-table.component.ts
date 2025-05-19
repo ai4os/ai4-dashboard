@@ -222,7 +222,10 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
 
     returnDeploymentBadge(status: string) {
         let badge = getDeploymentBadge(status);
-        if (this.deploymentType === 'snapshot') {
+        if (
+            this.deploymentType === 'snapshot' ||
+            this.deploymentType === 'batch'
+        ) {
             badge = getSnapshotBadge(status);
         }
         return badge;

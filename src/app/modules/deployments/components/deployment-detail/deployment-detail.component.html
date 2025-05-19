@@ -296,6 +296,17 @@
                             [value]="localBatchScript"
                             [height]="'inherit'"
                         ></app-text-editor>
+                        <button
+                            mat-icon-button
+                            matTooltip="Copy"
+                            matTooltipPosition="above"
+                            class="copy-button"
+                            [copy-to-clipboard]="localBatchScript"
+                        >
+                            <mat-icon matSuffix color="accent">
+                                content_copy</mat-icon
+                            >
+                        </button>
                     </mat-expansion-panel>
                 </div>
             }
