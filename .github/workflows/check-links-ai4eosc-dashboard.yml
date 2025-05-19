@@ -21,28 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install linkcheck
-        run: |
-          curl -sL https://github.com/filiph/linkcheck/releases/latest/download/linkcheck-linux-x64 -o linkcheck
-          chmod +x linkcheck
-          sudo mv linkcheck /usr/local/bin/
-
-      - name: Extract links to docs.ai4os.eu
-        run: |
-          grep -hoR 'https://docs\.ai4os\.eu[^") >]*' ./src --include=\*.ts --include=\*.html | sort -u | sed "s/';$//" > docs-links.txt 
-          
-      - name: Validate extracted links
-        run: |
-          while read -r url; do
-            echo "Checking $url"
-            linkcheck "$url" || echo "$url" >> broken-links.txt
-          done < docs-links.txt
-
-          if [ -f broken-links.txt ]; then
-            echo "❌ Broken links found:"
-            cat broken-links.txt
-            exit 1
-          else
-            echo "✅ All links to docs.ai4os.eu are valid."
-          fi
+      - name: Check docs.ai4os.eu links
+        run: node .github/scripts/check-links.ts
 
