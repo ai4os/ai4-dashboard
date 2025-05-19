@@ -23,7 +23,15 @@ jobs:
 
       - name: Find and check links
         run: |
-          npx linkinator "**/*.ts" "**/*.html" --markdown false --silent false --recurse true --retry 2 --concurrency 5 --timeout 10000 --links-only --filter-url "https://docs.ai4eosc.eu" > link-report.txt
+          npx linkinator $(find . -type f \( -name '*.ts' -o -name '*.html' \)) \
+            --markdown false \
+            --silent false \
+            --recurse true \
+            --retry 2 \
+            --concurrency 5 \
+            --timeout 10000 \
+            --links-only \
+            --filter-url "https://docs.ai4eosc.eu" > link-report.txt
           cat link-report.txt
           if grep -q "✗" link-report.txt; then
             echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
