@@ -1,0 +1,33 @@
+name: Check Docs Links
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-docs-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Find and check links
+        run: |
+          npx linkinator "**/*.ts" "**/*.html" --markdown false --silent false --recurse true --retry 2 --concurrency 5 --timeout 10000 --links-only --filter-url "https://docs.ai4eosc.eu" > link-report.txt
+          cat link-report.txt
+          if grep -q "✗" link-report.txt; then
+            echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
+            exit 1
+          else
+            echo "✅ All docs.ai4eosc.eu links are valid."
+          fi
