@@ -23,7 +23,7 @@ jobs:
 
       - name: Compile check-links.ts
         run: |
-          npx tsc .github/scripts/check-links.ts --outDir dist
+          npx tsc --project tsconfig.check-links.json
 
       - name: Run check-links script
         run: node dist/check-links.js
