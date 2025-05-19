@@ -24,7 +24,7 @@ jobs:
       - name: Check links to docs.ai4eosc.eu
         run: |
           npx linkinator '**/*.html' '**/*.ts' --recurse --links-only --silent=false \
-            --filter-url "https://docs.ai4eosc.eu" --retry=2 --concurrency=5 --timeout=10000 > link-report.txt
+            --filter "https://docs.ai4eosc.eu" --retry=2 --concurrency=5 --timeout=10000 > link-report.txt
 
           cat link-report.txt
 
