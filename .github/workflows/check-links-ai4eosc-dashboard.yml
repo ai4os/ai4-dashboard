@@ -21,18 +21,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Find and check links
+      - name: Check links to docs.ai4eosc.eu
         run: |
-          npx linkinator $(find . -type f \( -name '*.ts' -o -name '*.html' \)) \
-            --markdown false \
-            --silent false \
-            --recurse true \
+          npx linkinator . \
+            --recurse \
             --retry 2 \
             --concurrency 5 \
             --timeout 10000 \
             --links-only \
             --filter-url "https://docs.ai4eosc.eu" > link-report.txt
+
           cat link-report.txt
+
           if grep -q "✗" link-report.txt; then
             echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
             exit 1
