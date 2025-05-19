@@ -21,19 +21,28 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check links to docs.ai4eosc.eu
+      - name: Install linkcheck
         run: |
-          npx linkinator . --recurse --links-only --silent=false > full-link-report.txt
+          curl -sL https://github.com/filiph/linkcheck/releases/latest/download/linkcheck-linux-x64 -o linkcheck
+          chmod +x linkcheck
+          sudo mv linkcheck /usr/local/bin/
 
-          grep 'https://docs.ai4eosc.eu' full-link-report.txt > link-report.txt || true
+      - name: Extract links to docs.ai4os.eu
+        run: |
+          grep -hoR 'https://docs\.ai4os\.eu[^") >]*' ./src --include=\*.ts --include=\*.html | sort -u | sed "s/';$//" > docs-links.txt 
+          
+      - name: Validate extracted links
+        run: |
+          while read -r url; do
+            echo "Checking $url"
+            linkcheck "$url" || echo "$url" >> broken-links.txt
+          done < docs-links.txt
 
-          cat link-report.txt
-
-          if grep -q "\[404\]" link-report.txt; then
-            echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
-            grep "\[404\]" link-report.txt
+          if [ -f broken-links.txt ]; then
+            echo "❌ Broken links found:"
+            cat broken-links.txt
             exit 1
           else
-            echo "✅ All docs.ai4eosc.eu links are valid."
+            echo "✅ All links to docs.ai4os.eu are valid."
           fi
 
