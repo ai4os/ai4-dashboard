@@ -25,11 +25,12 @@ jobs:
         run: |
           npx linkinator . \
             --recurse \
+            --links-only \
+            --silent false \
+            --filter-url "https://docs.ai4eosc.eu" \
             --retry 2 \
             --concurrency 5 \
-            --timeout 10000 \
-            --links-only \
-            --filter-url "https://docs.ai4eosc.eu" > link-report.txt
+            --timeout 10000 > link-report.txt
 
           cat link-report.txt
 
