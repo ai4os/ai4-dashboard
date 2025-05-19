@@ -22,15 +22,17 @@ jobs:
         run: npm ci
 
       - name: Check links to docs.ai4eosc.eu
-        run: |
-          npx linkinator '**/*.html' '**/*.ts' --recurse --links-only --silent=false | grep 'https://docs.ai4os.eu' > link-report.txt
+              run: |
+                npx linkinator ./src --recurse --links-only --silent=false > full-link-report.txt
 
-          cat link-report.txt
+                grep 'https://docs.ai4eosc.eu' full-link-report.txt > link-report.txt || true
 
-          if grep -q "\[404\]" link-report.txt; then
-            echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
-            grep "\[404\]" link-report.txt
-            exit 1
-          else
-            echo "✅ All docs.ai4eosc.eu links are valid."
-          fi
+                cat link-report.txt
+
+                if grep -q "\[404\]" link-report.txt; then
+                  echo "❌ Broken links found in the code pointing to https://docs.ai4eosc.eu"
+                  grep "\[404\]" link-report.txt
+                  exit 1
+                else
+                  echo "✅ All docs.ai4eosc.eu links are valid."
+                fi
