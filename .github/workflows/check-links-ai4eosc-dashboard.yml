@@ -23,8 +23,10 @@ jobs:
 
       - name: Check links to docs.ai4eosc.eu
               run: |
-                npx linkinator ./src --recurse --links-only --silent=false > full-link-report.txt
+                # Scan repository
+                npx linkinator . --recurse --links-only --silent=false > full-link-report.txt
 
+                # Filter docs.ai4eosc.eu links
                 grep 'https://docs.ai4eosc.eu' full-link-report.txt > link-report.txt || true
 
                 cat link-report.txt
