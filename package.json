@@ -63,6 +63,7 @@
         "@angular-eslint/template-parser": "15.2.1",
         "@angular/cli": "~18.2.10",
         "@angular/compiler-cli": "^18.2.9",
+        "@types/axios": "^0.9.36",
         "@types/dedent": "^0.7.2",
         "@types/intro.js": "^5.1.5",
         "@types/jest": "^29.5.2",

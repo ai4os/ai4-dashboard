@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import { glob } from 'glob';
 import axios from 'axios';
 
