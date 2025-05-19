@@ -224,13 +224,13 @@ export class FederatedConfFormComponent implements OnInit {
 
     openDifferentialPrivacyDocs(): void {
         const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-server.html#server-side-differential-privacy';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-differential-privacy';
         window.open(url);
     }
 
     openMetricPrivacyDocs(): void {
         const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-server.html#server-side-metric-privacy';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-metric-privacy';
         window.open(url);
     }
 
