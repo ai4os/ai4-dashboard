@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check docs.ai4os.eu links
-        run: node .github/scripts/check-links.ts
+      - name: Install ts-node
+        run: npm install ts-node --save-dev
+
+      - name: Run check-links script with ts-node
+        run: npx ts-node .github/scripts/check-links.ts
 
