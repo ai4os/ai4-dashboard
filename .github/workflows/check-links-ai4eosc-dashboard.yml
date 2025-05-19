@@ -21,9 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install ts-node
-        run: npm install ts-node --save-dev
+      - name: Compile check-links.ts
+        run: |
+          npx tsc .github/scripts/check-links.ts --outDir dist
 
-      - name: Run check-links script with ts-node
-        run: npx ts-node .github/scripts/check-links.ts
-
+      - name: Run check-links script
+        run: node dist/check-links.js
