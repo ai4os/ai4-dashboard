@@ -329,7 +329,8 @@
                 "MODEL-OPTIONS": "Model options",
                 "MODEL-ID": "Model ID",
                 "BATCH-OPTIONS": "Batch options",
-                "BATCH-COMMANDS": "Bash commands",
+                "UPLOAD-FILE": "Upload file",
+                "BATCH-COMMANDS": "Write bash commands",
                 "BATCH-HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."
             },
             "HARDWARE-CONF-FORM": {

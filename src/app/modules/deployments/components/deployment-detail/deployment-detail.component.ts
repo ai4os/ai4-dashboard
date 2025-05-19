@@ -149,6 +149,10 @@ export class DeploymentDetailComponent implements OnInit {
         }
     }
 
+    get localBatchScript(): string | undefined {
+        return this.deployment?.templates?.['local/batch.sh'];
+    }
+      
     getResourceValue(resource: KeyValue<string, number>): string {
         let resourceValue = resource.value.toString();
         if (resource.key.includes('MB')) {

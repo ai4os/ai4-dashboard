@@ -271,7 +271,7 @@
                     </div>
                 </div>
             }
-            @if (data.type === 'batch') {
+            @if (data.type === 'batch' && localBatchScript) {
                 <div class="mb-3">
                     <h3>
                         {{
@@ -290,9 +290,12 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
 
-                        <div class="command-container">
-                            {{ deployment?.templates?.['local/batch.sh'] }}
-                        </div>
+                        <app-text-editor
+                            [readonly]="true"
+                            [disabled]="true"
+                            [value]="localBatchScript"
+                            [height]="'inherit'"
+                        ></app-text-editor>
                     </mat-expansion-panel>
                 </div>
             }

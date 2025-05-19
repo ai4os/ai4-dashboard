@@ -694,7 +694,12 @@
                 class="mb-1"
                 (selectedTabChange)="clearFileData()"
             >
-                <mat-tab label="Upload file">
+                <mat-tab
+                    label="{{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.UPLOAD-FILE'
+                            | translate
+                    }}"
+                >
                     <div class="form-flex tab-content">
                         <app-single-file-upload
                             [file]="
@@ -706,46 +711,48 @@
                     </div>
                 </mat-tab>
 
-                <mat-tab label="Write commands">
+                <mat-tab
+                    label="{{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-COMMANDS'
+                            | translate
+                    }}"
+                >
                     <div class="form-flex-column tab-content">
-                        <mat-form-field
-                            appearance="outline"
-                            class="command-input"
-                        >
-                            <mat-label>
-                                {{
-                                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-COMMANDS'
-                                        | translate
-                                }}*</mat-label
+                        <app-text-editor
+                            (textChange)="onCommandTextChange($event)"
+                        ></app-text-editor>
+
+                        <div class="textarea-buttons">
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                matTooltipPosition="above"
+                                [copy-to-clipboard]="commandText"
                             >
-                            <textarea
-                                matInput
-                                rows="6"
-                                cols="35"
-                                [(ngModel)]="commandText"
-                                [ngModelOptions]="{ standalone: true }"
-                                (input)="onCommandTextChange()"
-                            ></textarea>
-                        </mat-form-field>
-                        <button
-                            mat-fab
-                            extended
-                            [ngClass]="{
-                                'no-file-uploaded-button':
-                                    textManuallyModified ||
-                                    generalConfFormGroup.get('batchFile')
-                                        ?.value === null,
-                                'file-uploaded-button':
-                                    !textManuallyModified &&
-                                    generalConfFormGroup.get('batchFile')
-                                        ?.value !== null,
-                            }"
-                            [disabled]="commandText === ''"
-                            (click)="createFileFromText()"
-                        >
-                            <mat-icon>attach_file</mat-icon>
-                            {{ 'FILE-UPLOAD.GENERATE-FILE' | translate }}*
-                        </button>
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                            <button
+                                mat-fab
+                                extended
+                                [ngClass]="{
+                                    'no-file-uploaded-button':
+                                        textManuallyModified ||
+                                        generalConfFormGroup.get('batchFile')
+                                            ?.value === null,
+                                    'file-uploaded-button':
+                                        !textManuallyModified &&
+                                        generalConfFormGroup.get('batchFile')
+                                            ?.value !== null,
+                                }"
+                                [disabled]="commandText === ''"
+                                (click)="createFileFromText()"
+                            >
+                                <mat-icon>attach_file</mat-icon>
+                                {{ 'FILE-UPLOAD.GENERATE-FILE' | translate }}*
+                            </button>
+                        </div>
                     </div>
                 </mat-tab>
             </mat-tab-group>

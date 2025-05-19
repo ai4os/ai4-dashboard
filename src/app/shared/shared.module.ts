@@ -16,6 +16,7 @@ import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
 import { MultipleActionsDialogComponent } from './components/multiple-actions-dialog/multiple-actions-dialog.component';
+import { TextEditorComponent } from './components/text-editor/text-editor.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { MultipleActionsDialogComponent } from './components/multiple-actions-di
         ChatBotComponent,
         SingleFileUploadComponent,
         MultipleActionsDialogComponent,
+        TextEditorComponent,
     ],
     imports: [
         CommonModule,
@@ -48,6 +50,7 @@ import { MultipleActionsDialogComponent } from './components/multiple-actions-di
         ChatBotComponent,
         SingleFileUploadComponent,
         MultipleActionsDialogComponent,
+        TextEditorComponent,
     ],
 })
 export class SharedModule {}

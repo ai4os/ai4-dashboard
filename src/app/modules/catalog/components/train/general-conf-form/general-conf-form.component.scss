@@ -100,7 +100,6 @@
     background-color: var(--white);
     color: var(--accent);
     border: solid;
-    margin-bottom: 1em;
     width: fit-content;
     align-self: end;
     padding: 0px 50px;
@@ -108,8 +107,15 @@
 
 .no-file-uploaded-button {
     color: var(--white);
-    margin-bottom: 1em;
     width: fit-content;
     align-self: end;
     padding: 0px 50px;
+}
+
+.textarea-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    gap: 0.5em;
 }

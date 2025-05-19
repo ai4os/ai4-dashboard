@@ -510,15 +510,16 @@ export class GeneralConfFormComponent implements OnInit {
         this.snackbarService.openSuccess(
             'Batch command file generated successfully!'
         );
-        this.onCommandTextChange();
+        this.textManuallyModified = false;
     }
 
     clearFileData(): void {
         this.generalConfFormGroup.get('batchFile')?.setValue(null);
-        this.commandText = '';
+        this.textManuallyModified = false;
     }
 
-    onCommandTextChange(): void {
+    onCommandTextChange(newValue: string): void {
+        this.commandText = newValue;
         this.textManuallyModified =
             this.commandText.trim() !== this.initialCommandText.trim();
     }
