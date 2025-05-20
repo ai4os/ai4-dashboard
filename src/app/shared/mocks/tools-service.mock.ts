@@ -6,7 +6,10 @@ import {
     NvflareToolConfiguration,
     VllmModelConfig,
 } from '../interfaces/module.interface';
-import { mockAi4eoscModules } from './modules-service.mock';
+import {
+    mockAi4eoscModules,
+    mockedModuleConfiguration,
+} from './modules-service.mock';
 import { generalDefaultFormValues } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component.mock';
 import { hardwareDefaultFormValues } from '@app/modules/catalog/components/train/hardware-conf-form/hardware-conf-form.component.mock';
 import { storageDefaultFormValues } from '@app/modules/catalog/components/train/storage-conf-form/storage-conf-form.component.mock';
@@ -215,6 +218,9 @@ export const mockedToolsService = {
     getNvflareConfiguration: jest
         .fn()
         .mockReturnValue(of(mockNvflareToolConfiguration)),
+    getDevEnvConfiguration: jest
+        .fn()
+        .mockReturnValue(of(mockedModuleConfiguration)),
 };
 
 export const mockedToolsServiceWithError = {
