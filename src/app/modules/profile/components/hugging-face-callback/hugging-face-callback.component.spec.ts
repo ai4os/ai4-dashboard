@@ -6,7 +6,7 @@ import { Subject, throwError } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ProfileService } from '../../services/profile.service';
-import { mockedProfileService } from '@app/shared/mocks/profile.service.mock';
+import { mockedProfileService } from '@app/modules/profile/services/profile.service.mock';
 import { mockRouter } from '@app/shared/mocks/router.mock';
 
 describe('HuggingFaceCallbackComponent', () => {

@@ -16,10 +16,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
-import { mockedStatsService } from '@app/shared/mocks/stats.service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedStatsService } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
 
 describe('DashboardComponent', () => {

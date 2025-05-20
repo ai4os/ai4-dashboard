@@ -13,7 +13,7 @@ import {
 } from './zenodo.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 const { base, endpoints } = environment.api;
 

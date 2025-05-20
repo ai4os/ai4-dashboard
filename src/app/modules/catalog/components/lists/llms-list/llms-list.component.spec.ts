@@ -12,13 +12,13 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     mockedToolsService,
     mockedToolsServiceWithError,
     mockedVllmsConfig,
-} from '@app/shared/mocks/tools-service.mock';
+} from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
 
 describe('LlmsListComponent', () => {

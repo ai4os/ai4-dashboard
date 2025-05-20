@@ -12,7 +12,7 @@ import { provideHttpClient } from '@angular/common/http';
 import {
     mockedClusterStats,
     mockedUserStats,
-} from '@app/shared/mocks/stats.service.mock';
+} from '@app/modules/statistics/services/stats/stats.service.mock';
 
 const mockedConfigService: any = {
     voName: 'vo.ai4eosc.eu',

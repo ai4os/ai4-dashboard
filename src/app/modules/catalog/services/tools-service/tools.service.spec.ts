@@ -9,11 +9,11 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { environment } from '@environments/environment';
 import { TagObject } from '@app/data/types/tags';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
     mockAi4eoscModules,
     mockedModuleConfiguration,
-} from '@app/shared/mocks/modules-service.mock';
+} from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import {
     mockAi4LifeLoaderToolConfiguration,
     mockedCvatConfiguration,
@@ -23,7 +23,7 @@ import {
     mockLlmToolConfiguration,
     mockNvflareToolConfiguration,
     mockTools,
-} from '@app/shared/mocks/tools-service.mock';
+} from '@app/modules/catalog/services/tools-service/tools-service.mock';
 
 const { base, endpoints } = environment.api;
 

@@ -8,9 +8,9 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
-import { mockedOscarInferenceService } from '@app/shared/mocks/oscar-inference.service.mock';
+import { mockedOscarInferenceService } from '@app/modules/inference/services/oscar-inference.service.mock';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { throwError } from 'rxjs';
 

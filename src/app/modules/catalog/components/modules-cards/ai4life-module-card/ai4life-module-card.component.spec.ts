@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Ai4lifeModuleCardComponent } from './ai4life-module-card.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { mockAi4lifeModules } from '@app/shared/mocks/modules-service.mock';
+import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 describe('Ai4lifeModuleCardComponent', () => {
     let component: Ai4lifeModuleCardComponent;

@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LlmCardComponent } from './llm-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
-import { mockedVllmsConfig } from '@app/shared/mocks/tools-service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedVllmsConfig } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { Router } from '@angular/router';
 import { mockRouter } from '@app/shared/mocks/router.mock';
 

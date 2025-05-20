@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { environment } from '@environments/environment';
 import { snapshotsListMock } from './storage.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 const { base } = environment.api;
 

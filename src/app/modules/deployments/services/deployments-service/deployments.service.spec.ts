@@ -10,11 +10,11 @@ import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
     mockedDeployments,
     mockedTools,
-} from '@app/shared/mocks/deployments.service.mock';
+} from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 
 const { base, endpoints } = environment.api;
 

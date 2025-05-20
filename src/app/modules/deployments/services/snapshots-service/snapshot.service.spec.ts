@@ -7,13 +7,13 @@ import {
     provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { environment } from '@environments/environment';
 import {
     mockedSnapshotDeleteResponse,
     mockedSnapshotCreateResponse,
     mockedSnapshots,
-} from '@app/shared/mocks/snapshots.service.mock';
+} from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
 
 const { base } = environment.api;
 

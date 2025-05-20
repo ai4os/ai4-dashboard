@@ -9,11 +9,11 @@ import { MaterialModule } from '@app/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
-import { mockedSidenavService } from '@app/shared/mocks/sidenav.service.mock';
+import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 
 describe('SidenavComponent', () => {
     let component: SidenavComponent;

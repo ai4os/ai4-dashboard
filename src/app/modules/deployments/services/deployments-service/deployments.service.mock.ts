@@ -3,7 +3,7 @@ import {
     Deployment,
     DeploymentTableRow,
     StatusReturn,
-} from '../interfaces/deployment.interface';
+} from '../../../../shared/interfaces/deployment.interface';
 
 export const mockedDeployment: Deployment = {
     job_ID: 'tool-test',

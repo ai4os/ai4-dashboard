@@ -9,9 +9,9 @@ import { RouterModule } from '@angular/router';
 import {
     mockedAuthService,
     mockedParsedUserProfile,
-} from '@app/shared/mocks/auth-service.mock';
+} from '@app/core/services/auth/auth-service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('AuthService', () => {
     let service: AuthService;

@@ -2,7 +2,9 @@ import {
     ZenodoCommunity,
     ZenodoDataset,
     ZenodoDatasetVersion,
+    ZenodoSimpleDataset,
 } from '@app/shared/interfaces/dataset.interface';
+import { of } from 'rxjs';
 
 export const mockedDatasets: ZenodoDataset[] = [
     {
@@ -58,3 +60,22 @@ export const mockedCommunities: ZenodoCommunity[] = [
         link: 'www.imagine-project.eu',
     },
 ];
+
+export const mockedDataset: ZenodoSimpleDataset = {
+    doiOrUrl: '10.1234/example',
+    title: 'Example Dataset',
+    source: 'zenodo',
+    force_pull: false,
+};
+
+export const mockedDatasetRow = {
+    doi: '10.1234/example.doi',
+    name: 'Example Dataset',
+    source: 'Zenodo',
+    forcePull: true,
+};
+
+export const mockedZenodoService = {
+    getCommunities: jest.fn().mockReturnValue(of(mockedCommunities)),
+    getDataset: jest.fn().mockReturnValue(of(mockedDataset)),
+};

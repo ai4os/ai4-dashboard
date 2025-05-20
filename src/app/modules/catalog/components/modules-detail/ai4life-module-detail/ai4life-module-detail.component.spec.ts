@@ -10,10 +10,10 @@ import { SharedModule } from '@app/shared/shared.module';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockAi4lifeModules } from '@app/shared/mocks/modules-service.mock';
+import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 const mockedModule = mockAi4lifeModules[0];
 

@@ -8,8 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { deploymentRow } from '@app/shared/mocks/deployments.service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { deploymentRow } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 
 describe('DeploymentsTableComponent', () => {
     let component: DeploymentsTableComponent;

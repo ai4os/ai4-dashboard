@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 import {
     PlatformStatus,
     StatusNotification,
-} from '../interfaces/platform-status.interface';
+} from '../../interfaces/platform-status.interface';
 
 export const mockedPlatformStatusNotifications: PlatformStatus[] = [
     {

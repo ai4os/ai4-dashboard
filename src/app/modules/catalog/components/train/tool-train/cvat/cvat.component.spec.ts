@@ -4,13 +4,13 @@ import { CvatComponent } from './cvat.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     mockCvatTool,
     mockedCvatConfiguration,
     mockedToolsService,
-} from '@app/shared/mocks/tools-service.mock';
+} from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';

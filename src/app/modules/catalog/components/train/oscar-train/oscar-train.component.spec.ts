@@ -11,7 +11,7 @@ import {
     mockAi4eoscModules,
     mockedModuleConfiguration,
     mockedModulesService,
-} from '@app/shared/mocks/modules-service.mock';
+} from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { of } from 'rxjs';
 
 const mockedConfigService: any = {};

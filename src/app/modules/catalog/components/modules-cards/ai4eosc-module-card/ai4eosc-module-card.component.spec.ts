@@ -3,7 +3,7 @@ import { Ai4eoscModuleCardComponent } from './ai4eosc-module-card.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { mockModuleSummaryList } from '@app/shared/mocks/modules-service.mock';
+import { mockModuleSummaryList } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 describe('ModuleCardComponent', () => {
     let component: Ai4eoscModuleCardComponent;

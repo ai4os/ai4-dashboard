@@ -16,12 +16,12 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
-import { mockedOscarInferenceService } from '@app/shared/mocks/oscar-inference.service.mock';
+import { mockedOscarInferenceService } from '@app/modules/inference/services/oscar-inference.service.mock';
 import { MatTableDataSource } from '@angular/material/table';
 import { of } from 'rxjs';
 

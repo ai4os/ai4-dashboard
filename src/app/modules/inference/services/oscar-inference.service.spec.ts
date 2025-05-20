@@ -10,8 +10,8 @@ import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { environment } from '@environments/environment';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedOscarServices } from '@app/shared/mocks/oscar-inference.service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedOscarServices } from '@app/modules/inference/services/oscar-inference.service.mock';
 
 const { base, endpoints } = environment.api;
 

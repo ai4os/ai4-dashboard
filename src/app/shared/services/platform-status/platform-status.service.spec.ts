@@ -11,8 +11,8 @@ import {
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedPlatformStatusNotifications } from '@app/shared/mocks/platform-status.service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedPlatformStatusNotifications } from '@app/shared/services/platform-status/platform-status.service.mock';
 
 describe('PlatformStatusService', () => {
     let service: PlatformStatusService;

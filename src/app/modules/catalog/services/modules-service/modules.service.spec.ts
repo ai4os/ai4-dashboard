@@ -11,12 +11,12 @@ import { endpoints } from '@environments/endpoints';
 import { TagObject } from '@app/data/types/tags';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
     mockAi4lifeModules,
     mockModuleSummaryList,
     mockedModuleConfiguration,
-} from '@app/shared/mocks/modules-service.mock';
+} from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 const { base } = environment.api;
 

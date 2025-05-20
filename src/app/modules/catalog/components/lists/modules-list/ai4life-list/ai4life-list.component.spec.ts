@@ -6,7 +6,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { SearchAi4lifePipe } from '@app/modules/catalog/pipes/search-card-pipe';
-import { mockAi4lifeModules } from '@app/shared/mocks/modules-service.mock';
+import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 describe('Ai4lifeListComponent', () => {
     let component: Ai4lifeListComponent;

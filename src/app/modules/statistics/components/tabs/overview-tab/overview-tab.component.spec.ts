@@ -8,9 +8,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { OverviewTabComponent } from './overview-tab.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedDeploymentService } from '@app/shared/mocks/deployments.service.mock';
-import { mockedGlobalStats } from '@app/shared/mocks/stats.service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedDeploymentService } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
+import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
 
 describe('OverviewTabComponent', () => {
     let component: OverviewTabComponent;

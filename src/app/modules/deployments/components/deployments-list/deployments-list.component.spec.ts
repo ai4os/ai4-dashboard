@@ -21,16 +21,16 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
     expectedModulesDataset,
     expectedSnapshotsDataset,
     expectedToolsDataset,
     mockedDeploymentService,
-} from '@app/shared/mocks/deployments.service.mock';
+} from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
-import { mockedSnapshotService } from '@app/shared/mocks/snapshots.service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
+import { mockedSnapshotService } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;

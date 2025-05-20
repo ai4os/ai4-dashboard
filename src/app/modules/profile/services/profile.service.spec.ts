@@ -7,16 +7,16 @@ import {
     provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
-import { mockedSecretsService } from '@app/shared/mocks/secrets.service.mock';
+import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { environment } from '@environments/environment';
 import {
     mockedCredentials,
     mockedNewCredential,
-} from '@app/shared/mocks/profile.service.mock';
+} from '@app/modules/profile/services/profile.service.mock';
 
 describe('ProfileService', () => {
     let service: ProfileService;

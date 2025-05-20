@@ -11,17 +11,17 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
     mockedDeployment,
     mockedDeploymentService,
-} from '@app/shared/mocks/deployments.service.mock';
+} from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { of, throwError } from 'rxjs';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
-import { mockedSecretsService } from '@app/shared/mocks/secrets.service.mock';
+import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 
 describe('DeploymentDetailComponent', () => {
     let component: DeploymentDetailComponent;

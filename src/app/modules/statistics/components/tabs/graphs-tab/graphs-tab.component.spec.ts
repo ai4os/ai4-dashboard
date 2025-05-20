@@ -11,9 +11,9 @@ import { expect } from '@jest/globals';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedGlobalStats } from '@app/shared/mocks/stats.service.mock';
-import { mockedParsedUserProfile } from '@app/shared/mocks/auth-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
+import { mockedParsedUserProfile } from '@app/core/services/auth/auth-service.mock';
 
 describe('GraphsTabComponent', () => {
     let component: GraphsTabComponent;

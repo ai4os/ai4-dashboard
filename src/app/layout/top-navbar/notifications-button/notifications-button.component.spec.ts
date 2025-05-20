@@ -11,10 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { throwError } from 'rxjs';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
-import { mockedPlatformStatusService } from '@app/shared/mocks/platform-status.service.mock';
+import { mockedPlatformStatusService } from '@app/shared/services/platform-status/platform-status.service.mock';
 
 describe('NotificationsButtonComponent', () => {
     let component: NotificationsButtonComponent;

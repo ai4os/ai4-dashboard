@@ -5,7 +5,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedSnapshots } from '@app/shared/mocks/snapshots.service.mock';
+import { mockedSnapshots } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
 
 describe('SnapshotDetailComponent', () => {
     let component: SnapshotDetailComponent;

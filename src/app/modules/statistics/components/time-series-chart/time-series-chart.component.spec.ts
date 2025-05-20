@@ -5,7 +5,7 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('TimeSeriesChartComponent', () => {
     let component: TimeSeriesChartComponent;

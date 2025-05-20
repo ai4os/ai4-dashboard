@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { StorageCredential } from '../interfaces/profile.interface';
+import { StorageCredential } from '../../../shared/interfaces/profile.interface';
 
 export const mockedCredentials: StorageCredential[] = [
     {

@@ -3,7 +3,7 @@ import {
     Ai4eoscModule,
     Ai4lifeModule,
     ModuleSummary,
-} from '../interfaces/module.interface';
+} from '../../../../shared/interfaces/module.interface';
 import { hardwareDefaultFormValues } from '@app/modules/catalog/components/train/hardware-conf-form/hardware-conf-form.component.mock';
 import { generalDefaultFormValues } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component.mock';
 import { storageDefaultFormValues } from '@app/modules/catalog/components/train/storage-conf-form/storage-conf-form.component.mock';

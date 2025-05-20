@@ -12,10 +12,10 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedSidenavService } from '@app/shared/mocks/sidenav.service.mock';
+import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 
 describe('TopNavbarComponent', () => {
     let component: TopNavbarComponent;

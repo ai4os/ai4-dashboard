@@ -13,8 +13,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 
 describe('ContentLayoutComponent', () => {
     let component: ContentLayoutComponent;

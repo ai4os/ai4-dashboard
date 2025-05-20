@@ -4,7 +4,7 @@ import { FooterComponent } from './footer.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('FooterComponent', () => {

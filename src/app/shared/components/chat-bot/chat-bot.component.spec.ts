@@ -10,16 +10,16 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { OAuthService } from 'angular-oauth2-oidc';
 
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
-import { mockedSidenavService } from '@app/shared/mocks/sidenav.service.mock';
+import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { throwError } from 'rxjs';
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
-import { mockedChatBotService } from '@app/shared/mocks/chat-bot.service.mock';
+import { mockedChatBotService } from '@app/shared/services/chat-bot/chat-bot.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('ChatBotComponent', () => {
     let component: ChatBotComponent;

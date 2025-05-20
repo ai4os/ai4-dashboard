@@ -15,7 +15,7 @@ import { of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;

@@ -19,8 +19,8 @@ import { ModulesService } from '@app/modules/catalog/services/modules-service/mo
 import {
     mockedModuleConfiguration,
     mockedModulesService,
-} from '@app/shared/mocks/modules-service.mock';
-import { mockedToolsService } from '@app/shared/mocks/tools-service.mock';
+} from '@app/modules/catalog/services/modules-service/modules-service.mock';
+import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { of } from 'rxjs';
 

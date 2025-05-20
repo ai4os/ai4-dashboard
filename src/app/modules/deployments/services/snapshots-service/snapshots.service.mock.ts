@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
-import { Snapshot } from '../interfaces/deployment.interface';
-import { mockedDeleteDeploymentResponse } from './deployments.service.mock';
+import { Snapshot } from '../../../../shared/interfaces/deployment.interface';
+import { mockedDeleteDeploymentResponse } from '../deployments-service/deployments.service.mock';
 
 export const mockedSnapshots: Snapshot[] = [
     {

@@ -11,10 +11,10 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedVllmsConfig } from '@app/shared/mocks/tools-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedVllmsConfig } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 
 const mockDefaultFormValues: ModuleGeneralConfiguration = {
     title: { name: '', value: '', description: '' },

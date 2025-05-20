@@ -9,8 +9,8 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedSecrets } from '@app/shared/mocks/secrets.service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedSecrets } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 
 const { base } = environment.api;
 

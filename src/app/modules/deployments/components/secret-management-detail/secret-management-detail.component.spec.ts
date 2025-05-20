@@ -13,10 +13,10 @@ import { By } from '@angular/platform-browser';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedSecretsService } from '@app/shared/mocks/secrets.service.mock';
-import { mockedSnackbarService } from '@app/shared/mocks/snackbar-service.mock';
+import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 
 describe('SecretManagementDetailComponent', () => {
     let component: SecretManagementDetailComponent;

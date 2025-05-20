@@ -13,15 +13,15 @@ import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { of } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import {
     mockAi4eoscModules,
     mockedModulesService,
-} from '@app/shared/mocks/modules-service.mock';
+} from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { mockedMarkdownService } from '@app/shared/mocks/markdown-service.mock';
-import { mockedToolsService } from '@app/shared/mocks/tools-service.mock';
+import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 
 const mockedModule = mockAi4eoscModules[0];
 

@@ -1,6 +1,6 @@
 import { get } from 'ol/proj';
 import { of } from 'rxjs';
-import { OscarService } from '../interfaces/oscar-service.interface';
+import { OscarService } from '../../../shared/interfaces/oscar-service.interface';
 
 export const mockedOscarServices: OscarService[] = [
     {

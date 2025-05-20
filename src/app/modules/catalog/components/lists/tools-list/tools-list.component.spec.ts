@@ -7,10 +7,10 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
-import { mockedToolsService } from '@app/shared/mocks/tools-service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 
 describe('ToolsListComponent', () => {

@@ -5,14 +5,14 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedConfigService } from '@app/shared/mocks/app-config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     mockedToolsService,
     mockNvflareTool,
     mockNvflareToolConfiguration,
-} from '@app/shared/mocks/tools-service.mock';
+} from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { of } from 'rxjs';
 
 describe('NvflareComponent', () => {

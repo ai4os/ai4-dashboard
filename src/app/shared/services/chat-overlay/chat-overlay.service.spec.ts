@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ChatOverlayService } from './chat-overlay.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { mockedAuthService } from '@app/shared/mocks/auth-service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 
 describe('ChatOverlayService', () => {
     let service: ChatOverlayService;
