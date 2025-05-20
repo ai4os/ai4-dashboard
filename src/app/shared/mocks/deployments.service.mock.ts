@@ -259,6 +259,8 @@ export const mockedDeploymentService = {
     deleteToolByUUID: jest
         .fn()
         .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-    postTrainModule: jest.fn().mockReturnValue(of({ status: 'success' })),
+    postTrainModule: jest
+        .fn()
+        .mockReturnValue(of({ status: 'success', job_ID: '123' })),
     trainTool: jest.fn().mockReturnValue(of({ status: 'success' })),
 };
