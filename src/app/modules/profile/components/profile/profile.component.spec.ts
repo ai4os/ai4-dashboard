@@ -90,7 +90,7 @@ describe('ProfileComponent', () => {
         component.openCustomNextcloudDocumentationWeb();
 
         expect(openSpy).toHaveBeenCalledWith(
-            'https://docs.ai4eosc.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud'
+            'https://docs.ai4os.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud'
         );
     });
 
