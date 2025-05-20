@@ -14,7 +14,7 @@ import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import {
     mockedDataset,
     mockedDatasetRow,
-} from '@app/shared/mocks/zenodo-service.mock';
+} from '@app/modules/catalog/services/zenodo-service/zenodo.service.mock';
 
 describe('DatasetsListComponent', () => {
     let component: DatasetsListComponent;

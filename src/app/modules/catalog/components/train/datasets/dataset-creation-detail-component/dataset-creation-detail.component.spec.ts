@@ -18,7 +18,7 @@ import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import {
     mockedDataset,
     mockedZenodoService,
-} from '@app/shared/mocks/zenodo-service.mock';
+} from '@app/modules/catalog/services/zenodo-service/zenodo.service.mock';
 
 describe('DatasetCreationDetailComponent', () => {
     let component: DatasetCreationDetailComponent;
