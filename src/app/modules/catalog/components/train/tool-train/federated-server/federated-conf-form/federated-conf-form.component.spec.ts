@@ -129,7 +129,7 @@ describe('FederatedConfFormComponent', () => {
             .mockImplementation(() => null);
         component.openDifferentialPrivacyDocs();
         expect(openSpy).toHaveBeenCalledWith(
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-server.html#server-side-differential-privacy'
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-differential-privacy'
         );
         openSpy.mockRestore();
     });
@@ -140,7 +140,7 @@ describe('FederatedConfFormComponent', () => {
             .mockImplementation(() => null);
         component.openMetricPrivacyDocs();
         expect(openSpy).toHaveBeenCalledWith(
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-server.html#server-side-metric-privacy'
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-metric-privacy'
         );
         openSpy.mockRestore();
     });
