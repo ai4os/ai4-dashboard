@@ -8,23 +8,9 @@ import {
     ViewChild,
 } from '@angular/core';
 import { EditorState } from '@codemirror/state';
-import {
-    EditorView,
-    highlightActiveLineGutter,
-    keymap,
-    lineNumbers,
-} from '@codemirror/view';
+import { EditorView } from '@codemirror/view';
 import { shell } from '@codemirror/legacy-modes/mode/shell';
-import {
-    bracketMatching,
-    defaultHighlightStyle,
-    syntaxHighlighting,
-    indentOnInput,
-    StreamLanguage,
-} from '@codemirror/language';
-import { history, historyKeymap, defaultKeymap } from '@codemirror/commands';
-import { highlightSelectionMatches } from '@codemirror/search';
-import { closeBracketsKeymap } from '@codemirror/autocomplete';
+import { StreamLanguage } from '@codemirror/language';
 import { basicSetup } from 'codemirror';
 
 @Component({
@@ -41,9 +27,9 @@ export class TextEditorComponent implements AfterViewInit {
     @Output() textChange = new EventEmitter<string>();
 
     @ViewChild('editorContainer', { static: true })
-        editorContainer!: ElementRef;
+    editorContainer!: ElementRef;
 
-    private editorView!: EditorView;
+    editorView!: EditorView;
 
     ngAfterViewInit(): void {
         this.initEditor();
