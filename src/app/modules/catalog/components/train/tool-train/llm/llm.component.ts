@@ -12,7 +12,6 @@ import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.
 @Component({
     selector: 'app-llm',
     templateUrl: './llm.component.html',
-    styleUrl: './llm.component.scss',
 })
 export class LlmComponent {
     constructor(

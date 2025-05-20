@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     ZenodoCommunity,
     ZenodoDataset,
@@ -17,10 +16,7 @@ const communitiesJsonUrl = '../../../assets/json/zenodo_communities.json';
     providedIn: 'root',
 })
 export class ZenodoService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    constructor(private http: HttpClient) {}
 
     getCommunities(): Observable<ZenodoCommunity[]> {
         return this.http.get<ZenodoCommunity[]>(communitiesJsonUrl);

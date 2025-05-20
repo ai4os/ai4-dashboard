@@ -9,37 +9,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { GlobalStats } from '@app/shared/interfaces/stats.interface';
-import { UserProfile } from '@app/core/services/auth/auth.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-const mockedConfigService: any = {
-    projectName: 'TestAI4EOSC',
-};
-
-const mockedUserProfile: UserProfile = {
-    name: 'Test',
-    isAuthorized: true,
-    isOperator: true,
-    email: 'test@ifca.unican.es',
-    eduperson_entitlement: [
-        'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',
-        'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=vm_operator#aai.egi.eu',
-        'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
-        'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
-    ],
-};
-const mockedUserStats: GlobalStats = {
-    cpuNumAgg: 14,
-    cpuNumTotal: 345,
-    memoryMBAgg: 234,
-    memoryMBTotal: 234234,
-    diskMBAgg: 234,
-    diskMBTotal: 2346,
-    gpuNumAgg: 12,
-    gpuNumTotal: 545,
-};
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
+import { mockedParsedUserProfile } from '@app/core/services/auth/auth-service.mock';
 
 describe('GraphsTabComponent', () => {
     let component: GraphsTabComponent;
@@ -63,8 +37,8 @@ describe('GraphsTabComponent', () => {
 
         fixture = TestBed.createComponent(GraphsTabComponent);
         component = fixture.componentInstance;
-        component.userGlobalStats = mockedUserStats;
-        component.userProfile = mockedUserProfile;
+        component.userGlobalStats = mockedGlobalStats;
+        component.userProfile = mockedParsedUserProfile.value;
         fixture.detectChanges();
     });
 
@@ -148,8 +122,8 @@ describe('GraphsTabComponent', () => {
         expect(container.properties.totalDisk).toBe(2346);
         expect(container.properties.usedGpuNum).toBe(12);
         expect(container.properties.totalGpuNum).toBe(545);
-        expect(container.properties.usedLabel).toBe('Test');
-        expect(container.properties.freeLabel).toBe('TestAI4EOSC');
+        expect(container.properties.usedLabel).toBe('AI4EOSC Dashboard Test');
+        expect(container.properties.freeLabel).toBe('Test AI4EOSC');
     });
 });
 

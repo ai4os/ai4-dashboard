@@ -14,7 +14,6 @@ import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.c
 @Component({
     selector: 'app-ai4life-loader',
     templateUrl: './ai4life-loader.component.html',
-    styleUrl: './ai4life-loader.component.scss',
 })
 export class Ai4lifeLoaderComponent {
     constructor(
@@ -70,8 +69,8 @@ export class Ai4lifeLoaderComponent {
 
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
-            this.toolsService.getTool(params['id']).subscribe((cvat) => {
-                this.title = cvat.title;
+            this.toolsService.getTool(params['id']).subscribe((tool) => {
+                this.title = tool.title;
             });
             this.toolsService
                 .getAi4LifeConfiguration(params['id'])

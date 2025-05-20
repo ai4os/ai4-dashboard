@@ -5,23 +5,9 @@ import { FormGroupDirective, FormBuilder } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { defaultFormValues } from './hardware-conf-form.component.mock';
+import { hardwareDefaultFormValues } from './hardware-conf-form.component.mock';
 import { MediaMatcher } from '@angular/cdk/layout';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 
 describe('HardwareConfFormComponent', () => {
     let component: HardwareConfFormComponent;
@@ -51,7 +37,7 @@ describe('HardwareConfFormComponent', () => {
 
         fixture = TestBed.createComponent(HardwareConfFormComponent);
         component = fixture.componentInstance;
-        component.defaultFormValues = defaultFormValues;
+        component.defaultFormValues = hardwareDefaultFormValues;
         component.showHelp = true;
         component.showFields = {
             cpu_num: true,

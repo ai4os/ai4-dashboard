@@ -21,7 +21,12 @@
     </ng-template>
 
     <mat-card-header>
-        <mat-card-title class="deployment-detail-title">
+        <mat-card-title
+            [ngClass]="{
+                'card-title-mobile': this.mobileQuery.matches,
+                'card-title': !this.mobileQuery.matches,
+            }"
+        >
             <h2>{{ deployment?.title }}</h2>
             <p>
                 <img

@@ -1,4 +1,4 @@
-export const defaultFormValuesMock = {
+export const flowerDefaultFormValues = {
     rounds: {
         range: [1, 2],
         name: '',

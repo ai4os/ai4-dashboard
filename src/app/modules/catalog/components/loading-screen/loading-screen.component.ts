@@ -22,7 +22,6 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 @Component({
     selector: 'app-loading-screen',
     templateUrl: './loading-screen.component.html',
-    styleUrls: ['./loading-screen.component.scss'],
 })
 export class LoadingScreenComponent implements OnInit {
     constructor(

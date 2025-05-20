@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
-import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
@@ -22,7 +21,6 @@ export class OscarTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
-        private toolsService: ToolsService,
         public translateService: TranslateService,
         private route: ActivatedRoute,
         private router: Router

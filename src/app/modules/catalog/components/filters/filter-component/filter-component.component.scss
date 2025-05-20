@@ -1,13 +1,16 @@
-.additional-selection {
-    opacity: 0.75;
-    font-size: 0.75em;
-}
-
 .filter-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1.5em;
+}
+
+::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
+    border-radius: 50px;
+}
+
+::ng-deep .filter-selector .mdc-line-ripple {
+    display: none;
 }
 
 .selector-icon {
@@ -21,8 +24,9 @@
         'opsz' 24;
 }
 
-.full-width {
-    width: 100%;
+.additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
 }
 
 .filter-buttons {
@@ -32,21 +36,13 @@
     gap: 0.5em;
 }
 
-.custom-clear-button:enabled {
-    background-color: var(--white);
-    color: var(--accent);
-    border: solid;
-}
-
 .button {
     color: var(--white) !important;
     text-wrap: nowrap;
 }
 
-::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
-    border-radius: 50px;
-}
-
-::ng-deep .filter-selector .mdc-line-ripple {
-    display: none;
+.custom-clear-button:enabled {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
 }

@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Ai4eoscModuleCardComponent } from './ai4eosc-module-card.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
+import { mockModuleSummaryList } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 describe('ModuleCardComponent', () => {
     let component: Ai4eoscModuleCardComponent;
@@ -17,25 +17,25 @@ describe('ModuleCardComponent', () => {
                 RouterModule.forRoot([]),
                 TranslateModule.forRoot(),
             ],
-            providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }],
         }).compileComponents();
 
         fixture = TestBed.createComponent(Ai4eoscModuleCardComponent);
         component = fixture.componentInstance;
-        component.module = {
-            name: 'Test',
-            categories: ['test'],
-            tags: ['test'],
-            summary: 'Testing',
-            title: 'Test',
-            libraries: ['test'],
-            tasks: ['test'],
-            id: 'test',
-        };
+        component.module = mockModuleSummaryList[0];
         fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should set isTool to false when "AI4 tools" is not present', () => {
+        expect(component.isTool).toBe(false);
+    });
+
+    it('should set isTool to true when "AI4 tools" is present', () => {
+        component.module.categories.push('AI4 tools');
+        component.ngOnInit();
+        expect(component.isTool).toBe(true);
     });
 });

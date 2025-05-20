@@ -11,69 +11,19 @@ import { GeneralConfFormComponent } from '../../general-conf-form/general-conf-f
 import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { of } from 'rxjs';
-
-const mockedProfile = {
-    info: {
-        exp: 1693908513,
-        iat: 1693907913,
-        auth_time: 1693907911,
-        jti: '00000000-c9e1-44b7-b313-4bde8fba70fa',
-        iss: 'https://aai-demo.egi.eu/auth/realms/egi',
-        aud: 'ai4eosc-dashboard',
-        sub: 'test@egi.eu',
-        typ: 'ID',
-        azp: 'ai4eosc-dashboard',
-        nonce: 'WnVHR3ZpOVoyVlFwcjVGTEtIRWhyUTZ0eXJYVHZxN1M4TX5MRzVKWVJYVHZx',
-        session_state: '00000000-818c-46d4-ad87-1b9a1c22c43f',
-        at_hash: 'gdEA9VsgdEA9V-mubWhBWw',
-        sid: 'b27a9b7a-818c-46d4-ad87-1b9a1818c43f',
-        voperson_verified_email: ['test@ifca.unican.es'],
-        email_verified: true,
-        name: 'AI4EOSC Dasboard Test',
-        preferred_username: 'ai4dash',
-        eduperson_assurance: [
-            'https://refeds.org/assurance/IAP/low',
-            'https://aai.egi.eu/LoA#Low',
-        ],
-        given_name: 'AI4EOSC Dasboard ',
-        family_name: 'Test',
-        email: 'test@ifca.unican.es',
-        eduperson_entitlement: [
-            'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=vm_operator#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
-        ],
-    },
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedConfigService: any = {};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-    userProfileSubject: of({}),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
-    login: jest.fn(),
-    logout: jest.fn(),
-};
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import {
+    mockedFedServerConfiguration,
+    mockedToolsService,
+    mockFedServerTool,
+} from '@app/modules/catalog/services/tools-service/tools-service.mock';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 
 describe('FederatedServerComponent', () => {
     let component: FederatedServerComponent;
@@ -100,8 +50,23 @@ describe('FederatedServerComponent', () => {
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: ToolsService, useValue: mockedToolsService },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        parent: {
+                            params: of({ id: 'ai4os-federated-server' }),
+                        },
+                        params: of({ id: 'ai4os-federated-server' }),
+                        snapshot: {
+                            routeConfig: {},
+                        },
+                    },
+                },
             ],
         }).compileComponents();
+
+        mockedToolsService.getTool.mockReturnValue(of(mockFedServerTool));
 
         fixture = TestBed.createComponent(FederatedServerComponent);
         component = fixture.componentInstance;
@@ -110,5 +75,36 @@ describe('FederatedServerComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should load tool and federated server configuration on init', () => {
+        expect(mockedToolsService.getTool).toHaveBeenCalledWith(
+            'ai4os-federated-server'
+        );
+        expect(
+            mockedToolsService.getFederatedServerConfiguration
+        ).toHaveBeenCalledWith('ai4os-federated-server');
+
+        expect(component.title).toBe('Federated learning with Flower');
+        expect(component.generalConfDefaultValues).toEqual(
+            mockedFedServerConfiguration.general
+        );
+        expect(component.hardwareConfDefaultValues).toEqual(
+            mockedFedServerConfiguration.hardware
+        );
+        expect(component.federatedConfDefaultValues).toEqual(
+            mockedFedServerConfiguration.flower
+        );
+    });
+
+    it('should toggle showHelp when showHelpButtonChange is triggered', () => {
+        const toggleOn = { checked: true } as MatSlideToggleChange;
+        const toggleOff = { checked: false } as MatSlideToggleChange;
+
+        component.showHelpButtonChange(toggleOn);
+        expect(component.showHelp).toBe(true);
+
+        component.showHelpButtonChange(toggleOff);
+        expect(component.showHelp).toBe(false);
     });
 });
