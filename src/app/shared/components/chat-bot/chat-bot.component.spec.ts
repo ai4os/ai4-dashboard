@@ -106,7 +106,7 @@ describe('ChatBotComponent', () => {
         tick(100);
 
         expect(mockedSnackbarService.openError).toHaveBeenCalledWith(
-            'Error connecting to the LLM, please try again later'
+            'Error connecting to the LLM, please try logging in and out'
         );
         expect(component.isLoading).toBe(false);
         expect(component.response).toBe('');
