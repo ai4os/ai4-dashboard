@@ -10,12 +10,9 @@ import { of } from 'rxjs';
 import { environment } from '@environments/environment';
 import { snapshotsListMock } from './storage.service.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 const { base } = environment.api;
-
-const mockedConfigService: any = {
-    voName: 'vo.ai4eosc.eu',
-};
 
 describe('StorageService', () => {
     let service: StorageService;
@@ -31,12 +28,6 @@ describe('StorageService', () => {
         });
         service = TestBed.inject(StorageService);
         httpMock = TestBed.inject(HttpTestingController);
-        jest.mock('./storage.service', () => ({
-            getSnapshots: jest
-                .fn()
-                .mockReturnValueOnce(of([]))
-                .mockReturnValue(of(snapshotsListMock)),
-        }));
     });
 
     afterEach(() => {
@@ -49,12 +40,7 @@ describe('StorageService', () => {
 
     it('getSnapshots should return an empty list', (done) => {
         const storageName = 'nextcloud.ifca.es';
-        const url =
-            `${base}/storage/` +
-            storageName +
-            `/ls?storage_name=` +
-            storageName +
-            `&vo=vo.ai4eosc.eu&subpath=ai4os-storage/tools/cvat/backups`;
+        const expectedUrl = `${base}/storage/${storageName}/ls`;
 
         service.getSnapshots(storageName).subscribe((asyncData) => {
             try {
@@ -65,33 +51,67 @@ describe('StorageService', () => {
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'GET' &&
+                r.url === expectedUrl &&
+                r.params.get('storage_name') === storageName &&
+                r.params.get('vo') === 'vo.ai4eosc.eu' &&
+                r.params.get('subpath') === 'ai4os-storage/tools/cvat/backups'
+        );
+
         req.flush([]);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
     });
 
     it('getSnapshots should return a list of detailed snapshots', (done) => {
         const storageName = 'nextcloud.ifca.es';
-        const url =
-            `${base}/storage/` +
-            storageName +
-            `/ls?storage_name=` +
-            storageName +
-            `&vo=vo.ai4eosc.eu&subpath=ai4os-storage/tools/cvat/backups`;
+        const expectedUrl = `${base}/storage/${storageName}/ls`;
 
         service.getSnapshots(storageName).subscribe((asyncData) => {
             try {
-                expect(asyncData).toBe(snapshotsListMock);
+                expect(asyncData).toEqual(snapshotsListMock);
                 done();
             } catch (error) {
                 done(error);
             }
         });
 
-        const req = httpMock.expectOne(url);
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'GET' &&
+                r.url === expectedUrl &&
+                r.params.get('storage_name') === storageName &&
+                r.params.get('vo') === 'vo.ai4eosc.eu' &&
+                r.params.get('subpath') === 'ai4os-storage/tools/cvat/backups'
+        );
+
         req.flush(snapshotsListMock);
-        httpMock.verify();
-        expect(req.request.method).toBe('GET');
+    });
+
+    it('deleteSnapshot should delete a snapshot and return status', (done) => {
+        const storageName = 'nextcloud.ifca.es';
+        const filePath = 'snapshot1.zip';
+        const url = `${base}/storage/${storageName}/rm`;
+        const expectedResponse = { status: 'success' };
+
+        service.deleteSnapshot(storageName, filePath).subscribe((response) => {
+            try {
+                expect(response).toEqual(expectedResponse);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+
+        const req = httpMock.expectOne(
+            (r) =>
+                r.method === 'DELETE' &&
+                r.url === url &&
+                r.params.get('storage_name') === storageName &&
+                r.params.get('vo') === 'vo.ai4eosc.eu' &&
+                r.params.get('subpath') ===
+                    `ai4os-storage/tools/cvat/backups/${filePath}`
+        );
+        req.flush(expectedResponse);
     });
 });

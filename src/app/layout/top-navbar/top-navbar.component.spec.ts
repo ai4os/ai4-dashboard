@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { TopNavbarComponent } from './top-navbar.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { By } from '@angular/platform-browser';
@@ -13,35 +12,10 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-
-const mockedConfigService: any = {};
-
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-    userProfileSubject: of({}),
-    login: jest.fn(),
-    logout: jest.fn(),
-};
-
-const mockedSidenavService: any = {
-    toggle: jest.fn(),
-    open: jest.fn(),
-    close: jest.fn(),
-    setSidenav: jest.fn(),
-};
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 
 describe('TopNavbarComponent', () => {
     let component: TopNavbarComponent;
@@ -93,17 +67,28 @@ describe('TopNavbarComponent', () => {
         });
     });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+    describe('TopNavbarComponent When LoggedIn', () => {
+        beforeEach(() => {
+            mockedAuthService.isAuthenticated = jest.fn().mockReturnValue(true);
+            fixture.detectChanges();
+        });
+
+        it('should create the component', () => {
+            expect(component).toBeTruthy();
+        });
+
+        it('should show logged-in menu', () => {
+            expect(
+                fixture.debugElement.query(By.css('#showLoginButton'))
+            ).toBeNull();
+            expect(
+                fixture.debugElement.query(By.css('.profile-button'))
+            ).toBeTruthy();
+        });
     });
 
-    it('should show logged-in menu', () => {
-        expect(
-            fixture.debugElement.query(By.css('#showLoginButton'))
-        ).toBeNull();
-        expect(
-            fixture.debugElement.query(By.css('.profile-button'))
-        ).toBeTruthy();
+    it('should create', () => {
+        expect(component).toBeTruthy();
     });
 
     it('should login correctly', fakeAsync(() => {
@@ -118,78 +103,38 @@ describe('TopNavbarComponent', () => {
         expect(loginSpy).toHaveBeenCalled();
     }));
 
-    it('should open Menu correctly', () => {
-        // component.menuenter();
-        // expect(component.isMatMenuOpen).toBe(true);
-    });
-
-    it('closes the menu when clicking outside the dropdown menu', fakeAsync(() => {
-        // // We start with an opened menu
-        // component.isMatMenuOpen = true;
-        // const menuTigger: MatMenuTrigger = fixture.debugElement
-        //     .query(By.directive(MatMenuTrigger))
-        //     .injector.get(MatMenuTrigger);
-        // const buttonMenu: MatButton = fixture.debugElement
-        //     .query(By.directive(MatButton))
-        //     .injector.get(MatButton);
-        // // Menu should not be open if entered button is true
-        // component.enteredProfileButton = true;
-        // component.menuLeave(menuTigger, buttonMenu);
-        // tick(100);
-        // expect(component.isMatMenuOpen).toBe(false);
-        // // Close menu otherwise
-        // component.enteredProfileButton = false;
-        // component.menuLeave(menuTigger, buttonMenu);
-        // tick(100);
-        // expect(component.isMatMenuOpen).toBe(false);
-        // expect(menuTigger.menuOpen).toBe(false);
-    }));
-
-    it('opens the menu when clicking over the menu', fakeAsync(() => {
-        // const menuTigger: MatMenuTrigger = fixture.debugElement
-        //     .query(By.directive(MatMenuTrigger))
-        //     .injector.get(MatMenuTrigger);
-        // // Menu is closed
-        // component.isMatMenuOpen = true;
-        // component.buttonEnter(menuTigger);
-        // tick(100);
-        // expect(component.enteredProfileButton).toBe(true);
-        // //Menu is opened
-        // component.isMatMenuOpen = false;
-        // component.buttonEnter(menuTigger);
-        // tick(100);
-        // expect(component.enteredProfileButton).toBe(true);
-        // expect(menuTigger.menuOpen).toBe(true);
-    }));
-
-    it('closes the menu when clicking over the menu', fakeAsync(() => {
-        // const menuTigger: MatMenuTrigger = fixture.debugElement
-        //     .query(By.directive(MatMenuTrigger))
-        //     .injector.get(MatMenuTrigger);
-        // const buttonMenu: MatButton = fixture.debugElement
-        //     .query(By.directive(MatButton))
-        //     .injector.get(MatButton);
-        // // Menu is closed
-        // component.isMatMenuOpen = false;
-        // component.buttonLeave(menuTigger, buttonMenu);
-        // tick(100);
-        // expect(menuTigger.menuOpen).toBe(false);
-        // //Menu is opened
-        // component.isMatMenuOpen = true;
-        // component.buttonLeave(menuTigger, buttonMenu);
-        // tick(100);
-        // expect(component.enteredProfileButton).toBe(false);
-        // // Opened by hovering over the button AND the menu was in a closed state; Shouldn't open the menu
-        // component.enteredProfileButton = true;
-        // component.isMatMenuOpen = false;
-        // component.buttonLeave(menuTigger, buttonMenu);
-        // tick(100);
-        // expect(menuTigger.menuOpen).toBe(false);
-    }));
-
     it('should call sidenavService correctly', () => {
         const sidenavServiceSpy = jest.spyOn(mockedSidenavService, 'toggle');
         component.toggleSidenav();
         expect(sidenavServiceSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should have media queries correctly initialized', () => {
+        expect(component.hideSidebarQuery).toBeDefined();
+        expect(component.mobileQuery).toBeDefined();
+        expect(mockedMediaMatcher.matchMedia).toHaveBeenCalledWith(
+            '(max-width: 1366px)'
+        );
+        expect(mockedMediaMatcher.matchMedia).toHaveBeenCalledWith(
+            '(max-width: 600px)'
+        );
+    });
+
+    it('should initialize voName correctly from appConfigService', () => {
+        expect(component.voName).toEqual(mockedConfigService.voName);
+    });
+
+    it('should update userProfile on authService userProfileSubject change', () => {
+        const profile = {
+            name: 'Test User',
+            email: 'test@example.com',
+            isAuthorized: true,
+            isOperator: false,
+            eduperson_entitlement: ['role1', 'role2'],
+        };
+
+        mockedAuthService.userProfileSubject.next(profile);
+
+        expect(component.userProfile).toEqual(profile);
     });
 });

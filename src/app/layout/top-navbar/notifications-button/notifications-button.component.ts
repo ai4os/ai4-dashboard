@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     PlatformStatus,
     StatusNotification,

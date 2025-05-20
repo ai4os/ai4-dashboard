@@ -12,7 +12,12 @@
     </ng-template>
 
     <mat-card-header>
-        <mat-card-title class="deployment-detail-title">
+        <mat-card-title
+            [ngClass]="{
+                'card-title-mobile': this.mobileQuery.matches,
+                'card-title': !this.mobileQuery.matches,
+            }"
+        >
             <h2>{{ deployment?.title }}</h2>
             <p>
                 <img
@@ -25,14 +30,14 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches
+            'card-content-mobile': this.mobileQuery.matches,
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">
             <div
                 [ngClass]="{
                     'deployment-detail-container-mobile': mobileQuery.matches,
-                    'deployment-detail-container': !mobileQuery.matches
+                    'deployment-detail-container': !mobileQuery.matches,
                 }"
             >
                 <div>

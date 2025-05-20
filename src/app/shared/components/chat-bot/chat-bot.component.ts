@@ -2,7 +2,6 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import {
     ChatMessage,
     ChatRequest,
-    ChatResponse,
 } from '@app/shared/interfaces/chat.interface';
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
@@ -23,16 +22,16 @@ export class ChatBotComponent {
 
     @ViewChild('messagesList') private messagesList!: ElementRef;
 
-    protected open = false;
-    protected expanded = false;
-    protected isLoading = false;
-    protected message: string = '';
-    protected response: string = '';
-    protected chatHistory: ChatRequest = {
+    open = false;
+    expanded = false;
+    isLoading = false;
+    message: string = '';
+    response: string = '';
+    chatHistory: ChatRequest = {
         model: 'ai4eoscassistant',
         messages: [],
     };
-    protected chatMargin = '350px';
+    chatMargin = '350px';
 
     manageChat() {
         this.open = !this.open;

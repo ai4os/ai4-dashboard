@@ -7,37 +7,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
 import { TranslateModule } from '@ngx-translate/core';
-
-const deploymentRow = {
-    uuid: 'module-test',
-    name: '',
-    status: 'running',
-    containerName: 'ai4oshub/fast-neural-transfer:latest',
-    gpus: 1,
-    creationTime: '',
-    endpoints: {
-        test: 'test',
-    },
-    mainEndpoint: '',
-    error_msg: 'Test error',
-};
-
-const mockedConfigService: any = {};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { deploymentRow } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 
 describe('DeploymentsTableComponent', () => {
     let component: DeploymentsTableComponent;
