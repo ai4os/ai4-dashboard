@@ -128,6 +128,8 @@ export class GeneralConfFormComponent implements OnInit {
     initialCommandText: string = '';
     commandText: string = '';
     textManuallyModified = false;
+    textEditorPlaceholder =
+        'python /src/my-app/my-app/train.py --epochs 10 \ncp -r /src/my-app/models /storage/my-new-modelsweights \n...';
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;

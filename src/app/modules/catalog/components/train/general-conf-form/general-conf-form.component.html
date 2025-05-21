@@ -669,7 +669,7 @@
 
         @if (_showFields.batchFields) {
             <span class="toggle-and-info">
-                <h4 [ngClass]="{ 'mt-3': _showHelp }">
+                <h4 class="mt-1 mb-1" [ngClass]="{ 'mt-3': _showHelp }">
                     {{
                         'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-OPTIONS'
                             | translate
@@ -686,6 +686,14 @@
                     <mat-icon color="accent">help</mat-icon>
                 </button>
             </span>
+
+            <p class="mt-0">
+                {{
+                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-EXPLANATION'
+                        | translate
+                }}
+            </p>
+
             <mat-divider class="mb-3"></mat-divider>
 
             <mat-tab-group
@@ -719,6 +727,7 @@
                 >
                     <div class="form-flex-column tab-content">
                         <app-text-editor
+                            [placeholder]="textEditorPlaceholder"
                             (textChange)="onCommandTextChange($event)"
                         ></app-text-editor>
 

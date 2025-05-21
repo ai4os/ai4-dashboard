@@ -8,7 +8,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { EditorState } from '@codemirror/state';
-import { EditorView } from '@codemirror/view';
+import { EditorView, placeholder } from '@codemirror/view';
 import { shell } from '@codemirror/legacy-modes/mode/shell';
 import { StreamLanguage } from '@codemirror/language';
 import { basicSetup } from 'codemirror';
@@ -20,6 +20,7 @@ import { basicSetup } from 'codemirror';
 })
 export class TextEditorComponent implements AfterViewInit {
     @Input() value: string = '';
+    @Input() placeholder: string = '';
     @Input() readonly: boolean = false;
     @Input() disabled: boolean = false;
     @Input() height: string = '200px';
@@ -27,7 +28,7 @@ export class TextEditorComponent implements AfterViewInit {
     @Output() textChange = new EventEmitter<string>();
 
     @ViewChild('editorContainer', { static: true })
-        editorContainer!: ElementRef;
+    editorContainer!: ElementRef;
 
     editorView!: EditorView;
 
@@ -61,6 +62,7 @@ export class TextEditorComponent implements AfterViewInit {
                     EditorView.editable.of(!this.readonly && !this.disabled),
                     StreamLanguage.define(shell),
                     basicSetup,
+                    placeholder(this.placeholder),
                 ],
             }),
             parent: this.editorContainer.nativeElement,
