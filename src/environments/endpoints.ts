@@ -22,6 +22,8 @@ export const endpoints = {
     nomadTryMeDeployment: '/try_me/nomad/:deployment_uuid',
     deploymentSnapshots: '/snapshots',
     snapshots: '/storage/:storage_name',
+    batchDeployments: '/batch',
+    batchDeploymentsByUUID: '/batch/:deploymentUUID',
     //OSCAR endpoints
     services: '/services',
     serviceByName: '/services/:name',

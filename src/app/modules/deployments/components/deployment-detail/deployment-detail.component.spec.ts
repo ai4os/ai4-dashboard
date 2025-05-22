@@ -67,7 +67,7 @@ describe('DeploymentDetailComponent', () => {
     });
 
     it('should load tool deployment info correctly', () => {
-        const mockedData = { uuid: 'tool-test', isTool: true };
+        const mockedData = { uuid: 'tool-test', type: 'tool' };
         component.data = mockedData;
         const spyGetToolByUUID = jest.spyOn(
             mockedDeploymentService,
@@ -78,7 +78,7 @@ describe('DeploymentDetailComponent', () => {
     });
 
     it('should load module deployment info correctly', () => {
-        const mockedData = { uuid: 'deployment-test', isTool: false };
+        const mockedData = { uuid: 'deployment-test', type: 'module' };
         mockedDeployment.description = '';
         component.data = mockedData;
         const spyGetDeploymentByUUID = jest.spyOn(
@@ -90,7 +90,7 @@ describe('DeploymentDetailComponent', () => {
     });
 
     it('should load tool deployment and call getVllmKey if tool_name is ai4os-llm', () => {
-        const mockedData = { uuid: 'tool-llm', isTool: true };
+        const mockedData = { uuid: 'tool-llm', type: 'tool' };
         const mockDeployment = {
             ...mockedDeployment,
             tool_name: 'ai4os-llm',
@@ -119,7 +119,7 @@ describe('DeploymentDetailComponent', () => {
             of(mockDeployment)
         );
 
-        component.data = { uuid: 'tool-x', isTool: true };
+        component.data = { uuid: 'tool-x', type: 'tool' };
         component.ngOnInit();
 
         expect(component['deploymentHasError']).toBe(true);
@@ -129,7 +129,7 @@ describe('DeploymentDetailComponent', () => {
         const mockToken = { something: { token: 'secret-token' } };
         mockedSecretsService.getSecrets.mockReturnValue(of(mockToken));
 
-        component.data = { uuid: 'some-uuid', isTool: true };
+        component.data = { uuid: 'some-uuid', type: 'tool' };
         component.getVllmKey();
 
         expect(component.tokenField.value).toBe('secret-token');
@@ -141,7 +141,7 @@ describe('DeploymentDetailComponent', () => {
             throwError(() => new Error('network error'))
         );
 
-        component.data = { uuid: 'some-uuid', isTool: true };
+        component.data = { uuid: 'some-uuid', type: 'tool' };
         component.getVllmKey();
 
         expect(mockedSnackbarService.openError).toHaveBeenCalledWith(

@@ -48,3 +48,22 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.full-width {
+    width: 100%;
+}
+
+.command-container {
+    border: 1px solid;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: var(--warm-grey);
+    font-style: italic;
+    white-space: pre-line;
+    font-family: monospace;
+}
+
+.copy-button {
+    float: right;
+    margin-top: 10px;
+}

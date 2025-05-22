@@ -22,6 +22,25 @@
                     </span>
                 </mat-chip>
             </span>
+        } @else if (
+            rcloneIsRequired &&
+            (storageConfFormGroup.get('rcloneUserInput')?.errors?.[
+                'required'
+            ] ||
+                storageConfFormGroup.get('rclonePasswordInput')?.errors?.[
+                    'required'
+                ] ||
+                storageConfFormGroup.get('storageUrlInput')?.errors?.[
+                    'required'
+                ])
+        ) {
+            <mat-chip class="rclone-warning">
+                <mat-icon matChipAvatar color="warn">warning</mat-icon>
+                {{
+                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.RCLONE-ERROR'
+                        | translate
+                }}
+            </mat-chip>
         }
     </div>
     <div

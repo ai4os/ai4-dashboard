@@ -56,6 +56,20 @@ export class DeploymentsService {
         });
     }
 
+    postBatchDeployment(
+        moduleConf: TrainModuleRequest,
+        batchFile: File
+    ): Observable<StatusReturn> {
+        const url = `${base}${endpoints.batchDeployments}`;
+        const formData = new FormData();
+        formData.append('user_cmd', batchFile);
+        formData.append('conf', JSON.stringify(moduleConf));
+
+        return this.http.post<StatusReturn>(url, formData, {
+            params: this.voParam,
+        });
+    }
+
     trainTool(
         toolName: string,
         moduleConf: TrainModuleRequest

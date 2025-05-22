@@ -34,7 +34,7 @@ export class ChatBotService {
                 .then((response) => {
                     if (!response.ok || !response.body) {
                         throw new Error(
-                            'Error connecting to the LLM, please try again later'
+                            'Error connecting to the LLM, please try logging in and out'
                         );
                     }
 

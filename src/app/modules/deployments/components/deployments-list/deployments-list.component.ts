@@ -379,10 +379,10 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     /**     SHARED METHODS     **/
-    openDeploymentDetailDialog(uuid: string, isTool: boolean): void {
+    openDeploymentDetailDialog(uuid: string, type: string): void {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: uuid, isTool: isTool },
+            data: { uuid: uuid, type: type },
             width: width,
             maxWidth: width,
             minWidth: width,

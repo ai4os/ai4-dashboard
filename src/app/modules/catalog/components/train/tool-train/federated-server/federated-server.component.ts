@@ -9,7 +9,7 @@ import {
     ModuleHardwareConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
-import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
@@ -48,7 +48,7 @@ export class FederatedServerComponent implements OnInit {
         gpu_type: false,
     };
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         descriptionInput: true,
         serviceToRunChip: true,
         titleInput: true,
@@ -60,6 +60,7 @@ export class FederatedServerComponent implements OnInit {
         cvatFields: false,
         ai4lifeFields: false,
         llmFields: false,
+        batchFields: false,
     };
 
     ngOnInit(): void {

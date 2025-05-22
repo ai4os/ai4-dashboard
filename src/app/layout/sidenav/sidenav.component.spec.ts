@@ -65,7 +65,6 @@ describe('SidenavComponent', () => {
             },
         } as unknown as Event;
 
-        // Simula la ruta actual
         Object.defineProperty(window, 'location', {
             value: { pathname: '/catalog/modules' },
             writable: true,

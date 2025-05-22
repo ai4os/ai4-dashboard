@@ -35,7 +35,7 @@ export function getSnapshotBadge(status: string) {
     let statusBadge;
     switch (status) {
     case 'queued':
-        statusBadge = status + '-fd5d00';
+        statusBadge = status + '-lightgrey';
         break;
     case 'starting':
         statusBadge = status + '-yellow';
@@ -44,7 +44,7 @@ export function getSnapshotBadge(status: string) {
         statusBadge = status + '-orange';
         break;
     case 'running':
-        statusBadge = status + '-brightgreen';
+        statusBadge = status + '-blue';
         break;
     case 'failed':
     case 'error':

@@ -99,8 +99,9 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.isLoading = true;
-
-        if (this.platform === 'nomad') {
+        if (this.step1Form.value.generalConfForm.batchFile) {
+            this.createBatchDeployment();
+        } else if (this.platform === 'nomad') {
             this.createNomadService();
         } else {
             this.createOscarService();
@@ -383,6 +384,82 @@ export class StepperFormComponent implements OnInit {
                 }
             },
             error: () => {
+                this.isLoading = false;
+            },
+        });
+    }
+
+    createBatchDeployment() {
+        const data: TrainModuleRequest = {
+            general: {
+                title:
+                    this.step1Form.value.generalConfForm.titleInput === ''
+                        ? uniqueNamesGenerator({
+                            dictionaries: [colors, animals],
+                        })
+                        : this.step1Form.value.generalConfForm.titleInput,
+                desc: this.step1Form.value.generalConfForm.descriptionInput,
+                docker_image:
+                    this.step1Form.getRawValue().generalConfForm
+                        .dockerImageInput,
+                docker_tag:
+                    this.step1Form.value.generalConfForm.dockerTagSelect,
+            },
+            hardware: {
+                cpu_num: this.step2Form.value.hardwareConfForm.cpuNumberInput,
+                ram: this.step2Form.value.hardwareConfForm.ramMemoryInput,
+                disk: this.step2Form.value.hardwareConfForm.diskMemoryInput,
+                gpu_num: this.step2Form.value.hardwareConfForm.gpuNumberInput,
+                gpu_type: this.step2Form.value.hardwareConfForm.gpuModelSelect,
+            },
+            storage: {
+                rclone_conf:
+                    this.step3Form!.value.storageConfForm.rcloneConfInput,
+                rclone_url:
+                    this.step3Form!.value.storageConfForm.storageUrlInput,
+                rclone_vendor:
+                    this.step3Form!.value.storageConfForm.rcloneVendorSelect,
+                rclone_user:
+                    this.step3Form!.value.storageConfForm.rcloneUserInput,
+                rclone_password:
+                    this.step3Form!.value.storageConfForm.rclonePasswordInput,
+                datasets:
+                    this.step3Form!.value.storageConfForm.datasetsList[0]
+                        ?.doi === ''
+                        ? []
+                        : this.step3Form!.value.storageConfForm.datasetsList,
+            },
+        };
+        const batchFile = this.step1Form.value.generalConfForm.batchFile;
+
+        this.deploymentsService.postBatchDeployment(data, batchFile).subscribe({
+            next: (result: StatusReturn) => {
+                this.isLoading = false;
+
+                if (result && result.status == 'success') {
+                    this.router
+                        .navigate(['/tasks/batch'])
+                        .then((navigated: boolean) => {
+                            if (navigated) {
+                                this.snackbarService.openSuccess(
+                                    'Batch deployment created with ID ' +
+                                        result.job_ID
+                                );
+                            }
+                        });
+                } else {
+                    if (result && result.status == 'fail') {
+                        this.snackbarService.openError(
+                            'Error while creating the batch deployment ' +
+                                result.error_msg
+                        );
+                    }
+                }
+            },
+            error: () => {
+                this.isLoading = false;
+            },
+            complete: () => {
                 this.isLoading = false;
             },
         });

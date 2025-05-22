@@ -1,0 +1,17 @@
+<mat-toolbar class="mb-3">
+    <span class="aligned-with-icon">
+        {{ 'BATCH.TITLE-HEADER' | translate }}
+        <mat-icon> pending_actions </mat-icon>
+    </span>
+</mat-toolbar>
+
+<app-deployments-table
+    deploymentType="batch"
+    [showCardActions]="false"
+    [isLoading]="isLoading"
+    [dataset]="dataset"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    (showElementInfo)="openDeploymentDetailDialog($event)"
+    (deleteElement)="removeBatchDeployment($event)"
+></app-deployments-table>

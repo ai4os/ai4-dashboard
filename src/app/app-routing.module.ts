@@ -65,6 +65,14 @@ const routes: Routes = [
                                 (m) => m.TryMeModule
                             ),
                     },
+                    {
+                        path: 'batch',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import('@app/modules/batch/batch.module').then(
+                                (m) => m.BatchModule
+                            ),
+                    },
                 ],
             },
             {

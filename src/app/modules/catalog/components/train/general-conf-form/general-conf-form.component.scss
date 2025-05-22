@@ -82,3 +82,44 @@
     justify-content: space-around;
     align-items: baseline;
 }
+
+.full-width {
+    width: 100%;
+}
+
+.tab-content {
+    margin-top: 1em;
+}
+
+.form-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-uploaded-button {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
+    width: fit-content;
+    align-self: end;
+    padding: 0px 50px;
+}
+
+.no-file-uploaded-button {
+    color: var(--white);
+    width: fit-content;
+    align-self: end;
+    padding: 0px 50px;
+}
+
+.textarea-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    gap: 0.5em;
+}
+
+.limited-width-container {
+    max-width: 65%;
+}

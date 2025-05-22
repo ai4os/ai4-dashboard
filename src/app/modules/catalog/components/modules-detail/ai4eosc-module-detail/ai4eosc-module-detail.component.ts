@@ -138,4 +138,10 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             state: { platform: platform },
         });
     }
+
+    deployBatch() {
+        this.router.navigate(['batch'], {
+            relativeTo: this.route,
+        });
+    }
 }

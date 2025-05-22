@@ -92,6 +92,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             isDisabled: !this.isAuthorized,
         },
         {
+            name: 'SIDENAV.BATCH',
+            url: '/tasks/batch',
+            isRestricted: true,
+            isDisabled: !this.isAuthorized,
+        },
+        {
             name: 'SIDENAV.INFERENCE',
             url: '/tasks/inference',
             isRestricted: true,

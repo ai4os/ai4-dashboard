@@ -1,0 +1,12 @@
+.editor-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: var(--editor-height);
+    max-height: 400px;
+    overflow: auto;
+
+    ::ng-deep .cm-editor {
+        height: var(--editor-height);
+        max-height: 400px;
+    }
+}

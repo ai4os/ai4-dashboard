@@ -1,0 +1,9 @@
+.aligned-with-icon {
+    display: flex;
+    align-items: center;
+    &.scale-icon-down {
+        .mat-icon {
+            transform: scale(0.7);
+        }
+    }
+}
