@@ -329,7 +329,7 @@
                 "MODEL-OPTIONS": "Model options",
                 "MODEL-ID": "Model ID",
                 "BATCH-OPTIONS": "Batch options",
-                "BATCH-EXPLANATION": "Running a deployment in batch mode means that your job will execute as a one-time process. This type of deployment is temporary and will be cleaned up afterwards. Here, you can define the specific commands that should run automatically once the batch deployment finishes. You can either upload a script file or type your commands directly into the editor. Remember to save any outputs in your storage folder.",
+                "BATCH-EXPLANATION": "Running a deployment in batch mode means that your job will execute as a one-time process. Here, you can define the specific commands that the process should run. Commands can be provided via a script file or by typing the commands directly in the editor. This type of deployment is temporary and will be cleaned on completion, so please include commands to save any outputs in the storage folder.",
                 "UPLOAD-FILE": "Upload file",
                 "BATCH-COMMANDS": "Write bash commands",
                 "BATCH-HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."

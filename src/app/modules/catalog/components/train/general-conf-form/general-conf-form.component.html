@@ -687,7 +687,7 @@
                 </button>
             </span>
 
-            <p class="mt-0">
+            <p class="limited-width-container mt-0">
                 {{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-EXPLANATION'
                         | translate
@@ -725,7 +725,9 @@
                             | translate
                     }}"
                 >
-                    <div class="form-flex-column tab-content">
+                    <div
+                        class="form-flex-column tab-content limited-width-container"
+                    >
                         <app-text-editor
                             [placeholder]="textEditorPlaceholder"
                             (textChange)="onCommandTextChange($event)"
