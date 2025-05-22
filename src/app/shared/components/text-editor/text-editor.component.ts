@@ -28,7 +28,7 @@ export class TextEditorComponent implements AfterViewInit {
     @Output() textChange = new EventEmitter<string>();
 
     @ViewChild('editorContainer', { static: true })
-    editorContainer!: ElementRef;
+        editorContainer!: ElementRef;
 
     editorView!: EditorView;
 
