@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.6.0](https://github.com/ai4os/ai4-dashboard/compare/v3.5.0...v3.6.0) (2025-05-26)
+
+
+### Features
+
+* allow running jobs in batch mode ([#403](https://github.com/ai4os/ai4-dashboard/issues/403)) ([ed5379d](https://github.com/ai4os/ai4-dashboard/commit/ed5379d52a4de95f41cfd436ba8aa47729428871))
+
+
+### Bug Fixes
+
+* delete tools filter in imagine dashboard ([#406](https://github.com/ai4os/ai4-dashboard/issues/406)) ([6b10b39](https://github.com/ai4os/ai4-dashboard/commit/6b10b3976bc60d9411ff05a8e99ea8b5c4927fd1))
+* refactor code ([#399](https://github.com/ai4os/ai4-dashboard/issues/399)) ([4c6b366](https://github.com/ai4os/ai4-dashboard/commit/4c6b3661df4e08e9033538d4290f9871d89ec9cb))
+
 ## [3.5.0](https://github.com/ai4os/ai4-dashboard/compare/v3.4.2...v3.5.0) (2025-04-29)
 
 
