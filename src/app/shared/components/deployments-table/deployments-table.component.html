@@ -75,7 +75,8 @@
 
                             @if (
                                 deploymentType !== 'inference' &&
-                                deploymentType !== 'snapshot'
+                                deploymentType !== 'snapshot' &&
+                                deploymentType !== 'batch'
                             ) {
                                 <div matTooltip="Quick access">
                                     <a

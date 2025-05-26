@@ -90,7 +90,7 @@ export class ChatBotComponent {
                 this.response = '';
                 this.isLoading = false;
                 this.snackbarService.openError(
-                    'Error connecting to the LLM, please try again later'
+                    'Error connecting to the LLM, please try logging in and out'
                 );
             },
         });

@@ -105,9 +105,11 @@
                     let element of displayedElements
                         | searchAi4eoscModule
                             : this.searchFormGroup.get('search')
-                                  ?.value as elements
+                                  ?.value as elements;
+                    let first = first
                 "
                 class="m-2"
+                [id]="first ? 'step1' : null"
                 [ngStyle]="{
                     display:
                         voName === 'vo.imagine-ai.eu' &&
@@ -117,7 +119,6 @@
                 }"
             >
                 <app-ai4eosc-module-card
-                    [attr.id]="element.id === 'ai4os-nvflare' ? 'step1' : null"
                     [module]="element"
                 ></app-ai4eosc-module-card>
             </span>

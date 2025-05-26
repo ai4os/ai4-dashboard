@@ -11,6 +11,7 @@
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
+        "BATCH": "Batch training",
         "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
@@ -97,7 +98,7 @@
         "TITLE": "Deployments",
         "TOOLS": "Tools",
         "DEPLOYMENT-DETAIL": {
-            "TITLE": "Deployment detail",
+            "MODULE-TITLE": "Deployment detail",
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
@@ -121,6 +122,10 @@
                 "DETAILS": "VLLM details",
                 "URL": "URL",
                 "TOKEN": "Token"
+            },
+            "BATCH": {
+                "DETAILS": "Batch details",
+                "COMMAND": "Commands"
             }
         },
         "DEPLOYMENT-SECRETS": {
@@ -173,6 +178,12 @@
             "MINIO-URL": "MINIO URL",
             "MINIO-KEY": "MINIO access key",
             "MINIO-SECRET": "MINIO secret key"
+        }
+    },
+    "BATCH": {
+        "TITLE-HEADER": "Batch training",
+        "DETAIL": {
+            "TITLE": "Batch deployment detail"
         }
     },
     "TRY-ME": {
@@ -260,6 +271,9 @@
                 "INFERENCE-API": "REST API",
                 "OSCAR-SWAGGER": "// TODO"
             },
+            "BATCH": {
+                "TITLE": "Batch"
+            },
             "DEPLOY": {
                 "TITLE": "Deploy",
                 "API-SERVERLESS": "Inference API (serverless)",
@@ -313,7 +327,12 @@
                 "DEPLOYMENT-TYPE": "Deployment type",
                 "TYPE": "Type",
                 "MODEL-OPTIONS": "Model options",
-                "MODEL-ID": "Model ID"
+                "MODEL-ID": "Model ID",
+                "BATCH-OPTIONS": "Batch options",
+                "BATCH-EXPLANATION": "Running a deployment in batch mode means that your job will execute as a one-time process. Here, you can define the specific commands that the process should run. Commands can be provided via a script file or by typing the commands directly in the editor. This type of deployment is temporary and will be cleaned on completion, so please include commands to save any outputs in the storage folder.",
+                "UPLOAD-FILE": "Upload file",
+                "BATCH-COMMANDS": "Write bash commands",
+                "BATCH-HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -346,6 +365,7 @@
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
                 "RCLONE-REQUIRED": "You must specify a RCLONE account",
+                "RCLONE-ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
                 "ADVANCED-SETTINGS": "Advanced settings",
                 "ZENODO-TITLE": "Zenodo",
                 "ZENODO-COMMUNITY": "Zenodo community",
@@ -457,16 +477,7 @@
                 "SERVICE-DESCRIPTION": "Service description",
                 "SERVICE-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active services",
                 "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG": "Docker tag",
-                "ENVIRONMENT-VARIABLES": "Environment variables",
-                "ENVIRONMENT-KEY": "variable name",
-                "ENVIRONMENT-VALUE": "variable value",
-                "LABELS": "Labels",
-                "LABEL-KEY": "label name",
-                "LABEL-VALUE": "label value",
-                "SERVICE-SCRIPT": "Service script",
-                "SERVICE-SCRIPT-LABEL": "Choose file",
-                "SERVICE-SCRIPT-REQUIRED": "Please add a script file to the service"
+                "DOCKER-TAG": "Docker tag"
             },
             "COMPUTE-CONF-FORM": {
                 "TITLE": "Compute options",
@@ -512,6 +523,11 @@
         "REPORT-ISSUE": "Report issue",
         "OPEN-DOCUMENTATION": "Open documentation",
         "BIOIMAGE": "BioImage.IO"
+    },
+    "FILE-UPLOAD": {
+        "SELECT": "Select file",
+        "ALLOWED-FILE-TYPE": "Supported formats: .sh, .bash, .command, .run",
+        "GENERATE-FILE": "Generate file"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Confirm your action</h1>
+<div mat-dialog-content>
+    <p>{{ data.title }}</p>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-stroked-button (click)="onActionA()">{{ data.optionA }}</button>
+    <button mat-stroked-button (click)="onActionB()">
+        {{ data.optionB }}
+    </button>
+</div>

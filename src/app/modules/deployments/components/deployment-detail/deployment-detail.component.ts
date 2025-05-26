@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { SecretField } from '@app/modules/inference/components/inference-detail/inference-detail.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { BatchService } from '@app/modules/batch/services/batch.service';
 
 @Component({
     selector: 'app-deployment-detail',
@@ -21,9 +22,11 @@ export class DeploymentDetailComponent implements OnInit {
         private secretsService: SecretsService,
         public translateService: TranslateService,
         private snackbarService: SnackbarService,
+        private batchService: BatchService,
+
         public confirmationDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string; isTool: boolean },
+        public data: { uuid: string; type: string },
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
@@ -55,7 +58,7 @@ export class DeploymentDetailComponent implements OnInit {
     ngOnInit(): void {
         if (this.data.uuid) {
             this.isLoading = true;
-            if (this.data.isTool) {
+            if (this.data.type === 'tool') {
                 this.deploymentsService
                     .getToolByUUID(this.data.uuid)
                     .subscribe((deployment: Deployment) => {
@@ -82,9 +85,39 @@ export class DeploymentDetailComponent implements OnInit {
                             this.isLoading = false;
                         }
                     });
-            } else {
+            } else if (this.data.type === 'module') {
                 this.deploymentsService
                     .getDeploymentByUUID(this.data.uuid)
+                    .subscribe((deployment: Deployment) => {
+                        if (
+                            deployment.error_msg &&
+                            deployment.error_msg != ''
+                        ) {
+                            this.deploymentHasError = true;
+                        }
+                        if (deployment.description == '') {
+                            deployment.description = '-';
+                        }
+                        if (deployment.datacenter == null) {
+                            deployment.datacenter = '-';
+                        }
+                        const conatinerName = deployment.docker_image.includes(
+                            'user-snapshots'
+                        )
+                            ? deployment.docker_image.split(':')[1]
+                            : deployment.docker_image;
+                        deployment.docker_image = conatinerName;
+                        this.statusBadge = getDeploymentBadge(
+                            deployment.status
+                        );
+
+                        this.deployment = deployment;
+
+                        this.isLoading = false;
+                    });
+            } else if (this.data.type === 'batch') {
+                this.batchService
+                    .getBatchDeploymentByUUID(this.data.uuid)
                     .subscribe((deployment: Deployment) => {
                         if (
                             deployment.error_msg &&
@@ -116,6 +149,10 @@ export class DeploymentDetailComponent implements OnInit {
         }
     }
 
+    get localBatchScript(): string | undefined {
+        return this.deployment?.templates?.['local/batch.sh'];
+    }
+      
     getResourceValue(resource: KeyValue<string, number>): string {
         let resourceValue = resource.value.toString();
         if (resource.key.includes('MB')) {

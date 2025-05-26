@@ -7,7 +7,6 @@ import {
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
-import { of } from 'rxjs';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { provideHttpClient } from '@angular/common/http';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';

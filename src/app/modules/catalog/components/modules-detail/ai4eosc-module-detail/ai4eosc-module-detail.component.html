@@ -269,6 +269,19 @@
                         </span>
                     </button>
                 </mat-menu>
+
+                <button
+                    class="action-button"
+                    mat-raised-button
+                    color="accent"
+                    (click)="deployBatch()"
+                    [disabled]="!isAuthorized()"
+                    matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                    [matTooltipPosition]="'left'"
+                    [matTooltipDisabled]="isAuthorized()"
+                >
+                    {{ 'CATALOG.MODULE-DETAIL.BATCH.TITLE' | translate }}
+                </button>
             </ng-container>
         </div>
 

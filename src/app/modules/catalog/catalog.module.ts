@@ -43,6 +43,7 @@ import { NvflareComponent } from './components/train/tool-train/nvflare/nvflare.
 import { NvflareConfFormComponent } from './components/train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component';
 import { OscarTrainComponent } from './components/train/oscar-train/oscar-train.component';
 import { ModuleTrainViewComponent } from './views/module-train-view/module-train-view.component';
+import { BatchTrainComponent } from './components/train/batch-train/batch-train.component';
 
 @NgModule({
     declarations: [
@@ -80,6 +81,7 @@ import { ModuleTrainViewComponent } from './views/module-train-view/module-train
         LlmCardComponent,
         OscarTrainComponent,
         ModuleTrainViewComponent,
+        BatchTrainComponent,
     ],
     imports: [
         CommonModule,

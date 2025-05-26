@@ -8,6 +8,7 @@ import { ModuleDetailViewComponent } from '../views/module-detail-view/module-de
 import { LoadingScreenComponent } from '../components/loading-screen/loading-screen.component';
 import { Ai4lifeModuleDetailComponent } from '../components/modules-detail/ai4life-module-detail/ai4life-module-detail.component';
 import { ModuleTrainViewComponent } from '../views/module-train-view/module-train-view.component';
+import { BatchTrainComponent } from '../components/train/batch-train/batch-train.component';
 
 const routes: Routes = [
     {
@@ -34,6 +35,12 @@ const routes: Routes = [
                 path: 'try-me-nomad',
                 canActivate: [AuthenticationGuard],
                 component: LoadingScreenComponent,
+            },
+            {
+                path: 'batch',
+                canActivate: [AuthenticationGuard],
+                component: BatchTrainComponent,
+                data: { breadcrumb: 'Batch' },
             },
         ],
     },

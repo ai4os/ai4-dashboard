@@ -7,7 +7,7 @@ import {
     ModuleGeneralConfiguration,
     LlmToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 
 @Component({
     selector: 'app-llm',
@@ -36,7 +36,7 @@ export class LlmComponent {
     generalConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
         serviceToRunChip: false,
@@ -48,6 +48,7 @@ export class LlmComponent {
         cvatFields: false,
         ai4lifeFields: false,
         llmFields: true,
+        batchFields: false,
     };
 
     ngOnInit(): void {
