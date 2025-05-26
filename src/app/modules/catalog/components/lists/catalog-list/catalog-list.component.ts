@@ -90,6 +90,13 @@ export class CatalogListComponent {
             this.addFilter({
                 libraries: [],
                 tasks: [],
+                categories: ['AI4 tools'],
+                datatypes: [],
+                tags: [],
+            });
+            this.addFilter({
+                libraries: [],
+                tasks: [],
                 categories: [],
                 datatypes: [],
                 tags: ['vo.imagine-ai.eu'],
