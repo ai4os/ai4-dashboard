@@ -14,10 +14,10 @@ export class IntroJSService {
         return localStorage.getItem(tourName) ?? 'false';
     }
 
-    // Federated learning with NVFlare
-    nvFlareTool() {
+    // Batch deployments
+    batchDeployments() {
         if (
-            this.checkIfTourHasShown('nvFlareToolTour') === 'true' ||
+            this.checkIfTourHasShown('batchDeploymentsTour') === 'true' ||
             !this.isLoggedIn()
         ) {
             return;
@@ -27,13 +27,25 @@ export class IntroJSService {
             .setOptions({
                 steps: [
                     {
-                        title: 'New NVFlare tool 🎓🌐',
-                        intro: 'You can use this tool to adapt existing ML/DL workflows to a federated paradigm.',
+                        title: 'New batch mode training! 📦',
+                        intro: 'This training creates a temporary job that is killed after the training is completed.',
                     },
                     {
                         element: '#step1',
-                        title: 'New NVFlare tool 🎓🌐',
-                        intro: 'It enables platform developers to build a secure, privacy-preserving offering for a distributed multi-party collaboration.',
+                        title: 'New batch mode training! 📦',
+                        intro: 'You can deploy any existing module in the marketplace. To create a batch job, click on the Batch button in the module detail.',
+                        position: 'bottom',
+                    },
+                    {
+                        element: '#step2',
+                        title: 'New batch mode training! 📦',
+                        intro: 'It is also possible to redeploy from a snapshot. After creating one, go to the snapshot table and click on redeploy.',
+                        position: 'bottom',
+                    },
+                    {
+                        element: '#step3',
+                        title: 'New batch mode training! 📦',
+                        intro: 'Keep track of your current batch jobs, as well as the batch jobs that completed in the last 24 hours, in the Batch training section.',
                         position: 'bottom',
                     },
                 ],
@@ -41,11 +53,11 @@ export class IntroJSService {
             .start();
 
         this.introJS.onexit(() => {
-            localStorage.setItem('nvFlareToolTour', 'true');
+            localStorage.setItem('batchDeploymentsTour', 'true');
         });
 
         this.introJS.oncomplete(() => {
-            localStorage.setItem('nvFlareToolTour', 'true');
+            localStorage.setItem('batchDeploymentsTour', 'true');
         });
     }
 
