@@ -181,7 +181,7 @@ export class StepperFormComponent implements OnInit {
                 gpu_type: this.step2Form.value.hardwareConfForm.gpuModelSelect,
             };
 
-            if (this.title == 'Federated learning server') {
+            if (this.title == 'Federated learning with Flower') {
                 data.flower = {
                     rounds: this.step3Form!.value.federatedConfForm.roundsInput,
                     metric: this.step3Form!.value.federatedConfForm.metricInput,
