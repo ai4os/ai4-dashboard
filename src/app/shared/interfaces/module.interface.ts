@@ -37,6 +37,13 @@ export interface Ai4eoscModule {
     categories: string[];
     tags: string[];
     'data-type'?: string[];
+    popularity: {
+        number_of_trymes: number;
+        number_of_module_views: number;
+        github_stars: number;
+        dockerhub_downloads: number;
+        overall: number;
+    };
 }
 
 export interface Ai4lifeModule {

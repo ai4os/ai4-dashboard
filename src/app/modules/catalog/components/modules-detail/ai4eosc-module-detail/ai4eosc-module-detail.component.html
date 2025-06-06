@@ -433,6 +433,54 @@
 
                 <div class="box-container">
                     <div class="box-title">
+                        {{
+                            'CATALOG.MODULE-DETAIL.POPULARITY.TITLE' | translate
+                        }}
+                    </div>
+                    <div class="box-content">
+                        <app-chip-with-icon
+                            tooltip="{{
+                                'CATALOG.MODULE-DETAIL.POPULARITY.TRY-MES'
+                                    | translate
+                            }}"
+                            [icon]="'ads_click'"
+                            text="{{ module.popularity.number_of_trymes }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                        <app-chip-with-icon
+                            tooltip="{{
+                                'CATALOG.MODULE-DETAIL.POPULARITY.VIEWS'
+                                    | translate
+                            }}"
+                            [icon]="'visibility'"
+                            text="{{
+                                module.popularity.number_of_module_views
+                            }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                        <app-chip-with-icon
+                            tooltip="{{
+                                'CATALOG.MODULE-DETAIL.POPULARITY.GITHUB-STARS'
+                                    | translate
+                            }}"
+                            [icon]="'star'"
+                            text="{{ module.popularity.github_stars }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                        <app-chip-with-icon
+                            tooltip="{{
+                                'CATALOG.MODULE-DETAIL.POPULARITY.DOCKER-DOWNLOADS'
+                                    | translate
+                            }}"
+                            [icon]="'download'"
+                            text="{{ module.popularity.dockerhub_downloads }}"
+                            chipStyle="default"
+                        ></app-chip-with-icon>
+                    </div>
+                </div>
+
+                <div class="box-container">
+                    <div class="box-title">
                         {{ 'CATALOG.MODULE-DETAIL.TASKS' | translate }}
                     </div>
                     <div class="box-content">

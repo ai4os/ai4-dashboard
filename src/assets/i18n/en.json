@@ -254,6 +254,13 @@
             "LICENSE": "License",
             "CONTEXT": "Tokens",
             "LINK": "Link to model",
+            "POPULARITY": {
+                "TITLE": "Popularity",
+                "TRY-MES": "Number of Try Me deployments",
+                "VIEWS": "Number of module views",
+                "GITHUB-STARS": "Number of GitHub stars",
+                "DOCKER-DOWNLOADS": "Number of Docker downloads"
+            },
             "UNAUTHORIZED": "You must login and be a member of project to use this",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
