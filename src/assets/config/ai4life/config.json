@@ -2,18 +2,6 @@
     "title": "AI4EOSC - Dashboard",
     "sidenavMenu": [
         {
-            "name": "SIDENAV.PROJECT-PAGE",
-            "url": "https://ai4life.eurobioimaging.eu/"
-        },
-        {
-            "name": "SIDENAV.AI4EOSC-DOCUMENTATION",
-            "url": "https://docs.ai4eosc.eu/"
-        },
-        {
-            "name": "SIDENAV.IAM",
-            "url": "https://aai.egi.eu/"
-        },
-        {
             "name": "SIDENAV.STORAGE",
             "url": "https://share.services.ai4os.eu/"
         },
@@ -24,17 +12,21 @@
         {
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
             "url": "https://forge.flows.dev.ai4eosc.eu/"
-        },
+        }
+    ],
+    "footerLinks": [
         {
             "name": "SIDENAV.STATUS",
             "url": "https://status.ai4eosc.eu "
-        }
-    ],
-    "voName": "vo.ai4life.eu",
-    "projectName": "AI4EOSC",
-    "projectUrl": "https://ai4eosc.eu",
-    "acknowledgments": "The AI4Life dashboard is a service provided by CSIC, co-funded by ",
-    "legalLinks": [
+        },
+        {
+            "name": "SIDENAV.PROJECT-PAGE",
+            "url": "https://ai4life.eurobioimaging.eu/"
+        },
+        {
+            "name": "SIDENAV.DOCUMENTATION",
+            "url": "https://docs.ai4os.eu/"
+        },
         {
             "name": "SIDENAV.TERMS-OF-USE",
             "url": "https://ai4eosc.eu/platform/acceptable-use-policy/"
@@ -44,9 +36,17 @@
             "url": "https://ai4eosc.eu/platform/privacy-policy/"
         }
     ],
+    "voName": "vo.ai4life.eu",
+    "projectName": "AI4EOSC",
+    "projectUrl": "https://ai4eosc.eu",
+    "acknowledgments": "The AI4Life dashboard is a service provided by CSIC, co-funded by ",
     "analytics": {
         "domain": "ai4life.cloud.ai4eosc.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
     },
+    "apiURL": "",
+    "issuer": "",
+    "clientId": "",
+    "dummyClientSecret": "",
     "deployedInNomad": false
 }

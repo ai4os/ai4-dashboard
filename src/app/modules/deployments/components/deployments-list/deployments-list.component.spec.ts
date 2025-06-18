@@ -21,53 +21,16 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
-import { mockedSnapshots } from '../../services/snapshots-service/snapshot.service.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
-    mockedDeployments,
-    mockedDeleteDeploymentResponse,
-    mockedTools,
-} from '../../services/deployments-service/deployment.service.mock';
-
-const mockedConfigService: any = {};
-
-const mockedDeploymentService: any = {
-    getDeployments: jest.fn().mockReturnValue(of(mockedDeployments)),
-    getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployments[0])),
-    deleteDeploymentByUUID: jest
-        .fn()
-        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-    getTools: jest.fn().mockReturnValue(of(mockedTools)),
-    getToolByUUID: jest.fn().mockReturnValue(of(mockedTools[0])),
-    deleteToolByUUID: jest
-        .fn()
-        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-};
-
-const mockedSnapshotService: any = {
-    getSnapshots: jest.fn().mockReturnValue(of(mockedSnapshots)),
-    deleteSnapshotByUUID: jest
-        .fn()
-        .mockReturnValue(of(mockedDeleteDeploymentResponse)),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedSnackbarService: any = {
-    openSuccess: jest.fn(),
-    openError: jest.fn(),
-};
+    expectedModulesDataset,
+    expectedSnapshotsDataset,
+    expectedToolsDataset,
+    mockedDeploymentService,
+} from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
+import { mockedSnapshotService } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
@@ -134,85 +97,6 @@ describe('DeploymentsListComponent', () => {
             'getSnapshots'
         );
 
-        const expectedModulesDataset = [
-            {
-                uuid: 'module-test',
-                name: '',
-                status: '',
-                containerName: 'ai4oshub/fast-neural-transfer:latest',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
-                datacenter: '',
-            },
-            {
-                uuid: 'module-test2',
-                name: '',
-                status: '',
-                containerName: 'ai4oshub/fast-neural-transfer:latest',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
-                datacenter: '',
-            },
-        ];
-
-        const expectedToolsDataset = [
-            {
-                uuid: 'tool-test',
-                name: '',
-                status: '',
-                containerName: '',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
-                datacenter: '',
-            },
-            {
-                uuid: 'tool-test2',
-                name: '',
-                status: '',
-                containerName: '',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
-                datacenter: '',
-            },
-        ];
-
-        const expectedSnapshotsDataset = [
-            {
-                uuid: 'snapshot-test',
-                name: '',
-                description: '',
-                status: '',
-                containerName: '',
-                tagName: 'snapshot-test',
-                size: '1.92',
-                creationTime: '',
-                snapshot_ID: 'snapshot-test',
-            },
-            {
-                uuid: 'snapshot-test2',
-                name: '',
-                description: '',
-                status: '',
-                containerName: '',
-                tagName: 'snapshot-test2',
-                size: '1.92',
-                creationTime: '',
-                snapshot_ID: 'snapshot-test2',
-            },
-        ];
-
         component.ngOnInit();
         tick(100);
         expect(spyGetModulesList).toHaveBeenCalledTimes(1);
@@ -251,32 +135,44 @@ describe('DeploymentsListComponent', () => {
 
         const initialDataset = [
             {
-                uuid: 'module-test',
-                name: '',
-                status: '',
-                containerName: 'ai4oshub/fast-neural-transfer:latest',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
+                uuid: '3639771e-35c1-11ee-867a-0242ac110002',
+                name: 'Test title 1',
+                status: 'running',
+                containerName: 'deephdc/ai4os-dev-env:latest',
+                gpus: 0,
+                creationTime: '2023-08-08 07:57:26',
+                endpoints: {
+                    api: 'http://deepaas-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+                    monitor:
+                        'http://monitor-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+                    ide: 'http://ide-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+                },
+                mainEndpoint:
+                    'http://ide-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
+                datacenter: 'ai-ifca',
             },
             {
-                uuid: 'module-test2',
-                name: '',
-                status: '',
-                containerName: 'ai4oshub/fast-neural-transfer:latest',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
+                uuid: '26d3fb98-32b8-11ee-a694-0242ac110003',
+                name: 'Test tittle 2',
+                status: 'running',
+                containerName: 'deephdc/ai4os-dev-env:latest',
+                gpus: 0,
+                creationTime: '2023-08-04 18:48:28',
+                endpoints: {
+                    api: 'http://deepaas-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+                    monitor:
+                        'http://monitor-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+                    ide: 'http://ide-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+                },
+                mainEndpoint:
+                    'http://ide-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
+                datacenter: 'ai-ifca',
             },
         ];
 
         const expectedDataset = [initialDataset[1]];
         component.modulesDataset = initialDataset;
-        component.removeModule('module-test');
+        component.removeModule('3639771e-35c1-11ee-867a-0242ac110002');
 
         expect(spyRemoveModule).toHaveBeenCalledTimes(1);
         expect(spyRemoveModuleDeploymentsService).toHaveBeenCalled();
@@ -299,32 +195,40 @@ describe('DeploymentsListComponent', () => {
 
         const initialDataset = [
             {
-                uuid: 'tool-test',
-                name: '',
-                status: '',
-                containerName: '',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
+                uuid: '9a76ae28-465a-11ee-9920-0242ac110003',
+                name: 'Testing federated',
+                status: 'running',
+                containerName: 'ai4oshub/ai4os-federated-server:latest',
+                gpus: 0,
+                creationTime: '2023-08-29 10:55:46',
+                endpoints: {
+                    ide: 'http://ide-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+                },
+                mainEndpoint:
+                    'http://fedserver-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+
+                datacenter: 'ai-ifca',
             },
             {
-                uuid: 'tool-test2',
-                name: '',
-                status: '',
-                containerName: '',
-                gpus: 1,
-                creationTime: '',
-                endpoints: undefined,
-                mainEndpoint: '',
-                error_msg: 'Test error',
+                uuid: '4576ae28-465a-11ee-9920-0242ac110003',
+                name: 'Testing cvat',
+                status: 'running',
+                containerName: 'ai4oshub/ai4os-cvat:latest',
+                gpus: 0,
+                creationTime: '2023-08-29 10:55:46',
+                endpoints: {
+                    ide: 'http://ide-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+                },
+                mainEndpoint:
+                    'http://cvat-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
+
+                datacenter: 'ai-ifca',
             },
         ];
 
         const expectedDataset = [initialDataset[1]];
         component.toolsDataset = initialDataset;
-        component.removeTool('tool-test');
+        component.removeTool('9a76ae28-465a-11ee-9920-0242ac110003');
 
         expect(spyRemoveTool).toHaveBeenCalledTimes(1);
         expect(spyRemoveToolDeploymentsService).toHaveBeenCalled();
@@ -348,24 +252,27 @@ describe('DeploymentsListComponent', () => {
         const initialDataset = [
             {
                 uuid: 'snapshot-test',
-                name: '',
+                name: 'SnapshotTest',
                 description: '',
-                status: '',
-                containerName: '',
+                status: 'complete',
+                containerName:
+                    'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
+
                 tagName: 'snapshot-test',
-                size: '1.92',
-                creationTime: '',
+                size: '2064652547',
+                creationTime: '2024-11-12 09:30:40',
                 snapshot_ID: 'snapshot-test',
             },
             {
                 uuid: 'snapshot-test2',
-                name: '',
-                description: '',
-                status: '',
+                name: 'SnapshotTest2',
+                description:
+                    'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
+                status: 'complete',
                 containerName: '',
-                tagName: 'snapshot-test2',
-                size: '1.92',
-                creationTime: '',
+                tagName: 'snapshot-test',
+                size: '2064652547',
+                creationTime: '2024-11-12 09:30:40',
                 snapshot_ID: 'snapshot-test2',
             },
         ];
@@ -462,24 +369,27 @@ describe('DeploymentsListComponent', () => {
         const initialDataset = [
             {
                 uuid: 'snapshot-test',
-                name: '',
+                name: 'SnapshotTest',
                 description: '',
-                status: '',
-                containerName: '',
+                status: 'complete',
+                containerName:
+                    'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
+
                 tagName: 'snapshot-test',
-                size: '1.92',
-                creationTime: '',
+                size: '2064652547',
+                creationTime: '2024-11-12 09:30:40',
                 snapshot_ID: 'snapshot-test',
             },
             {
                 uuid: 'snapshot-test2',
-                name: '',
-                description: '',
-                status: '',
+                name: 'SnapshotTest2',
+                description:
+                    'registry.services.ai4os.eu/user-snapshots/b965ce0bceb90d42b69d0767e2148c297e5f4a5d9db315432747e84a4ccebf0b_at_egi.eu',
+                status: 'complete',
                 containerName: '',
-                tagName: 'snapshot-test2',
-                size: '1.92',
-                creationTime: '',
+                tagName: 'snapshot-test',
+                size: '2064652547',
+                creationTime: '2024-11-12 09:30:40',
                 snapshot_ID: 'snapshot-test2',
             },
         ];

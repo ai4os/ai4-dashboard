@@ -15,7 +15,6 @@ import { timer, takeUntil, switchMap, Subject } from 'rxjs';
 @Component({
     selector: 'app-inferences-list',
     templateUrl: './inferences-list.component.html',
-    styleUrls: ['./inferences-list.component.scss'],
 })
 export class InferencesListComponent implements OnInit {
     constructor(
@@ -66,9 +65,9 @@ export class InferencesListComponent implements OnInit {
                     this.dataset = [];
                     servicesList.forEach((service: OscarService) => {
                         service.title =
-                            service.environment.Variables.PAPI_TITLE;
+                            service.environment.variables.PAPI_TITLE;
                         service.submit_time =
-                            service.environment.Variables.PAPI_CREATED;
+                            service.environment.variables.PAPI_CREATED;
                         const row: DeploymentTableRow = {
                             uuid: service.name,
                             name: service.title,

@@ -13,38 +13,10 @@ import { By } from '@angular/platform-browser';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-const mockedSecrets = {
-    '/deployments/1234/federated/default': { token: '1234' },
-};
-
-const mockedConfigService: any = {};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedSecretsService: any = {
-    getSecrets: jest.fn().mockReturnValue(of(mockedSecrets)),
-    createSecret: jest.fn().mockReturnValue(of({})),
-    deleteSecret: jest.fn().mockReturnValue(of({})),
-};
-
-const mockedSnackbarService: any = {
-    openSuccess: jest.fn(),
-    openError: jest.fn(),
-};
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 
 describe('SecretManagementDetailComponent', () => {
     let component: SecretManagementDetailComponent;

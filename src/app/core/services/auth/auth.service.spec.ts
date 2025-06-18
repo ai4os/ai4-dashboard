@@ -1,59 +1,17 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { AuthService } from './auth.service';
-import {
-    OAuthEvent,
-    OAuthModuleConfig,
-    OAuthService,
-    OAuthSuccessEvent,
-} from 'angular-oauth2-oidc';
+import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { AppConfigService } from '../app-config/app-config.service';
-import { Subject, of } from 'rxjs';
-import { MarketplaceModule } from '@app/modules/marketplace/marketplace.module';
+import { CatalogModule } from '@app/modules/catalog/catalog.module';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-import { mockedUserProfile } from './user-profile.mock';
-
-const mockedOAuthService = {
-    configure: jest.fn().mockReturnValue(void 0),
-    hasValidAccessToken: jest.fn().mockReturnValue(true),
-    loadDiscoveryDocument: jest
-        .fn()
-        .mockReturnValue(
-            Promise.resolve(new OAuthSuccessEvent('discovery_document_loaded'))
-        ),
-    loadDiscoveryDocumentAndLogin: jest
-        .fn()
-        .mockReturnValue(Promise.resolve(false)),
-    loadDiscoveryDocumentAndTryLogin: jest
-        .fn()
-        .mockReturnValue(Promise.resolve(true)),
-    loadUserProfile: jest
-        .fn()
-        .mockReturnValue(Promise.resolve(mockedUserProfile)),
-    restartSessionChecksIfStillLoggedIn: jest.fn().mockReturnValue(void 0),
-    setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
-    silentRefresh: jest
-        .fn()
-        .mockReturnValue(
-            Promise.resolve(new OAuthSuccessEvent('silently_refreshed'))
-        ),
-    stopAutomaticRefresh: jest.fn().mockReturnValue(void 0),
-    tryLogin: jest.fn().mockReturnValue(Promise.resolve(false)),
-    tryLoginCodeFlow: jest.fn().mockReturnValue(Promise.resolve(void 0)),
-    tryLoginImplicitFlow: jest.fn().mockReturnValue(Promise.resolve(false)),
-    logOut: jest.fn(),
-    getIdToken: jest.fn().mockReturnValue(Promise.resolve('dasdsad')),
-    hasValidIdToken: jest.fn().mockReturnValue(Promise.resolve(true)),
-    initLoginFlow: jest.fn(),
-    events: of(Subject<OAuthEvent>),
-};
-
-const mockedConfigService: any = {
-    voName: 'vo.ai4eosc.eu',
-};
-
-const mockedOAuthModuleConfig: any = {};
+import {
+    mockedAuthService,
+    mockedParsedUserProfile,
+} from '@app/core/services/auth/auth-service.mock';
+import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('AuthService', () => {
     let service: AuthService;
@@ -61,14 +19,14 @@ describe('AuthService', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterModule.forRoot([
-                    { path: 'marketplace', component: MarketplaceModule },
+                    { path: 'marketplace', component: CatalogModule },
                 ]),
             ],
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
                 AuthService,
-                { provide: OAuthService, useValue: mockedOAuthService },
+                { provide: OAuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: OAuthModuleConfig,
@@ -78,6 +36,7 @@ describe('AuthService', () => {
         });
 
         service = TestBed.inject(AuthService);
+        service.userProfileSubject = mockedParsedUserProfile;
     });
 
     afterEach(() => {
@@ -91,17 +50,22 @@ describe('AuthService', () => {
     it('configure the service correctly', fakeAsync(() => {
         jest.spyOn(service, 'isAuthenticated').mockReturnValue(true);
         const spyLoadDiscoveryDocumentAndTryLogin = jest.spyOn(
-            mockedOAuthService,
+            mockedAuthService,
             'loadDiscoveryDocumentAndTryLogin'
         );
+
         service.configureOAuthService();
+        service.login();
+
         expect(spyLoadDiscoveryDocumentAndTryLogin).toHaveBeenCalled();
+
         service.userProfileSubject.subscribe((profile) => {
             expect(profile).toMatchObject({
                 isAuthorized: true,
-                name: 'AI4EOSC Dasboard Test',
+                name: 'AI4EOSC Dashboard Test',
             });
         });
+
         flush();
     }));
 

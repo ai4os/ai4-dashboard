@@ -1,0 +1,158 @@
+<form [formGroup]="hardwareConfFormGroup" class="hardware-conf-form">
+    <h4>{{ 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.TITLE' | translate }}</h4>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <mat-form-field *ngIf="_showFields.cpu_num">
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                min="{{ _defaultFormValues.cpu_num.range[0] }}"
+                max="{{ _defaultFormValues.cpu_num.range[1] }}"
+                formControlName="cpuNumberInput"
+            />
+            <mat-error
+                *ngIf="
+                    hardwareConfFormGroup.get('cpuNumberInput')?.errors?.[
+                        'max'
+                    ] ||
+                    hardwareConfFormGroup.get('cpuNumberInput')?.errors?.['min']
+                "
+            >
+                {{
+                    'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
+                        | translate
+                            : {
+                                  min: _defaultFormValues.cpu_num.range[0],
+                                  max: _defaultFormValues.cpu_num.range[1],
+                              }
+                }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="_showFields.gpu_num">
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-GPUS'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                min="{{ _defaultFormValues.gpu_num.range[0] }}"
+                max="{{ _defaultFormValues.gpu_num.range[1] }}"
+                formControlName="gpuNumberInput"
+            />
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.gpu_num.description
+            }}</mat-hint>
+            <mat-error
+                *ngIf="
+                    hardwareConfFormGroup.get('gpuNumberInput')?.errors?.[
+                        'max'
+                    ] ||
+                    hardwareConfFormGroup.get('gpuNumberInput')?.errors?.['min']
+                "
+            >
+                {{
+                    'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
+                        | translate
+                            : {
+                                  min: _defaultFormValues.gpu_num.range[0],
+                                  max: _defaultFormValues.gpu_num.range[1],
+                              }
+                }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="_showFields.gpu_type">
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.GPU-MODEL' | translate
+            }}</mat-label>
+            <mat-select formControlName="gpuModelSelect">
+                <mat-option
+                    *ngFor="let gpuModelOption of gpuModelOptions"
+                    [value]="gpuModelOption.value"
+                >
+                    {{ gpuModelOption.viewValue }}
+                </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="_showHelp">{{
+                _defaultFormValues.gpu_type?.description
+            }}</mat-hint>
+        </mat-form-field>
+        <mat-form-field *ngIf="_showFields.ram">
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.RAM-MEMORY' | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                min="{{ _defaultFormValues.ram.range[0] }}"
+                max="{{ _defaultFormValues.ram.range[1] }}"
+                formControlName="ramMemoryInput"
+            />
+            <mat-error
+                *ngIf="
+                    hardwareConfFormGroup.get('ramMemoryInput')?.errors?.[
+                        'max'
+                    ] ||
+                    hardwareConfFormGroup.get('ramMemoryInput')?.errors?.['min']
+                "
+            >
+                {{
+                    'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
+                        | translate
+                            : {
+                                  min: _defaultFormValues.ram.range[0],
+                                  max: _defaultFormValues.ram.range[1],
+                              }
+                }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="_showFields.disk">
+            <mat-label>{{
+                'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.DISK-MEMORY'
+                    | translate
+            }}</mat-label>
+            <input
+                matInput
+                placeholder=""
+                value=""
+                type="number"
+                min="{{ _defaultFormValues.disk.range[0] }}"
+                max="{{ _defaultFormValues.disk.range[1] }}"
+                formControlName="diskMemoryInput"
+            />
+            <mat-error
+                *ngIf="
+                    hardwareConfFormGroup.get('diskMemoryInput')?.errors?.[
+                        'max'
+                    ] ||
+                    hardwareConfFormGroup.get('diskMemoryInput')?.errors?.[
+                        'min'
+                    ]
+                "
+            >
+                {{
+                    'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
+                        | translate
+                            : {
+                                  min: _defaultFormValues.disk.range[0],
+                                  max: _defaultFormValues.disk.range[1],
+                              }
+                }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>

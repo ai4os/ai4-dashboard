@@ -9,24 +9,24 @@
     <app-deployments-table
         cardName="Modules"
         cardIcon="model_training"
-        [showCardActions]="true"
         [isLoading]="isModulesTableLoading"
         [dataset]="modulesDataset"
         [dataSource]="modulesDataSource"
         [datacentersNotifications]="displayedNotifications"
-        (showElementInfo)="openDeploymentDetailDialog($event, false)"
+        (showElementInfo)="openDeploymentDetailDialog($event, 'module')"
         (deleteElement)="removeModule($event)"
     ></app-deployments-table>
 
     <app-deployments-table
         cardName="Tools"
         cardIcon="handyman"
+        [showCardActions]="true"
         [isLoading]="isToolsTableLoading"
         deploymentType="tool"
         [dataset]="toolsDataset"
         [dataSource]="toolsDataSource"
         [datacentersNotifications]="displayedNotifications"
-        (showElementInfo)="openDeploymentDetailDialog($event, true)"
+        (showElementInfo)="openDeploymentDetailDialog($event, 'tool')"
         (deleteElement)="removeTool($event)"
     ></app-deployments-table>
 

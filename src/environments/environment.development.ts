@@ -8,5 +8,5 @@ export const environment = {
         base: 'https://api.dev.ai4eosc.eu/v1',
         endpoints,
     },
-    llmApiKey: '',
+    huggingFaceClientSecret: '',
 };

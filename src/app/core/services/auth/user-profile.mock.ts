@@ -3,7 +3,7 @@ import { UserProfile } from './auth.service';
 export const mockedUserProfile: UserProfile = {
     name: 'AI4EOSC Dashboard Test',
     email: 'test@ifca.unican.es',
-    group_membership: [
+    roles: [
         '/Demo Access',
         '/EGI',
         '/IFCA',
@@ -14,4 +14,5 @@ export const mockedUserProfile: UserProfile = {
     ],
     isAuthorized: true,
     isDeveloper: true,
+    sub: '123456789-1234-1234-1234-123456789012',
 };

@@ -7,50 +7,73 @@ const routes: Routes = [
     {
         path: '',
         component: ContentLayoutComponent,
-        //canActivate: [NoAuthGuard], // Should be replaced with actual auth guard
         children: [
             {
                 path: '',
-                redirectTo: 'marketplace',
+                redirectTo: '/catalog/modules',
                 pathMatch: 'full',
             },
             {
-                path: 'dashboard',
-                loadChildren: () =>
-                    import('@modules/dashboard/dashboard.module').then(
-                        (m) => m.DashboardModule
-                    ),
-            },
-            {
                 path: 'marketplace',
+                redirectTo: '/catalog/modules',
+                pathMatch: 'full',
+            },
+            {
+                path: 'statistics',
                 loadChildren: () =>
-                    import('@modules/marketplace/marketplace.module').then(
-                        (m) => m.MarketplaceModule
+                    import('@app/modules/statistics/statistics.module').then(
+                        (m) => m.StatisticsModule
                     ),
             },
             {
-                path: 'deployments',
-                canActivate: [AuthenticationGuard],
+                path: 'catalog',
+                data: { breadcrumb: { skip: true } },
                 loadChildren: () =>
-                    import('@modules/deployments/deployments.module').then(
-                        (m) => m.DeploymentsModule
+                    import('@app/modules/catalog/catalog.module').then(
+                        (m) => m.CatalogModule
                     ),
             },
             {
-                path: 'inference',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () =>
-                    import('@app/modules/inference/inference.module').then(
-                        (m) => m.InferenceModule
-                    ),
+                path: 'tasks',
+                redirectTo: '/tasks/deployments',
+                pathMatch: 'full',
             },
             {
-                path: 'try-me',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () =>
-                    import('@app/modules/try-me/try-me.module').then(
-                        (m) => m.TryMeModule
-                    ),
+                path: 'tasks',
+                children: [
+                    {
+                        path: 'deployments',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import(
+                                '@modules/deployments/deployments.module'
+                            ).then((m) => m.DeploymentsModule),
+                    },
+                    {
+                        path: 'inference',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import(
+                                '@app/modules/inference/inference.module'
+                            ).then((m) => m.InferenceModule),
+                    },
+                    {
+                        path: 'try-me',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import('@app/modules/try-me/try-me.module').then(
+                                (m) => m.TryMeModule
+                            ),
+                    },
+                    {
+                        path: 'batch',
+                        canActivate: [AuthenticationGuard],
+                        loadChildren: () =>
+                            import('@app/modules/batch/batch.module').then(
+                                (m) => m.BatchModule
+                            ),
+                    },
+                ],
             },
             {
                 path: 'forbidden',

@@ -1,7 +1,8 @@
 export const endpoints = {
     modulesSummary: '/catalog/modules/detail',
     module: '/catalog/modules/:name/metadata',
-    moduleConfiguration: '/catalog/modules/:name/config',
+    moduleNomadConfiguration: '/catalog/modules/:name/config',
+    moduleOscarConfiguration: '/inference/oscar/conf',
     trainModule: '/deployments/modules',
     trainTool: '/deployments/tools',
     deploymentByUUID: '/deployments/modules/:deploymentUUID',
@@ -21,6 +22,8 @@ export const endpoints = {
     nomadTryMeDeployment: '/try_me/nomad/:deployment_uuid',
     deploymentSnapshots: '/snapshots',
     snapshots: '/storage/:storage_name',
+    batchDeployments: '/batch',
+    batchDeploymentsByUUID: '/batch/:deploymentUUID',
     //OSCAR endpoints
     services: '/services',
     serviceByName: '/services/:name',
@@ -29,5 +32,5 @@ export const endpoints = {
     ai4lifeModulesSummary:
         'https://raw.githubusercontent.com/ai4os/ai4os-ai4life-loader/main/models/filtered_models.json',
     // LLM chatbot
-    chatCompletions: '/chat/completions',
+    chatCompletions: '/proxies/ai4_llm/chat',
 };

@@ -61,7 +61,7 @@
     height: calc(100vh - 100px);
 
     mat-card-content {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 170px);
     }
 }
 
@@ -73,7 +73,7 @@
     font-size: small;
 }
 
-.resize-button {
+.actions-button {
     transform: scale(0.8);
     background: white;
     color: var(--accent);
@@ -103,18 +103,19 @@
         rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     padding: 0px 15px;
     border-radius: 15px;
+    max-width: 85%;
 }
 
 .user-message {
     @extend .message-base;
     margin-left: auto;
-    border: solid var(--primary) 2px;
+    background: var(--accent);
+    color: white;
 }
 
 .bot-message {
     @extend .message-base;
     margin-right: auto;
-    border: solid var(--accent) 2px;
 }
 
 .user-input {
@@ -137,14 +138,14 @@
     background-color: var(--accent);
     color: white;
     border: solid var(--accent);
-    float: left;
+    float: right;
 }
 
 .chat-opened {
     background-color: var(--white);
     color: var(--accent);
     border: solid;
-    float: left;
+    float: right;
 }
 
 .typing-loader {

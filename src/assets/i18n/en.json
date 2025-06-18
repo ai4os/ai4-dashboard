@@ -2,22 +2,25 @@
     "HEADQUARTER": "test",
     "SIDENAV": {
         "DASHBOARD": "Dashboard",
-        "MODULES": "Marketplaces",
+        "STATS": "Statistics",
+        "CATALOG": "Catalog",
+        "MODULES": "Modules",
+        "TOOLS": "Tools",
+        "LLMS": "LLMs",
+        "TASKS": "Tasks",
         "DEPLOYMENTS": "Deployments",
         "INFERENCE": "Inference",
         "TRY-ME": "Try me",
-        "IAM": "Identity and Access",
+        "BATCH": "Batch training",
+        "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
-        "AI4EOSC-DOCUMENTATION": "AI4OS documentation",
-        "IMAGINE-DOCUMENTATION": "iMagine documentation",
+        "DOCUMENTATION": "Docs",
         "STORAGE": "Storage",
-        "STATUS": "Status of services",
+        "STATUS": "Status",
         "PROJECT-PAGE": "Homepage",
-        "OTHER-LINKS": "Useful links",
         "TERMS-OF-USE": "Terms of use",
         "PRIVACY-POLICY": "Privacy policy",
-        "ACKNOWLEDGMENTS": "The iMagine platform dashboard is a service provided by CSIC, co-funded by",
         "POWERED-BY": "Powered by",
         "AI4OS": "AI4OS"
     },
@@ -43,7 +46,8 @@
             "AI4OS": "AI4OS Nextcloud",
             "CUSTOM": "Custom Nextcloud",
             "INVALID-DOMAIN": "Invalid domain format"
-        }
+        },
+        "SERVICES": "Other services"
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -95,7 +99,7 @@
         "TITLE": "Deployments",
         "TOOLS": "Tools",
         "DEPLOYMENT-DETAIL": {
-            "TITLE": "Deployment detail",
+            "MODULE-TITLE": "Deployment detail",
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
@@ -119,6 +123,10 @@
                 "DETAILS": "VLLM details",
                 "URL": "URL",
                 "TOKEN": "Token"
+            },
+            "BATCH": {
+                "DETAILS": "Batch details",
+                "COMMAND": "Commands"
             }
         },
         "DEPLOYMENT-SECRETS": {
@@ -143,7 +151,7 @@
         "CREATION-TIME": "Creation time (UTC)",
         "ACTIONS": "Actions",
         "NAMESPACE": "Namespace",
-        "NEW-DEPLOYMENT": "New deployment",
+        "NEW-DEV-ENV": "New DevEnv",
         "NO-DEPLOYMENTS": "Nothing deployed yet",
         "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
         "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
@@ -173,6 +181,12 @@
             "MINIO-SECRET": "MINIO secret key"
         }
     },
+    "BATCH": {
+        "TITLE-HEADER": "Batch training",
+        "DETAIL": {
+            "TITLE": "Batch deployment detail"
+        }
+    },
     "TRY-ME": {
         "TITLE-HEADER": "Try me deployments",
         "GRADIO": "Gradio",
@@ -200,13 +214,16 @@
             }
         }
     },
-    "MODULES": {
-        "TITLE": "Marketplaces",
+    "CATALOG": {
+        "MODULES-TITLE": "Modules",
+        "TOOLS-TITLE": "Tools",
+        "LLMS-TITLE": "LLMs",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
         "TOOL": "AI4 Tool",
         "AI4LIFE": "AI4Life Module",
+        "LLM": "LLM Module",
         "FILTERS": {
             "ADITIONAL-FILTERS": "Additional filters",
             "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
@@ -236,6 +253,9 @@
             "ABOUT": "About",
             "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
+            "CONTEXT": "Tokens",
+            "LINK": "Link to model",
+            "UNAUTHORIZED": "You must login and be a member of project to use this",
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
@@ -251,6 +271,9 @@
                 "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
                 "INFERENCE-API": "REST API",
                 "OSCAR-SWAGGER": "// TODO"
+            },
+            "BATCH": {
+                "TITLE": "Batch"
             },
             "DEPLOY": {
                 "TITLE": "Deploy",
@@ -277,6 +300,7 @@
             "DATA-CONF": "Data configuration",
             "FEDERATED-CONF": "Federated configuration",
             "LLM-CONF": "LLM configuration",
+            "NVFLARE-CONF": "NVFlare configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
                 "TITLE": "Deployment options",
@@ -304,7 +328,12 @@
                 "DEPLOYMENT-TYPE": "Deployment type",
                 "TYPE": "Type",
                 "MODEL-OPTIONS": "Model options",
-                "MODEL-ID": "Model ID"
+                "MODEL-ID": "Model ID",
+                "BATCH-OPTIONS": "Batch options",
+                "BATCH-EXPLANATION": "Running a deployment in batch mode means that your job will execute as a one-time process. Here, you can define the specific commands that the process should run. Commands can be provided via a script file or by typing the commands directly in the editor. This type of deployment is temporary and will be cleaned on completion, so please include commands to save any outputs in the storage folder.",
+                "UPLOAD-FILE": "Upload file",
+                "BATCH-COMMANDS": "Write bash commands",
+                "BATCH-HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."
             },
             "HARDWARE-CONF-FORM": {
                 "TITLE": "Hardware options",
@@ -337,6 +366,7 @@
                 "RCLONE-USER": "RCLONE user",
                 "RCLONE-PASS": "RCLONE password",
                 "RCLONE-REQUIRED": "You must specify a RCLONE account",
+                "RCLONE-ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
                 "ADVANCED-SETTINGS": "Advanced settings",
                 "ZENODO-TITLE": "Zenodo",
                 "ZENODO-COMMUNITY": "Zenodo community",
@@ -385,15 +415,29 @@
                 "TITLE": "LLM options",
                 "VLLM-MODEL": "VLLM model",
                 "UI-USERNAME": "UI Username",
+                "UI-USERNAME-REQUIRED": "Please add a username for the UI",
+                "UI-USERNAME-INVALID": "Invalid email format",
                 "UI-PASSWORD": "UI Password",
                 "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
                 "HUGGING-FACE-TOKEN": "Hugging Face token",
                 "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "HUGGING-FACE-TOKEN-TERMS": "You have to accept the terms to be able to use the model",
                 "API-KEY": "OpenAI API Key",
                 "API-KEY-REQUIRED": "Please add the OpenAI API Key",
                 "API-URL": "OpenAI API base URL",
                 "API-URL-REQUIRED": "Please add the OpenAI API base URL",
                 "API-URL-FORMAT": "Invalid URL format"
+            },
+            "NVFLARE-CONF-FORM": {
+                "TITLE": "NVFlare options",
+                "USERNAME": "Username",
+                "PASSWORD": "Password",
+                "PASSWORD-REQUIRED": "Please add a password",
+                "APP-LOCATION": "Docker image",
+                "PUBLIC-PROJECT": "Make project public",
+                "STARTING-DATE": "Starting date",
+                "END-DATE": "End date",
+                "DATES": "Select start and end date"
             }
         },
         "MODULE-TRY": {
@@ -434,16 +478,7 @@
                 "SERVICE-DESCRIPTION": "Service description",
                 "SERVICE-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active services",
                 "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG": "Docker tag",
-                "ENVIRONMENT-VARIABLES": "Environment variables",
-                "ENVIRONMENT-KEY": "variable name",
-                "ENVIRONMENT-VALUE": "variable value",
-                "LABELS": "Labels",
-                "LABEL-KEY": "label name",
-                "LABEL-VALUE": "label value",
-                "SERVICE-SCRIPT": "Service script",
-                "SERVICE-SCRIPT-LABEL": "Choose file",
-                "SERVICE-SCRIPT-REQUIRED": "Please add a script file to the service"
+                "DOCKER-TAG": "Docker tag"
             },
             "COMPUTE-CONF-FORM": {
                 "TITLE": "Compute options",
@@ -467,7 +502,10 @@
     "CHATBOT": {
         "TITLE": "AI4EOSC Assistant",
         "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
-        "QUESTION-PLACEHOLDER": "Type here your question"
+        "QUESTION-PLACEHOLDER": "Type here your question",
+        "RESET": "Reset chat",
+        "OPEN_FS": "Open fullscreen",
+        "CLOSE_FS": "Minimize"
     },
     "GENERAL-BUTTONS": {
         "DELETE": "Delete",
@@ -486,6 +524,11 @@
         "REPORT-ISSUE": "Report issue",
         "OPEN-DOCUMENTATION": "Open documentation",
         "BIOIMAGE": "BioImage.IO"
+    },
+    "FILE-UPLOAD": {
+        "SELECT": "Select file",
+        "ALLOWED-FILE-TYPE": "Supported formats: .sh, .bash, .command, .run",
+        "GENERATE-FILE": "Generate file"
     },
     "ERRORS": {
         "API-ERROR": "Error calling the API, please retry later",

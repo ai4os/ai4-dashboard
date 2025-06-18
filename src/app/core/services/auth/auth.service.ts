@@ -1,14 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
-import {
-    BehaviorSubject,
-    Observable,
-    Subject,
-    combineLatest,
-    filter,
-    map,
-} from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { authCodeFlowConfig } from './auth.config';
 import { AppConfigService } from '../app-config/app-config.service';
 import { jwtDecode } from 'jwt-decode';
@@ -83,17 +76,27 @@ export class AuthService {
         this.isDoneLoading$,
     ]).pipe(map((values) => values.every((b) => b)));
 
-    userProfileSubject = new Subject<UserProfile>();
+    userProfileSubject = new BehaviorSubject<UserProfile>({
+        name: '',
+        email: '',
+        roles: [],
+        isAuthorized: false,
+        isDeveloper: false,
+        sub: '',
+    });
 
     get router() {
         return this.injector.get(Router);
     }
 
-    public async runInitialLoginSequence(state?: string): Promise<void> {
+    private async prepareOAuthService(): Promise<void> {
+        // Load configuration
         await this.appConfigService.loadAppConfig(this.oauthConfig);
 
-        // Some OICD providers only have issuer and clientId (EGI CheckIn)
+        // Configure issuer and clientId
         if (
+            this.appConfigService.issuer &&
+            this.appConfigService.clientId &&
             this.appConfigService.issuer !== '' &&
             this.appConfigService.clientId !== ''
         ) {
@@ -101,15 +104,36 @@ export class AuthService {
             authCodeFlowConfig.clientId = this.appConfigService.clientId;
         }
 
-        // Others also need a dummyClientSecret (Keycloak)
-        if (this.appConfigService.dummyClientSecret !== '') {
+        // Some OICD providers require dummyClientSecret
+        if (
+            this.appConfigService.dummyClientSecret &&
+            this.appConfigService.dummyClientSecret !== ''
+        ) {
             authCodeFlowConfig.dummyClientSecret =
                 this.appConfigService.dummyClientSecret;
         }
 
-        // Configure OAuthService with the updated config
+        // Apply configuration
         this.oauthService.configure(authCodeFlowConfig);
         this.oauthService.setupAutomaticSilentRefresh();
+        await this.oauthService.loadDiscoveryDocument();
+    }
+
+    public async checkLoginSequence(): Promise<void> {
+        const isHuggingFaceRedirect =
+            window.location.pathname === '/profile/huggingface-callback';
+
+        if (isHuggingFaceRedirect) {
+            await this.prepareOAuthService();
+            this.isDoneLoadingSubject$.next(true);
+            return Promise.resolve();
+        }
+
+        return this.runInitialLoginSequence();
+    }
+
+    public async runInitialLoginSequence(state?: string): Promise<void> {
+        await this.prepareOAuthService();
 
         // 0. LOAD CONFIG:
         return (
@@ -117,7 +141,6 @@ export class AuthService {
                 .loadDiscoveryDocument()
                 // 1. HASH LOGIN:
                 .then(() => this.oauthService.tryLogin())
-
                 .then(() => {
                     if (this.oauthService.hasValidAccessToken()) {
                         this.loadUserProfile();
@@ -230,7 +253,7 @@ export class AuthService {
         if (this.oauthService.hasValidIdToken()) {
             this.oauthService.logOut(true);
         }
-        this.router.navigateByUrl('/marketplace');
+        this.router.navigateByUrl('/catalog/modules');
 
         // save 'on boarding library' related variables
         const tours: { [key: string]: string | null } = {};

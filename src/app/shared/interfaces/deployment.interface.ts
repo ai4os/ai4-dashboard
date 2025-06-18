@@ -21,6 +21,9 @@ export interface Deployment {
     alloc_ID?: string;
     error_msg?: string;
     tool_name?: string;
+    templates?: {
+        'local/batch.sh': string;
+    };
 }
 
 export interface StatusReturn {

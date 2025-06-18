@@ -28,9 +28,9 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
-            - name: Inject LLM API Key
+            - name: Replace Hugging Face client secret
               run: |
-                  sed -i "s/llmApiKey: ''/llmApiKey: '${{ secrets.LLM_API_KEY }}'/" src/environments/environment.development.ts
+                sed -i "s/huggingFaceClientSecret: ''/huggingFaceClientSecret: '${{ secrets.HF_CLIENT_SECRET }}'/" src/environments/environment.development.ts
 
             - name: Inject Keycloak Client Secret
               run: |

@@ -66,7 +66,7 @@ export interface FilterGroup {
 
 export interface confObject {
     name: string;
-    value: string | number | boolean;
+    value: string | number | boolean | Date;
     description: string;
     options?: string[];
 }
@@ -94,9 +94,13 @@ export interface ModuleGeneralConfiguration {
     docker_tag: confObject;
     service: confObject;
     jupyter_password?: confObject;
+    // CVAT
     cvat_username?: confObject;
     cvat_password?: confObject;
+    // AI4LIFE
     model_id?: confObject;
+    // LLM
+    llm?: LlmConfiguration;
 }
 
 export interface ModuleHardwareConfiguration {
@@ -105,6 +109,7 @@ export interface ModuleHardwareConfiguration {
     disk: confObjectRange;
     gpu_num: confObjectRange;
     gpu_type?: confObject;
+    warning?: string;
 }
 
 export interface ModuleStorageConfiguration {
@@ -125,11 +130,21 @@ export interface FederatedServerConfiguration {
 
 export interface LlmConfiguration {
     type: confObject;
-    model_id: confObjectRange;
+    vllm_model_id: confObjectRange;
+    ui_username: confObject;
     ui_password: confObject;
     HF_token: confObject;
     openai_api_key: confObject;
     openai_api_url: confObject;
+}
+
+export interface NvflareConfiguration {
+    username: confObject;
+    password: confObject;
+    app_location: confObject;
+    public_project: confObjectRange;
+    starting_date: confObject;
+    end_date: confObject;
 }
 
 export interface ModuleConfiguration {
@@ -141,7 +156,7 @@ export interface ModuleConfiguration {
 export interface FederatedServerToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
-    configuration: FederatedServerConfiguration;
+    flower: FederatedServerConfiguration;
 }
 
 export interface CvatToolConfiguration {
@@ -159,6 +174,12 @@ export interface Ai4LifeLoaderToolConfiguration {
     hardware: ModuleHardwareConfiguration;
 }
 
+export interface NvflareToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+    nvflare: NvflareConfiguration;
+}
+
 export interface TrainModuleRequest {
     general: {
         title: string;
@@ -166,17 +187,19 @@ export interface TrainModuleRequest {
         co2?: boolean;
         docker_image: string;
         docker_tag: string;
-        service: string;
+        service?: string;
         jupyter_password?: string;
+        // cvat
         cvat_username?: string;
         cvat_password?: string;
+        // ai4life
         model_id?: string;
     };
     hardware?: {
         cpu_num: number;
         ram: number;
-        disk: number;
-        gpu_num: number;
+        disk?: number;
+        gpu_num?: number;
         gpu_type?: string;
     };
     storage?: {
@@ -188,7 +211,7 @@ export interface TrainModuleRequest {
         cvat_backup?: string;
         datasets?: Dataset[];
     };
-    configuration?: {
+    flower?: {
         rounds: number;
         metric: string[];
         min_fit_clients: number;
@@ -205,11 +228,20 @@ export interface TrainModuleRequest {
     };
     llm?: {
         type: string;
-        model_id: string;
+        vllm_model_id: string;
+        ui_username: string;
         ui_password: string;
         HF_token: string;
         openai_api_key: string;
         openai_api_url: string;
+    };
+    nvflare?: {
+        username: string;
+        password: string;
+        app_location: string;
+        public_project: boolean;
+        starting_date: string;
+        end_date: string;
     };
 }
 
@@ -219,12 +251,18 @@ export interface Dataset {
 }
 
 export interface Secret {
-    token: string;
+    token?: string;
+    username?: string;
+    password?: string;
 }
 
 export interface VllmModelConfig {
     name: string;
-    needs_HF_token?: boolean;
+    description: string;
+    family: string;
+    license: string;
+    context: string;
+    needs_HF_token: boolean;
     args: string[];
 }
 

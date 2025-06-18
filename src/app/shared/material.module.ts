@@ -25,7 +25,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const materialModules = [
     MatButtonModule,
@@ -53,6 +55,9 @@ const materialModules = [
     MatExpansionModule,
     MatAutocompleteModule,
     MatPaginatorModule,
+    MatCalendar,
+    MatDatepickerModule,
+    MatNativeDateModule,
     CdkAccordionModule,
 ];
 

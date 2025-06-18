@@ -7,15 +7,11 @@ import {
 } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { environment } from '@environments/environment';
-import { Secret } from '@app/shared/interfaces/module.interface';
 import { of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedSecrets } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 
-const secretsList: Array<Secret> = [{ token: '1234' }];
-
-const mockedConfigService: any = {
-    voName: 'vo.ai4eosc.eu',
-};
 const { base } = environment.api;
 
 describe('SecretsService', () => {
@@ -32,12 +28,6 @@ describe('SecretsService', () => {
         });
         service = TestBed.inject(SecretsService);
         httpMock = TestBed.inject(HttpTestingController);
-
-        jest.mock('./secrets.service', () => ({
-            getSecrets: jest.fn().mockReturnValue(of(secretsList)),
-            createSecret: jest.fn().mockReturnValue(of({ status: 'success' })),
-            deleteSecret: jest.fn().mockReturnValue(of({ status: 'success' })),
-        }));
     });
 
     it('should be created', () => {
@@ -49,7 +39,7 @@ describe('SecretsService', () => {
 
         service.getSecrets('/deployments/test').subscribe((list) => {
             try {
-                expect(list).toBe(secretsList);
+                expect(list).toBe(mockedSecrets);
                 done();
             } catch (error) {
                 done(error);
@@ -57,7 +47,7 @@ describe('SecretsService', () => {
         });
 
         const req = httpMock.expectOne(url);
-        req.flush(secretsList);
+        req.flush(mockedSecrets);
         httpMock.verify();
         expect(req.request.method).toBe('GET');
     });

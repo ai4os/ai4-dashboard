@@ -8,12 +8,18 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from 'src/environments/environment';
 import { gitInfo } from 'src/environments/version';
+
+export interface ProjectLink {
+    name: string;
+    url: string;
+    isRestricted?: boolean;
+    isDisabled?: boolean;
+}
 
 @Component({
     selector: 'app-sidenav',
@@ -21,8 +27,6 @@ import { gitInfo } from 'src/environments/version';
     styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
-    @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
-
     constructor(
         private _formBuilder: FormBuilder,
         protected authService: AuthService,
@@ -36,10 +40,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
+    @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
+
+    public isAuthorized = false;
     protected environment = environment;
     protected gitInfo = gitInfo;
     protected userProfile?: UserProfile;
-    public isAuthorized = false;
 
     options = this._formBuilder.group({
         bottom: 0,
@@ -50,78 +56,107 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
-    mainLinks = [
-        {
-            name: 'SIDENAV.DASHBOARD',
-            url: '/dashboard',
-            isRestricted: true,
-            isDisabled: !this.isAuthorized,
-        },
+    dashboardLink: ProjectLink = {
+        name: 'SIDENAV.STATS',
+        url: '/statistics',
+        isRestricted: true,
+        isDisabled: !this.isAuthorized,
+    };
+
+    catalogLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.MODULES',
-            url: '/marketplace',
+            url: '/catalog/modules',
         },
         {
+            name: 'SIDENAV.TOOLS',
+            url: '/catalog/tools',
+        },
+        {
+            name: 'SIDENAV.LLMS',
+            url: '/catalog/llms',
+        },
+    ];
+
+    runtimeLinks: ProjectLink[] = [
+        {
             name: 'SIDENAV.TRY-ME',
-            url: '/try-me',
+            url: '/tasks/try-me',
             isRestricted: true,
             isDisabled: !this.isLoggedIn(),
         },
         {
             name: 'SIDENAV.DEPLOYMENTS',
-            url: '/deployments',
+            url: '/tasks/deployments',
+            isRestricted: true,
+            isDisabled: !this.isAuthorized,
+        },
+        {
+            name: 'SIDENAV.BATCH',
+            url: '/tasks/batch',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
         },
         {
             name: 'SIDENAV.INFERENCE',
-            url: '/inference',
+            url: '/tasks/inference',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
         },
     ];
 
-    otherLinks = [
-        {
-            name: 'SIDENAV.IAM',
-            url: 'https://aai.egi.eu/',
-        },
-    ];
+    otherLinks: ProjectLink[] = [];
 
     acknowledgments = '';
     projectName = '';
     projectUrl = '';
     voName = '';
-    legalLinks = [
-        {
-            name: '',
-            url: '',
-        },
-    ];
     isDeployedInNomad = '';
 
-    isLoggedIn(): boolean {
-        return this.authService.isAuthenticated();
-    }
-
     ngOnInit(): void {
-        this.authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
-            this.isAuthorized = profile.isAuthorized;
-            this.updateMainLinks();
-        });
-
+        // save config and check vo
         this.otherLinks = this.appConfigService.sidenavMenu;
         this.acknowledgments = this.appConfigService.acknowledgments;
         this.projectName = this.appConfigService.projectName;
         this.projectUrl = this.appConfigService.projectUrl;
         this.voName = this.appConfigService.voName;
-        this.legalLinks = this.appConfigService.legalLinks;
         this.isDeployedInNomad = this.appConfigService.deployedInNomad;
+
+        // remove LLM menu
+        if (this.voName === 'vo.imagine-ai.eu') {
+            this.catalogLinks = this.catalogLinks.filter(
+                (link) => link.name !== 'SIDENAV.LLMS'
+            );
+        }
+
+        // get the current profile if it already exists
+        const currentProfile = this.authService.userProfileSubject.getValue();
+        if (currentProfile) {
+            this.userProfile = currentProfile;
+            this.isAuthorized = currentProfile.isAuthorized;
+            this.updateMainLinks();
+        }
+
+        // subscribe to receive future updates
+        this.authService.userProfileSubject.subscribe((profile) => {
+            this.userProfile = profile;
+            this.isAuthorized = profile.isAuthorized;
+            this.updateMainLinks();
+        });
+    }
+
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
     }
 
     updateMainLinks() {
-        this.mainLinks.map((link) => {
+        this.catalogLinks.map((link) => {
+            if (link.isRestricted) {
+                link.isDisabled = !this.isAuthorized;
+            }
+        });
+
+        this.runtimeLinks.map((link) => {
             if (link.isRestricted) {
                 if (link.name === 'SIDENAV.TRY-ME') {
                     link.isDisabled = !this.isLoggedIn();
@@ -130,6 +165,10 @@ export class SidenavComponent implements OnInit, AfterViewInit {
                 }
             }
         });
+
+        if (this.dashboardLink.isRestricted) {
+            this.dashboardLink.isDisabled = !this.isAuthorized;
+        }
     }
 
     ngAfterViewInit(): void {
@@ -142,15 +181,15 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
     checkScroll(event: Event) {
         const target = event.target as HTMLElement;
-        const href = window.location.href;
-        const marketplaceRegex = /\/marketplace$/;
-        const marketplaceElementRegex = /\/marketplace\//;
+        const href = window.location.pathname;
+        const catalogRegex = /^\/catalog\/modules$/; // e.g. /catalog/modules
+        const catalogElementRegex = /^\/catalog\/modules(?:\/ai4life)?\/[^/]+$/; // e.g. /catalog/modules/<element> or /catalog/modules/ai4life/<element>
 
-        // if the user has scrolled and the page is the main marketplace (/marketplace)
-        if (target.scrollTop !== 0 && marketplaceRegex.test(href)) {
+        // if the user has scrolled and the page is the modules catalog (/catalog/modules)
+        if (target.scrollTop !== 0 && catalogRegex.test(href)) {
             sessionStorage.setItem('scrollTop', target.scrollTop.toString());
-            // if the page is a module detail (/marketplace/*)
-        } else if (!marketplaceElementRegex.test(href)) {
+            // if the page is a module detail (/catalog/modules/<element>)
+        } else if (!catalogElementRegex.test(href)) {
             sessionStorage.setItem('scrollTop', '0');
         }
     }

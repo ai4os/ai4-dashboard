@@ -1,0 +1,20 @@
+<app-stepper-form
+    [title]="title"
+    [numberOfSteps]="1"
+    [step1]="step1"
+    [step1Form]="generalConfForm"
+    [step1Title]="step1Title"
+    [isLoading]="showLoader"
+    (showHelpButtonEvent)="showHelpButtonChange($event)"
+>
+    <ng-template #step1>
+        <form [formGroup]="generalConfForm">
+            <app-general-conf-form
+                class="child-form-container"
+                [defaultFormValues]="generalConfDefaultValues"
+                [showHelp]="showHelp"
+                [showFields]="showGeneralFields"
+            ></app-general-conf-form>
+        </form>
+    </ng-template>
+</app-stepper-form>

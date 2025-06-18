@@ -1,0 +1,96 @@
+<div class="content">
+    <ng-container *ngIf="mobileQuery.matches; else desktop">
+        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+            <span
+                >{{ 'CATALOG.LLMS-TITLE' | translate }}
+                <mat-icon>network_intel_node</mat-icon></span
+            >
+        </mat-toolbar>
+    </ng-container>
+
+    <ng-template #desktop>
+        <mat-toolbar class="marketplace-toolbar">
+            <span class="aligned-with-icon">
+                {{ 'CATALOG.LLMS-TITLE' | translate }}
+                <mat-icon>network_intel_node</mat-icon>
+            </span>
+        </mat-toolbar>
+    </ng-template>
+
+    @if (llmsLoading) {
+        <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>
+    } @else {
+        <div class="content">
+            <ng-container *ngIf="mobileQuery.matches; else desktop">
+                <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+                    <form
+                        [formGroup]="searchFormGroup"
+                        class="search-form-mobile"
+                    >
+                        <mat-form-field
+                            class="search-field-mobile filter-selector"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-icon matPrefix>search</mat-icon>
+                            <mat-label>Search LLMs</mat-label>
+                            <input
+                                matInput
+                                type="search"
+                                formControlName="search"
+                                placeholder="Enter text to search"
+                            />
+                        </mat-form-field>
+                    </form>
+                </mat-toolbar>
+            </ng-container>
+
+            <ng-template #desktop>
+                <mat-toolbar class="marketplace-toolbar">
+                    <div class="search-and-results-container">
+                        <form [formGroup]="searchFormGroup">
+                            <mat-form-field
+                                class="filter-selector"
+                                subscriptSizing="dynamic"
+                            >
+                                <mat-icon matPrefix>search</mat-icon>
+                                <mat-label>Search</mat-label>
+                                <input
+                                    matInput
+                                    type="search"
+                                    formControlName="search"
+                                    placeholder="Enter text to search"
+                                    (input)="updateResultsFound()"
+                                />
+                            </mat-form-field>
+                        </form>
+
+                        <span>
+                            <p class="results-text">
+                                {{ resultsFound }}
+                                {{ 'CATALOG.NUM-RESULTS' | translate }}
+                            </p>
+                        </span>
+                    </div>
+                </mat-toolbar>
+            </ng-template>
+
+            <div class="modules-cards-container">
+                <span
+                    fxFlex
+                    *ngFor="
+                        let llm of llms
+                            | searchLlms
+                                : this.searchFormGroup.get('search')
+                                      ?.value as modules
+                    "
+                    class="m-2"
+                >
+                    <app-llm-card [llm]="llm"></app-llm-card>
+                </span>
+            </div>
+        </div>
+    }
+</div>

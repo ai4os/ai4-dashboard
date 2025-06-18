@@ -3,13 +3,22 @@ import { TestBed } from '@angular/core/testing';
 import { ChatBotService } from './chat-bot.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('ChatBotService', () => {
     let service: ChatBotService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [provideHttpClient(), provideHttpClientTesting()],
+            providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
+                { provide: OAuthService, useValue: mockedAuthService },
+                { provide: AppConfigService, useValue: mockedConfigService },
+            ],
         });
         service = TestBed.inject(ChatBotService);
     });

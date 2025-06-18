@@ -1,5 +1,68 @@
 # Changelog
 
+## [3.6.0](https://github.com/ai4os/ai4-dashboard/compare/v3.5.0...v3.6.0) (2025-05-26)
+
+
+### Features
+
+* allow running jobs in batch mode ([#403](https://github.com/ai4os/ai4-dashboard/issues/403)) ([ed5379d](https://github.com/ai4os/ai4-dashboard/commit/ed5379d52a4de95f41cfd436ba8aa47729428871))
+
+
+### Bug Fixes
+
+* delete tools filter in imagine dashboard ([#406](https://github.com/ai4os/ai4-dashboard/issues/406)) ([6b10b39](https://github.com/ai4os/ai4-dashboard/commit/6b10b3976bc60d9411ff05a8e99ea8b5c4927fd1))
+* refactor code ([#399](https://github.com/ai4os/ai4-dashboard/issues/399)) ([4c6b366](https://github.com/ai4os/ai4-dashboard/commit/4c6b3661df4e08e9033538d4290f9871d89ec9cb))
+
+## [3.5.0](https://github.com/ai4os/ai4-dashboard/compare/v3.4.2...v3.5.0) (2025-04-29)
+
+
+### Features
+
+* adapt to papi changes for min requirements ([#395](https://github.com/ai4os/ai4-dashboard/issues/395)) ([a119003](https://github.com/ai4os/ai4-dashboard/commit/a1190038fb1b29dafca6a3762950e4c88bb59d86))
+* show linked services in profile ([#393](https://github.com/ai4os/ai4-dashboard/issues/393)) ([40fe64c](https://github.com/ai4os/ai4-dashboard/commit/40fe64c59e21407132e7e79d97ce7dc902124e2c))
+
+## [3.4.1](https://github.com/ai4os/ai4-dashboard/compare/v3.4.0...v3.4.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* update navigation path ([#391](https://github.com/ai4os/ai4-dashboard/issues/391)) ([dcd9a48](https://github.com/ai4os/ai4-dashboard/commit/dcd9a480541f8078c52770bbfc58dc0c6af0b4e1))
+
+## [3.4.0](https://github.com/ai4os/ai4-dashboard/compare/v3.3.0...v3.4.0) (2025-04-09)
+
+
+### Features
+
+* integrate chatbot ([#379](https://github.com/ai4os/ai4-dashboard/issues/379)) ([5579f84](https://github.com/ai4os/ai4-dashboard/commit/5579f8460015f708085aa79826bf212c68c78cee))
+
+
+### Bug Fixes
+
+* change button ([#389](https://github.com/ai4os/ai4-dashboard/issues/389)) ([1f3b851](https://github.com/ai4os/ai4-dashboard/commit/1f3b8519bd8ab58a64dbe673ec7d5aae8bf78335))
+
+## [3.3.0](https://github.com/ai4os/ai4-dashboard/compare/v3.2.1...v3.3.0) (2025-04-07)
+
+
+### Features
+
+* add nvflare tool ([#372](https://github.com/ai4os/ai4-dashboard/issues/372)) ([890f41b](https://github.com/ai4os/ai4-dashboard/commit/890f41b9d5214486ae1256082c08032b2f9afd0b))
+
+## [3.2.0](https://github.com/ai4os/ai4-dashboard/compare/v3.1.0...v3.2.0) (2025-04-03)
+
+
+### Features
+
+* configure ui username in llm tool ([#380](https://github.com/ai4os/ai4-dashboard/issues/380)) ([d714410](https://github.com/ai4os/ai4-dashboard/commit/d7144107bbb1dcc73bbc9ff483abc8bc667d135e))
+* merge configuration steps in llm tool ([#371](https://github.com/ai4os/ai4-dashboard/issues/371)) ([0638f4f](https://github.com/ai4os/ai4-dashboard/commit/0638f4f92109e51583108a4aeb48198b0366b452))
+* remove cookie consent banner ([#378](https://github.com/ai4os/ai4-dashboard/issues/378)) ([b2a39f1](https://github.com/ai4os/ai4-dashboard/commit/b2a39f1755340bf2c886235a96ea0947082b4fb5))
+* reorganize left navigation bar ([#370](https://github.com/ai4os/ai4-dashboard/issues/370)) ([444f021](https://github.com/ai4os/ai4-dashboard/commit/444f0211aec6d2f815c3661c3e2b37562719de44))
+
+
+### Bug Fixes
+
+* add silent errors to http interceptor ([#365](https://github.com/ai4os/ai4-dashboard/issues/365)) ([b8914ba](https://github.com/ai4os/ai4-dashboard/commit/b8914ba28123da901f27ceef90b7b7473360d206))
+* update vllm ([#381](https://github.com/ai4os/ai4-dashboard/issues/381)) ([6d7c58d](https://github.com/ai4os/ai4-dashboard/commit/6d7c58de3841d34f856bf34f9c8fe5572a49da64))
+
 ## [3.1.0](https://github.com/ai4os/ai4-dashboard/compare/v3.0.1...v3.1.0) (2025-03-10)
 
 

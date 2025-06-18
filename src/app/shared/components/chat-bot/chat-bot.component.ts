@@ -2,7 +2,6 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import {
     ChatMessage,
     ChatRequest,
-    ChatResponse,
 } from '@app/shared/interfaces/chat.interface';
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
@@ -23,15 +22,16 @@ export class ChatBotComponent {
 
     @ViewChild('messagesList') private messagesList!: ElementRef;
 
-    protected open = false;
-    protected expanded = false;
-    protected isLoading = false;
-    protected message: string = '';
-    protected chatHistory: ChatRequest = {
+    open = false;
+    expanded = false;
+    isLoading = false;
+    message: string = '';
+    response: string = '';
+    chatHistory: ChatRequest = {
         model: 'ai4eoscassistant',
         messages: [],
     };
-    protected chatMargin = '350px';
+    chatMargin = '350px';
 
     manageChat() {
         this.open = !this.open;
@@ -52,6 +52,7 @@ export class ChatBotComponent {
         this.addMessage(newMessage);
 
         this.message = '';
+        this.response = '';
 
         const request: ChatRequest = {
             model: 'ai4eoscassistant',
@@ -65,18 +66,31 @@ export class ChatBotComponent {
         }
 
         this.chatBotService.requestResponse(request).subscribe({
-            next: (response: ChatResponse) => {
-                const message: ChatMessage = {
-                    role: 'assistant',
-                    content: response.choices[0].message.content,
-                };
+            next: (chunk: string) => {
+                if (this.response === '') {
+                    this.response += chunk;
+                    const message: ChatMessage = {
+                        role: 'assistant',
+                        content: this.response,
+                    };
+                    this.addMessage(message);
+                } else {
+                    this.response += chunk;
+                    this.chatHistory.messages[
+                        this.chatHistory.messages.length - 1
+                    ].content = this.response;
+                    setTimeout(() => this.scrollToBottom(), 0);
+                }
+            },
+            complete: () => {
                 this.isLoading = false;
-                this.addMessage(message);
+                this.response = '';
             },
             error: () => {
+                this.response = '';
                 this.isLoading = false;
                 this.snackbarService.openError(
-                    'Error connecting to the LLM, please try again later'
+                    'Error connecting to the LLM, please try logging in and out'
                 );
             },
         });
@@ -109,5 +123,9 @@ export class ChatBotComponent {
         } else {
             this.chatMargin = '50px';
         }
+    }
+
+    resetChat() {
+        this.chatHistory.messages = [];
     }
 }

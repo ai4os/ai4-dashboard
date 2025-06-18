@@ -5,47 +5,23 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { Deployment } from '@app/shared/interfaces/deployment.interface';
-import { of } from 'rxjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '@app/shared/material.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
-
-const mockedDeployment: Deployment = {
-    job_ID: 'tool-test',
-    status: '',
-    owner: '',
-    title: '',
-    datacenter: 'ai-ifca',
-    docker_image: '',
-    submit_time: '',
-    main_endpoint: '',
-    description: '',
-};
-
-const mockedConfigService: any = {};
-
-const mockedDeploymentServices: any = {
-    getToolByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
-    getDeploymentByUUID: jest.fn().mockReturnValue(of(mockedDeployment)),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import {
+    mockedDeployment,
+    mockedDeploymentService,
+} from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { of, throwError } from 'rxjs';
+import { SecretsService } from '../../services/secrets-service/secrets.service';
+import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 
 describe('DeploymentDetailComponent', () => {
     let component: DeploymentDetailComponent;
@@ -68,9 +44,11 @@ describe('DeploymentDetailComponent', () => {
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 {
                     provide: DeploymentsService,
-                    useValue: mockedDeploymentServices,
+                    useValue: mockedDeploymentService,
                 },
+                { provide: SecretsService, useValue: mockedSecretsService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: SnackbarService, useValue: mockedSnackbarService },
             ],
         }).compileComponents();
 
@@ -84,35 +62,102 @@ describe('DeploymentDetailComponent', () => {
     });
 
     it('should not crash if data is undefined or null', () => {
-        const nullData: unknown = undefined;
-        component.data = nullData as { uuid: 'string'; isTool: boolean };
+        component.data = undefined as any;
         expect(component).toBeTruthy();
     });
 
     it('should load tool deployment info correctly', () => {
-        const mockedData = { uuid: 'tool-test', isTool: true };
+        const mockedData = { uuid: 'tool-test', type: 'tool' };
         component.data = mockedData;
         const spyGetToolByUUID = jest.spyOn(
-            mockedDeploymentServices,
+            mockedDeploymentService,
             'getToolByUUID'
         );
         component.ngOnInit();
         expect(spyGetToolByUUID).toHaveBeenCalledWith(mockedData.uuid);
-        // Deployment has an error
-        mockedDeployment.error_msg = 'I have an error';
-        component.ngOnInit();
-        expect(component['deploymentHasError']).toBe(true);
     });
 
     it('should load module deployment info correctly', () => {
-        const mockedData = { uuid: 'deployment-test', isTool: false };
+        const mockedData = { uuid: 'deployment-test', type: 'module' };
         mockedDeployment.description = '';
         component.data = mockedData;
         const spyGetDeploymentByUUID = jest.spyOn(
-            mockedDeploymentServices,
+            mockedDeploymentService,
             'getDeploymentByUUID'
         );
         component.ngOnInit();
         expect(spyGetDeploymentByUUID).toHaveBeenCalledWith(mockedData.uuid);
+    });
+
+    it('should load tool deployment and call getVllmKey if tool_name is ai4os-llm', () => {
+        const mockedData = { uuid: 'tool-llm', type: 'tool' };
+        const mockDeployment = {
+            ...mockedDeployment,
+            tool_name: 'ai4os-llm',
+            error_msg: '',
+            description: '',
+            datacenter: null,
+            status: 'running',
+        };
+        jest.spyOn(mockedDeploymentService, 'getToolByUUID').mockReturnValue(
+            of(mockDeployment)
+        );
+        const spyGetVllm = jest
+            .spyOn(component, 'getVllmKey')
+            .mockImplementation();
+
+        component.data = mockedData;
+        component.ngOnInit();
+
+        expect(spyGetVllm).toHaveBeenCalled();
+        expect(component.statusBadge).toBeDefined();
+    });
+
+    it('should detect deployment error correctly', () => {
+        const mockDeployment = { ...mockedDeployment, error_msg: 'some error' };
+        jest.spyOn(mockedDeploymentService, 'getToolByUUID').mockReturnValue(
+            of(mockDeployment)
+        );
+
+        component.data = { uuid: 'tool-x', type: 'tool' };
+        component.ngOnInit();
+
+        expect(component['deploymentHasError']).toBe(true);
+    });
+
+    it('should fetch VLLM token and update tokenField', () => {
+        const mockToken = { something: { token: 'secret-token' } };
+        mockedSecretsService.getSecrets.mockReturnValue(of(mockToken));
+
+        component.data = { uuid: 'some-uuid', type: 'tool' };
+        component.getVllmKey();
+
+        expect(component.tokenField.value).toBe('secret-token');
+        expect(component.isLoading).toBe(false);
+    });
+
+    it('should handle error when getVllmKey fails', () => {
+        mockedSecretsService.getSecrets.mockReturnValue(
+            throwError(() => new Error('network error'))
+        );
+
+        component.data = { uuid: 'some-uuid', type: 'tool' };
+        component.getVllmKey();
+
+        expect(mockedSnackbarService.openError).toHaveBeenCalledWith(
+            expect.stringContaining("Couldn't retrieve VLLM Token")
+        );
+    });
+
+    it('should return correct formatted resource value', () => {
+        expect(
+            component.getResourceValue({ key: 'CPU_MHz', value: 2200 })
+        ).toBe('2200 MHz');
+        expect(
+            component.getResourceValue({ key: 'Memory_MB', value: 1024 })
+        ).toBe('1024 MB');
+        expect(component.getResourceValue({ key: 'Disk', value: 500 })).toBe(
+            '500'
+        );
     });
 });

@@ -1,0 +1,48 @@
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+}
+
+::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
+    border-radius: 50px;
+}
+
+::ng-deep .filter-selector .mdc-line-ripple {
+    display: none;
+}
+
+.selector-icon {
+    margin-right: 8px;
+    margin-left: 10px;
+    color: var(--primary);
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 200,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+.additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.button {
+    color: var(--white) !important;
+    text-wrap: nowrap;
+}
+
+.custom-clear-button:enabled {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
+}

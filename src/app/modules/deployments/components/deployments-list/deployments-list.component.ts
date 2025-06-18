@@ -166,7 +166,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                            'MODULES.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
                         ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
@@ -379,10 +379,10 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     /**     SHARED METHODS     **/
-    openDeploymentDetailDialog(uuid: string, isTool: boolean): void {
+    openDeploymentDetailDialog(uuid: string, type: string): void {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: uuid, isTool: isTool },
+            data: { uuid: uuid, type: type },
             width: width,
             maxWidth: width,
             minWidth: width,

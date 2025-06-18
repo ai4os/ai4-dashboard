@@ -11,17 +11,34 @@
                     <p class="beta-warning">BETA</p>
                 </span>
 
-                <button
-                    mat-mini-fab
-                    class="resize-button"
-                    (click)="resizeChat()"
+                <span>
+                    <button
+                        mat-mini-fab
+                        class="actions-button"
+                        [matTooltip]="'CHATBOT.RESET' | translate"
+                        [matTooltipPosition]="'above'"
+                        (click)="resetChat()"
+                    >
+                        <mat-icon>restart_alt</mat-icon>
+                    </button>
+                    <button
+                        mat-mini-fab
+                        class="actions-button"
+                        [matTooltip]="
+                            expanded
+                                ? ('CHATBOT.CLOSE_FS' | translate)
+                                : ('CHATBOT.OPEN_FS' | translate)
+                        "
+                        [matTooltipPosition]="'above'"
+                        (click)="resizeChat()"
+                    >
+                        @if (expanded) {
+                            <mat-icon>close_fullscreen</mat-icon>
+                        } @else {
+                            <mat-icon>open_in_full</mat-icon>
+                        }
+                    </button></span
                 >
-                    @if (expanded) {
-                        <mat-icon>close_fullscreen</mat-icon>
-                    } @else {
-                        <mat-icon>open_in_full</mat-icon>
-                    }
-                </button>
             </mat-card-title>
         </mat-card-header>
 
