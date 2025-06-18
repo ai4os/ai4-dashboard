@@ -8,7 +8,7 @@ export const authCodeFlowConfig: AuthConfig = {
     redirectUri: window.location.origin,
 
     // The SPA's id. The SPA is registerd with this id at the auth-server
-    clientId: 'test-client',
+    clientId: 'ai4-dashboard',
 
     dummyClientSecret: '',
 
