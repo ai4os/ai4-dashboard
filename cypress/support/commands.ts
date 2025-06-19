@@ -45,7 +45,9 @@ Cypress.Commands.add('login', (username: string, password: string) => {
                 }
             );
 
-            cy.url().should('equal', 'http://localhost:8080/marketplace');
+            cy.wait(5000);
+
+            cy.url().should('equal', 'http://localhost:8080/catalog/modules');
         },
         {
             validate() {
@@ -63,7 +65,6 @@ Cypress.Commands.add('initializeTrainModuleForm', () => {
     cy.contains('Dogs breed detector', { timeout: 20000 }).click({
         force: true,
     });
-    cy.contains('Decline').click();
     cy.get('.action-button').contains('Deploy', { timeout: 10000 }).click();
     cy.contains('Inference API + UI (dedicated)', { timeout: 10000 }).click();
     cy.get('#deployment-title', { timeout: 10000 }).type('test');

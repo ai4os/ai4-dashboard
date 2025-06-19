@@ -3,10 +3,14 @@ describe('deployments section', function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
 
         // create tool
-        cy.contains('Federated learning server', { timeout: 20000 }).click({
+        cy.contains('Tools', { timeout: 20000 }).click({
             force: true,
         });
-        cy.contains('Decline').click();
+        cy.contains('Federated learning with Flower', { timeout: 20000 }).click(
+            {
+                force: true,
+            }
+        );
         cy.get('#deploy-tool-button', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
         cy.contains('Quick submit').click();
