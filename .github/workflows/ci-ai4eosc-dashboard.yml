@@ -32,6 +32,7 @@ jobs:
                   start: npm start
                   wait-on: 'http://localhost:8080'
                   wait-on-timeout: 300
+                  browser: chrome
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
