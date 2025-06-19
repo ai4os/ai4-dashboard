@@ -34,7 +34,7 @@ jobs:
 
             - name: Inject Keycloak Client Secret
               run: |
-                  sed -i "s/dummyClientSecret: '.*'/dummyClientSecret: '${{ secrets.KEYCLOAK_SECRET }}'/" src/app/auth.config.ts
+                  sed -i "s/dummyClientSecret: '.*'/dummyClientSecret: '${{ secrets.KEYCLOAK_SECRET }}'/" src/app/core/services/auth/auth.config.ts
 
             - name: Build and push
               uses: docker/build-push-action@v3
