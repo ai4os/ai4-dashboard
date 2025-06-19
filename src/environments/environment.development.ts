@@ -5,7 +5,7 @@ export const environment = {
     develop: true,
     production: false,
     api: {
-        base: 'https://api.dev.ai4eosc.eu/v1',
+        base: 'https://api1.dev.ai4eosc.eu/v1',
         endpoints,
     },
     huggingFaceClientSecret: '',
