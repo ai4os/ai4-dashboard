@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import { installLogsPrinter } from 'cypress-terminal-report';
 // Populate process.env with values from .env file
 require('dotenv').config();
 
@@ -19,6 +20,7 @@ export default defineConfig({
                 );
                 return launchOptions;
             });
+            installLogsPrinter(on);
         },
     },
     video: true,
