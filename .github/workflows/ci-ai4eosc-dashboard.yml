@@ -47,7 +47,13 @@ jobs:
               if: failure()
               with:
                   name: cypress-videos
-                  path: cypress/videos/                
+                  path: cypress/videos/      
+            - name: Upload Cypress log
+              uses: actions/upload-artifact@v4
+              if: failure()
+              with:
+                  name: cypress-log
+                  path: cypress.log          
             - run: npm run test
             - name: SonarQube
               uses: sonarsource/sonarqube-scan-action@master
