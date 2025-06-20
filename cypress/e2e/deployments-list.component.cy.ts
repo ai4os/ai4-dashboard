@@ -20,7 +20,9 @@ describe('deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
         cy.contains('Modules', { timeout: 50000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
-        cy.contains('Deployment created with ID').should('be.visible');
+        cy.contains('Deployment created with ID', { timeout: 20000 }).should(
+            'be.visible'
+        );
         cy.contains('ai4oshub/ai4os-federated-server:latest').should(
             'be.visible'
         );

@@ -18,34 +18,16 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
             cy.contains('Login', { timeout: 20000 }).click({ force: true });
 
-            cy.origin('https://login.cloud.ai4eosc.eu/', () => {
-                cy.get('#social-google').click();
-            });
-
             cy.origin(
-                'https://accounts.google.com/',
+                'https://login.cloud.ai4eosc.eu/',
                 { args },
                 ({ username, password }) => {
-                    // Ignore Google's ResizeObserver loop error
-                    Cypress.on('uncaught:exception', () => {
-                        return false;
-                    });
-
-                    cy.get('input[type="email"]')
-                        .type(username)
-                        .type('{enter}');
-
-                    // Wait for the next step to load
-                    cy.wait(2000);
-
-                    cy.get('input[type="password"]').should('be.visible');
-                    cy.get('input[type="password"]')
+                    cy.get('input[id="username"]').type(username);
+                    cy.get('input[id="password"]')
                         .type(password)
                         .type('{enter}');
                 }
             );
-
-            cy.wait(5000);
 
             cy.url().should('equal', 'http://localhost:8080/catalog/modules');
         },
