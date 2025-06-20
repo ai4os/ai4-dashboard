@@ -22,6 +22,10 @@ Cypress.Commands.add('login', (username: string, password: string) => {
                 'https://login.cloud.ai4eosc.eu/',
                 { args },
                 ({ username, password }) => {
+                    Cypress.on('uncaught:exception', () => {
+                        return false;
+                    });
+
                     cy.get('input[id="username"]').type(username);
                     cy.get('input[id="password"]')
                         .type(password)
