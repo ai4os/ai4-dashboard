@@ -26,10 +26,8 @@ Cypress.Commands.add('login', (username: string, password: string) => {
                         return false;
                     });
 
-                    cy.get('input[id="username"]').type(username);
-                    cy.get('input[id="password"]')
-                        .type(password)
-                        .type('{enter}');
+                    cy.get('input#username').type(username);
+                    cy.get('input#password').type(password).type('{enter}');
                 }
             );
 
