@@ -26,13 +26,21 @@ jobs:
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
-            - name: Cypress
-              uses: cypress-io/github-action@v6
-              with:
-                  start: npm start
-                  wait-on: 'http://localhost:8080'
-                  wait-on-timeout: 300
-                  browser: chrome
+            # - name: Cypress
+            #   uses: cypress-io/github-action@v6
+            #   with:
+            #       start: npm start
+            #       wait-on: 'http://localhost:8080'
+            #       wait-on-timeout: 300
+            #       browser: chrome
+            #   env:
+            #       CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
+            #       CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
+            - name: Run Cypress manually and capture logs
+              run: |
+                  npm start &
+                  npx wait-on http://localhost:8080
+                  npx cypress run > cypress.log 2>&1
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
