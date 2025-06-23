@@ -40,7 +40,7 @@ jobs:
               run: |
                   npm start &
                   npx wait-on http://localhost:8080
-                  npx cypress run > cypress.log 2>&1
+                  npx cypress run --browser chrome --no-sandbox > cypress.log 2>&1
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
