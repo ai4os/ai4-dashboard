@@ -26,22 +26,14 @@ jobs:
             - run: npm ci
             - run: npm run build-ai4eosc-prod
             - run: npm run lint
-            # - name: Cypress
-            #   uses: cypress-io/github-action@v6
-            #   with:
-            #       start: npm start
-            #       wait-on: 'http://localhost:8080'
-            #       wait-on-timeout: 300
-            #       browser: chrome
-            #   env:
-            #       CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
-            #       CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
-            - name: Run Cypress manually and capture logs
-              run: |
-                  npm start &
-                  npx wait-on http://localhost:8080
-                  npx cypress run --browser chrome --headless --no-sandbox --disable-gpu > cypress.log 2>&1
-                  env:
+            - name: Cypress
+              uses: cypress-io/github-action@v6
+              with:
+                  start: npm start
+                  wait-on: 'http://localhost:8080'
+                  wait-on-timeout: 300
+                #   browser: chrome
+              env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
             - name: Upload Cypress screenshots
@@ -55,13 +47,7 @@ jobs:
               if: failure()
               with:
                   name: cypress-videos
-                  path: cypress/videos/      
-            - name: Upload Cypress log
-              uses: actions/upload-artifact@v4
-              if: failure()
-              with:
-                  name: cypress-log
-                  path: cypress.log          
+                  path: cypress/videos/          
             - run: npm run test
             - name: SonarQube
               uses: sonarsource/sonarqube-scan-action@master
