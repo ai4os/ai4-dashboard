@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.0](https://github.com/ai4os/ai4-dashboard/compare/v3.6.0...v3.7.0) (2025-06-27)
+
+
+### Features
+
+* start supporting ai4os keycloak ([#409](https://github.com/ai4os/ai4-dashboard/issues/409)) ([255e737](https://github.com/ai4os/ai4-dashboard/commit/255e7375537af5bd9a29000df6219bb5ceead056))
+
 ## [3.6.0](https://github.com/ai4os/ai4-dashboard/compare/v3.5.0...v3.6.0) (2025-05-26)
 
 
