@@ -5,14 +5,12 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { TranslateModule } from '@ngx-translate/core';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
-import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { By } from '@angular/platform-browser';
 import { SharedModule } from '@app/shared/shared.module';
 import { MatTabGroup } from '@angular/material/tabs';
 import { StatsService } from '../../services/stats/stats.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -37,7 +35,6 @@ describe('DashboardComponent', () => {
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                AuthService,
                 { provide: OAuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
@@ -47,7 +44,6 @@ describe('DashboardComponent', () => {
                     useValue: mockedOAuthModuleConfig,
                 },
             ],
-            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(DashboardComponent);

@@ -35,6 +35,10 @@ jobs:
               run: |
                 sed -i "s/huggingFaceClientSecret: ''/huggingFaceClientSecret: '${{ secrets.HF_CLIENT_SECRET }}'/" src/environments/environment.production.ts
 
+            - name: Inject Keycloak Client Secret
+              run: |
+                  sed -i "s/dummyClientSecret: '.*'/dummyClientSecret: '${{ secrets.KEYCLOAK_SECRET }}'/" src/app/core/services/auth/auth.config.ts
+
             - name: Build and push
               uses: docker/build-push-action@v3
               with:

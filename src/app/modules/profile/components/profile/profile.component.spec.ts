@@ -55,26 +55,31 @@ describe('ProfileComponent', () => {
 
     it('should load user profile on init', () => {
         const userProfile = {
-            name: 'Test User',
-            email: 'test@example.com',
+            name: 'AI4EOSC Dashboard Test',
+            email: 'test@ifca.unican.es',
+            roles: ['/Platform Access/vo.ai4eosc.eu'],
             isAuthorized: true,
-            eduperson_entitlement: ['vo.project:role=user'],
+            isDeveloper: true,
+            sub: '123456789-1234-1234-1234-123456789012',
         };
 
         mockedAuthService.userProfileSubject.next(userProfile);
 
-        expect(component.name).toBe('Test User');
-        expect(component.email).toBe('test@example.com');
+        expect(component.name).toBe('AI4EOSC Dashboard Test');
+        expect(component.email).toBe('test@ifca.unican.es');
         expect(component.isAuthorized).toBe(true);
     });
 
     it('should parse VoInfo correctly', () => {
-        const entitlement = ['vo.ai4eosc.eu:role=member'];
+        const roles = [
+            'platform-access:demo',
+            'inference_access:vo.imagine-ai.eu',
+        ];
 
-        component.getVoInfo(entitlement);
+        component.getVoInfo(roles);
 
         expect(component['vos']).toEqual([
-            { name: 'ai4eosc', roles: ['member'] },
+            { name: 'demo', roles: ['platform-access'] },
         ]);
     });
 

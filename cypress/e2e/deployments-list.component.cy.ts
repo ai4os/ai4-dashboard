@@ -3,8 +3,14 @@ describe('deployments section', function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
 
         // create tool
-        cy.contains('Federated learning server', { timeout: 20000 }).click();
-        cy.contains('Decline').click();
+        cy.contains('Tools', { timeout: 20000 }).click({
+            force: true,
+        });
+        cy.contains('Federated learning with Flower', { timeout: 20000 }).click(
+            {
+                force: true,
+            }
+        );
         cy.get('#deploy-tool-button', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
         cy.contains('Quick submit').click();
@@ -14,7 +20,9 @@ describe('deployments section', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
         cy.contains('Modules', { timeout: 50000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
-        cy.contains('Deployment created with ID').should('be.visible');
+        cy.contains('Deployment created with ID', { timeout: 20000 }).should(
+            'be.visible'
+        );
         cy.contains('ai4oshub/ai4os-federated-server:latest').should(
             'be.visible'
         );

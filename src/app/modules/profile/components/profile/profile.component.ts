@@ -100,9 +100,12 @@ export class ProfileComponent implements OnInit {
         login: '',
     };
 
+    protected sub = '';
+    protected roles: string[] = [];
     name = '';
     email = '';
     isAuthorized = false;
+
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint = 'share.services.ai4os.eu';
     protected customEndpoint = '';
@@ -143,10 +146,11 @@ export class ProfileComponent implements OnInit {
             .subscribe((profile) => {
                 this.name = profile.name;
                 this.email = profile.email;
+                this.sub = profile.sub;
                 this.isAuthorized = profile.isAuthorized;
 
-                if (profile.eduperson_entitlement) {
-                    this.getVoInfo(profile.eduperson_entitlement);
+                if (profile.roles) {
+                    this.getVoInfo(profile.roles);
                 }
 
                 if (this.isAuthorized) {
@@ -156,23 +160,23 @@ export class ProfileComponent implements OnInit {
             });
     }
 
-    getVoInfo(eduperson_entitlement: string[]) {
-        this.vos = [];
-        eduperson_entitlement.forEach((e) => {
-            const voMatch = e.match(/vo\.[^:]+/);
-            const roleMatch = e.match(/role=([^#]+)/);
+    getVoInfo(roles: string[]) {
+        roles.forEach((role) => {
+            const match = role.match(
+                /^(platform-access|demo|developer-access):([^:]+)$/
+            );
 
-            let voName = voMatch ? voMatch[0] : '';
-            voName = voName.substring(3);
-            voName = voName.substring(0, voName.length - 3);
-            const role = roleMatch ? roleMatch[1] : '';
-
-            const index = this.vos.findIndex((v) => v.name === voName);
-            if (index !== -1) {
-                this.vos[index].roles.push(role);
-            } else {
-                const newVo = { name: voName, roles: [role] };
-                this.vos.push(newVo);
+            if (match) {
+                const accessType = match[1]; // "platform-access", "developer-access", "demo"
+                const voName = match[2]; // e.g. "vo.ai4eosc.eu"
+                const index = this.vos.findIndex((v) => v.name === voName);
+                if (index === -1) {
+                    this.vos.push({ name: voName, roles: [accessType] });
+                } else {
+                    if (!this.vos[index].roles.includes(accessType)) {
+                        this.vos[index].roles.push(accessType);
+                    }
+                }
             }
         });
     }
@@ -359,6 +363,11 @@ export class ProfileComponent implements OnInit {
     openCustomNextcloudDocumentationWeb(): void {
         const url =
             'https://docs.ai4os.eu/en/latest/technical/howto-developers/storage-providers.html#nextcloud';
+        window.open(url);
+    }
+
+    openProfileInfo(): void {
+        const url = 'https://login.cloud.ai4eosc.eu/realms/ai4eosc/account/';
         window.open(url);
     }
 

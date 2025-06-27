@@ -39,15 +39,19 @@ const mockedUserProfile = {
 
 export const mockedParsedUserProfile = new BehaviorSubject<UserProfile>({
     name: 'AI4EOSC Dashboard Test',
-    isAuthorized: true,
-    isOperator: true,
     email: 'test@ifca.unican.es',
-    eduperson_entitlement: [
-        'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',
-        'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=vm_operator#aai.egi.eu',
-        'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
-        'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
+    roles: [
+        '/Demo Access',
+        '/EGI',
+        '/IFCA',
+        '/Developer Access/vo.ai4eosc.eu',
+        '/Platform Access/vo.ai4eosc.eu',
+        '/Developer Access/vo.imagine-ai.eu',
+        '/Platform Access/vo.imagine-ai.eu',
     ],
+    isAuthorized: true,
+    isDeveloper: true,
+    sub: '123456789-1234-1234-1234-123456789012',
 });
 
 export const mockedAuthService: any = {
@@ -66,7 +70,11 @@ export const mockedAuthService: any = {
     isDoneLoading$: new BehaviorSubject<boolean>(false),
     configure: jest.fn().mockReturnValue(void 0),
     hasValidAccessToken: jest.fn().mockReturnValue(true),
-    getAccessToken: jest.fn(),
+    getAccessToken: jest
+        .fn()
+        .mockReturnValue(
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXAiOiJKV1QiLCJuYW1lIjoiQUk0RU9TQyBEYXNoYm9hcmQgVGVzdCIsImVtYWlsIjoidGVzdEBpZmNhLnVuaWNhbi5lcyIsInN1YiI6IjEyMzQ1Njc4OS0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsidm8uaW1hZ2luZS1haS5ldSIsInZvLmFpNGVvc2MuZXUiLCJuZXh0Y2xvdWQtYWNjZXNzLXZvLmltYWdpbmUtYWkuZXUiLCJwbGF0Zm9ybS1hY2Nlc3Mtdm8uaW1hZ2luZS1haS5ldSIsInBsYXRmb3JtLWFjY2Vzcy12by5haTRlb3NjLmV1Iiwib2ZmbGluZV9hY2Nlc3MiLCJuZXh0Y2xvdWQtYWNjZXNzIiwicGxhdGZvcm0tYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJkZXZlbG9wZXItYWNjZXNzIiwibmV4dGNsb3VkLWFjY2Vzcy12by5haTRlb3NjLmV1IiwibGxtLWFjY2VzcyIsImRlZmF1bHQtcm9sZXMtYWk0ZW9zYyJdfX0.7TG44CgEcBXdpn67eOlEYlz9oKgeUzUuhPf6Wq7ChPA'
+        ),
     setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
     events: of(Subject<OAuthEvent>),
     loadDiscoveryDocument: jest
