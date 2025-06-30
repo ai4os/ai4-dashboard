@@ -15,35 +15,27 @@ Cypress.Commands.add('login', (username: string, password: string) => {
         `auth-${username}`,
         () => {
             cy.visit('http://localhost:8080/');
-            cy.contains('Login', { timeout: 20000 }).click();
 
-            cy.origin('https://aai.egi.eu', () => {
-                cy.get('.ssp-btn.bitbucket').click();
-            });
+            cy.contains('Login', { timeout: 20000 }).click({ force: true });
 
             cy.origin(
-                'https://id.atlassian.com/l',
+                'https://login.cloud.ai4eosc.eu/',
                 { args },
                 ({ username, password }) => {
-                    cy.get('#username').type(username, {
-                        log: false,
+                    Cypress.on('uncaught:exception', () => {
+                        return false;
                     });
 
-                    cy.get('#login-submit').click();
-
-                    cy.get('#password').type(password, {
-                        log: false,
-                    });
-
-                    cy.get('#login-submit').click();
+                    cy.get('input#username').type(username);
+                    cy.get('input#password').type(password).type('{enter}');
                 }
             );
 
-            cy.url().should('equal', 'http://localhost:8080/');
+            cy.url().should('equal', 'http://localhost:8080/catalog/modules');
         },
         {
             validate() {
-                cy.contains(`Test AI4EOSC`);
+                cy.contains(`TestAI4EOSC Cypress`);
             },
             cacheAcrossSpecs: true,
         }
@@ -54,8 +46,9 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
 Cypress.Commands.add('initializeTrainModuleForm', () => {
     cy.visit('http://localhost:8080/');
-    cy.contains('Dogs breed detector', { timeout: 20000 }).click();
-    cy.contains('Decline').click();
+    cy.contains('Dogs breed detector', { timeout: 20000 }).click({
+        force: true,
+    });
     cy.get('.action-button').contains('Deploy', { timeout: 10000 }).click();
     cy.contains('Inference API + UI (dedicated)', { timeout: 10000 }).click();
     cy.get('#deployment-title', { timeout: 10000 }).type('test');

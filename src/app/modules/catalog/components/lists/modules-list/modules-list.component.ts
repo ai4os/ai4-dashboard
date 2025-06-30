@@ -100,7 +100,7 @@ export class ModulesListComponent implements OnInit, AfterViewInit {
         const interval = setInterval(() => {
             if (!this.ai4eoscModulesLoading) {
                 clearInterval(interval);
-                this.introService.batchDeployments();
+                // this.introService.batchDeployments();
             }
         }, 200);
     }

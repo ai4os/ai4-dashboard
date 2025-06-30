@@ -28,6 +28,10 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
+            - name: Inject Keycloak Client Secret
+              run: |
+                  sed -i "s/dummyClientSecret: '.*'/dummyClientSecret: '${{ secrets.KEYCLOAK_SECRET }}'/" src/app/core/services/auth/auth.config.ts
+
             - name: Build and push
               uses: docker/build-push-action@v3
               with:

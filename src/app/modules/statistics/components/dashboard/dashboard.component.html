@@ -1,6 +1,6 @@
 <mat-toolbar
     [ngClass]="{
-        'mb-3': !mobileQuery.matches
+        'mb-3': !mobileQuery.matches,
     }"
 >
     <span id="title" class="aligned-with-icon">
@@ -28,7 +28,7 @@
         class="main-tabs"
         [ngClass]="{
             'main-tabs-mobile': mobileQuery.matches,
-            'main-tabs': !mobileQuery.matches
+            'main-tabs': !mobileQuery.matches,
         }"
     >
         <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
@@ -78,7 +78,7 @@
         </mat-tab>
 
         <mat-tab
-            *ngIf="userProfile.isOperator"
+            *ngIf="userProfile.isDeveloper"
             label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
         >
             <app-nodes-tab

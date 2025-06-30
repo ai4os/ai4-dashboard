@@ -1,36 +1,27 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
-import {
-    BehaviorSubject,
-    Observable,
-    Subject,
-    combineLatest,
-    filter,
-    map,
-} from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { authCodeFlowConfig } from './auth.config';
 import { AppConfigService } from '../app-config/app-config.service';
-import { ProfileService } from '@app/modules/profile/services/profile.service';
+import { jwtDecode } from 'jwt-decode';
+import { KeycloakToken } from '@app/shared/interfaces/keycloak-token.interface';
 
 export interface UserProfile {
     name: string;
     email: string;
-    eduperson_entitlement: string[];
+    sub: string;
+    roles: string[];
     isAuthorized: boolean;
-    isOperator: boolean;
+    isDeveloper: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    get router() {
-        return this.injector.get(Router);
-    }
     constructor(
         private oauthService: OAuthService,
         private injector: Injector,
         private appConfigService: AppConfigService,
-        private profileService: ProfileService,
         private oauthConfig: OAuthModuleConfig
     ) {
         window.addEventListener('storage', (event) => {
@@ -88,10 +79,15 @@ export class AuthService {
     userProfileSubject = new BehaviorSubject<UserProfile>({
         name: '',
         email: '',
-        eduperson_entitlement: [],
+        roles: [],
         isAuthorized: false,
-        isOperator: false,
+        isDeveloper: false,
+        sub: '',
     });
+
+    get router() {
+        return this.injector.get(Router);
+    }
 
     private async prepareOAuthService(): Promise<void> {
         // Load configuration
@@ -214,35 +210,37 @@ export class AuthService {
     }
 
     loadUserProfile() {
-        this.oauthService.loadUserProfile().then((profile: any) => {
-            const userProfile: UserProfile = {
-                name: profile['info']['name'],
-                isAuthorized: false,
-                isOperator: false,
-                email: profile['info']['email'],
-                eduperson_entitlement: profile['info']['eduperson_entitlement'],
-            };
-            if (
-                profile['info']['eduperson_entitlement'] &&
-                profile['info']['eduperson_entitlement'].length > 0
-            ) {
-                const vos: string[] = this.parseVosFromProfile(
-                    profile['info']['eduperson_entitlement']
-                );
-                vos.forEach((vo) => {
-                    if (vo.includes(this.appConfigService.voName)) {
-                        userProfile.isAuthorized = true;
-                    }
-                });
-                const roles: string[] = this.parseRolesFromProfile(
-                    profile['info']['eduperson_entitlement']
-                );
-                roles.forEach((role) => {
-                    if (role.includes('vm_operator')) {
-                        userProfile.isOperator = true;
-                    }
-                });
-            }
+        const token = this.oauthService.getAccessToken();
+        const parsedToken = jwtDecode(token) as KeycloakToken;
+
+        const userProfile: UserProfile = {
+            name: parsedToken.name,
+            sub: parsedToken.sub,
+            isAuthorized: false,
+            isDeveloper: false,
+            email: parsedToken.email,
+            roles: parsedToken.realm_access.roles,
+        };
+
+        if (userProfile.roles && userProfile.roles.length > 0) {
+            const vos: string[] = this.parseVosFromProfile(userProfile.roles);
+            vos.forEach((vo) => {
+                if (vo.includes(this.appConfigService.voName)) {
+                    userProfile.isAuthorized = true;
+                }
+            });
+
+            const roles: string[] = this.parseRolesFromProfile(
+                userProfile.roles
+            );
+            roles.forEach((role) => {
+                if (role.includes('developer-access')) {
+                    userProfile.isDeveloper = true;
+                }
+            });
+        }
+
+        this.oauthService.loadUserProfile().then(() => {
             this.userProfileSubject.next(userProfile);
         });
     }
@@ -280,24 +278,41 @@ export class AuthService {
         return !!this.oauthService.getIdToken();
     }
 
-    parseVosFromProfile(entitlements: string[]): string[] {
-        const foundVos: string[] = [];
-        entitlements.forEach((vo) => {
-            if (vo.match('group:(.+?):')?.[0]) {
-                foundVos.push(vo.match('group:(.+?):')![0]);
+    parseVosFromProfile(roles: string[]): string[] {
+        const vos: string[] = [];
+
+        roles.forEach((role) => {
+            const match = role.match(
+                /^(platform-access|developer-access):([^:]+)$/
+            );
+            if (match) {
+                const voName = match[2];
+                if (!vos.includes(voName)) {
+                    vos.push(voName);
+                }
             }
         });
-        return foundVos;
+
+        return vos;
     }
 
-    parseRolesFromProfile(entitlements: string[]): string[] {
-        const foundRoles: string[] = [];
-        entitlements.forEach((role) => {
-            if (role.match('role=(.+)#')?.[0]) {
-                foundRoles.push(role.match('role=(.+)#')![0]);
+    parseRolesFromProfile(group_membership: string[]): string[] {
+        const roles: string[] = [];
+
+        group_membership.forEach((role) => {
+            const match = role.match(
+                /^(platform-access|developer-access)(?::([^:]+))?$/
+            );
+
+            if (match) {
+                const accessType = match[1];
+                if (!roles.includes(accessType)) {
+                    roles.push(accessType);
+                }
             }
         });
-        return foundRoles;
+
+        return roles;
     }
 
     /**

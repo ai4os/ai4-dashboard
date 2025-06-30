@@ -1,7 +1,7 @@
 describe('dashboard section', function () {
     before(function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
-        cy.contains('Dashboard', { timeout: 10000 }).click();
+        cy.contains('Statistics', { timeout: 10000 }).click({ force: true });
     });
 
     it('shows datacenter section', function () {

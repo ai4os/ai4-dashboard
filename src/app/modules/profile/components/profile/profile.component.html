@@ -46,6 +46,11 @@
                     <p class="grey-text">Email</p>
                     <p>{{ this.email }}</p>
                 </div>
+
+                <div>
+                    <p class="grey-text">sub</p>
+                    <p>{{ this.sub }}</p>
+                </div>
             </mat-card-content>
         </mat-card>
 
@@ -269,6 +274,7 @@
                             mat-fab
                             extended
                             color="accent"
+                            style="color: white"
                             matTooltip="{{ 'PROFILE.ADD' | translate }}"
                             [disabled]="
                                 customEndpointFormGroup.get('value')?.value ===
@@ -301,94 +307,100 @@
 
             <mat-card-content class="info-container">
                 <div class="other-services-container">
-                    <div class="mlflow-credentials-container">
-                        <button class="icon-button" disabled>
-                            <img
-                                class="icon"
-                                width="80px"
-                                src="../../../../../assets/images/mlflow-logo.png"
-                            />
-                        </button>
-
-                        <div class="form-field">
-                            <mat-form-field
-                                class="full-width mr-3 no-margin"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    disabled="true"
-                                    [value]="mlflowCredentials.username"
+                    @if (
+                        mlflowCredentials.username !== '' &&
+                        mlflowCredentials.password.value !== ''
+                    ) {
+                        <div class="mlflow-credentials-container">
+                            <button class="icon-button" disabled>
+                                <img
+                                    class="icon"
+                                    width="80px"
+                                    src="../../../../../assets/images/mlflow-logo.png"
                                 />
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="mlflowCredentials.username"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
                             </button>
-                        </div>
-                        <div class="form-field">
-                            <mat-form-field
-                                class="full-width mr-3 no-margin"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    [type]="
-                                        mlflowCredentials.password.hide
-                                            ? 'password'
-                                            : 'text'
-                                    "
-                                    disabled="true"
-                                    value="{{
-                                        mlflowCredentials.password.value
-                                    }}"
-                                />
 
+                            <div class="form-field">
+                                <mat-form-field
+                                    class="full-width mr-3 no-margin"
+                                    subscriptSizing="dynamic"
+                                >
+                                    <input
+                                        matInput
+                                        disabled="true"
+                                        [value]="mlflowCredentials.username"
+                                    />
+                                </mat-form-field>
                                 <button
                                     mat-icon-button
-                                    matSuffix
-                                    [matTooltip]="
-                                        mlflowCredentials.password.hide
-                                            ? 'Show'
-                                            : 'Hide'
-                                    "
-                                    (click)="
-                                        mlflowCredentials.password.hide =
-                                            !mlflowCredentials.password.hide
-                                    "
-                                    [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="
-                                        mlflowCredentials.password.hide
+                                    matTooltip="Copy"
+                                    [copy-to-clipboard]="
+                                        mlflowCredentials.username
                                     "
                                 >
-                                    <mat-icon color="accent">{{
-                                        mlflowCredentials.password.hide
-                                            ? 'visibility_off'
-                                            : 'visibility'
-                                    }}</mat-icon>
+                                    <mat-icon matSuffix color="accent">
+                                        content_copy</mat-icon
+                                    >
                                 </button>
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="
-                                    mlflowCredentials.password.value
-                                "
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field
+                                    class="full-width mr-3 no-margin"
+                                    subscriptSizing="dynamic"
                                 >
-                            </button>
+                                    <input
+                                        matInput
+                                        [type]="
+                                            mlflowCredentials.password.hide
+                                                ? 'password'
+                                                : 'text'
+                                        "
+                                        disabled="true"
+                                        value="{{
+                                            mlflowCredentials.password.value
+                                        }}"
+                                    />
+
+                                    <button
+                                        mat-icon-button
+                                        matSuffix
+                                        [matTooltip]="
+                                            mlflowCredentials.password.hide
+                                                ? 'Show'
+                                                : 'Hide'
+                                        "
+                                        (click)="
+                                            mlflowCredentials.password.hide =
+                                                !mlflowCredentials.password.hide
+                                        "
+                                        [attr.aria-label]="'Hide password'"
+                                        [attr.aria-pressed]="
+                                            mlflowCredentials.password.hide
+                                        "
+                                    >
+                                        <mat-icon color="accent">{{
+                                            mlflowCredentials.password.hide
+                                                ? 'visibility_off'
+                                                : 'visibility'
+                                        }}</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                                <button
+                                    mat-icon-button
+                                    matTooltip="Copy"
+                                    [copy-to-clipboard]="
+                                        mlflowCredentials.password.value
+                                    "
+                                >
+                                    <mat-icon matSuffix color="accent">
+                                        content_copy</mat-icon
+                                    >
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <mat-divider class="divider"></mat-divider>
-
+                        <mat-divider class="divider"></mat-divider>
+                    }
                     <div class="hf-credentials-container">
                         <button class="icon-button" disabled>
                             <img
