@@ -13,6 +13,7 @@ describe('deployments section', function () {
         );
         cy.get('#deploy-tool-button', { timeout: 10000 }).click();
         cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
+        cy.wait(5000);
         cy.contains('Quick submit').click();
     });
 
