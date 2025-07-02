@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.8.0](https://github.com/ai4os/ai4-dashboard/compare/v3.7.0...v3.8.0) (2025-07-02)
+
+
+### Features
+
+* add eosc eu node button ([#413](https://github.com/ai4os/ai4-dashboard/issues/413)) ([19b79a4](https://github.com/ai4os/ai4-dashboard/commit/19b79a4c2ea7d20f0e9c854dcdb10071eb9ff36f))
+* rename sub to user id (profile section) ([#412](https://github.com/ai4os/ai4-dashboard/issues/412)) ([d0795da](https://github.com/ai4os/ai4-dashboard/commit/d0795da25116b0aca691fe25dc62fece70c38d14))
+
+
+### Bug Fixes
+
+* cypress test ([#415](https://github.com/ai4os/ai4-dashboard/issues/415)) ([c1fa8cd](https://github.com/ai4os/ai4-dashboard/commit/c1fa8cd64831b9af9c31ff0065809f08bdbbe6b1))
+
 ## [3.7.0](https://github.com/ai4os/ai4-dashboard/compare/v3.6.0...v3.7.0) (2025-06-27)
 
 
