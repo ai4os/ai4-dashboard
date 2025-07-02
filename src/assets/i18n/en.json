@@ -285,7 +285,9 @@
                 "API-PLATFORM": "Inference API + UI (dedicated)",
                 "NOMAD": "Dedicated inference API + UI on the project's Nomad cluster",
                 "API-CLOUD": "Inference API (cloud)",
-                "IM": "Deploy on your own cloud resources via IM"
+                "IM": "Deploy on your own cloud resources via IM",
+                "API-EU": "Inference API (EU Node)",
+                "EU-NODE": "Deploy in the EOSC EU Node cloud resources"
             },
             "CODESPACES": {
                 "TITLE": "Codespaces",
