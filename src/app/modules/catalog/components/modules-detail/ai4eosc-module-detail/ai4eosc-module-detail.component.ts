@@ -144,7 +144,8 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
 
     openProvenanceIframeDialog(): void {
         const url =
-            'https://dev.ai4eosc.predictia.es/?applicationId=' + this.module.id;
+            'https://provenance.services.ai4os.eu/?applicationId=' +
+            this.module.id;
 
         this.dialog.open(IframeDialogComponent, {
             data: { url: url },
