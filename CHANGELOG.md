@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/ai4os/ai4-dashboard/compare/v3.8.0...v3.9.0) (2025-07-10)
+
+
+### Features
+
+* display provenance graph ([#417](https://github.com/ai4os/ai4-dashboard/issues/417)) ([052c511](https://github.com/ai4os/ai4-dashboard/commit/052c511634b2002631b833255ac03184a9554dba))
+
 ## [3.8.0](https://github.com/ai4os/ai4-dashboard/compare/v3.7.0...v3.8.0) (2025-07-02)
 
 
