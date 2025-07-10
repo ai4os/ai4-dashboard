@@ -540,6 +540,47 @@
                 <div class="box-container">
                     <div class="box-title">
                         {{
+                            'CATALOG.MODULE-DETAIL.PROVENANCE.TITLE' | translate
+                        }}
+                    </div>
+                    <div class="grid-resources">
+                        <a
+                            class="action-button"
+                            mat-raised-button
+                            (click)="openProvenanceIframeDialog()"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon>conversion_path</mat-icon>
+                                {{
+                                    'CATALOG.MODULE-DETAIL.PROVENANCE.VIEW'
+                                        | translate
+                                }}
+                            </span>
+                        </a>
+
+                        <a
+                            class="action-button"
+                            mat-raised-button
+                            [href]="
+                                'https://provenance.services.ai4os.eu/rdf?applicationId=' +
+                                module.id
+                            "
+                            target="_blank"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon>download</mat-icon>
+                                {{
+                                    'CATALOG.MODULE-DETAIL.PROVENANCE.DOWNLOAD'
+                                        | translate
+                                }}
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="box-container">
+                    <div class="box-title">
+                        {{
                             'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.TITLE'
                                 | translate
                         }}

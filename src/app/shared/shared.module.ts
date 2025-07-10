@@ -13,6 +13,7 @@ import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-ico
 import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { IframeDialogComponent } from './components/iframe-dialog/iframe-dialog.component';
 import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
 import { MultipleActionsDialogComponent } from './components/multiple-actions-dialog/multiple-actions-dialog.component';
 import { TextEditorComponent } from './components/text-editor/text-editor.component';
@@ -26,6 +27,7 @@ import { PopupComponent } from './components/popup/popup.component';
         ChipWithIconComponent,
         DeploymentsTableComponent,
         ChatBotComponent,
+        IframeDialogComponent,
         SingleFileUploadComponent,
         MultipleActionsDialogComponent,
         TextEditorComponent,
@@ -48,6 +50,7 @@ import { PopupComponent } from './components/popup/popup.component';
         ChipWithIconComponent,
         DeploymentsTableComponent,
         ChatBotComponent,
+        IframeDialogComponent,
         SingleFileUploadComponent,
         MultipleActionsDialogComponent,
         TextEditorComponent,
