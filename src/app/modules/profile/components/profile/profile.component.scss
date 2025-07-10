@@ -1,0 +1,129 @@
+.grid {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid-mobile {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr;
+    padding-bottom: 1rem;
+}
+
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: fit-content;
+    margin-bottom: 1.5em;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0 16px;
+    flex-wrap: wrap;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grey-text {
+    color: var(--warm-grey);
+}
+
+.service-name {
+    max-width: 170px;
+    padding-left: 10px;
+}
+
+.no-margin {
+    margin: 0px !important;
+}
+
+.buttons {
+    width: 150px;
+    min-width: fit-content;
+    gap: 0.7em;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.icon-button {
+    background: none;
+    padding: 0;
+    border: 0;
+}
+
+.services-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto minmax(auto, 1fr) auto;
+    grid-template-rows: repeat(2, 1fr);
+    align-items: center;
+    grid-gap: 0.8em;
+}
+
+.custom-sync-button {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.divider {
+    grid-column: 1 / 5;
+    width: 100%;
+}
+
+.link-button {
+    color: white;
+}
+
+mat-list {
+    width: 100%;
+}
+
+.mlflow-credentials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-around;
+    gap: 1.5em;
+}
+
+.hf-credentials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.5em;
+    align-items: center;
+}
+
+.form-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.other-services-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}

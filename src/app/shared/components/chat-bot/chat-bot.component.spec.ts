@@ -1,53 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+    ComponentFixture,
+    fakeAsync,
+    TestBed,
+    tick,
+} from '@angular/core/testing';
 
 import { ChatBotComponent } from './chat-bot.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
-import { of, Subject } from 'rxjs';
+import { OAuthService } from 'angular-oauth2-oidc';
 
-const mockedProfile = {
-    info: {
-        exp: 1693908513,
-        iat: 1693907913,
-        auth_time: 1693907911,
-        jti: '00000000-c9e1-44b7-b313-4bde8fba70fa',
-        iss: 'https://aai-demo.egi.eu/auth/realms/egi',
-        aud: 'ai4eosc-dashboard',
-        sub: 'test@egi.eu',
-        typ: 'ID',
-        azp: 'ai4eosc-dashboard',
-        nonce: 'WnVHR3ZpOVoyVlFwcjVGTEtIRWhyUTZ0eXJYVHZxN1M4TX5MRzVKWVJYVHZx',
-        session_state: '00000000-818c-46d4-ad87-1b9a1c22c43f',
-        at_hash: 'gdEA9VsgdEA9V-mubWhBWw',
-        sid: 'b27a9b7a-818c-46d4-ad87-1b9a1818c43f',
-        voperson_verified_email: ['test@ifca.unican.es'],
-        email_verified: true,
-        name: 'AI4EOSC Dasboard Test',
-        preferred_username: 'ai4dash',
-        eduperson_assurance: [
-            'https://refeds.org/assurance/IAP/low',
-            'https://aai.egi.eu/LoA#Low',
-        ],
-        given_name: 'AI4EOSC Dasboard ',
-        family_name: 'Test',
-        email: 'test@ifca.unican.es',
-        eduperson_entitlement: [
-            'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=vm_operator#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
-        ],
-    },
-};
-
-const mockedOAuthService = {
-    configure: jest.fn().mockReturnValue(void 0),
-    hasValidAccessToken: jest.fn().mockReturnValue(true),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
-    setupAutomaticSilentRefresh: jest.fn().mockReturnValue(void 0),
-    events: of(Subject<OAuthEvent>),
-};
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
+import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
+import { throwError } from 'rxjs';
+import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
+import { mockedChatBotService } from '@app/shared/services/chat-bot/chat-bot.service.mock';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 
 describe('ChatBotComponent', () => {
     let component: ChatBotComponent;
@@ -59,7 +31,11 @@ describe('ChatBotComponent', () => {
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                { provide: OAuthService, useValue: mockedOAuthService },
+                { provide: OAuthService, useValue: mockedAuthService },
+                { provide: SidenavService, useValue: mockedSidenavService },
+                { provide: SnackbarService, useValue: mockedSnackbarService },
+                { provide: ChatBotService, useValue: mockedChatBotService },
+                { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();
 
@@ -68,7 +44,80 @@ describe('ChatBotComponent', () => {
         fixture.detectChanges();
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should toggle open in manageChat', fakeAsync(() => {
+        component.open = false;
+        const scrollSpy = jest.spyOn(component as any, 'scrollToBottom');
+        component.manageChat();
+        expect(component.open).toBe(true);
+        tick(100);
+        expect(scrollSpy).toHaveBeenCalled();
+
+        component.manageChat();
+        expect(component.open).toBe(false);
+        expect(component.expanded).toBe(false);
+    }));
+
+    it('should add a message and scroll', fakeAsync(() => {
+        const scrollSpy = jest.spyOn(component as any, 'scrollToBottom');
+        const msg = { role: 'user', content: 'hello' };
+        component.addMessage(msg);
+        expect(component.chatHistory.messages).toContainEqual(msg);
+        tick(100);
+        expect(scrollSpy).toHaveBeenCalled();
+    }));
+
+    it('isQuestionEmpty should return true for empty or whitespace message', () => {
+        component.message = '   ';
+        expect(component.isQuestionEmpty()).toBe(true);
+
+        component.message = 'not empty';
+        expect(component.isQuestionEmpty()).toBe(false);
+    });
+
+    it('should handle sendMessage success response', fakeAsync(() => {
+        component.message = 'hello';
+
+        const scrollSpy = jest.spyOn(component as any, 'scrollToBottom');
+
+        component.sendMessage();
+
+        tick(100);
+
+        expect(component.chatHistory.messages.length).toBe(2); // user message + assistant message
+        expect(component.isLoading).toBe(false);
+        expect(scrollSpy).toHaveBeenCalled();
+    }));
+
+    it('should handle sendMessage error response', fakeAsync(() => {
+        component.message = 'hello';
+        mockedChatBotService.requestResponse.mockReturnValue(
+            throwError(() => new Error('fail'))
+        );
+
+        component.sendMessage();
+        tick(100);
+
+        expect(mockedSnackbarService.openError).toHaveBeenCalledWith(
+            'Error connecting to the LLM, please try logging in and out'
+        );
+        expect(component.isLoading).toBe(false);
+        expect(component.response).toBe('');
+    }));
+
+    it('resetChat should clear chatHistory', () => {
+        component.chatHistory.messages = [
+            { role: 'user', content: 'Hi' },
+            { role: 'assistant', content: 'Hello' },
+        ];
+        component.resetChat();
+        expect(component.chatHistory.messages.length).toBe(0);
     });
 });

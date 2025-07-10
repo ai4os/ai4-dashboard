@@ -10,6 +10,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
+    FormControl,
     FormGroup,
     FormGroupDirective,
     ValidationErrors,
@@ -46,7 +47,7 @@ export function emailValidator(): ValidatorFn {
     };
 }
 
-export interface showGeneralFormField {
+export interface ShowGeneralFormField {
     descriptionInput: boolean;
     serviceToRunChip: boolean;
     titleInput: boolean;
@@ -61,6 +62,8 @@ export interface showGeneralFormField {
     ai4lifeFields: boolean;
     // llm
     llmFields: boolean;
+    // batch
+    batchFields: boolean;
 }
 
 @Component({
@@ -122,6 +125,12 @@ export class GeneralConfFormComponent implements OnInit {
     hideUiPassword = true;
     hideHFToken = true;
 
+    initialCommandText: string = '';
+    commandText: string = '';
+    textManuallyModified = false;
+    textEditorPlaceholder =
+        'python /src/my-app/my-app/train.py --epochs 10 \ncp -r /src/my-app/models /storage/my-new-modelsweights \n...';
+
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
@@ -137,9 +146,10 @@ export class GeneralConfFormComponent implements OnInit {
         cvatFields: false,
         ai4lifeFields: false,
         llmFields: false,
+        batchFields: false,
     };
 
-    @Input() set showFields(showFields: showGeneralFormField) {
+    @Input() set showFields(showFields: ShowGeneralFormField) {
         this._showFields = showFields;
     }
 
@@ -316,6 +326,10 @@ export class GeneralConfFormComponent implements OnInit {
             { value: '', disabled: true },
             [Validators.required, urlValidator()],
         ],
+        batchFile: new FormControl<File | null>(
+            { value: null, disabled: true },
+            Validators.required
+        ),
     });
 
     ngOnInit(): void {
@@ -366,6 +380,8 @@ export class GeneralConfFormComponent implements OnInit {
         } else if (this._showFields.cvatFields) {
             this.generalConfFormGroup.get('cvatUsernameInput')?.enable();
             this.generalConfFormGroup.get('cvatPasswordInput')?.enable();
+        } else if (this._showFields.batchFields) {
+            this.generalConfFormGroup.get('batchFile')?.enable();
         }
     }
 
@@ -439,13 +455,13 @@ export class GeneralConfFormComponent implements OnInit {
 
     openFedServerDocs(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html';
         window.open(url);
     }
 
     openCo2Docs(): void {
         const url =
-            'https://docs.ai4eosc.eu/en/latest/howtos/train/federated-server.html#monitoring-of-training-co2-emissions';
+            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions';
         window.open(url);
     }
 
@@ -473,5 +489,40 @@ export class GeneralConfFormComponent implements OnInit {
             'https://huggingface.co/' +
             this.generalConfFormGroup.get('vllmModelSelect')?.value;
         window.open(url);
+    }
+
+    updateBatchFile(file: File) {
+        this.generalConfFormGroup.get('batchFile')?.setValue(file);
+    }
+
+    openBatchTrainingDocs() {
+        const url =
+            'https://docs.ai4os.eu/en/latest/howtos/train/batch.html#configuring-a-batch-job';
+        window.open(url);
+    }
+
+    createFileFromText(): void {
+        const content = this.commandText.trim();
+        this.initialCommandText = content;
+        const blob = new Blob([content], { type: 'text/x-shellscript' });
+        const file = new File([blob], 'script-from-text.sh', {
+            type: 'text/x-shellscript',
+        });
+        this.updateBatchFile(file);
+        this.snackbarService.openSuccess(
+            'Batch command file generated successfully!'
+        );
+        this.textManuallyModified = false;
+    }
+
+    clearFileData(): void {
+        this.generalConfFormGroup.get('batchFile')?.setValue(null);
+        this.textManuallyModified = false;
+    }
+
+    onCommandTextChange(newValue: string): void {
+        this.commandText = newValue;
+        this.textManuallyModified =
+            this.commandText.trim() !== this.initialCommandText.trim();
     }
 }

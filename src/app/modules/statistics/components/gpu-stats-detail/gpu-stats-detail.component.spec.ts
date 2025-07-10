@@ -7,20 +7,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 
 const gpuStats = [{ type: 'Tesla V4', value: { gpuUsed: 10, gpuTotal: 20 } }];
 

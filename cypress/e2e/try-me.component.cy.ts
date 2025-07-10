@@ -4,8 +4,7 @@ describe('try me section', function () {
     });
 
     it('try me list shows no Gradio deployments', function () {
-        cy.contains('Try me', { timeout: 20000 }).click();
-        cy.contains('Decline').click();
+        cy.contains('Try me', { timeout: 20000 }).click({ force: true });
         cy.contains('Try me deployments', { timeout: 50000 }).should(
             'be.visible'
         );
@@ -23,12 +22,12 @@ describe('try me section', function () {
     });
 
     it('creates Gradio deployment', function () {
-        cy.contains('Marketplace', { timeout: 20000 }).click();
+        cy.contains('Modules', { timeout: 20000 }).click();
         cy.contains('Dogs breed detector', { timeout: 20000 }).click();
         cy.window().then((win) => {
             cy.stub(win, 'open', (url) => {
                 win.location.href =
-                    'http://localhost:8080/marketplace/modules/dogs-breed-detector/try-me-nomad';
+                    'http://localhost:8080/catalog/modules/dogs-breed-detector/try-me-nomad';
             }).as('popup');
         });
         cy.get('.action-button').contains('Try', { timeout: 10000 }).click();
@@ -43,14 +42,13 @@ describe('try me section', function () {
         );
         cy.url({ timeout: 50000 }).should(
             'not.equal',
-            'http://localhost:8080/marketplace/modules/dogs-breed-detector/try-me-nomad'
+            'http://localhost:8080/catalog/modules/dogs-breed-detector/try-me-nomad'
         );
     });
 
     it('try me list shows one Gradio deployment', function () {
         cy.visit('http://localhost:8080/try-me');
         cy.contains('Try me', { timeout: 20000 }).click();
-        cy.contains('Decline').click();
         cy.contains('Try me deployments', { timeout: 50000 }).should(
             'be.visible'
         );

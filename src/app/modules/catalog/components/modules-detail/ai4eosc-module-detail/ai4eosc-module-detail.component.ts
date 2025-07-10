@@ -152,4 +152,10 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             height: '80vh',
         });
     }
+
+    deployBatch() {
+        this.router.navigate(['batch'], {
+            relativeTo: this.route,
+        });
+    }
 }

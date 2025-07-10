@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Ai4lifeModuleCardComponent } from './ai4life-module-card.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 
 describe('Ai4lifeModuleCardComponent', () => {
     let component: Ai4lifeModuleCardComponent;
@@ -15,17 +16,7 @@ describe('Ai4lifeModuleCardComponent', () => {
 
         fixture = TestBed.createComponent(Ai4lifeModuleCardComponent);
         component = fixture.componentInstance;
-        component.module = {
-            id: '',
-            name: '',
-            description: '',
-            doi: '',
-            created: '',
-            covers: [],
-            downloadCount: '',
-            tags: [],
-            license: '',
-        };
+        component.module = mockAi4lifeModules[0];
         fixture.detectChanges();
     });
 

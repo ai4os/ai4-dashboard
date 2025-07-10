@@ -15,9 +15,18 @@
     padding: 16px 16px 0;
 }
 
-.deployment-detail-title {
+.card-title {
     display: flex;
     justify-content: space-between;
+}
+
+.card-title-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+        margin: 0;
+    }
 }
 
 .card-content-mobile {
@@ -42,4 +51,19 @@
 
 .full-width {
     width: 100%;
+}
+
+.command-container {
+    border: 1px solid;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: var(--warm-grey);
+    font-style: italic;
+    white-space: pre-line;
+    font-family: monospace;
+}
+
+.copy-button {
+    float: right;
+    margin-top: 10px;
 }

@@ -1,6 +1,6 @@
 import { ModuleHardwareConfiguration } from '@app/shared/interfaces/module.interface';
 
-export const defaultFormValues: ModuleHardwareConfiguration = {
+export const hardwareDefaultFormValues: ModuleHardwareConfiguration = {
     cpu_num: {
         range: [1, 2],
         name: '',

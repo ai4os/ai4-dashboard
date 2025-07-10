@@ -15,7 +15,6 @@ import { timer, takeUntil, switchMap, Subject } from 'rxjs';
 @Component({
     selector: 'app-inferences-list',
     templateUrl: './inferences-list.component.html',
-    styleUrls: ['./inferences-list.component.scss'],
 })
 export class InferencesListComponent implements OnInit {
     constructor(

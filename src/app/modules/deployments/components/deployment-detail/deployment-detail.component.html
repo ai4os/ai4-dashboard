@@ -1,11 +1,12 @@
 <mat-toolbar class="mb-3 marketplace-toolbar detail-title">
     <span>
-        <ng-container *ngIf="data.isTool; else deploymentTitle">
+        @if (data.type === 'module') {
+            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.MODULE-TITLE' | translate }}
+        } @else if (data.type === 'tool') {
             {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
-        </ng-container>
-        <ng-template #deploymentTitle>
-            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TITLE' | translate }}
-        </ng-template>
+        } @else if (data.type === 'batch') {
+            {{ 'BATCH.DETAIL.TITLE' | translate }}
+        }
 
         <mat-icon>view_in_ar</mat-icon></span
     >
@@ -20,7 +21,12 @@
     </ng-template>
 
     <mat-card-header>
-        <mat-card-title class="deployment-detail-title">
+        <mat-card-title
+            [ngClass]="{
+                'card-title-mobile': this.mobileQuery.matches,
+                'card-title': !this.mobileQuery.matches,
+            }"
+        >
             <h2>{{ deployment?.title }}</h2>
             <p>
                 <img
@@ -268,6 +274,45 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            }
+            @if (data.type === 'batch' && localBatchScript) {
+                <div class="mb-3">
+                    <h3>
+                        {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.DETAILS'
+                                | translate
+                        }}
+                    </h3>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{
+                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
+                                        | translate
+                                }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <app-text-editor
+                            [readonly]="true"
+                            [disabled]="true"
+                            [value]="localBatchScript"
+                            [height]="'inherit'"
+                        ></app-text-editor>
+                        <button
+                            mat-icon-button
+                            matTooltip="Copy"
+                            matTooltipPosition="above"
+                            class="copy-button"
+                            [copy-to-clipboard]="localBatchScript"
+                        >
+                            <mat-icon matSuffix color="accent">
+                                content_copy</mat-icon
+                            >
+                        </button>
+                    </mat-expansion-panel>
                 </div>
             }
         </ng-container>

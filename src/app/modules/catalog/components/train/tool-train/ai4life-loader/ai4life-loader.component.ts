@@ -8,13 +8,12 @@ import {
     ModuleHardwareConfiguration,
     Ai4LifeLoaderToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { showGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
 import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
 
 @Component({
     selector: 'app-ai4life-loader',
     templateUrl: './ai4life-loader.component.html',
-    styleUrl: './ai4life-loader.component.scss',
 })
 export class Ai4lifeLoaderComponent {
     constructor(
@@ -41,7 +40,7 @@ export class Ai4lifeLoaderComponent {
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
         co2EmissionsInput: false,
@@ -53,6 +52,7 @@ export class Ai4lifeLoaderComponent {
         cvatFields: false,
         ai4lifeFields: true,
         llmFields: false,
+        batchFields: false,
     };
 
     showHardwareFields: showHardwareField = {
@@ -69,8 +69,8 @@ export class Ai4lifeLoaderComponent {
 
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
-            this.toolsService.getTool(params['id']).subscribe((cvat) => {
-                this.title = cvat.title;
+            this.toolsService.getTool(params['id']).subscribe((tool) => {
+                this.title = tool.title;
             });
             this.toolsService
                 .getAi4LifeConfiguration(params['id'])

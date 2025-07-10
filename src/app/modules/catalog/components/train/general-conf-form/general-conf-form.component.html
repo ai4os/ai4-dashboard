@@ -666,5 +666,113 @@
                 }
             </div>
         }
+
+        @if (_showFields.batchFields) {
+            <span class="toggle-and-info">
+                <h4 class="mt-1 mb-1" [ngClass]="{ 'mt-3': _showHelp }">
+                    {{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-OPTIONS'
+                            | translate
+                    }}
+                </h4>
+                <button
+                    mat-icon-button
+                    matTooltip="{{
+                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                    }}"
+                    [matTooltipPosition]="'above'"
+                    (click)="openBatchTrainingDocs()"
+                >
+                    <mat-icon color="accent">help</mat-icon>
+                </button>
+            </span>
+
+            <p class="limited-width-container mt-0">
+                {{
+                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-EXPLANATION'
+                        | translate
+                }}
+            </p>
+
+            <mat-divider class="mb-3"></mat-divider>
+
+            <mat-tab-group
+                mat-stretch-tabs="false"
+                mat-align-tabs="start"
+                class="mb-1"
+                (selectedTabChange)="clearFileData()"
+            >
+                <mat-tab
+                    label="{{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.UPLOAD-FILE'
+                            | translate
+                    }}"
+                >
+                    <div class="form-flex tab-content">
+                        <app-single-file-upload
+                            [file]="
+                                this.generalConfFormGroup.get('batchFile')
+                                    ?.value ?? null
+                            "
+                            (fileUploaded)="updateBatchFile($event)"
+                        ></app-single-file-upload>
+                    </div>
+                </mat-tab>
+
+                <mat-tab
+                    label="{{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-COMMANDS'
+                            | translate
+                    }}"
+                >
+                    <div
+                        class="form-flex-column tab-content limited-width-container"
+                    >
+                        <app-text-editor
+                            [placeholder]="textEditorPlaceholder"
+                            (textChange)="onCommandTextChange($event)"
+                        ></app-text-editor>
+
+                        <div class="textarea-buttons">
+                            <button
+                                mat-icon-button
+                                matTooltip="Copy"
+                                matTooltipPosition="above"
+                                [copy-to-clipboard]="commandText"
+                            >
+                                <mat-icon matSuffix color="accent">
+                                    content_copy</mat-icon
+                                >
+                            </button>
+                            <button
+                                mat-fab
+                                extended
+                                [ngClass]="{
+                                    'no-file-uploaded-button':
+                                        textManuallyModified ||
+                                        generalConfFormGroup.get('batchFile')
+                                            ?.value === null,
+                                    'file-uploaded-button':
+                                        !textManuallyModified &&
+                                        generalConfFormGroup.get('batchFile')
+                                            ?.value !== null,
+                                }"
+                                [disabled]="commandText === ''"
+                                (click)="createFileFromText()"
+                            >
+                                <mat-icon>attach_file</mat-icon>
+                                {{ 'FILE-UPLOAD.GENERATE-FILE' | translate }}*
+                            </button>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+            <mat-hint *ngIf="_showHelp" style="font-size: 12px">
+                {{
+                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-HELP'
+                        | translate
+                }}
+            </mat-hint>
+        }
     </form>
 }

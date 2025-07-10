@@ -1,9 +1,12 @@
 import {
+    ZenodoCommunity,
     ZenodoDataset,
     ZenodoDatasetVersion,
+    ZenodoSimpleDataset,
 } from '@app/shared/interfaces/dataset.interface';
+import { of } from 'rxjs';
 
-export const datasets: ZenodoDataset[] = [
+export const mockedDatasets: ZenodoDataset[] = [
     {
         id: '1',
         created: '2024-03-15T10:50:47.284986+00:00',
@@ -28,7 +31,7 @@ export const datasets: ZenodoDataset[] = [
     },
 ];
 
-export const versions: ZenodoDatasetVersion[] = [
+export const mockedVersions: ZenodoDatasetVersion[] = [
     {
         id: '10777412',
         title: 'EyeOnWater training dataset for assessing the inclusion of water images',
@@ -44,3 +47,35 @@ export const versions: ZenodoDatasetVersion[] = [
         lastest: true,
     },
 ];
+
+export const mockedCommunities: ZenodoCommunity[] = [
+    {
+        id: 'ai4eosc',
+        title: 'AI4EOSC',
+        link: 'www.ai4eosc.eu',
+    },
+    {
+        id: 'imagine-project',
+        title: 'iMagine',
+        link: 'www.imagine-project.eu',
+    },
+];
+
+export const mockedDataset: ZenodoSimpleDataset = {
+    doiOrUrl: '10.1234/example',
+    title: 'Example Dataset',
+    source: 'zenodo',
+    force_pull: false,
+};
+
+export const mockedDatasetRow = {
+    doi: '10.1234/example.doi',
+    name: 'Example Dataset',
+    source: 'Zenodo',
+    forcePull: true,
+};
+
+export const mockedZenodoService = {
+    getCommunities: jest.fn().mockReturnValue(of(mockedCommunities)),
+    getDataset: jest.fn().mockReturnValue(of(mockedDataset)),
+};

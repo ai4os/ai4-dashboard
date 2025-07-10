@@ -80,7 +80,6 @@ describe('TryMeDetailComponent', () => {
             mockedTryMeService,
             'getDeploymentGradioByUUID'
         );
-        component.ngOnInit();
         expect(spyGetGradioDeploymentByUUID).toHaveBeenCalledWith(
             mockedData.uuid
         );

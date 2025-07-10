@@ -3,14 +3,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
-import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     ModuleConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { showGeneralFormField } from '../general-conf-form/general-conf-form.component';
+import { ShowGeneralFormField } from '../general-conf-form/general-conf-form.component';
 import { showHardwareField } from '../hardware-conf-form/hardware-conf-form.component';
 
 @Component({
@@ -22,7 +21,6 @@ export class OscarTrainComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private modulesService: ModulesService,
-        private toolsService: ToolsService,
         public translateService: TranslateService,
         private route: ActivatedRoute,
         private router: Router
@@ -45,7 +43,7 @@ export class OscarTrainComponent implements OnInit {
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
 
-    showGeneralFields: showGeneralFormField = {
+    showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
         co2EmissionsInput: false,
@@ -57,6 +55,7 @@ export class OscarTrainComponent implements OnInit {
         cvatFields: false,
         ai4lifeFields: false,
         llmFields: false,
+        batchFields: false,
     };
 
     showHardwareFields: showHardwareField = {

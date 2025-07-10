@@ -1,5 +1,46 @@
 # Changelog
 
+## [3.8.0](https://github.com/ai4os/ai4-dashboard/compare/v3.7.0...v3.8.0) (2025-07-02)
+
+
+### Features
+
+* add eosc eu node button ([#413](https://github.com/ai4os/ai4-dashboard/issues/413)) ([19b79a4](https://github.com/ai4os/ai4-dashboard/commit/19b79a4c2ea7d20f0e9c854dcdb10071eb9ff36f))
+* rename sub to user id (profile section) ([#412](https://github.com/ai4os/ai4-dashboard/issues/412)) ([d0795da](https://github.com/ai4os/ai4-dashboard/commit/d0795da25116b0aca691fe25dc62fece70c38d14))
+
+
+### Bug Fixes
+
+* cypress test ([#415](https://github.com/ai4os/ai4-dashboard/issues/415)) ([c1fa8cd](https://github.com/ai4os/ai4-dashboard/commit/c1fa8cd64831b9af9c31ff0065809f08bdbbe6b1))
+
+## [3.7.0](https://github.com/ai4os/ai4-dashboard/compare/v3.6.0...v3.7.0) (2025-06-27)
+
+
+### Features
+
+* start supporting ai4os keycloak ([#409](https://github.com/ai4os/ai4-dashboard/issues/409)) ([255e737](https://github.com/ai4os/ai4-dashboard/commit/255e7375537af5bd9a29000df6219bb5ceead056))
+
+## [3.6.0](https://github.com/ai4os/ai4-dashboard/compare/v3.5.0...v3.6.0) (2025-05-26)
+
+
+### Features
+
+* allow running jobs in batch mode ([#403](https://github.com/ai4os/ai4-dashboard/issues/403)) ([ed5379d](https://github.com/ai4os/ai4-dashboard/commit/ed5379d52a4de95f41cfd436ba8aa47729428871))
+
+
+### Bug Fixes
+
+* delete tools filter in imagine dashboard ([#406](https://github.com/ai4os/ai4-dashboard/issues/406)) ([6b10b39](https://github.com/ai4os/ai4-dashboard/commit/6b10b3976bc60d9411ff05a8e99ea8b5c4927fd1))
+* refactor code ([#399](https://github.com/ai4os/ai4-dashboard/issues/399)) ([4c6b366](https://github.com/ai4os/ai4-dashboard/commit/4c6b3661df4e08e9033538d4290f9871d89ec9cb))
+
+## [3.5.0](https://github.com/ai4os/ai4-dashboard/compare/v3.4.2...v3.5.0) (2025-04-29)
+
+
+### Features
+
+* adapt to papi changes for min requirements ([#395](https://github.com/ai4os/ai4-dashboard/issues/395)) ([a119003](https://github.com/ai4os/ai4-dashboard/commit/a1190038fb1b29dafca6a3762950e4c88bb59d86))
+* show linked services in profile ([#393](https://github.com/ai4os/ai4-dashboard/issues/393)) ([40fe64c](https://github.com/ai4os/ai4-dashboard/commit/40fe64c59e21407132e7e79d97ce7dc902124e2c))
+
 ## [3.4.1](https://github.com/ai4os/ai4-dashboard/compare/v3.4.0...v3.4.1) (2025-04-10)
 
 

@@ -2,12 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneralConfFormComponent } from './general-conf-form.component';
 import { SharedModule } from '@app/shared/shared.module';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    FormGroupDirective,
-} from '@angular/forms';
+import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from '@app/layout/sidenav/sidenav.component';
@@ -15,74 +10,17 @@ import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interf
 import { MediaMatcher } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { of } from 'rxjs';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-
-const mockedConfigService: any = {};
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedVllmsConfig } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 
 const mockDefaultFormValues: ModuleGeneralConfiguration = {
     title: { name: '', value: '', description: '' },
     docker_image: { name: '', value: '', description: '' },
     docker_tag: { name: '', value: '', description: '' },
     service: { name: '', value: '', description: '' },
-};
-
-const mockedProfile = {
-    info: {
-        exp: 1693908513,
-        iat: 1693907913,
-        auth_time: 1693907911,
-        jti: '00000000-c9e1-44b7-b313-4bde8fba70fa',
-        iss: 'https://aai-demo.egi.eu/auth/realms/egi',
-        aud: 'ai4eosc-dashboard',
-        sub: 'test@egi.eu',
-        typ: 'ID',
-        azp: 'ai4eosc-dashboard',
-        nonce: 'WnVHR3ZpOVoyVlFwcjVGTEtIRWhyUTZ0eXJYVHZxN1M4TX5MRzVKWVJYVHZx',
-        session_state: '00000000-818c-46d4-ad87-1b9a1c22c43f',
-        at_hash: 'gdEA9VsgdEA9V-mubWhBWw',
-        sid: 'b27a9b7a-818c-46d4-ad87-1b9a1818c43f',
-        voperson_verified_email: ['test@ifca.unican.es'],
-        email_verified: true,
-        name: 'AI4EOSC Dasboard Test',
-        preferred_username: 'ai4dash',
-        eduperson_assurance: [
-            'https://refeds.org/assurance/IAP/low',
-            'https://aai.egi.eu/LoA#Low',
-        ],
-        given_name: 'AI4EOSC Dasboard ',
-        family_name: 'Test',
-        email: 'test@ifca.unican.es',
-        eduperson_entitlement: [
-            'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=member#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.ai4eosc.eu:role=vm_operator#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=member#aai.egi.eu',
-            'urn:mace:egi.eu:group:vo.imagine-ai.eu:role=vm_operator#aai.egi.eu',
-        ],
-    },
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
-
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-    userProfileSubject: of({}),
-    loadUserProfile: jest.fn().mockReturnValue(Promise.resolve(mockedProfile)),
-    login: jest.fn(),
-    logout: jest.fn(),
 };
 
 describe('GeneralConfFormComponent', () => {
@@ -116,10 +54,8 @@ describe('GeneralConfFormComponent', () => {
 
         fixture = TestBed.createComponent(GeneralConfFormComponent);
         component = fixture.componentInstance;
-        component.parentForm = new FormGroup({
-            x: new FormControl(''),
-        });
         component.defaultFormValues = mockDefaultFormValues;
+        component.vllModelsConfigurations = mockedVllmsConfig;
         fixture.detectChanges();
     });
 
@@ -219,5 +155,76 @@ describe('GeneralConfFormComponent', () => {
         expect(
             component.generalConfFormGroup.controls.titleInput.valid
         ).toBeTruthy();
+    });
+
+    it('should enable password field when service is jupyter or vscode', () => {
+        const passwordControl = component.generalConfFormGroup.get(
+            'serviceToRunPassInput'
+        );
+
+        // set value to jupyter
+        component.generalConfFormGroup
+            .get('serviceToRunChip')
+            ?.setValue('jupyter');
+        expect(passwordControl?.enabled).toBe(true);
+
+        // set value to vscode
+        component.generalConfFormGroup
+            .get('serviceToRunChip')
+            ?.setValue('vscode');
+        expect(passwordControl?.enabled).toBe(true);
+
+        // set value to something else
+        component.generalConfFormGroup
+            .get('serviceToRunChip')
+            ?.setValue('deepaas');
+        expect(passwordControl?.disabled).toBe(true);
+    });
+
+    it('should set email based on profile for cvat', () => {
+        component['_showFields'].cvatFields = true;
+        (mockedAuthService.userProfileSubject as any).next({
+            email: 'cvat@example.com',
+        });
+
+        fixture.detectChanges();
+        const cvatUsername =
+            component.generalConfFormGroup.get('cvatUsernameInput');
+        expect(cvatUsername?.value).toBe('cvat@example.com');
+    });
+
+    it('should set email based on profile for llm', () => {
+        component['_showFields'].llmFields = true;
+        (mockedAuthService.userProfileSubject as any).next({
+            email: 'llm@example.com',
+        });
+
+        fixture.detectChanges();
+        const llmUsername =
+            component.generalConfFormGroup.get('uiUsernameInput');
+        expect(llmUsername?.value).toBe('llm@example.com');
+    });
+
+    it('should enable huggingFaceTokenInput if model requires token', () => {
+        const model = 'meta-llama/Llama-3.2-3B-Instruct';
+        component.generalConfFormGroup.get('vllmModelSelect')?.setValue(model);
+        component.modelChanged();
+
+        expect(component.modelNeedsToken).toBe(true);
+        expect(
+            component.generalConfFormGroup.get('huggingFaceTokenInput')?.enabled
+        ).toBe(true);
+    });
+
+    it('should disable huggingFaceTokenInput if model does not require token', () => {
+        const model = 'Qwen/Qwen2.5-7B-Instruct-AWQ';
+        component.generalConfFormGroup.get('vllmModelSelect')?.setValue(model);
+        component.modelChanged();
+
+        expect(component.modelNeedsToken).toBe(false);
+        expect(
+            component.generalConfFormGroup.get('huggingFaceTokenInput')
+                ?.disabled
+        ).toBe(true);
     });
 });

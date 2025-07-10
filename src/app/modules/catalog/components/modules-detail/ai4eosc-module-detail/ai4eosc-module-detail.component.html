@@ -84,7 +84,7 @@
                 <button mat-menu-item [disabled]="true" style="display: none">
                     <span class="button-with-icon">
                         <img
-                            src="../../../../../assets/images/swagger-logo.svg"
+                            src="../../../../../assets/images/module-detail/swagger-logo.svg"
                         />
                         <div class="button-texts">
                             <b>
@@ -160,7 +160,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/nomad-icon.svg"
+                                src="../../../../../assets/images/module-detail/nomad-icon.svg"
                             />
                             <div class="button-texts">
                                 <b>
@@ -189,7 +189,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/im-logo.png"
+                                src="../../../../../assets/images/module-detail/im-logo.png"
                             />
                             <div class="button-texts">
                                 <b>
@@ -201,6 +201,33 @@
                                 <span class="button-description-text">
                                     {{
                                         'CATALOG.MODULE-DETAIL.DEPLOY.IM'
+                                            | translate
+                                    }}
+                                </span>
+                            </div>
+                        </span>
+                    </a>
+                    <a
+                        class="action-button sub-button"
+                        mat-menu-item
+                        target="_blank"
+                        href="https://docs.ai4eosc.eu/en/latest/howtos/deploy/eosc-node.html"
+                    >
+                        <span class="button-with-icon">
+                            <img
+                                style="width: 24px; height: 24px"
+                                src="../../../../../assets/images/module-detail/circle-eu-flag.png"
+                            />
+                            <div class="button-texts">
+                                <b>
+                                    {{
+                                        'CATALOG.MODULE-DETAIL.DEPLOY.API-EU'
+                                            | translate
+                                    }}
+                                </b>
+                                <span class="button-description-text">
+                                    {{
+                                        'CATALOG.MODULE-DETAIL.DEPLOY.EU-NODE'
                                             | translate
                                     }}
                                 </span>
@@ -237,7 +264,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/jupyter-logo.png"
+                                src="../../../../../assets/images/module-detail/jupyter-logo.png"
                             />
                             <div class="button-texts">
                                 <b>
@@ -256,7 +283,7 @@
                     >
                         <span class="button-with-icon">
                             <img
-                                src="../../../../../assets/images/vscode-logo.png"
+                                src="../../../../../assets/images/module-detail/vscode-logo.png"
                             />
                             <div class="button-texts">
                                 <b>
@@ -269,6 +296,19 @@
                         </span>
                     </button>
                 </mat-menu>
+
+                <button
+                    class="action-button"
+                    mat-raised-button
+                    color="accent"
+                    (click)="deployBatch()"
+                    [disabled]="!isAuthorized()"
+                    matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                    [matTooltipPosition]="'left'"
+                    [matTooltipDisabled]="isAuthorized()"
+                >
+                    {{ 'CATALOG.MODULE-DETAIL.BATCH.TITLE' | translate }}
+                </button>
             </ng-container>
         </div>
 
@@ -306,7 +346,7 @@
                         >
                             <span class="button-with-icon">
                                 <img
-                                    src="../../../../../assets/images/jupyter-logo.png"
+                                    src="../../../../../assets/images/module-detail/jupyter-logo.png"
                                 />
                                 <div class="button-texts">
                                     <b>
@@ -324,7 +364,7 @@
                         >
                             <span class="button-with-icon">
                                 <img
-                                    src="../../../../../assets/images/vscode-logo.png"
+                                    src="../../../../../assets/images/module-detail/vscode-logo.png"
                                 />
                                 <div class="button-texts">
                                     <b>
@@ -476,7 +516,9 @@
                         <app-chip-with-icon
                             *ngFor="let tag of module.tags"
                             text="{{ tag }}"
-                            [image]="'../../../assets/images/tag.png'"
+                            [image]="
+                                '../../../assets/images/module-detail/tag.png'
+                            "
                             chipStyle="default"
                         ></app-chip-with-icon>
                     </div>
@@ -552,7 +594,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/github-icon.png"
+                                    src="../../../../../assets/images/module-detail/github-icon.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.GITHUB' | translate }}
                             </span>
@@ -566,7 +608,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/github-icon.png"
+                                    src="../../../../../assets/images/module-detail/github-icon.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.REPORT-ISSUE' | translate }}
                             </span>
@@ -580,7 +622,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/database.png"
+                                    src="../../../../../assets/images/module-detail/database.png"
                                 />
                                 {{
                                     'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.DATASET'
@@ -600,7 +642,7 @@
                         >
                             <span class="aligned-with-icon">
                                 <img
-                                    src="../../../../../assets/images/dockerhub.png"
+                                    src="../../../../../assets/images/module-detail/dockerhub.png"
                                 />
                                 {{ 'GENERAL-BUTTONS.DOCKERHUB' | translate }}
                             </span>

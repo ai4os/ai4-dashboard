@@ -5,7 +5,7 @@
     </h4>
 </mat-toolbar>
 
-<form class="example-form" [formGroup]="showHelpForm" ngNativeValidate>
+<form [formGroup]="showHelpForm" ngNativeValidate>
     <div class="warning-container">
         @if (warningMessage !== '') {
             <mat-chip class="warning-chip">

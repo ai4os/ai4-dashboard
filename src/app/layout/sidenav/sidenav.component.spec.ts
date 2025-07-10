@@ -9,31 +9,11 @@ import { MaterialModule } from '@app/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
-import { BehaviorSubject, of } from 'rxjs';
-
-const mockedConfigService: any = {};
-
-const mockedUserProfile = new BehaviorSubject({});
-
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-    userProfileSubject: mockedUserProfile,
-    getValue: jest.fn(() => mockedUserProfile.getValue()),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
+import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 
 describe('SidenavComponent', () => {
     let component: SidenavComponent;
@@ -52,6 +32,7 @@ describe('SidenavComponent', () => {
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                { provide: SidenavService, useValue: mockedSidenavService },
             ],
         }).compileComponents();
 
@@ -62,5 +43,67 @@ describe('SidenavComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should initialize properties correctly from services', () => {
+        expect(component.projectName).toBe('Test AI4EOSC');
+        expect(component.acknowledgments).toBe(
+            'The test AI4EOSC dashboard is a service provided by CSIC'
+        );
+        expect(component.isAuthorized).toBe(true);
+    });
+
+    it('should call sidenavService.toggle on toggleSidenav()', () => {
+        component.toggleSidenav();
+        expect(mockedSidenavService.toggle).toHaveBeenCalled();
+    });
+
+    it('should store scrollTop in sessionStorage if on /catalog/modules', () => {
+        const event = {
+            target: {
+                scrollTop: 120,
+            },
+        } as unknown as Event;
+
+        Object.defineProperty(window, 'location', {
+            value: { pathname: '/catalog/modules' },
+            writable: true,
+        });
+
+        component.checkScroll(event);
+
+        expect(sessionStorage.getItem('scrollTop')).toBe('120');
+    });
+
+    it('should reset scrollTop in sessionStorage if not in detail view', () => {
+        const event = {
+            target: {
+                scrollTop: 0,
+            },
+        } as unknown as Event;
+
+        Object.defineProperty(window, 'location', {
+            value: { pathname: '/catalog/other' },
+            writable: true,
+        });
+
+        component.checkScroll(event);
+
+        expect(sessionStorage.getItem('scrollTop')).toBe('0');
+    });
+
+    it('should remove LLMS link if VO is vo.imagine-ai.eu', () => {
+        component.catalogLinks = [
+            { name: 'SIDENAV.LLMS', url: '/catalog/llms' },
+            { name: 'SIDENAV.MODULES', url: '/catalog/modules' },
+        ];
+        mockedConfigService.voName = 'vo.imagine-ai.eu';
+
+        component.ngOnInit();
+
+        const hasLLM = component.catalogLinks.some(
+            (link) => link.name === 'SIDENAV.LLMS'
+        );
+        expect(hasLLM).toBe(false);
     });
 });

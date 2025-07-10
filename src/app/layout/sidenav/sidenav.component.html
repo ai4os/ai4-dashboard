@@ -111,6 +111,13 @@
                                 (link.isRestricted && isLoggedIn())
                             ) {
                                 <mat-list-item
+                                    [attr.id]="
+                                        link.name === 'SIDENAV.DEPLOYMENTS'
+                                            ? 'step2'
+                                            : link.name === 'SIDENAV.BATCH'
+                                              ? 'step3'
+                                              : null
+                                    "
                                     class="sidenav-item"
                                     matTooltip=" {{
                                         'ERRORS.UNAUTHORIZED' | translate

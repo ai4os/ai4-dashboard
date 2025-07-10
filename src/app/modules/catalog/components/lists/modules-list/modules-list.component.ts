@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,19 +17,21 @@ import { filter } from 'rxjs';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { IntroJSService } from 'introjs/introjs.service';
 
 @Component({
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
     styleUrls: ['./modules-list.component.scss'],
 })
-export class ModulesListComponent implements OnInit {
+export class ModulesListComponent implements OnInit, AfterViewInit {
     constructor(
         private router: Router,
         private media: MediaMatcher,
         private changeDetectorRef: ChangeDetectorRef,
         private modulesService: ModulesService,
         private snackbarService: SnackbarService,
+        private introService: IntroJSService,
         public dialog: MatDialog
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
@@ -86,6 +94,15 @@ export class ModulesListComponent implements OnInit {
         } else {
             this.selectTab(2);
         }
+    }
+
+    ngAfterViewInit(): void {
+        const interval = setInterval(() => {
+            if (!this.ai4eoscModulesLoading) {
+                clearInterval(interval);
+                // this.introService.batchDeployments();
+            }
+        }, 200);
     }
 
     getAi4eoscModules() {
