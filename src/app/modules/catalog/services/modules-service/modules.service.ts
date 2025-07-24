@@ -7,7 +7,7 @@ import {
     ModuleConfiguration,
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 const { base, endpoints } = environment.api;
 
@@ -37,7 +37,10 @@ export class ModulesService {
 
     getModule(moduleName: string): Observable<Ai4eoscModule> {
         const url = `${base}${endpoints.module.replace(':name', moduleName)}`;
-        return this.http.get<Ai4eoscModule>(url);
+        const headers = new HttpHeaders({
+            Accept: 'application/json',
+        });
+        return this.http.get<Ai4eoscModule>(url, { headers });
     }
 
     getModuleNomadConfiguration(

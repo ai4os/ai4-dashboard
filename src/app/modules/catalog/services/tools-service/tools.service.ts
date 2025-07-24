@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TagObject } from '@app/data/types/tags';
@@ -45,7 +45,10 @@ export class ToolsService {
 
     getTool(moduleName: string): Observable<Ai4eoscModule> {
         const url = `${base}${endpoints.tool.replace(':name', moduleName)}`;
-        return this.http.get<Ai4eoscModule>(url);
+        const headers = new HttpHeaders({
+            Accept: 'application/json',
+        });
+        return this.http.get<Ai4eoscModule>(url, { headers });
     }
 
     getDevEnvConfiguration(toolName: string): Observable<ModuleConfiguration> {
