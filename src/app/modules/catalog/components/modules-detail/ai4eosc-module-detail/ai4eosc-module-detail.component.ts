@@ -159,4 +159,9 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             relativeTo: this.route,
         });
     }
+
+    openLicenseVocab(license: string) {
+        const url = `https://op.europa.eu/en/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/licence/${license}`;
+        window.open(url);
+    }
 }
