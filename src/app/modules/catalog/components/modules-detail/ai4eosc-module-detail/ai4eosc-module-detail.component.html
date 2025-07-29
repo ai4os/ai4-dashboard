@@ -426,6 +426,8 @@
                             tooltip=" {{
                                 'CATALOG.MODULE-DETAIL.LICENSE' | translate
                             }}"
+                            class="license-chip"
+                            (click)="openLicenseVocab(module.license)"
                         ></app-chip-with-icon>
                     }
 
