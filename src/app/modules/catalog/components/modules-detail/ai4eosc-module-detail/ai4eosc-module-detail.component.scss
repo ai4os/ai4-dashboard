@@ -38,6 +38,10 @@
     min-width: fit-content;
 }
 
+.download-metadata-button {
+    grid-column: span 2;
+}
+
 .sub-button {
     justify-content: flex-end;
 }

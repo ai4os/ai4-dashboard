@@ -264,14 +264,19 @@
                 "DOWNLOAD": "Download RDF",
                 "DIALOG": "Provenance graph"
             },
+            "METADATA": {
+                "DOWNLOAD": "Download metadata",
+                "JSON": "JSON",
+                "JSON-LD": "JSON-LD",
+                "TURTLE": "Turtle"
+            },
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",
                 "DOCUMENTATION": "Docs",
                 "WEIGHTS": "Weights",
                 "CITATION": "Citation",
-                "BASE-MODEL": "Base model",
-                "DOWNLOAD": "Download metadata"
+                "BASE-MODEL": "Base model"
             },
             "TRY": {
                 "TITLE": "Try",
