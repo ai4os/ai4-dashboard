@@ -89,7 +89,7 @@ export class ModulesService {
     openMetadataInNewTab(moduleId: string, format: string): void {
         const url = `${base}${endpoints.module.replace(':name', moduleId)}`;
         let params = new HttpParams().set('profile', '');
-        let headers = new HttpHeaders({
+        const headers = new HttpHeaders({
             Accept: format,
         });
 
