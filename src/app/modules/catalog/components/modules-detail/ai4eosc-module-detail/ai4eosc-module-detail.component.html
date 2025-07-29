@@ -717,6 +717,20 @@
                                 }}
                             </span>
                         </a>
+
+                        <a
+                            class="action-button"
+                            mat-raised-button
+                            (click)="downloadMetadata()"
+                        >
+                            <span class="aligned-with-icon">
+                                <mat-icon>download</mat-icon>
+                                {{
+                                    'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.DOWNLOAD'
+                                        | translate
+                                }}
+                            </span>
+                        </a>
                     </div>
                 </div>
 

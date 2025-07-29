@@ -159,4 +159,12 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             relativeTo: this.route,
         });
     }
+
+    downloadMetadata(): void {
+        const blob = new Blob([JSON.stringify(this.module, null, 2)], {
+            type: 'application/json',
+        });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, '_blank');
+    }
 }

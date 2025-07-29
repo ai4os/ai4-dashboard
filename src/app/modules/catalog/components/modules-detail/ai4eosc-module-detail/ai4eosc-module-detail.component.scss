@@ -24,6 +24,9 @@
     gap: 0.8em;
     width: 100%;
     margin-top: 10px;
+    mat-icon {
+        overflow: visible;
+    }
 }
 
 .action-button {

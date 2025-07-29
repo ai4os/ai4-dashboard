@@ -270,7 +270,8 @@
                 "DOCUMENTATION": "Docs",
                 "WEIGHTS": "Weights",
                 "CITATION": "Citation",
-                "BASE-MODEL": "Base model"
+                "BASE-MODEL": "Base model",
+                "DOWNLOAD": "Download metadata"
             },
             "TRY": {
                 "TITLE": "Try",
