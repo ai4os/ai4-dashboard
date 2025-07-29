@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.10.0](https://github.com/ai4os/ai4-dashboard/compare/v3.9.2...v3.10.0) (2025-07-29)
+
+
+### Features
+
+* add links to license ([#421](https://github.com/ai4os/ai4-dashboard/issues/421)) ([8f321c9](https://github.com/ai4os/ai4-dashboard/commit/8f321c941b2c30551daaff598900d97ce2c830e5))
+* allow to download metadata ([#422](https://github.com/ai4os/ai4-dashboard/issues/422)) ([101efe4](https://github.com/ai4os/ai4-dashboard/commit/101efe4fbc6803f3532a1e3f39ec4f6c70ffe668))
+
 ## [3.9.0](https://github.com/ai4os/ai4-dashboard/compare/v3.8.0...v3.9.0) (2025-07-10)
 
 
