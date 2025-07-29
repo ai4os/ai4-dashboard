@@ -582,6 +582,86 @@
                                     }}
                                 </span>
                             </a>
+
+                            <a
+                                class="action-button download-metadata-button"
+                                mat-raised-button
+                                [matMenuTriggerFor]="downloadMetadataMenu"
+                            >
+                                {{
+                                    'CATALOG.MODULE-DETAIL.METADATA.DOWNLOAD'
+                                        | translate
+                                }}
+                                <mat-icon class="arrow-button">
+                                    keyboard_arrow_down
+                                </mat-icon>
+                            </a>
+
+                            <mat-menu
+                                #downloadMetadataMenu="matMenu"
+                                xPosition="before"
+                            >
+                                <button
+                                    mat-menu-item
+                                    (click)="
+                                        downloadMetadata('application/json')
+                                    "
+                                >
+                                    <span class="button-with-icon">
+                                        <mat-icon class="arrow-button">
+                                            download
+                                        </mat-icon>
+                                        <div class="button-texts">
+                                            <span>
+                                                {{
+                                                    'CATALOG.MODULE-DETAIL.METADATA.JSON'
+                                                        | translate
+                                                }}</span
+                                            >
+                                        </div>
+                                    </span>
+                                </button>
+
+                                <button
+                                    mat-menu-item
+                                    (click)="
+                                        downloadMetadata('application/ld+json')
+                                    "
+                                >
+                                    <span class="button-with-icon">
+                                        <mat-icon class="arrow-button">
+                                            download
+                                        </mat-icon>
+                                        <div class="button-texts">
+                                            <span>
+                                                {{
+                                                    'CATALOG.MODULE-DETAIL.METADATA.JSON-LD'
+                                                        | translate
+                                                }}</span
+                                            >
+                                        </div>
+                                    </span>
+                                </button>
+
+                                <button
+                                    mat-menu-item
+                                    (click)="downloadMetadata('text/turtle')"
+                                >
+                                    <span class="button-with-icon">
+                                        <mat-icon class="arrow-button">
+                                            download
+                                        </mat-icon>
+                                        <div class="button-texts">
+                                            <span>
+                                                {{
+                                                    'CATALOG.MODULE-DETAIL.METADATA.TURTLE'
+                                                        | translate
+                                                }}</span
+                                            >
+                                        </div>
+                                    </span>
+                                </button>
+                            </mat-menu>
                         </div>
                     </div>
                 }

@@ -264,6 +264,12 @@
                 "DOWNLOAD": "Download RDF",
                 "DIALOG": "Provenance graph"
             },
+            "METADATA": {
+                "DOWNLOAD": "Download metadata",
+                "JSON": "JSON format (application/json)",
+                "JSON-LD": "JSON-LD format (application/ld+json)",
+                "TURTLE": "Turtle format (text/turtle)"
+            },
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
                 "DATASET": "Dataset",

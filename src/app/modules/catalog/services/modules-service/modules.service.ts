@@ -85,4 +85,26 @@ export class ModulesService {
             )
         );
     }
+
+    openMetadataInNewTab(moduleId: string, format: string): void {
+        const url = `${base}${endpoints.module.replace(':name', moduleId)}`;
+        let params = new HttpParams().set('profile', '');
+        const headers = new HttpHeaders({
+            Accept: format,
+        });
+
+        if (format === 'application/ld+json' || format === 'text/turtle') {
+            params = params.set('profile', 'mldcatap');
+        }
+
+        this.http
+            .get(url, { headers, params, responseType: 'text' })
+            .subscribe((response) => {
+                const blob = new Blob([JSON.stringify(response, null, 2)], {
+                    type: format,
+                });
+                const blobUrl = URL.createObjectURL(blob);
+                window.open(blobUrl, '_blank');
+            });
+    }
 }
