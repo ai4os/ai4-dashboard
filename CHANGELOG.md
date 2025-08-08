@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.10.1](https://github.com/ai4os/ai4-dashboard/compare/v3.10.0...v3.10.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* rename flower configuration ([#427](https://github.com/ai4os/ai4-dashboard/issues/427)) ([d75b535](https://github.com/ai4os/ai4-dashboard/commit/d75b53528e39f6f009ac0bd404259c3330c7f662))
+* rename zenodo and ai4llm routes ([#426](https://github.com/ai4os/ai4-dashboard/issues/426)) ([6f13708](https://github.com/ai4os/ai4-dashboard/commit/6f137082bdd4e2bbe19859a555aa9ab2b89995ad))
+
 ## [3.10.0](https://github.com/ai4os/ai4-dashboard/compare/v3.9.2...v3.10.0) (2025-07-29)
 
 
