@@ -314,7 +314,7 @@
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
             "DATA-CONF": "Data configuration",
-            "FEDERATED-CONF": "Federated configuration",
+            "FLOWER-CONF": "Flower configuration",
             "LLM-CONF": "LLM configuration",
             "NVFLARE-CONF": "NVFlare configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",

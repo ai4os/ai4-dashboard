@@ -27,7 +27,7 @@ export class FederatedServerComponent implements OnInit {
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
     step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.FEDERATED-CONF';
+    step3Title = 'CATALOG.MODULE-TRAIN.FLOWER-CONF';
 
     showHelp = false;
     showLoader = false;
