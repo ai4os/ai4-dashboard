@@ -44,4 +44,6 @@ Thumbs.db
 
 # Mocks
 /src/assets/mocks/
+
+# Environment files
 /src/app/core/services/auth/auth.config.ts
