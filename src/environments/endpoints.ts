@@ -15,7 +15,7 @@ export const endpoints = {
     secrets: '/secrets',
     userStats: '/deployments/stats/user',
     clusterStats: '/deployments/stats/cluster',
-    zenodo: '/datasets/zenodo',
+    zenodo: '/proxies/zenodo',
     oscarServices: '/inference/oscar/services',
     oscarServiceByName: '/inference/oscar/services/:serviceName',
     nomadTryMeDeployments: '/try_me/nomad',
@@ -32,5 +32,5 @@ export const endpoints = {
     ai4lifeModulesSummary:
         'https://raw.githubusercontent.com/ai4os/ai4os-ai4life-loader/main/models/filtered_models.json',
     // LLM chatbot
-    chatCompletions: '/proxies/ai4_llm/chat',
+    chatCompletions: '/proxies/ai4_llm',
 };

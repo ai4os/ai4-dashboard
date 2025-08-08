@@ -44,3 +44,4 @@ Thumbs.db
 
 # Mocks
 /src/assets/mocks/
+src/app/core/services/auth/auth.config.ts
