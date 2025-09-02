@@ -29,6 +29,8 @@ import { ProfileService } from '../../services/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SecretsService } from '../../../deployments/services/secrets-service/secrets.service';
+import { urlValidator } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component';
+import { StorageService } from '@app/modules/catalog/services/storage-service/storage.service';
 
 export interface VoInfo {
     name: string;
@@ -72,6 +74,7 @@ export class ProfileComponent implements OnInit {
         private readonly authService: AuthService,
         private profileService: ProfileService,
         private secretsService: SecretsService,
+        private storageService: StorageService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -115,6 +118,19 @@ export class ProfileComponent implements OnInit {
 
     protected serviceCredentials: StorageCredential[] = [];
     protected customServiceCredentials: StorageCredential[] = [];
+
+    storageConfFormGroup = this.fb.group({
+        rcloneConfInput: ['/srv/.rclone/rclone.conf'],
+        storageUrlInput: ['', [urlValidator()]],
+        rcloneVendorSelect: ['nextcloud', Validators.required],
+        rcloneUserInput: ['', Validators.required],
+        rclonePasswordInput: ['', Validators.required],
+    });
+
+    protected hideRclonePassword = true;
+    protected rcloneVendorOptions: { value: string; viewValue: string }[] = [
+        { value: 'nextcloud', viewValue: 'nextcloud' },
+    ];
 
     protected mlflowCredentials: MLflowCredentials = {
         username: '',
@@ -358,6 +374,57 @@ export class ProfileComponent implements OnInit {
                     this.syncRclone(serviceName);
                 }
             });
+    }
+
+    saveRcloneCredentials(serviceName: string) {
+        this.isStorageLoading = true;
+        const secret: StorageCredential = {
+            loginName: this.storageConfFormGroup.get('rcloneUserInput')?.value!,
+            appPassword: this.storageConfFormGroup.get('rclonePasswordInput')
+                ?.value!,
+            conf: this.storageConfFormGroup.get('rcloneConfInput')?.value ?? '',
+            server: this.storageConfFormGroup.get('storageUrlInput')?.value!,
+            vendor: this.storageConfFormGroup.get('rcloneVendorSelect')?.value!,
+        };
+        serviceName = serviceName.replace(/^https?:\/\//, '');
+        const secretPath = '/services/storage/' + serviceName;
+        this.secretsService.createSecret(secret, secretPath).subscribe({
+            next: () => {
+                this.storageService.getStorageFiles(serviceName).subscribe({
+                    next: () => {
+                        this.getExistingRcloneCredentials();
+                        this.snackbarService.openSuccess(
+                            'Successfully added ' + serviceName + ' credentials'
+                        );
+                    },
+                    error: () => {
+                        this.secretsService.deleteSecret(secretPath).subscribe({
+                            next: () => {
+                                this.isStorageLoading = false;
+                            },
+                            error: () => {
+                                this.isStorageLoading = false;
+                                this.snackbarService.openError(
+                                    'Error deleting ' +
+                                        serviceName +
+                                        ' credentials'
+                                );
+                            },
+                        });
+                        this.isStorageLoading = false;
+                        this.snackbarService.openError(
+                            'New storage could not be validated.'
+                        );
+                    },
+                });
+            },
+            error: () => {
+                this.isStorageLoading = false;
+                this.snackbarService.openError(
+                    'Error storing your RCLONE credentials.'
+                );
+            },
+        });
     }
 
     openCustomNextcloudDocumentationWeb(): void {

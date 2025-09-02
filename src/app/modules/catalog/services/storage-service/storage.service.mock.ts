@@ -1,6 +1,6 @@
-import { Snapshot } from '@app/shared/interfaces/module.interface';
+import { File } from '@app/shared/interfaces/module.interface';
 
-export const snapshotsListMock: Snapshot[] = [
+export const snapshotsListMock: File[] = [
     {
         IsDir: true,
         MimeType: 'inode/directory',

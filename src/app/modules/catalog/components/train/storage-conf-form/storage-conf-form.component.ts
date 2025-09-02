@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import {
     ModuleStorageConfiguration,
-    Snapshot,
+    File,
     confObject,
     confObjectStringBoolean,
 } from '@app/shared/interfaces/module.interface';
@@ -84,7 +84,7 @@ export class StorageConfFormComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)
-        datasetsListComponent!: DatasetsListComponent;
+    datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() rcloneIsRequired = false;
@@ -171,7 +171,7 @@ export class StorageConfFormComponent implements OnInit {
     };
     credentials: StorageCredential[] = [];
     sortBy = 'recent';
-    snapshots: Snapshot[] = [];
+    snapshots: File[] = [];
 
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
@@ -363,7 +363,7 @@ export class StorageConfFormComponent implements OnInit {
         this.snapshotsLoading = true;
         this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
         this.storageService.getSnapshots(storageName).subscribe({
-            next: (snapshots: Snapshot[]) => {
+            next: (snapshots: File[]) => {
                 this.snapshots = Object.values(snapshots);
                 // filter directories
                 this.snapshots = this.snapshots.filter((s) => s.IsDir);
@@ -375,7 +375,7 @@ export class StorageConfFormComponent implements OnInit {
                     );
                 });
                 if (this.snapshots.length > 0) {
-                    this.snapshots.forEach((snapshot: Snapshot) => {
+                    this.snapshots.forEach((snapshot: File) => {
                         this.snapshotOptions.push({
                             value: snapshot.Name,
                             viewValue: snapshot.Name,
@@ -475,7 +475,7 @@ export class StorageConfFormComponent implements OnInit {
                 });
             }
 
-            this.snapshots.forEach((snapshot: Snapshot) => {
+            this.snapshots.forEach((snapshot: File) => {
                 this.snapshotOptions.push({
                     value: snapshot.Name,
                     viewValue: snapshot.Name,
