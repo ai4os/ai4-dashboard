@@ -379,12 +379,17 @@ export class ProfileComponent implements OnInit {
     saveRcloneCredentials(serviceName: string) {
         this.isStorageLoading = true;
         const secret: StorageCredential = {
-            loginName: this.storageConfFormGroup.get('rcloneUserInput')?.value!,
-            appPassword: this.storageConfFormGroup.get('rclonePasswordInput')
-                ?.value!,
+            loginName:
+                this.storageConfFormGroup.get('rcloneUserInput')?.value ?? '',
+            appPassword:
+                this.storageConfFormGroup.get('rclonePasswordInput')?.value ??
+                '',
             conf: this.storageConfFormGroup.get('rcloneConfInput')?.value ?? '',
-            server: this.storageConfFormGroup.get('storageUrlInput')?.value!,
-            vendor: this.storageConfFormGroup.get('rcloneVendorSelect')?.value!,
+            server:
+                this.storageConfFormGroup.get('storageUrlInput')?.value ?? '',
+            vendor:
+                this.storageConfFormGroup.get('rcloneVendorSelect')?.value ??
+                '',
         };
         serviceName = serviceName.replace(/^https?:\/\//, '');
         const secretPath = '/services/storage/' + serviceName;
