@@ -138,10 +138,13 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         }
 
         // subscribe to receive future updates
-        this.authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
-            this.isAuthorized = profile.isAuthorized;
-            this.updateMainLinks();
+        this.authService.userProfile$.subscribe((profile) => {
+            if (profile) {
+                this.userProfile = profile;
+                this.isAuthorized = profile.isAuthorized;
+                this.updateMainLinks();
+                this.changeDetectorRef.detectChanges();
+            }
         });
     }
 

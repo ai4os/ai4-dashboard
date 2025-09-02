@@ -29,10 +29,6 @@ export class TopNavbarComponent implements OnInit {
             'change',
             this._hideSidebarQueryListener
         );
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-        authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
-        });
     }
 
     private _hideSidebarQueryListener: () => void;
@@ -44,6 +40,12 @@ export class TopNavbarComponent implements OnInit {
     voName = '';
 
     ngOnInit(): void {
+        this.authService.userProfile$.subscribe((profile) => {
+            if (profile) {
+                this.userProfile = profile;
+                this.changeDetectorRef.detectChanges();
+            }
+        });
         this.voName = this.appConfigService.voName;
     }
 

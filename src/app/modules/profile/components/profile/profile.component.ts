@@ -144,18 +144,20 @@ export class ProfileComponent implements OnInit {
                 )
             )
             .subscribe((profile) => {
-                this.name = profile.name;
-                this.email = profile.email;
-                this.sub = profile.sub;
-                this.isAuthorized = profile.isAuthorized;
+                if (profile) {
+                    this.name = profile.name;
+                    this.email = profile.email;
+                    this.sub = profile.sub;
+                    this.isAuthorized = profile.isAuthorized;
 
-                if (profile.roles) {
-                    this.getVoInfo(profile.roles);
-                }
+                    if (profile.roles) {
+                        this.getVoInfo(profile.roles);
+                    }
 
-                if (this.isAuthorized) {
-                    this.getExistingRcloneCredentials();
-                    this.getOtherServicesCredentials();
+                    if (this.isAuthorized) {
+                        this.getExistingRcloneCredentials();
+                        this.getOtherServicesCredentials();
+                    }
                 }
             });
     }
