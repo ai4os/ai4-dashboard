@@ -1,5 +1,5 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
-import { AuthService } from './auth.service';
+import { AuthService, UserProfile } from './auth.service';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { AppConfigService } from '../app-config/app-config.service';
 import { CatalogModule } from '@app/modules/catalog/catalog.module';
@@ -12,6 +12,7 @@ import {
 } from '@app/core/services/auth/auth-service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { BehaviorSubject } from 'rxjs';
 
 describe('AuthService', () => {
     let service: AuthService;
@@ -36,7 +37,8 @@ describe('AuthService', () => {
         });
 
         service = TestBed.inject(AuthService);
-        service.userProfileSubject = mockedParsedUserProfile;
+        service.userProfileSubject =
+            mockedParsedUserProfile as BehaviorSubject<UserProfile | null>;
     });
 
     afterEach(() => {
