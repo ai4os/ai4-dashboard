@@ -15,8 +15,8 @@ const routes: Routes = [
             },
             {
                 path: 'marketplace',
-                redirectTo: '/catalog/modules',
-                pathMatch: 'full',
+                redirectTo: 'catalog',
+                pathMatch: 'prefix',
             },
             {
                 path: 'statistics',
