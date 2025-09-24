@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.0](https://github.com/ai4os/ai4-dashboard/compare/v3.10.1...v3.11.0) (2025-09-24)
+
+
+### Features
+
+* redirect marketplace routes to catalog routes ([#436](https://github.com/ai4os/ai4-dashboard/issues/436)) ([e049da7](https://github.com/ai4os/ai4-dashboard/commit/e049da7e84fe62d98c8842ad051a29cdd2ab26be))
+
 ## [3.10.1](https://github.com/ai4os/ai4-dashboard/compare/v3.10.0...v3.10.1) (2025-08-08)
 
 
