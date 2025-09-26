@@ -29,6 +29,7 @@ import { ProfileService } from '../../services/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SecretsService } from '../../../deployments/services/secrets-service/secrets.service';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 export interface VoInfo {
     name: string;
@@ -72,6 +73,7 @@ export class ProfileComponent implements OnInit {
         private readonly authService: AuthService,
         private profileService: ProfileService,
         private secretsService: SecretsService,
+        private appConfigService: AppConfigService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -440,5 +442,15 @@ export class ProfileComponent implements OnInit {
                         });
                 }
             });
+    }
+
+    syncMlflow() {
+        let url = '';
+        if (this.appConfigService.projectName === 'iMagine') {
+            url = 'https://mlflow.cloud.imagine-ai.eu/signup';
+        } else {
+            url = 'https://mlflow.cloud.ai4eosc.eu/signup';
+        }
+        window.open(url);
     }
 }
