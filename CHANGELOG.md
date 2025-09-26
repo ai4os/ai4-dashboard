@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.1](https://github.com/ai4os/ai4-dashboard/compare/v3.11.0...v3.11.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* login issue ([#433](https://github.com/ai4os/ai4-dashboard/issues/433)) ([aa7fbef](https://github.com/ai4os/ai4-dashboard/commit/aa7fbefb1b59641a61bdce52c6393ab21797f7e6))
+
 ## [3.11.0](https://github.com/ai4os/ai4-dashboard/compare/v3.10.1...v3.11.0) (2025-09-24)
 
 
