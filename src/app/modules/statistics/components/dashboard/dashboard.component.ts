@@ -23,9 +23,11 @@ export class DashboardComponent implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher
     ) {
-        authService.loadUserProfile();
-        authService.userProfileSubject.subscribe((profile) => {
-            this.userProfile = profile;
+        this.authService.userProfile$.subscribe((profile) => {
+            if (profile) {
+                this.userProfile = profile;
+                this.changeDetectorRef.detectChanges();
+            }
         });
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();

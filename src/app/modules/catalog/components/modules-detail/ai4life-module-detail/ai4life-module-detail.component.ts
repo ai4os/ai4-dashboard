@@ -73,8 +73,11 @@ export class Ai4lifeModuleDetailComponent implements OnInit {
         this.route.params.subscribe((params) => {
             this.isLoading = true;
 
-            this.authService.userProfileSubject.subscribe((profile) => {
-                this.userProfile = profile;
+            this.authService.userProfile$.subscribe((profile) => {
+                if (profile) {
+                    this.userProfile = profile;
+                    this.changeDetectorRef.detectChanges();
+                }
             });
 
             this.modulesService.getAi4lifeModules().subscribe({

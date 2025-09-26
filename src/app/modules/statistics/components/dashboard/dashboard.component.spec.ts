@@ -16,7 +16,10 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import {
+    mockedAuthService,
+    mockedParsedUserProfile,
+} from '@app/core/services/auth/auth-service.mock';
 import { mockedStatsService } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
 
@@ -48,6 +51,7 @@ describe('DashboardComponent', () => {
 
         fixture = TestBed.createComponent(DashboardComponent);
         component = fixture.componentInstance;
+        component.userProfile = mockedParsedUserProfile.getValue();
 
         fixture.detectChanges();
     });

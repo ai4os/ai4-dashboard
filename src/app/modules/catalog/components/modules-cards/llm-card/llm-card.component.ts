@@ -22,9 +22,11 @@ export class LlmCardComponent implements OnInit {
     ngOnInit(): void {
         this.image = this.llm.family;
 
-        this.authService.userProfileSubject.subscribe((profile) => {
-            this.isAuthorized =
-                this.authService.isAuthenticated() && profile.isAuthorized;
+        this.authService.userProfile$.subscribe((profile) => {
+            if (profile) {
+                this.isAuthorized =
+                    this.authService.isAuthenticated() && profile.isAuthorized;
+            }
         });
     }
 
