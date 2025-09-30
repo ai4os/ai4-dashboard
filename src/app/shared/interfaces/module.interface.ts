@@ -297,7 +297,7 @@ export interface GradioDeployment {
     datacenter: string;
 }
 
-export interface Snapshot {
+export interface File {
     Path: string;
     Name: string;
     Size: number;

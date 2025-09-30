@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { Secret } from '@app/shared/interfaces/module.interface';
+import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -30,7 +31,10 @@ export class SecretsService {
         });
     }
 
-    createSecret(secret: Secret, secretPath: string): Observable<StatusReturn> {
+    createSecret(
+        secret: Secret | StorageCredential,
+        secretPath: string
+    ): Observable<StatusReturn> {
         const url = `${base}${endpoints.secrets}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)

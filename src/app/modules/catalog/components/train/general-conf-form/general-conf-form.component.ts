@@ -31,7 +31,7 @@ import { SecretsService } from '@app/modules/deployments/services/secrets-servic
 export function urlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const urlPattern =
-            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
+            /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
         const value = control.value;
         const validURL = urlPattern.test(value);
         return validURL ? null : { invalidURL: true };
