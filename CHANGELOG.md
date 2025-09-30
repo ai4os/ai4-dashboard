@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.12.0](https://github.com/ai4os/ai4-dashboard/compare/v3.11.1...v3.12.0) (2025-09-30)
+
+
+### Features
+
+* change tooltip and  add units to energy efficiency ([#440](https://github.com/ai4os/ai4-dashboard/issues/440)) ([77d9d0f](https://github.com/ai4os/ai4-dashboard/commit/77d9d0fe878431b1f62b58d0b7ab58e92161e980))
+
 ## [3.11.1](https://github.com/ai4os/ai4-dashboard/compare/v3.11.0...v3.11.1) (2025-09-26)
 
 
