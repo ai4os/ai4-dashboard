@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.0](https://github.com/ai4os/ai4-dashboard/compare/v3.12.0...v3.13.0) (2025-10-01)
+
+
+### Features
+
+* modify mlflow details inside profile ([#432](https://github.com/ai4os/ai4-dashboard/issues/432)) ([78334b5](https://github.com/ai4os/ai4-dashboard/commit/78334b5196f3749b9ff735ed1a7d1bc1a4421a73))
+
 ## [3.12.0](https://github.com/ai4os/ai4-dashboard/compare/v3.11.1...v3.12.0) (2025-09-30)
 
 
