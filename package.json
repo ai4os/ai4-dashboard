@@ -8,6 +8,7 @@
         "build-ai4eosc-prod": "ng build --configuration production-ai4eosc",
         "build-ai4eosc-tutorials": "ng build --configuration tutorials-ai4eosc",
         "build-ai4eosc-ai4life": "ng build --configuration ai4life-ai4eosc",
+        "build-ai4eosc-kmd": "ng build --configuration kmd-ai4eosc",
         "build-imagine-dev": "ng build --configuration development-imagine",
         "build-imagine-prod": "ng build --configuration production-imagine",
         "generate-version-file": "npx ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" version_generate.ts",

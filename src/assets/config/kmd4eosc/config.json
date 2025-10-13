@@ -1,0 +1,52 @@
+{
+    "title": "KMD4EOSC - Dashboard",
+    "sidenavMenu": [
+        {
+            "name": "SIDENAV.STORAGE",
+            "url": "https://share.services.ai4os.eu/"
+        },
+        {
+            "name": "SIDENAV.EXPERIMENT-TRACKING",
+            "url": "https://mlflow.cloud.ai4eosc.eu"
+        },
+        {
+            "name": "SIDENAV.INFERENCE-WORKFLOWS",
+            "url": "https://forge.flows.dev.ai4eosc.eu/"
+        }
+    ],
+    "footerLinks": [
+        {
+            "name": "SIDENAV.STATUS",
+            "url": "https://status.ai4eosc.eu "
+        },
+        {
+            "name": "SIDENAV.PROJECT-PAGE",
+            "url": "https://kmd4eosc.pl/"
+        },
+        {
+            "name": "SIDENAV.DOCUMENTATION",
+            "url": "https://docs.ai4os.eu/"
+        },
+        {
+            "name": "SIDENAV.TERMS-OF-USE",
+            "url": "https://ai4eosc.eu/platform/acceptable-use-policy/"
+        },
+        {
+            "name": "SIDENAV.PRIVACY-POLICY",
+            "url": "https://ai4eosc.eu/platform/privacy-policy/"
+        }
+    ],
+    "voName": "kmd4eosc",
+    "projectName": "AI4EOSC",
+    "projectUrl": "https://ai4eosc.eu",
+    "acknowledgments": "The KMD4EOSC dashboard is a service provided by CSIC, co-funded by ",
+    "analytics": {
+        "domain": "kmd4eosc.cloud.ai4eosc.eu",
+        "src": "https://stats.services.ai4os.eu/js/script.js"
+    },
+    "apiURL": "",
+    "issuer": "",
+    "clientId": "",
+    "dummyClientSecret": "",
+    "deployedInNomad": false
+}
