@@ -106,6 +106,7 @@
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
+            "GPU-WARNING": "Remember that GPU trainings can also be launched in batch mode, where there is a higher availability of powerful GPUs. For more information on how to relaunch this deployment in batch mode, check the documentation.",
             "DOCKER-IMAGE": "Docker image",
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
