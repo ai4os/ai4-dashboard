@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.14.0](https://github.com/ai4os/ai4-dashboard/compare/v3.13.0...v3.14.0) (2025-10-22)
+
+
+### Features
+
+* add warning message ([#446](https://github.com/ai4os/ai4-dashboard/issues/446)) ([37c4af8](https://github.com/ai4os/ai4-dashboard/commit/37c4af89bc4d82df8675195ef27ab13a0b0833e1))
+* create and configure kmd files ([#445](https://github.com/ai4os/ai4-dashboard/issues/445)) ([7f23d62](https://github.com/ai4os/ai4-dashboard/commit/7f23d62b6681562f00ab6d77eca2fc50a8d83e0e))
+
 ## [3.13.0](https://github.com/ai4os/ai4-dashboard/compare/v3.12.0...v3.13.0) (2025-10-01)
 
 
