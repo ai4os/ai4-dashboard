@@ -109,7 +109,7 @@ export class ProfileComponent implements OnInit {
     isAuthorized = false;
 
     protected vos: VoInfo[] = [];
-    protected ai4osEndpoint = 'share.services.ai4os.eu';
+    protected ai4osEndpoint = 'share.cloud.ai4eosc.eu';
     protected customEndpoint = '';
     customEndpointFormGroup = this.fb.group({
         value: ['', [Validators.required, domainValidator()]],
@@ -203,8 +203,27 @@ export class ProfileComponent implements OnInit {
                     this.serviceCredentials.push(credential);
                 }
                 this.customServiceCredentials = this.serviceCredentials.filter(
-                    (c) => c.server !== 'share.services.ai4os.eu'
+                    (c) => c.server !== 'share.cloud.ai4eosc.eu'
                 );
+
+                // TODO: remove this section after a grace period
+                if (
+                    this.customServiceCredentials.find(
+                        (c: StorageCredential) =>
+                            c.server === 'share.services.ai4os.eu'
+                    )
+                ) {
+                    this.customServiceCredentials =
+                        this.serviceCredentials.filter(
+                            (c) => c.server !== 'share.services.ai4os.eu'
+                        );
+                    this.secretsService
+                        .deleteSecret(
+                            '/services/storage/share.services.ai4os.eu'
+                        )
+                        .subscribe();
+                }
+
                 this.isStorageLoading = false;
             },
             error: () => {

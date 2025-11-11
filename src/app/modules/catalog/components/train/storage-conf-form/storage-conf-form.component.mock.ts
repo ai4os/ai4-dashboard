@@ -10,7 +10,7 @@ export const storageDefaultFormValues: ModuleStorageConfiguration = {
         name: 'Storage URL',
         value: '',
         description:
-            'Remote storage link to be accessed via rclone (webdav). For example, in Nextcloud `https://share.services.ai4os.eu/remote.php/dav/files/<USER-ID>`',
+            'Remote storage link to be accessed via rclone (webdav). For example, in Nextcloud `https://share.cloud.ai4eosc.eu/remote.php/dav/files/<USER-ID>`',
     },
     rclone_vendor: {
         name: 'RCLONE vendor',
