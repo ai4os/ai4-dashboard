@@ -63,7 +63,8 @@
             "CUSTOM": "Custom Nextcloud",
             "INVALID-DOMAIN": "Invalid domain format"
         },
-        "SERVICES": "Other services"
+        "AI4OS-SERVICES": "AI4OS services",
+        "EXTERNAL-SERVICES": "External services"
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -80,7 +81,7 @@
         "CLUSTER-INFO": "Total cluster usage",
         "USERS-INFO": "These graphs represent your historical aggregate usage compared to the total aggregate usage of your VO. Units: <resource> / day",
         "PUE-INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)",
-        "ENERGY-INFO": "How carbon-intensive is the grid the datacenter is plugged to (the lower the better)",
+        "ENERGY-INFO": "How carbon-intensive (in g CO2/kWh) is the grid the data center is plugged to (the lower the better). Values are calculated with wattprint.eu.",
         "GPU-PER-MODEL": "GPU Stats per model",
         "NODES-CPU": "Nodes with CPU",
         "NODES-GPU": "Nodes with GPU",
@@ -119,6 +120,7 @@
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
+            "GPU-WARNING": "Remember that GPU trainings can also be launched in batch mode, where there is a higher availability of powerful GPUs. For more information on how to relaunch this deployment in batch mode, check the documentation.",
             "DOCKER-IMAGE": "Docker image",
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",

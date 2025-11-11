@@ -63,6 +63,11 @@ export class AuthService {
 
         this.oauthService.configure(authCodeFlowConfig);
         this.oauthService.setupAutomaticSilentRefresh();
+
+        const savedProfile = localStorage.getItem('userProfile');
+        if (savedProfile) {
+            this.userProfileSubject.next(JSON.parse(savedProfile));
+        }
     }
 
     private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
@@ -76,14 +81,8 @@ export class AuthService {
         this.isDoneLoading$,
     ]).pipe(map((values) => values.every((b) => b)));
 
-    userProfileSubject = new BehaviorSubject<UserProfile>({
-        name: '',
-        email: '',
-        roles: [],
-        isAuthorized: false,
-        isDeveloper: false,
-        sub: '',
-    });
+    userProfileSubject = new BehaviorSubject<UserProfile | null>(null);
+    public userProfile$ = this.userProfileSubject.asObservable();
 
     get router() {
         return this.injector.get(Router);
@@ -242,6 +241,7 @@ export class AuthService {
 
         this.oauthService.loadUserProfile().then(() => {
             this.userProfileSubject.next(userProfile);
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
         });
     }
 

@@ -357,16 +357,19 @@ export class GeneralConfFormComponent implements OnInit {
                 }
             });
 
-        this.authService.userProfileSubject.subscribe((profile) => {
-            const email = profile.email;
-            if (this._showFields.llmFields) {
-                this.generalConfFormGroup
-                    .get('uiUsernameInput')
-                    ?.setValue(email);
-            } else if (this._showFields.cvatFields) {
-                this.generalConfFormGroup
-                    .get('cvatUsernameInput')
-                    ?.setValue(email);
+        this.authService.userProfile$.subscribe((profile) => {
+            if (profile) {
+                const email = profile.email;
+                if (this._showFields.llmFields) {
+                    this.generalConfFormGroup
+                        .get('uiUsernameInput')
+                        ?.setValue(email);
+                } else if (this._showFields.cvatFields) {
+                    this.generalConfFormGroup
+                        .get('cvatUsernameInput')
+                        ?.setValue(email);
+                }
+                this.changeDetectorRef.detectChanges();
             }
         });
 

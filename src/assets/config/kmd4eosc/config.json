@@ -1,5 +1,5 @@
 {
-    "title": "AI4EOSC - Dashboard",
+    "title": "KMD4EOSC - Dashboard",
     "sidenavMenu": [
         {
             "name": "SIDENAV.STORAGE",
@@ -21,7 +21,7 @@
         },
         {
             "name": "SIDENAV.PROJECT-PAGE",
-            "url": "https://ai4eosc.eu"
+            "url": "https://kmd4eosc.pl/"
         },
         {
             "name": "SIDENAV.DOCUMENTATION",
@@ -36,12 +36,12 @@
             "url": "https://ai4eosc.eu/platform/privacy-policy/"
         }
     ],
-    "voName": "vo.ai4eosc.eu",
+    "voName": "kmd4eosc",
     "projectName": "AI4EOSC",
     "projectUrl": "https://ai4eosc.eu",
-    "acknowledgments": "The AI4EOSC dashboard is a service provided by CSIC, co-funded by ",
+    "acknowledgments": "The KMD4EOSC dashboard is a service provided by CSIC, co-funded by ",
     "analytics": {
-        "domain": "dashboard.cloud.ai4eosc.eu",
+        "domain": "kmd4eosc.cloud.ai4eosc.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
     },
     "apiURL": "",

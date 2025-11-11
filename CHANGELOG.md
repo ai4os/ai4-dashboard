@@ -1,5 +1,48 @@
 # Changelog
 
+## [3.15.0](https://github.com/ai4os/ai4-dashboard/compare/v3.14.0...v3.15.0) (2025-11-11)
+
+
+### Features
+
+* change nextcloud domain to share.cloud.ai4eosc.eu ([#450](https://github.com/ai4os/ai4-dashboard/issues/450)) ([6795d73](https://github.com/ai4os/ai4-dashboard/commit/6795d7307d0f275f2da571b0a8ad45920cd28787))
+
+## [3.14.0](https://github.com/ai4os/ai4-dashboard/compare/v3.13.0...v3.14.0) (2025-10-22)
+
+
+### Features
+
+* add warning message ([#446](https://github.com/ai4os/ai4-dashboard/issues/446)) ([37c4af8](https://github.com/ai4os/ai4-dashboard/commit/37c4af89bc4d82df8675195ef27ab13a0b0833e1))
+* create and configure kmd files ([#445](https://github.com/ai4os/ai4-dashboard/issues/445)) ([7f23d62](https://github.com/ai4os/ai4-dashboard/commit/7f23d62b6681562f00ab6d77eca2fc50a8d83e0e))
+
+## [3.13.0](https://github.com/ai4os/ai4-dashboard/compare/v3.12.0...v3.13.0) (2025-10-01)
+
+
+### Features
+
+* modify mlflow details inside profile ([#432](https://github.com/ai4os/ai4-dashboard/issues/432)) ([78334b5](https://github.com/ai4os/ai4-dashboard/commit/78334b5196f3749b9ff735ed1a7d1bc1a4421a73))
+
+## [3.12.0](https://github.com/ai4os/ai4-dashboard/compare/v3.11.1...v3.12.0) (2025-09-30)
+
+
+### Features
+
+* change tooltip and  add units to energy efficiency ([#440](https://github.com/ai4os/ai4-dashboard/issues/440)) ([77d9d0f](https://github.com/ai4os/ai4-dashboard/commit/77d9d0fe878431b1f62b58d0b7ab58e92161e980))
+
+## [3.11.1](https://github.com/ai4os/ai4-dashboard/compare/v3.11.0...v3.11.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* login issue ([#433](https://github.com/ai4os/ai4-dashboard/issues/433)) ([aa7fbef](https://github.com/ai4os/ai4-dashboard/commit/aa7fbefb1b59641a61bdce52c6393ab21797f7e6))
+
+## [3.11.0](https://github.com/ai4os/ai4-dashboard/compare/v3.10.1...v3.11.0) (2025-09-24)
+
+
+### Features
+
+* redirect marketplace routes to catalog routes ([#436](https://github.com/ai4os/ai4-dashboard/issues/436)) ([e049da7](https://github.com/ai4os/ai4-dashboard/commit/e049da7e84fe62d98c8842ad051a29cdd2ab26be))
+
 ## [3.10.1](https://github.com/ai4os/ai4-dashboard/compare/v3.10.0...v3.10.1) (2025-08-08)
 
 

@@ -285,6 +285,13 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
             });
     }
 
+    openBatchDocumentation(): void {
+        window.open(
+            'https://docs.ai4os.eu/en/latest/howtos/train/batch.html',
+            '_blank'
+        );
+    }
+
     isSticky(columnDef: string): boolean {
         return columnDef === 'name' ? true : false;
     }

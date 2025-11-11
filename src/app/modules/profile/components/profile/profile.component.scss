@@ -109,7 +109,6 @@ mat-list {
     flex-direction: row;
     flex-wrap: nowrap;
     width: 100%;
-    justify-content: space-around;
     gap: 1.5em;
 }
 
@@ -130,7 +129,7 @@ mat-list {
     width: 100%;
 }
 
-.other-services-container {
+.services-container {
     display: flex;
     flex-direction: column;
     align-items: center;

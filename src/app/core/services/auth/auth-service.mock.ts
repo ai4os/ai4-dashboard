@@ -60,6 +60,7 @@ export const mockedAuthService: any = {
         src: 'http://locahost/js/script.js',
     },
     isAuthenticated: jest.fn(),
+    userProfile$: mockedParsedUserProfile.asObservable(),
     userProfileSubject: mockedParsedUserProfile,
     getValue: jest.fn(() => mockedUserProfile),
     login: jest.fn(),

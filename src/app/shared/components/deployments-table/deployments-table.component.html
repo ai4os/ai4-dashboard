@@ -151,6 +151,20 @@
                                 }}"
                                 height="20"
                             />
+                            @if (
+                                row[column.columnDef] === 'queued' &&
+                                row.gpus > 0
+                            ) {
+                                <mat-icon
+                                    [matTooltip]="
+                                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.GPU-WARNING'
+                                            | translate
+                                    "
+                                    class="ml-2 warning-icon"
+                                    (click)="openBatchDocumentation()"
+                                    >error</mat-icon
+                                >
+                            }
                         } @else if (column.columnDef === 'name') {
                             <span
                                 matBadgeSize="small"

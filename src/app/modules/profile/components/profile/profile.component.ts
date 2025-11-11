@@ -31,6 +31,7 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
 import { SecretsService } from '../../../deployments/services/secrets-service/secrets.service';
 import { urlValidator } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component';
 import { StorageService } from '@app/modules/catalog/services/storage-service/storage.service';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 
 export interface VoInfo {
     name: string;
@@ -75,6 +76,7 @@ export class ProfileComponent implements OnInit {
         private profileService: ProfileService,
         private secretsService: SecretsService,
         private storageService: StorageService,
+        private appConfigService: AppConfigService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -110,7 +112,7 @@ export class ProfileComponent implements OnInit {
     isAuthorized = false;
 
     protected vos: VoInfo[] = [];
-    protected ai4osEndpoint = 'share.services.ai4os.eu';
+    protected ai4osEndpoint = 'share.cloud.ai4eosc.eu';
     protected customEndpoint = '';
     customEndpointFormGroup = this.fb.group({
         value: ['', [Validators.required, domainValidator()]],
@@ -160,18 +162,20 @@ export class ProfileComponent implements OnInit {
                 )
             )
             .subscribe((profile) => {
-                this.name = profile.name;
-                this.email = profile.email;
-                this.sub = profile.sub;
-                this.isAuthorized = profile.isAuthorized;
+                if (profile) {
+                    this.name = profile.name;
+                    this.email = profile.email;
+                    this.sub = profile.sub;
+                    this.isAuthorized = profile.isAuthorized;
 
-                if (profile.roles) {
-                    this.getVoInfo(profile.roles);
-                }
+                    if (profile.roles) {
+                        this.getVoInfo(profile.roles);
+                    }
 
-                if (this.isAuthorized) {
-                    this.getExistingRcloneCredentials();
-                    this.getOtherServicesCredentials();
+                    if (this.isAuthorized) {
+                        this.getExistingRcloneCredentials();
+                        this.getOtherServicesCredentials();
+                    }
                 }
             });
     }
@@ -215,8 +219,27 @@ export class ProfileComponent implements OnInit {
                     this.serviceCredentials.push(credential);
                 }
                 this.customServiceCredentials = this.serviceCredentials.filter(
-                    (c) => c.server !== 'share.services.ai4os.eu'
+                    (c) => c.server !== 'share.cloud.ai4eosc.eu'
                 );
+
+                // TODO: remove this section after a grace period
+                if (
+                    this.customServiceCredentials.find(
+                        (c: StorageCredential) =>
+                            c.server === 'share.services.ai4os.eu'
+                    )
+                ) {
+                    this.customServiceCredentials =
+                        this.serviceCredentials.filter(
+                            (c) => c.server !== 'share.services.ai4os.eu'
+                        );
+                    this.secretsService
+                        .deleteSecret(
+                            '/services/storage/share.services.ai4os.eu'
+                        )
+                        .subscribe();
+                }
+
                 this.isStorageLoading = false;
             },
             error: () => {
@@ -510,5 +533,15 @@ export class ProfileComponent implements OnInit {
                         });
                 }
             });
+    }
+
+    syncMlflow() {
+        let url = '';
+        if (this.appConfigService.projectName === 'iMagine') {
+            url = 'https://mlflow.cloud.imagine-ai.eu/signup';
+        } else {
+            url = 'https://mlflow.cloud.ai4eosc.eu/signup';
+        }
+        window.open(url);
     }
 }

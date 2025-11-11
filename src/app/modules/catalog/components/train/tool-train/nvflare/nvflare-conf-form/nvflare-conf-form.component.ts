@@ -68,9 +68,14 @@ export class NvflareConfFormComponent {
                 .get('endDateInput')
                 ?.setValue(defaultFormValues.end_date.value as Date);
 
-            this.authService.userProfileSubject.subscribe((profile) => {
-                const email = profile.email;
-                this.nvflareConfFormGroup.get('usernameInput')?.setValue(email);
+            this.authService.userProfile$.subscribe((profile) => {
+                if (profile) {
+                    const email = profile.email;
+                    this.nvflareConfFormGroup
+                        .get('usernameInput')
+                        ?.setValue(email);
+                    this.changeDetectorRef.detectChanges();
+                }
             });
         }
     }

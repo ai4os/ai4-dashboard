@@ -80,8 +80,11 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
 
         this.route.params.subscribe((params) => {
             this.isLoading = true;
-            this.authService.userProfileSubject.subscribe((profile) => {
-                this.userProfile = profile;
+            this.authService.userProfile$.subscribe((profile) => {
+                if (profile) {
+                    this.userProfile = profile;
+                    this.changeDetectorRef.detectChanges();
+                }
             });
 
             if (this.isTool) {
@@ -163,7 +166,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     downloadMetadata(format: string): void {
         this.modulesService.openMetadataInNewTab(this.module.id, format);
     }
-    
+
     openLicenseVocab(license: string) {
         const url = `https://op.europa.eu/en/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/licence/${license}`;
         window.open(url);

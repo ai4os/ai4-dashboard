@@ -1,0 +1,72 @@
+@import 'material';
+
+:root {
+    /** Styleguide: colors **/
+    --black: #000000;
+    --white: #ffffff;
+    --light-gray: #f7f6f7;
+    --border-gray: #e4e4e4;
+    --dark-gray: #999999;
+    --white-three: #f8f8f8;
+    --warm-grey: #7b7b7b;
+    --greyish-brown: #4a4a49;
+    --neon-red: #ff0000;
+    --success-green: #41bc13;
+    --warning-orange: #ff5f15;
+
+    --primary: #00cbf7;
+    --primary-text: #151515;
+    --accent: #0a3780;
+    --secondary: #005fa6;
+
+    /** Font-Weight Vars **/
+    --raleway-bold: 700;
+    --raleway-medium: 500;
+    --raleway-light: 300;
+
+    /** Font Sizes **/
+    --font-l: 14px;
+
+    .mat-button,
+    .mat-button-focus-overlay,
+    .mat-icon-button {
+        background-color: transparent;
+        outline: none !important;
+        outline-style: none !important;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        cursor: pointer;
+        margin: 15px 0px 10px 0px;
+    }
+
+    .action-buttons__add-button {
+        font-weight: var(--raleway-medium);
+        font-size: 14px;
+        color: var(--neon-red);
+    }
+
+    .mat-mdc-snack-bar-container {
+        &.red-snackbar {
+            --mdc-snackbar-container-color: var(--neon-red);
+            --mat-mdc-snack-bar-button-color: var(--white);
+            --mdc-snackbar-supporting-text-color: var(--white);
+            white-space: pre-wrap;
+        }
+        &.primary-snackbar {
+            --mdc-snackbar-container-color: var(--primary);
+            --mat-mdc-snack-bar-button-color: var(--white);
+            --mdc-snackbar-supporting-text-color: var(--white);
+            white-space: pre-wrap;
+        }
+        &.success-snackbar {
+            --mdc-snackbar-container-color: var(--success-green);
+            --mat-mdc-snack-bar-button-color: var(--white);
+            --mdc-snackbar-supporting-text-color: var(--white);
+            white-space: pre-wrap;
+        }
+    }
+}
