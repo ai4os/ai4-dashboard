@@ -222,18 +222,16 @@ export class AuthService {
         };
 
         if (userProfile.roles && userProfile.roles.length > 0) {
-            const vos: string[] = this.parseVosFromProfile(userProfile.roles);
-            vos.forEach((vo) => {
-                if (vo.includes(this.appConfigService.voName)) {
+            userProfile.roles.forEach((role) => {
+                if (
+                    role ===
+                    'platform-access:' + this.appConfigService.voName
+                ) {
                     userProfile.isAuthorized = true;
-                }
-            });
-
-            const roles: string[] = this.parseRolesFromProfile(
-                userProfile.roles
-            );
-            roles.forEach((role) => {
-                if (role.includes('developer-access')) {
+                } else if (
+                    role ===
+                    'developer-access:' + this.appConfigService.voName
+                ) {
                     userProfile.isDeveloper = true;
                 }
             });
@@ -276,43 +274,6 @@ export class AuthService {
 
     isAuthenticated(): boolean {
         return !!this.oauthService.getIdToken();
-    }
-
-    parseVosFromProfile(roles: string[]): string[] {
-        const vos: string[] = [];
-
-        roles.forEach((role) => {
-            const match = role.match(
-                /^(platform-access|developer-access):([^:]+)$/
-            );
-            if (match) {
-                const voName = match[2];
-                if (!vos.includes(voName)) {
-                    vos.push(voName);
-                }
-            }
-        });
-
-        return vos;
-    }
-
-    parseRolesFromProfile(group_membership: string[]): string[] {
-        const roles: string[] = [];
-
-        group_membership.forEach((role) => {
-            const match = role.match(
-                /^(platform-access|developer-access)(?::([^:]+))?$/
-            );
-
-            if (match) {
-                const accessType = match[1];
-                if (!roles.includes(accessType)) {
-                    roles.push(accessType);
-                }
-            }
-        });
-
-        return roles;
     }
 
     /**
