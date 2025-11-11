@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.15.0](https://github.com/ai4os/ai4-dashboard/compare/v3.14.0...v3.15.0) (2025-11-11)
+
+
+### Features
+
+* change nextcloud domain to share.cloud.ai4eosc.eu ([#450](https://github.com/ai4os/ai4-dashboard/issues/450)) ([6795d73](https://github.com/ai4os/ai4-dashboard/commit/6795d7307d0f275f2da571b0a8ad45920cd28787))
+
 ## [3.14.0](https://github.com/ai4os/ai4-dashboard/compare/v3.13.0...v3.14.0) (2025-10-22)
 
 
