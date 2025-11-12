@@ -61,3 +61,28 @@ Cypress.Commands.add('initializeTrainModuleForm', () => {
         .scrollIntoView()
         .click({ force: true });
 });
+
+Cypress.Commands.add('addNextcloudStorageCredentials', () => {
+    cy.visit('http://localhost:8080/');
+    cy.contains('TestAI4EOSC Cypress', { timeout: 10000 }).click();
+    cy.contains('Profile').click();
+    cy.contains('Add configuration manually', { timeout: 10000 }).click();
+    cy.get('#rcloneUser', { timeout: 10000 }).type(Cypress.env('RCLONE_USER'));
+    cy.get('#rclonePassword', { timeout: 10000 }).type(
+        Cypress.env('RCLONE_PASSWORD')
+    );
+    cy.get('#storageUrl', { timeout: 10000 }).type(
+        'https://share.cloud.ai4eosc.eu'
+    );
+    cy.get('#saveRcloneCredentialsBtn').click();
+    cy.contains('Re-link', { timeout: 20000 }).should('be.visible');
+});
+
+Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
+    cy.visit('http://localhost:8080/');
+    cy.contains('TestAI4EOSC Cypress', { timeout: 10000 }).click();
+    cy.contains('Profile').click();
+    cy.get('#deleteNextcloudStorageCredentialsBtn').click();
+    cy.contains('Yes').click();
+    cy.contains('Link', { timeout: 20000 }).should('be.visible');
+});

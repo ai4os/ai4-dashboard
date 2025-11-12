@@ -22,18 +22,7 @@
                     </span>
                 </mat-chip>
             </span>
-        } @else if (
-            rcloneIsRequired &&
-            (storageConfFormGroup.get('rcloneUserInput')?.errors?.[
-                'required'
-            ] ||
-                storageConfFormGroup.get('rclonePasswordInput')?.errors?.[
-                    'required'
-                ] ||
-                storageConfFormGroup.get('storageUrlInput')?.errors?.[
-                    'required'
-                ])
-        ) {
+        } @else if (rcloneIsRequired) {
             <mat-chip class="rclone-warning">
                 <mat-icon matChipAvatar color="warn">warning</mat-icon>
                 {{

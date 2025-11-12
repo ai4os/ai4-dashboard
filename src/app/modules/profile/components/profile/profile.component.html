@@ -139,6 +139,7 @@
                         </ng-template>
 
                         <button
+                            id="deleteNextcloudStorageCredentialsBtn"
                             [disabled]="!credentialsExist(ai4osEndpoint)"
                             matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                             mat-mini-fab
@@ -153,11 +154,7 @@
                         *ngFor="let service of customServiceCredentials"
                     >
                         <button class="icon-button">
-                            <img
-                                class="icon"
-                                width="45px"
-                                src="../../../../../assets/images/nextcloud-logo.png"
-                            />
+                            <mat-icon class="storage-icon"> cloud </mat-icon>
                         </button>
                         <p class="service-name">
                             {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
@@ -218,11 +215,7 @@
                     <mat-divider class="divider"></mat-divider>
 
                     <button class="icon-button" disabled>
-                        <img
-                            class="icon"
-                            width="45px"
-                            src="../../../../../assets/images/nextcloud-logo.png"
-                        />
+                        <mat-icon class="storage-icon"> cloud </mat-icon>
                     </button>
                     <span class="aligned-with-icon">
                         <p class="service-name">
@@ -380,6 +373,7 @@
                                 'PROFILE.RCLONE.STORAGE-URL' | translate
                             }}</mat-label>
                             <input
+                                id="storageUrl"
                                 type="text"
                                 placeholder="https://share.services.ai4os.eu/remote.php/dav/files/<USER-ID>"
                                 matInput
@@ -419,6 +413,7 @@
                         </mat-form-field>
 
                         <button
+                            id="saveRcloneCredentialsBtn"
                             mat-fab
                             extended
                             color="accent"

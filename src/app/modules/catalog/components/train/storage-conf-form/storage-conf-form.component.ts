@@ -96,29 +96,6 @@ export class StorageConfFormComponent implements OnInit {
     ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
-            this.storageConfFormGroup
-                .get('rcloneConfInput')
-                ?.setValue(defaultFormValues.rclone_conf.value as string);
-
-            this.storageConfFormGroup
-                .get('storageUrlInput')
-
-                ?.setValue(defaultFormValues.rclone_url.value as string);
-            this.storageConfFormGroup
-                .get('rcloneUserInput')
-                ?.setValue(defaultFormValues.rclone_user.value as string);
-
-            this.storageConfFormGroup
-                .get('rcloneVendorSelect')
-                ?.setValue(defaultFormValues.rclone_vendor.value as string);
-            defaultFormValues.rclone_vendor.options?.forEach(
-                (option: string) => {
-                    this.rcloneVendorOptions.push({
-                        value: option,
-                        viewValue: option,
-                    });
-                }
-            );
             this.storageConfFormGroup.get('datasetsList')?.setValue([]);
         }
     }
@@ -131,11 +108,6 @@ export class StorageConfFormComponent implements OnInit {
             value: '',
             disabled: true,
         }),
-        rcloneConfInput: [''],
-        storageUrlInput: ['', [urlValidator()]],
-        rcloneVendorSelect: [''],
-        rcloneUserInput: [''],
-        rclonePasswordInput: [''],
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
@@ -144,11 +116,6 @@ export class StorageConfFormComponent implements OnInit {
     });
 
     protected _defaultFormValues: ModuleStorageConfiguration = {
-        rclone_conf: mockedConfObject,
-        rclone_url: mockedConfObject,
-        rclone_vendor: mockedConfObject,
-        rclone_user: mockedConfObject,
-        rclone_password: mockedConfObject,
         datasets: mockedConfObjectStringBoolean,
     };
 
@@ -188,16 +155,12 @@ export class StorageConfFormComponent implements OnInit {
     }
 
     addDataset(dataset: ZenodoSimpleDataset): void {
-        const rcloneUser = this.storageConfFormGroup.get('rcloneUserInput');
-        const rclonePassword = this.storageConfFormGroup.get(
-            'rclonePasswordInput'
+        const storageServiceDataset = this.storageConfFormGroup.get(
+            'storageServiceDatasetSelect'
         );
-        rcloneUser?.markAllAsTouched();
-        rclonePassword?.markAllAsTouched();
-        rcloneUser?.setValidators([Validators.required]);
-        rclonePassword?.setValidators([Validators.required]);
-        rcloneUser?.updateValueAndValidity();
-        rclonePassword?.updateValueAndValidity();
+        storageServiceDataset?.markAllAsTouched();
+        storageServiceDataset?.setValidators([Validators.required]);
+        storageServiceDataset?.updateValueAndValidity();
 
         this.datasets.push({
             doi: String(dataset.doiOrUrl),
@@ -299,22 +262,6 @@ export class StorageConfFormComponent implements OnInit {
                         );
                     storageServiceDatasetSelect?.clearValidators();
                     storageServiceDatasetSelect?.updateValueAndValidity();
-
-                    if (this.rcloneIsRequired) {
-                        const rcloneUser =
-                            this.storageConfFormGroup.get('rcloneUserInput');
-                        const rclonePassword = this.storageConfFormGroup.get(
-                            'rclonePasswordInput'
-                        );
-                        const storageUrl =
-                            this.storageConfFormGroup.get('storageUrlInput');
-                        rcloneUser?.setValidators([Validators.required]);
-                        rclonePassword?.setValidators([Validators.required]);
-                        storageUrl?.setValidators([Validators.required]);
-                        rcloneUser?.updateValueAndValidity();
-                        rclonePassword?.updateValueAndValidity();
-                        storageUrl?.updateValueAndValidity();
-                    }
                 },
             });
     }
@@ -328,31 +275,13 @@ export class StorageConfFormComponent implements OnInit {
             (c) => c.server === storageServiceUrl
         );
 
-        if (storageServiceName && storageServiceCredentials) {
-            this.storageConfFormGroup
-                .get('rcloneUserInput')
-                ?.setValue(storageServiceCredentials.loginName);
-            this.storageConfFormGroup
-                .get('rclonePasswordInput')
-                ?.setValue(storageServiceCredentials.appPassword);
-            this.storageConfFormGroup
-                .get('storageUrlInput')
-                ?.setValue(
-                    storageServiceCredentials.server +
-                        '/remote.php/dav/files/' +
-                        storageServiceCredentials.loginName
-                );
-            this.storageConfFormGroup
-                .get('rcloneVendorSelect')
-                ?.setValue(storageServiceCredentials.vendor);
-            if (this.isCvatTool) {
-                this.updateSnapshots(storageServiceName);
-            }
+        if (
+            storageServiceName &&
+            storageServiceCredentials &&
+            this.isCvatTool
+        ) {
+            this.updateSnapshots(storageServiceName);
         } else {
-            this.storageConfFormGroup.get('rcloneUserInput')?.setValue('');
-            this.storageConfFormGroup.get('rclonePasswordInput')?.setValue('');
-            this.storageConfFormGroup.get('storageUrlInput')?.setValue('');
-            this.storageConfFormGroup.get('rcloneVendorSelect')?.setValue('');
             this.snapshotOptions = [];
             this.snapshots = [];
             this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
