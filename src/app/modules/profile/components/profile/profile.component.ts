@@ -421,6 +421,15 @@ export class ProfileComponent implements OnInit {
                 this.storageService.getStorageFiles(serviceName).subscribe({
                     next: () => {
                         this.getExistingRcloneCredentials();
+                        this.storageConfFormGroup
+                            .get('rcloneUserInput')
+                            ?.reset();
+                        this.storageConfFormGroup
+                            .get('rclonePasswordInput')
+                            ?.reset();
+                        this.storageConfFormGroup
+                            .get('storageUrlInput')
+                            ?.reset();
                         this.snackbarService.openSuccess(
                             'Successfully added ' + serviceName + ' credentials'
                         );
