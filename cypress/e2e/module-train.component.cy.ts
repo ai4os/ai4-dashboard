@@ -33,9 +33,6 @@ describe('module train form', function () {
         }).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
-        cy.contains('Advanced settings', { timeout: 10000 }).click();
-        cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
-        cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
     });
 
@@ -50,9 +47,6 @@ describe('module train form', function () {
         ).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
-        cy.contains('Advanced settings', { timeout: 10000 }).click();
-        cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
-        cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
     });
 
@@ -69,9 +63,6 @@ describe('module train form', function () {
         ).should('be.visible');
         cy.contains('Close', { timeout: 10000 }).click();
 
-        cy.contains('Advanced settings', { timeout: 10000 }).click();
-        cy.get('#rcloneUser', { timeout: 10000 }).type('UserTest');
-        cy.get('#rclonePassword', { timeout: 10000 }).type('1234');
         cy.contains('Submit', { timeout: 10000 }).click();
     });
 
@@ -105,9 +96,10 @@ describe('module train form', function () {
         ).should('be.visible');
 
         cy.contains('Close', { timeout: 10000 }).click();
+        cy.contains(
+            'To download a dataset, you need to select a storage or use your rclone credentials'
+        ).should('be.visible');
 
-        cy.contains('Advanced settings', { timeout: 10000 }).click();
-        cy.contains('You must specify a RCLONE account').should('be.visible');
         cy.contains('Submit').should('be.disabled');
     });
 
