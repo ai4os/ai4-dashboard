@@ -84,7 +84,7 @@ export class StorageConfFormComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)
-        datasetsListComponent!: DatasetsListComponent;
+    datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() rcloneIsRequired = false;
@@ -174,14 +174,11 @@ export class StorageConfFormComponent implements OnInit {
         this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
 
         if (this.datasets.length == 0) {
-            const rcloneUser = this.storageConfFormGroup.get('rcloneUserInput');
-            const rclonePassword = this.storageConfFormGroup.get(
-                'rclonePasswordInput'
+            const storageServiceDataset = this.storageConfFormGroup.get(
+                'storageServiceDatasetSelect'
             );
-            rcloneUser?.setValidators(null);
-            rclonePassword?.setValidators(null);
-            rcloneUser?.updateValueAndValidity();
-            rclonePassword?.updateValueAndValidity();
+            storageServiceDataset?.setValidators(null);
+            storageServiceDataset?.updateValueAndValidity();
         }
     }
 
