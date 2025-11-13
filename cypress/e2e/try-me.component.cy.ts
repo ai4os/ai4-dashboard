@@ -25,10 +25,11 @@ describe('try me section', function () {
         cy.contains('Modules', { timeout: 20000 }).click();
         cy.contains('Dogs breed detector', { timeout: 20000 }).click();
         cy.window().then((win) => {
-            cy.stub(win, 'open', (url) => {
-                win.location.href =
-                    'http://localhost:8080/catalog/modules/dogs-breed-detector/try-me-nomad';
-            }).as('popup');
+            cy.stub(win, 'open')
+                .callsFake((url) => {
+                    win.location.href = url;
+                })
+                .as('popup');
         });
         cy.get('.action-button').contains('Try', { timeout: 10000 }).click();
         cy.contains('User Interface').click();
