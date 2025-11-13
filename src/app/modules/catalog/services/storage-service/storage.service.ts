@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
-import { Snapshot } from '@app/shared/interfaces/module.interface';
+import { File } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class StorageService {
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 
-    getSnapshots(storageName: string): Observable<Snapshot[]> {
+    getSnapshots(storageName: string): Observable<File[]> {
         const url = `${base}${endpoints.snapshots.replace(
             ':storage_name',
             storageName
@@ -30,7 +30,7 @@ export class StorageService {
             .set('subpath', 'ai4os-storage/tools/cvat/backups');
         const headers = new HttpHeaders().set('X-Silent-Error', 'true');
 
-        return this.http.get<Array<Snapshot>>(url, { headers, params });
+        return this.http.get<Array<File>>(url, { headers, params });
     }
 
     deleteSnapshot(
@@ -47,5 +47,18 @@ export class StorageService {
             .set('subpath', 'ai4os-storage/tools/cvat/backups/' + filePath);
 
         return this.http.delete<StatusReturn>(url, { params });
+    }
+
+    getStorageFiles(storageName: string): Observable<File[]> {
+        const url = `${base}${endpoints.snapshots.replace(
+            ':storage_name',
+            storageName
+        )}/ls`;
+        const params = new HttpParams()
+            .set('storage_name', storageName)
+            .set('vo', this.appConfigService.voName);
+        const headers = new HttpHeaders().set('X-Silent-Error', 'true');
+
+        return this.http.get<Array<File>>(url, { headers, params });
     }
 }

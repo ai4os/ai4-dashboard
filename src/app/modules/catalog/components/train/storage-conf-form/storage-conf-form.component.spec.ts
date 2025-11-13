@@ -51,7 +51,7 @@ describe('StorageConfFormComponent', () => {
                         }),
                         snapshot: {
                             paramMap: {
-                                get: () => 'test', // represents the id
+                                get: () => 'test',
                             },
                         },
                         routeConfig: { path: 'test' },
@@ -88,14 +88,11 @@ describe('StorageConfFormComponent', () => {
         };
         component.addDataset(dataset);
         expect(component.datasets.length).toBe(1);
-        const rcloneUser =
-            component.storageConfFormGroup.get('rcloneUserInput');
-        const rclonePassword = component.storageConfFormGroup.get(
-            'rclonePasswordInput'
-        );
 
-        expect(rcloneUser?.validator).toBeTruthy();
-        expect(rclonePassword?.validator).toBeTruthy();
+        const storageServiceDataset = component.storageConfFormGroup.get(
+            'storageServiceDatasetSelect'
+        );
+        expect(storageServiceDataset?.validator).toBeTruthy();
     });
 
     it('should remove dataset and clear validators if empty', () => {
@@ -109,12 +106,10 @@ describe('StorageConfFormComponent', () => {
         component.deleteDataset(dataset);
 
         expect(component.datasets.length).toBe(0);
-        const rcloneUser =
-            component.storageConfFormGroup.get('rcloneUserInput');
-        const rclonePassword = component.storageConfFormGroup.get(
-            'rclonePasswordInput'
+
+        const storageServiceDataset = component.storageConfFormGroup.get(
+            'storageServiceDatasetSelect'
         );
-        expect(rcloneUser?.validator).toBeNull();
-        expect(rclonePassword?.validator).toBeNull();
+        expect(storageServiceDataset?.validator).toBeNull();
     });
 });

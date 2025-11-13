@@ -44,6 +44,8 @@ jobs:
               env:
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
+                  CYPRESS_RCLONE_USER: ${{secrets.CYPRESS_RCLONE_USER}}
+                  CYPRESS_RCLONE_PASSWORD: ${{secrets.CYPRESS_RCLONE_PASSWORD}}
             
             - name: Upload Cypress screenshots
               uses: actions/upload-artifact@v4

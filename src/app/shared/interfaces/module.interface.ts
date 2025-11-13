@@ -113,11 +113,6 @@ export interface ModuleHardwareConfiguration {
 }
 
 export interface ModuleStorageConfiguration {
-    rclone_conf: confObject;
-    rclone_url: confObject;
-    rclone_vendor: confObject;
-    rclone_user: confObject;
-    rclone_password: confObject;
     datasets: confObjectStringBoolean;
 }
 
@@ -297,7 +292,7 @@ export interface GradioDeployment {
     datacenter: string;
 }
 
-export interface Snapshot {
+export interface File {
     Path: string;
     Name: string;
     Size: number;

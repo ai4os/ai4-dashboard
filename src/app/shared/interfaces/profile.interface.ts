@@ -17,6 +17,7 @@ export interface StorageCredential {
     server: string;
     loginName: string;
     appPassword: string;
+    conf?: string;
 }
 
 export interface HuggingFaceTokenResponse {

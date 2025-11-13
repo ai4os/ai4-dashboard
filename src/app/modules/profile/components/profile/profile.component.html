@@ -139,6 +139,7 @@
                         </ng-template>
 
                         <button
+                            id="deleteNextcloudStorageCredentialsBtn"
                             [disabled]="!credentialsExist(ai4osEndpoint)"
                             matTooltip=" {{ 'PROFILE.REVOKE' | translate }}"
                             mat-mini-fab
@@ -153,11 +154,7 @@
                         *ngFor="let service of customServiceCredentials"
                     >
                         <button class="icon-button">
-                            <img
-                                class="icon"
-                                width="45px"
-                                src="../../../../../assets/images/nextcloud-logo.png"
-                            />
+                            <mat-icon class="storage-icon"> cloud </mat-icon>
                         </button>
                         <p class="service-name">
                             {{ 'PROFILE.NEXTCLOUD.CUSTOM' | translate }}
@@ -218,11 +215,7 @@
                     <mat-divider class="divider"></mat-divider>
 
                     <button class="icon-button" disabled>
-                        <img
-                            class="icon"
-                            width="45px"
-                            src="../../../../../assets/images/nextcloud-logo.png"
-                        />
+                        <mat-icon class="storage-icon"> cloud </mat-icon>
                     </button>
                     <span class="aligned-with-icon">
                         <p class="service-name">
@@ -274,7 +267,7 @@
                             mat-fab
                             extended
                             color="accent"
-                            style="color: white"
+                            class="add-button"
                             matTooltip="{{ 'PROFILE.ADD' | translate }}"
                             [disabled]="
                                 customEndpointFormGroup.get('value')?.value ===
@@ -295,6 +288,149 @@
                         </button>
                     </div>
                 </div>
+
+                <mat-expansion-panel class="advanced-settings">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ 'PROFILE.RCLONE.TITLE' | translate }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <form [formGroup]="storageConfFormGroup" class="form-grid">
+                        <mat-form-field>
+                            <mat-label>{{
+                                'PROFILE.RCLONE.USER' | translate
+                            }}</mat-label>
+                            <input
+                                id="rcloneUser"
+                                matInput
+                                type="text"
+                                formControlName="rcloneUserInput"
+                            />
+                            <mat-error
+                                *ngIf="
+                                    storageConfFormGroup.get('rcloneUserInput')
+                                        ?.errors?.['required']
+                                "
+                            >
+                                {{ 'PROFILE.RCLONE.REQUIRED' | translate }}
+                            </mat-error>
+                            <mat-hint>{{
+                                'PROFILE.RCLONE.USER-HINT' | translate
+                            }}</mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{
+                                'PROFILE.RCLONE.PASS' | translate
+                            }}</mat-label>
+                            <input
+                                id="rclonePassword"
+                                [type]="
+                                    hideRclonePassword ? 'password' : 'text'
+                                "
+                                matInput
+                                placeholder="At least 9 characters"
+                                formControlName="rclonePasswordInput"
+                                autocomplete="off"
+                            />
+                            <mat-icon
+                                matSuffix
+                                (click)="
+                                    hideRclonePassword = !hideRclonePassword
+                                "
+                                color="accent"
+                            >
+                                {{
+                                    hideRclonePassword
+                                        ? 'visibility_off'
+                                        : 'visibility'
+                                }}
+                            </mat-icon>
+                            <mat-error
+                                *ngIf="
+                                    storageConfFormGroup.get(
+                                        'rclonePasswordInput'
+                                    )?.errors?.['required']
+                                "
+                            >
+                                {{ 'PROFILE.RCLONE.REQUIRED' | translate }}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>{{
+                                'PROFILE.RCLONE.CONF' | translate
+                            }}</mat-label>
+                            <input matInput formControlName="rcloneConfInput" />
+                            <mat-hint>{{
+                                'PROFILE.RCLONE.CONF-HINT' | translate
+                            }}</mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>{{
+                                'PROFILE.RCLONE.STORAGE-URL' | translate
+                            }}</mat-label>
+                            <input
+                                id="storageUrl"
+                                type="text"
+                                placeholder="https://share.services.ai4os.eu/remote.php/dav/files/<USER-ID>"
+                                matInput
+                                formControlName="storageUrlInput"
+                            />
+                            <mat-hint>{{
+                                'PROFILE.RCLONE.STORAGE-URL-HINT' | translate
+                            }}</mat-hint>
+                            <mat-error
+                                *ngIf="
+                                    storageConfFormGroup
+                                        .get('storageUrlInput')
+                                        ?.hasError('invalidURL')
+                                "
+                            >
+                                {{
+                                    'PROFILE.RCLONE.STORAGE-URL-ERROR'
+                                        | translate
+                                }}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field subscriptSizing="dynamic">
+                            <mat-label>{{
+                                'PROFILE.RCLONE.VENDOR' | translate
+                            }}</mat-label>
+                            <mat-select formControlName="rcloneVendorSelect">
+                                <mat-option
+                                    *ngFor="
+                                        let rcloneVendorOption of rcloneVendorOptions
+                                    "
+                                    [value]="rcloneVendorOption.value"
+                                >
+                                    {{ rcloneVendorOption.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button
+                            id="saveRcloneCredentialsBtn"
+                            mat-fab
+                            extended
+                            color="accent"
+                            class="add-button"
+                            [disabled]="!storageConfFormGroup.valid"
+                            (click)="
+                                saveRcloneCredentials(
+                                    storageConfFormGroup.get('storageUrlInput')
+                                        ?.value!
+                                )
+                            "
+                        >
+                            <mat-icon>add</mat-icon>
+                            {{ 'PROFILE.ADD' | translate }}
+                        </button>
+                    </form>
+                </mat-expansion-panel>
             </mat-card-content>
         </mat-card>
 
