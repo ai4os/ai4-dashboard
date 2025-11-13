@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.16.0](https://github.com/ai4os/ai4-dashboard/compare/v3.15.1...v3.16.0) (2025-11-13)
+
+
+### Features
+
+* move custom rclone credentials ([#434](https://github.com/ai4os/ai4-dashboard/issues/434)) ([805932f](https://github.com/ai4os/ai4-dashboard/commit/805932fe2c5a769d6d004ccb40364a4ddef83ed0))
+
+
+### Bug Fixes
+
+* configure isAuthorized variable based on vo roles ([#452](https://github.com/ai4os/ai4-dashboard/issues/452)) ([49cac93](https://github.com/ai4os/ai4-dashboard/commit/49cac93f42c14498656aea923b2f0393e627b085))
+
 ## [3.15.0](https://github.com/ai4os/ai4-dashboard/compare/v3.14.0...v3.15.0) (2025-11-11)
 
 
