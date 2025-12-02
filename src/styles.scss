@@ -147,6 +147,12 @@ body {
     z-index: 9999;
 }
 
+.spinner-small {
+    display: flex;
+    padding-bottom: 1.5em;
+    justify-content: center;
+}
+
 /************* Intro.js (on boarding library) *************/
 .introjs-tooltip {
     min-width: 300px !important;

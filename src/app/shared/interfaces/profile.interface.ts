@@ -26,3 +26,29 @@ export interface HuggingFaceTokenResponse {
     expires_in?: number;
     scope?: string;
 }
+
+export interface VoInfo {
+    name: string;
+    roles: string[];
+}
+
+export interface MLflowCredentials {
+    username: string;
+    password: {
+        value: string;
+        hide: boolean;
+    };
+}
+
+export interface APIsixKeyResponse {
+    id: string;
+    api_key: string;
+}
+
+export interface APIsixKey {
+    id: string;
+    key: {
+        value: string;
+        hide: boolean;
+    };
+}
