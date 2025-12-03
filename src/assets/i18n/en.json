@@ -59,12 +59,17 @@
         "REVOKE": "Revoke",
         "LOGIN": "Log in the the pop-up window",
         "NEXTCLOUD": {
-            "AI4OS": "AI4OS Nextcloud",
+            "AI4EOSC": "AI4EOSC Nextcloud",
             "CUSTOM": "Custom Storage",
             "INVALID-DOMAIN": "Invalid domain format"
         },
-        "AI4OS-SERVICES": "AI4OS services",
-        "EXTERNAL-SERVICES": "External services"
+        "AI4EOSC-SERVICES": "AI4EOSC services",
+        "EXTERNAL-SERVICES": "External services",
+        "API-KEYS": {
+            "TITLE": "Secrets and API Keys",
+            "LLM-TITLE": "LLM API Keys",
+            "LLM-DESCRIPTION": "Generating LLM API keys enables you to make authenticated requests to our LLM service and interact with multiple distributed LLMs."
+        }
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
