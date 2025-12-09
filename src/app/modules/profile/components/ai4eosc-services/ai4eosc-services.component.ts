@@ -5,7 +5,6 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { MLflowCredentials } from '@app/shared/interfaces/profile.interface';
-import { ApisixService } from '../../services/apisix-service/apisix.service';
 
 @Component({
     selector: 'app-ai4eosc-services',
@@ -15,7 +14,6 @@ import { ApisixService } from '../../services/apisix-service/apisix.service';
 export class Ai4eoscServicesComponent implements OnInit {
     constructor(
         private secretsService: SecretsService,
-        private apiSixService: ApisixService,
         private appConfigService: AppConfigService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,

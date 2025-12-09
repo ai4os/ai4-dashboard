@@ -3,21 +3,21 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApiKeysComponent } from './api-keys.component';
 
 describe('ApiKeysComponent', () => {
-  let component: ApiKeysComponent;
-  let fixture: ComponentFixture<ApiKeysComponent>;
+    let component: ApiKeysComponent;
+    let fixture: ComponentFixture<ApiKeysComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ApiKeysComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ApiKeysComponent]
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(ApiKeysComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(ApiKeysComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

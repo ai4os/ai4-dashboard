@@ -1,4 +1,4 @@
-@if (isAPIsixLoading) {
+@if (isLiteLLMLoading) {
     <div class="spinner-small">
         <mat-progress-spinner color="primary" mode="indeterminate">
         </mat-progress-spinner>
@@ -33,7 +33,7 @@
             </p>
 
             <div class="services-container">
-                <!-- APISIX -->
+                <!-- LiteLLM -->
                 <div class="credentials-container">
                     <button class="icon-button">
                         <mat-icon class="icon"> key </mat-icon>
@@ -59,7 +59,7 @@
                             extended
                             style="color: white"
                             [disabled]="newKeyId.trim().length === 0"
-                            (click)="createAPIsixKey(newKeyId)"
+                            (click)="createLiteLLMKey(newKeyId)"
                         >
                             <mat-icon>add</mat-icon>
                             Create
@@ -67,7 +67,7 @@
                     </span>
                 </div>
 
-                @for (apiKey of apisixKeys; track apiKey) {
+                @for (apiKey of LiteLLMKeys; track apiKey) {
                     <div class="credentials-container">
                         <span class="buttons-container">
                             <div class="form-field">
@@ -75,53 +75,21 @@
                                     class="full-width mr-3 no-margin"
                                     subscriptSizing="dynamic"
                                 >
-                                    <mat-label>{{ apiKey.id }}</mat-label>
                                     <input
                                         matInput
-                                        [type]="
-                                            apiKey.key.hide
-                                                ? 'password'
-                                                : 'text'
-                                        "
+                                        [type]="'text'"
                                         disabled="true"
-                                        [value]="apiKey.key.value"
+                                        [value]="apiKey.id"
                                     />
-
-                                    <button
-                                        mat-icon-button
-                                        matSuffix
-                                        [matTooltip]="
-                                            apiKey.key.hide ? 'Show' : 'Hide'
-                                        "
-                                        (click)="
-                                            apiKey.key.hide = !apiKey.key.hide
-                                        "
-                                        [attr.aria-label]="'Hide password'"
-                                        [attr.aria-pressed]="apiKey.key.hide"
-                                    >
-                                        <mat-icon color="accent">{{
-                                            apiKey.key.hide
-                                                ? 'visibility_off'
-                                                : 'visibility'
-                                        }}</mat-icon>
-                                    </button>
                                 </mat-form-field>
-                                <button
-                                    mat-icon-button
-                                    matTooltip="Copy"
-                                    [copy-to-clipboard]="apiKey.key.value"
-                                >
-                                    <mat-icon matSuffix color="accent">
-                                        content_copy</mat-icon
-                                    >
-                                </button>
+
                                 <button
                                     matTooltip=" {{
                                         'PROFILE.REVOKE' | translate
                                     }}"
                                     mat-mini-fab
                                     color="warn"
-                                    (click)="deleteAPIsixKey(apiKey.id)"
+                                    (click)="deleteLiteLLMKey(apiKey.id)"
                                 >
                                     <mat-icon>delete</mat-icon>
                                 </button>

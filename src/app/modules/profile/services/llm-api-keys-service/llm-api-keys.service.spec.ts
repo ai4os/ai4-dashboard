@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ApisixService } from './apisix.service';
+import { LlmApiKeysService } from './llm-api-keys.service';
 
-describe('ApisixService', () => {
-    let service: ApisixService;
+describe('LlmApiKeysService', () => {
+    let service: LlmApiKeysService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(ApisixService);
+        service = TestBed.inject(LlmApiKeysService);
     });
 
     it('should be created', () => {

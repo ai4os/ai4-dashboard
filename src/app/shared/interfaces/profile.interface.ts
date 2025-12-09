@@ -40,15 +40,12 @@ export interface MLflowCredentials {
     };
 }
 
-export interface APIsixKeyResponse {
+export interface LiteLLMKeyResponse {
     id: string;
-    api_key: string;
+    created_at: string;
 }
 
-export interface APIsixKey {
+export interface LiteLLMKey {
     id: string;
-    key: {
-        value: string;
-        hide: boolean;
-    };
+    createdAt: string;
 }

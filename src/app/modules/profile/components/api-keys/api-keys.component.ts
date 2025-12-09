@@ -2,9 +2,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { APIsixKey } from '@app/shared/interfaces/profile.interface';
+import { LiteLLMKey } from '@app/shared/interfaces/profile.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { ApisixService } from '../../services/apisix-service/apisix.service';
+import { LlmApiKeysService } from '../../services/llm-api-keys-service/llm-api-keys.service';
 
 @Component({
     selector: 'app-api-keys',
@@ -13,7 +13,7 @@ import { ApisixService } from '../../services/apisix-service/apisix.service';
 })
 export class ApiKeysComponent implements OnInit {
     constructor(
-        private apiSixService: ApisixService,
+        private llmApiKeysService: LlmApiKeysService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -27,87 +27,81 @@ export class ApiKeysComponent implements OnInit {
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
-    protected isAPIsixLoading = false;
-    protected apisixKeys: APIsixKey[] = [];
+    protected isLiteLLMLoading = false;
+    protected LiteLLMKeys: LiteLLMKey[] = [];
     protected newKeyId = '';
 
     ngOnInit(): void {
-        this.getAPIsixKeys();
+        this.getLiteLLMKeys();
     }
 
-    getAPIsixKeys() {
-        this.isAPIsixLoading = true;
-        this.apiSixService.getApisixKeys().subscribe({
+    getLiteLLMKeys() {
+        this.isLiteLLMLoading = true;
+        this.llmApiKeysService.getLiteLLMKeys().subscribe({
             next: (apiKeys) => {
                 apiKeys.forEach((k) => {
-                    const newApiKey: APIsixKey = {
+                    const newApiKey: LiteLLMKey = {
                         id: k.id,
-                        key: {
-                            value: k.api_key,
-                            hide: true,
-                        },
+                        createdAt: k.created_at,
                     };
-                    this.apisixKeys.push(newApiKey);
+                    this.LiteLLMKeys.push(newApiKey);
                 });
             },
             error: () => {
                 this.snackbarService.openError(
-                    "Couldn't retrieve APISix keys. Please try again later."
+                    "Couldn't retrieve LiteLLM keys. Please try again later."
                 );
-                this.isAPIsixLoading = false;
+                this.isLiteLLMLoading = false;
             },
             complete: () => {
-                this.isAPIsixLoading = false;
+                this.isLiteLLMLoading = false;
             },
         });
     }
 
-    createAPIsixKey(keyId: string) {
+    createLiteLLMKey(keyId: string) {
         const cleanKeyId = keyId.replace(/\s+/g, '');
-        this.apiSixService.createApisixKey(cleanKeyId).subscribe({
+        this.llmApiKeysService.createLiteLLMKey(cleanKeyId).subscribe({
             next: (apiKey) => {
-                const newApiKey: APIsixKey = {
+                const newApiKey: LiteLLMKey = {
                     id: cleanKeyId,
-                    key: {
-                        value: apiKey,
-                        hide: true,
-                    },
+                    createdAt: new Date().toISOString(),
                 };
-                this.apisixKeys.push(newApiKey);
+                this.LiteLLMKeys.push(newApiKey);
                 this.snackbarService.openSuccess(
-                    'Successfully created APISix key with ID: ' + cleanKeyId
+                    'Successfully created LiteLLM key with ID: ' + cleanKeyId
                 );
                 this.newKeyId = '';
             },
             error: () => {
                 this.snackbarService.openError(
-                    "Couldn't retrieve APISix keys. Please try again later."
+                    "Couldn't retrieve LiteLLM keys. Please try again later."
                 );
             },
         });
     }
 
-    deleteAPIsixKey(keyId: string) {
+    deleteLiteLLMKey(keyId: string) {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to revoke this APISix key?`,
+                data: `Are you sure you want to revoke this LiteLLM key?`,
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    this.apiSixService.deleteApisixKey(keyId).subscribe({
+                    this.llmApiKeysService.deleteLiteLLMKey(keyId).subscribe({
                         next: () => {
-                            this.apisixKeys = this.apisixKeys.filter(
+                            this.LiteLLMKeys = this.LiteLLMKeys.filter(
                                 (k) => k.id !== keyId
                             );
                             this.snackbarService.openSuccess(
-                                'Successfully deleted APISix key with ID: ' +
+                                'Successfully deleted LiteLLM key with ID: ' +
                                     keyId
                             );
                         },
                         error: () => {
                             this.snackbarService.openError(
-                                "Couldn't delete APISix key. Please try again later."
+                                "Couldn't delete LiteLLM key. Please try again later."
                             );
                         },
                     });
