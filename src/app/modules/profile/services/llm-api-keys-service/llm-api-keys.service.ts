@@ -18,16 +18,16 @@ export class LlmApiKeysService {
         return this.http.get<Array<LiteLLMKeyResponse>>(url);
     }
 
-    createLiteLLMKey(name: string): Observable<string> {
+    createLiteLLMKey(key_name: string): Observable<string> {
         const url = `${base}${endpoints.litellm}`;
-        const params = new HttpParams().set('name', name);
+        const params = new HttpParams().set('key_name', key_name);
         const body = {};
         return this.http.post<string>(url, body, { params });
     }
 
-    deleteLiteLLMKey(name: string): Observable<StatusReturn> {
+    deleteLiteLLMKey(key_name: string): Observable<StatusReturn> {
         const url = `${base}${endpoints.litellm}`;
-        const params = new HttpParams().set('key_value', name);
+        const params = new HttpParams().set('key_name', key_name);
         return this.http.delete<StatusReturn>(url, { params });
     }
 }
