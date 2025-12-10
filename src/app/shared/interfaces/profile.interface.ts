@@ -49,3 +49,13 @@ export interface LiteLLMKey {
     id: string;
     createdAt: string;
 }
+
+export interface KeyTableColumn {
+    columnDef: string;
+    header: string;
+}
+
+export interface KeyTableRow {
+    id: string;
+    creationTime: string;
+}

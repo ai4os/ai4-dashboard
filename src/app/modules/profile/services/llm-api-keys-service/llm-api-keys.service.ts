@@ -27,7 +27,7 @@ export class LlmApiKeysService {
 
     deleteLiteLLMKey(name: string): Observable<StatusReturn> {
         const url = `${base}${endpoints.litellm}`;
-        const params = new HttpParams().set('name', name);
+        const params = new HttpParams().set('key_value', name);
         return this.http.delete<StatusReturn>(url, { params });
     }
 }

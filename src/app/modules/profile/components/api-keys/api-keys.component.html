@@ -1,103 +1,133 @@
-@if (isLiteLLMLoading) {
-    <div class="spinner-small">
-        <mat-progress-spinner color="primary" mode="indeterminate">
-        </mat-progress-spinner>
-    </div>
-} @else {
-    <mat-card appearance="outlined" class="card">
-        <mat-card-header class="mb-3">
-            <mat-card-title>{{
-                'PROFILE.API-KEYS.TITLE' | translate
-            }}</mat-card-title>
-        </mat-card-header>
+<mat-card appearance="outlined" class="card">
+    <mat-card-header class="mb-3">
+        <mat-card-title>{{
+            'PROFILE.API-KEYS.TITLE' | translate
+        }}</mat-card-title>
+    </mat-card-header>
 
-        <mat-card-content class="info-container">
-            <div class="title-container">
-                <p class="title">
-                    {{ 'PROFILE.API-KEYS.LLM-TITLE' | translate }}
-                </p>
-                <button
-                    mat-icon-button
-                    matTooltip="{{
-                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
-                    }}"
-                    [matTooltipPosition]="'above'"
-                    (click)="openApiLlmDocumentation()"
-                >
-                    <mat-icon color="accent">help</mat-icon>
+    <mat-card-content class="info-container">
+        <div class="title-container">
+            <p class="title">
+                {{ 'PROFILE.API-KEYS.LLM-TITLE' | translate }}
+            </p>
+            <button
+                mat-icon-button
+                matTooltip="{{
+                    'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
+                }}"
+                [matTooltipPosition]="'above'"
+                (click)="openApiLlmDocumentation()"
+            >
+                <mat-icon color="accent">help</mat-icon>
+            </button>
+        </div>
+
+        <p class="description">
+            {{ 'PROFILE.API-KEYS.LLM-DESCRIPTION' | translate }}
+        </p>
+
+        <div class="services-container">
+            <!-- LiteLLM -->
+            <div class="credentials-container">
+                <button class="icon-button">
+                    <mat-icon class="icon"> key </mat-icon>
                 </button>
+
+                <span class="buttons-container">
+                    <div class="form-field">
+                        <div class="form-field">
+                            <mat-form-field
+                                class="full-width mr-3 no-margin"
+                                subscriptSizing="dynamic"
+                            >
+                                <input
+                                    matInput
+                                    placeholder="API key identifier"
+                                    [(ngModel)]="newKeyId"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <button
+                        mat-fab
+                        extended
+                        style="color: white"
+                        [disabled]="newKeyId.trim().length === 0"
+                        (click)="createLiteLLMKey(newKeyId)"
+                    >
+                        <mat-icon>add</mat-icon>
+                        Create
+                    </button>
+                </span>
             </div>
 
-            <p class="description">
-                {{ 'PROFILE.API-KEYS.LLM-DESCRIPTION' | translate }}
-            </p>
-
-            <div class="services-container">
-                <!-- LiteLLM -->
-                <div class="credentials-container">
-                    <button class="icon-button">
-                        <mat-icon class="icon"> key </mat-icon>
-                    </button>
-
-                    <span class="buttons-container">
-                        <div class="form-field">
-                            <div class="form-field">
-                                <mat-form-field
-                                    class="full-width mr-3 no-margin"
-                                    subscriptSizing="dynamic"
-                                >
-                                    <input
-                                        matInput
-                                        placeholder="API key identifier"
-                                        [(ngModel)]="newKeyId"
-                                    />
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <button
-                            mat-fab
-                            extended
-                            style="color: white"
-                            [disabled]="newKeyId.trim().length === 0"
-                            (click)="createLiteLLMKey(newKeyId)"
-                        >
-                            <mat-icon>add</mat-icon>
-                            Create
-                        </button>
-                    </span>
+            @if (isLiteLLMLoading) {
+                <div class="spinner-small">
+                    <mat-progress-spinner color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
                 </div>
-
-                @for (apiKey of LiteLLMKeys; track apiKey) {
-                    <div class="credentials-container">
-                        <span class="buttons-container">
-                            <div class="form-field">
-                                <mat-form-field
-                                    class="full-width mr-3 no-margin"
-                                    subscriptSizing="dynamic"
-                                >
-                                    <input
-                                        matInput
-                                        [type]="'text'"
-                                        disabled="true"
-                                        [value]="apiKey.id"
-                                    />
-                                </mat-form-field>
-
+            } @else {
+                <table
+                    mat-table
+                    [dataSource]="dataSource"
+                    class="mat-elevation-z1"
+                    matSort
+                >
+                    <ng-container
+                        *ngFor="let column of columns"
+                        [matColumnDef]="column.columnDef"
+                    >
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Sort by {column.header}"
+                            >{{ column.header | translate }}</mat-header-cell
+                        >
+                        <mat-cell
+                            *matCellDef="let row"
+                            [ngClass]="{
+                                'content-cell': column.columnDef === 'actions',
+                            }"
+                        >
+                            <div
+                                *ngIf="column.columnDef === 'actions'"
+                                class="actions-container"
+                            >
                                 <button
+                                    id="deleteButton"
+                                    mat-button
                                     matTooltip=" {{
                                         'PROFILE.REVOKE' | translate
                                     }}"
-                                    mat-mini-fab
-                                    color="warn"
-                                    (click)="deleteLiteLLMKey(apiKey.id)"
+                                    class="action-button-in-cell"
+                                    (click)="deleteLiteLLMKey($event, row)"
                                 >
-                                    <mat-icon>delete</mat-icon>
+                                    <mat-icon color="warn">delete</mat-icon>
                                 </button>
                             </div>
-                        </span>
-                    </div>
-                }
-            </div>
-        </mat-card-content>
-    </mat-card>
-}
+                            {{ row[column.columnDef] }}
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                    ></mat-header-row>
+                    <mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                    ></mat-row>
+
+                    @if (LiteLLMKeys.length === 0 && !isLiteLLMLoading) {
+                        <div
+                            *matNoDataRow
+                            class="no-deployment-message-container"
+                        >
+                            {{
+                                'PROFILE.API-KEYS.TABLE.EMPTY-LIST' | translate
+                            }}
+                        </div>
+                    }
+                </table>
+            }
+        </div>
+    </mat-card-content>
+</mat-card>

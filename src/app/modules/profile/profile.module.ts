@@ -7,6 +7,7 @@ import { HuggingFaceCallbackComponent } from './components/hugging-face-callback
 import { Ai4eoscServicesComponent } from './components/ai4eosc-services/ai4eosc-services.component';
 import { FormsModule } from '@angular/forms';
 import { ApiKeysComponent } from './components/api-keys/api-keys.component';
+import { ApiKeyPopupComponent } from './components/api-key-popup/api-key-popup.component';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import { ApiKeysComponent } from './components/api-keys/api-keys.component';
         HuggingFaceCallbackComponent,
         Ai4eoscServicesComponent,
         ApiKeysComponent,
+        ApiKeyPopupComponent,
     ],
     imports: [CommonModule, ProfileRoutingModule, SharedModule, FormsModule],
 })
