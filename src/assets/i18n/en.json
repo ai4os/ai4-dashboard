@@ -296,7 +296,7 @@
             },
             "TRY": {
                 "TITLE": "Try",
-                "LOGOUT": "You must login to try the module",
+                "LOGOUT": "You must have the role 'ap-a' to try a module",
                 "USER-INTERFACE": "User Interface",
                 "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
                 "INFERENCE-API": "REST API",
@@ -560,6 +560,7 @@
         "UNDER-MAINTENANCE-POPUP": {
             "TITLE": "Warning"
         },
+        "NO-DEMO-ROLE": "Only available for 'ap-a' members",
         "UNAUTHORIZED": "Only available for project members",
         "DEPLOYED-IN-NOMAD": "You are accessing a backup instance of the {{voName}} dashboard. Some functionalities (eg. storage, user stats) might be missing or failing. Check the <a href='{{statusURL}}' target='_blank'>status</a> page for more details"
     }

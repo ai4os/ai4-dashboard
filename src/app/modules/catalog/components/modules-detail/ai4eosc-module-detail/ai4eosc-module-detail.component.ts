@@ -113,6 +113,10 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
         return this.userProfile?.isAuthorized;
     }
 
+    isDemo() {
+        return this.userProfile?.isDemo;
+    }
+
     convertTypeToIcon(dataType: string): string {
         return this.dataIconDict[dataType];
     }

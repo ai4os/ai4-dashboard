@@ -80,7 +80,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                             'forbidden',
                             { errorMessage: errorMessage },
                         ]);
-                        this.authService.logout();
                     }
                     // Polling error (sync account)
                     if (

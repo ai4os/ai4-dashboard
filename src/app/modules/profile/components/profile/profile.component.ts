@@ -183,12 +183,12 @@ export class ProfileComponent implements OnInit {
     getVoInfo(roles: string[]) {
         roles.forEach((role) => {
             const match = role.match(
-                /^(platform-access|demo|developer-access):([^:]+)$/
+                /^access:([^:]+):(ap-a|ap-a1|ap-b|ap-u|ap-d)$/
             );
 
             if (match) {
-                const accessType = match[1]; // "platform-access", "developer-access", "demo"
-                const voName = match[2]; // e.g. "vo.ai4eosc.eu"
+                const voName = match[1]; // e.g. "vo.ai4eosc.eu"
+                const accessType = match[2]; // "ap-u", "ap-b", "ap-a", etc
                 const index = this.vos.findIndex((v) => v.name === voName);
                 if (index === -1) {
                     this.vos.push({ name: voName, roles: [accessType] });

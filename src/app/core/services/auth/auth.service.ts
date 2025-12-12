@@ -13,6 +13,7 @@ export interface UserProfile {
     sub: string;
     roles: string[];
     isAuthorized: boolean;
+    isDemo: boolean;
     isDeveloper: boolean;
 }
 
@@ -217,6 +218,7 @@ export class AuthService {
             sub: parsedToken.sub,
             isAuthorized: false,
             isDeveloper: false,
+            isDemo: false,
             email: parsedToken.email,
             roles: parsedToken.realm_access.roles,
         };
@@ -225,14 +227,19 @@ export class AuthService {
             userProfile.roles.forEach((role) => {
                 if (
                     role ===
-                    'platform-access:' + this.appConfigService.voName
+                    'access:' + this.appConfigService.voName + ':ap-u'
                 ) {
                     userProfile.isAuthorized = true;
                 } else if (
                     role ===
-                    'developer-access:' + this.appConfigService.voName
+                    'access:' + this.appConfigService.voName + ':ap-d'
                 ) {
                     userProfile.isDeveloper = true;
+                } else if (
+                    role ===
+                    'access:' + this.appConfigService.voName + ':ap-a'
+                ) {
+                    userProfile.isDemo = true;
                 }
             });
         }
