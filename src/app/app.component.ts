@@ -223,7 +223,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.titleService.setTitle(this.appConfigService.title);
         this.addPlausibleScript();
         this.checkPlatformStatus();
-        this.checkUserRoles();
+
+        if (this.authService.isAuthenticated()) {
+            this.checkUserRoles();
+        }
+
         if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
             this.chatOverlayService.openChat();
         }
