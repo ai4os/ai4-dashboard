@@ -180,7 +180,7 @@ export class AppComponent implements OnInit, OnDestroy {
     checkUserRoles() {
         const width = this.mobileQuery.matches ? '300px' : '650px';
 
-        const savedHighestRole = localStorage.getItem('highestRole') ?? '';
+        const savedHighestRole = localStorage.getItem('accessLevel') ?? '';
         const currentHighestRole = this.getHighestAccessLevel(
             this.userProfile?.roles || []
         );
@@ -189,7 +189,7 @@ export class AppComponent implements OnInit, OnDestroy {
             savedHighestRole === '' ||
             savedHighestRole !== currentHighestRole
         ) {
-            localStorage.setItem('highestRole', currentHighestRole);
+            localStorage.setItem('accessLevel', currentHighestRole);
 
             this.translateService
                 .get(
@@ -215,18 +215,25 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        // get the current profile if it already exists
         const currentProfile = this.authService.userProfileSubject.getValue();
         if (currentProfile) {
             this.userProfile = currentProfile;
+            this.checkUserRoles();
         }
+
+        // subscribe to receive future updates
+        this.authService.userProfile$.subscribe((profile) => {
+            if (profile) {
+                this.userProfile = profile;
+                this.checkUserRoles();
+                this.changeDetectorRef.detectChanges();
+            }
+        });
 
         this.titleService.setTitle(this.appConfigService.title);
         this.addPlausibleScript();
         this.checkPlatformStatus();
-
-        if (this.authService.isAuthenticated()) {
-            this.checkUserRoles();
-        }
 
         if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
             this.chatOverlayService.openChat();
