@@ -37,7 +37,8 @@
         "EMAIL": "Email",
         "USER-ID": "User ID",
         "UNAUTHORIZED": "You are not a member of any VO.",
-        "OPEN-PROFILE-WEB": "Manage account",
+        "ACCESS-MODAL-TITLE": "Your access level changed",
+        "ACCESS-MODAL-BODY": "Your highest access level is now: <b>{{currentHighestRole}}</b>. You can learn more about access levels in <a href='https://docs.ai4os.eu/en/latest/reference/user-access-levels.html' target='_blank'>our documentation</a>.",
         "STORAGE-PROVIDERS": "Storage providers",
         "RCLONE": {
             "TITLE": "Add configuration manually",

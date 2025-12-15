@@ -14,6 +14,8 @@ import { CookieService } from 'ngx-cookie-service';
 import * as yaml from 'js-yaml';
 import { ChatOverlayService } from './shared/services/chat-overlay/chat-overlay.service';
 import { PopupComponent } from './shared/components/popup/popup.component';
+import { AuthService, UserProfile } from './core/services/auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-root',
@@ -31,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private appConfigService: AppConfigService,
         private chatOverlayService: ChatOverlayService,
         private snackbarService: SnackbarService,
+        protected authService: AuthService,
+        public translateService: TranslateService,
         public dialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -40,9 +44,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
-
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
+
+    userProfile?: UserProfile;
 
     addPlausibleScript() {
         const scriptElement = document.getElementById('plausible-script');
@@ -75,6 +80,8 @@ export class AppComponent implements OnInit, OnDestroy {
         }
         this.dialog.open(PopupComponent, {
             data: {
+                icon: 'warning',
+                isWarning: true,
                 title: statusNotification.title,
                 summary: statusNotification.summary,
             },
@@ -147,10 +154,76 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
+    getHighestAccessLevel(roles: string[]): string {
+        const order = ['ap-d', 'ap-u', 'ap-b', 'ap-a1', 'ap-a'];
+        let best: string = 'ap-a';
+
+        roles.forEach((role) => {
+            const match = role.match(
+                /^access:[^:]+:(ap-d|ap-u|ap-b|ap-a1|ap-a)$/
+            );
+
+            if (match) {
+                const level = match[1];
+                if (
+                    best === null ||
+                    order.indexOf(level) < order.indexOf(best)
+                ) {
+                    best = level;
+                }
+            }
+        });
+
+        return best;
+    }
+
+    checkUserRoles() {
+        const width = this.mobileQuery.matches ? '300px' : '650px';
+
+        const savedHighestRole = localStorage.getItem('highestRole') ?? '';
+        const currentHighestRole = this.getHighestAccessLevel(
+            this.userProfile?.roles || []
+        );
+
+        if (
+            savedHighestRole === '' ||
+            savedHighestRole !== currentHighestRole
+        ) {
+            localStorage.setItem('highestRole', currentHighestRole);
+
+            this.translateService
+                .get(
+                    ['PROFILE.ACCESS-MODAL-TITLE', 'PROFILE.ACCESS-MODAL-BODY'],
+                    { currentHighestRole }
+                )
+                .subscribe((translations) => {
+                    this.dialog.open(PopupComponent, {
+                        data: {
+                            icon: 'identity_platform',
+                            isWarning: false,
+                            title: translations['PROFILE.ACCESS-MODAL-TITLE'],
+                            summary: translations['PROFILE.ACCESS-MODAL-BODY'],
+                        },
+                        width,
+                        maxWidth: width,
+                        minWidth: width,
+                        autoFocus: false,
+                        restoreFocus: false,
+                    });
+                });
+        }
+    }
+
     ngOnInit(): void {
+        const currentProfile = this.authService.userProfileSubject.getValue();
+        if (currentProfile) {
+            this.userProfile = currentProfile;
+        }
+
         this.titleService.setTitle(this.appConfigService.title);
         this.addPlausibleScript();
         this.checkPlatformStatus();
+        this.checkUserRoles();
         if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
             this.chatOverlayService.openChat();
         }
