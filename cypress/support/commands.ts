@@ -35,7 +35,9 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
             cy.get('body').then(($body) => {
                 if ($body.find(':contains("Close")').length > 0) {
-                    cy.contains('Close').click({ force: true });
+                    cy.contains('Close', { timeout: 10000 }).click({
+                        force: true,
+                    });
                 }
             });
         },
