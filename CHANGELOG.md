@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.17.0](https://github.com/ai4os/ai4-dashboard/compare/v3.16.0...v3.17.0) (2026-01-12)
+
+
+### Features
+
+* update provenance url ([#460](https://github.com/ai4os/ai4-dashboard/issues/460)) ([17ab730](https://github.com/ai4os/ai4-dashboard/commit/17ab730abfc998fb741e1192f5133ecf497e9f97))
+
 ## [3.16.0](https://github.com/ai4os/ai4-dashboard/compare/v3.15.1...v3.16.0) (2025-11-13)
 
 
