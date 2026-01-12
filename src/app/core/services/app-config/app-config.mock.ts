@@ -8,4 +8,8 @@ export const mockedConfigService: any = {
         },
     ],
     acknowledgments: 'The test AI4EOSC dashboard is a service provided by CSIC',
+    analytics: {
+        domain: 'localhost',
+        src: 'http://locahost/js/script.js',
+    },
 };
