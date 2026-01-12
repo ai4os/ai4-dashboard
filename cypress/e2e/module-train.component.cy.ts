@@ -1,6 +1,7 @@
 describe('module train form', function () {
     before(function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.closeAccessLevelPopup();
     });
 
     describe('Tests with Nextcloud credentials', () => {

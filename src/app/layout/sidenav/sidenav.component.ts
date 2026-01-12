@@ -19,6 +19,7 @@ export interface ProjectLink {
     url: string;
     isRestricted?: boolean;
     isDisabled?: boolean;
+    tooltip?: string;
 }
 
 @Component({
@@ -43,6 +44,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
 
     public isAuthorized = false;
+    public isDemo = false;
     protected environment = environment;
     protected gitInfo = gitInfo;
     protected userProfile?: UserProfile;
@@ -83,7 +85,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             name: 'SIDENAV.TRY-ME',
             url: '/tasks/try-me',
             isRestricted: true,
-            isDisabled: !this.isLoggedIn(),
+            isDisabled: !this.isDemo,
+            tooltip: 'ERRORS.NO-DEMO-ROLE',
         },
         {
             name: 'SIDENAV.DEPLOYMENTS',
@@ -134,6 +137,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         if (currentProfile) {
             this.userProfile = currentProfile;
             this.isAuthorized = currentProfile.isAuthorized;
+            this.isDemo = currentProfile.isDemo;
             this.updateMainLinks();
         }
 
@@ -142,6 +146,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             if (profile) {
                 this.userProfile = profile;
                 this.isAuthorized = profile.isAuthorized;
+                this.isDemo = profile.isDemo;
                 this.updateMainLinks();
                 this.changeDetectorRef.detectChanges();
             }
@@ -171,6 +176,11 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
         if (this.dashboardLink.isRestricted) {
             this.dashboardLink.isDisabled = !this.isAuthorized;
+        }
+
+        // Try me section
+        if (this.runtimeLinks[0].isRestricted) {
+            this.runtimeLinks[0].isDisabled = !this.isDemo;
         }
     }
 

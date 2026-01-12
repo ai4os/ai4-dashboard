@@ -10,33 +10,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './core/services/auth/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
-
-const mockedConfigService: any = {
-    analytics: {
-        domain: 'localhost',
-        src: 'http://locahost/js/script.js',
-    },
-};
-
-const mockedAuthService: any = {
-    isAuthenticated: jest.fn(),
-    userProfileSubject: of({}),
-};
-
-const mockedMediaQueryList: MediaQueryList = {
-    matches: true,
-    media: 'test',
-    onchange: jest.fn(),
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    removeEventListener: jest.fn(),
-};
-
-const mockedMediaMatcher: any = {
-    matchMedia: jest.fn().mockReturnValue(mockedMediaQueryList),
-};
+import { mockedAuthService } from './core/services/auth/auth-service.mock';
+import { mockedMediaMatcher } from './shared/mocks/media-matcher.mock';
+import { mockedConfigService } from './core/services/app-config/app-config.mock';
 
 describe('AppComponent', () => {
     let component: AppComponent;

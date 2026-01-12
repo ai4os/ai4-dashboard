@@ -11,7 +11,12 @@ export class PopupComponent {
     constructor(
         public dialogRef: MatDialogRef<PopupComponent>,
         @Inject(MAT_DIALOG_DATA)
-        public data: { title: string; summary: string },
+        public data: {
+            title: string;
+            summary: string;
+            icon: string;
+            isWarning: boolean;
+        },
         protected htmlSanitizerService: HtmlSanitizerService
     ) {}
 }

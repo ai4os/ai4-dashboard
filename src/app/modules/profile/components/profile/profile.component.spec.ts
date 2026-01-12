@@ -72,14 +72,14 @@ describe('ProfileComponent', () => {
 
     it('should parse VoInfo correctly', () => {
         const roles = [
-            'platform-access:demo',
+            'access:vo.ai4eosc.eu:ap-u',
             'inference_access:vo.imagine-ai.eu',
         ];
 
         component.getVoInfo(roles);
 
         expect(component['vos']).toEqual([
-            { name: 'demo', roles: ['platform-access'] },
+            { name: 'vo.ai4eosc.eu', roles: ['ap-u'] },
         ]);
     });
 

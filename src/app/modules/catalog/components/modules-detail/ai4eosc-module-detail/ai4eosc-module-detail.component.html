@@ -39,7 +39,7 @@
         >
             <div
                 class="tooltip-container"
-                [matTooltipDisabled]="isLoggedIn()"
+                [matTooltipDisabled]="isDemo()"
                 matTooltip=" {{
                     'CATALOG.MODULE-DETAIL.TRY.LOGOUT' | translate
                 }}"
@@ -49,7 +49,7 @@
                     mat-raised-button
                     color="accent"
                     [matMenuTriggerFor]="tryMenu"
-                    [disabled]="!isLoggedIn()"
+                    [disabled]="!isDemo()"
                 >
                     {{ 'CATALOG.MODULE-DETAIL.TRY.TITLE' | translate }}
 
@@ -569,7 +569,7 @@
                                 class="action-button"
                                 mat-raised-button
                                 [href]="
-                                    'https://provenance.services.ai4os.eu/rdf?applicationId=' +
+                                    'https://provenance.cloud.ai4eosc.eu/rdf?applicationId=' +
                                     module.id
                                 "
                                 target="_blank"
