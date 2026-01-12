@@ -13,6 +13,7 @@ export interface UserProfile {
     sub: string;
     roles: string[];
     isAuthorized: boolean;
+    isDemo: boolean;
     isDeveloper: boolean;
 }
 
@@ -217,6 +218,7 @@ export class AuthService {
             sub: parsedToken.sub,
             isAuthorized: false,
             isDeveloper: false,
+            isDemo: false,
             email: parsedToken.email,
             roles: parsedToken.realm_access.roles,
         };
@@ -225,14 +227,19 @@ export class AuthService {
             userProfile.roles.forEach((role) => {
                 if (
                     role ===
-                    'platform-access:' + this.appConfigService.voName
+                    'access:' + this.appConfigService.voName + ':ap-u'
                 ) {
                     userProfile.isAuthorized = true;
                 } else if (
                     role ===
-                    'developer-access:' + this.appConfigService.voName
+                    'access:' + this.appConfigService.voName + ':ap-d'
                 ) {
                     userProfile.isDeveloper = true;
+                } else if (
+                    role ===
+                    'access:' + this.appConfigService.voName + ':ap-a'
+                ) {
+                    userProfile.isDemo = true;
                 }
             });
         }
@@ -253,19 +260,19 @@ export class AuthService {
         }
         this.router.navigateByUrl('/catalog/modules');
 
-        // save 'on boarding library' related variables
-        const tours: { [key: string]: string | null } = {};
+        // save 'on boarding library' and 'access level' related variables
+        const variables: { [key: string]: string | null } = {};
         for (const key of Object.keys(localStorage)) {
-            if (key.endsWith('Tour')) {
-                tours[key] = localStorage.getItem(key);
+            if (key.endsWith('Tour') || key.includes('accessLevel')) {
+                variables[key] = localStorage.getItem(key);
             }
         }
 
         // clear all local storage variables
         localStorage.clear();
 
-        // restore 'on boarding library' related variables
-        for (const [key, value] of Object.entries(tours)) {
+        // restore 'on boarding library' and 'access level' related variables
+        for (const [key, value] of Object.entries(variables)) {
             if (value !== null) {
                 localStorage.setItem(key, value);
             }

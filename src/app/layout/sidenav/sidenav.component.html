@@ -119,9 +119,10 @@
                                               : null
                                     "
                                     class="sidenav-item"
-                                    matTooltip=" {{
-                                        'ERRORS.UNAUTHORIZED' | translate
-                                    }}"
+                                    [matTooltip]="
+                                        link.tooltip || 'ERRORS.UNAUTHORIZED'
+                                            | translate
+                                    "
                                     [matTooltipPosition]="'right'"
                                     [matTooltipDisabled]="!link.isDisabled"
                                     [disabled]="link.isDisabled"

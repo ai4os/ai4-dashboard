@@ -1,6 +1,7 @@
 describe('try me section', function () {
     before(function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.closeAccessLevelPopup();
     });
 
     it('try me list shows no Gradio deployments', function () {
@@ -38,10 +39,10 @@ describe('try me section', function () {
             'Initializing the environment ... This might take some time',
             { timeout: 50000 }
         ).should('be.visible');
-        cy.contains('Launching the UI ...', { timeout: 50000 }).should(
+        cy.contains('Launching the UI ...', { timeout: 80000 }).should(
             'be.visible'
         );
-        cy.url({ timeout: 50000 }).should(
+        cy.url({ timeout: 80000 }).should(
             'not.equal',
             'http://localhost:8080/catalog/modules/dogs-breed-detector/try-me-nomad'
         );

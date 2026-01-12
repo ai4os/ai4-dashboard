@@ -39,7 +39,7 @@
         >
             <div
                 class="tooltip-container"
-                [matTooltipDisabled]="isLoggedIn()"
+                [matTooltipDisabled]="isDemo()"
                 matTooltip=" {{
                     'CATALOG.MODULE-DETAIL.TRY.LOGOUT' | translate
                 }}"
@@ -49,7 +49,7 @@
                     mat-raised-button
                     color="accent"
                     [matMenuTriggerFor]="tryMenu"
-                    [disabled]="!isLoggedIn()"
+                    [disabled]="!isDemo()"
                 >
                     {{ 'CATALOG.MODULE-DETAIL.TRY.TITLE' | translate }}
 
