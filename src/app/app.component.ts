@@ -157,10 +157,14 @@ export class AppComponent implements OnInit, OnDestroy {
     getHighestAccessLevel(roles: string[]): string {
         const order = ['ap-d', 'ap-u', 'ap-b', 'ap-a1', 'ap-a'];
         let best: string = 'ap-a';
+        const voNameEscaped = this.appConfigService.voName.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            '\\$&'
+        );
 
         roles.forEach((role) => {
             const match = role.match(
-                /^access:[^:]+:(ap-d|ap-u|ap-b|ap-a1|ap-a)$/
+                `^access:${voNameEscaped}:(ap-d|ap-u|ap-b|ap-a1|ap-a)$`
             );
 
             if (match) {
