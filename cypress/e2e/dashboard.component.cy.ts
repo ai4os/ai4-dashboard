@@ -1,6 +1,7 @@
 describe('dashboard section', function () {
     before(function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.closeAccessLevelPopup();
         cy.contains('Statistics', { timeout: 10000 }).click({ force: true });
     });
 

@@ -1,6 +1,7 @@
 describe('deployments section', function () {
     before(function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.closeAccessLevelPopup();
 
         // create tool
         cy.contains('Tools', { timeout: 20000 }).click({

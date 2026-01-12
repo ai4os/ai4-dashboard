@@ -32,14 +32,6 @@ Cypress.Commands.add('login', (username: string, password: string) => {
             );
 
             cy.url().should('equal', 'http://localhost:8080/catalog/modules');
-
-            cy.get('body').then(($body) => {
-                if ($body.find(':contains("Close")').length > 0) {
-                    cy.contains('Close', { timeout: 10000 }).click({
-                        force: true,
-                    });
-                }
-            });
         },
         {
             validate() {
@@ -93,4 +85,14 @@ Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
     cy.get('#deleteNextcloudStorageCredentialsBtn').click();
     cy.contains('Yes').click();
     cy.contains('Link', { timeout: 20000 }).should('be.visible');
+});
+
+Cypress.Commands.add('closeAccessLevelPopup', () => {
+    cy.get('body').then(($body) => {
+        if ($body.find(':contains("Close")').length > 0) {
+            cy.contains('Close', { timeout: 10000 }).click({
+                force: true,
+            });
+        }
+    });
 });

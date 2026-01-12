@@ -1,6 +1,7 @@
 describe('try me section', function () {
     before(function () {
         cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.closeAccessLevelPopup();
     });
 
     it('try me list shows no Gradio deployments', function () {
