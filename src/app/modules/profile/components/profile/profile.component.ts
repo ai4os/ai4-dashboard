@@ -179,6 +179,21 @@ export class ProfileComponent implements OnInit {
                     }
                 }
             }
+
+            // sort roles by access level
+            this.vos.forEach((vo) => {
+                vo.roles.sort((a, b) => {
+                    const order = [
+                        'ap-d',
+                        'ap-u',
+                        'ap-b',
+                        'ap-a1',
+                        'ap-a',
+                        'ap-0',
+                    ];
+                    return order.indexOf(a) - order.indexOf(b);
+                });
+            });
         });
     }
 
