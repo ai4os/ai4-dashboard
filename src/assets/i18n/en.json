@@ -78,6 +78,7 @@
             "TABLE": {
                 "KEY-ID": "Key ID",
                 "CREATION-TIME": "Creation time (UTC)",
+                "TEAM-ID": "Team ID",
                 "ACTIONS": "Actions",
                 "EMPTY-LIST": "No LLM API keys found."
             }

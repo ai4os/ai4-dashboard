@@ -35,19 +35,39 @@
 
                 <span class="buttons-container">
                     <div class="form-field">
-                        <div class="form-field">
-                            <mat-form-field
-                                class="full-width mr-3 no-margin"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    placeholder="API key identifier"
-                                    [(ngModel)]="newKeyId"
-                                />
-                            </mat-form-field>
-                        </div>
+                        <mat-form-field
+                            class="full-width no-margin"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                placeholder="API key identifier"
+                                [(ngModel)]="newKeyId"
+                            />
+                        </mat-form-field>
                     </div>
+
+                    <div class="form-field smaller-field">
+                        <mat-form-field
+                            class="full-width no-margin"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>
+                                {{
+                                    'PROFILE.API-KEYS.TABLE.TEAM-ID' | translate
+                                }}
+                            </mat-label>
+
+                            <mat-select [(ngModel)]="teamId">
+                                @for (id of teamsIds; track id) {
+                                    <mat-option [value]="id">{{
+                                        id
+                                    }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
                     <button
                         mat-fab
                         extended

@@ -43,6 +43,7 @@ export interface MLflowCredentials {
 export interface LiteLLMKeyResponse {
     id: string;
     created_at: string;
+    team_id: string;
 }
 
 export interface LiteLLMKey {
@@ -58,4 +59,5 @@ export interface KeyTableColumn {
 export interface KeyTableRow {
     id: string;
     creationTime: string;
+    teamId: string;
 }

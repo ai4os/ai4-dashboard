@@ -119,6 +119,10 @@
     }
 }
 
+.smaller-field {
+    width: 10%;
+}
+
 .action-button-in-cell {
     padding: 0px !important;
 }
@@ -147,6 +151,11 @@
 
 .mat-column-creationTime {
     max-width: 200px;
+    justify-content: center;
+}
+
+.mat-column-teamId {
+    max-width: 150px;
     justify-content: center;
 }
 
