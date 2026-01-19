@@ -24,6 +24,7 @@ import {
     StatusNotification,
 } from '@app/shared/interfaces/platform-status.interface';
 import * as yaml from 'js-yaml';
+import { formatDate } from '@app/shared/utils/formatDate';
 
 @Component({
     selector: 'app-deployments-list',
@@ -175,7 +176,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         status: deployment.status,
                         containerName: containerName,
                         gpus: '-',
-                        creationTime: deployment.submit_time,
+                        creationTime: formatDate(deployment.submit_time),
                         endpoints: deployment.endpoints,
                         mainEndpoint: deployment.main_endpoint,
                         datacenter: deployment.datacenter,
@@ -253,7 +254,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         status: tool.status,
                         containerName: tool.docker_image,
                         gpus: '-',
-                        creationTime: tool.submit_time,
+                        creationTime: formatDate(tool.submit_time),
                         endpoints: tool.endpoints,
                         mainEndpoint: tool.main_endpoint,
                         datacenter: tool.datacenter,
@@ -334,7 +335,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         containerName: snapshot.docker_image,
                         tagName: snapshot.snapshot_ID,
                         size: size.toFixed(2),
-                        creationTime: snapshot.submit_time,
+                        creationTime: formatDate(snapshot.submit_time),
                         snapshot_ID: snapshot.snapshot_ID,
                     };
                     if (snapshot.error_msg) {

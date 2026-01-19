@@ -11,6 +11,7 @@ import {
     DeploymentTableRow,
 } from '@app/shared/interfaces/deployment.interface';
 import { timer, takeUntil, switchMap, Subject } from 'rxjs';
+import { formatDate } from '@app/shared/utils/formatDate';
 
 @Component({
     selector: 'app-inferences-list',
@@ -72,7 +73,7 @@ export class InferencesListComponent implements OnInit {
                             uuid: service.name,
                             name: service.title,
                             containerName: service.image,
-                            creationTime: service.submit_time,
+                            creationTime: formatDate(service.submit_time),
                         };
                         this.dataset.push(row);
                     });

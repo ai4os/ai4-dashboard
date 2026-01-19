@@ -35,6 +35,7 @@ import { SnapshotDetailComponent } from '@app/modules/deployments/components/sna
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
+import { formatDate } from '@app/shared/utils/formatDate';
 
 @Component({
     selector: 'app-deployments-table',
@@ -104,7 +105,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
                 snapshot_ID: row.snapshot_ID!,
                 title: row.name,
                 status: row.status!,
-                submit_time: row.creationTime,
+                submit_time: formatDate(row.creationTime),
                 docker_image: '',
                 size: +row.size!,
                 nomad_ID: '',

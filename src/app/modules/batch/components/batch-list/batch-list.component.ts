@@ -12,6 +12,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { BatchService } from '../../services/batch.service';
 import { DeploymentDetailComponent } from '@app/modules/deployments/components/deployment-detail/deployment-detail.component';
+import { formatDate } from '@app/shared/utils/formatDate';
 
 @Component({
     selector: 'app-batch-list',
@@ -73,7 +74,7 @@ export class BatchListComponent {
                             status: deployment.status,
                             containerName: deployment.docker_image,
                             gpus: '-',
-                            creationTime: deployment.submit_time,
+                            creationTime: formatDate(deployment.submit_time),
                             endpoints: deployment.endpoints,
                             mainEndpoint: deployment.main_endpoint,
                             datacenter: deployment.datacenter,
