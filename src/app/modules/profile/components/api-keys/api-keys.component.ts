@@ -20,33 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { ApiKeyPopupComponent } from '../api-key-popup/api-key-popup.component';
-
-export function formatDate(input: string): string {
-    const date = typeof input === 'string' ? new Date(input) : input;
-
-    const options: Intl.DateTimeFormatOptions = {
-        timeZone: 'Europe/Paris',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-    };
-
-    const formatter = new Intl.DateTimeFormat('en-GB', options);
-    const parts = formatter.formatToParts(date);
-
-    const year = parts.find((p) => p.type === 'year')?.value;
-    const month = parts.find((p) => p.type === 'month')?.value;
-    const day = parts.find((p) => p.type === 'day')?.value;
-    const hour = parts.find((p) => p.type === 'hour')?.value;
-    const minute = parts.find((p) => p.type === 'minute')?.value;
-    const second = parts.find((p) => p.type === 'second')?.value;
-
-    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-}
+import { formatDate } from '@app/shared/utils/formatDate';
 
 @Component({
     selector: 'app-api-keys',
@@ -80,6 +54,8 @@ export class ApiKeysComponent implements OnInit {
     protected newKeyId = '';
     protected teamsIds: Set<string> = new Set<string>();
     protected teamId: string = '';
+    protected expirationDate: Date | null = null;
+    protected minDate: Date = new Date();
 
     protected dataset: Array<KeyTableRow> = [];
     protected dataSource: MatTableDataSource<KeyTableRow> =
@@ -93,6 +69,10 @@ export class ApiKeysComponent implements OnInit {
         {
             columnDef: 'teamId',
             header: 'PROFILE.API-KEYS.TABLE.TEAM-ID',
+        },
+        {
+            columnDef: 'expires',
+            header: 'PROFILE.API-KEYS.TABLE.EXPIRES',
         },
         { columnDef: 'actions', header: 'PROFILE.API-KEYS.TABLE.ACTIONS' },
     ];
@@ -129,6 +109,9 @@ export class ApiKeysComponent implements OnInit {
                         id: k.id,
                         creationTime: formatDate(k.created_at),
                         teamId: k.team_id,
+                        expires: k.expires
+                            ? formatDate(k.expires, false)
+                            : 'Never',
                     };
                     this.dataset.push(row);
                 });
@@ -156,14 +139,21 @@ export class ApiKeysComponent implements OnInit {
             );
             return;
         }
+        const duration = this.calculateExpirationDiff(this.expirationDate);
         this.llmApiKeysService
-            .createLiteLLMKey(cleanKeyId, this.teamId)
+            .createLiteLLMKey(cleanKeyId, this.teamId, duration)
             .subscribe({
                 next: (apiKey) => {
                     const row: KeyTableRow = {
                         id: cleanKeyId,
                         creationTime: formatDate(new Date().toISOString()),
                         teamId: this.teamId,
+                        expires: this.expirationDate
+                            ? formatDate(
+                                this.expirationDate.toISOString(),
+                                false
+                            )
+                            : 'Never',
                     };
                     this.dataset.push(row);
                     this.dataSource = new MatTableDataSource<KeyTableRow>(
@@ -238,5 +228,21 @@ export class ApiKeysComponent implements OnInit {
         const url =
             'https://docs.ai4eosc.eu/en/latest/reference/llm.html#integrate-it-with-your-own-services';
         window.open(url);
+    }
+
+    calculateExpirationDiff(expirationDate: Date | null): string {
+        if (!expirationDate) {
+            return '1d';
+        }
+
+        const now = new Date().getTime();
+        const exp = expirationDate.getTime();
+
+        const diffMs = exp - now;
+        const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+        const finalDays = Math.max(diffDays, 1);
+
+        return `${finalDays}d`;
     }
 }

@@ -68,6 +68,29 @@
                         </mat-form-field>
                     </div>
 
+                    <div class="form-field calendar-field">
+                        <mat-form-field
+                            class="full-width no-margin"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>
+                                {{
+                                    'PROFILE.API-KEYS.EXPIRATION-DATE'
+                                        | translate
+                                }}</mat-label
+                            >
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                [min]="minDate"
+                                [(ngModel)]="expirationDate"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
                     <button
                         mat-fab
                         extended
