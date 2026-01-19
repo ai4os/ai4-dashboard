@@ -55,7 +55,7 @@ export class ApiKeysComponent implements OnInit {
     protected teamsIds: Set<string> = new Set<string>();
     protected teamId: string = '';
     protected expirationDate: Date | null = null;
-    protected minDate: Date = new Date();
+    protected todayDate: Date = new Date();
 
     protected dataset: Array<KeyTableRow> = [];
     protected dataSource: MatTableDataSource<KeyTableRow> =
@@ -140,6 +140,12 @@ export class ApiKeysComponent implements OnInit {
             return;
         }
         const duration = this.calculateExpirationDiff(this.expirationDate);
+
+        // If no expiration date is set, default to 30 days from now
+        const expiresDate =
+            this.expirationDate ??
+            new Date(new Date().setDate(this.todayDate.getDate() + 30));
+
         this.llmApiKeysService
             .createLiteLLMKey(cleanKeyId, this.teamId, duration)
             .subscribe({
@@ -148,12 +154,7 @@ export class ApiKeysComponent implements OnInit {
                         id: cleanKeyId,
                         creationTime: formatDate(new Date().toISOString()),
                         teamId: this.teamId,
-                        expires: this.expirationDate
-                            ? formatDate(
-                                this.expirationDate.toISOString(),
-                                false
-                            )
-                            : 'Never',
+                        expires: formatDate(expiresDate.toISOString(), false),
                     };
                     this.dataset.push(row);
                     this.dataSource = new MatTableDataSource<KeyTableRow>(
@@ -232,7 +233,7 @@ export class ApiKeysComponent implements OnInit {
 
     calculateExpirationDiff(expirationDate: Date | null): string {
         if (!expirationDate) {
-            return '1d';
+            return '30d';
         }
 
         const now = new Date().getTime();
