@@ -47,27 +47,6 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="form-field smaller-field">
-                        <mat-form-field
-                            class="full-width no-margin"
-                            subscriptSizing="dynamic"
-                        >
-                            <mat-label>
-                                {{
-                                    'PROFILE.API-KEYS.TABLE.TEAM-ID' | translate
-                                }}
-                            </mat-label>
-
-                            <mat-select [(ngModel)]="teamId">
-                                @for (id of teamsIds; track id) {
-                                    <mat-option [value]="id">{{
-                                        id
-                                    }}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
                     <div class="form-field calendar-field">
                         <mat-form-field
                             class="full-width no-margin"

@@ -52,9 +52,9 @@ export class ApiKeysComponent implements OnInit {
     protected isLiteLLMLoading = false;
     protected LiteLLMKeys: LiteLLMKey[] = [];
     protected newKeyId = '';
-    protected teamsIds: Set<string> = new Set<string>();
-    protected teamId: string = '';
-    protected expirationDate: Date | null = null;
+    protected expirationDate: Date | null = new Date(
+        new Date().setMonth(new Date().getMonth() + 1)
+    );
     protected todayDate: Date = new Date();
 
     protected dataset: Array<KeyTableRow> = [];
@@ -67,10 +67,6 @@ export class ApiKeysComponent implements OnInit {
             header: 'PROFILE.API-KEYS.TABLE.CREATION-TIME',
         },
         {
-            columnDef: 'teamId',
-            header: 'PROFILE.API-KEYS.TABLE.TEAM-ID',
-        },
-        {
             columnDef: 'expires',
             header: 'PROFILE.API-KEYS.TABLE.EXPIRES',
         },
@@ -79,24 +75,7 @@ export class ApiKeysComponent implements OnInit {
     protected displayedColumns: string[] = this.columns.map((x) => x.columnDef);
 
     ngOnInit(): void {
-        this.getTeamsIds();
         this.getLiteLLMKeys();
-    }
-
-    getTeamsIds() {
-        this.vos.forEach((vo) => {
-            vo.roles.forEach((role) => {
-                this.teamsIds.add(role);
-            });
-        });
-
-        const order = ['ap-d', 'ap-u', 'ap-b', 'ap-a1', 'ap-a', 'ap-0'];
-        this.teamsIds = new Set(
-            [...this.teamsIds].sort(
-                (a, b) => order.indexOf(a) - order.indexOf(b)
-            )
-        );
-        this.teamId = this.teamsIds.values().next().value!;
     }
 
     getLiteLLMKeys() {
@@ -108,7 +87,6 @@ export class ApiKeysComponent implements OnInit {
                     const row: KeyTableRow = {
                         id: k.id,
                         creationTime: formatDate(k.created_at),
-                        teamId: k.team_id,
                         expires: k.expires
                             ? formatDate(k.expires, false)
                             : 'Never',
@@ -139,22 +117,20 @@ export class ApiKeysComponent implements OnInit {
             );
             return;
         }
-        const duration = this.calculateExpirationDiff(this.expirationDate);
 
-        // If no expiration date is set, default to 30 days from now
-        const expiresDate =
-            this.expirationDate ??
-            new Date(new Date().setDate(this.todayDate.getDate() + 30));
+        const duration = this.calculateExpirationDiff(this.expirationDate);
+        const expiresDate = this.expirationDate
+            ? formatDate(this.expirationDate.toISOString(), false)
+            : 'Never';
 
         this.llmApiKeysService
-            .createLiteLLMKey(cleanKeyId, this.teamId, duration)
+            .createLiteLLMKey(cleanKeyId, duration)
             .subscribe({
                 next: (apiKey) => {
                     const row: KeyTableRow = {
                         id: cleanKeyId,
                         creationTime: formatDate(new Date().toISOString()),
-                        teamId: this.teamId,
-                        expires: formatDate(expiresDate.toISOString(), false),
+                        expires: expiresDate,
                     };
                     this.dataset.push(row);
                     this.dataSource = new MatTableDataSource<KeyTableRow>(
@@ -233,7 +209,7 @@ export class ApiKeysComponent implements OnInit {
 
     calculateExpirationDiff(expirationDate: Date | null): string {
         if (!expirationDate) {
-            return '30d';
+            return '';
         }
 
         const now = new Date().getTime();

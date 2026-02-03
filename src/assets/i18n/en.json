@@ -79,7 +79,6 @@
             "TABLE": {
                 "KEY-ID": "Key ID",
                 "CREATION-TIME": "Creation time (UTC)",
-                "TEAM-ID": "Team ID",
                 "EXPIRES": "Expires",
                 "ACTIONS": "Actions",
                 "EMPTY-LIST": "No LLM API keys found."
