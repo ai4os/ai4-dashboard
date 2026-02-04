@@ -139,7 +139,7 @@ export const expectedModulesDataset: DeploymentTableRow[] = [
         status: 'running',
         containerName: 'deephdc/ai4os-dev-env:latest',
         gpus: 0,
-        creationTime: '2023-08-08 07:57:26',
+        creationTime: '07:57:26 08-08-2023',
         endpoints: {
             api: 'http://deepaas-3639771e-35c1-11ee-867a-0242ac110002.deployments.cloud.ai4eosc.eu',
             monitor:
@@ -156,7 +156,7 @@ export const expectedModulesDataset: DeploymentTableRow[] = [
         status: 'running',
         containerName: 'deephdc/ai4os-dev-env:latest',
         gpus: 0,
-        creationTime: '2023-08-04 18:48:28',
+        creationTime: '18:48:28 04-08-2023',
         endpoints: {
             api: 'http://deepaas-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
             monitor:
@@ -176,7 +176,7 @@ export const expectedToolsDataset: DeploymentTableRow[] = [
         status: 'running',
         containerName: 'ai4oshub/ai4os-federated-server:latest',
         gpus: 0,
-        creationTime: '2023-08-29 10:55:46',
+        creationTime: '10:55:46 29-08-2023',
         endpoints: {
             fedserver:
                 'http://fedserver-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
@@ -193,7 +193,7 @@ export const expectedToolsDataset: DeploymentTableRow[] = [
         status: 'running',
         containerName: 'ai4oshub/ai4os-cvat:latest',
         gpus: 0,
-        creationTime: '2023-08-29 10:55:46',
+        creationTime: '10:55:46 29-08-2023',
         endpoints: {
             cvat: 'http://cvat-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
             ide: 'http://ide-9a76ae28-465a-11ee-9920-0242ac110003.deployments.cloud.ai4eosc.eu',
@@ -216,7 +216,7 @@ export const expectedSnapshotsDataset: DeploymentTableRow[] = [
 
         tagName: 'snapshot-test',
         size: '1.92',
-        creationTime: '2024-11-12 09:30:40',
+        creationTime: '09:30:40 12-11-2024',
         snapshot_ID: 'snapshot-test',
     },
     {
@@ -229,7 +229,7 @@ export const expectedSnapshotsDataset: DeploymentTableRow[] = [
 
         tagName: 'snapshot-test2',
         size: '1.92',
-        creationTime: '2024-11-12 09:30:40',
+        creationTime: '09:30:40 12-11-2024',
         snapshot_ID: 'snapshot-test2',
     },
 ];
