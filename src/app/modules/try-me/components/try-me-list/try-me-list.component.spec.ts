@@ -28,7 +28,7 @@ const mockedDatasets: Array<DeploymentTableRow> = [
         status: 'running',
         name: 'pink_butterfly',
         containerName: 'ai4oshub/dogs-breed-detector:latest',
-        creationTime: '2024-10-22 10:21:19',
+        creationTime: '10:21:19 22-10-2024',
         endpoints: {
             ui: 'http://ui-9d7c8b08-904e-11ef-a9af-67eed56a1e49.ifca-deployments.cloud.ai4eosc.eu',
         },
@@ -38,7 +38,7 @@ const mockedDatasets: Array<DeploymentTableRow> = [
         status: 'running',
         name: 'blue_whale',
         containerName: 'ai4oshub/dogs-breed-detector:latest',
-        creationTime: '2024-10-22 10:21:19',
+        creationTime: '10:21:19 22-10-2024',
         endpoints: {
             ui: 'http://ui-9d7c8b08-904e-11ef-a9af-67eed56a1e49.ifca-deployments.cloud.ai4eosc.eu',
         },

@@ -26,5 +26,5 @@ export function formatDate(input: string, showHour: boolean = true): string {
         return `${day}-${month}-${year}`;
     }
 
-    return `${hour}:${minute}:${second} ${day}-${month}-${year} `;
+    return `${hour}:${minute}:${second} ${day}-${month}-${year}`;
 }

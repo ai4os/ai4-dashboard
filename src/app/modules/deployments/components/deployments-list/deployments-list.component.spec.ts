@@ -157,7 +157,7 @@ describe('DeploymentsListComponent', () => {
                 status: 'running',
                 containerName: 'deephdc/ai4os-dev-env:latest',
                 gpus: 0,
-                creationTime: '2023-08-04 18:48:28',
+                creationTime: '18:48:28 08-04-2023',
                 endpoints: {
                     api: 'http://deepaas-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
                     monitor:
