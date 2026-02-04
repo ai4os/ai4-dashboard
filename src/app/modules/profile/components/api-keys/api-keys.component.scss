@@ -179,6 +179,10 @@
     }
 }
 
+::ng-deep .calendar-field .mat-mdc-form-field-icon-suffix {
+    display: inline-flex;
+}
+
 ::ng-deep .action-button-in-cell .mat-badge-content {
     font-family: 'Material Icons';
 }

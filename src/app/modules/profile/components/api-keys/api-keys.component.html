@@ -66,6 +66,17 @@
                             />
                             <mat-datepicker-toggle matIconSuffix [for]="picker">
                             </mat-datepicker-toggle>
+                            <button
+                                mat-icon-button
+                                matSuffix
+                                matTooltip=" {{
+                                    'PROFILE.API-KEYS.CLEAR-DATE' | translate
+                                }}"
+                                [matTooltipPosition]="'above'"
+                                (click)="expirationDate = null"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                     </div>
