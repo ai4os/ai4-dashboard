@@ -28,3 +28,12 @@ export function formatDate(input: string, showHour: boolean = true): string {
 
     return `${hour}:${minute}:${second} ${day}-${month}-${year}`;
 }
+
+// For tests
+export function parseDateStringLiteral(input: string): number {
+    const [time, date] = input.split(' ');
+    const [hh, mm, ss] = time.split(':').map(Number);
+    const [dd, MM, yyyy] = date.split('-').map(Number);
+
+    return Date.UTC(yyyy, MM - 1, dd, hh, mm, ss);
+}

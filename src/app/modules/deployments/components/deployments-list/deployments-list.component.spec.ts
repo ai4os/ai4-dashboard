@@ -31,6 +31,7 @@ import {
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { mockedSnapshotService } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
+import { parseDateStringLiteral } from '@app/shared/utils/formatDate';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
@@ -105,8 +106,8 @@ describe('DeploymentsListComponent', () => {
             const expected = expectedModulesDataset[i];
 
             // Compare creationTime as timestamps to avoid timezone issues
-            const receivedTime = new Date(item.creationTime).getTime();
-            const expectedTime = new Date(expected.creationTime).getTime();
+            const receivedTime = parseDateStringLiteral(item.creationTime);
+            const expectedTime = parseDateStringLiteral(expected.creationTime);
             expect(receivedTime).toBe(expectedTime);
 
             // Compare the rest of the properties separately
@@ -118,8 +119,8 @@ describe('DeploymentsListComponent', () => {
             const expected = expectedModulesDataset[i];
 
             // Compare creationTime as timestamps to avoid timezone issues
-            const receivedTime = new Date(item.creationTime).getTime();
-            const expectedTime = new Date(expected.creationTime).getTime();
+            const receivedTime = parseDateStringLiteral(item.creationTime);
+            const expectedTime = parseDateStringLiteral(expected.creationTime);
             expect(receivedTime).toBe(expectedTime);
 
             // Compare the rest of the properties separately
