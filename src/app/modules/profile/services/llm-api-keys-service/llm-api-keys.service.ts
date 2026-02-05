@@ -20,10 +20,10 @@ export class LlmApiKeysService {
 
     createLiteLLMKey(key_name: string, duration: string): Observable<string> {
         const url = `${base}${endpoints.litellm}`;
-        const params = new HttpParams().set('key_name', key_name);
+        let params = new HttpParams().set('key_name', key_name);
 
         if (duration !== '') {
-            params.set('duration', duration);
+            params = params.set('duration', duration);
         }
 
         const body = {};
