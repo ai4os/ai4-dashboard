@@ -101,10 +101,32 @@ describe('DeploymentsListComponent', () => {
         tick(100);
         expect(spyGetModulesList).toHaveBeenCalledTimes(1);
         expect(spyGetModulesDeploymentsService).toHaveBeenCalled();
-        expect(component.modulesDataset).toEqual(expectedModulesDataset);
-        expect(component.modulesDataSource.filteredData).toEqual(
-            expectedModulesDataset
-        );
+        component.modulesDataset.forEach((item, i) => {
+            const expected = expectedModulesDataset[i];
+
+            // Compare creationTime as timestamps to avoid timezone issues
+            const receivedTime = new Date(item.creationTime).getTime();
+            const expectedTime = new Date(expected.creationTime).getTime();
+            expect(receivedTime).toBe(expectedTime);
+
+            // Compare the rest of the properties separately
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.modulesDataSource.filteredData.forEach((item, i) => {
+            const expected = expectedModulesDataset[i];
+
+            // Compare creationTime as timestamps to avoid timezone issues
+            const receivedTime = new Date(item.creationTime).getTime();
+            const expectedTime = new Date(expected.creationTime).getTime();
+            expect(receivedTime).toBe(expectedTime);
+
+            // Compare the rest of the properties separately
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
         expect(spyGetToolsList).toHaveBeenCalledTimes(1);
         expect(spyGetToolsDeploymentsService).toHaveBeenCalled();
         expect(component.toolsDataset).toEqual(expectedToolsDataset);
