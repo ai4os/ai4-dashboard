@@ -32,6 +32,12 @@ Cypress.Commands.add('login', (username: string, password: string) => {
             );
 
             cy.url().should('equal', 'http://localhost:8080/catalog/modules');
+
+            cy.get('body').then(($body) => {
+                if ($body.find(':contains("Close")').length > 0) {
+                    cy.contains('Close').click({ force: true });
+                }
+            });
         },
         {
             validate() {

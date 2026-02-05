@@ -1,0 +1,200 @@
+.card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: fit-content;
+    margin-bottom: 1.5em;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 16px;
+    flex-wrap: wrap;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: 100%;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.services-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.credentials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.icon-button {
+    min-width: 80px;
+    background: none;
+    padding: 0;
+    border: 0;
+}
+
+.icon {
+    width: 100%;
+    height: 100%;
+    font-size: 36px;
+    color: var(--accent);
+    align-content: center;
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.form-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.no-margin {
+    margin: 0px !important;
+}
+
+.divider {
+    grid-column: 1 / 5;
+    width: 100%;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.title {
+    font-size: 18px;
+}
+
+.description {
+    margin: 0;
+    padding-bottom: 1.5em;
+    font-size: 16px;
+    color: var(--warm-grey);
+}
+
+.aligned-with-icon {
+    margin-left: 1rem !important;
+    margin-bottom: 1rem !important;
+    margin-top: 0.5rem !important;
+
+    .mat-icon {
+        transform: scale(0.7);
+    }
+}
+
+.table-container {
+    overflow: auto;
+}
+
+.content-cell {
+    min-width: 130px !important;
+    padding: 0px;
+    justify-content: center !important;
+}
+
+.actions-container {
+    display: flex;
+    padding: 0px 5px;
+    mat-icon {
+        margin: 0;
+    }
+}
+
+.smaller-field {
+    width: 10%;
+}
+
+.calendar-field {
+    width: 20%;
+}
+
+.action-button-in-cell {
+    padding: 0px !important;
+}
+.action-button-in-cell:disabled #accessIcon {
+    color: var(--dark-gray) !important;
+}
+.action-button-in-cell:hover #accessIcon {
+    color: var(--dark-gray);
+}
+
+.no-deployment-message-container {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.mat-mdc-header-row {
+    background: var(--light-gray);
+
+    .mat-mdc-header-cell {
+        border: 1px solid var(--border-gray);
+        color: var(--primary);
+        font-weight: bold;
+    }
+}
+
+.mat-column-creationTime {
+    max-width: 200px;
+    justify-content: center;
+}
+
+.mat-column-expires {
+    max-width: 200px;
+    justify-content: center;
+}
+
+.mat-column-actions {
+    max-width: 130px;
+    justify-content: CENTER;
+
+    .mdc-button {
+        min-width: 30px;
+    }
+}
+
+.mat-mdc-table .mat-mdc-row:hover {
+    background-color: var(--accent);
+    & .mat-mdc-cell {
+        color: var(--white);
+    }
+}
+
+::ng-deep .calendar-field .mat-mdc-form-field-icon-suffix {
+    display: inline-flex;
+}
+
+::ng-deep .action-button-in-cell .mat-badge-content {
+    font-family: 'Material Icons';
+}
+
+::ng-deep span .mat-badge-content {
+    font-family: 'Material Icons';
+}
+
+::ng-deep
+    .action-button-in-cell
+    .mat-badge-small.mat-badge-after
+    .mat-badge-content {
+    right: 0;
+    top: -4px;
+}

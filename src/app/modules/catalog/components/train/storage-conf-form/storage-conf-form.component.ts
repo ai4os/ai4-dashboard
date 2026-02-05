@@ -23,7 +23,7 @@ import {
     confObjectStringBoolean,
 } from '@app/shared/interfaces/module.interface';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
-import { ProfileService } from '@app/modules/profile/services/profile.service';
+import { ProfileService } from '@app/modules/profile/services/profile-service/profile.service';
 import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 import { StorageService } from '@app/modules/catalog/services/storage-service/storage.service';
 import { timeout, catchError, throwError } from 'rxjs';

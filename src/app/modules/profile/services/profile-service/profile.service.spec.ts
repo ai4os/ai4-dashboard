@@ -16,7 +16,7 @@ import { environment } from '@environments/environment';
 import {
     mockedCredentials,
     mockedNewCredential,
-} from '@app/modules/profile/services/profile.service.mock';
+} from '@app/modules/profile/services/profile-service/profile.service.mock';
 
 describe('ProfileService', () => {
     let service: ProfileService;

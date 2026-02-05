@@ -12,6 +12,7 @@ import {
 } from '@app/shared/interfaces/deployment.interface';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { formatDate } from '@app/shared/utils/formatDate';
 
 @Component({
     selector: 'app-try-me-list',
@@ -75,7 +76,7 @@ export class TryMeListComponent implements OnInit {
                             name: deployment.title,
                             status: deployment.status,
                             containerName: deployment.docker_image,
-                            creationTime: deployment.submit_time,
+                            creationTime: formatDate(deployment.submit_time),
                             endpoints: deployment.endpoints,
                         };
                         this.dataset.push(row);

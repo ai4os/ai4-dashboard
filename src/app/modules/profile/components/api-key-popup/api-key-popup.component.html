@@ -1,0 +1,27 @@
+<h1 class="title" mat-dialog-title>
+    {{ 'PROFILE.API-KEYS.MODAL.TITLE' | translate }}
+</h1>
+<div mat-dialog-content>
+    <p>{{ 'PROFILE.API-KEYS.MODAL.DESCRIPTION' | translate }}</p>
+
+    <div class="form-field">
+        <mat-form-field
+            class="full-width mr-3 no-margin"
+            subscriptSizing="dynamic"
+        >
+            <input matInput type="text" disabled="true" [value]="data.apiKey" />
+        </mat-form-field>
+        <button
+            mat-icon-button
+            matTooltip="Copy"
+            [copy-to-clipboard]="data.apiKey"
+        >
+            <mat-icon matSuffix color="accent"> content_copy</mat-icon>
+        </button>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>
+        {{ 'PROFILE.API-KEYS.MODAL.OK' | translate }}
+    </button>
+</div>

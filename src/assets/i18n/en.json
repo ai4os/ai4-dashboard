@@ -60,12 +60,31 @@
         "REVOKE": "Revoke",
         "LOGIN": "Log in the the pop-up window",
         "NEXTCLOUD": {
-            "AI4OS": "AI4OS Nextcloud",
+            "AI4EOSC": "AI4EOSC Nextcloud",
             "CUSTOM": "Custom Storage",
             "INVALID-DOMAIN": "Invalid domain format"
         },
-        "AI4OS-SERVICES": "AI4OS services",
-        "EXTERNAL-SERVICES": "External services"
+        "AI4EOSC-SERVICES": "AI4EOSC services",
+        "EXTERNAL-SERVICES": "External services",
+        "API-KEYS": {
+            "TITLE": "Secrets and API Keys",
+            "LLM-TITLE": "LLM API Keys",
+            "LLM-DESCRIPTION": "Generating LLM API keys enables you to make authenticated requests to our LLM service and interact with multiple distributed LLMs.",
+            "EXPIRATION-DATE": "Expiration date",
+            "CLEAR-DATE": "Clearing the expiration date will create a key that does not expire",
+            "MODAL": {
+                "TITLE": "Save your LLM API Key",
+                "DESCRIPTION": "This is the only time you will be able to see your LLM API key. Please make sure to copy and store it securely. If you lose it, you will need to generate a new one.",
+                "OK": "I understand"
+            },
+            "TABLE": {
+                "KEY-ID": "Key ID",
+                "CREATION-TIME": "Creation time (UTC)",
+                "EXPIRES": "Expires",
+                "ACTIONS": "Actions",
+                "EMPTY-LIST": "No LLM API keys found."
+            }
+        }
     },
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -384,6 +403,7 @@
                 "NO-DATASETS": "No datasets added yet",
                 "STORAGE-SERVICE": "Storage service",
                 "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
+                "STORAGE-ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
                 "PROFILE-SECTION": "profile section",
                 "NO-STORAGE-SELECTED": "You must select one storage provider to be able to deploy a CVAT instance",
                 "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",

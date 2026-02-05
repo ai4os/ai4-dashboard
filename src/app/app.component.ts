@@ -240,7 +240,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.checkPlatformStatus();
 
         if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
-            this.chatOverlayService.openChat();
+            /* TODO: enable chat when Milvus problem is solved */
+            // this.chatOverlayService.openChat();
         }
     }
 

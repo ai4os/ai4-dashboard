@@ -1,0 +1,138 @@
+@if (isMLflowLoading) {
+    <div class="spinner-small">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+} @else {
+    <mat-card appearance="outlined" class="card">
+        <mat-card-header class="mb-3">
+            <mat-card-title>{{
+                'PROFILE.AI4EOSC-SERVICES' | translate
+            }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="info-container">
+            <div class="services-container">
+                <!-- MLflow -->
+                <div
+                    class="credentials-container"
+                    [ngStyle]="{
+                        'justify-content':
+                            mlflowCredentials.username === '' &&
+                            mlflowCredentials.password.value === ''
+                                ? 'space-between'
+                                : 'space-around',
+                    }"
+                >
+                    <button class="icon-button" disabled>
+                        <img
+                            class="icon"
+                            width="80px"
+                            src="../../../../../assets/images/mlflow-logo.png"
+                        />
+                    </button>
+                    <span
+                        class="buttons-container"
+                        [ngStyle]="{
+                            width:
+                                mlflowCredentials.username !== '' ? '100%' : '',
+                        }"
+                    >
+                        @if (
+                            mlflowCredentials.username !== '' &&
+                            mlflowCredentials.password.value !== ''
+                        ) {
+                            <div class="form-field">
+                                <mat-form-field
+                                    class="full-width mr-3 no-margin"
+                                    subscriptSizing="dynamic"
+                                >
+                                    <input
+                                        matInput
+                                        disabled="true"
+                                        [value]="mlflowCredentials.username"
+                                    />
+                                </mat-form-field>
+                                <button
+                                    mat-icon-button
+                                    matTooltip="Copy"
+                                    [copy-to-clipboard]="
+                                        mlflowCredentials.username
+                                    "
+                                >
+                                    <mat-icon matSuffix color="accent">
+                                        content_copy</mat-icon
+                                    >
+                                </button>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field
+                                    class="full-width mr-3 no-margin"
+                                    subscriptSizing="dynamic"
+                                >
+                                    <input
+                                        matInput
+                                        [type]="
+                                            mlflowCredentials.password.hide
+                                                ? 'password'
+                                                : 'text'
+                                        "
+                                        disabled="true"
+                                        [value]="
+                                            mlflowCredentials.password.value
+                                        "
+                                    />
+
+                                    <button
+                                        mat-icon-button
+                                        matSuffix
+                                        [matTooltip]="
+                                            mlflowCredentials.password.hide
+                                                ? 'Show'
+                                                : 'Hide'
+                                        "
+                                        (click)="
+                                            mlflowCredentials.password.hide =
+                                                !mlflowCredentials.password.hide
+                                        "
+                                        [attr.aria-label]="'Hide password'"
+                                        [attr.aria-pressed]="
+                                            mlflowCredentials.password.hide
+                                        "
+                                    >
+                                        <mat-icon color="accent">{{
+                                            mlflowCredentials.password.hide
+                                                ? 'visibility_off'
+                                                : 'visibility'
+                                        }}</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                                <button
+                                    mat-icon-button
+                                    matTooltip="Copy"
+                                    [copy-to-clipboard]="
+                                        mlflowCredentials.password.value
+                                    "
+                                >
+                                    <mat-icon matSuffix color="accent">
+                                        content_copy</mat-icon
+                                    >
+                                </button>
+                            </div>
+                        } @else {
+                            <button
+                                mat-fab
+                                extended
+                                style="color: white"
+                                (click)="syncMlflow()"
+                            >
+                                <mat-icon>link</mat-icon>
+                                Link
+                            </button>
+                        }
+                    </span>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+}

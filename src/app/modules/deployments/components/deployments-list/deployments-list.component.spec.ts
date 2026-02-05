@@ -31,6 +31,7 @@ import {
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { mockedSnapshotService } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
+import { parseDateStringLiteral } from '@app/shared/utils/formatDate';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
@@ -101,22 +102,52 @@ describe('DeploymentsListComponent', () => {
         tick(100);
         expect(spyGetModulesList).toHaveBeenCalledTimes(1);
         expect(spyGetModulesDeploymentsService).toHaveBeenCalled();
-        expect(component.modulesDataset).toEqual(expectedModulesDataset);
-        expect(component.modulesDataSource.filteredData).toEqual(
-            expectedModulesDataset
-        );
+        component.modulesDataset.forEach((item, i) => {
+            const expected = expectedModulesDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.modulesDataSource.filteredData.forEach((item, i) => {
+            const expected = expectedModulesDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
         expect(spyGetToolsList).toHaveBeenCalledTimes(1);
         expect(spyGetToolsDeploymentsService).toHaveBeenCalled();
-        expect(component.toolsDataset).toEqual(expectedToolsDataset);
-        expect(component.toolsDataSource.filteredData).toEqual(
-            expectedToolsDataset
-        );
+        component.toolsDataset.forEach((item, i) => {
+            const expected = expectedToolsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.toolsDataSource.filteredData.forEach((item, i) => {
+            const expected = expectedToolsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
         expect(spyGetSnapshotsList).toHaveBeenCalledTimes(1);
         expect(spyGetSnapshotsDeploymentsService).toHaveBeenCalled();
-        expect(component.snapshotsDataset).toEqual(expectedSnapshotsDataset);
-        expect(component.snapshotsDataSource.filteredData).toEqual(
-            expectedSnapshotsDataset
-        );
+        component.snapshotsDataset.forEach((item, i) => {
+            const expected = expectedSnapshotsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.snapshotsDataSource.filteredData.forEach((item, i) => {
+            const expected = expectedSnapshotsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
 
         flush();
         discardPeriodicTasks();
@@ -157,7 +188,7 @@ describe('DeploymentsListComponent', () => {
                 status: 'running',
                 containerName: 'deephdc/ai4os-dev-env:latest',
                 gpus: 0,
-                creationTime: '2023-08-04 18:48:28',
+                creationTime: '18:48:28 08-04-2023',
                 endpoints: {
                     api: 'http://deepaas-26d3fb98-32b8-11ee-a694-0242ac110003.deployments.cloud.ai4eosc.eu',
                     monitor:

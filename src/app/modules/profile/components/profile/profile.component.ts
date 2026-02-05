@@ -24,27 +24,15 @@ import {
 import {
     RequestLoginResponse,
     StorageCredential,
+    VoInfo,
 } from '@app/shared/interfaces/profile.interface';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from '../../services/profile-service/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SecretsService } from '../../../deployments/services/secrets-service/secrets.service';
 import { urlValidator } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component';
 import { StorageService } from '@app/modules/catalog/services/storage-service/storage.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-
-export interface VoInfo {
-    name: string;
-    roles: string[];
-}
-
-export interface MLflowCredentials {
-    username: string;
-    password: {
-        value: string;
-        hide: boolean;
-    };
-}
 
 export function domainValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -76,7 +64,6 @@ export class ProfileComponent implements OnInit {
         private profileService: ProfileService,
         private secretsService: SecretsService,
         private storageService: StorageService,
-        private appConfigService: AppConfigService,
         public confirmationDialog: MatDialog,
         private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
@@ -94,7 +81,7 @@ export class ProfileComponent implements OnInit {
     protected isLoginLoading = false;
     protected isStorageLoading = false;
     protected isHfTokenLoading = false;
-    protected isOtherLoading = false;
+    protected isAI4OSLoading = false;
 
     private stopPolling$ = timer(300000);
     private loginResponse: RequestLoginResponse = {
@@ -134,14 +121,6 @@ export class ProfileComponent implements OnInit {
         { value: 'nextcloud', viewValue: 'nextcloud' },
     ];
 
-    protected mlflowCredentials: MLflowCredentials = {
-        username: '',
-        password: {
-            value: '',
-            hide: true,
-        },
-    };
-
     protected hfToken = {
         value: '',
         hide: true,
@@ -174,10 +153,12 @@ export class ProfileComponent implements OnInit {
 
                     if (this.isAuthorized) {
                         this.getExistingRcloneCredentials();
-                        this.getOtherServicesCredentials();
+                        this.getHFCredentials();
                     }
                 }
             });
+
+        this.isAI4OSLoading = true;
     }
 
     getVoInfo(roles: string[]) {
@@ -490,24 +471,11 @@ export class ProfileComponent implements OnInit {
         window.open(url);
     }
 
-    getOtherServicesCredentials() {
-        this.isOtherLoading = true;
+    getHFCredentials() {
+        this.isHfTokenLoading = true;
 
-        const mlflow$ = this.secretsService.getSecrets('/services/mlflow');
-        const hf$ = this.secretsService.getSecrets('/services/huggingface');
-
-        forkJoin([mlflow$, hf$]).subscribe({
-            next: ([mlflowTokens, hfTokens]) => {
-                // MLflow
-                const mlflowSecrets = Object.values(mlflowTokens);
-                if (mlflowSecrets.length > 0) {
-                    this.mlflowCredentials.username =
-                        mlflowSecrets[0].username ?? '';
-                    this.mlflowCredentials.password.value =
-                        mlflowSecrets[0].password ?? '';
-                }
-
-                // Hugging Face
+        this.secretsService.getSecrets('/services/huggingface').subscribe({
+            next: (hfTokens) => {
                 const hfSecrets = Object.values(hfTokens);
                 if (hfSecrets.length > 0) {
                     this.hfToken.value = hfSecrets[0].token ?? '';
@@ -519,7 +487,7 @@ export class ProfileComponent implements OnInit {
                 );
             },
             complete: () => {
-                this.isOtherLoading = false;
+                this.isHfTokenLoading = false;
             },
         });
     }
@@ -557,15 +525,5 @@ export class ProfileComponent implements OnInit {
                         });
                 }
             });
-    }
-
-    syncMlflow() {
-        let url = '';
-        if (this.appConfigService.projectName === 'iMagine') {
-            url = 'https://mlflow.cloud.imagine-ai.eu/signup';
-        } else {
-            url = 'https://mlflow.cloud.ai4eosc.eu/signup';
-        }
-        window.open(url);
     }
 }

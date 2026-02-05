@@ -32,5 +32,7 @@ export const endpoints = {
     ai4lifeModulesSummary:
         'https://raw.githubusercontent.com/ai4os/ai4os-ai4life-loader/main/models/filtered_models.json',
     // LLM chatbot
-    chatCompletions: '/proxies/ai4_llm',
+    chatCompletions: '/llm/chat',
+    // LLM api keys (LiteLLM)
+    litellm: '/llm/api_keys',
 };
