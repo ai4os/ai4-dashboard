@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.18.0](https://github.com/ai4os/ai4-dashboard/compare/v3.17.2...v3.18.0) (2026-02-05)
+
+
+### Features
+
+* ai4os llm api keys ([#464](https://github.com/ai4os/ai4-dashboard/issues/464)) ([63c87c7](https://github.com/ai4os/ai4-dashboard/commit/63c87c76642887d3fa61456d6260a84a6c18edd2))
+
 ## [3.17.0](https://github.com/ai4os/ai4-dashboard/compare/v3.16.0...v3.17.0) (2026-01-12)
 
 
