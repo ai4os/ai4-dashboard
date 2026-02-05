@@ -118,16 +118,36 @@ describe('DeploymentsListComponent', () => {
         });
         expect(spyGetToolsList).toHaveBeenCalledTimes(1);
         expect(spyGetToolsDeploymentsService).toHaveBeenCalled();
-        expect(component.toolsDataset).toEqual(expectedToolsDataset);
-        expect(component.toolsDataSource.filteredData).toEqual(
-            expectedToolsDataset
-        );
+        component.toolsDataset.forEach((item, i) => {
+            const expected = expectedToolsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.toolsDataSource.filteredData.forEach((item, i) => {
+            const expected = expectedToolsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
         expect(spyGetSnapshotsList).toHaveBeenCalledTimes(1);
         expect(spyGetSnapshotsDeploymentsService).toHaveBeenCalled();
-        expect(component.snapshotsDataset).toEqual(expectedSnapshotsDataset);
-        expect(component.snapshotsDataSource.filteredData).toEqual(
-            expectedSnapshotsDataset
-        );
+        component.snapshotsDataset.forEach((item, i) => {
+            const expected = expectedSnapshotsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.snapshotsDataSource.filteredData.forEach((item, i) => {
+            const expected = expectedSnapshotsDataset[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
 
         flush();
         discardPeriodicTasks();

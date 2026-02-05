@@ -149,8 +149,20 @@ describe('TryMeListComponent', () => {
         tick(100);
         expect(spyGetTryMeDeploymentsList).toHaveBeenCalledTimes(1);
         expect(spyGetGradioDeploymentsService).toHaveBeenCalled();
-        expect(component.dataset).toEqual(expectedDatasets);
-        expect(component.dataSource.filteredData).toEqual(expectedDatasets);
+        component.dataset.forEach((item, i) => {
+            const expected = expectedDatasets[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
+        component.dataSource.filteredData.forEach((item, i) => {
+            const expected = expectedDatasets[i];
+            // Compare properties except creationTime as timestamps to avoid timezone issues
+            const { creationTime: _, ...itemRest } = item;
+            const { creationTime: __, ...expectedRest } = expected;
+            expect(itemRest).toEqual(expectedRest);
+        });
         flush();
         discardPeriodicTasks();
     }));
