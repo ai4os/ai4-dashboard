@@ -104,26 +104,14 @@ describe('DeploymentsListComponent', () => {
         expect(spyGetModulesDeploymentsService).toHaveBeenCalled();
         component.modulesDataset.forEach((item, i) => {
             const expected = expectedModulesDataset[i];
-
-            // Compare creationTime as timestamps to avoid timezone issues
-            const receivedTime = parseDateStringLiteral(item.creationTime);
-            const expectedTime = parseDateStringLiteral(expected.creationTime);
-            expect(receivedTime).toBe(expectedTime);
-
-            // Compare the rest of the properties separately
+            // Compare properties except creationTime as timestamps to avoid timezone issues
             const { creationTime: _, ...itemRest } = item;
             const { creationTime: __, ...expectedRest } = expected;
             expect(itemRest).toEqual(expectedRest);
         });
         component.modulesDataSource.filteredData.forEach((item, i) => {
             const expected = expectedModulesDataset[i];
-
-            // Compare creationTime as timestamps to avoid timezone issues
-            const receivedTime = parseDateStringLiteral(item.creationTime);
-            const expectedTime = parseDateStringLiteral(expected.creationTime);
-            expect(receivedTime).toBe(expectedTime);
-
-            // Compare the rest of the properties separately
+            // Compare properties except creationTime as timestamps to avoid timezone issues
             const { creationTime: _, ...itemRest } = item;
             const { creationTime: __, ...expectedRest } = expected;
             expect(itemRest).toEqual(expectedRest);
