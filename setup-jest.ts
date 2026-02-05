@@ -1,6 +1,6 @@
-import 'jest-preset-angular/setup-jest';
-
 process.env.TZ = 'UTC';
+
+import 'jest-preset-angular/setup-jest';
 
 window.ResizeObserver =
     window.ResizeObserver ||
