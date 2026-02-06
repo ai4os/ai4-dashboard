@@ -39,7 +39,7 @@
     "voName": "kmd4eosc",
     "projectName": "AI4EOSC",
     "projectUrl": "https://ai4eosc.eu",
-    "acknowledgments": "The KMD4EOSC dashboard is a service provided by CSIC, co-funded by ",
+    "acknowledgments": "The KMD4EOSC dashboard is a service provided by PSNC with the support of CSIC, co-funded by ",
     "analytics": {
         "domain": "kmd4eosc.cloud.ai4eosc.eu",
         "src": "https://stats.services.ai4os.eu/js/script.js"
