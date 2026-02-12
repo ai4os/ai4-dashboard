@@ -96,6 +96,9 @@ export class StorageConfFormComponent implements OnInit {
     ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
+            this.storageConfFormGroup
+                .get('rcloneConfInput')
+                ?.setValue(defaultFormValues.rclone_conf.value as string);
             this.storageConfFormGroup.get('datasetsList')?.setValue([]);
         }
     }
@@ -108,6 +111,11 @@ export class StorageConfFormComponent implements OnInit {
             value: '',
             disabled: true,
         }),
+        rcloneConfInput: [''],
+        storageUrlInput: ['', [urlValidator()]],
+        rcloneVendorSelect: [''],
+        rcloneUserInput: [''],
+        rclonePasswordInput: [''],
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
@@ -116,6 +124,11 @@ export class StorageConfFormComponent implements OnInit {
     });
 
     protected _defaultFormValues: ModuleStorageConfiguration = {
+        rclone_conf: mockedConfObject,
+        rclone_url: mockedConfObject,
+        rclone_vendor: mockedConfObject,
+        rclone_user: mockedConfObject,
+        rclone_password: mockedConfObject,
         datasets: mockedConfObjectStringBoolean,
     };
 
@@ -272,13 +285,27 @@ export class StorageConfFormComponent implements OnInit {
             (c) => c.server === storageServiceUrl
         );
 
-        if (
-            storageServiceName &&
-            storageServiceCredentials &&
-            this.isCvatTool
-        ) {
-            this.updateSnapshots(storageServiceName);
+        if (storageServiceName && storageServiceCredentials) {
+            this.storageConfFormGroup.patchValue({
+                rcloneVendorSelect: storageServiceCredentials.vendor,
+                rcloneUserInput: storageServiceCredentials.loginName,
+                rclonePasswordInput: storageServiceCredentials.appPassword,
+                rcloneConfInput: storageServiceCredentials.conf || '',
+                storageUrlInput: storageServiceCredentials.server,
+            });
+
+            if (this.isCvatTool) {
+                this.updateSnapshots(storageServiceName);
+            }
         } else {
+            this.storageConfFormGroup.patchValue({
+                rcloneVendorSelect: '',
+                rcloneUserInput: '',
+                rclonePasswordInput: '',
+                rcloneConfInput: '',
+                storageUrlInput: '',
+            });
+
             this.snapshotOptions = [];
             this.snapshots = [];
             this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
