@@ -113,6 +113,11 @@ export interface ModuleHardwareConfiguration {
 }
 
 export interface ModuleStorageConfiguration {
+    rclone_conf: confObject;
+    rclone_url: confObject;
+    rclone_vendor: confObject;
+    rclone_user: confObject;
+    rclone_password: confObject;
     datasets: confObjectStringBoolean;
 }
 
