@@ -290,8 +290,9 @@ export class StorageConfFormComponent implements OnInit {
                 rcloneVendorSelect: storageServiceCredentials.vendor,
                 rcloneUserInput: storageServiceCredentials.loginName,
                 rclonePasswordInput: storageServiceCredentials.appPassword,
-                rcloneConfInput: storageServiceCredentials.conf || '',
-                storageUrlInput: storageServiceCredentials.server,
+                storageUrlInput:
+                    storageServiceCredentials.server +
+                    `/remote.php/dav/files/${storageServiceCredentials.loginName}`,
             });
 
             if (this.isCvatTool) {
