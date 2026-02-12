@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.18.3](https://github.com/ai4os/ai4-dashboard/compare/v3.18.2...v3.18.3) (2026-02-12)
+
+
+### Bug Fixes
+
+* not sending storage info ([#468](https://github.com/ai4os/ai4-dashboard/issues/468)) ([95e4ac7](https://github.com/ai4os/ai4-dashboard/commit/95e4ac7cc2485cb7c8ca0d9fbbfaf21ea09b1297))
+
 ## [3.18.0](https://github.com/ai4os/ai4-dashboard/compare/v3.17.2...v3.18.0) (2026-02-05)
 
 
