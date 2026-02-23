@@ -12,6 +12,10 @@
         {
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
             "url": "https://forge.flows.dev.ai4eosc.eu/"
+        },
+        {
+            "name": "SIDENAV.LLM-CHAT",
+            "url": "https://chat.cloud.ai4eosc.eu/"
         }
     ],
     "footerLinks": [
