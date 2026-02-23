@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.19.0](https://github.com/ai4os/ai4-dashboard/compare/v3.18.3...v3.19.0) (2026-02-23)
+
+
+### Features
+
+* add link ([#472](https://github.com/ai4os/ai4-dashboard/issues/472)) ([31cb5f0](https://github.com/ai4os/ai4-dashboard/commit/31cb5f0969a1f5537003e3dea23a6439d9419a34))
+
 ## [3.18.3](https://github.com/ai4os/ai4-dashboard/compare/v3.18.2...v3.18.3) (2026-02-12)
 
 
