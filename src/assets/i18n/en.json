@@ -14,6 +14,7 @@
         "PLATFORM-SERVICES": "Platform Services",
         "EXPERIMENT-TRACKING": "Experiment tracking",
         "INFERENCE-WORKFLOWS": "AI Inference workflows",
+        "LLM-CHAT": "LLM Chat",
         "DOCUMENTATION": "Docs",
         "STORAGE": "Storage",
         "STATUS": "Status",
