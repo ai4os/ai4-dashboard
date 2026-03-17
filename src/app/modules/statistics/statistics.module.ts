@@ -9,7 +9,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { StatsContainerComponent } from './components/stats-container/stats-container.component';
 import { OverviewTabComponent } from './components/tabs/overview-tab/overview-tab.component';
-import { GraphsTabComponent } from './components/tabs/graphs-tab/graphs-tab.component';
+import { UsageTabComponent } from './components/tabs/usage-tab/usage-tab.component';
 import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.component';
 import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
 import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datacenters-tab.component';
@@ -22,7 +22,7 @@ import { SmallStatsCardComponent } from './components/small-stats-card/small-sta
         StatCardComponent,
         StatsContainerComponent,
         OverviewTabComponent,
-        GraphsTabComponent,
+        UsageTabComponent,
         NodesTabComponent,
         GpuStatsDetailComponent,
         DatacentersTabComponent,
