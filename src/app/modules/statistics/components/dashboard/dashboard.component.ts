@@ -266,6 +266,12 @@ export class DashboardComponent implements OnInit {
                                     'energy_quality'
                                 ],
                             nodes: statsResponse['datacenters'][dc]['nodes'],
+                            affinity:
+                                statsResponse['datacenters'][dc]['affinity'],
+                            country:
+                                statsResponse['datacenters'][dc]['country'],
+                            footprints:
+                                statsResponse['datacenters'][dc]['footprints'],
                         };
                         this.datacentersStats.push(datacenter);
                     }

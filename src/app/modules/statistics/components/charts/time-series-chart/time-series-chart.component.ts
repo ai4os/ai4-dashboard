@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StatsService } from '../../services/stats/stats.service';
 import { EChartsOption } from 'echarts';
 
 @Component({
@@ -8,7 +7,7 @@ import { EChartsOption } from 'echarts';
     styleUrls: ['./time-series-chart.component.scss'],
 })
 export class TimeSeriesChartComponent implements OnInit {
-    constructor(private statsService: StatsService) {}
+    constructor() {}
 
     chartOptionsCommon: EChartsOption = {};
     chartOptionsData: EChartsOption = {};

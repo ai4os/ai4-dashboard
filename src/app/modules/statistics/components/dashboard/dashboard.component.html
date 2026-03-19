@@ -46,6 +46,14 @@
             </ng-template>
         </mat-tab>
 
+        <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
+            <ng-template matTabContent>
+                <app-footprint-tab
+                    [datacentersStats]="datacentersStats"
+                ></app-footprint-tab>
+            </ng-template>
+        </mat-tab>
+
         <mat-tab
             *ngIf="userDataAvailable"
             label="{{ 'DASHBOARD.USAGE-TAB' | translate }}"

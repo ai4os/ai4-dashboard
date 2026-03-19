@@ -3,8 +3,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
-import OsmSource from 'ol/source/OSM';
-import { transform } from 'ol/proj';
+import { transform, transformExtent } from 'ol/proj';
 import { defaults as defaultControls } from 'ol/control';
 import { defaults as defaultInteractions, PinchZoom } from 'ol/interaction';
 import { Feature, Overlay } from 'ol';
@@ -13,7 +12,7 @@ import VectorSource from 'ol/source/Vector';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 import { Coordinate } from 'ol/coordinate';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Cluster } from 'ol/source';
+import { Cluster, XYZ } from 'ol/source';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
 
@@ -46,9 +45,20 @@ export class DatacentersTabComponent implements OnInit {
     jobsNum = 0;
 
     private map!: Map;
-    private tileLayer: TileLayer<OsmSource> = new TileLayer();
-    private tileSource = { name: 'OSM', source: new OsmSource() };
+    private tileLayer: TileLayer<any> = new TileLayer();
+    private tileSource = {
+        name: 'CartoDB',
+        source: new XYZ({
+            url: 'https://{a-c}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+        }),
+    };
     private vectorLayer: VectorLayer<any> = new VectorLayer<any>();
+
+    private europeExtent = transformExtent(
+        [-31, 27, 50, 72],
+        'EPSG:4326',
+        'EPSG:3857'
+    );
 
     ngOnInit(): void {
         const r = document.querySelector(':root');
@@ -125,8 +135,10 @@ export class DatacentersTabComponent implements OnInit {
             overlays: [overlay],
             view: new View({
                 constrainResolution: true,
+                extent: this.europeExtent,
                 center: transform([9, 46], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4.5,
+                maxZoom: 10,
             }),
             controls: defaultControls(),
         });
@@ -227,6 +239,12 @@ export class DatacentersTabComponent implements OnInit {
             PUE: 0,
             energy_quality: 0,
             nodes: [],
+            affinity: 0,
+            country: '',
+            footprints: {
+                carbon: [],
+                water: [],
+            },
         };
 
         for (const dc in this.datacentersStats) {

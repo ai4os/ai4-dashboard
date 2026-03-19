@@ -46,7 +46,13 @@ export interface DatacenterStats {
     lat: number;
     lon: number;
     PUE: number;
+    affinity: number;
+    country: string;
     energy_quality: number;
+    footprints: {
+        carbon: any[];
+        water: any[];
+    };
     nodes: NodeStats[];
 }
 

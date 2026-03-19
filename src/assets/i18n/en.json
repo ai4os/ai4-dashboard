@@ -91,6 +91,7 @@
         "TITLE": "Dashboard",
         "OVERVIEW-TAB": "Overview",
         "DATACENTERS-TAB": "Datacenters",
+        "FOOTPRINT-TAB": "Footprint",
         "USAGE-TAB": "Usage",
         "USAGE-TAB-DISABLED": "Your personal usage stats don't seem to be available",
         "NODES-TAB": "Nodes",
@@ -109,6 +110,12 @@
         "NODES-USED": "Used",
         "NODES-TOTAL": "Total",
         "NO-DATA": "Statistics are not available at the moment",
+        "FOOTPRINT": {
+            "AFFINITIES": "Affinities",
+            "AFFINITIES-TOOLTIP": "The affinity of a datacenter refers to the preference for deploying a job there. The higher the affinity, the more likely a job is to be deployed in that datacenter.",
+            "CARBON": "Carbon Footprint",
+            "WATER": "Water Footprint"
+        },
         "STATS-VALUES": {
             "RAM-MB": "Memory MB",
             "DISK-MB": "Disk MB",

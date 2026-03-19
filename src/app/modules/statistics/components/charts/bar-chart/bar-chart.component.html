@@ -1,0 +1,19 @@
+<mat-toolbar class="chart-title">
+    <span>
+        {{ title }}
+    </span>
+    @if (tooltip !== '') {
+        <mat-icon
+            class="ml-2"
+            color="accent"
+            [matTooltip]="tooltip"
+            [matTooltipPosition]="'right'"
+            >help</mat-icon
+        >
+    }
+</mat-toolbar>
+<mat-card>
+    <mat-card-content>
+        <div id="chart" echarts [options]="echartOptions"></div>
+    </mat-card-content>
+</mat-card>

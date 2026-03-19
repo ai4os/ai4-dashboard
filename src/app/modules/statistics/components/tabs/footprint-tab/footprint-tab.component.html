@@ -1,0 +1,24 @@
+<div class="charts-container">
+    <app-bar-chart
+        [title]="'DASHBOARD.FOOTPRINT.AFFINITIES' | translate"
+        [tooltip]="'DASHBOARD.FOOTPRINT.AFFINITIES-TOOLTIP' | translate"
+        [categories]="datacenterNames"
+        [values]="affinityValues"
+    ></app-bar-chart>
+
+    <app-footprint-chart
+        [title]="'DASHBOARD.FOOTPRINT.CARBON' | translate"
+        [unit]="'gCO₂e/kWh'"
+        [legend]="datacenterNames"
+        [timestamps]="carbonTimestamps"
+        [values]="carbonValues"
+    ></app-footprint-chart>
+
+    <app-footprint-chart
+        [title]="'DASHBOARD.FOOTPRINT.WATER' | translate"
+        [unit]="'l/kWh'"
+        [legend]="datacenterNames"
+        [timestamps]="waterTimestamps"
+        [values]="waterValues"
+    ></app-footprint-chart>
+</div>

@@ -10,7 +10,7 @@ import { GlobalStats } from '@app/shared/interfaces/stats.interface';
 })
 export class UsageTabComponent implements OnInit {
     @Input()
-    userProfile!: UserProfile;
+        userProfile!: UserProfile;
     @Input() dates: string[] = [];
     @Input() cpuMhzData: number[] = [];
     @Input() cpuNumData: number[] = [];
