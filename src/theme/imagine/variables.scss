@@ -18,6 +18,7 @@
     --primary-text: #1961ac;
     --accent: #ef7d17;
     --secondary: #113e6e;
+    --accent-dark: #e44d07;
 
     /** Font-Weight Vars **/
     --raleway-bold: 700;
@@ -25,7 +26,12 @@
     --raleway-light: 300;
 
     /** Font Sizes **/
-    --font-l: 14px;
+    --font-xs: 12px;
+    --font-sm: 14px;
+    --font-md: 16px;
+    --font-lg: 18px;
+    --font-xl: 20px;
+    --font-2xl: 24px;
 
     .mat-button,
     .mat-button-focus-overlay,

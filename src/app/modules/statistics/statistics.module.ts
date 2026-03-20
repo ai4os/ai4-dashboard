@@ -18,6 +18,10 @@ import { FormsModule } from '@angular/forms';
 import { FootprintTabComponent } from './components/tabs/footprint-tab/footprint-tab.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { FootprintChartComponent } from './components/charts/footprint-chart/footprint-chart.component';
+import { StatsReducedCardComponent } from './components/stats/stats-reduced-card/stats-reduced-card.component';
+import { ResourceBarComponent } from './components/stats/resource-bar/resource-bar.component';
+import { ResourcesCardComponent } from './components/stats/resources-card/resources-card.component';
+import { CountryFlagPipe } from './pipes/country-flag.pipe';
 
 @NgModule({
     declarations: [
@@ -34,6 +38,9 @@ import { FootprintChartComponent } from './components/charts/footprint-chart/foo
         DatacentersTabComponent,
         SmallStatsCardComponent,
         FootprintChartComponent,
+        StatsReducedCardComponent,
+        ResourceBarComponent,
+        ResourcesCardComponent,
     ],
     imports: [
         CommonModule,
@@ -41,6 +48,7 @@ import { FootprintChartComponent } from './components/charts/footprint-chart/foo
         NgxEchartsModule.forChild(),
         SharedModule,
         FormsModule,
+        CountryFlagPipe,
     ],
 })
 export class StatisticsModule {}

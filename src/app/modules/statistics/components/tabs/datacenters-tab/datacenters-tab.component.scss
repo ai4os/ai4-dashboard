@@ -21,10 +21,10 @@
 }
 
 .drawer {
-    padding: 10px;
-    width: 250px;
+    padding: 12px;
+    width: 350px;
     height: fit-content;
-    align-self: center;
+    align-self: flex-start;
     margin: 0.5em;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.75);
@@ -33,64 +33,47 @@
         rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
 
-::ng-deep .drawer .mat-drawer-inner-container {
+.drawer-header {
     display: flex;
-    gap: 0.5em;
-    flex-direction: column;
-    justify-content: space-around;
-    height: '100%';
-    overflow: visible;
-}
-
-.card {
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.header {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding-top: 0.5em;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+
+    &__title {
+        font-size: var(--font-md);
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__loc {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: var(--font-sm);
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__flag {
+        font-size: var(--font-md);
+        line-height: 1;
+    }
 }
 
-.icon {
-    color: var(--primary);
-    font-size: 1.8em;
-    width: 30px;
-    height: 30px;
+.env-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
 }
 
-.help-icon {
-    font-size: 1.3em;
-    right: 0.5em;
-    position: absolute;
-}
-
-.title {
-    justify-content: center;
-    height: auto;
-    padding-top: 10px;
-    background-color: unset;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px #e0e0e0;
-}
-
-.stat-text {
-    white-space: nowrap;
-    font-size: 1em;
-    margin: 5px;
-    text-align: end;
-}
-
-.value {
-    align-self: center;
-    color: dimgray;
-    margin: 0;
-    padding: 5px 10px 10px 10px;
-    font-size: 1.2em;
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
 }

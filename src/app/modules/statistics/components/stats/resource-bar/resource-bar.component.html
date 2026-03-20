@@ -1,0 +1,18 @@
+<div class="res-row">
+    <div class="res-row__top">
+        <span class="res-row__name">{{ label }}</span>
+        <span class="res-row__nums">
+            <b>{{ used }}</b> / {{ total }}
+            @if (unit) {
+                <span> {{ unit }}</span>
+            }
+        </span>
+    </div>
+    <div class="res-row__track">
+        <div
+            class="res-row__fill"
+            [class]="'res-row__fill--' + color"
+            [style.width.%]="pct"
+        ></div>
+    </div>
+</div>

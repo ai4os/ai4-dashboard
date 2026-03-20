@@ -28,7 +28,7 @@ export class DatacentersTabComponent implements OnInit {
 
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
-        drawer!: MatDrawer;
+    drawer!: MatDrawer;
 
     Math = Math;
     selectedDatacenter: DatacenterStats | undefined;
@@ -238,6 +238,7 @@ export class DatacentersTabComponent implements OnInit {
             lon: 0,
             PUE: 0,
             energy_quality: 0,
+            energy_water_usage: 0,
             nodes: [],
             affinity: 0,
             country: '',
