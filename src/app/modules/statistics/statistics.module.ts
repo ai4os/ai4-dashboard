@@ -13,7 +13,6 @@ import { UsageTabComponent } from './components/tabs/usage-tab/usage-tab.compone
 import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.component';
 import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
 import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datacenters-tab.component';
-import { SmallStatsCardComponent } from './components/small-stats-card/small-stats-card.component';
 import { FormsModule } from '@angular/forms';
 import { FootprintTabComponent } from './components/tabs/footprint-tab/footprint-tab.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
@@ -22,6 +21,8 @@ import { StatsReducedCardComponent } from './components/stats/stats-reduced-card
 import { ResourceBarComponent } from './components/stats/resource-bar/resource-bar.component';
 import { ResourcesCardComponent } from './components/stats/resources-card/resources-card.component';
 import { CountryFlagPipe } from './pipes/country-flag.pipe';
+import { MapMetricSelectorComponent } from './components/stats/map-metric-selector/map-metric-selector.component';
+import { MapMetricLegendComponent } from './components/stats/map-metric-legend/map-metric-legend.component';
 
 @NgModule({
     declarations: [
@@ -36,11 +37,12 @@ import { CountryFlagPipe } from './pipes/country-flag.pipe';
         NodesTabComponent,
         GpuStatsDetailComponent,
         DatacentersTabComponent,
-        SmallStatsCardComponent,
         FootprintChartComponent,
         StatsReducedCardComponent,
         ResourceBarComponent,
         ResourcesCardComponent,
+        MapMetricSelectorComponent,
+        MapMetricLegendComponent,
     ],
     imports: [
         CommonModule,

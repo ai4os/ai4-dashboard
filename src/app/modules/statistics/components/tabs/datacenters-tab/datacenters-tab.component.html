@@ -1,7 +1,43 @@
 <div class="main-container">
     <div id="map" class="map"></div>
-    <div id="popup" class="ol-popup">
-        <div id="popup-content"></div>
+
+    <div id="popup" class="dc-popup">
+        <div class="dc-popup__header">
+            <span class="dc-popup__name" id="popup-name"></span>
+            <span class="dc-popup__country">
+                <span id="popup-flag"></span>
+            </span>
+        </div>
+        <div class="dc-popup__divider"></div>
+        <div class="dc-popup__metric">
+            <div class="dc-popup__metric-label">
+                <span class="dc-popup__metric-dot" id="popup-metric-dot"></span>
+                <span id="popup-metric-label"></span>
+            </div>
+            <div class="dc-popup__metric-right">
+                <span
+                    class="dc-popup__metric-value"
+                    id="popup-metric-value"
+                ></span>
+                <span
+                    class="dc-popup__metric-unit"
+                    id="popup-metric-unit"
+                ></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="map-overlay map-overlay--bottom-left">
+        <app-map-metric-legend [metric]="activeMetric" />
+    </div>
+
+    <!-- Metric selector -->
+    <div class="map-overlay map-overlay--bottom-center">
+        <app-map-metric-selector
+            [(active)]="activeMetric"
+            (activeChange)="onMetricChange($event)"
+        />
     </div>
 
     <mat-drawer #drawer class="drawer" mode="side" position="end">
@@ -14,7 +50,6 @@
                 <span class="drawer-dc-info__flag">
                     {{ selectedDatacenter?.country | countryFlag }}
                 </span>
-                {{ selectedDatacenter?.country }}
             </span>
         </div>
 
@@ -63,5 +98,23 @@
             [usedGpu]="usedGpuNum"
             [totalGpu]="totalGpuNum"
         />
+
+        <!-- Footer -->
+        <div class="drawer-footer">
+            <p class="drawer-footer__text">
+                {{ 'DASHBOARD.WATTNET-INFO' | translate }}
+                <a
+                    class="drawer-footer__link"
+                    href="https://wattnet.eu/"
+                    target="_blank"
+                >
+                    Wattnet
+                    <mat-icon class="drawer-footer__link-icon"
+                        >open_in_new</mat-icon
+                    >
+                </a>
+                .
+            </p>
+        </div>
     </mat-drawer>
 </div>

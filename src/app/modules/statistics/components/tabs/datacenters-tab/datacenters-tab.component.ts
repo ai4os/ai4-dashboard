@@ -15,6 +15,8 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Cluster, XYZ } from 'ol/source';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
+import { MetricColorService } from '@app/modules/statistics/services/metric-color/metric-color.service';
+import { MapMetric } from '../../stats/map-metric-selector/map-metric-selector.component';
 
 @Component({
     selector: 'app-datacenters-tab',
@@ -22,7 +24,7 @@ import { createEmpty, extend } from 'ol/extent';
     styleUrls: ['./datacenters-tab.component.scss'],
 })
 export class DatacentersTabComponent implements OnInit {
-    constructor() {
+    constructor(private metricColor: MetricColorService) {
         this.tileLayer.setSource(this.tileSource.source);
     }
 
@@ -31,6 +33,7 @@ export class DatacentersTabComponent implements OnInit {
     drawer!: MatDrawer;
 
     Math = Math;
+    activeMetric: MapMetric = 'pue';
     selectedDatacenter: DatacenterStats | undefined;
     ramUnit = 'MiB';
     diskUnit = 'MiB';
@@ -75,50 +78,11 @@ export class DatacentersTabComponent implements OnInit {
 
         this.vectorLayer = new VectorLayer({
             source: clusterSource,
-            style: function (feature) {
-                const size = feature.get('features').length;
-                let style: any = {};
-                if (size > 1) {
-                    style = new Style({
-                        image: new CircleStyle({
-                            radius: 14,
-                            stroke: new Stroke({
-                                color: rs.getPropertyValue('--secondary'),
-                            }),
-                            fill: new Fill({
-                                color: rs.getPropertyValue('--primary'),
-                            }),
-                        }),
-                        text: new Text({
-                            text: size.toString(),
-                            fill: new Fill({
-                                color: '#fff',
-                            }),
-                            stroke: new Stroke({
-                                color: '#fff',
-                            }),
-                        }),
-                    });
-                } else {
-                    style = new Style({
-                        image: new CircleStyle({
-                            radius: 7,
-                            stroke: new Stroke({
-                                color: rs.getPropertyValue('--secondary'),
-                            }),
-                            fill: new Fill({
-                                color: rs.getPropertyValue('--primary'),
-                            }),
-                        }),
-                    });
-                }
-                return style;
-            },
+            style: (feature) => this.getMarkerStyle(feature),
         });
 
         // popup
         const container = document.getElementById('popup');
-        const content = document.getElementById('popup-content');
         const overlay = new Overlay({
             element: container!,
             autoPan: {
@@ -143,9 +107,15 @@ export class DatacentersTabComponent implements OnInit {
             controls: defaultControls(),
         });
 
-        // show dc info popup or zoom in cluster
-        this.map.on('click', (evt) => {
+        // hover — show popup
+        this.map.on('pointermove', (evt) => {
+            const type = this.map.hasFeatureAtPixel(evt.pixel)
+                ? 'pointer'
+                : 'inherit';
+            this.map.getViewport().style.cursor = type;
+
             const feature = this.map.getFeaturesAtPixel(evt.pixel)[0];
+
             if (feature && feature.getProperties().features.length == 1) {
                 const geometry = feature.getGeometry();
                 if (geometry instanceof SimpleGeometry) {
@@ -154,8 +124,28 @@ export class DatacentersTabComponent implements OnInit {
                         this.selectedDatacenter =
                             this.getDatacenter(coordinate);
                         if (this.selectedDatacenter?.name != 'Unknown') {
-                            content!.innerHTML =
-                                '<p>' + this.selectedDatacenter.name + '</p>';
+                            this.updatePopupContent(this.selectedDatacenter);
+                            overlay.setPosition(coordinate);
+                        }
+                    }
+                }
+            } else {
+                overlay.setPosition(undefined);
+            }
+        });
+
+        // click — show dc info popup or zoom in cluster
+        this.map.on('click', (evt) => {
+            const feature = this.map.getFeaturesAtPixel(evt.pixel)[0];
+
+            if (feature && feature.getProperties().features.length == 1) {
+                const geometry = feature.getGeometry();
+                if (geometry instanceof SimpleGeometry) {
+                    const coordinate = geometry.getCoordinates();
+                    if (coordinate) {
+                        this.selectedDatacenter =
+                            this.getDatacenter(coordinate);
+                        if (this.selectedDatacenter?.name != 'Unknown') {
                             overlay.setPosition(coordinate);
                             this.drawer.open();
                         }
@@ -169,25 +159,49 @@ export class DatacentersTabComponent implements OnInit {
                     .features.forEach((feature: any) =>
                         extend(extent, feature.getGeometry().getExtent())
                     );
-                view.fit(extent, {
-                    duration: 500,
-                    maxZoom: 20,
-                });
+                view.fit(extent, { duration: 500, maxZoom: 20 });
             } else {
                 overlay.setPosition(undefined);
                 this.drawer.close();
             }
         });
 
-        // show cursor pointer on markers
-        this.map.on('pointermove', (event) => {
-            const type = this.map.hasFeatureAtPixel(event.pixel)
-                ? 'pointer'
-                : 'inherit';
-            this.map.getViewport().style.cursor = type;
-        });
-
         this.updateSize();
+    }
+
+    private getMarkerStyle(feature: any): Style {
+        const r = document.querySelector(':root')!;
+        const rs = getComputedStyle(r);
+        const size = feature.get('features').length;
+
+        if (size > 1) {
+            return new Style({
+                image: new CircleStyle({
+                    radius: 14,
+                    stroke: new Stroke({
+                        color: rs.getPropertyValue('--secondary'),
+                    }),
+                    fill: new Fill({ color: rs.getPropertyValue('--primary') }),
+                }),
+                text: new Text({
+                    text: size.toString(),
+                    fill: new Fill({ color: '#fff' }),
+                    stroke: new Stroke({ color: '#fff' }),
+                }),
+            });
+        }
+
+        const dc = this.getDatacenterFromFeature(feature);
+        const value = this.getMetricValue(dc, this.activeMetric);
+        const color = this.metricColor.getColor(this.activeMetric, value);
+
+        return new Style({
+            image: new CircleStyle({
+                radius: 7,
+
+                fill: new Fill({ color }),
+            }),
+        });
     }
 
     updateSize(target = 'map'): void {
@@ -229,6 +243,48 @@ export class DatacentersTabComponent implements OnInit {
             features.push(new Feature(point));
         }
         return features;
+    }
+
+    private getMetricValue(
+        dc: DatacenterStats | undefined,
+        metric: MapMetric
+    ): number | null {
+        if (!dc) return null;
+
+        const nodes = Object.values(dc.nodes);
+        const jobsNum = nodes.reduce((acc, node) => acc + node.jobs_num, 0);
+
+        const map: Record<MapMetric, number | null> = {
+            pue: dc.PUE != null ? Number(dc.PUE) : null,
+            jobs: jobsNum,
+            co2: dc.energy_quality != null ? Number(dc.energy_quality) : null,
+            water:
+                dc.energy_water_usage != null
+                    ? Number(dc.energy_water_usage)
+                    : null,
+        };
+        return map[metric];
+    }
+
+    private getDatacenterFromFeature(
+        clusterFeature: any
+    ): DatacenterStats | undefined {
+        const innerFeature = clusterFeature.get('features')?.[0];
+        if (!innerFeature) return undefined;
+
+        const coords = (
+            innerFeature.getGeometry() as SimpleGeometry
+        ).getCoordinates();
+        return this.datacentersStats.find((dc) => {
+            const dcCoords = transform(
+                [dc.lon, dc.lat],
+                'EPSG:4326',
+                'EPSG:3857'
+            );
+            return (
+                coords && dcCoords[0] === coords[0] && dcCoords[1] === coords[1]
+            );
+        });
     }
 
     getDatacenter(coords: Coordinate): DatacenterStats {
@@ -289,5 +345,51 @@ export class DatacentersTabComponent implements OnInit {
 
         this.setMemoryConfig();
         this.setDiskConfig();
+    }
+
+    onMetricChange(metric: MapMetric): void {
+        this.activeMetric = metric;
+        this.vectorLayer.getSource()?.changed();
+    }
+
+    private readonly METRIC_CONFIG: Record<
+        MapMetric,
+        { label: string; unit: string }
+    > = {
+        pue: { label: 'PUE', unit: '' },
+        jobs: { label: 'Jobs', unit: 'running' },
+        co2: { label: 'CO₂', unit: 'g/kWh' },
+        water: { label: 'Water', unit: 'l/kWh' },
+    };
+
+    private countryToFlag(code: string): string {
+        return code
+            .toUpperCase()
+            .split('')
+            .map((c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65))
+            .join('');
+    }
+
+    private updatePopupContent(dc: DatacenterStats): void {
+        const value = this.getMetricValue(dc, this.activeMetric);
+        const color = this.metricColor.getColor(this.activeMetric, value);
+        const config = this.METRIC_CONFIG[this.activeMetric];
+
+        const displayed =
+            value == null
+                ? '—'
+                : this.activeMetric === 'jobs'
+                  ? Math.trunc(value).toString()
+                  : value.toFixed(2);
+
+        document.getElementById('popup-name')!.textContent = dc.name;
+        document.getElementById('popup-flag')!.textContent = this.countryToFlag(
+            dc.country
+        );
+        document.getElementById('popup-metric-dot')!.style.background = color;
+        document.getElementById('popup-metric-label')!.textContent =
+            config.label;
+        document.getElementById('popup-metric-value')!.textContent = displayed;
+        document.getElementById('popup-metric-unit')!.textContent = config.unit;
     }
 }

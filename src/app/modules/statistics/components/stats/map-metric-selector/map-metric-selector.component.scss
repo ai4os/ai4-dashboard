@@ -1,0 +1,50 @@
+.pill-group {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.75);
+    box-shadow:
+        rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+        rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    border: 0.5px solid var(--mat-sys-outline-variant);
+    border-radius: 99px;
+    padding: 3px;
+    gap: 2px;
+
+    &__btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: var(--font-md);
+        padding: 5px 12px;
+        border-radius: 99px;
+        border: none;
+        background: transparent;
+        color: var(--mat-sys-on-surface-variant);
+        cursor: pointer;
+        font-weight: 400;
+        transition:
+            background 0.15s,
+            color 0.15s;
+
+        &:hover:not(&--active) {
+            background: var(--mat-sys-surface-container);
+        }
+
+        &--active {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 500;
+        }
+    }
+
+    &__icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        line-height: 1;
+        opacity: 0.7;
+
+        &--active & {
+            opacity: 1;
+        }
+    }
+}

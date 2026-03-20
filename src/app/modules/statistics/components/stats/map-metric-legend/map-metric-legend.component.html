@@ -1,0 +1,6 @@
+<div class="legend">
+    <div *ngFor="let tier of tiers" class="legend__row">
+        <span class="legend__dot" [style.background]="tier.color"></span>
+        <span class="legend__label">{{ tier.label }}</span>
+    </div>
+</div>
