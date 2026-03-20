@@ -102,7 +102,7 @@ export class DatacentersTabComponent implements OnInit {
                 extent: this.europeExtent,
                 center: transform([9, 46], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4.5,
-                maxZoom: 10,
+                maxZoom: 20,
             }),
             controls: defaultControls(),
         });
@@ -134,10 +134,9 @@ export class DatacentersTabComponent implements OnInit {
             }
         });
 
-        // click — show dc info popup or zoom in cluster
+        // click — open drawer or zoom in cluster
         this.map.on('click', (evt) => {
             const feature = this.map.getFeaturesAtPixel(evt.pixel)[0];
-
             if (feature && feature.getProperties().features.length == 1) {
                 const geometry = feature.getGeometry();
                 if (geometry instanceof SimpleGeometry) {
@@ -159,7 +158,10 @@ export class DatacentersTabComponent implements OnInit {
                     .features.forEach((feature: any) =>
                         extend(extent, feature.getGeometry().getExtent())
                     );
-                view.fit(extent, { duration: 500, maxZoom: 20 });
+                view.fit(extent, {
+                    duration: 500,
+                    maxZoom: 20,
+                });
             } else {
                 overlay.setPosition(undefined);
                 this.drawer.close();

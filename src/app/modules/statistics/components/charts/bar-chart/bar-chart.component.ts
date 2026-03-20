@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
 
 @Component({
@@ -21,8 +22,10 @@ export class BarChartComponent implements OnInit {
     protected _categories: string[] = [];
     protected _values: number[] = [];
 
+    protected colour = getCssVar('--accent');
+
     protected echartOptions: EChartsOption = {
-        color: '#008792',
+        color: this.colour,
         tooltip: {
             trigger: 'axis',
             axisPointer: {

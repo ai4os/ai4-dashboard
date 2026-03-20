@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
 
 @Component({
@@ -31,7 +32,11 @@ export class FootprintChartComponent {
     protected _timestamps: string[] = [];
     protected _values: number[][] = [];
 
-    protected colours = ['#ff5b7f', '#008792', '#4a4a49'];
+    protected colours = [
+        getCssVar('--accent'),
+        getCssVar('--primary'),
+        getCssVar('--secondary'),
+    ];
     protected echartOptions: EChartsOption = {
         color: this.colours,
         tooltip: {
