@@ -114,8 +114,8 @@
         "FOOTPRINT": {
             "AFFINITIES": "Affinities",
             "AFFINITIES-TOOLTIP": "The affinity of a datacenter refers to the preference for deploying a job there. The higher the affinity, the more likely a job is to be deployed in that datacenter.",
-            "CARBON": "Carbon Footprint",
-            "WATER": "Water Footprint"
+            "CARBON": "Country Carbon Footprint",
+            "WATER": "Country Water Footprint"
         },
         "STATS-VALUES": {
             "RAM-MB": "Memory MB",
@@ -135,8 +135,8 @@
             "RAM": "Memory",
             "DISK": "Disk",
             "PUE": "PUE",
-            "ENERGY-QUALITY": "Energy Quality",
-            "ENERGY-WATER-USAGE": "Energy Water Usage",
+            "ENERGY-QUALITY": "Country Energy Quality",
+            "ENERGY-WATER-USAGE": "Country Energy Water Usage",
             "USED": "Used",
             "OF": "of",
             "JOBS-NUM": "Number of Jobs"
