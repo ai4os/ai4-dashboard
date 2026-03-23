@@ -256,11 +256,11 @@ export class DashboardComponent implements OnInit {
 
                     // Datacenters
                     for (const dc in statsResponse['datacenters']) {
-                        let carbonArray =
+                        const carbonArray =
                             statsResponse['datacenters'][dc]['footprints'][
                                 'carbon'
                             ];
-                        let waterArray =
+                        const waterArray =
                             statsResponse['datacenters'][dc]['footprints'][
                                 'water'
                             ];
@@ -272,13 +272,13 @@ export class DashboardComponent implements OnInit {
                             PUE: statsResponse['datacenters'][dc]['PUE'],
                             energy_quality: carbonArray.length
                                 ? carbonArray[
-                                      carbonArray.length - 1
-                                  ][1].toFixed(2)
+                                    carbonArray.length - 1
+                                ][1].toFixed(2)
                                 : null,
                             energy_water_usage: waterArray.length
                                 ? waterArray[waterArray.length - 1][1].toFixed(
-                                      2
-                                  )
+                                    2
+                                )
                                 : null,
                             nodes: statsResponse['datacenters'][dc]['nodes'],
                             affinity:

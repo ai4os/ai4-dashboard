@@ -31,7 +31,7 @@ export class DatacentersTabComponent implements OnInit {
 
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
-    drawer!: MatDrawer;
+        drawer!: MatDrawer;
 
     Math = Math;
     activeMetric: MapMetric = 'pue';
@@ -359,11 +359,11 @@ export class DatacentersTabComponent implements OnInit {
         MapMetric,
         { label: string; unit: string }
     > = {
-        pue: { label: 'PUE', unit: '' },
-        jobs: { label: 'Jobs', unit: 'running' },
-        co2: { label: 'CO₂', unit: 'g/kWh' },
-        water: { label: 'Water', unit: 'l/kWh' },
-    };
+            pue: { label: 'PUE', unit: '' },
+            jobs: { label: 'Jobs', unit: 'running' },
+            co2: { label: 'CO₂', unit: 'g/kWh' },
+            water: { label: 'Water', unit: 'l/kWh' },
+        };
 
     private updatePopupContent(dc: DatacenterStats): void {
         const value = this.getMetricValue(dc, this.activeMetric);
@@ -374,8 +374,8 @@ export class DatacentersTabComponent implements OnInit {
             value == null
                 ? '—'
                 : this.activeMetric === 'jobs'
-                  ? Math.trunc(value).toString()
-                  : value.toFixed(2);
+                    ? Math.trunc(value).toString()
+                    : value.toFixed(2);
 
         document.getElementById('popup-name')!.textContent = dc.name;
         document.getElementById('popup-flag')!.textContent =
