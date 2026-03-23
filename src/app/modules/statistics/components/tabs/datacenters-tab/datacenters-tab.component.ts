@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -24,7 +24,7 @@ import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe
     templateUrl: './datacenters-tab.component.html',
     styleUrls: ['./datacenters-tab.component.scss'],
 })
-export class DatacentersTabComponent implements OnInit {
+export class DatacentersTabComponent implements OnInit, OnDestroy {
     constructor(private metricColor: MetricColorService) {
         this.tileLayer.setSource(this.tileSource.source);
     }
@@ -170,41 +170,88 @@ export class DatacentersTabComponent implements OnInit {
         });
 
         this.updateSize();
+        this.startPulseAnimation();
     }
 
-    private getMarkerStyle(feature: any): Style {
+    private pulseRadius = 10;
+    private pulseGrowing = true;
+    private animationFrame?: number;
+
+    private startPulseAnimation(): void {
+        const animate = () => {
+            if (this.pulseGrowing) {
+                this.pulseRadius += 0.2;
+                if (this.pulseRadius >= 30) this.pulseGrowing = false;
+            } else {
+                this.pulseRadius -= 0.2;
+                if (this.pulseRadius <= 10) this.pulseGrowing = true;
+            }
+            this.vectorLayer.getSource()?.changed();
+            this.animationFrame = requestAnimationFrame(animate);
+        };
+        this.animationFrame = requestAnimationFrame(animate);
+    }
+
+    private hexToRgba(hex: string, alpha: number): string {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    private getMarkerStyle(feature: any): Style[] {
         const r = document.querySelector(':root')!;
         const rs = getComputedStyle(r);
         const size = feature.get('features').length;
 
         if (size > 1) {
-            return new Style({
-                image: new CircleStyle({
-                    radius: 14,
-                    stroke: new Stroke({
-                        color: rs.getPropertyValue('--secondary'),
+            return [
+                new Style({
+                    image: new CircleStyle({
+                        radius: 14,
+                        stroke: new Stroke({
+                            color: rs.getPropertyValue('--secondary'),
+                        }),
+                        fill: new Fill({
+                            color: rs.getPropertyValue('--primary'),
+                        }),
                     }),
-                    fill: new Fill({ color: rs.getPropertyValue('--primary') }),
+                    text: new Text({
+                        text: size.toString(),
+                        fill: new Fill({ color: '#fff' }),
+                        stroke: new Stroke({ color: '#fff' }),
+                    }),
                 }),
-                text: new Text({
-                    text: size.toString(),
-                    fill: new Fill({ color: '#fff' }),
-                    stroke: new Stroke({ color: '#fff' }),
-                }),
-            });
+            ];
         }
 
         const dc = this.getDatacenterFromFeature(feature);
         const value = this.getMetricValue(dc, this.activeMetric);
         const color = this.metricColor.getColor(this.activeMetric, value);
 
-        return new Style({
+        const haloOuter = new Style({
             image: new CircleStyle({
-                radius: 7,
-
-                fill: new Fill({ color }),
+                radius: this.pulseRadius,
+                fill: new Fill({ color: this.hexToRgba(color, 0.15) }),
             }),
         });
+
+        const haloInner = new Style({
+            image: new CircleStyle({
+                radius: this.pulseRadius * 0.65,
+                fill: new Fill({ color: this.hexToRgba(color, 0.25) }),
+            }),
+        });
+
+        const dot = new Style({
+            image: new CircleStyle({
+                radius: 10,
+                fill: new Fill({ color }),
+                stroke: new Stroke({ color: 'white', width: 2.5 }),
+            }),
+        });
+
+        return [haloOuter, haloInner, dot];
     }
 
     updateSize(target = 'map'): void {
@@ -385,5 +432,11 @@ export class DatacentersTabComponent implements OnInit {
             config.label;
         document.getElementById('popup-metric-value')!.textContent = displayed;
         document.getElementById('popup-metric-unit')!.textContent = config.unit;
+    }
+
+    ngOnDestroy(): void {
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+        }
     }
 }
