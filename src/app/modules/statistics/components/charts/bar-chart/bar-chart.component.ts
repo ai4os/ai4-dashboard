@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
 
@@ -18,19 +19,31 @@ export class BarChartComponent implements OnInit {
         this._values = values;
         this.updateChart();
     }
+    @Input() set countries(countries: string[]) {
+        this._countries = countries;
+        this.updateChart();
+    }
+
+    private countryFlagPipe = new CountryFlagPipe();
 
     protected _categories: string[] = [];
     protected _values: number[] = [];
-
-    protected colour = getCssVar('--accent');
+    protected _countries: string[] = [];
 
     protected echartOptions: EChartsOption = {
-        color: this.colour,
+        color: [getCssVar('--accent')],
+        grid: {
+            top: 12,
+            right: 40,
+            bottom: 24,
+            left: 40,
+            containLabel: true,
+        },
         tooltip: {
             trigger: 'axis',
-            axisPointer: {
-                type: 'shadow',
-            },
+            axisPointer: { type: 'shadow' },
+            borderColor: getCssVar('--mat-sys-outline-variant'),
+            borderWidth: 0.5,
         },
         xAxis: {
             type: 'category',
@@ -43,6 +56,8 @@ export class BarChartComponent implements OnInit {
             {
                 data: [],
                 type: 'bar',
+                barMaxWidth: 80,
+                itemStyle: { borderRadius: [4, 4, 0, 0] },
             },
         ],
     };
@@ -57,13 +72,21 @@ export class BarChartComponent implements OnInit {
         this.echartOptions = {
             ...this.echartOptions,
             xAxis: {
-                type: 'category',
+                ...(this.echartOptions.xAxis as object),
                 data: this._categories,
+                axisLabel: {
+                    formatter: (value: string, index: number) => {
+                        const flag = this.countryFlagPipe.transform(
+                            this._countries[index]
+                        );
+                        return flag ? `${flag} ${value}` : value;
+                    },
+                },
             },
             series: [
                 {
+                    ...(this.echartOptions.series as any[])[0],
                     data: this._values.map((v) => ({ value: v })),
-                    type: 'bar',
                 },
             ],
         };

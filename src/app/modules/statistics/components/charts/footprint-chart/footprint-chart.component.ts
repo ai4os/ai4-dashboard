@@ -37,25 +37,25 @@ export class FootprintChartComponent {
         getCssVar('--primary'),
         getCssVar('--secondary'),
     ];
+
     protected echartOptions: EChartsOption = {
         color: this.colours,
+        grid: {
+            top: 12,
+            right: 40,
+            bottom: 48,
+            left: 40,
+            containLabel: true,
+        },
         tooltip: {
             trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+            borderColor: getCssVar('--mat-sys-outline-variant'),
+            borderWidth: 0.5,
         },
         legend: {
             data: [],
             bottom: 0,
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '15%',
-            containLabel: true,
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {},
-            },
         },
         xAxis: {
             type: 'category',
@@ -81,13 +81,15 @@ export class FootprintChartComponent {
         this.echartOptions = {
             ...this.echartOptions,
             legend: {
+                ...(this.echartOptions.legend as object),
                 data: this._legend,
-                bottom: 0,
             },
             xAxis: {
+                ...(this.echartOptions.xAxis as object),
                 data: this._timestamps,
             },
             yAxis: {
+                ...(this.echartOptions.yAxis as object),
                 name: this._unit,
             },
             series,

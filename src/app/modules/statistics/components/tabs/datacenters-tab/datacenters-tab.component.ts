@@ -17,6 +17,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
 import { MetricColorService } from '@app/modules/statistics/services/metric-color/metric-color.service';
 import { MapMetric } from '../../stats/map-metric-selector/map-metric-selector.component';
+import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
 
 @Component({
     selector: 'app-datacenters-tab',
@@ -56,12 +57,12 @@ export class DatacentersTabComponent implements OnInit {
         }),
     };
     private vectorLayer: VectorLayer<any> = new VectorLayer<any>();
-
     private europeExtent = transformExtent(
         [-31, 27, 50, 72],
         'EPSG:4326',
         'EPSG:3857'
     );
+    private countryFlagPipe = new CountryFlagPipe();
 
     ngOnInit(): void {
         const r = document.querySelector(':root');
@@ -364,14 +365,6 @@ export class DatacentersTabComponent implements OnInit {
         water: { label: 'Water', unit: 'l/kWh' },
     };
 
-    private countryToFlag(code: string): string {
-        return code
-            .toUpperCase()
-            .split('')
-            .map((c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65))
-            .join('');
-    }
-
     private updatePopupContent(dc: DatacenterStats): void {
         const value = this.getMetricValue(dc, this.activeMetric);
         const color = this.metricColor.getColor(this.activeMetric, value);
@@ -385,9 +378,8 @@ export class DatacentersTabComponent implements OnInit {
                   : value.toFixed(2);
 
         document.getElementById('popup-name')!.textContent = dc.name;
-        document.getElementById('popup-flag')!.textContent = this.countryToFlag(
-            dc.country
-        );
+        document.getElementById('popup-flag')!.textContent =
+            this.countryFlagPipe.transform(dc.country);
         document.getElementById('popup-metric-dot')!.style.background = color;
         document.getElementById('popup-metric-label')!.textContent =
             config.label;

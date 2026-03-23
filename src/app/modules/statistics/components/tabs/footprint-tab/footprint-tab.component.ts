@@ -10,6 +10,7 @@ export class FootprintTabComponent implements OnInit {
     @Input() datacentersStats: DatacenterStats[] = [];
 
     protected datacenterNames: string[] = [];
+    protected datacenterCountries: string[] = [];
     protected affinityValues: number[] = [];
 
     protected carbonTimestamps: string[] = [];
@@ -20,6 +21,9 @@ export class FootprintTabComponent implements OnInit {
 
     ngOnInit(): void {
         this.datacenterNames = this.datacentersStats.map((dc) => dc.name);
+        this.datacenterCountries = this.datacentersStats.map(
+            (dc) => dc.country
+        );
         this.affinityValues = this.datacentersStats.map((dc) => dc.affinity);
 
         this.carbonTimestamps =
