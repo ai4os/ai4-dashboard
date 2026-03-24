@@ -135,8 +135,8 @@
             "RAM": "Memory",
             "DISK": "Disk",
             "PUE": "PUE",
-            "ENERGY-QUALITY": "Country Energy Quality",
-            "ENERGY-WATER-USAGE": "Country Energy Water Usage",
+            "ENERGY-QUALITY": "Country Carbon Footprint",
+            "ENERGY-WATER-USAGE": "Country Water Footprint",
             "USED": "Used",
             "OF": "of",
             "JOBS-NUM": "Number of Jobs"

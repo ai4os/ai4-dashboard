@@ -22,9 +22,10 @@
     }
 
     &--bottom-center {
-        bottom: 16px;
-        left: 16px;
-        justify-self: anchor-center;
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, -50%);
         gap: 8px;
     }
 }
