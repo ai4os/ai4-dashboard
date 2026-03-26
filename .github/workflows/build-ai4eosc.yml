@@ -10,6 +10,7 @@ on:
         default: 'prod'
         options:
           - prod
+          - stage
           - dev
 
 jobs:
