@@ -65,7 +65,7 @@ jobs:
       - name: Inject Hugging Face client secret
         run: |
           sed -i "s/huggingFaceClientSecret: ''/huggingFaceClientSecret: '${{ secrets.HF_CLIENT_SECRET }}'/" \
-            src/environments/environment.production.ts
+            src/environments/environment.prod.ts
 
       - name: Inject Keycloak secret
         run: |
