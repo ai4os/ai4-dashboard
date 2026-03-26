@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.20.0](https://github.com/ai4os/ai4-dashboard/compare/v3.19.0...v3.20.0) (2026-03-26)
+
+
+### Features
+
+* improve datacenters map ([#481](https://github.com/ai4os/ai4-dashboard/issues/481)) ([80722ef](https://github.com/ai4os/ai4-dashboard/commit/80722eff63a566e0f68c9c6a2c1ad776f0a020f2))
+
 ## [3.19.0](https://github.com/ai4os/ai4-dashboard/compare/v3.18.3...v3.19.0) (2026-02-23)
 
 
