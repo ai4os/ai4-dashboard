@@ -1,7 +1,7 @@
 import { endpoints } from './endpoints';
 
 export const environment = {
-    name: 'prod',
+    name: 'development',
     develop: true,
     production: false,
     api: {
