@@ -1,0 +1,21 @@
+<div class="env-card">
+    <div class="env-card__header">
+        <span class="env-card__label">{{ label }}</span>
+        <div class="env-card__icons">
+            <mat-icon class="env-card__icon">{{ icon }}</mat-icon>
+            @if (tooltip) {
+                <mat-icon
+                    class="env-card__help"
+                    color="accent"
+                    [matTooltip]="tooltip"
+                    matTooltipPosition="above"
+                    >help</mat-icon
+                >
+            }
+        </div>
+    </div>
+    <div class="env-card__value">{{ value }}</div>
+    @if (unit) {
+        <div class="env-card__unit">{{ unit }}</div>
+    }
+</div>

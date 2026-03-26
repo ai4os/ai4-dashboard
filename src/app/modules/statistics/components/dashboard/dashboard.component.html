@@ -46,11 +46,19 @@
             </ng-template>
         </mat-tab>
 
+        <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
+            <ng-template matTabContent>
+                <app-footprint-tab
+                    [datacentersStats]="datacentersStats"
+                ></app-footprint-tab>
+            </ng-template>
+        </mat-tab>
+
         <mat-tab
             *ngIf="userDataAvailable"
-            label="{{ 'DASHBOARD.GRAPHS-TAB' | translate }}"
+            label="{{ 'DASHBOARD.USAGE-TAB' | translate }}"
         >
-            <app-graphs-tab
+            <app-usage-tab
                 [userProfile]="userProfile"
                 [dates]="dates"
                 [cpuMhzData]="cpuMhzData"
@@ -61,18 +69,18 @@
                 [queuedData]="queuedData"
                 [runningData]="runningData"
                 [userGlobalStats]="userGlobalStats"
-            ></app-graphs-tab>
+            ></app-usage-tab>
         </mat-tab>
 
         <mat-tab *ngIf="!userDataAvailable" [disabled]="true">
             <ng-template matTabLabel>
                 <span
                     matTooltip="{{
-                        'DASHBOARD.GRAPHS-TAB-DISABLED' | translate
+                        'DASHBOARD.USAGE-TAB-DISABLED' | translate
                     }}"
                     matTooltipPosition="above"
                 >
-                    {{ 'DASHBOARD.GRAPHS-TAB' | translate }}
+                    {{ 'DASHBOARD.USAGE-TAB' | translate }}
                 </span>
             </ng-template>
         </mat-tab>

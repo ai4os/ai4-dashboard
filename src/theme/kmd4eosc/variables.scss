@@ -13,11 +13,15 @@
     --neon-red: #ff0000;
     --success-green: #41bc13;
     --warning-orange: #ff5f15;
+    --good-value: #1d9e75;
+    --neutral-value: #ef9f27;
+    --bad-value: #e03355;
 
     --primary: #00cbf7;
     --primary-text: #151515;
     --accent: #0a3780;
     --secondary: #005fa6;
+    --accent-dark: #7db865;
 
     /** Font-Weight Vars **/
     --raleway-bold: 700;
@@ -25,7 +29,12 @@
     --raleway-light: 300;
 
     /** Font Sizes **/
-    --font-l: 14px;
+    --font-xs: 12px;
+    --font-sm: 14px;
+    --font-md: 16px;
+    --font-lg: 18px;
+    --font-xl: 20px;
+    --font-2xl: 24px;
 
     .mat-button,
     .mat-button-focus-overlay,

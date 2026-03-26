@@ -8,6 +8,28 @@
     width: 100%;
 }
 
+.map-overlay {
+    position: absolute;
+    z-index: 1000;
+
+    &--bottom-left {
+        bottom: 16px;
+        left: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    &--bottom-center {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, -50%);
+        gap: 8px;
+    }
+}
+
 .ol-popup {
     position: absolute;
     background-color: white;
@@ -21,74 +43,209 @@
 }
 
 .drawer {
-    padding: 10px;
-    width: 250px;
+    padding: 12px;
+    width: 370px;
+    height: fit-content;
+    align-self: flex-start;
     margin: 0.5em;
-    border-radius: 5px;
+    border: 0.5px solid var(--mat-sys-outline-variant);
+    border-radius: var(--border-radius-md, 8px);
     background-color: rgba(255, 255, 255, 0.75);
     box-shadow:
         rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
         rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
 
-::ng-deep .drawer .mat-drawer-inner-container {
+.drawer-header {
     display: flex;
-    gap: 0.5em;
-    flex-direction: column;
-    justify-content: space-around;
-    height: fit-content;
-    overflow: visible;
-}
-
-.card {
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.header {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding-top: 0.5em;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+
+    &__title {
+        font-size: var(--font-md);
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__loc {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: var(--font-sm);
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__flag {
+        font-size: var(--font-md);
+        line-height: 1;
+    }
 }
 
-.icon {
-    color: var(--primary);
-    font-size: 1.8em;
-    width: 30px;
-    height: 30px;
-}
-
-.help-icon {
-    font-size: 1.3em;
-    right: 0.5em;
-    position: absolute;
-}
-
-.title {
-    justify-content: center;
-    height: auto;
+.drawer-footer {
+    margin-top: auto;
+    margin-bottom: 0;
     padding-top: 10px;
-    background-color: unset;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px #e0e0e0;
+    border-top: 0.5px solid var(--mat-sys-outline-variant);
+
+    &__text {
+        font-size: var(--font-xs);
+        color: var(--mat-sys-on-surface-variant);
+        line-height: 1.55;
+    }
+
+    &__link {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        vertical-align: middle;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__link-icon {
+        font-size: 11px;
+        width: 11px;
+        height: 11px;
+        line-height: 1;
+        vertical-align: middle;
+    }
 }
 
-.stat-text {
-    white-space: nowrap;
-    font-size: 1em;
-    margin: 5px;
-    text-align: end;
+.env-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
 }
 
-.value {
-    align-self: center;
-    color: dimgray;
-    margin: 0;
-    padding: 5px 10px 10px 10px;
-    font-size: 1.2em;
+.pulse-marker {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    cursor: pointer;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--marker-color);
+        animation: ripple 1.8s ease-out infinite;
+    }
+
+    &::after {
+        animation-delay: 0.4s;
+    }
+
+    .dot {
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: var(--marker-color);
+        border: 2px solid var(--white);
+        z-index: 1;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+.dc-popup {
+    border: 0.5px solid var(--mat-sys-outline-variant);
+    border-radius: var(--border-radius-md, 8px);
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 10px 13px;
+    min-width: 170px;
+    transform: translate(-50%, calc(-100% - 14px));
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+
+    &__name {
+        font-size: var(--font-sm);
+        font-weight: 500;
+        color: var(--mat-sys-on-surface);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__country {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: var(--font-xs);
+        color: var(--mat-sys-on-surface-variant);
+        white-space: nowrap;
+    }
+
+    &__divider {
+        height: 0.5px;
+        background: var(--mat-sys-outline-variant);
+        margin-bottom: 7px;
+    }
+
+    &__metric {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    &__metric-label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: var(--font-xs);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__metric-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: inline-block;
+    }
+
+    &__metric-right {
+        display: flex;
+        align-items: baseline;
+        gap: 3px;
+    }
+
+    &__metric-value {
+        font-size: var(--font-md);
+        font-weight: 500;
+        color: var(--mat-sys-on-surface);
+    }
+
+    &__metric-unit {
+        font-size: var(--font-xs);
+        color: var(--mat-sys-on-surface-variant);
+    }
 }

@@ -1,89 +1,120 @@
 <div class="main-container">
     <div id="map" class="map"></div>
-    <div id="popup" class="ol-popup">
-        <div id="popup-content"></div>
+
+    <div id="popup" class="dc-popup">
+        <div class="dc-popup__header">
+            <span class="dc-popup__name" id="popup-name"></span>
+            <span class="dc-popup__country">
+                <span id="popup-flag"></span>
+            </span>
+        </div>
+        <div class="dc-popup__divider"></div>
+        <div class="dc-popup__metric">
+            <div class="dc-popup__metric-label">
+                <span class="dc-popup__metric-dot" id="popup-metric-dot"></span>
+                <span id="popup-metric-label"></span>
+            </div>
+            <div class="dc-popup__metric-right">
+                <span
+                    class="dc-popup__metric-value"
+                    id="popup-metric-value"
+                ></span>
+                <span
+                    class="dc-popup__metric-unit"
+                    id="popup-metric-unit"
+                ></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="map-overlay map-overlay--bottom-left">
+        <app-map-metric-legend [metric]="activeMetric" />
+    </div>
+
+    <!-- Metric selector -->
+    <div class="map-overlay map-overlay--bottom-center">
+        <app-map-metric-selector
+            [(active)]="activeMetric"
+            (activeChange)="onMetricChange($event)"
+        />
     </div>
 
     <mat-drawer #drawer class="drawer" mode="side" position="end">
-        <mat-toolbar class="title">
-            {{ 'DASHBOARD.DATACENTER-STATS' | translate }}
-        </mat-toolbar>
+        <!-- Header -->
+        <div class="drawer-header">
+            <span class="drawer-header__title">
+                {{ selectedDatacenter?.name }}
+            </span>
+            <span class="drawer-dc-info__loc">
+                <span class="drawer-dc-info__flag">
+                    {{ selectedDatacenter?.country | countryFlag }}
+                </span>
+            </span>
+        </div>
 
-        <mat-card class="card">
-            <div class="header">
-                <p class="stat-text">
-                    {{ 'DASHBOARD.STATS-TITLES.PUE' | translate }}
-                </p>
-                <mat-icon class="icon">bolt</mat-icon>
-                <mat-icon
-                    class="help-icon"
-                    color="accent"
-                    matTooltip="{{ 'DASHBOARD.PUE-INFO' | translate }}"
-                    [matTooltipPosition]="'above'"
-                    >help</mat-icon
-                >
-            </div>
-            <p class="value">{{ this.selectedDatacenter?.PUE }}</p>
-        </mat-card>
+        <!-- Env metrics grid -->
+        <div class="env-grid">
+            <app-stats-reduced-card
+                [label]="'DASHBOARD.STATS-TITLES.PUE' | translate"
+                icon="bolt"
+                [value]="selectedDatacenter?.PUE ?? '—'"
+                [tooltip]="'DASHBOARD.PUE-INFO' | translate"
+            />
+            <app-stats-reduced-card
+                [label]="'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate"
+                icon="task"
+                [value]="jobsNum"
+                unit="running"
+            />
+            <app-stats-reduced-card
+                [label]="'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate"
+                icon="eco"
+                [value]="selectedDatacenter?.energy_quality ?? '—'"
+                unit="g CO₂/kWh"
+                [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"
+            />
+            <app-stats-reduced-card
+                [label]="
+                    'DASHBOARD.STATS-TITLES.ENERGY-WATER-USAGE' | translate
+                "
+                icon="water_drop"
+                [value]="selectedDatacenter?.energy_water_usage ?? '—'"
+                unit="l/kWh"
+                [tooltip]="'DASHBOARD.ENERGY-WATER-INFO' | translate"
+            />
+        </div>
 
-        <mat-card class="card">
-            <div class="header">
-                <p class="stat-text">
-                    {{ 'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate }}
-                </p>
-                <mat-icon class="icon">eco</mat-icon>
-                <mat-icon
-                    class="help-icon"
-                    color="accent"
-                    matTooltip="{{ 'DASHBOARD.ENERGY-INFO' | translate }}"
-                    [matTooltipPosition]="'above'"
-                    >help</mat-icon
+        <!-- Resource bars -->
+        <app-resources-card
+            [usedCpu]="usedCpuNum"
+            [totalCpu]="totalCpuNum"
+            [usedMem]="Math.trunc(usedMemory)"
+            [totalMem]="Math.trunc(totalMemory)"
+            [memUnit]="ramUnit"
+            [usedDisk]="Math.trunc(usedDisk)"
+            [totalDisk]="Math.trunc(totalDisk)"
+            [diskUnit]="diskUnit"
+            [usedGpu]="usedGpuNum"
+            [totalGpu]="totalGpuNum"
+        />
+
+        <!-- Footer -->
+        <div class="drawer-footer">
+            <p class="drawer-footer__text">
+                {{ 'DASHBOARD.WATTNET-INFO' | translate }}
+                <a
+                    class="drawer-footer__link"
+                    href="https://wattnet.eu/"
+                    target="_blank"
                 >
-            </div>
-            <p class="value">
-                {{ this.selectedDatacenter?.energy_quality }} g CO2/kWh
+                    Wattnet
+                    <mat-icon class="drawer-footer__link-icon"
+                        >open_in_new</mat-icon
+                    >
+                </a>
+                .
             </p>
-        </mat-card>
-
-        <mat-card class="card">
-            <div class="header">
-                <p class="stat-text">
-                    {{ 'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate }}
-                </p>
-                <mat-icon class="icon">task</mat-icon>
-            </div>
-            <p class="value">{{ this.jobsNum }}</p>
-        </mat-card>
-
-        <app-small-stats-card
-            [title]="'DASHBOARD.STATS-TITLES.CPU' | translate"
-            [icon_name]="'memory'"
-            [used_value]="usedCpuNum"
-            [total_value]="totalCpuNum"
-        ></app-small-stats-card>
-
-        <app-small-stats-card
-            [title]="'DASHBOARD.STATS-TITLES.RAM' | translate"
-            [icon_name]="'memory_alt'"
-            [used_value]="Math.trunc(usedMemory)"
-            [total_value]="Math.trunc(totalMemory)"
-            [memory_unit]="ramUnit"
-        ></app-small-stats-card>
-
-        <app-small-stats-card
-            [title]="'DASHBOARD.STATS-TITLES.DISK' | translate"
-            [icon_name]="'album'"
-            [used_value]="Math.trunc(usedDisk)"
-            [total_value]="Math.trunc(totalDisk)"
-            [memory_unit]="diskUnit"
-        ></app-small-stats-card>
-
-        <app-small-stats-card
-            *ngIf="totalGpuNum > 0"
-            [title]="'DASHBOARD.STATS-TITLES.GPU' | translate"
-            [icon_name]="'developer_board'"
-            [used_value]="usedGpuNum"
-            [total_value]="totalGpuNum"
-        ></app-small-stats-card>
+        </div>
     </mat-drawer>
 </div>

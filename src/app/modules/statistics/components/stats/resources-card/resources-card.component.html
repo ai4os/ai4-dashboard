@@ -1,0 +1,29 @@
+<div class="res-card">
+    <app-resource-bar
+        label="CPUs"
+        [used]="usedCpu"
+        [total]="totalCpu"
+        color="1"
+    />
+    <app-resource-bar
+        label="Memory"
+        [used]="usedMem"
+        [total]="totalMem"
+        [unit]="memUnit"
+        color="2"
+    />
+    <app-resource-bar
+        label="Disk"
+        [used]="usedDisk"
+        [total]="totalDisk"
+        [unit]="diskUnit"
+        color="3"
+    />
+    <app-resource-bar
+        *ngIf="totalGpu > 0"
+        label="GPUs"
+        [used]="usedGpu"
+        [total]="totalGpu"
+        color="4"
+    />
+</div>
