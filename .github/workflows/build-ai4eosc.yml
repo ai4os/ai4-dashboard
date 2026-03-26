@@ -18,5 +18,5 @@ jobs:
     with:
       tenant: ai4eosc
       environment: ${{ inputs.environment }}
-      webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4eosc-${{ inputs.environment }}
+      webhook_url: https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-ai4eosc-${{ inputs.environment }}
     secrets: inherit
