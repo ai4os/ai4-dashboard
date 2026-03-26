@@ -82,14 +82,13 @@ jobs:
           tags: |
             ${{ secrets.HARBOR_URL }}/ai4os/ai4-dashboard:${{ env.TAG }}
             ${{ secrets.DOCKERHUB_USERNAME }}/ai4-dashboard:${{ env.TAG }}
-          provenance: false
 
       - name: Deploy webhook
         if: inputs.webhook_url != ''
         env:
           SECRET: ${{ secrets.WEBHOOK_SECRET }}
-          PAYLOAD: ${{ secrets.WEBHOOK_PAYLOAD }}
         run: |
+          PAYLOAD="{\"tag\":\"${{ env.TAG }}\"}"
           HASH=$(echo -n "$PAYLOAD" | openssl dgst -sha1 -hmac "$SECRET" | sed 's/^.* //')
           curl -X POST "${{ inputs.webhook_url }}" \
             -H 'Content-Type: application/json' \
