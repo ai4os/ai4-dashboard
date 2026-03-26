@@ -81,7 +81,7 @@ jobs:
           build-args: TENANT=${{ inputs.tenant }}
           tags: |
             ${{ secrets.HARBOR_URL }}/ai4os/ai4-dashboard:${{ env.TAG }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/ai4os/ai4-dashboard:${{ env.TAG }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ai4-dashboard:${{ env.TAG }}
           provenance: false
 
       - name: Deploy webhook
