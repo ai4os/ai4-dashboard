@@ -1,0 +1,22 @@
+name: Build AI4EOSC Dashboard
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment to build'
+        required: true
+        default: 'prod'
+        options:
+          - prod
+          - dev
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build-reusable.yml
+    with:
+      tenant: ai4eosc
+      environment: ${{ inputs.environment }}
+      webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4eosc-${{ inputs.environment }}
+    secrets: inherit
