@@ -1,5 +1,12 @@
 {
     "title": "iMagine platform dashboard",
+    "voName": "vo.imagine-ai.eu",
+    "projectName": "iMagine",
+    "projectUrl": "https://www.imagine-ai.eu/",
+    "acknowledgments": "The iMagine dashboard is a service provided by CSIC, co-funded by ",
+    "analytics": {
+        "domain": "dashboard.cloud.imagine-ai.eu"
+    },
     "sidenavMenu": [
         {
             "name": "SIDENAV.STORAGE",
@@ -18,7 +25,6 @@
             "url": "https://chat.cloud.ai4eosc.eu/"
         }
     ],
-
     "footerLinks": [
         {
             "name": "SIDENAV.STATUS",
@@ -51,18 +57,5 @@
         {
             "tags": "development"
         }
-    ],
-    "voName": "vo.imagine-ai.eu",
-    "projectName": "iMagine",
-    "projectUrl": "https://www.imagine-ai.eu/",
-    "acknowledgments": "The iMagine dashboard is a service provided by CSIC, co-funded by ",
-    "analytics": {
-        "domain": "dashboard.cloud.imagine-ai.eu",
-        "src": "https://stats.services.ai4os.eu/js/script.js"
-    },
-    "apiURL": "",
-    "issuer": "",
-    "clientId": "",
-    "dummyClientSecret": "",
-    "deployedInNomad": false
+    ]
 }
