@@ -1,0 +1,33 @@
+# Git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+
+# Builds
+dist
+coverage
+
+# Tests
+cypress
+*.spec.ts
+
+# Env / secrets
+.env
+.env.*
+cypress.env.json
+
+# Docs
+README.md
+CHANGELOG.md
+LICENSE
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+
+# Runtime
+jest.config.js
+sonar-project.properties
+
+# Misc
+*.log
