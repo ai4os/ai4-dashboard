@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.21.0](https://github.com/ai4os/ai4-dashboard/compare/v3.20.0...v3.21.0) (2026-03-27)
+
+
+### Features
+
+* unify dashboard deployments ([#483](https://github.com/ai4os/ai4-dashboard/issues/483)) ([cc7d54c](https://github.com/ai4os/ai4-dashboard/commit/cc7d54cd04c64d48aa6ef2848500caa906907ebc))
+
 ## [3.20.0](https://github.com/ai4os/ai4-dashboard/compare/v3.19.0...v3.20.0) (2026-03-26)
 
 
