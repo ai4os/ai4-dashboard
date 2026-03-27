@@ -29,9 +29,7 @@ on:
       HF_CLIENT_SECRET:
         required: true
       WEBHOOK_SECRET:
-        required: false
-      WEBHOOK_PAYLOAD:
-        required: false
+        required: true
 
 jobs:
   build:

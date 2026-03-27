@@ -24,4 +24,12 @@ jobs:
       tenant: ${{ matrix.tenant }}
       environment: prod
       webhook_url: ${{ matrix.webhook_url }}
-    secrets: inherit
+    secrets:
+      HARBOR_URL: ${{ secrets.HARBOR_URL }}
+      HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+      HARBOR_TOKEN: ${{ secrets.HARBOR_TOKEN }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
+      HF_CLIENT_SECRET: ${{ secrets.HF_CLIENT_SECRET }}
+      WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
