@@ -17,7 +17,7 @@
         src/assets/config/${TENANT}.json \
         > src/assets/config/config.json
     
-    RUN npx ng build --configuration production-${TENANT}
+    RUN npx ng build --configuration ${TENANT}-production
     
     # ---- Stage 2: Serve ----
     FROM nginx:alpine
@@ -38,6 +38,6 @@
           .clientId = ($clientId // .clientId) | \
           .issuer = ($issuer // .issuer) | \
           .dummyClientSecret = ($dummyClientSecret // .dummyClientSecret)' \
-        /usr/share/nginx/html/assets/config.json > /usr/share/nginx/html/assets/config.tmp && \
-      mv /usr/share/nginx/html/assets/config.tmp /usr/share/nginx/html/assets/config.json && \
+        /usr/share/nginx/html/assets/config/config.json > /usr/share/nginx/html/assets/config/config.tmp && \
+      mv /usr/share/nginx/html/assets/config/config.tmp /usr/share/nginx/html/assets/config/config.json && \
       nginx -g 'daemon off;'"]

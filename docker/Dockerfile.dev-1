@@ -17,7 +17,7 @@
         src/assets/config/${TENANT}.json \
         > src/assets/config/config.json
     
-    RUN npx ng build --configuration ${TENANT}-development
+    RUN npx ng build --configuration ${TENANT}-development-1
     
     # ---- Stage 2: Serve ----
     FROM nginx:alpine

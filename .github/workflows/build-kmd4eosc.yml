@@ -1,0 +1,13 @@
+name: Build KMD4EOSC Dashboard
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build-reusable.yml
+    with:
+      tenant: kmd4eosc
+      environment: prod
+      webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-kmd4eosc-prod
+    secrets: inherit

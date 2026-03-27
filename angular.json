@@ -30,24 +30,17 @@
                         "scripts": []
                     },
                     "configurations": {
-                        "production-ai4eosc": {
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "2mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
-                                }
-                            ],
-                            "outputHashing": "all",
+                        "ai4eosc-local": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
+                                    "with": "src/environments/environment.local.ts"
                                 }
                             ],
                             "scripts": [
@@ -79,56 +72,7 @@
                                 }
                             ]
                         },
-                        "production-imagine": {
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "2mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
-                                }
-                            ],
-                            "outputHashing": "all",
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
-                                }
-                            ],
-                            "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js",
-                                "node_modules/intro.js/intro.js"
-                            ],
-                            "styles": [
-                                "src/theme/imagine/variables.scss",
-                                "src/styles.scss",
-                                "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css",
-                                "node_modules/intro.js/introjs.css"
-                            ],
-                            "assets": [
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/images/imagine",
-                                    "output": "/assets/images/"
-                                },
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/i18n/",
-                                    "output": "/assets/i18n/"
-                                },
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/",
-                                    "output": "/assets/"
-                                }
-                            ]
-                        },
-                        "production-ai4life": {
+                        "ai4eosc-development-1": {
                             "buildOptimizer": false,
                             "optimization": false,
                             "vendorChunk": true,
@@ -139,7 +83,7 @@
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
+                                    "with": "src/environments/environment.dev-1.ts"
                                 }
                             ],
                             "scripts": [
@@ -147,7 +91,7 @@
                                 "node_modules/intro.js/intro.js"
                             ],
                             "styles": [
-                                "src/theme/ai4life/variables.scss",
+                                "src/theme/ai4eosc/variables.scss",
                                 "src/styles.scss",
                                 "node_modules/ol/ol.css",
                                 "node_modules/cookieconsent/build/cookieconsent.min.css",
@@ -156,7 +100,7 @@
                             "assets": [
                                 {
                                     "glob": "**/*",
-                                    "input": "src/assets/images/ai4life",
+                                    "input": "src/assets/images/ai4eosc",
                                     "output": "/assets/images/"
                                 },
                                 {
@@ -171,50 +115,7 @@
                                 }
                             ]
                         },
-                        "production-kmd4eosc": {
-                            "buildOptimizer": false,
-                            "optimization": false,
-                            "vendorChunk": true,
-                            "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true,
-                            "outputHashing": "all",
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
-                                }
-                            ],
-                            "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js",
-                                "node_modules/intro.js/intro.js"
-                            ],
-                            "styles": [
-                                "src/theme/kmd4eosc/variables.scss",
-                                "src/styles.scss",
-                                "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css",
-                                "node_modules/intro.js/introjs.css"
-                            ],
-                            "assets": [
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/images/kmd4eosc",
-                                    "output": "/assets/images/"
-                                },
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/i18n/",
-                                    "output": "/assets/i18n/"
-                                },
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/",
-                                    "output": "/assets/"
-                                }
-                            ]
-                        },
-                        "development-ai4eosc": {
+                        "ai4eosc-development": {
                             "buildOptimizer": false,
                             "optimization": false,
                             "vendorChunk": true,
@@ -257,7 +158,147 @@
                                 }
                             ]
                         },
-                        "development-imagine": {
+                        "ai4eosc-stage": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "2mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
+                            ],
+                            "styles": [
+                                "src/theme/ai4eosc/variables.scss",
+                                "src/styles.scss",
+                                "node_modules/ol/ol.css",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
+                            ],
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/images/ai4eosc",
+                                    "output": "/assets/images/"
+                                },
+                                {
+                                    "glob": "config.json",
+                                    "input": "src/assets/config/ai4eosc/",
+                                    "output": "/assets/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/",
+                                    "output": "/assets/"
+                                }
+                            ]
+                        },
+                        "ai4eosc-production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "2mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
+                            ],
+                            "styles": [
+                                "src/theme/ai4eosc/variables.scss",
+                                "src/styles.scss",
+                                "node_modules/ol/ol.css",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
+                            ],
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/images/ai4eosc",
+                                    "output": "/assets/images/"
+                                },
+                                {
+                                    "glob": "config.json",
+                                    "input": "src/assets/config/ai4eosc/",
+                                    "output": "/assets/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/",
+                                    "output": "/assets/"
+                                }
+                            ]
+                        },
+                        "imagine-local": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.local.ts"
+                                }
+                            ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
+                            ],
+                            "styles": [
+                                "src/theme/imagine/variables.scss",
+                                "src/styles.scss",
+                                "node_modules/ol/ol.css",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
+                            ],
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/images/imagine",
+                                    "output": "/assets/images/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/i18n/",
+                                    "output": "/assets/i18n/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/",
+                                    "output": "/assets/"
+                                }
+                            ]
+                        },
+                        "imagine-development": {
                             "buildOptimizer": false,
                             "optimization": false,
                             "vendorChunk": true,
@@ -300,59 +341,24 @@
                                 }
                             ]
                         },
-                        "local-ai4eosc": {
-                            "buildOptimizer": false,
-                            "optimization": false,
-                            "vendorChunk": true,
-                            "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true,
+                        "imagine-production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "2mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all",
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.local.ts"
-                                }
-                            ],
-                            "scripts": [
-                                "node_modules/cookieconsent/build/cookieconsent.min.js",
-                                "node_modules/intro.js/intro.js"
-                            ],
-                            "styles": [
-                                "src/theme/ai4eosc/variables.scss",
-                                "src/styles.scss",
-                                "node_modules/ol/ol.css",
-                                "node_modules/cookieconsent/build/cookieconsent.min.css",
-                                "node_modules/intro.js/introjs.css"
-                            ],
-                            "assets": [
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/images/ai4eosc",
-                                    "output": "/assets/images/"
-                                },
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/i18n/",
-                                    "output": "/assets/i18n/"
-                                },
-                                {
-                                    "glob": "**/*",
-                                    "input": "src/assets/",
-                                    "output": "/assets/"
-                                }
-                            ]
-                        },
-                        "local-imagine": {
-                            "buildOptimizer": false,
-                            "optimization": false,
-                            "vendorChunk": true,
-                            "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true,
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.local.ts"
+                                    "with": "src/environments/environment.prod.ts"
                                 }
                             ],
                             "scripts": [
@@ -384,7 +390,7 @@
                                 }
                             ]
                         },
-                        "tutorials-ai4eosc": {
+                        "tutorials-production": {
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -432,42 +438,134 @@
                                     "output": "/assets/"
                                 }
                             ]
+                        },
+                        "ai4life-production": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
+                            ],
+                            "styles": [
+                                "src/theme/ai4life/variables.scss",
+                                "src/styles.scss",
+                                "node_modules/ol/ol.css",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
+                            ],
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/images/ai4life",
+                                    "output": "/assets/images/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/i18n/",
+                                    "output": "/assets/i18n/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/",
+                                    "output": "/assets/"
+                                }
+                            ]
+                        },
+                        "kmd4eosc-production": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "scripts": [
+                                "node_modules/cookieconsent/build/cookieconsent.min.js",
+                                "node_modules/intro.js/intro.js"
+                            ],
+                            "styles": [
+                                "src/theme/kmd4eosc/variables.scss",
+                                "src/styles.scss",
+                                "node_modules/ol/ol.css",
+                                "node_modules/cookieconsent/build/cookieconsent.min.css",
+                                "node_modules/intro.js/introjs.css"
+                            ],
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/images/kmd4eosc",
+                                    "output": "/assets/images/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/i18n/",
+                                    "output": "/assets/i18n/"
+                                },
+                                {
+                                    "glob": "**/*",
+                                    "input": "src/assets/",
+                                    "output": "/assets/"
+                                }
+                            ]
                         }
                     },
-                    "defaultConfiguration": "production-ai4eosc"
+                    "defaultConfiguration": "ai4eosc-production"
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
-                        "local-ai4eosc": {
-                            "buildTarget": "ai4-dashboard:build:local-ai4eosc"
+                        "ai4eosc-local": {
+                            "buildTarget": "ai4-dashboard:build:ai4eosc-local"
                         },
-                        "development-ai4eosc": {
-                            "buildTarget": "ai4-dashboard:build:development-ai4eosc"
+                        "ai4eosc-development-1": {
+                            "buildTarget": "ai4-dashboard:build:ai4eosc-development-1"
                         },
-                        "production-ai4eosc": {
-                            "buildTarget": "ai4-dashboard:build:production-ai4eosc"
+                        "ai4eosc-development": {
+                            "buildTarget": "ai4-dashboard:build:ai4eosc-development"
                         },
-                        "local-imagine": {
-                            "buildTarget": "ai4-dashboard:build:local-imagine"
+                        "ai4eosc-stage": {
+                            "buildTarget": "ai4-dashboard:build:ai4eosc-stage"
                         },
-                        "development-imagine": {
-                            "buildTarget": "ai4-dashboard:build:development-imagine"
+                        "ai4eosc-production": {
+                            "buildTarget": "ai4-dashboard:build:ai4eosc-production"
                         },
-                        "production-imagine": {
-                            "buildTarget": "ai4-dashboard:build:production-imagine"
+                        "imagine-local": {
+                            "buildTarget": "ai4-dashboard:build:imagine-local"
                         },
-                        "production-ai4life": {
-                            "buildTarget": "ai4-dashboard:build:production-ai4life"
+                        "imagine-development": {
+                            "buildTarget": "ai4-dashboard:build:imagine-development"
                         },
-                        "production-kmd4eosc": {
-                            "buildTarget": "ai4-dashboard:build:production-kmd4eosc"
+                        "imagine-production": {
+                            "buildTarget": "ai4-dashboard:build:imagine-production"
                         },
-                        "production-tutorials": {
-                            "buildTarget": "ai4-dashboard:build:production-tutorials"
+                        "ai4life-production": {
+                            "buildTarget": "ai4-dashboard:build:ai4life-production"
+                        },
+                        "kmd4eosc-production": {
+                            "buildTarget": "ai4-dashboard:build:kmd4eosc-production"
+                        },
+                        "tutorials-production": {
+                            "buildTarget": "ai4-dashboard:build:tutorials-production"
                         }
                     },
-                    "defaultConfiguration": "local-ai4eosc"
+                    "defaultConfiguration": "ai4eosc-local"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",

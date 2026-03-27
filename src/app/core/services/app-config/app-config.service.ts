@@ -12,7 +12,7 @@ export class AppConfigService {
     constructor(private http: HttpClient) {}
 
     loadAppConfig(oauthConfig: OAuthModuleConfig) {
-        return firstValueFrom(this.http.get('/assets/config.json')).then(
+        return firstValueFrom(this.http.get('/assets/config/config.json')).then(
             (config) => {
                 this.appConfig = config;
                 if (this.appConfig.apiURL && this.appConfig.apiURL !== '') {

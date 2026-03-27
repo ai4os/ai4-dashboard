@@ -1,0 +1,13 @@
+name: Build AI4Life Dashboard
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build-reusable.yml
+    with:
+      tenant: ai4life
+      environment: prod
+      webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4life-prod
+    secrets: inherit
