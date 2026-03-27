@@ -157,6 +157,13 @@ export const mockedClusterStats: ClusterStats = {
                     status: '',
                 },
             ],
+            affinity: 0,
+            country: '',
+            energy_water_usage: 0,
+            footprints: {
+                carbon: [],
+                water: [],
+            },
         },
     ],
 };
