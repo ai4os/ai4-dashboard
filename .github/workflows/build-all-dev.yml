@@ -10,9 +10,9 @@ jobs:
       matrix:
         include:
           - tenant: ai4eosc
-            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4eosc-dev
+            webhook_url: https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-ai4eosc-dev
           - tenant: imagine
-            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-imagine-dev
+            webhook_url: https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-imagine-dev
     uses: ./.github/workflows/_build-reusable.yml
     with:
       tenant: ${{ matrix.tenant }}

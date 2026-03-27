@@ -9,7 +9,7 @@ jobs:
     with:
       tenant: ai4life
       environment: prod
-      webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4life-prod
+      webhook_url: https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-ai4life-prod
     secrets:
       HARBOR_URL: ${{ secrets.HARBOR_URL }}
       HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
