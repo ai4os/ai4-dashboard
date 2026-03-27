@@ -1,0 +1,50 @@
+.res-row {
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    &__name {
+        font-size: var(--font-sm);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__nums {
+        font-size: var(--font-sm);
+        color: var(--mat-sys-on-surface-variant);
+        b {
+            color: var(--mat-sys-on-surface);
+            font-weight: 500;
+        }
+    }
+
+    &__track {
+        height: 4px;
+        background: rgba(0, 0, 0, 0.08);
+        border-radius: 99px;
+        overflow: hidden;
+    }
+
+    &__fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.5s ease;
+
+        &--1 {
+            background: var(--primary);
+        }
+        &--2 {
+            background: var(--accent);
+        }
+        &--3 {
+            background: var(--secondary);
+        }
+        &--4 {
+            background: var(--accent-dark);
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<div class="bar-chart">
+    <div class="bar-chart__header">
+        <span class="bar-chart__title">{{ title }}</span>
+        @if (tooltip !== '') {
+            <mat-icon
+                class="bar-chart__help"
+                color="accent"
+                [matTooltip]="tooltip"
+                matTooltipPosition="right"
+                >help</mat-icon
+            >
+        }
+    </div>
+    <div class="bar-chart__body">
+        <div id="chart" echarts [options]="echartOptions"></div>
+    </div>
+</div>

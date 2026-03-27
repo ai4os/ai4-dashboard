@@ -1,0 +1,48 @@
+.env-card {
+    background: var(--mat-sys-surface-container);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4px;
+    }
+
+    &__label {
+        font-size: var(--font-xs);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__icons {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
+    &__icon,
+    &__help {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        opacity: 0.5;
+    }
+
+    &__value {
+        font-size: var(--font-2xl);
+        font-weight: 500;
+        line-height: 1;
+        color: var(--mat-sys-on-surface);
+    }
+
+    &__unit {
+        font-size: var(--font-sm);
+        color: var(--mat-sys-on-surface-variant);
+        margin-top: 3px;
+    }
+}

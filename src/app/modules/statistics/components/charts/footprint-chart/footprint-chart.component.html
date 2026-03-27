@@ -1,0 +1,16 @@
+<div class="footprint-chart">
+    <div class="footprint-chart__header">
+        <span class="footprint-chart__title">{{ title }}</span>
+        <mat-icon
+            *ngIf="tooltip"
+            class="footprint-chart__help"
+            color="accent"
+            [matTooltip]="tooltip"
+            matTooltipPosition="right"
+            >help</mat-icon
+        >
+    </div>
+    <div class="footprint-chart__body">
+        <div id="chart" echarts [options]="echartOptions"></div>
+    </div>
+</div>

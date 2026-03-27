@@ -4,11 +4,11 @@ import { UserProfile } from '@app/core/services/auth/auth.service';
 import { GlobalStats } from '@app/shared/interfaces/stats.interface';
 
 @Component({
-    selector: 'app-graphs-tab',
-    templateUrl: './graphs-tab.component.html',
-    styleUrls: ['./graphs-tab.component.scss'],
+    selector: 'app-usage-tab',
+    templateUrl: './usage-tab.component.html',
+    styleUrls: ['./usage-tab.component.scss'],
 })
-export class GraphsTabComponent implements OnInit {
+export class UsageTabComponent implements OnInit {
     @Input()
         userProfile!: UserProfile;
     @Input() dates: string[] = [];

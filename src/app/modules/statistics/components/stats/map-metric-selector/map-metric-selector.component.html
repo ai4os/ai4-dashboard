@@ -1,0 +1,11 @@
+<div class="pill-group">
+    <button
+        *ngFor="let m of metrics"
+        class="pill-group__btn"
+        [class.pill-group__btn--active]="active === m.key"
+        (click)="select(m.key)"
+    >
+        <mat-icon class="pill-group__icon">{{ m.icon }}</mat-icon>
+        {{ m.label }}
+    </button>
+</div>

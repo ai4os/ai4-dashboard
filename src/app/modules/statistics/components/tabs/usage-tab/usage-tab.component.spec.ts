@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GraphsTabComponent } from './graphs-tab.component';
+import { UsageTabComponent } from './usage-tab.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { By } from '@angular/platform-browser';
@@ -15,13 +15,13 @@ import { mockedConfigService } from '@app/core/services/app-config/app-config.mo
 import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedParsedUserProfile } from '@app/core/services/auth/auth-service.mock';
 
-describe('GraphsTabComponent', () => {
-    let component: GraphsTabComponent;
-    let fixture: ComponentFixture<GraphsTabComponent>;
+describe('UsageTabComponent', () => {
+    let component: UsageTabComponent;
+    let fixture: ComponentFixture<UsageTabComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [GraphsTabComponent],
+            declarations: [UsageTabComponent],
             imports: [
                 TranslateModule.forRoot(),
                 SharedModule,
@@ -35,7 +35,7 @@ describe('GraphsTabComponent', () => {
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(GraphsTabComponent);
+        fixture = TestBed.createComponent(UsageTabComponent);
         component = fixture.componentInstance;
         component.userGlobalStats = mockedGlobalStats;
         component.userProfile = mockedParsedUserProfile.value;

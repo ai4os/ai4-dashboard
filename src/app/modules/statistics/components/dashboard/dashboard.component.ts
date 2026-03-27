@@ -256,16 +256,37 @@ export class DashboardComponent implements OnInit {
 
                     // Datacenters
                     for (const dc in statsResponse['datacenters']) {
+                        const carbonArray =
+                            statsResponse['datacenters'][dc]['footprints'][
+                                'carbon'
+                            ];
+                        const waterArray =
+                            statsResponse['datacenters'][dc]['footprints'][
+                                'water'
+                            ];
+
                         const datacenter: DatacenterStats = {
                             name: dc,
                             lat: statsResponse['datacenters'][dc]['lat'],
                             lon: statsResponse['datacenters'][dc]['lon'],
                             PUE: statsResponse['datacenters'][dc]['PUE'],
-                            energy_quality:
-                                statsResponse['datacenters'][dc][
-                                    'energy_quality'
-                                ],
+                            energy_quality: carbonArray.length
+                                ? carbonArray[
+                                    carbonArray.length - 1
+                                ][1].toFixed(2)
+                                : null,
+                            energy_water_usage: waterArray.length
+                                ? waterArray[waterArray.length - 1][1].toFixed(
+                                    2
+                                )
+                                : null,
                             nodes: statsResponse['datacenters'][dc]['nodes'],
+                            affinity:
+                                statsResponse['datacenters'][dc]['affinity'],
+                            country:
+                                statsResponse['datacenters'][dc]['country'],
+                            footprints:
+                                statsResponse['datacenters'][dc]['footprints'],
                         };
                         this.datacentersStats.push(datacenter);
                     }
