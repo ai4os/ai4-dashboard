@@ -1,11 +1,11 @@
 import { endpoints } from './endpoints';
 
 export const environment = {
-    name: 'prod',
-    develop: false,
-    production: true,
+    name: 'dev',
+    develop: true,
+    production: false,
     api: {
-        base: 'https://api.cloud.ai4eosc.eu/v1',
+        base: 'https://api1.dev.ai4eosc.eu/v1',
         endpoints,
     },
     huggingFaceClientSecret: '',

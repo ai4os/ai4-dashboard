@@ -1,0 +1,57 @@
+{
+  "_comment": "This file is used as a base for all tenants. The values here will be overwritten by the tenant-specific config file during the build process.",
+  "sidenavMenu": [
+    {
+      "name": "SIDENAV.STORAGE",
+      "url": "https://share.cloud.ai4eosc.eu/"
+    },
+    {
+      "name": "SIDENAV.EXPERIMENT-TRACKING",
+      "url": "https://mlflow.cloud.ai4eosc.eu"
+    },
+    {
+      "name": "SIDENAV.INFERENCE-WORKFLOWS",
+      "url": "https://forge.flows.dev.ai4eosc.eu/"
+    },
+    {
+      "name": "SIDENAV.LLM-CHAT",
+      "url": "https://chat.cloud.ai4eosc.eu/"
+    }
+  ],
+  "analytics": {
+    "src": "https://stats.services.ai4os.eu/js/script.js",
+    "domain": "dashboard.cloud.ai4eosc.eu"
+  },
+  "apiURL": "",
+  "issuer": "",
+  "clientId": "",
+  "dummyClientSecret": "",
+  "deployedInNomad": false,
+  "title": "AI4EOSC - Dashboard",
+  "voName": "vo.ai4eosc.eu",
+  "projectName": "AI4EOSC",
+  "projectUrl": "https://ai4eosc.eu",
+  "acknowledgments": "The AI4EOSC dashboard is a service provided by CSIC, co-funded by ",
+  "footerLinks": [
+    {
+      "name": "SIDENAV.STATUS",
+      "url": "https://status.ai4eosc.eu"
+    },
+    {
+      "name": "SIDENAV.PROJECT-PAGE",
+      "url": "https://ai4eosc.eu"
+    },
+    {
+      "name": "SIDENAV.DOCUMENTATION",
+      "url": "https://docs.ai4os.eu/"
+    },
+    {
+      "name": "SIDENAV.TERMS-OF-USE",
+      "url": "https://ai4eosc.eu/platform/acceptable-use-policy/"
+    },
+    {
+      "name": "SIDENAV.PRIVACY-POLICY",
+      "url": "https://ai4eosc.eu/platform/privacy-policy/"
+    }
+  ]
+}

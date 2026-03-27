@@ -7,6 +7,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { By } from '@angular/platform-browser';
+import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
 
 describe('DatacentersTabComponent', () => {
     let component: DatacentersTabComponent;
@@ -19,6 +20,7 @@ describe('DatacentersTabComponent', () => {
                 TranslateModule.forRoot(),
                 SharedModule,
                 BrowserAnimationsModule,
+                CountryFlagPipe,
             ],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();

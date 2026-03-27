@@ -8,7 +8,7 @@ describe('dashboard section', function () {
     it('shows datacenter section', function () {
         cy.contains('Overview', { timeout: 20000 }).should('be.visible');
         cy.contains('Datacenters').should('be.visible');
-        cy.contains('Graphs').should('be.visible');
+        cy.contains('Usage').should('be.visible');
         cy.contains('Nodes').should('be.visible');
     });
 
@@ -55,8 +55,8 @@ describe('dashboard section', function () {
         cy.get('canvas').should('be.visible');
     });
 
-    it('shows graphs tab', function () {
-        cy.contains('Graphs', { timeout: 10000 }).click();
+    it('shows usage tab', function () {
+        cy.contains('Usage', { timeout: 10000 }).click();
         cy.contains('AI4EOSC Usage Over Time').should('be.visible');
 
         cy.contains('Running deployments').should('be.visible');

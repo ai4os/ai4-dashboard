@@ -37,6 +37,7 @@ yarn-error.log
 testem.log
 /typings
 build_and_push.sh
+/src/assets/config/config.json
 
 # System files
 .DS_Store

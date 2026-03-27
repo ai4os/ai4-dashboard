@@ -29,9 +29,7 @@ on:
       HF_CLIENT_SECRET:
         required: true
       WEBHOOK_SECRET:
-        required: false
-      WEBHOOK_PAYLOAD:
-        required: false
+        required: true
 
 jobs:
   build:
@@ -65,7 +63,7 @@ jobs:
       - name: Inject Hugging Face client secret
         run: |
           sed -i "s/huggingFaceClientSecret: ''/huggingFaceClientSecret: '${{ secrets.HF_CLIENT_SECRET }}'/" \
-            src/environments/environment.production.ts
+            src/environments/environment.prod.ts
 
       - name: Inject Keycloak secret
         run: |

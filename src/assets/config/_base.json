@@ -1,0 +1,23 @@
+{
+    "_comment": "This file is used as a base for all tenants. The values here will be overwritten by the tenant-specific config file during the build process.",
+    "sidenavMenu": [
+        { "name": "SIDENAV.STORAGE", "url": "https://share.cloud.ai4eosc.eu/" },
+        {
+            "name": "SIDENAV.EXPERIMENT-TRACKING",
+            "url": "https://mlflow.cloud.ai4eosc.eu"
+        },
+        {
+            "name": "SIDENAV.INFERENCE-WORKFLOWS",
+            "url": "https://forge.flows.dev.ai4eosc.eu/"
+        },
+        { "name": "SIDENAV.LLM-CHAT", "url": "https://chat.cloud.ai4eosc.eu/" }
+    ],
+    "analytics": {
+        "src": "https://stats.services.ai4os.eu/js/script.js"
+    },
+    "apiURL": "",
+    "issuer": "",
+    "clientId": "",
+    "dummyClientSecret": "",
+    "deployedInNomad": false
+}

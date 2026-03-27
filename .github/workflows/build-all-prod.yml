@@ -1,0 +1,35 @@
+name: Build all tenants — production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - tenant: ai4eosc
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4eosc-prod
+          - tenant: imagine
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-imagine-prod
+          - tenant: ai4life
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4life-prod
+          - tenant: kmd4eosc
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-kmd4eosc-prod
+          - tenant: tutorials
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-tutorials-prod
+    uses: ./.github/workflows/_build-reusable.yml
+    with:
+      tenant: ${{ matrix.tenant }}
+      environment: prod
+      webhook_url: ${{ matrix.webhook_url }}
+    secrets:
+      HARBOR_URL: ${{ secrets.HARBOR_URL }}
+      HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+      HARBOR_TOKEN: ${{ secrets.HARBOR_TOKEN }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
+      HF_CLIENT_SECRET: ${{ secrets.HF_CLIENT_SECRET }}
+      WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}

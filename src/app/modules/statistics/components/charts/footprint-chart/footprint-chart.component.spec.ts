@@ -8,9 +8,8 @@ describe('FootprintChartComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [FootprintChartComponent]
-        })
-            .compileComponents();
+            declarations: [FootprintChartComponent],
+        }).compileComponents();
 
         fixture = TestBed.createComponent(FootprintChartComponent);
         component = fixture.componentInstance;

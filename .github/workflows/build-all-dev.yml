@@ -1,26 +1,23 @@
-name: Build AI4EOSC Dashboard
+name: Build all tenants — development
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: 'Environment to build'
-        required: true
-        default: 'prod'
-        options:
-          - prod
-          - stage
-          - dev
-          - dev-1
 
 jobs:
   build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - tenant: ai4eosc
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-ai4eosc-dev
+          - tenant: imagine
+            webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-imagine-dev
     uses: ./.github/workflows/_build-reusable.yml
     with:
-      tenant: ai4eosc
-      environment: ${{ inputs.environment }}
-      webhook_url: https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-ai4eosc-${{ inputs.environment }}
+      tenant: ${{ matrix.tenant }}
+      environment: dev
+      webhook_url: ${{ matrix.webhook_url }}
     secrets:
       HARBOR_URL: ${{ secrets.HARBOR_URL }}
       HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}

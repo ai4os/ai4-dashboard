@@ -1,0 +1,44 @@
+# ---- Stage 1: Build ----
+    FROM node:20.5.1 AS builder
+    ARG TENANT=''
+    
+    WORKDIR /app
+    COPY . .
+
+    RUN apt-get update && apt-get install -y --no-install-recommends jq \
+    && rm -rf /var/lib/apt/lists/*
+
+    RUN npm ci
+    RUN npm run generate-version-file
+
+    # Merge base config + tenant config
+    RUN jq -s '.[0] * .[1]' \
+        src/assets/config/_base.json \
+        src/assets/config/${TENANT}.json \
+        > src/assets/config/config.json
+    
+    RUN npx ng build --configuration ${TENANT}-stage
+    
+    # ---- Stage 2: Serve ----
+    FROM nginx:alpine-perl
+
+    RUN apk add --no-cache jq bash
+    COPY --from=builder /app/dist/ai4-dashboard /usr/share/nginx/html
+    COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
+    
+    CMD ["sh", "-c", "\
+      CLEAN_API_SERVER=$(echo $API_SERVER | sed 's:/*$::') && \
+      NOMAD_STATUS=$(if [ -z \"$NOMAD_JOB_ID\" ]; then echo false; else echo true; fi) && \
+      jq --arg cleanApi \"$CLEAN_API_SERVER\" \
+        --arg deployedInNomad \"$NOMAD_STATUS\" \
+        --arg clientId \"$CLIENT_ID\" \
+        --arg issuer \"$ISSUER\" \
+        --arg dummyClientSecret \"$DUMMY_CLIENT_SECRET\" \
+        '.apiURL = $cleanApi | \
+          .deployedInNomad = ($deployedInNomad | test(\"true\")) | \
+          .clientId = ($clientId // .clientId) | \
+          .issuer = ($issuer // .issuer) | \
+          .dummyClientSecret = ($dummyClientSecret // .dummyClientSecret)' \
+        /usr/share/nginx/html/assets/config/config.json > /usr/share/nginx/html/assets/config/config.tmp && \
+      mv /usr/share/nginx/html/assets/config/config.tmp /usr/share/nginx/html/assets/config/config.json && \
+      nginx -g 'daemon off;'"]

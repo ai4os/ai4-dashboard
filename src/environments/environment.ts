@@ -1,9 +1,9 @@
 import { endpoints } from './endpoints';
 
 export const environment = {
-    name: 'prod',
+    name: 'dev',
     develop: true,
-    production: true,
+    production: false,
     api: {
         base: 'https://api.dev.ai4eosc.eu/v1',
         endpoints,

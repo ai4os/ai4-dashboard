@@ -1,26 +1,15 @@
-name: Build AI4EOSC Dashboard
+name: Build AI5EOSC Tutorials Dashboard
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: 'Environment to build'
-        required: true
-        default: 'prod'
-        options:
-          - prod
-          - stage
-          - dev
-          - dev-1
 
 jobs:
   build:
     uses: ./.github/workflows/_build-reusable.yml
     with:
-      tenant: ai4eosc
-      environment: ${{ inputs.environment }}
-      webhook_url: https://webhooks.cloud.ai4eosc.eu/hooks/deploy-dashboard-ai4eosc-${{ inputs.environment }}
+      tenant: tutorials
+      environment: prod
+      webhook_url: https://webhooks.cloud.ai4-dashboard/hooks/deploy-dashboard-tutorials-prod
     secrets:
       HARBOR_URL: ${{ secrets.HARBOR_URL }}
       HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
