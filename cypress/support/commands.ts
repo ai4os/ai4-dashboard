@@ -82,6 +82,7 @@ Cypress.Commands.add('addNextcloudStorageCredentials', () => {
     );
     cy.get('#saveRcloneCredentialsBtn').click();
     cy.contains('Re-link', { timeout: 20000 })
+        .should('exist')
         .scrollIntoView()
         .should('be.visible');
 });
@@ -93,6 +94,7 @@ Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
     cy.get('#deleteNextcloudStorageCredentialsBtn').click();
     cy.contains('Yes').click();
     cy.contains('Link', { timeout: 20000 })
+        .should('exist')
         .scrollIntoView()
         .should('be.visible');
 });
