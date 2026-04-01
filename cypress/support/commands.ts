@@ -81,7 +81,9 @@ Cypress.Commands.add('addNextcloudStorageCredentials', () => {
         'https://share.cloud.ai4eosc.eu'
     );
     cy.get('#saveRcloneCredentialsBtn').click();
-    cy.contains('Re-link', { timeout: 20000 }).should('be.visible');
+    cy.contains('Re-link', { timeout: 20000 })
+        .scrollIntoView()
+        .should('be.visible');
 });
 
 Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
@@ -90,7 +92,9 @@ Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
     cy.contains('Profile').click();
     cy.get('#deleteNextcloudStorageCredentialsBtn').click();
     cy.contains('Yes').click();
-    cy.contains('Link', { timeout: 20000 }).should('be.visible');
+    cy.contains('Link', { timeout: 20000 })
+        .scrollIntoView()
+        .should('be.visible');
 });
 
 Cypress.Commands.add('closeAccessLevelPopup', () => {
