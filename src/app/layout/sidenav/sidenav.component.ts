@@ -44,7 +44,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     @ViewChild('sidenav', { static: true }) public sidenav!: MatSidenav;
 
     public isAuthorized = false;
-    public isDemo = false;
+    public isAuthenticated = false;
+    public isProjectMember = false;
     protected environment = environment;
     protected gitInfo = gitInfo;
     protected userProfile?: UserProfile;
@@ -85,26 +86,26 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             name: 'SIDENAV.TRY-ME',
             url: '/tasks/try-me',
             isRestricted: true,
-            isDisabled: !this.isDemo,
+            isDisabled: !this.isAuthorized,
             tooltip: 'ERRORS.NO-DEMO-ROLE',
         },
         {
             name: 'SIDENAV.DEPLOYMENTS',
             url: '/tasks/deployments',
             isRestricted: true,
-            isDisabled: !this.isAuthorized,
+            isDisabled: !this.isProjectMember,
         },
         {
             name: 'SIDENAV.BATCH',
             url: '/tasks/batch',
             isRestricted: true,
-            isDisabled: !this.isAuthorized,
+            isDisabled: !this.isProjectMember,
         },
         {
             name: 'SIDENAV.INFERENCE',
             url: '/tasks/inference',
             isRestricted: true,
-            isDisabled: !this.isAuthorized,
+            isDisabled: !this.isProjectMember,
         },
     ];
 
@@ -137,7 +138,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         if (currentProfile) {
             this.userProfile = currentProfile;
             this.isAuthorized = currentProfile.isAuthorized;
-            this.isDemo = currentProfile.isDemo;
+            this.isAuthenticated = currentProfile.isAuthenticated;
+            this.isProjectMember = currentProfile.isProjectMember;
             this.updateMainLinks();
         }
 
@@ -146,7 +148,8 @@ export class SidenavComponent implements OnInit, AfterViewInit {
             if (profile) {
                 this.userProfile = profile;
                 this.isAuthorized = profile.isAuthorized;
-                this.isDemo = profile.isDemo;
+                this.isAuthenticated = profile.isAuthenticated;
+                this.isProjectMember = profile.isProjectMember;
                 this.updateMainLinks();
                 this.changeDetectorRef.detectChanges();
             }
@@ -167,20 +170,15 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         this.runtimeLinks.map((link) => {
             if (link.isRestricted) {
                 if (link.name === 'SIDENAV.TRY-ME') {
-                    link.isDisabled = !this.isLoggedIn();
-                } else {
                     link.isDisabled = !this.isAuthorized;
+                } else {
+                    link.isDisabled = !this.isProjectMember;
                 }
             }
         });
 
         if (this.dashboardLink.isRestricted) {
             this.dashboardLink.isDisabled = !this.isAuthorized;
-        }
-
-        // Try me section
-        if (this.runtimeLinks[0].isRestricted) {
-            this.runtimeLinks[0].isDisabled = !this.isDemo;
         }
     }
 

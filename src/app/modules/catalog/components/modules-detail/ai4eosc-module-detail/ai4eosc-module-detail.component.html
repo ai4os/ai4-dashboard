@@ -39,7 +39,7 @@
         >
             <div
                 class="tooltip-container"
-                [matTooltipDisabled]="isDemo()"
+                [matTooltipDisabled]="isAuthorized()"
                 matTooltip=" {{
                     'CATALOG.MODULE-DETAIL.TRY.LOGOUT' | translate
                 }}"
@@ -49,7 +49,7 @@
                     mat-raised-button
                     color="accent"
                     [matMenuTriggerFor]="tryMenu"
-                    [disabled]="!isDemo()"
+                    [disabled]="!isAuthorized()"
                 >
                     {{ 'CATALOG.MODULE-DETAIL.TRY.TITLE' | translate }}
 
@@ -122,12 +122,12 @@
                         mat-menu-item
                         (click)="trainModulePlatform('oscar')"
                         [disabled]="
-                            !isAuthorized() ||
+                            !isProjectMember() ||
                             module.links.docker_image === undefined
                         "
                         matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                         [matTooltipPosition]="'left'"
-                        [matTooltipDisabled]="isAuthorized()"
+                        [matTooltipDisabled]="isProjectMember()"
                     >
                         <span class="button-with-icon">
                             <img
@@ -153,10 +153,10 @@
                         mat-menu-item
                         class="action-button sub-button"
                         (click)="trainModulePlatform('nomad')"
-                        [disabled]="!isAuthorized()"
+                        [disabled]="!isProjectMember()"
                         matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                         [matTooltipPosition]="'left'"
-                        [matTooltipDisabled]="isAuthorized()"
+                        [matTooltipDisabled]="isProjectMember()"
                     >
                         <span class="button-with-icon">
                             <img
@@ -238,7 +238,7 @@
 
                 <div
                     class="tooltip-container"
-                    [matTooltipDisabled]="isAuthorized()"
+                    [matTooltipDisabled]="isProjectMember()"
                     matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
                 >
                     <a
@@ -246,7 +246,7 @@
                         mat-raised-button
                         color="accent"
                         [matMenuTriggerFor]="codespacesMenu"
-                        [disabled]="!isAuthorized()"
+                        [disabled]="!isProjectMember()"
                     >
                         {{
                             'CATALOG.MODULE-DETAIL.CODESPACES.TITLE' | translate
@@ -297,18 +297,24 @@
                     </button>
                 </mat-menu>
 
-                <button
-                    class="action-button"
-                    mat-raised-button
-                    color="accent"
-                    (click)="deployBatch()"
-                    [disabled]="!isAuthorized()"
+                <div
+                    class="tooltip-container"
+                    [matTooltipDisabled]="isProjectMember()"
                     matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
-                    [matTooltipPosition]="'left'"
-                    [matTooltipDisabled]="isAuthorized()"
                 >
-                    {{ 'CATALOG.MODULE-DETAIL.BATCH.TITLE' | translate }}
-                </button>
+                    <button
+                        class="action-button"
+                        mat-raised-button
+                        color="accent"
+                        (click)="deployBatch()"
+                        [disabled]="!isProjectMember()"
+                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                        [matTooltipPosition]="'left'"
+                        [matTooltipDisabled]="isProjectMember()"
+                    >
+                        {{ 'CATALOG.MODULE-DETAIL.BATCH.TITLE' | translate }}
+                    </button>
+                </div>
             </ng-container>
         </div>
 
@@ -321,7 +327,7 @@
         >
             <div
                 class="tooltip-container"
-                [matTooltipDisabled]="isAuthorized()"
+                [matTooltipDisabled]="isProjectMember()"
                 matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
             >
                 @if (module.id === 'ai4os-dev-env') {
@@ -330,7 +336,7 @@
                         mat-raised-button
                         color="accent"
                         [matMenuTriggerFor]="deployMenu"
-                        [disabled]="!isAuthorized()"
+                        [disabled]="!isProjectMember()"
                     >
                         {{ 'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
 
@@ -384,7 +390,7 @@
                         color="accent"
                         routerLink="deploy"
                         id="deploy-tool-button"
-                        [disabled]="!isAuthorized()"
+                        [disabled]="!isProjectMember()"
                     >
                         {{ 'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate }}
                     </a>
