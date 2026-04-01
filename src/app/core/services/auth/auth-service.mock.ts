@@ -50,8 +50,9 @@ export const mockedParsedUserProfile = new BehaviorSubject<UserProfile>({
         '/Platform Access/vo.imagine-ai.eu',
     ],
     isAuthorized: true,
+    isAuthenticated: true,
+    isProjectMember: true,
     isDeveloper: true,
-    isDemo: true,
     sub: '123456789-1234-1234-1234-123456789012',
 });
 

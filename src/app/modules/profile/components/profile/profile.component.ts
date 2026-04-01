@@ -97,6 +97,7 @@ export class ProfileComponent implements OnInit {
     name = '';
     email = '';
     isAuthorized = false;
+    isProjectMember = false;
 
     protected vos: VoInfo[] = [];
     protected ai4osEndpoint = 'share.cloud.ai4eosc.eu';
@@ -146,6 +147,7 @@ export class ProfileComponent implements OnInit {
                     this.email = profile.email;
                     this.sub = profile.sub;
                     this.isAuthorized = profile.isAuthorized;
+                    this.isProjectMember = profile.isProjectMember;
 
                     if (profile.roles) {
                         this.getVoInfo(profile.roles);

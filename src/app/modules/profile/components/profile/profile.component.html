@@ -73,6 +73,10 @@
     </div>
 
     @if (isAuthorized) {
+        <app-api-keys [vos]="vos"></app-api-keys>
+    }
+
+    @if (isProjectMember) {
         <mat-card appearance="outlined" class="card">
             <mat-card-header class="mb-3">
                 <mat-card-title>{{
@@ -428,8 +432,6 @@
                 </mat-expansion-panel>
             </mat-card-content>
         </mat-card>
-
-        <app-api-keys [vos]="vos"></app-api-keys>
 
         <app-ai4eosc-services></app-ai4eosc-services>
 

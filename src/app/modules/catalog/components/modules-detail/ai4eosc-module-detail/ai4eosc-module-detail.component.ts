@@ -109,12 +109,16 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
         return this.authService.isAuthenticated();
     }
 
+    isAuthenticated() {
+        return this.userProfile?.isAuthenticated;
+    }
+
     isAuthorized() {
         return this.userProfile?.isAuthorized;
     }
 
-    isDemo() {
-        return this.userProfile?.isDemo;
+    isProjectMember() {
+        return this.userProfile?.isProjectMember;
     }
 
     convertTypeToIcon(dataType: string): string {

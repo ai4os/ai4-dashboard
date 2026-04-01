@@ -12,9 +12,10 @@ export interface UserProfile {
     email: string;
     sub: string;
     roles: string[];
-    isAuthorized: boolean;
-    isDemo: boolean;
-    isDeveloper: boolean;
+    isAuthenticated: boolean; // ap-0
+    isAuthorized: boolean; // ap-a, ap-a1, ap-b
+    isProjectMember: boolean; // ap-u
+    isDeveloper: boolean; // ap-d
 }
 
 @Injectable({ providedIn: 'root' })
@@ -216,9 +217,10 @@ export class AuthService {
         const userProfile: UserProfile = {
             name: parsedToken.name,
             sub: parsedToken.sub,
+            isAuthenticated: false,
             isAuthorized: false,
+            isProjectMember: false,
             isDeveloper: false,
-            isDemo: false,
             email: parsedToken.email,
             roles: parsedToken.realm_access.roles,
         };
@@ -227,19 +229,33 @@ export class AuthService {
             userProfile.roles.forEach((role) => {
                 if (
                     role ===
-                    'access:' + this.appConfigService.voName + ':ap-u'
-                ) {
-                    userProfile.isAuthorized = true;
-                } else if (
-                    role ===
                     'access:' + this.appConfigService.voName + ':ap-d'
                 ) {
+                    userProfile.isAuthenticated = true;
+                    userProfile.isAuthorized = true;
+                    userProfile.isProjectMember = true;
                     userProfile.isDeveloper = true;
                 } else if (
                     role ===
-                    'access:' + this.appConfigService.voName + ':ap-a'
+                    'access:' + this.appConfigService.voName + ':ap-u'
                 ) {
-                    userProfile.isDemo = true;
+                    userProfile.isAuthenticated = true;
+                    userProfile.isAuthorized = true;
+                    userProfile.isProjectMember = true;
+                } else if (
+                    role ===
+                        'access:' + this.appConfigService.voName + ':ap-a' ||
+                    role ===
+                        'access:' + this.appConfigService.voName + ':ap-a1' ||
+                    role === 'access:' + this.appConfigService.voName + ':ap-b'
+                ) {
+                    userProfile.isAuthenticated = true;
+                    userProfile.isAuthorized = true;
+                } else if (
+                    role ===
+                    'access:' + this.appConfigService.voName + ':ap-0'
+                ) {
+                    userProfile.isAuthenticated = true;
                 }
             });
         }
