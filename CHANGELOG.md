@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.22.0](https://github.com/ai4os/ai4-dashboard/compare/v3.21.1...v3.22.0) (2026-04-01)
+
+
+### Features
+
+* enable secrets and api keys to ap-a users and refactor roles ([#486](https://github.com/ai4os/ai4-dashboard/issues/486)) ([c8e07c5](https://github.com/ai4os/ai4-dashboard/commit/c8e07c5f59c8716cca158e8e87f4ec7708758106))
+
 ## [3.21.0](https://github.com/ai4os/ai4-dashboard/compare/v3.20.0...v3.21.0) (2026-03-27)
 
 
