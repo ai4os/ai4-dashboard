@@ -153,7 +153,7 @@ export class ProfileComponent implements OnInit {
                         this.getVoInfo(profile.roles);
                     }
 
-                    if (this.isAuthorized) {
+                    if (this.isProjectMember) {
                         this.getExistingRcloneCredentials();
                         this.getHFCredentials();
                     }
