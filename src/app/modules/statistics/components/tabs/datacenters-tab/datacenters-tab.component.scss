@@ -44,7 +44,7 @@
 
 .drawer {
     padding: 12px;
-    width: 370px;
+    width: min-content;
     height: fit-content;
     align-self: flex-start;
     margin: 0.5em;
@@ -54,6 +54,12 @@
     box-shadow:
         rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
         rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+
+    ::ng-deep .mat-drawer-inner-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
 }
 
 .drawer-header {
@@ -120,9 +126,15 @@
     }
 }
 
-.env-grid {
+.metrics-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.env-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 6px;
 }
 

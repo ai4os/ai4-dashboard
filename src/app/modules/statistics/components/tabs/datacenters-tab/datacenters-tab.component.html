@@ -54,7 +54,7 @@
         </div>
 
         <!-- Env metrics grid -->
-        <div class="env-grid">
+        <div class="metrics-grid">
             <app-stats-reduced-card
                 [label]="'DASHBOARD.STATS-TITLES.PUE' | translate"
                 icon="bolt"
@@ -67,9 +67,19 @@
                 [value]="jobsNum"
                 unit="running"
             />
+        </div>
+
+        <div class="env-grid">
+            <app-stats-reduced-card
+                [label]="'DASHBOARD.STATS-TITLES.GREEN-SCORE' | translate"
+                icon="eco"
+                [value]="selectedDatacenter?.green_score ?? '—'"
+                [tooltip]="'DASHBOARD.GREEN-SCORE-INFO' | translate"
+            />
+
             <app-stats-reduced-card
                 [label]="'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate"
-                icon="eco"
+                icon="factory"
                 [value]="selectedDatacenter?.energy_quality ?? '—'"
                 unit="g CO₂/kWh"
                 [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"

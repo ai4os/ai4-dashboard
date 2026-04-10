@@ -1,39 +1,41 @@
 .bar-chart {
-    background: var(--mat-sys-surface);
-    border: 0.5px solid var(--mat-sys-outline-variant);
-    border-radius: var(--border-radius-lg, 12px);
+    background: var(--mat-sys-surface-container);
+    border: 1px solid var(--mat-sys-outline-variant, #e4e4e7);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-direction: column;
     height: 100%;
 
     &__header {
         display: flex;
-        justify-content: center;
-        gap: 6px;
-        padding: 12px 16px;
-        border-bottom: 0.5px solid var(--mat-sys-outline-variant);
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        padding: 16px 16px 8px 16px;
     }
 
     &__title {
-        font-size: var(--font-xl);
-        font-weight: 500;
-        color: var(--mat-sys-on-surface);
-        letter-spacing: 0.01em;
+        font-size: var(--font-xs);
+        font-weight: var(---raleway-medium);
+        color: var(--mat-sys-on-surface-variant);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
     }
 
     &__help {
-        font-size: 24px;
-        width: 24px;
-        height: 24px;
+        font-size: var(--font-lg);
+        width: 18px;
+        height: 18px;
     }
 
     &__body {
-        padding: 12px 16px;
+        padding: 0 16px 16px 16px;
         flex: 1;
 
         #chart {
             width: 100%;
-            height: 220px;
+            height: 280px;
         }
     }
 }

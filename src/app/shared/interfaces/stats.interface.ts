@@ -50,9 +50,11 @@ export interface DatacenterStats {
     country: string;
     energy_quality: number;
     energy_water_usage: number;
+    green_score: number;
     footprints: {
         carbon: any[];
         water: any[];
+        'green-score': any[];
     };
     nodes: NodeStats[];
 }

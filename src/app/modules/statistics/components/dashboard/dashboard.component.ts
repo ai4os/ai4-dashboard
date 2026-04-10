@@ -265,6 +265,11 @@ export class DashboardComponent implements OnInit {
                                 'water'
                             ];
 
+                        const greenScoreArray =
+                            statsResponse['datacenters'][dc]['footprints'][
+                                'green-score'
+                            ];
+
                         const datacenter: DatacenterStats = {
                             name: dc,
                             lat: statsResponse['datacenters'][dc]['lat'],
@@ -279,6 +284,11 @@ export class DashboardComponent implements OnInit {
                                 ? waterArray[waterArray.length - 1][1].toFixed(
                                     2
                                 )
+                                : null,
+                            green_score: greenScoreArray.length
+                                ? greenScoreArray[
+                                    greenScoreArray.length - 1
+                                ][1].toFixed(2)
                                 : null,
                             nodes: statsResponse['datacenters'][dc]['nodes'],
                             affinity:
