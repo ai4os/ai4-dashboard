@@ -1,4 +1,4 @@
-name: Build AI5EOSC Tutorials Dashboard
+name: Build AI4EOSC Tutorials Dashboard
 
 on:
   workflow_dispatch:
