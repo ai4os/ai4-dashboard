@@ -102,7 +102,7 @@
         "CLUSTER-INFO": "Total cluster usage",
         "USERS-INFO": "These graphs represent your historical aggregate usage compared to the total aggregate usage of your VO. Units: <resource> / day",
         "PUE-INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)",
-        "GREEN-SCORE-INFO": "Overall environmental performance score that takes into account the datacenter's carbon and water footprint (the higher the better)",
+        "GREEN-SCORE-INFO": "Overall environmental performance score that takes into account the datacenter's carbon and water impact (the higher the better)",
         "ENERGY-INFO": "How carbon-intensive (in g CO2/kWh) is the grid the data center is plugged to (the lower the better). This metric corresponds to Scope 2 of the Greenhouse Gas (GHG) Protocol",
         "ENERGY-WATER-INFO": "Water usage (in liters per kWh) of the datacenter's energy source (the lower the better)",
         "WATTNET-INFO": "Energy quality and water usage data are provided by ",
