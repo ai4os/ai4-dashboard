@@ -160,9 +160,11 @@ export const mockedClusterStats: ClusterStats = {
             affinity: 0,
             country: '',
             energy_water_usage: 0,
+            green_score: 0,
             footprints: {
                 carbon: [],
                 water: [],
+                'green-score': [],
             },
         },
     ],

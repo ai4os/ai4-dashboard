@@ -1,15 +1,17 @@
 .env-card {
-    background: var(--mat-sys-surface-container);
+    background-color: var(--light-gray);
     border-radius: 8px;
     padding: 10px 12px;
     display: flex;
     flex-direction: column;
+    height: -webkit-fill-available;
 
     &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 4px;
+        gap: 10px;
     }
 
     &__label {

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-export type MapMetric = 'pue' | 'jobs' | 'co2' | 'water';
+export type MapMetric = 'pue' | 'jobs' | 'co2' | 'water' | 'green-score';
 
 export interface MetricOption {
     key: MapMetric;
@@ -20,8 +20,9 @@ export class MapMetricSelectorComponent {
     readonly metrics: MetricOption[] = [
         { key: 'pue', label: 'PUE', icon: 'bolt' },
         { key: 'jobs', label: 'Jobs', icon: 'task' },
-        { key: 'co2', label: 'CO₂', icon: 'eco' },
+        { key: 'co2', label: 'CO₂', icon: 'factory' },
         { key: 'water', label: 'Water', icon: 'water_drop' },
+        { key: 'green-score', label: 'Green Score', icon: 'eco' },
     ];
 
     select(key: MapMetric): void {

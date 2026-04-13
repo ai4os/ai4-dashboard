@@ -8,7 +8,17 @@
     ></app-bar-chart>
 
     <app-footprint-chart
+        [title]="'DASHBOARD.FOOTPRINT.GREEN-SCORE' | translate"
+        [tooltip]="'DASHBOARD.GREEN-SCORE-INFO' | translate"
+        [unit]="'gCO₂e/kWh'"
+        [legend]="datacenterNames"
+        [timestamps]="greenScoreTimestamps"
+        [values]="greenScoreValues"
+    ></app-footprint-chart>
+
+    <app-footprint-chart
         [title]="'DASHBOARD.FOOTPRINT.CARBON' | translate"
+        [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"
         [unit]="'gCO₂e/kWh'"
         [legend]="datacenterNames"
         [timestamps]="carbonTimestamps"
@@ -17,6 +27,7 @@
 
     <app-footprint-chart
         [title]="'DASHBOARD.FOOTPRINT.WATER' | translate"
+        [tooltip]="'DASHBOARD.ENERGY-WATER-INFO' | translate"
         [unit]="'l/kWh'"
         [legend]="datacenterNames"
         [timestamps]="waterTimestamps"

@@ -19,6 +19,9 @@ export class FootprintTabComponent implements OnInit {
     protected waterTimestamps: string[] = [];
     protected waterValues: number[][] = [];
 
+    protected greenScoreTimestamps: string[] = [];
+    protected greenScoreValues: number[][] = [];
+
     ngOnInit(): void {
         this.datacenterNames = this.datacentersStats.map((dc) => dc.name);
         this.datacenterCountries = this.datacentersStats.map(
@@ -58,6 +61,23 @@ export class FootprintTabComponent implements OnInit {
 
         this.waterValues = this.datacentersStats.map((dc) =>
             dc.footprints.water.map((f) => f[1])
+        );
+
+        this.greenScoreTimestamps =
+            this.datacentersStats[0]?.footprints['green-score'].map((f) => {
+                const date = new Date(f[0]);
+                return date.toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                    timeZone: 'UTC',
+                });
+            }) || [];
+
+        this.greenScoreValues = this.datacentersStats.map((dc) =>
+            dc.footprints['green-score'].map((f) => f[1])
         );
     }
 }
