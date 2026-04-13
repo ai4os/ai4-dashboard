@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.23.0](https://github.com/ai4os/ai4-dashboard/compare/v3.22.0...v3.23.0) (2026-04-13)
+
+
+### Features
+
+* add green score ([#491](https://github.com/ai4os/ai4-dashboard/issues/491)) ([3c477f6](https://github.com/ai4os/ai4-dashboard/commit/3c477f6e5361491cc96fb96ee5f41fcc0fd2de16))
+
+
+### Bug Fixes
+
+* limit fetch of profile secrets to project members ([#490](https://github.com/ai4os/ai4-dashboard/issues/490)) ([e800fb1](https://github.com/ai4os/ai4-dashboard/commit/e800fb1a31fb7a703c97ff47ab12cb921b93c512))
+
 ## [3.22.0](https://github.com/ai4os/ai4-dashboard/compare/v3.21.1...v3.22.0) (2026-04-01)
 
 
