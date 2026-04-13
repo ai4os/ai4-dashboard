@@ -33,10 +33,9 @@
 
         &--active {
             background: var(--mat-sys-surface-container);
-            color: var(--mat-sys-on-surface);
+            color: var(--primary);
             border: 0.5px solid var(--mat-sys-outline-variant);
             font-weight: var(--raleway-bold);
-            color: var(--primary);
         }
     }
 
