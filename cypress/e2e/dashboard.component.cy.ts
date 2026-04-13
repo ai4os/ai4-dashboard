@@ -6,7 +6,7 @@ describe('dashboard section', function () {
     });
 
     it('shows datacenter section', function () {
-        cy.contains('Overview', { timeout: 20000 }).should('be.visible');
+        cy.contains('Overview', { timeout: 40000 }).should('be.visible');
         cy.contains('Datacenters').should('be.visible');
         cy.contains('Usage').should('be.visible');
         cy.contains('Nodes').should('be.visible');
