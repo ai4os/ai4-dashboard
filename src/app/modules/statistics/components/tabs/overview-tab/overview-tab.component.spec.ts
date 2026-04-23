@@ -11,6 +11,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedDeploymentService } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
+import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
 
 describe('OverviewTabComponent', () => {
     let component: OverviewTabComponent;
@@ -24,9 +27,14 @@ describe('OverviewTabComponent', () => {
                 provideHttpClient(),
                 provideHttpClientTesting(),
                 { provide: AppConfigService, useValue: mockedConfigService },
+                { provide: OAuthService, useValue: mockedAuthService },
                 {
                     provide: DeploymentsService,
                     useValue: mockedDeploymentService,
+                },
+                {
+                    provide: OAuthModuleConfig,
+                    useValue: mockedOAuthModuleConfig,
                 },
             ],
             schemas: [NO_ERRORS_SCHEMA],
