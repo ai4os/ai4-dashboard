@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '@app/core/services/auth/auth.service';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { GlobalStats, GpuStats } from '@app/shared/interfaces/stats.interface';
@@ -10,7 +11,10 @@ import { forkJoin } from 'rxjs';
     styleUrls: ['./overview-tab.component.scss'],
 })
 export class OverviewTabComponent implements OnInit {
-    constructor(private deploymentsService: DeploymentsService) {}
+    constructor(
+        private readonly deploymentsService: DeploymentsService,
+        private readonly authService: AuthService
+    ) {}
 
     @Input() clusterGlobalStats!: GlobalStats;
     @Input() gpuPerModelCluster!: GpuStats[];
@@ -28,7 +32,9 @@ export class OverviewTabComponent implements OnInit {
     usedGpuNum = 0;
 
     ngOnInit(): void {
-        this.getJobsList();
+        if (this.isLoggedIn()) {
+            this.getJobsList();
+        }
     }
 
     getJobsList() {
@@ -72,5 +78,9 @@ export class OverviewTabComponent implements OnInit {
             this.diskUnit = 'GiB';
             this.usedDisk = this.usedDisk / Math.pow(2, 10);
         }
+    }
+
+    isLoggedIn(): boolean {
+        return this.authService.isAuthenticated();
     }
 }
