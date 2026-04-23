@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.24.0](https://github.com/ai4os/ai4-dashboard/compare/v3.23.0...v3.24.0) (2026-04-23)
+
+
+### Features
+
+* show statistics to unlogged users ([#494](https://github.com/ai4os/ai4-dashboard/issues/494)) ([d459c88](https://github.com/ai4os/ai4-dashboard/commit/d459c8872645001e78bdcd31e943b6d6bbea18ce))
+
 ## [3.23.0](https://github.com/ai4os/ai4-dashboard/compare/v3.22.0...v3.23.0) (2026-04-13)
 
 
