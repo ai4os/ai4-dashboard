@@ -62,8 +62,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     dashboardLink: ProjectLink = {
         name: 'SIDENAV.STATS',
         url: '/statistics',
-        isRestricted: true,
-        isDisabled: !this.isAuthorized,
     };
 
     catalogLinks: ProjectLink[] = [
@@ -176,10 +174,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
                 }
             }
         });
-
-        if (this.dashboardLink.isRestricted) {
-            this.dashboardLink.isDisabled = !this.isAuthorized;
-        }
     }
 
     ngAfterViewInit(): void {

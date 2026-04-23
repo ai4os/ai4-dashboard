@@ -31,38 +31,34 @@
 
             <nav id="sidebarMenu">
                 <mat-nav-list>
-                    @if (isLoggedIn()) {
-                        <h4 class="sidenav-title">
-                            {{ 'SIDENAV.DASHBOARD' | translate }}
-                            <mat-icon>dashboard</mat-icon>
-                        </h4>
-                        <mat-list-item
-                            class="sidenav-item"
-                            matTooltip=" {{
-                                'ERRORS.UNAUTHORIZED' | translate
-                            }}"
-                            [matTooltipPosition]="'right'"
-                            [matTooltipDisabled]="!dashboardLink.isDisabled"
-                            [disabled]="dashboardLink.isDisabled"
+                    <h4 class="sidenav-title">
+                        {{ 'SIDENAV.DASHBOARD' | translate }}
+                        <mat-icon>dashboard</mat-icon>
+                    </h4>
+                    <mat-list-item
+                        class="sidenav-item"
+                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
+                        [matTooltipPosition]="'right'"
+                        [matTooltipDisabled]="!dashboardLink.isDisabled"
+                        [disabled]="dashboardLink.isDisabled"
+                    >
+                        <a
+                            mat-list-item
+                            class="sidenav-link"
+                            routerLinkActive="active"
+                            [routerLink]="
+                                !dashboardLink.isDisabled
+                                    ? dashboardLink.url
+                                    : null
+                            "
+                            [routerLinkActiveOptions]="
+                                dashboardLink.url === '/'
+                                    ? { exact: true }
+                                    : { exact: false }
+                            "
+                            >{{ dashboardLink.name | translate }}</a
                         >
-                            <a
-                                mat-list-item
-                                class="sidenav-link"
-                                routerLinkActive="active"
-                                [routerLink]="
-                                    !dashboardLink.isDisabled
-                                        ? dashboardLink.url
-                                        : null
-                                "
-                                [routerLinkActiveOptions]="
-                                    dashboardLink.url === '/'
-                                        ? { exact: true }
-                                        : { exact: false }
-                                "
-                                >{{ dashboardLink.name | translate }}</a
-                            >
-                        </mat-list-item>
-                    }
+                    </mat-list-item>
 
                     <h4 class="sidenav-title">
                         {{ 'SIDENAV.CATALOG' | translate }}

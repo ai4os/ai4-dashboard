@@ -16,12 +16,7 @@
     </div>
 </ng-template>
 
-<ng-container
-    *ngIf="
-        !userStatsLoading && !clusterStatsLoading && userProfile !== undefined;
-        else loading
-    "
->
+<ng-container *ngIf="!clusterStatsLoading; else loading">
     <mat-tab-group
         *ngIf="clusterDataAvailable; else noData"
         mat-stretch-tabs="false"
@@ -54,46 +49,32 @@
             </ng-template>
         </mat-tab>
 
-        <mat-tab
-            *ngIf="userDataAvailable"
-            label="{{ 'DASHBOARD.USAGE-TAB' | translate }}"
-        >
-            <app-usage-tab
-                [userProfile]="userProfile"
-                [dates]="dates"
-                [cpuMhzData]="cpuMhzData"
-                [cpuNumData]="cpuNumData"
-                [memoryMBData]="memoryMBData"
-                [diskMBData]="diskMBData"
-                [gpuNumData]="gpuNumData"
-                [queuedData]="queuedData"
-                [runningData]="runningData"
-                [userGlobalStats]="userGlobalStats"
-            ></app-usage-tab>
-        </mat-tab>
+        @if (isLoggedIn() && !userStatsLoading && userProfile !== undefined) {
+            <mat-tab label="{{ 'DASHBOARD.USAGE-TAB' | translate }}">
+                <app-usage-tab
+                    [userProfile]="userProfile"
+                    [dates]="dates"
+                    [cpuMhzData]="cpuMhzData"
+                    [cpuNumData]="cpuNumData"
+                    [memoryMBData]="memoryMBData"
+                    [diskMBData]="diskMBData"
+                    [gpuNumData]="gpuNumData"
+                    [queuedData]="queuedData"
+                    [runningData]="runningData"
+                    [userGlobalStats]="userGlobalStats"
+                ></app-usage-tab>
+            </mat-tab>
 
-        <mat-tab *ngIf="!userDataAvailable" [disabled]="true">
-            <ng-template matTabLabel>
-                <span
-                    matTooltip="{{
-                        'DASHBOARD.USAGE-TAB-DISABLED' | translate
-                    }}"
-                    matTooltipPosition="above"
-                >
-                    {{ 'DASHBOARD.USAGE-TAB' | translate }}
-                </span>
-            </ng-template>
-        </mat-tab>
-
-        <mat-tab
-            *ngIf="userProfile.isDeveloper"
-            label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
-        >
-            <app-nodes-tab
-                [nodesCpu]="nodesCpu"
-                [nodesGpu]="nodesGpu"
-            ></app-nodes-tab>
-        </mat-tab>
+            <mat-tab
+                *ngIf="userProfile.isDeveloper"
+                label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
+            >
+                <app-nodes-tab
+                    [nodesCpu]="nodesCpu"
+                    [nodesGpu]="nodesGpu"
+                ></app-nodes-tab>
+            </mat-tab>
+        }
     </mat-tab-group>
 
     <ng-template #noData>
