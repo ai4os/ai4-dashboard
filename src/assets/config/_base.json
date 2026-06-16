@@ -13,7 +13,7 @@
         { "name": "SIDENAV.LLM-CHAT", "url": "https://chat.cloud.ai4eosc.eu/" }
     ],
     "analytics": {
-        "src": "https://stats.services.ai4os.eu/js/script.js"
+        "src": "https://stats.cloud.ai4eosc.eu/js/script.js"
     },
     "apiURL": "",
     "issuer": "",
