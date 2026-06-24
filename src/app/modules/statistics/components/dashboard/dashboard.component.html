@@ -64,16 +64,6 @@
                     [userGlobalStats]="userGlobalStats"
                 ></app-usage-tab>
             </mat-tab>
-
-            <mat-tab
-                *ngIf="userProfile.isDeveloper"
-                label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
-            >
-                <app-nodes-tab
-                    [nodesCpu]="nodesCpu"
-                    [nodesGpu]="nodesGpu"
-                ></app-nodes-tab>
-            </mat-tab>
         }
     </mat-tab-group>
 
