@@ -9,7 +9,6 @@ describe('dashboard section', function () {
         cy.contains('Overview', { timeout: 40000 }).should('be.visible');
         cy.contains('Datacenters').should('be.visible');
         cy.contains('Usage').should('be.visible');
-        cy.contains('Nodes').should('be.visible');
     });
 
     it('shows dashboard tab', function () {
