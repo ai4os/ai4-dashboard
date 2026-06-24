@@ -43,5 +43,7 @@ build_and_push.sh
 .DS_Store
 Thumbs.db
 
-# Mocks
+# Tests
 /src/assets/mocks/
+cypress/screenshots/*
+cypress/videos/*

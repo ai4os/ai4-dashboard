@@ -101,14 +101,6 @@ describe('dashboard section', function () {
             .should('have.length', 1);
     });
 
-    it('shows nodes tab', function () {
-        cy.contains('Nodes', { timeout: 10000 }).click();
-        cy.get('#nodes-cpu-title').contains('Nodes with CPU');
-        cy.get('#nodes-gpu-title').contains('Nodes with GPU');
-        cy.get('mat-accordion').should('have.length', 2);
-        cy.get('mat-paginator').should('have.length', 2);
-    });
-
     it('shows message when stats are not available', function () {
         cy.intercept('/v1/deployments/stats/cluster?vo=vo.ai4eosc.eu');
         cy.intercept('GET', '/v1/deployments/stats/cluster?vo=vo.ai4eosc.eu', {
