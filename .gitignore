@@ -45,3 +45,5 @@ Thumbs.db
 
 # Mocks
 /src/assets/mocks/
+cypress/screenshots/*
+cypress/videos/*

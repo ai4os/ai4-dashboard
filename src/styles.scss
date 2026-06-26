@@ -1,7 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use 'src/theme/partials/spaces';
-
 html,
 body {
     height: 100%;
@@ -79,6 +77,21 @@ body {
 }
 
 /************* Material Angular *************/
+mat-icon,
+.mat-icon,
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded', sans-serif !important;
+
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' -25,
+        'opsz' 24;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .mat-icon-filled {
     font-variation-settings:
         'FILL' 1,

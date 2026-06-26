@@ -18,6 +18,7 @@ import { SingleFileUploadComponent } from './components/single-file-upload/singl
 import { MultipleActionsDialogComponent } from './components/multiple-actions-dialog/multiple-actions-dialog.component';
 import { TextEditorComponent } from './components/text-editor/text-editor.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { UiModule } from './components/ui/ui.module';
 
 @NgModule({
     declarations: [
@@ -54,6 +55,7 @@ import { PopupComponent } from './components/popup/popup.component';
         SingleFileUploadComponent,
         MultipleActionsDialogComponent,
         TextEditorComponent,
+        UiModule,
     ],
 })
 export class SharedModule {}

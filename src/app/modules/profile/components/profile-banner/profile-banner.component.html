@@ -1,0 +1,20 @@
+<section class="profile-banner">
+    <div class="profile-banner__content">
+        <p class="profile-banner__eyebrow">{{ eyebrow }}</p>
+        <h1 class="profile-banner__title">{{ fullName }}</h1>
+        <p class="profile-banner__email">{{ email }}</p>
+    </div>
+
+    <div class="profile-banner__user-id">
+        <span class="profile-banner__user-id-label">{{
+            'PROFILE.OVERVIEW-TAB.USER-ID' | translate
+        }}</span>
+        <span class="profile-banner__user-id-value">{{ userId }}</span>
+    </div>
+
+    <div class="profile-banner__circles" aria-hidden="true">
+        <span class="profile-banner__circle profile-banner__circle--lg"></span>
+        <span class="profile-banner__circle profile-banner__circle--md"></span>
+        <span class="profile-banner__circle profile-banner__circle--sm"></span>
+    </div>
+</section>

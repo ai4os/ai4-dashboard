@@ -1,0 +1,17 @@
+<nav class="ui-tabs">
+    @for (tab of tabs; track tab.id) {
+        <button
+            class="ui-tabs__item"
+            [class.ui-tabs__item--active]="tab.id === activeTabId"
+            (click)="selectTab(tab.id)"
+            role="tab"
+        >
+            @if (tab.icon) {
+                <mat-icon class="ui-tabs__icon">{{ tab.icon }}</mat-icon>
+            }
+            <span class="ui-tabs__label">{{ tab.label | translate }}</span>
+        </button>
+    }
+</nav>
+
+<div class="ui-tabs__divider"></div>

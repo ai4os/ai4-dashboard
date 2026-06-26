@@ -1,0 +1,11 @@
+<div
+    [class]="'ui-chip ui-chip--' + variant"
+    [class.ui-chip--disabled]="disabled"
+>
+    @if (icon) {
+        <mat-icon class="ui-chip__icon">{{ icon }}</mat-icon>
+    }
+    @if (text) {
+        <span class="ui-chip__text">{{ text }}</span>
+    }
+</div>

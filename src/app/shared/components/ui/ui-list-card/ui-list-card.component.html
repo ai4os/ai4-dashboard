@@ -1,0 +1,15 @@
+<div class="ui-list-card" [class]="'ui-list-card--' + theme">
+    <div class="ui-list-card__title">
+        {{ title }}
+    </div>
+
+    <div class="ui-list-card__content">
+        <ng-content></ng-content>
+    </div>
+
+    @if (suffixText) {
+        <div class="ui-list-card__suffix">
+            {{ suffixText }}
+        </div>
+    }
+</div>

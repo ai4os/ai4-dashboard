@@ -1,0 +1,57 @@
+.ui-list-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md) var(--space-xl) var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-md);
+    position: relative;
+    overflow: hidden;
+    gap: var(--space-xl);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    /* ── Thick colour bar (left side) ── */
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        background-color: var(--card-theme-color);
+    }
+
+    &__title {
+        color: var(--card-theme-color);
+        font-weight: var(--font-weight-bold);
+        font-size: var(--font-size-md);
+        min-width: 140px;
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        flex: 1;
+        flex-wrap: wrap;
+    }
+
+    &__suffix {
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-sm);
+        white-space: nowrap;
+    }
+
+    &--primary {
+        --card-theme-color: var(--color-primary);
+    }
+
+    &--default {
+        --card-theme-color: var(--color-default);
+    }
+}

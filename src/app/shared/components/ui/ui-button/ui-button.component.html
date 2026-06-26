@@ -1,0 +1,8 @@
+<button [class]="'ui-btn ui-btn--' + variant" [disabled]="disabled">
+    @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+    }
+    @if (text) {
+        <span>{{ text }}</span>
+    }
+</button>

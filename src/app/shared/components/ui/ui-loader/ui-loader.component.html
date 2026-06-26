@@ -1,0 +1,41 @@
+<svg class="infinity" viewBox="-1 -1 10 8">
+    <defs>
+        <path
+            id="infinite"
+            d="M 4 3 C 4 2 3.1 1 2 1 a 2 2 0 0 0 0 4 c 1.1 0 2 -1 2 -2 s 1 -2 2 -2 a 2 2 0 0 1 0 4 C 5 5 4 4 4 3"
+        ></path>
+        <radialGradient
+            id="rgradient"
+            gradientUnits="userSpaceOnUse"
+            cx="5"
+            cy="3"
+            r="3.4"
+        >
+            <stop offset=".25" stop-color="#000"></stop>
+            <stop offset=".9" stop-color="#000" stop-opacity="0"></stop>
+        </radialGradient>
+
+        <filter id="border-effect" x="-50%" y="-50%" width="200%" height="200%">
+            <feMorphology
+                in="SourceAlpha"
+                operator="dilate"
+                radius="0.1"
+                result="thicker"
+            />
+            <feFlood flood-color="white" result="whiteFill" />
+            <feComposite
+                in="whiteFill"
+                in2="thicker"
+                operator="in"
+                result="border"
+            />
+            <feMerge>
+                <feMergeNode in="border" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+
+    <use href="#infinite" class="inside"></use>
+    <use href="#infinite" class="outside" filter="url(#border-effect)"></use>
+</svg>

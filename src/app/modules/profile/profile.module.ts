@@ -8,6 +8,7 @@ import { Ai4eoscServicesComponent } from './components/ai4eosc-services/ai4eosc-
 import { FormsModule } from '@angular/forms';
 import { ApiKeysComponent } from './components/api-keys/api-keys.component';
 import { ApiKeyPopupComponent } from './components/api-key-popup/api-key-popup.component';
+import { ProfileBannerComponent } from './components/profile-banner/profile-banner.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { ApiKeyPopupComponent } from './components/api-key-popup/api-key-popup.c
         Ai4eoscServicesComponent,
         ApiKeysComponent,
         ApiKeyPopupComponent,
+        ProfileBannerComponent,
     ],
     imports: [CommonModule, ProfileRoutingModule, SharedModule, FormsModule],
 })

@@ -22,7 +22,10 @@ import { SharedModule } from './shared/shared.module';
 import { MarkdownModule, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
 import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
-import { MatIconRegistry } from '@angular/material/icon';
+import {
+    MAT_ICON_DEFAULT_OPTIONS,
+    MatIconRegistry,
+} from '@angular/material/icon';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -125,6 +128,10 @@ renderer.link = (href, title, text) => {
     ],
     providers: [
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        {
+            provide: MAT_ICON_DEFAULT_OPTIONS,
+            useValue: { fontSet: 'material-symbols-rounded' },
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
