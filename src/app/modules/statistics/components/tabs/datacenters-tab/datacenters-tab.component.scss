@@ -70,7 +70,7 @@
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
 
     &__title {
-        font-size: var(--font-md);
+        font-size: var(--font-size-md);
         font-weight: 500;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -81,12 +81,12 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        font-size: var(--font-sm);
+        font-size: var(--font-size-sm);
         color: var(--mat-sys-on-surface-variant);
     }
 
     &__flag {
-        font-size: var(--font-md);
+        font-size: var(--font-size-md);
         line-height: 1;
     }
 }
@@ -98,7 +98,7 @@
     border-top: 0.5px solid var(--mat-sys-outline-variant);
 
     &__text {
-        font-size: var(--font-xs);
+        font-size: var(--font-size-xs);
         color: var(--mat-sys-on-surface-variant);
         line-height: 1.55;
     }
@@ -196,7 +196,7 @@
     }
 
     &__name {
-        font-size: var(--font-sm);
+        font-size: var(--font-size-sm);
         font-weight: 500;
         color: var(--mat-sys-on-surface);
         white-space: nowrap;
@@ -208,7 +208,7 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        font-size: var(--font-xs);
+        font-size: var(--font-size-xs);
         color: var(--mat-sys-on-surface-variant);
         white-space: nowrap;
     }
@@ -230,7 +230,7 @@
         display: flex;
         align-items: center;
         gap: 5px;
-        font-size: var(--font-xs);
+        font-size: var(--font-size-xs);
         letter-spacing: 0.07em;
         text-transform: uppercase;
         color: var(--mat-sys-on-surface-variant);
@@ -251,13 +251,13 @@
     }
 
     &__metric-value {
-        font-size: var(--font-md);
+        font-size: var(--font-size-md);
         font-weight: 500;
         color: var(--mat-sys-on-surface);
     }
 
     &__metric-unit {
-        font-size: var(--font-xs);
+        font-size: var(--font-size-xs);
         color: var(--mat-sys-on-surface-variant);
     }
 }

@@ -16,7 +16,7 @@
     }
 
     &__title {
-        font-size: var(--font-xs);
+        font-size: var(--font-size-xs);
         font-weight: var(---raleway-medium);
         color: var(--mat-sys-on-surface-variant);
         text-transform: uppercase;
@@ -24,7 +24,7 @@
     }
 
     &__help {
-        font-size: var(--font-lg);
+        font-size: var(--font-size-lg);
         width: 18px;
         height: 18px;
     }
