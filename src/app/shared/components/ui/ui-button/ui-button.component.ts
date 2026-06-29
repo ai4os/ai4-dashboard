@@ -10,7 +10,9 @@ export class UiButtonComponent {
         | 'primary-solid'
         | 'primary-outline'
         | 'accent-solid'
-        | 'accent-outline' = 'primary-solid';
+        | 'accent-outline'
+        | 'danger-solid'
+        | 'danger-outline' = 'primary-solid';
     @Input() icon?: string;
     @Input() text?: string;
     @Input() disabled = false;

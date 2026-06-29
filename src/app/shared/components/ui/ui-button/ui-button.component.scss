@@ -17,6 +17,10 @@
         border-color 0.15s,
         transform 0.15s;
 
+    &--icon-only {
+        padding: var(--space-sm);
+    }
+
     mat-icon {
         font-size: var(--font-size-md);
         width: var(--font-size-md);
@@ -69,6 +73,28 @@
         &:hover:not(:disabled) {
             background: var(--color-accent-light);
             border-color: var(--color-accent-dark);
+            transform: translateY(-1px);
+        }
+    }
+
+    &--danger-solid {
+        background: var(--color-danger);
+        color: var(--white);
+
+        &:hover:not(:disabled) {
+            background: var(--color-danger-dark);
+            transform: translateY(-1px);
+        }
+    }
+
+    &--danger-outline {
+        background: transparent;
+        color: var(--color-danger);
+        border-color: var(--color-danger);
+
+        &:hover:not(:disabled) {
+            background: var(--color-danger-light);
+            border-color: var(--color-danger-dark);
             transform: translateY(-1px);
         }
     }

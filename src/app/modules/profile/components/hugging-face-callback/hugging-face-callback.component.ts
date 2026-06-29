@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProfileService } from '../../services/profile-service/profile.service';
+import { HuggingFaceService } from '../../services/hugging-face-service/hugging-face.service';
 
 @Component({
     selector: 'app-huggingface-callback',
@@ -10,9 +10,10 @@ import { ProfileService } from '../../services/profile-service/profile.service';
 export class HuggingFaceCallbackComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
-        private profileService: ProfileService,
         private router: Router
     ) {}
+
+    huggingFaceService = inject(HuggingFaceService);
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
@@ -20,7 +21,7 @@ export class HuggingFaceCallbackComponent implements OnInit {
             const state = params['state'];
 
             if (code && state) {
-                this.profileService
+                this.huggingFaceService
                     .validateOAuthRedirect(code, state)
                     .subscribe({
                         next: () => this.router.navigate(['/profile']),

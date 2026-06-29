@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-export enum PanelClass {
-    Success = 'success-snackbar',
-    Error = 'red-snackbar',
-    Primary = 'primary-snackbar',
-}
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import {
+    UiSnackbarVariant,
+    UiSnackbarComponent,
+    UiSnackbarData,
+} from '@app/shared/components/ui/ui-snackbar/ui-snackbar.component';
 
 @Injectable({
     providedIn: 'root',
@@ -16,36 +15,43 @@ export class SnackbarService {
     baseDuration = 3000;
     durationPerChar = 50;
 
-    openSuccess(message: string) {
-        this._snackBar.open(message, '×', {
-            duration: this.getMessageDuration(message),
-            panelClass: PanelClass.Success,
-        });
+    openSuccess(message: string): void {
+        this.open(message, 'success');
     }
 
-    openError(message: string) {
-        this._snackBar.open(message, '×', {
-            duration: this.getMessageDuration(message),
-            panelClass: PanelClass.Error,
-        });
+    openError(message: string): void {
+        this.open(message, 'danger');
     }
 
-    openPrimary(message: string) {
-        this._snackBar.open(message, '×', {
-            duration: this.getMessageDuration(message),
-            panelClass: PanelClass.Primary,
-        });
+    openPrimary(message: string): void {
+        this.open(message, 'primary');
+    }
+
+    openAccent(message: string): void {
+        this.open(message, 'accent');
     }
 
     openCustom(
         message: string,
-        action: string,
-        duration: number,
-        panelClass: PanelClass
-    ) {
-        this._snackBar.open(message, action, {
-            duration: duration,
-            panelClass: [panelClass],
+        variant: UiSnackbarVariant,
+        duration?: number
+    ): MatSnackBarRef<UiSnackbarComponent> {
+        return this.open(message, variant, duration);
+    }
+
+    private open(
+        message: string,
+        variant: UiSnackbarVariant,
+        duration?: number
+    ): MatSnackBarRef<UiSnackbarComponent> {
+        const data: UiSnackbarData = { text: message, variant };
+
+        return this._snackBar.openFromComponent(UiSnackbarComponent, {
+            data,
+            duration: duration ?? this.getMessageDuration(message),
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            panelClass: 'ui-snackbar-panel',
         });
     }
 

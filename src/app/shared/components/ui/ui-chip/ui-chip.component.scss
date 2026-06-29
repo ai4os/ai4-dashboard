@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+    padding: 6px 10px;
     width: fit-content;
     transition:
         background-color 0.2s ease-in-out,
@@ -49,6 +50,18 @@
         color: var(--color-accent);
         border-color: var(--color-accent);
         background-color: var(--color-accent-light);
+    }
+
+    &--success-solid {
+        color: var(--color-success);
+        border: transparent;
+        background-color: var(--color-success-light);
+    }
+
+    &--success-outline {
+        color: var(--color-success);
+        border-color: var(--color-success);
+        background-color: var(--color-success-light);
     }
 
     &--default-solid {

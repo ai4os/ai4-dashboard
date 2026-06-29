@@ -137,6 +137,10 @@
     }
 }
 
+.page-content {
+    padding-inline: var(--space-xl);
+}
+
 ::ng-deep .sidenav .mat-drawer-inner-container {
     display: flex !important;
     flex-direction: column !important;

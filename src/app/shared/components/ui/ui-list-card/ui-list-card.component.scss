@@ -51,6 +51,10 @@
         --card-theme-color: var(--color-primary);
     }
 
+    &--warning {
+        --card-theme-color: var(--color-warning);
+    }
+
     &--default {
         --card-theme-color: var(--color-default);
     }

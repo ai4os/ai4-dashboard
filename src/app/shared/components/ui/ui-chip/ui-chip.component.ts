@@ -11,6 +11,12 @@ export class UiChipComponent {
         | 'primary-outline'
         | 'accent-solid'
         | 'accent-outline'
+        | 'success-solid'
+        | 'success-outline'
+        | 'warning-solid'
+        | 'warning-outline'
+        | 'danger-solid'
+        | 'danger-outline'
         | 'default-solid'
         | 'default-outline' = 'primary-solid';
     @Input() icon?: string;

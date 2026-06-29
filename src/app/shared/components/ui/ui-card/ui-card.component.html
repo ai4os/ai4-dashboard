@@ -1,0 +1,7 @@
+<div class="ui-card" [style.--card-accent]="accentColor">
+    @if (accentColor) {
+        <div class="ui-card__accent"></div>
+    }
+
+    <ng-content></ng-content>
+</div>

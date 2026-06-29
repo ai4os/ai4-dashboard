@@ -1,0 +1,37 @@
+<p class="description">{{ 'PROFILE.OVERVIEW-TAB.DESCRIPTION' | translate }}</p>
+<div class="tab-panel">
+    <!-- Virtual organizations -->
+    <div>
+        @for (vo of vos; track vo.name; let i = $index) {
+            <app-ui-list-card
+                [title]="vo.name"
+                [suffixText]="vo.roles.length + ' roles'"
+                [theme]="
+                    vo.name === appConfigService.voName ? 'primary' : 'default'
+                "
+            >
+                @for (role of vo.roles; track role; let isFirst = $first) {
+                    <app-ui-chip
+                        [text]="role"
+                        [variant]="
+                            isFirst && vo.name === appConfigService.voName
+                                ? 'accent-solid'
+                                : 'default-solid'
+                        "
+                    ></app-ui-chip>
+                }
+            </app-ui-list-card>
+        }
+
+        @if (vos.length === 0) {
+            <app-ui-list-card
+                [title]="'PROFILE.OVERVIEW-TAB.UNAUTHORIZED' | translate"
+                [suffixText]="
+                    'PROFILE.OVERVIEW-TAB.UNAUTHORIZED-DESC' | translate
+                "
+                theme="warning"
+            >
+            </app-ui-list-card>
+        }
+    </div>
+</div>

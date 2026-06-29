@@ -8,8 +8,6 @@
     </div>
 
     @if (suffixText) {
-        <div class="ui-list-card__suffix">
-            {{ suffixText }}
-        </div>
+        <div class="ui-list-card__suffix" [innerHTML]="suffixText"></div>
     }
 </div>

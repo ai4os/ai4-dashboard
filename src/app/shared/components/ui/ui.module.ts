@@ -7,6 +7,9 @@ import { UiLoaderComponent } from './ui-loader/ui-loader.component';
 import { UiChipComponent } from './ui-chip/ui-chip.component';
 import { UiTabsComponent } from './ui-tabs/ui-tabs.component';
 import { UiListCardComponent } from './ui-list-card/ui-list-card.component';
+import { UiCardComponent } from './ui-card/ui-card.component';
+import { UiCredentialRowComponent } from './ui-credential-row/ui-credential-row.component';
+import { UiSnackbarComponent } from './ui-snackbar/ui-snackbar.component';
 
 @NgModule({
     declarations: [
@@ -15,6 +18,9 @@ import { UiListCardComponent } from './ui-list-card/ui-list-card.component';
         UiChipComponent,
         UiTabsComponent,
         UiListCardComponent,
+        UiCardComponent,
+        UiCredentialRowComponent,
+        UiSnackbarComponent,
     ],
     imports: [CommonModule, MaterialModule, TranslateModule],
     exports: [
@@ -23,6 +29,8 @@ import { UiListCardComponent } from './ui-list-card/ui-list-card.component';
         UiChipComponent,
         UiTabsComponent,
         UiListCardComponent,
+        UiCardComponent,
+        UiCredentialRowComponent,
     ],
 })
 export class UiModule {}

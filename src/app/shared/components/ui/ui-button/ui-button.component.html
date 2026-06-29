@@ -1,4 +1,8 @@
-<button [class]="'ui-btn ui-btn--' + variant" [disabled]="disabled">
+<button
+    [class]="'ui-btn ui-btn--' + variant"
+    [class.ui-btn--icon-only]="icon && !text"
+    [disabled]="disabled"
+>
     @if (icon) {
         <mat-icon>{{ icon }}</mat-icon>
     }

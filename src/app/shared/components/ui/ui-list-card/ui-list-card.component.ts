@@ -9,5 +9,5 @@ export class UiListCardComponent {
     @Input() title!: string;
     @Input() suffixText?: string;
 
-    @Input() theme: 'primary' | 'default' = 'primary';
+    @Input() theme: 'primary' | 'warning' | 'default' = 'primary';
 }

@@ -28,14 +28,6 @@
     --raleway-medium: 500;
     --raleway-light: 300;
 
-    /** Font Sizes **/
-    --font-xs: 12px;
-    --font-sm: 14px;
-    --font-md: 16px;
-    --font-lg: 18px;
-    --font-xl: 20px;
-    --font-2xl: 24px;
-
     .mat-button,
     .mat-button-focus-overlay,
     .mat-icon-button {
@@ -79,3 +71,25 @@
         }
     }
 }
+
+$color-primary: #008792;
+$color-primary-light: #e2f1f1;
+$color-primary-dark: #00686f;
+
+$color-accent: #ff5b7f;
+$color-accent-light: #ffe3ea;
+$color-accent-dark: #c23a5a;
+$color-accent-rgb: 255, 91, 127;
+$color-accent-dark-rgb: 194, 58, 90;
+
+$color-default: #8e8c8c;
+$color-default-light: #f7f6f6;
+$color-default-dark: #151515;
+
+$color-surface: #faf7f4;
+$color-surface-card: #ffffff;
+$color-border: rgba(0, 0, 0, 0.08);
+
+$color-hero-shadow-rgb: 80, 10, 30;
+
+@import '../exports/variables';
