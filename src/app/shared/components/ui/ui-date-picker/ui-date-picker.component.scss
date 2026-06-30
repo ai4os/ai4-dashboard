@@ -1,0 +1,89 @@
+.ui-date-picker {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s,
+        background-color 0.15s;
+
+    &:hover:not(&--disabled) {
+        border-color: var(--color-primary-light, var(--color-primary));
+    }
+
+    &:focus-within {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.12);
+    }
+
+    &--disabled {
+        background: var(--color-surface);
+        cursor: not-allowed;
+
+        .ui-date-picker__icon,
+        .ui-date-picker__input {
+            color: var(--color-text-tertiary);
+        }
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        font-size: var(--font-size-md);
+        width: var(--font-size-md);
+        height: var(--font-size-md);
+        color: var(--color-primary);
+    }
+
+    &__input {
+        flex: 1;
+        min-width: 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: var(--font-size-sm);
+        color: var(--color-text-primary);
+        cursor: pointer;
+
+        &::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    &__clear {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--color-text-tertiary);
+        cursor: pointer;
+        transition:
+            background-color 0.15s,
+            color 0.15s;
+
+        mat-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+        }
+
+        &:hover {
+            background: rgba(var(--color-primary-rgb), 0.1);
+            color: var(--color-primary);
+        }
+    }
+}

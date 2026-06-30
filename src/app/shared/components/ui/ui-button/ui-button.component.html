@@ -2,6 +2,10 @@
     [class]="'ui-btn ui-btn--' + variant"
     [class.ui-btn--icon-only]="icon && !text"
     [disabled]="disabled"
+    [matTooltip]="tooltip ?? ''"
+    [matTooltipDisabled]="!tooltip"
+    matTooltipClass="ui-tooltip"
+    (click)="onClick()"
 >
     @if (icon) {
         <mat-icon>{{ icon }}</mat-icon>

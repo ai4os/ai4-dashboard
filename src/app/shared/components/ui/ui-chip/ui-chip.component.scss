@@ -1,6 +1,6 @@
 .ui-chip {
     font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold, 600);
+    font-weight: var(--font-weight-medium);
     padding: var(--space-xs);
     border-radius: var(--radius-pill);
     border: 1px solid;
@@ -64,16 +64,28 @@
         background-color: var(--color-success-light);
     }
 
-    &--default-solid {
-        color: var(--color-default);
+    &--warning-solid {
+        color: var(--color-warning-dark);
         border: transparent;
-        background-color: var(--color-default-light);
+        background: var(--color-warning-light);
+    }
+
+    &--warning-outline {
+        color: var(--color-warning-dark);
+        border-color: var(--color-warning-dark);
+        background-color: var(--color-warning-light);
+    }
+
+    &--default-solid {
+        color: var(--color-text-secondary);
+        border: transparent;
+        background-color: var(--color-border-subtle);
     }
 
     &--default-outline {
-        color: var(--color-default);
-        border-color: var(--color-default);
-        background-color: var(--color-default-light);
+        color: var(--color-text-secondary);
+        border-color: var(--color-text-secondary);
+        background-color: var(--color-border-subtle);
     }
 
     &--disabled {

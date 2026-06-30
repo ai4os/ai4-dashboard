@@ -1,0 +1,28 @@
+<div class="ui-expansion-panel" [class.ui-expansion-panel--disabled]="disabled">
+    <button
+        class="ui-expansion-panel__toggle"
+        type="button"
+        [disabled]="disabled"
+        [attr.aria-expanded]="isExpanded()"
+        (click)="toggle()"
+    >
+        <span class="ui-expansion-panel__header">
+            <ng-content select="[panelHeader]"></ng-content>
+        </span>
+        <mat-icon
+            class="ui-expansion-panel__chevron"
+            [class.ui-expansion-panel__chevron--open]="isExpanded()"
+        >
+            expand_more
+        </mat-icon>
+    </button>
+
+    <div
+        class="ui-expansion-panel__wrapper"
+        [class.ui-expansion-panel__wrapper--open]="isExpanded()"
+    >
+        <div class="ui-expansion-panel__content">
+            <ng-content select="[panelContent]"></ng-content>
+        </div>
+    </div>
+</div>

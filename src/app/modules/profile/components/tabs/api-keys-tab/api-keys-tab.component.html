@@ -1,0 +1,120 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'PROFILE.API-KEYS-TAB.SUBTITLE' | translate }}
+        </h3>
+        <p
+            class="section-header__subtitle"
+            [innerHTML]="'PROFILE.API-KEYS-TAB.DESCRIPTION' | translate"
+        ></p>
+    </div>
+    <app-ui-button
+        variant="icon"
+        icon="info"
+        [href]="
+            'https://docs.ai4eosc.eu/en/latest/reference/llm.html#integrate-it-with-your-own-services'
+        "
+        [tooltip]="'GENERAL.OPEN-DOCS' | translate"
+    ></app-ui-button>
+</div>
+
+<div class="api-keys">
+    <app-ui-expansion-panel [(expanded)]="expanded">
+        <span panelHeader>
+            <mat-icon>add</mat-icon>
+            {{ 'PROFILE.API-KEYS-TAB.CREATE-PANEL' | translate }}</span
+        >
+        <div panelContent class="api-keys__form">
+            <app-ui-text-field
+                class="api-keys__form-field"
+                placeholder="Key identifier"
+                [value]="keyName()"
+                (valueChange)="keyName.set($event)"
+            />
+            <app-ui-date-picker
+                class="api-keys__form-date"
+                [value]="expiryDate()"
+                [min]="today"
+                [clearable]="true"
+                (valueChange)="expiryDate.set($event)"
+            />
+            <app-ui-button
+                icon="add"
+                text="Create"
+                variant="accent-solid"
+                matTooltipClass="ui-tooltip"
+                matTooltip="{{
+                    'PROFILE.API-KEYS-TAB.CREATE-TOOLTIP' | translate
+                }}"
+                [matTooltipDisabled]="canCreate()"
+                [disabled]="!canCreate()"
+                (click)="createKey()"
+            >
+                {{ 'PROFILE.API-KEYS-TAB.CREATE-BUTTON' | translate }}
+            </app-ui-button>
+        </div>
+    </app-ui-expansion-panel>
+
+    @if (loading()) {
+        <div class="api-keys__loading">
+            <app-ui-loader></app-ui-loader>
+        </div>
+    } @else {
+        <app-ui-table
+            [columns]="columns"
+            [data]="apiKeys()"
+            trackByKey="id"
+            emptyMessage="PROFILE.API-KEYS-TAB.TABLE.NO-API-KEYS"
+        >
+            <ng-template uiTableCell="name" let-row>
+                <span class="api-keys__identifier">
+                    {{ row.name }}
+                </span>
+            </ng-template>
+
+            <ng-template uiTableCell="createdAt" let-row>
+                <app-ui-chip
+                    variant="default-solid"
+                    [text]="row.createdAt.toUTCString()"
+                >
+                </app-ui-chip>
+            </ng-template>
+
+            <ng-template uiTableCell="expires" let-row>
+                @if (row.expires) {
+                    <app-ui-chip
+                        matTooltipClass="ui-tooltip"
+                        matTooltip="{{
+                            'PROFILE.API-KEYS-TAB.TABLE.EXPIRES-TOOLTIP'
+                                | translate
+                        }}"
+                        [matTooltipDisabled]="!isExpiringSoon(row.expires)"
+                        [text]="row.expires.toUTCString()"
+                        [variant]="
+                            isExpiringSoon(row.expires)
+                                ? 'warning-solid'
+                                : 'default-solid'
+                        "
+                    >
+                    </app-ui-chip>
+                } @else {
+                    <app-ui-chip
+                        variant="default-solid"
+                        [text]="'PROFILE.API-KEYS-TAB.TABLE.NEVER' | translate"
+                    >
+                    </app-ui-chip>
+                }
+            </ng-template>
+
+            <ng-template uiTableCell="actions" let-row>
+                <app-ui-button
+                    variant="danger-solid"
+                    icon="delete"
+                    matTooltipClass="ui-tooltip"
+                    matTooltip="{{ 'PROFILE.REVOKE' | translate }}"
+                    (click)="deleteKey(row.id)"
+                ></app-ui-button>
+            </ng-template>
+        </app-ui-table>
+    }
+</div>

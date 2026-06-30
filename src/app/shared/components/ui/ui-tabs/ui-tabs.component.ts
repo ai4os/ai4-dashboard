@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-export interface UiTab {
+export interface Tab {
     id: string;
     label: string;
     icon?: string;
+    disabled?: boolean;
+    tooltip?: string;
 }
 
 @Component({
@@ -12,7 +14,7 @@ export interface UiTab {
     styleUrl: './ui-tabs.component.scss',
 })
 export class UiTabsComponent {
-    @Input() tabs: UiTab[] = [];
+    @Input() tabs: Tab[] = [];
     @Input() activeTabId?: string;
     @Output() tabChange = new EventEmitter<string>();
 

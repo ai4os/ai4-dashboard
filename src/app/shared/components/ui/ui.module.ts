@@ -10,6 +10,12 @@ import { UiListCardComponent } from './ui-list-card/ui-list-card.component';
 import { UiCardComponent } from './ui-card/ui-card.component';
 import { UiCredentialRowComponent } from './ui-credential-row/ui-credential-row.component';
 import { UiSnackbarComponent } from './ui-snackbar/ui-snackbar.component';
+import { UiInfoBannerComponent } from './ui-info-banner/ui-info-banner.component';
+import { UiTableComponent } from './ui-table/ui-table.component';
+import { UiTextFieldComponent } from './ui-text-field/ui-text-field.component';
+import { UiDatePickerComponent } from './ui-date-picker/ui-date-picker.component';
+import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
+import { UiExpansionPanelComponent } from './ui-expansion-panel/ui-expansion-panel.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +27,12 @@ import { UiSnackbarComponent } from './ui-snackbar/ui-snackbar.component';
         UiCardComponent,
         UiCredentialRowComponent,
         UiSnackbarComponent,
+        UiInfoBannerComponent,
+        UiTableComponent,
+        UiTextFieldComponent,
+        UiDatePickerComponent,
+        UiTableCellDirective,
+        UiExpansionPanelComponent,
     ],
     imports: [CommonModule, MaterialModule, TranslateModule],
     exports: [
@@ -31,6 +43,13 @@ import { UiSnackbarComponent } from './ui-snackbar/ui-snackbar.component';
         UiListCardComponent,
         UiCardComponent,
         UiCredentialRowComponent,
+        UiSnackbarComponent,
+        UiInfoBannerComponent,
+        UiTableComponent,
+        UiTextFieldComponent,
+        UiDatePickerComponent,
+        UiTableCellDirective,
+        UiExpansionPanelComponent,
     ],
 })
 export class UiModule {}

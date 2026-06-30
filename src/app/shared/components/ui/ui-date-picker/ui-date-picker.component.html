@@ -1,0 +1,34 @@
+<div
+    class="ui-date-picker"
+    [class.ui-date-picker--disabled]="disabled"
+    (click)="!disabled && picker.open()"
+>
+    <mat-icon class="ui-date-picker__icon">calendar_today</mat-icon>
+
+    <input
+        class="ui-date-picker__input"
+        matInput
+        [matDatepicker]="picker"
+        [placeholder]="placeholder"
+        [min]="min"
+        [max]="max"
+        [disabled]="disabled"
+        [value]="value"
+        (dateChange)="onDateChange($event.value)"
+        readonly
+    />
+
+    @if (clearable && value && !disabled) {
+        <button
+            type="button"
+            class="ui-date-picker__clear"
+            matTooltipClass="ui-tooltip"
+            matTooltip="Clear date"
+            (click)="clear($event)"
+        >
+            <mat-icon>close</mat-icon>
+        </button>
+    }
+
+    <mat-datepicker #picker panelClass="ui-datepicker-panel"></mat-datepicker>
+</div>

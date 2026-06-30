@@ -98,4 +98,14 @@
             transform: translateY(-1px);
         }
     }
+
+    &--icon {
+        background: transparent;
+        color: var(--color-primary);
+
+        &:hover:not(:disabled) {
+            background: var(--color-primary-light);
+            transform: translateY(-1px);
+        }
+    }
 }

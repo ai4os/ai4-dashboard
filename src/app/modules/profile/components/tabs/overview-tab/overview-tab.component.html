@@ -1,6 +1,16 @@
-<p class="description">{{ 'PROFILE.OVERVIEW-TAB.DESCRIPTION' | translate }}</p>
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'PROFILE.OVERVIEW-TAB.SUBTITLE' | translate }}
+        </h3>
+        <p class="section-header__subtitle">
+            {{ 'PROFILE.OVERVIEW-TAB.DESCRIPTION' | translate }}
+        </p>
+    </div>
+</div>
+
 <div class="tab-panel">
-    <!-- Virtual organizations -->
+    <!-- Virtual organisations -->
     <div>
         @for (vo of vos; track vo.name; let i = $index) {
             <app-ui-list-card
@@ -8,6 +18,11 @@
                 [suffixText]="vo.roles.length + ' roles'"
                 [theme]="
                     vo.name === appConfigService.voName ? 'primary' : 'default'
+                "
+                [tooltip]="
+                    vo.name === appConfigService.voName
+                        ? ('PROFILE.OVERVIEW-TAB.VO-TOOLTIP' | translate)
+                        : undefined
                 "
             >
                 @for (role of vo.roles; track role; let isFirst = $first) {
@@ -17,6 +32,12 @@
                             isFirst && vo.name === appConfigService.voName
                                 ? 'accent-solid'
                                 : 'default-solid'
+                        "
+                        [tooltip]="
+                            isFirst && vo.name === appConfigService.voName
+                                ? ('PROFILE.OVERVIEW-TAB.ROLE-TOOLTIP'
+                                  | translate)
+                                : undefined
                         "
                     ></app-ui-chip>
                 }

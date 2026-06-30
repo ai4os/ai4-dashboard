@@ -3,7 +3,13 @@
         <button
             class="ui-tabs__item"
             [class.ui-tabs__item--active]="tab.id === activeTabId"
-            (click)="selectTab(tab.id)"
+            [class.ui-tabs__item--disabled]="tab.disabled"
+            [disabled]="tab.disabled"
+            [matTooltip]="
+                tab.disabled && tab.tooltip ? (tab.tooltip | translate) : ''
+            "
+            matTooltipClass="ui-tooltip"
+            (click)="!tab.disabled && selectTab(tab.id)"
             role="tab"
         >
             @if (tab.icon) {

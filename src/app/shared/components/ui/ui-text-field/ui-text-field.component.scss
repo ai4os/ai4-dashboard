@@ -1,0 +1,29 @@
+.ui-text-field {
+    width: stretch;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
+
+    &::placeholder {
+        color: var(--color-text-tertiary);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.12);
+    }
+
+    &:disabled {
+        background: var(--color-surface);
+        color: var(--color-text-tertiary);
+        cursor: not-allowed;
+    }
+}

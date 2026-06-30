@@ -1,0 +1,80 @@
+.ui-expansion-panel {
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+
+    &--disabled {
+        opacity: 0.6;
+    }
+
+    &__toggle {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-md) var(--space-xl) var(--space-md) var(--space-lg);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        font-weight: var(--font-weight-semibold);
+        font-size: var(--font-size-sm);
+        color: var(--color-primary);
+
+        ::ng-deep > [panelHeader] {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+    }
+
+    &__chevron {
+        color: var(--color-text-tertiary);
+        transition: transform 0.25s ease;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__wrapper {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.25s ease;
+
+        &--open {
+            grid-template-rows: 1fr;
+        }
+    }
+
+    &__content {
+        overflow: hidden;
+        padding: 0 var(--space-lg);
+        border-top: 0 solid var(--color-border-subtle);
+        transition: padding 0.25s ease;
+
+        .ui-expansion-panel__wrapper--open & {
+            padding: var(--space-md) var(--space-lg);
+            border-top-width: 1px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &__wrapper,
+        &__chevron,
+        &__content {
+            transition: none;
+        }
+    }
+}

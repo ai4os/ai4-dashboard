@@ -21,6 +21,7 @@ export class UiChipComponent {
         | 'default-outline' = 'primary-solid';
     @Input() icon?: string;
     @Input() text?: string;
+    @Input() tooltip?: string;
     @Input() disabled = false;
 
     ngOnInit(): void {

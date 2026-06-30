@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 export class UiListCardComponent {
     @Input() title!: string;
     @Input() suffixText?: string;
-
     @Input() theme: 'primary' | 'warning' | 'default' = 'primary';
+    @Input() tooltip?: string;
 }

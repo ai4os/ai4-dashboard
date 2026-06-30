@@ -1,5 +1,10 @@
 <div class="ui-list-card" [class]="'ui-list-card--' + theme">
-    <div class="ui-list-card__title">
+    <div
+        class="ui-list-card__title"
+        [matTooltip]="tooltip ?? ''"
+        [matTooltipDisabled]="!tooltip"
+        matTooltipClass="ui-tooltip"
+    >
         {{ title }}
     </div>
 
