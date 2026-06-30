@@ -9,7 +9,6 @@ describe('dashboard section', function () {
         cy.contains('Overview', { timeout: 40000 }).should('be.visible');
         cy.contains('Datacenters').should('be.visible');
         cy.contains('Usage').should('be.visible');
-        cy.contains('Nodes').should('be.visible');
     });
 
     it('shows dashboard tab', function () {
@@ -99,14 +98,6 @@ describe('dashboard section', function () {
         cy.get('app-stat-card')
             .find('.header p:contains("GPUs")')
             .should('have.length', 1);
-    });
-
-    it('shows nodes tab', function () {
-        cy.contains('Nodes', { timeout: 10000 }).click();
-        cy.get('#nodes-cpu-title').contains('Nodes with CPU');
-        cy.get('#nodes-gpu-title').contains('Nodes with GPU');
-        cy.get('mat-accordion').should('have.length', 2);
-        cy.get('mat-paginator').should('have.length', 2);
     });
 
     it('shows message when stats are not available', function () {

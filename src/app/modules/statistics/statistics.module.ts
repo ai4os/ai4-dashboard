@@ -10,7 +10,6 @@ import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { StatsContainerComponent } from './components/stats-container/stats-container.component';
 import { OverviewTabComponent } from './components/tabs/overview-tab/overview-tab.component';
 import { UsageTabComponent } from './components/tabs/usage-tab/usage-tab.component';
-import { NodesTabComponent } from './components/tabs/nodes-tab/nodes-tab.component';
 import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
 import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datacenters-tab.component';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +33,6 @@ import { MapMetricLegendComponent } from './components/stats/map-metric-legend/m
         OverviewTabComponent,
         UsageTabComponent,
         FootprintTabComponent,
-        NodesTabComponent,
         GpuStatsDetailComponent,
         DatacentersTabComponent,
         FootprintChartComponent,
