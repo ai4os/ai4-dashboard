@@ -5,7 +5,6 @@ import { HuggingFaceService } from '../../services/hugging-face-service/hugging-
 @Component({
     selector: 'app-huggingface-callback',
     templateUrl: './hugging-face-callback.component.html',
-    styleUrls: ['./hugging-face-callback.component.scss'],
 })
 export class HuggingFaceCallbackComponent implements OnInit {
     constructor(
