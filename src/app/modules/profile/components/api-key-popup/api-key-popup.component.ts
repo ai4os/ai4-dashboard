@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
     selector: 'app-api-key-popup',
@@ -8,8 +9,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ApiKeyPopupComponent {
     constructor(
-        public dialogRef: MatDialogRef<ApiKeyPopupComponent>,
+        public dialog: MatDialogRef<ConfirmationDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
-        public data: { apiKey: string }
+        public data: { key: string }
     ) {}
+
+    closeDialog(): void {
+        this.dialog.close(false);
+    }
 }

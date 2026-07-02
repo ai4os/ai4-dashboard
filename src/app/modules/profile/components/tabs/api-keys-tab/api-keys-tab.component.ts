@@ -21,17 +21,16 @@ import {
     styleUrl: './api-keys-tab.component.scss',
 })
 export class ApiKeysTabComponent implements OnInit {
-    private store = inject(LlmApiKeysStore);
-
     constructor(
         private llmApiKeysService: LlmApiKeysService,
         private snackbarService: SnackbarService,
         private confirmationDialog: MatDialog,
-        private dialog: MatDialog,
         private media: MediaMatcher
     ) {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
     }
+    private store = inject(LlmApiKeysStore);
+    private dialog = inject(MatDialog);
 
     private mobileQuery: MediaQueryList;
 
@@ -102,19 +101,13 @@ export class ApiKeysTabComponent implements OnInit {
                     this.keyName.set('');
                     this.expanded.set(false);
 
-                    const width = this.mobileQuery.matches ? '300px' : '650px';
                     this.dialog.open(ApiKeyPopupComponent, {
-                        data: { apiKey },
-                        width,
-                        maxWidth: width,
-                        minWidth: width,
-                        autoFocus: false,
-                        restoreFocus: false,
+                        data: { key: apiKey },
+                        panelClass: 'ui-dialog-panel',
                     });
 
                     this.snackbarService.openSuccess(
-                        'Successfully created LLM API key with ID: ' +
-                            cleanKeyId
+                        'API key with ID ' + cleanKeyId + ' saved successfully'
                     );
                 },
                 error: () => {
@@ -130,14 +123,14 @@ export class ApiKeysTabComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: {
-                    title: 'PROFILE.API-KEYS-TAB.DIALOG.TITLE',
+                    title: 'PROFILE.API-KEYS-TAB.REVOKE-DIALOG.TITLE',
                     subtitlePrefix:
-                        'PROFILE.API-KEYS-TAB.DIALOG.SUBTITLE-PREFIX',
+                        'PROFILE.API-KEYS-TAB.REVOKE-DIALOG.SUBTITLE-PREFIX',
                     subtitleHighlight: id,
                     subtitleSuffix:
-                        'PROFILE.API-KEYS-TAB.DIALOG.SUBTITLE-SUFFIX',
+                        'PROFILE.API-KEYS-TAB.REVOKE-DIALOG.SUBTITLE-SUFFIX',
                     optionA: 'GENERAL.CANCEL',
-                    optionB: 'PROFILE.API-KEYS-TAB.DIALOG.REVOKE',
+                    optionB: 'PROFILE.API-KEYS-TAB.REVOKE-DIALOG.REVOKE',
                 } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
@@ -150,18 +143,19 @@ export class ApiKeysTabComponent implements OnInit {
                         if (response?.status === 'success') {
                             this.store.removeKey(id);
                             this.snackbarService.openSuccess(
-                                'Successfully deleted LLM API key with ID: ' +
-                                    id
+                                'API key with ID ' +
+                                    id +
+                                    ' revoked successfully'
                             );
                         } else {
                             this.snackbarService.openError(
-                                "Couldn't delete LLM API key. Please try again later."
+                                "Couldn't revoke LLM API key. Please try again later."
                             );
                         }
                     },
                     error: () => {
                         this.snackbarService.openError(
-                            "Couldn't delete LLM API key. Please try again later."
+                            "Couldn't revoke LLM API key. Please try again later."
                         );
                     },
                 });

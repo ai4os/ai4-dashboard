@@ -78,7 +78,12 @@
                 "NEVER": "Never",
                 "NO-API-KEYS": "No API keys yet. Create your first API key to get started."
             },
-            "DIALOG": {
+            "GENERATE-DIALOG": {
+                "TITLE": "Save your LLM API Key",
+                "SUBTITLE": "You can only view this API key once. Copy it now and store it securely. If you lose it, you'll need to generate a new one.",
+                "OK": "I have copied it"
+            },
+            "REVOKE-DIALOG": {
                 "TITLE": "Revoke LLM API key permanently?",
                 "SUBTITLE-PREFIX": "The key ",
                 "SUBTITLE-SUFFIX": " will be invalidated immediately. Any services using it will lose access and this action cannot be undone.",
@@ -143,14 +148,6 @@
             "UNLINKED": "Unlinked",
             "CONNECTED": "Connected",
             "DISCONNECTED": "Disconnected"
-        },
-
-        "API-KEYS": {
-            "MODAL": {
-                "TITLE": "Save your LLM API Key",
-                "DESCRIPTION": "This is the only time you will be able to see your LLM API key. Please make sure to copy and store it securely. If you lose it, you will need to generate a new one.",
-                "OK": "I understand"
-            }
         }
     },
 
