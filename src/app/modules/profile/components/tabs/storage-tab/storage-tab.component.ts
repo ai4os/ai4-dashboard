@@ -61,6 +61,7 @@ export class StorageTabComponent implements OnInit {
     syncingId = signal<string | null>(null);
     hideRclonePassword = signal(true);
     advancedExpanded = false;
+    loading = false;
 
     readonly rcloneVendorOptions = [
         { value: 'nextcloud', viewValue: 'Nextcloud' },
@@ -113,17 +114,20 @@ export class StorageTabComponent implements OnInit {
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (!confirmed) return;
+                this.loading = true;
                 this.profileService.deleteCredential(domain).subscribe({
                     next: () => {
                         this.store.forceReload();
                         this.snackbarService.openSuccess(
                             'Successfully deleted ' + domain + ' credentials'
                         );
+                        this.loading = false;
                     },
                     error: () => {
                         this.snackbarService.openError(
                             'Error deleting ' + domain + ' credentials'
                         );
+                        this.loading = false;
                     },
                 });
             });
@@ -142,20 +146,22 @@ export class StorageTabComponent implements OnInit {
     onAddManually(): void {
         if (!this.storageConfForm.valid) return;
 
+        this.loading = true;
+
         const v = this.storageConfForm.value;
-        const server = (v.storageUrl ?? '').replace(/^https?:\/\//, '');
         const secret: StorageCredential = {
             loginName: v.rcloneUser ?? '',
             appPassword: v.rclonePassword ?? '',
             conf: v.rcloneConf ?? '',
-            server,
+            server: v.storageUrl ?? '',
             vendor: v.vendor ?? 'nextcloud',
         };
-        const secretPath = '/services/storage/' + server;
+        const serviceName = v.storageUrl!.replace(/^https?:\/\//, '');
+        const secretPath = '/services/storage/' + serviceName;
 
         this.secretsService.createSecret(secret, secretPath).subscribe({
             next: () => {
-                this.storageService.getStorageFiles(server).subscribe({
+                this.storageService.getStorageFiles(serviceName).subscribe({
                     next: () => {
                         this.store.forceReload();
                         this.storageConfForm.reset({
@@ -163,8 +169,9 @@ export class StorageTabComponent implements OnInit {
                             vendor: 'nextcloud',
                         });
                         this.snackbarService.openSuccess(
-                            'Successfully added ' + server + ' credentials'
+                            'Successfully added ' + serviceName + ' credentials'
                         );
+                        this.loading = false;
                     },
                     error: () => {
                         this.secretsService
@@ -173,6 +180,7 @@ export class StorageTabComponent implements OnInit {
                         this.snackbarService.openError(
                             'New storage could not be validated.'
                         );
+                        this.loading = false;
                     },
                 });
             },
@@ -180,6 +188,7 @@ export class StorageTabComponent implements OnInit {
                 this.snackbarService.openError(
                     'Error storing your RCLONE credentials.'
                 );
+                this.loading = false;
             },
         });
     }
@@ -190,17 +199,21 @@ export class StorageTabComponent implements OnInit {
             .split(/[/\s]/)[0];
         this.syncingId.set(serviceName);
 
+        this.loading = true;
+
         this.profileService.initLogin(serviceName).subscribe({
             next: (response) => {
                 this.loginResponse = response;
                 window.open(response.login, '_blank');
                 this.pollRcloneCredentials(serviceName);
+                this.loading = false;
             },
             error: () => {
                 this.syncingId.set(null);
                 this.snackbarService.openError(
                     'Error syncronizing your account. Check you are using a valid domain.'
                 );
+                this.loading = false;
             },
         });
     }

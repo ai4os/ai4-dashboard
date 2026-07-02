@@ -23,7 +23,7 @@
         <p class="storage-tab__not-member">
             {{ 'PROFILE.STORAGE-TAB.NOT-MEMBER' | translate }}
         </p>
-    } @else if (store.loading()) {
+    } @else if (store.loading() || loading) {
         <div class="storage-tab__loading">
             <app-ui-loader></app-ui-loader>
         </div>
@@ -72,7 +72,7 @@
                         <app-ui-button
                             variant="accent-solid"
                             icon="link"
-                            [text]="'PROFILE.ACTIONS.CONNECT' | translate"
+                            text="PROFILE.ACTIONS.CONNECT"
                             [disabled]="syncingId() === store.ai4osEndpoint"
                             (click)="onAddByDomain(store.ai4osEndpoint)"
                         ></app-ui-button>
@@ -196,6 +196,12 @@
                             icon="link"
                             [text]="'PROFILE.ACTIONS.CONNECT' | translate"
                             [disabled]="!customEndpointForm.valid"
+                            matTooltipClass="ui-tooltip"
+                            [matTooltip]="
+                                'PROFILE.STORAGE-TAB.CONNECT-TOOLTIP'
+                                    | translate
+                            "
+                            [matTooltipDisabled]="customEndpointForm.valid"
                             (click)="onAddByDomain()"
                         ></app-ui-button>
                     </form>
@@ -223,7 +229,7 @@
                                     "
                                     formControlName="rcloneUser"
                                     [errorMessages]="{
-                                        required: 'GENERAL.REQUIRED',
+                                        required: 'GENERAL.FORMS.REQUIRED',
                                     }"
                                 />
 
@@ -235,7 +241,7 @@
                                     [maskable]="true"
                                     formControlName="rclonePassword"
                                     [errorMessages]="{
-                                        required: 'GENERAL.REQUIRED',
+                                        required: 'GENERAL.FORMS.REQUIRED',
                                     }"
                                 />
 
@@ -256,7 +262,7 @@
                                         'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL'
                                             | translate
                                     "
-                                    placeholder="https://share.services.ai4os.eu/remote.php/dav/files/<USER-ID>"
+                                    placeholder="https://share.services.ai4os.eu"
                                     prefixIcon="link"
                                     [hint]="
                                         'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL-HINT'

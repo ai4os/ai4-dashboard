@@ -94,6 +94,7 @@
             "CUSTOM-NEXTCLOUD": "Custom Nextcloud",
             "CUSTOM-NEXTCLOUD-DESC": "To connect a custom Nextcloud instance, some <a href='https://docs.ai4os.eu/en/latest/technical/storage-providers.html#nextcloud' target='_blank'>server configuration</a>  may be required",
             "OPEN-STORAGE": "Open storage service",
+            "CONNECT-TOOLTIP": "Enter the domain of your storage provider",
             "FORM": {
                 "INVALID-DOMAIN": "Invalid domain format"
             },
