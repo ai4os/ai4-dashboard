@@ -1,85 +1,136 @@
-.top-navbar-container {
+.top-navbar {
+    display: flex;
+    align-items: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 0 0.5rem;
-    margin-bottom: 10px;
+    height: 64px;
+    padding: 0 var(--space-md);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--color-border-light);
     background-color: var(--white) !important;
-}
 
-.spacer {
-    flex: 1 1 auto;
-}
-
-.dashboard-logo {
-    width: 200px;
-}
-
-.dashboard-logo-container {
-    display: flex;
-    align-items: center;
-}
-
-.profile-button {
-    z-index: 1050;
-}
-
-.profile-button-mobile {
-    z-index: 1050;
-    padding: 0;
-    min-width: fit-content;
-    & mat-icon {
-        margin-right: 0px;
+    &__left {
+        display: flex;
+        align-items: center;
         height: 100%;
-        width: 100%;
     }
-}
 
-.login-btn-mobile {
-    padding: 0;
-    justify-content: flex-end;
-    & mat-icon {
-        margin-right: 0px;
+    &__logo-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+        gap: var(--space-sm);
+
+        ::ng-deep button {
+            color: var(--color-text-tertiary);
+        }
     }
-}
 
-.user-log {
-    margin-left: 8px;
-}
-
-.login-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5em;
-}
-
-::ng-deep {
-    .mat-mdc-menu-panel.logoutDropdownMenu {
-        width: 215px;
+    &__dev-ribbon {
+        position: absolute;
+        top: 0px;
+        left: -80px;
+        width: 200px;
+        background-color: var(--color-danger);
+        color: var(--color-text-inverse);
+        text-align: center;
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-bold);
+        line-height: 40px;
+        letter-spacing: 1px;
+        transform: rotate(-45deg);
+        z-index: 1000;
+        pointer-events: none;
+        box-shadow: var(--shadow-sm);
     }
-}
 
-.corner-ribbon {
-    width: 180px;
-    background: #e43;
-    position: absolute;
-    top: 5px;
-    left: -85px;
-    text-align: center;
-    line-height: 30px;
-    letter-spacing: 1px;
-    color: #f0f0f0;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    z-index: 1000;
-    font-size: 1rem;
-}
+    &__menu-btn {
+        background: transparent;
+        border: none;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        padding: var(--space-xs);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease;
 
-.small-icon {
-    span {
-        font-size: 22px !important;
-        align-content: center;
-        height: 100%;
+        &:hover,
+        &:focus-visible {
+            background-color: var(--color-surface-hover);
+            color: var(--color-text-primary);
+        }
+    }
+
+    &__logo-link {
+        display: flex;
+        align-items: center;
+    }
+
+    &__logo-img {
+        max-height: 40px;
+        object-fit: contain;
+    }
+
+    &__spacer {
+        flex: 1 1 auto;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+    }
+
+    &__profile-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        background: transparent;
+        border: 1px solid var(--color-border);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text-primary);
+        background-color: var(--color-surface-card);
+
+        &:hover,
+        &:focus-visible {
+            background-color: var(--color-surface-hover);
+            border-color: var(--color-primary);
+        }
+    }
+
+    &__profile-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-primary);
+
+        span {
+            font-size: 22px;
+        }
+    }
+
+    &__profile-name {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        white-space: nowrap;
+
+        @media (max-width: 600px) {
+            display: none;
+        }
+    }
+
+    &__login-text {
+        @media (max-width: 600px) {
+            display: none;
+        }
     }
 }

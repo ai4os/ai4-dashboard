@@ -40,6 +40,7 @@ import { UiModule } from './components/ui/ui.module';
         TranslateModule,
         RouterModule,
         MarkdownModule.forChild(),
+        UiModule,
     ],
     exports: [
         ReactiveFormsModule,

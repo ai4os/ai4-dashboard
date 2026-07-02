@@ -1,8 +1,53 @@
-<h1 mat-dialog-title>Confirm your action</h1>
-<div mat-dialog-content>
-    <p>{{ message }}</p>
-</div>
-<div mat-dialog-actions align="end">
-    <button id="noBtn" mat-raised-button (click)="closeDialog()">No</button>
-    <button id="yesBtn" mat-raised-button (click)="confirm()" color="warn">Yes</button>
+<div class="confirmation-dialog">
+    <div class="confirmation-dialog__top-accent"></div>
+
+    @if (showCloseButton) {
+        <button
+            class="confirmation-dialog__close"
+            type="button"
+            (click)="closeDialog()"
+            [attr.aria-label]="'GENERAL.CLOSE' | translate"
+        >
+            <mat-icon>close</mat-icon>
+        </button>
+    }
+
+    <div class="confirmation-dialog__icon-box">
+        <mat-icon class="confirmation-dialog__icon">{{ icon }}</mat-icon>
+    </div>
+
+    <h1 mat-dialog-title class="confirmation-dialog__title">
+        {{ title | translate }}
+    </h1>
+
+    @if (hasSubtitle) {
+        <div mat-dialog-content class="confirmation-dialog__content">
+            <p>
+                @if (subtitlePrefix) {
+                    {{ subtitlePrefix | translate }}
+                }
+                @if (subtitleHighlight) {
+                    <strong class="confirmation-dialog__highlight">{{
+                        subtitleHighlight
+                    }}</strong>
+                }
+                @if (subtitleSuffix) {
+                    {{ subtitleSuffix | translate }}
+                }
+            </p>
+        </div>
+    }
+
+    <div mat-dialog-actions class="confirmation-dialog__actions">
+        <app-ui-button
+            variant="primary-outline"
+            [text]="optionA | translate"
+            (click)="closeDialog()"
+        ></app-ui-button>
+        <app-ui-button
+            variant="danger-solid"
+            [text]="optionB | translate"
+            (click)="confirm()"
+        ></app-ui-button>
+    </div>
 </div>

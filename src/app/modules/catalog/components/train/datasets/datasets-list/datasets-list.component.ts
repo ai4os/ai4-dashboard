@@ -56,7 +56,7 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-        storageConfFormGroup!: FormGroup;
+    storageConfFormGroup!: FormGroup;
 
     @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
@@ -182,6 +182,7 @@ export class DatasetsListComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: `Are you sure you want to delete this dataset?`,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

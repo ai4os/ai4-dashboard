@@ -12,6 +12,7 @@ export class UiDatePickerComponent {
     @Input() max: Date | null = null;
     @Input() disabled = false;
     @Input() clearable = false;
+    @Input() tooltip? = '';
     @Output() valueChange = new EventEmitter<Date | null>();
 
     onDateChange(date: Date | null): void {

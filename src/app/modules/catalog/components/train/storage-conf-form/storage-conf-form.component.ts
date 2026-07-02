@@ -84,7 +84,7 @@ export class StorageConfFormComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)
-        datasetsListComponent!: DatasetsListComponent;
+    datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() rcloneIsRequired = false;
@@ -360,6 +360,7 @@ export class StorageConfFormComponent implements OnInit {
                 data: this.translateService.instant(
                     'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
                 ),
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

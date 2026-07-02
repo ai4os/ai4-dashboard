@@ -1,5 +1,19 @@
 import { Component, Input } from '@angular/core';
 
+export type ProviderCardStatus =
+    | 'success-solid'
+    | 'success-outline'
+    | 'default-solid'
+    | 'default-outline'
+    | 'warning-solid'
+    | 'warning-outline'
+    | 'danger-solid'
+    | 'danger-outline'
+    | 'primary-solid'
+    | 'primary-outline'
+    | 'accent-solid'
+    | 'accent-outline';
+
 @Component({
     selector: 'app-service-card',
     templateUrl: './service-card.component.html',
@@ -8,22 +22,10 @@ import { Component, Input } from '@angular/core';
 export class ServiceCardComponent {
     @Input() title!: string;
     @Input() statusLabel?: string;
-    @Input() statusVariant: 'success-solid' | 'default-solid' = 'success-solid';
+    @Input() statusVariant: ProviderCardStatus = 'success-solid';
     @Input() accentColor?: string;
 
-    get chipVariant():
-        | 'primary-solid'
-        | 'primary-outline'
-        | 'accent-solid'
-        | 'accent-outline'
-        | 'success-solid'
-        | 'success-outline'
-        | 'warning-solid'
-        | 'warning-outline'
-        | 'danger-solid'
-        | 'danger-outline'
-        | 'default-solid'
-        | 'default-outline' {
+    get chipVariant(): ProviderCardStatus {
         return `${this.statusVariant}` as any;
     }
 }

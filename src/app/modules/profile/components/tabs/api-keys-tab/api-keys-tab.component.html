@@ -33,6 +33,7 @@
             />
             <app-ui-date-picker
                 class="api-keys__form-date"
+                [tooltip]="'PROFILE.API-KEYS-TAB.EXPIRY-TOOLTIP'"
                 [value]="expiryDate()"
                 [min]="today"
                 [clearable]="true"
@@ -111,7 +112,7 @@
                     variant="danger-solid"
                     icon="delete"
                     matTooltipClass="ui-tooltip"
-                    matTooltip="{{ 'PROFILE.REVOKE' | translate }}"
+                    matTooltip="{{ 'PROFILE.ACTIONS.REVOKE' | translate }}"
                     (click)="deleteKey(row.id)"
                 ></app-ui-button>
             </ng-template>

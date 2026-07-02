@@ -9,3 +9,96 @@ $grid-breakpoints: (
 @function breakpoint($size) {
     @return map-get($grid-breakpoints, $size);
 }
+
+:root {
+    /* ── Components: colours ── */
+    --color-primary: #{$color-primary};
+    --color-primary-light: #{$color-primary-light};
+    --color-primary-dark: #{$color-primary-dark};
+    --color-primary-rgb: #{$color-accent-rgb};
+
+    --color-accent: #{$color-accent};
+    --color-accent-light: #{$color-accent-light};
+    --color-accent-dark: #{$color-accent-dark};
+    --color-accent-rgb: #{$color-accent-rgb};
+
+    --color-default: #{$color-default};
+    --color-default-light: #{$color-default-light};
+    --color-default-dark: #{$color-default-dark};
+
+    --color-surface: #{$color-surface};
+    --color-surface-card: #{$color-surface-card};
+    --color-border: #{$color-border};
+    --color-hero-shadow-rgb: #{$color-hero-shadow-rgb};
+
+    --color-success: #4aad3d;
+    --color-success-light: #d3f3d0;
+    --color-success-dark: rgb(12, 101, 0);
+
+    --color-danger: #df2a2a;
+    --color-danger-light: #f0a2a2;
+    --color-danger-dark: #811a1a;
+    --color-danger-rgb: 220, 38, 38;
+
+    --color-warning: #f88d13;
+    --color-warning-light: #fef3c7;
+    --color-warning-dark: #92400e;
+
+    /* ── Typography: sizes ── */
+    --font-size-xs: 13px;
+    --font-size-sm: 14px;
+    --font-size-base: 15px;
+    --font-size-md: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 26px;
+    --font-size-2xl: 32px;
+
+    /* ── Typography: weights ── */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* ── Typography: line-height ── */
+    --line-height-tight: 1.1;
+    --line-height-base: 1.5;
+    --line-height-relaxed: 1.7;
+
+    /* ── Spacing── */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+
+    /* ── Radius ── */
+    --radius-xs: 6px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill: 999px;
+
+    /* ── Text: colours ── */
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #5f5e5a;
+    --color-text-tertiary: #8a8884;
+    --color-text-inverse: #ffffff;
+
+    /* ── Borders ── */
+    --color-border-subtle: rgba(0, 0, 0, 0.08);
+    --color-border-default: rgba(0, 0, 0, 0.12);
+
+    /* ── Shadows ── */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+
+    /* ── Gradients ── */
+    --gradient-brand: linear-gradient(
+        135deg,
+        var(--color-primary-dark) 0%,
+        var(--color-accent-dark) 55%,
+        var(--color-accent) 100%
+    );
+}

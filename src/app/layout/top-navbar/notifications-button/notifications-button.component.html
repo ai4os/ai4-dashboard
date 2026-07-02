@@ -35,66 +35,67 @@
 
     <ng-template #notificationList>
         <cdk-accordion class="accordion">
-            <cdk-accordion-item
-                *ngFor="
-                    let notification of displayedNotifications;
-                    let index = index
-                "
-                #accordionItem="cdkAccordionItem"
-                class="accordion-item"
-                role="button"
-                tabindex="0"
-                [attr.aria-expanded]="accordionItem.expanded"
-                (click)="$event.stopPropagation()"
-            >
-                <div
-                    class="accordion-item-header"
-                    (click)="accordionItem.toggle()"
+            @for (
+                notification of displayedNotifications();
+                track notification.title
+            ) {
+                <cdk-accordion-item
+                    #accordionItem="cdkAccordionItem"
+                    class="accordion-item"
+                    role="button"
+                    tabindex="0"
+                    [attr.aria-expanded]="accordionItem.expanded"
+                    (click)="$event.stopPropagation()"
                 >
-                    <mat-icon
-                        matListItemIcon
-                        class="element-icon"
-                        color="accent"
+                    <div
+                        class="accordion-item-header"
+                        (click)="accordionItem.toggle()"
                     >
-                        info
-                    </mat-icon>
-                    <div class="title-container">
-                        {{ notification.title }}
-                        <span
-                            *ngIf="notification.summary !== ''"
-                            class="accordion-item-description"
+                        <mat-icon
+                            matListItemIcon
+                            class="element-icon"
+                            color="accent"
                         >
-                            <mat-icon> keyboard_arrow_down </mat-icon>
-                        </span>
+                            info
+                        </mat-icon>
+                        <div class="title-container">
+                            {{ notification.title }}
+                            <span
+                                *ngIf="notification.summary !== ''"
+                                class="accordion-item-description"
+                            >
+                                <mat-icon> keyboard_arrow_down </mat-icon>
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div
-                    *ngIf="notification.summary !== ''"
-                    class="accordion-item-body"
-                    role="region"
-                    [style.display]="accordionItem.expanded ? '' : 'none'"
-                >
-                    <i
-                        class="grey-text"
-                        [innerHTML]="
-                            htmlSanitizerService.getSanitizedText(
-                                notification.summary!
-                            )
-                        "
-                    ></i>
-                    @if (
-                        notification.downtimeStart &&
-                        notification.downtimeEnd &&
-                        notification.datacenters
-                    ) {
-                        <i class="grey-text">{{
-                            platformStatusService.getMaintenanceInfo(
-                                notification
-                            )
-                        }}</i>
-                    }
-                </div>
-            </cdk-accordion-item>
+                    <div
+                        *ngIf="notification.summary !== ''"
+                        class="accordion-item-body"
+                        role="region"
+                        [style.display]="accordionItem.expanded ? '' : 'none'"
+                    >
+                        <i
+                            class="grey-text"
+                            [innerHTML]="
+                                htmlSanitizerService.getSanitizedText(
+                                    notification.summary!
+                                )
+                            "
+                        ></i>
+                        @if (
+                            notification.downtimeStart &&
+                            notification.downtimeEnd &&
+                            notification.datacenters
+                        ) {
+                            <i class="grey-text">{{
+                                platformStatusService.getMaintenanceInfo(
+                                    notification
+                                )
+                            }}</i>
+                        }
+                    </div>
+                </cdk-accordion-item>
+            }
         </cdk-accordion>
     </ng-template>
 </mat-menu>

@@ -1,0 +1,296 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'PROFILE.STORAGE-TAB.SUBTITLE' | translate }}
+        </h3>
+        <p
+            class="section-header__subtitle"
+            [innerHTML]="'PROFILE.STORAGE-TAB.DESCRIPTION' | translate"
+        ></p>
+    </div>
+    <app-ui-button
+        variant="icon"
+        icon="info"
+        [href]="
+            'https://docs.ai4os.eu/en/latest/technical/storage-providers.html#storage-providers'
+        "
+        [tooltip]="'GENERAL.OPEN-DOCS' | translate"
+    ></app-ui-button>
+</div>
+
+<div class="tab-panel">
+    @if (!isProjectMember) {
+        <p class="storage-tab__not-member">
+            {{ 'PROFILE.STORAGE-TAB.NOT-MEMBER' | translate }}
+        </p>
+    } @else if (store.loading()) {
+        <div class="storage-tab__loading">
+            <app-ui-loader></app-ui-loader>
+        </div>
+    } @else {
+        @let ai4osCredential = store.ai4osCredential();
+        @let customCredentials = store.customCredentials();
+
+        <div class="storage-tab">
+            <!-- AI4OS Nextcloud -->
+            <app-service-card
+                [title]="'PROFILE.STORAGE-TAB.AI4EOSC-NEXTCLOUD' | translate"
+                [statusLabel]="
+                    ai4osCredential
+                        ? ('PROFILE.STATUS.CONNECTED' | translate)
+                        : ('PROFILE.STATUS.DISCONNECTED' | translate)
+                "
+                [statusVariant]="
+                    ai4osCredential ? 'success-solid' : 'default-solid'
+                "
+                accentColor="#0082C9"
+            >
+                <img
+                    serviceCardIcon
+                    src="../../../../../assets/images/services/nextcloud-icon.png"
+                    alt="Nextcloud"
+                />
+
+                <ng-container serviceCardActions>
+                    @if (ai4osCredential) {
+                        <app-ui-button
+                            variant="accent-outline"
+                            icon="sync"
+                            [text]="'PROFILE.ACTIONS.RE-CONNECT' | translate"
+                            [disabled]="syncingId() === store.ai4osEndpoint"
+                            (click)="onRelink(store.ai4osEndpoint)"
+                        ></app-ui-button>
+                        <app-ui-button
+                            variant="danger-solid"
+                            icon="link_off"
+                            [matTooltip]="
+                                'PROFILE.ACTIONS.DISCONNECT' | translate
+                            "
+                            (click)="onRemove(store.ai4osEndpoint)"
+                        ></app-ui-button>
+                    } @else {
+                        <app-ui-button
+                            variant="accent-solid"
+                            icon="link"
+                            [text]="'PROFILE.ACTIONS.CONNECT' | translate"
+                            [disabled]="syncingId() === store.ai4osEndpoint"
+                            (click)="onAddByDomain(store.ai4osEndpoint)"
+                        ></app-ui-button>
+                    }
+                </ng-container>
+
+                @if (ai4osCredential) {
+                    <div class="storage-row">
+                        <span class="storage-row__value">
+                            {{ ai4osCredential.server }}
+                        </span>
+                        <div class="storage-row__icons">
+                            <app-ui-button
+                                variant="icon"
+                                icon="arrow_outward"
+                                [href]="'https://' + ai4osCredential.server"
+                                [tooltip]="
+                                    'PROFILE.STORAGE-TAB.OPEN-STORAGE'
+                                        | translate
+                                "
+                            ></app-ui-button>
+                        </div>
+                    </div>
+                }
+            </app-service-card>
+
+            <!-- Custom Nextcloud providers -->
+            @for (credential of customCredentials; track credential.server) {
+                <app-service-card
+                    [title]="'PROFILE.STORAGE-TAB.CUSTOM-NEXTCLOUD' | translate"
+                    [statusLabel]="'PROFILE.STATUS.CONNECTED' | translate"
+                    statusVariant="success-solid"
+                    accentColor="#0082C9"
+                >
+                    <img
+                        serviceCardIcon
+                        src="../../../../../assets/images/services/nextcloud-icon.png"
+                        alt="Nextcloud"
+                    />
+
+                    <ng-container serviceCardActions>
+                        <app-ui-button
+                            variant="accent-outline"
+                            icon="sync"
+                            [text]="'PROFILE.ACTIONS.RE-CONNECT' | translate"
+                            [disabled]="syncingId() === credential.server"
+                            (click)="onRelink(credential.server)"
+                        ></app-ui-button>
+                        <app-ui-button
+                            variant="danger-solid"
+                            icon="link_off"
+                            [matTooltip]="
+                                'PROFILE.ACTIONS.DISCONNECT' | translate
+                            "
+                            (click)="onRemove(credential.server)"
+                        ></app-ui-button>
+                    </ng-container>
+
+                    <div class="storage-row">
+                        <span class="storage-row__value">
+                            {{ credential.server }}
+                        </span>
+                        <div class="storage-row__icons">
+                            <app-ui-button
+                                variant="icon"
+                                icon="arrow_outward"
+                                [href]="'https://' + credential.server"
+                                [tooltip]="
+                                    'PROFILE.STORAGE-TAB.OPEN-STORAGE'
+                                        | translate
+                                "
+                            ></app-ui-button>
+                        </div>
+                    </div>
+                </app-service-card>
+            }
+
+            <!-- Add custom provider -->
+            <app-ui-card>
+                <div class="add-provider">
+                    <div class="add-provider__header">
+                        <img
+                            class="add-provider__icon"
+                            src="../../../../../assets/images/services/nextcloud-icon.png"
+                            alt="Nextcloud"
+                        />
+                        <div>
+                            <p class="add-provider__title">
+                                {{
+                                    'PROFILE.STORAGE-TAB.CUSTOM-NEXTCLOUD'
+                                        | translate
+                                }}
+                            </p>
+                            <p
+                                class="add-provider__subtitle"
+                                [innerHTML]="
+                                    'PROFILE.STORAGE-TAB.CUSTOM-NEXTCLOUD-DESC'
+                                        | translate
+                                "
+                            ></p>
+                        </div>
+                    </div>
+
+                    <!-- Simple method: domain -->
+                    <form
+                        [formGroup]="customEndpointForm"
+                        class="add-provider__form"
+                    >
+                        <app-ui-text-field
+                            class="add-provider__field"
+                            placeholder="share.example.eu"
+                            formControlName="domain"
+                            [errorMessages]="{
+                                required: 'GENERAL.FORMS.REQUIRED',
+                                invalidDomain:
+                                    'PROFILE.STORAGE-TAB.FORM.INVALID-DOMAIN',
+                            }"
+                        />
+                        <app-ui-button
+                            variant="accent-solid"
+                            icon="link"
+                            [text]="'PROFILE.ACTIONS.CONNECT' | translate"
+                            [disabled]="!customEndpointForm.valid"
+                            (click)="onAddByDomain()"
+                        ></app-ui-button>
+                    </form>
+
+                    <!-- Advanced method: manual rclone -->
+                    <app-ui-expansion-panel [(expanded)]="advancedExpanded">
+                        <span panelHeader>
+                            <mat-icon>tune</mat-icon>
+                            {{ 'PROFILE.STORAGE-TAB.RCLONE.TITLE' | translate }}
+                        </span>
+
+                        <div panelContent>
+                            <form
+                                [formGroup]="storageConfForm"
+                                class="add-provider__advanced-form"
+                            >
+                                <app-ui-text-field
+                                    [label]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.USER'
+                                            | translate
+                                    "
+                                    [hint]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.USER-HINT'
+                                            | translate
+                                    "
+                                    formControlName="rcloneUser"
+                                    [errorMessages]="{
+                                        required: 'GENERAL.REQUIRED',
+                                    }"
+                                />
+
+                                <app-ui-text-field
+                                    [label]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.PASS'
+                                            | translate
+                                    "
+                                    [maskable]="true"
+                                    formControlName="rclonePassword"
+                                    [errorMessages]="{
+                                        required: 'GENERAL.REQUIRED',
+                                    }"
+                                />
+
+                                <app-ui-text-field
+                                    [label]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.CONF'
+                                            | translate
+                                    "
+                                    [hint]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.CONF-HINT'
+                                            | translate
+                                    "
+                                    formControlName="rcloneConf"
+                                />
+
+                                <app-ui-text-field
+                                    [label]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL'
+                                            | translate
+                                    "
+                                    placeholder="https://share.services.ai4os.eu/remote.php/dav/files/<USER-ID>"
+                                    prefixIcon="link"
+                                    [hint]="
+                                        'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL-HINT'
+                                            | translate
+                                    "
+                                    formControlName="storageUrl"
+                                    [errorMessages]="{
+                                        invalidURL:
+                                            'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL-ERROR',
+                                    }"
+                                />
+
+                                <app-ui-select
+                                    formControlName="vendor"
+                                    label="PROFILE.STORAGE-TAB.RCLONE.VENDOR"
+                                    [options]="rcloneVendorOptions"
+                                ></app-ui-select>
+
+                                <div class="add-provider__advanced-actions">
+                                    <app-ui-button
+                                        variant="accent-solid"
+                                        icon="add"
+                                        [text]="
+                                            'PROFILE.ACTIONS.ADD' | translate
+                                        "
+                                        [disabled]="!storageConfForm.valid"
+                                        (click)="onAddManually()"
+                                    ></app-ui-button>
+                                </div>
+                            </form>
+                        </div>
+                    </app-ui-expansion-panel>
+                </div>
+            </app-ui-card>
+        </div>
+    }
+</div>

@@ -126,6 +126,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
                     'Are you sure you want to delete this ' +
                     this.deploymentType +
                     '?',
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
@@ -237,6 +238,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: `Are you sure you want to create a snapshot of this deployment?`,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

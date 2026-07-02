@@ -1,11 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-
 html,
 body {
     height: 100%;
-}
-
-body {
     margin: 0;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
     color: var(--primary-text);
@@ -116,6 +111,171 @@ mat-icon,
 
 .mat-mdc-raised-button.mat-accent {
     color: white !important;
+}
+
+.ui-tooltip {
+    &.mat-mdc-tooltip {
+        --mdc-plain-tooltip-container-color: var(--color-text-primary);
+        --mdc-plain-tooltip-supporting-text-color: var(--color-text-inverse);
+    }
+
+    .mdc-tooltip__surface {
+        background-color: var(--color-text-tertiary) !important;
+        color: var(--color-text-inverse) !important;
+        font-size: var(--font-size-xs) !important;
+        font-weight: var(--font-weight-medium) !important;
+        border-radius: var(--radius-sm) !important;
+        padding: var(--space-xs) var(--space-sm) !important;
+        box-shadow: var(--shadow-md);
+    }
+}
+
+/*************  Calendar *************/
+.ui-datepicker-panel {
+    // Selected day
+    .mat-calendar-body-selected {
+        background-color: var(--color-primary) !important;
+        color: var(--color-text-inverse) !important;
+    }
+
+    // Today (if not selected)
+    .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+        border-color: var(--color-primary) !important;
+    }
+
+    // Hover day
+    .mat-calendar-body-cell:hover
+        .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+        background-color: rgba(var(--color-primary-rgb), 0.08) !important;
+    }
+
+    // Focus with keyboard
+    .mat-calendar-body-active
+        .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+        background-color: rgba(var(--color-primary-rgb), 0.15) !important;
+    }
+
+    // Range
+    .mat-calendar-body-in-range::before {
+        background-color: rgba(var(--color-primary-rgb), 0.1) !important;
+    }
+    .mat-calendar-body-range-start::before,
+    .mat-calendar-body-range-end::before {
+        background-color: var(--color-primary) !important;
+    }
+    .mat-calendar-body-comparison-bridge-start::before,
+    .mat-calendar-body-comparison-bridge-end::before {
+        background-color: var(--color-primary) !important;
+    }
+
+    // Arrow
+    .mat-calendar-arrow {
+        border-top-color: var(--color-text-primary) !important;
+    }
+    .mat-calendar-previous-button,
+    .mat-calendar-next-button {
+        color: var(--color-primary) !important;
+    }
+
+    .mat-calendar-period-button,
+    .mat-calendar-table-header,
+    .mat-calendar-body-label {
+        color: var(--color-text-secondary) !important;
+    }
+
+    // Header
+    .mat-calendar-period-button,
+    .mat-calendar-table-header,
+    .mat-calendar-body-label {
+        color: var(--color-text-secondary) !important;
+    }
+
+    // Month/year view
+    .mat-calendar-body-cell-content {
+        transition: background-color 0.15s;
+    }
+}
+
+/************* Snackbar *************/
+.ui-snackbar-panel {
+    .mat-mdc-snack-bar-container {
+        --mdc-snackbar-container-color: transparent;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .mdc-snackbar__surface {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+    }
+
+    .mdc-snackbar__label {
+        padding: 0 !important;
+    }
+}
+
+/************* Dialog *************/
+.ui-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+    max-width: 50%;
+    border-radius: var(--radius-lg) !important;
+    background-color: var(--color-surface-card) !important;
+    box-shadow: var(--shadow-lg) !important;
+    padding: var(--space-lg) !important;
+}
+
+/************* Dropdown panel *************/
+.ui-dropdown-panel.mat-mdc-menu-panel {
+    min-width: 200px;
+    border-radius: var(--radius-md) !important;
+    margin-top: var(--space-xs);
+    background-color: var(--color-surface-card);
+    box-shadow: var(--shadow-md);
+
+    // Dropdown menu container
+    .mat-mdc-menu-content {
+        padding: var(--space-xs) 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    // Buttons inside dropdown menu
+    .mat-mdc-menu-item {
+        min-height: 40px;
+        padding: 0 var(--space-md);
+        color: var(--color-text-primary) !important;
+
+        .mat-mdc-menu-item-text,
+        .mdc-list-item__primary-text {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: var(--space-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .material-symbols-outlined,
+        .mat-icon {
+            color: var(--color-text-secondary);
+            font-size: 20px;
+            margin-right: 0 !important;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background-color: rgba(var(--color-accent-rgb), 0.05) !important;
+            color: var(--color-accent) !important;
+
+            .material-symbols-outlined,
+            .mat-icon {
+                color: var(--color-accent);
+            }
+        }
+    }
 }
 
 /************* Spinner *************/

@@ -2,7 +2,10 @@ import { Component, OnInit, computed, signal, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { LlmApiKeysService } from '@app/modules/profile/services/llm-api-keys-service/llm-api-keys.service';
@@ -126,7 +129,17 @@ export class ApiKeysTabComponent implements OnInit {
     deleteKey(id: string): void {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: 'Are you sure you want to revoke this LLM API key?',
+                data: {
+                    title: 'PROFILE.API-KEYS-TAB.DIALOG.TITLE',
+                    subtitlePrefix:
+                        'PROFILE.API-KEYS-TAB.DIALOG.SUBTITLE-PREFIX',
+                    subtitleHighlight: id,
+                    subtitleSuffix:
+                        'PROFILE.API-KEYS-TAB.DIALOG.SUBTITLE-SUFFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'PROFILE.API-KEYS-TAB.DIALOG.REVOKE',
+                } as ConfirmationDialogData,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

@@ -1,72 +1,66 @@
-<mat-toolbar class="top-navbar-container">
-    <div *ngIf="hideSidebarQuery.matches" class="dashboard-logo-container">
-        <div class="corner-ribbon red" *ngIf="environment.develop">Dev</div>
-        <button mat-icon-button (click)="toggleSidenav()" style="z-index: 99">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <a routerLink="">
-            <img
-                src="../../../assets/images/dashboard-logo.png"
-                class="dashboard-logo"
-            />
-        </a>
+<header class="top-navbar">
+    <div class="top-navbar__left">
+        @if (isSidebarHidden()) {
+            <div class="top-navbar__logo-wrapper">
+                @if (environment.develop) {
+                    <div class="top-navbar__dev-ribbon">Dev</div>
+                }
+
+                <app-ui-button
+                    variant="icon"
+                    icon="menu"
+                    (click)="toggleSidenav()"
+                ></app-ui-button>
+
+                <a class="top-navbar__logo-link">
+                    <img
+                        src="../../../assets/images/dashboard-logo.png"
+                        class="top-navbar__logo-img"
+                    />
+                </a>
+            </div>
+        }
     </div>
-    <span class="spacer"></span>
-    <div *ngIf="isLoggedIn(); else showSignInLink" class="login-container">
+
+    <span class="top-navbar__spacer"></span>
+
+    <div class="top-navbar__actions">
         <app-notifications-button></app-notifications-button>
 
-        <button
-            #button
-            mat-button
-            [matMenuTriggerFor]="loginMenuAccess"
-            #menuTrigger="matMenuTrigger"
-            class="mobileQuery.matches ? profile-button-mobile : profile-button"
-        >
-            <mat-icon color="accent" class="mat-icon small-icon">
-                <span class="material-symbols-outlined" color="accent">
-                    person
-                </span>
-            </mat-icon>
-            <div *ngIf="!mobileQuery.matches" class="user-log">
-                {{ userProfile?.name }}
-            </div>
-        </button>
+        @if (isLoggedIn()) {
+            <app-ui-button
+                variant="accent-outline"
+                class="top-navbar__login-btn"
+                icon="person"
+                [text]="userProfile()?.name"
+                [matMenuTriggerFor]="loginMenuAccess"
+            >
+            </app-ui-button>
 
-        <mat-menu
-            #loginMenuAccess="matMenu"
-            class="logoutDropdownMenu"
-            hasBackdrop="true"
-        >
-            <button mat-menu-item routerLink="profile">
-                <mat-icon class="mat-icon small-icon">
-                    <span class="material-symbols-outlined" color="accent">
-                        person
-                    </span>
-                </mat-icon>
-                {{ 'TOP-NAVBAR.PROFILE' | translate }}
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon class="mat-icon small-icon">
-                    <span class="material-symbols-outlined" color="accent">
-                        logout
-                    </span>
-                </mat-icon>
-                {{ 'TOP-NAVBAR.LOGOUT' | translate }}
-            </button>
-        </mat-menu>
+            <mat-menu
+                #loginMenuAccess="matMenu"
+                xPosition="before"
+                class="ui-dropdown-panel"
+                hasBackdrop="true"
+            >
+                <button mat-menu-item routerLink="profile">
+                    <mat-icon>person</mat-icon>
+                    {{ 'TOP-NAVBAR.PROFILE' | translate }}
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    {{ 'TOP-NAVBAR.LOGOUT' | translate }}
+                </button>
+            </mat-menu>
+        } @else {
+            <app-ui-button
+                variant="accent-solid"
+                class="top-navbar__login-btn"
+                icon="person"
+                text="TOP-NAVBAR.LOGIN-REGISTER"
+                (click)="login()"
+            >
+            </app-ui-button>
+        }
     </div>
-
-    <ng-template #showSignInLink>
-        <a
-            id="showLoginButton"
-            class="mobileQuery.matches ? login-btn-mobile"
-            mat-button
-            (click)="login()"
-        >
-            <mat-icon class="mr-3">person</mat-icon>
-            <div *ngIf="!mobileQuery.matches" class="user-log">
-                {{ 'TOP-NAVBAR.LOGIN-REGISTER' | translate }}
-            </div>
-        </a>
-    </ng-template>
-</mat-toolbar>
+</header>

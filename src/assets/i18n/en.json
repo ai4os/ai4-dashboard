@@ -24,69 +24,136 @@
         "POWERED-BY": "Powered by",
         "AI4OS": "AI4OS"
     },
+
+    
     "TOP-NAVBAR": {
         "PROFILE": "Profile",
         "LOGOUT": "Log out",
         "LOGIN-REGISTER": "Login - Register",
         "NO-NOTIFICATIONS": "No notifications"
     },
+    "GENERAL": {
+        "COPIED-TO-CLIPBOARD": "Copied to clipboard!",
+        "OPEN-DOCS": "Open documentation",
+        "NO-DATA": "No data available",
+        "CONFIRM-ACTION": "Confirm action",
+        "YES": "Yes",
+        "NO": "No",
+        "REVOKE": "Revoke",
+        "CANCEL": "Cancel",
+        "FORMS": {
+            "REQUIRED": "This field is required"
+        }
+    },
     "PROFILE": {
-        "TITLE": "Profile",
-        "DETAILS": "Personal information",
-        "VOS": "Virtual organizations",
-        "NAME": "Full name",
-        "EMAIL": "Email",
+        "ACCOUNT": "Account",
         "USER-ID": "User ID",
-        "UNAUTHORIZED": "You are not a member of any VO.",
         "ACCESS-MODAL-TITLE": "Your access level changed",
         "ACCESS-MODAL-BODY": "Your highest access level is now: <b>{{currentHighestRole}}</b>. You can learn more about access levels in <a href='https://docs.ai4os.eu/en/latest/reference/user-access-levels.html' target='_blank'>our documentation</a>.",
-        "STORAGE-PROVIDERS": "Storage providers",
-        "RCLONE": {
-            "TITLE": "Add configuration manually",
-            "CONF": "RCLONE configuration",
-            "CONF-HINT": "rclone.conf location",
-            "VENDOR": "RCLONE vendor (webdav)",
-            "USER": "RCLONE user",
-            "USER-HINT": "rclone user to access a webdav remote storage",
-            "PASS": "RCLONE password",
-            "REQUIRED": "You must specify a RCLONE account",
-            "ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
-            "STORAGE-URL": "Storage URL",
-            "STORAGE-URL-HINT": "Remote storage link to be accessed via rclone (webdav).",
-            "STORAGE-URL-ERROR": "Invalid URL format"
+        "OVERVIEW-TAB": {
+            "TITLE": "Overview",
+            "SUBTITLE": "Virtual organisations",
+            "DESCRIPTION": "Groups and roles assigned to your account",
+            "UNAUTHORIZED": "You are not a member of any VO",
+            "UNAUTHORIZED-DESC": "Please <a href='https://docs.ai4os.eu/en/latest/help/index.html' target='_blank'>ask support</a> for the request link of your virtual organisation.",
+            "VO-TOOLTIP": "This is the VO for the dashboard you are currently viewing",
+            "ROLE-TOOLTIP": "Your highest-ranking role in this VO"
         },
-        "ADD": "Add",
-        "LINK": "Link",
-        "RELINK": "Re-link",
-        "REVOKE": "Revoke",
-        "LOGIN": "Log in the the pop-up window",
-        "NEXTCLOUD": {
-            "AI4EOSC": "AI4EOSC Nextcloud",
-            "CUSTOM": "Custom Storage",
-            "INVALID-DOMAIN": "Invalid domain format"
+        "API-KEYS-TAB": {
+            "TITLE": "API Keys",
+            "DISABLE-TOOLTIP": "You are not authorized to manage API keys",
+            "SUBTITLE": "LLM API Keys",
+            "DESCRIPTION": "LLM API keys let you make authenticated requests to <a href='https://vllm.cloud.ai4eosc.eu/' target='_blank'>our LLM service</a> and interact with multiple distributed models. Each key has an expiry date and can be revoked at any time. If no expiration date is set, the key will never expire.",
+            "CREATE-PANEL": "Generate a new key",
+            "CREATE-BUTTON": "Create",
+            "CREATE-TOOLTIP": "Enter an identifier to create an API key",
+            "EXPIRY-TOOLTIP": "Expiration date",
+            "API-ERROR": "Couldn't retrieve LLM API keys. Please try again later",
+            "TABLE": {
+                "KEY-ID": "Key identifier",
+                "CREATED": "Created",
+                "EXPIRES": "Expires",
+                "EXPIRES-TOOLTIP": "This key expires soon",
+                "ACTIONS": "Actions",
+                "NEVER": "Never",
+                "NO-API-KEYS": "No API keys yet. Create your first API key to get started."
+            },
+            "DIALOG": {
+                "TITLE": "Revoke LLM API key permanently?",
+                "SUBTITLE-PREFIX": "The key ",
+                "SUBTITLE-SUFFIX": " will be invalidated immediately. Any services using it will lose access and this action cannot be undone.",
+                "REVOKE": "Revoke key"
+            }
         },
-        "AI4EOSC-SERVICES": "AI4EOSC services",
-        "EXTERNAL-SERVICES": "External services",
+        "STORAGE-TAB": {
+            "TITLE": "Storage",
+            "DISABLE-TOOLTIP": "You are not authorized to manage storage service connections",
+            "SUBTITLE": "Storage providers",
+            "DESCRIPTION": "Connect cloud and custom storage services to your workspace",
+            "AI4EOSC-NEXTCLOUD": "AI4EOSC Nextcloud",
+            "CUSTOM-NEXTCLOUD": "Custom Nextcloud",
+            "CUSTOM-NEXTCLOUD-DESC": "To connect a custom Nextcloud instance, some <a href='https://docs.ai4os.eu/en/latest/technical/storage-providers.html#nextcloud' target='_blank'>server configuration</a>  may be required",
+            "OPEN-STORAGE": "Open storage service",
+            "FORM": {
+                "INVALID-DOMAIN": "Invalid domain format"
+            },
+            "RCLONE": {
+                "TITLE": "Add configuration manually",
+                "CONF": "RCLONE configuration",
+                "CONF-HINT": "rclone.conf location",
+                "VENDOR": "RCLONE vendor (webdav)",
+                "USER": "RCLONE user",
+                "USER-HINT": "rclone user to access a webdav remote storage",
+                "PASS": "RCLONE password",
+                "STORAGE-URL": "Storage URL",
+                "STORAGE-URL-HINT": "Remote storage link to be accessed via rclone (webdav).",
+                "STORAGE-URL-ERROR": "Invalid URL format"
+            },
+            "DIALOG": {
+                "TITLE": "Disconnect storage provider?",
+                "SUBTITLE-PREFIX": "The storage provider at ",
+                "SUBTITLE-SUFFIX": " will be disconnected from your workspace. It will no longer be available for your deployments, but you can reconnect it at any time."
+            }
+        },
+        "SERVICES-TAB": {
+            "TITLE": "Services",
+            "SUBTITLE": "Connected services",
+            "DESCRIPTION": "Platform and external integrations available in your workspace",
+            "MLFLOW": "MLflow",
+            "HF": "Hugging Face",
+            "DIALOG": {
+                "TITLE": "Unlink Hugging Face account?",
+                "SUBTITLE-PREFIX": "Your Hugging Face access token will be removed from your account. If you want to use Hugging Face again, you'll need to enter your token manually. You can link your account again at any time.",
+                "UNLINK": "Unlink account"
+            }
+        },
+        "ACTIONS": {
+            "LINK": "Link",
+            "RE-LINK": "Re-link",
+            "UNLINK": "Unlink",
+            "CONNECT": "Connect",
+            "RE-CONNECT": "Reconnect",
+            "DISCONNECT": "Disconnect",
+            "ADD": "Add",
+            "REVOKE": "Revoke"
+        },
+        "STATUS": {
+            "LINKED": "Linked",
+            "UNLINKED": "Unlinked",
+            "CONNECTED": "Connected",
+            "DISCONNECTED": "Disconnected"
+        },
+
         "API-KEYS": {
-            "TITLE": "Secrets and API Keys",
-            "LLM-TITLE": "LLM API Keys",
-            "LLM-DESCRIPTION": "Generating LLM API keys enables you to make authenticated requests to our LLM service and interact with multiple distributed LLMs.",
-            "EXPIRATION-DATE": "Expiration date",
-            "CLEAR-DATE": "Clearing the expiration date will create a key that does not expire",
             "MODAL": {
                 "TITLE": "Save your LLM API Key",
                 "DESCRIPTION": "This is the only time you will be able to see your LLM API key. Please make sure to copy and store it securely. If you lose it, you will need to generate a new one.",
                 "OK": "I understand"
-            },
-            "TABLE": {
-                "KEY-ID": "Key ID",
-                "CREATION-TIME": "Creation time (UTC)",
-                "EXPIRES": "Expires",
-                "ACTIONS": "Actions",
-                "EMPTY-LIST": "No LLM API keys found."
             }
         }
     },
+
+
     "DASHBOARD": {
         "TITLE": "Dashboard",
         "OVERVIEW-TAB": "Overview",
@@ -354,7 +421,7 @@
                 "JUPYTERLAB": "Open in JupyterLab",
                 "VSCODE": "Open in VScode"
             },
-            "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organization to use this",
+            "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organisation to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
         },

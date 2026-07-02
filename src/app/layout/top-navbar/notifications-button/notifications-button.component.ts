@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
     PlatformStatus,
     StatusNotification,
@@ -14,49 +14,43 @@ import * as yaml from 'js-yaml';
     styleUrls: ['./notifications-button.component.scss'],
 })
 export class NotificationsButtonComponent implements OnInit {
-    constructor(
-        protected platformStatusService: PlatformStatusService,
-        private snackbarService: SnackbarService,
-        protected htmlSanitizerService: HtmlSanitizerService
-    ) {}
+    protected platformStatusService = inject(PlatformStatusService);
+    protected htmlSanitizerService = inject(HtmlSanitizerService);
+    private snackbarService = inject(SnackbarService);
 
-    notifications: StatusNotification[] = [];
-    displayedNotifications: StatusNotification[] = [];
+    protected displayedNotifications = signal<StatusNotification[]>([]);
 
     ngOnInit(): void {
         this.getNotifications();
     }
 
-    getNotifications() {
+    private getNotifications(): void {
         this.platformStatusService.getPlatformNotifications().subscribe({
             next: (platformStatus: PlatformStatus[]) => {
-                if (platformStatus.length > 0) {
-                    platformStatus.forEach((status) => {
+                if (platformStatus.length === 0) {
+                    this.displayedNotifications.set([]);
+                    return;
+                }
+
+                const parsedNotifications: StatusNotification[] =
+                    platformStatus.map((status) => {
                         if (status.body != null) {
                             const yamlBody = status.body
                                 .replace(/```yaml/g, '')
                                 .replace(/```[\s\S]*/, '');
-                            const notification: StatusNotification = yaml.load(
-                                yamlBody
-                            ) as StatusNotification;
-                            this.notifications.push(notification);
-                        } else {
-                            const notification: StatusNotification = {
-                                title: status.title,
-                            };
-                            this.notifications.push(notification);
+                            return yaml.load(yamlBody) as StatusNotification;
                         }
+                        return { title: status.title } as StatusNotification;
                     });
-                    this.displayedNotifications =
-                        this.platformStatusService.filterByDateAndVo(
-                            this.notifications
-                        );
-                } else {
-                    this.notifications = [];
-                }
+
+                const filtered =
+                    this.platformStatusService.filterByDateAndVo(
+                        parsedNotifications
+                    );
+                this.displayedNotifications.set(filtered);
             },
             error: () => {
-                this.notifications = [];
+                this.displayedNotifications.set([]);
                 this.snackbarService.openError(
                     'Error retrieving the platform notifications'
                 );

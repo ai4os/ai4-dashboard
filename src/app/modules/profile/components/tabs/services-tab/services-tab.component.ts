@@ -2,7 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ServicesCredentialsStore } from '@app/modules/profile/store/services-credentials.store';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
     selector: 'app-services-tab',
@@ -33,7 +36,14 @@ export class ServicesTabComponent implements OnInit {
     unsyncHuggingFace(): void {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: 'Are you sure you want to revoke your Hugging Face token?',
+                data: {
+                    title: 'PROFILE.SERVICES-TAB.DIALOG.TITLE',
+                    subtitlePrefix:
+                        'PROFILE.SERVICES-TAB.DIALOG.SUBTITLE-PREFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'PROFILE.SERVICES-TAB.DIALOG.UNLINK',
+                } as ConfirmationDialogData,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

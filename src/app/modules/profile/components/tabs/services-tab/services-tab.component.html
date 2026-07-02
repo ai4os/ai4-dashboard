@@ -27,7 +27,7 @@
                     : ('PROFILE.STATUS.UNLINKED' | translate)
             "
             [statusVariant]="mlflowLinked ? 'success-solid' : 'default-solid'"
-            accentColor="#0194E2"
+            accentColor="#43C9ED"
         >
             <img
                 serviceCardIcon
@@ -48,7 +48,7 @@
                     <app-ui-button
                         variant="accent-solid"
                         icon="link"
-                        [text]="'PROFILE.SERVICES-TAB.LINK' | translate"
+                        [text]="'PROFILE.ACTIONS.LINK' | translate"
                         (click)="syncMlflow()"
                     ></app-ui-button>
                 </div>
@@ -80,8 +80,8 @@
                     icon="link"
                     [text]="
                         hfToken
-                            ? ('PROFILE.SERVICES-TAB.RE-LINK' | translate)
-                            : ('PROFILE.SERVICES-TAB.LINK' | translate)
+                            ? ('PROFILE.ACTIONS.RE-LINK' | translate)
+                            : ('PROFILE.ACTIONS.LINK' | translate)
                     "
                     (click)="startLoginWithHuggingFace()"
                 ></app-ui-button>
@@ -89,7 +89,8 @@
                 @if (hfToken) {
                     <app-ui-button
                         variant="danger-solid"
-                        icon="delete"
+                        icon="link_off"
+                        [matTooltip]="'PROFILE.ACTIONS.UNLINK' | translate"
                         (click)="unsyncHuggingFace()"
                     ></app-ui-button>
                 }

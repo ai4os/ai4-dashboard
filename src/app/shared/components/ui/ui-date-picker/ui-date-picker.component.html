@@ -3,7 +3,13 @@
     [class.ui-date-picker--disabled]="disabled"
     (click)="!disabled && picker.open()"
 >
-    <mat-icon class="ui-date-picker__icon">calendar_today</mat-icon>
+    <mat-icon
+        class="ui-date-picker__icon"
+        [matTooltip]="tooltip! | translate"
+        [matTooltipDisabled]="!tooltip"
+        matTooltipClass="ui-tooltip"
+        >calendar_today</mat-icon
+    >
 
     <input
         class="ui-date-picker__input"

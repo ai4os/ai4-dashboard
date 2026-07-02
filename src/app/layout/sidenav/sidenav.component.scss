@@ -23,18 +23,21 @@
 }
 
 .corner-ribbon {
-    width: 200px;
-    background: #e43;
     position: absolute;
-    top: 0px;
-    left: -80px;
+    top: 15px;
+    left: -65px;
+    width: 200px;
+    background-color: var(--color-danger);
+    color: var(--color-text-inverse);
     text-align: center;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
     line-height: 40px;
     letter-spacing: 1px;
-    color: #f0f0f0;
     transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
     z-index: 1000;
+    pointer-events: none;
+    box-shadow: var(--shadow-sm);
 }
 
 .dashboard-logo-container {
