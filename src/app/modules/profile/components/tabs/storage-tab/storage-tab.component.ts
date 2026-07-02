@@ -258,6 +258,7 @@ export class StorageTabComponent implements OnInit {
                             .addCredential(credential, serviceName)
                             .subscribe({
                                 next: () => {
+                                    this.advancedExpanded = false;
                                     this.store.forceReload();
                                     this.snackbarService.openSuccess(
                                         'Successfully generated ' +
