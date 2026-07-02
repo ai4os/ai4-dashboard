@@ -63,7 +63,7 @@
             "TITLE": "API Keys",
             "DISABLE-TOOLTIP": "You are not authorized to manage API keys",
             "SUBTITLE": "LLM API Keys",
-            "DESCRIPTION": "LLM API keys let you make authenticated requests to <a href='https://vllm.cloud.ai4eosc.eu/' target='_blank'>our LLM service</a> and interact with multiple distributed models. Each key has an expiry date and can be revoked at any time. If no expiration date is set, the key will never expire.",
+            "DESCRIPTION": "LLM API keys let you make authenticated requests to <a href='https://vllm.cloud.ai4eosc.eu/' target='_blank'>our LLM service</a> and interact with multiple distributed models. Each key has an expiration date and can be revoked at any time. If no expiration date is set, the key will never expire.",
             "CREATE-PANEL": "Generate a new key",
             "CREATE-BUTTON": "Create",
             "CREATE-TOOLTIP": "Enter an identifier to create an API key",

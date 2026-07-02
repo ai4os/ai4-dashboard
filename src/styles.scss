@@ -248,6 +248,7 @@ mat-icon,
         min-height: 40px;
         padding: 0 var(--space-md);
         color: var(--color-text-primary) !important;
+        gap: var(--space-sm);
 
         .mat-mdc-menu-item-text,
         .mdc-list-item__primary-text {

@@ -166,7 +166,7 @@ export class ApiKeysTabComponent implements OnInit {
         if (!expires) return false;
         const diffMs = expires.getTime() - Date.now();
         const diffDays = diffMs / (1000 * 60 * 60 * 24);
-        return diffDays > 0 && diffDays <= 7;
+        return diffDays <= 7;
     }
 
     private calculateExpirationDiff(expirationDate: Date | null): string {
