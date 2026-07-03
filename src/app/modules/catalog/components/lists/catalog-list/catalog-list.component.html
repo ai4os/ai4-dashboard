@@ -104,8 +104,7 @@
                 *ngFor="
                     let element of displayedElements
                         | searchAi4eoscModule
-                            : this.searchFormGroup.get('search')
-                                  ?.value as elements;
+                            : searchFormGroup.get('search')?.value as elements;
                     let first = first
                 "
                 class="m-2"

@@ -16,7 +16,7 @@
 
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches,
+            'card-content-mobile': mobileQuery.matches,
         }"
     >
         <ng-container *ngIf="!dialogLoading; else loading">
@@ -89,7 +89,7 @@
                             <mat-form-field subscriptSizing="dynamic">
                                 <mat-label
                                     *ngIf="
-                                        this.zenodoFormGroup.get(
+                                        zenodoFormGroup.get(
                                             'zenodoCommunitySelect'
                                         )?.value === '' || datasetsLength !== 0;
                                         else noDatasetsAvailable

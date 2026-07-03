@@ -416,9 +416,9 @@
                 </mat-form-field>
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
+                    generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'both' ||
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
+                    generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'vllm'
                 ) {
                     <mat-form-field>
@@ -444,9 +444,9 @@
                 }
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
+                    generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'both' ||
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
+                    generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'open-webui'
                 ) {
                     <mat-form-field>
@@ -525,7 +525,7 @@
                 }
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
+                    generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'open-webui'
                 ) {
                     <mat-form-field>
@@ -569,7 +569,7 @@
                 }
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
+                    generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'open-webui'
                 ) {
                     <mat-form-field>
@@ -603,9 +603,9 @@
 
                 @if (
                     modelNeedsToken &&
-                    (this.generalConfFormGroup.get('deploymentTypeSelect')
+                    (generalConfFormGroup.get('deploymentTypeSelect')
                         ?.value === 'both' ||
-                        this.generalConfFormGroup.get('deploymentTypeSelect')
+                        generalConfFormGroup.get('deploymentTypeSelect')
                             ?.value === 'vllm')
                 ) {
                     <div class="field-with-info">
@@ -711,7 +711,7 @@
                     <div class="form-flex tab-content">
                         <app-single-file-upload
                             [file]="
-                                this.generalConfFormGroup.get('batchFile')
+                                generalConfFormGroup.get('batchFile')
                                     ?.value ?? null
                             "
                             (fileUploaded)="updateBatchFile($event)"

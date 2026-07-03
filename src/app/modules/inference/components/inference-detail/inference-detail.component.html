@@ -21,8 +21,8 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches,
-            'card-content': !this.mobileQuery.matches,
+            'card-content-mobile': mobileQuery.matches,
+            'card-content': !mobileQuery.matches,
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">

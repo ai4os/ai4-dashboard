@@ -83,7 +83,7 @@
                     *ngFor="
                         let llm of llms
                             | searchLlms
-                                : this.searchFormGroup.get('search')
+                                : searchFormGroup.get('search')
                                       ?.value as modules
                     "
                     class="m-2"

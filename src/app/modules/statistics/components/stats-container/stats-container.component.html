@@ -30,7 +30,7 @@
         [iconName]="'album'"
         [usedValue]="Math.trunc(usedDisk)"
         [totalValue]="Math.trunc(totalDisk)"
-        [memoryUnit]="this.diskUnit"
+        [memoryUnit]="diskUnit"
         [usedLabel]="usedLabel"
         [freeLabel]="freeLabel"
     ></app-stat-card>
@@ -44,7 +44,7 @@
         [usedLabel]="usedLabel"
         [freeLabel]="freeLabel"
         [ngClass]="{
-            click_enabled: gpuPerModelCluster
+            click_enabled: gpuPerModelCluster,
         }"
     ></app-stat-card>
 </div>

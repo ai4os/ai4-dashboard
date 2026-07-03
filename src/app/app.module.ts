@@ -36,6 +36,7 @@ import { IntroJSService } from 'introjs/introjs.service';
 import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FooterComponent } from './layout/footer/footer.component';
+import { Tokens } from 'marked';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
@@ -62,7 +63,9 @@ const { base } = environment.api;
 
 const renderer = new MarkedRenderer();
 
-renderer.paragraph = (text: string) => {
+renderer.paragraph = (token: Tokens.Paragraph) => {
+    const text = token.text;
+
     if (text.startsWith('&lt;img')) {
         const div = document.createElement('div');
         div.innerHTML = text.trim();
@@ -76,7 +79,11 @@ renderer.paragraph = (text: string) => {
     }
 };
 
-renderer.link = (href, title, text) => {
+renderer.link = (token: Tokens.Link) => {
+    const href = token.href;
+    const title = token.title || '';
+    const text = token.text;
+
     if (text.endsWith('/&gt;')) {
         return text;
     } else {
@@ -118,7 +125,6 @@ renderer.link = (href, title, text) => {
                     renderer: renderer,
                     gfm: true,
                     breaks: false,
-                    sanitize: false,
                 },
             },
         }),

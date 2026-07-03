@@ -55,7 +55,7 @@
             *ngFor="
                 let module of modules
                     | searchAi4lifeModule
-                        : this.searchFormGroup.get('search')?.value as modules
+                        : searchFormGroup.get('search')?.value as modules
             "
             class="m-2"
         >

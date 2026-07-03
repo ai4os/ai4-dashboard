@@ -4,13 +4,14 @@ import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
     selector: 'app-ui-expansion-panel',
     templateUrl: './ui-expansion-panel.component.html',
     styleUrl: './ui-expansion-panel.component.scss',
-    standalone: false
+    standalone: false,
 })
 export class UiExpansionPanelComponent {
     @Input() set expanded(value: boolean | undefined) {
         if (value !== undefined) this._expanded.set(value);
     }
     @Input() disabled = false;
+    @Input() isExpansible? = true;
     @Output() expandedChange = new EventEmitter<boolean>();
 
     protected _expanded = signal(false);

@@ -16,7 +16,7 @@
 
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches
+            'card-content-mobile': mobileQuery.matches,
         }"
     >
         <ng-container *ngIf="!isLoading; else loading">

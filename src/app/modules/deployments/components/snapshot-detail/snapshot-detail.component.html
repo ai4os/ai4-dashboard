@@ -17,8 +17,8 @@
     <mat-card-header>
         <mat-card-title
             [ngClass]="{
-                'card-title-mobile': this.mobileQuery.matches,
-                'card-title': !this.mobileQuery.matches,
+                'card-title-mobile': mobileQuery.matches,
+                'card-title': !mobileQuery.matches,
             }"
         >
             <h2>{{ snapshot.title }}</h2>
@@ -33,7 +33,7 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches,
+            'card-content-mobile': mobileQuery.matches,
         }"
     >
         <div *ngIf="snapshotHasError">

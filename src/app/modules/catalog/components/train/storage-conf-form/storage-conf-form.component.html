@@ -6,9 +6,9 @@
         @if (
             isCvatTool &&
             !credentialsLoading &&
-            (this.storageConfFormGroup.get('storageServiceDatasetSelect')
-                ?.value === '' ||
-                this.storageConfFormGroup.get('storageServiceDatasetSelect')
+            (storageConfFormGroup.get('storageServiceDatasetSelect')?.value ===
+                '' ||
+                storageConfFormGroup.get('storageServiceDatasetSelect')
                     ?.value === undefined)
         ) {
             <span>
@@ -129,9 +129,8 @@
                 >
                     <mat-select-trigger>
                         {{
-                            this.storageConfFormGroup.get(
-                                'snapshotDatasetSelect'
-                            )?.value
+                            storageConfFormGroup.get('snapshotDatasetSelect')
+                                ?.value
                         }}
                     </mat-select-trigger>
 
@@ -196,9 +195,7 @@
                 <button
                     *ngIf="suggestedDatasetIsValid()"
                     mat-stroked-button
-                    (click)="
-                        datasetsListComponent.addDataset(this.suggestedDataset)
-                    "
+                    (click)="datasetsListComponent.addDataset(suggestedDataset)"
                 >
                     <span class="aligned-with-icon scale-icon-down">
                         <mat-icon color="accent">emoji_objects</mat-icon>
