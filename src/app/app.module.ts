@@ -4,7 +4,12 @@ import {
     provideHttpClient,
     withInterceptorsFromDi,
 } from '@angular/common/http';
-import { NgModule, provideAppInitializer, inject } from '@angular/core';
+import {
+    NgModule,
+    provideAppInitializer,
+    inject,
+    provideZoneChangeDetection,
+} from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 
