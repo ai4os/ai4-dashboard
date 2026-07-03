@@ -54,7 +54,7 @@
     "js-yaml": "^4.1.0",
     "jwt-decode": "^4.0.0",
     "marked": "^15.0.12",
-    "ngx-cookie-service": "^18.0.0",
+    "ngx-cookie-service": "^19.1.2",
     "ngx-echarts": "^15.0.3",
     "ngx-markdown": "^19.1.1",
     "ol": "^9.1.0",
