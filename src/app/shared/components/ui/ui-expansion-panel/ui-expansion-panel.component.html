@@ -1,6 +1,7 @@
 <div class="ui-expansion-panel" [class.ui-expansion-panel--disabled]="disabled">
     <button
         class="ui-expansion-panel__toggle"
+        [class.ui-expansion-panel__toggle--no-expansible]="!isExpansible"
         type="button"
         [disabled]="disabled"
         [attr.aria-expanded]="isExpanded()"
@@ -9,12 +10,14 @@
         <span class="ui-expansion-panel__header">
             <ng-content select="[panelHeader]"></ng-content>
         </span>
-        <mat-icon
-            class="ui-expansion-panel__chevron"
-            [class.ui-expansion-panel__chevron--open]="isExpanded()"
-        >
-            expand_more
-        </mat-icon>
+        @if (isExpansible) {
+            <mat-icon
+                class="ui-expansion-panel__chevron"
+                [class.ui-expansion-panel__chevron--open]="isExpanded()"
+            >
+                expand_more
+            </mat-icon>
+        }
     </button>
 
     <div

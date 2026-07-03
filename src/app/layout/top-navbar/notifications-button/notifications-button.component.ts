@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    HostListener,
+    OnInit,
+    inject,
+    signal,
+} from '@angular/core';
 import {
     PlatformStatus,
     StatusNotification,
@@ -17,11 +24,53 @@ export class NotificationsButtonComponent implements OnInit {
     protected platformStatusService = inject(PlatformStatusService);
     protected htmlSanitizerService = inject(HtmlSanitizerService);
     private snackbarService = inject(SnackbarService);
+    private elementRef = inject(ElementRef);
 
     protected displayedNotifications = signal<StatusNotification[]>([]);
+    protected isOpen = signal(false);
+    protected expandedTitles = signal<Set<string>>(new Set());
 
     ngOnInit(): void {
         this.getNotifications();
+    }
+
+    protected toggleMenu(): void {
+        this.isOpen.update((open) => !open);
+    }
+
+    protected closeMenu(): void {
+        this.isOpen.set(false);
+    }
+
+    protected isExpanded(title: string): boolean {
+        return this.expandedTitles().has(title);
+    }
+
+    protected onExpandedChange(title: string, expanded: boolean): void {
+        this.expandedTitles.update((titles) => {
+            const next = new Set(titles);
+            if (expanded) {
+                next.add(title);
+            } else {
+                next.delete(title);
+            }
+            return next;
+        });
+    }
+
+    @HostListener('document:click', ['$event'])
+    protected onDocumentClick(event: MouseEvent): void {
+        if (!this.isOpen()) {
+            return;
+        }
+        if (!this.elementRef.nativeElement.contains(event.target)) {
+            this.closeMenu();
+        }
+    }
+
+    @HostListener('document:keydown.escape')
+    protected onEscapeKey(): void {
+        this.closeMenu();
     }
 
     private getNotifications(): void {

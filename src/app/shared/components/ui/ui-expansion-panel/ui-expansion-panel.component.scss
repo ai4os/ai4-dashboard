@@ -22,6 +22,10 @@
         &:disabled {
             cursor: not-allowed;
         }
+
+        &.ui-expansion-panel__toggle--no-expansible {
+            cursor: default;
+        }
     }
 
     &__header {
