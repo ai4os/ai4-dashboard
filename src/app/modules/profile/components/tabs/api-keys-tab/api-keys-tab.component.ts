@@ -19,6 +19,7 @@ import {
     selector: 'app-api-keys-tab',
     templateUrl: './api-keys-tab.component.html',
     styleUrl: './api-keys-tab.component.scss',
+    standalone: false
 })
 export class ApiKeysTabComponent implements OnInit {
     constructor(

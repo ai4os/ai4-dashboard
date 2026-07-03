@@ -6,6 +6,7 @@ import { VoInfo } from '@app/shared/interfaces/profile.interface';
     selector: 'app-overview-tab',
     templateUrl: './overview-tab.component.html',
     styleUrl: './overview-tab.component.scss',
+    standalone: false
 })
 export class OverviewTabComponent {
     appConfigService = inject(AppConfigService);

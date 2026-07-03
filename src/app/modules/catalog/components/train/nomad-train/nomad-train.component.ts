@@ -16,6 +16,7 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
     selector: 'app-nomad-train',
     templateUrl: './nomad-train.component.html',
     styleUrls: ['./nomad-train.component.scss'],
+    standalone: false
 })
 export class NomadTrainComponent implements OnInit {
     constructor(

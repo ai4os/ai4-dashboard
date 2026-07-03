@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     selector: 'app-single-file-upload',
     templateUrl: './single-file-upload.component.html',
     styleUrl: './single-file-upload.component.scss',
+    standalone: false
 })
 export class SingleFileUploadComponent implements OnInit {
     @Input() file: File | null = null;

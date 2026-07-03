@@ -17,6 +17,7 @@ import { formatDate } from '@app/shared/utils/formatDate';
 @Component({
     selector: 'app-try-me-list',
     templateUrl: './try-me-list.component.html',
+    standalone: false
 })
 export class TryMeListComponent implements OnInit {
     constructor(

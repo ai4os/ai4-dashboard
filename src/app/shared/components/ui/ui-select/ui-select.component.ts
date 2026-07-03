@@ -24,6 +24,7 @@ let nextId = 0;
     selector: 'app-ui-select',
     templateUrl: './ui-select.component.html',
     styleUrl: './ui-select.component.scss',
+    standalone: false
 })
 export class UiSelectComponent implements ControlValueAccessor {
     @Input() label?: string;

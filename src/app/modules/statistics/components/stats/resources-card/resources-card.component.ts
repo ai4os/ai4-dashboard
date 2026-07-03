@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-resources-card',
     templateUrl: './resources-card.component.html',
     styleUrl: './resources-card.component.scss',
+    standalone: false
 })
 export class ResourcesCardComponent {
     @Input() usedCpu: number = 0;

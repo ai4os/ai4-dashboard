@@ -7,6 +7,7 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
     templateUrl: './ai4eosc-module-card.component.html',
     styleUrls: ['./ai4eosc-module-card.component.scss'],
     providers: [TitleCasePipe],
+    standalone: false
 })
 export class Ai4eoscModuleCardComponent implements OnInit {
     constructor(public titleCasePipe: TitleCasePipe) {}

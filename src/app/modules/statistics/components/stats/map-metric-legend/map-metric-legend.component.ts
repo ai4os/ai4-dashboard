@@ -9,6 +9,7 @@ import {
     selector: 'app-map-metric-legend',
     templateUrl: './map-metric-legend.component.html',
     styleUrls: ['./map-metric-legend.component.scss'],
+    standalone: false
 })
 export class MapMetricLegendComponent implements OnChanges {
     @Input() metric: MapMetric = 'pue';

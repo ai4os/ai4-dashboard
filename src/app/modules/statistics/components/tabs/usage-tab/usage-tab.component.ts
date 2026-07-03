@@ -7,6 +7,7 @@ import { GlobalStats } from '@app/shared/interfaces/stats.interface';
     selector: 'app-usage-tab',
     templateUrl: './usage-tab.component.html',
     styleUrls: ['./usage-tab.component.scss'],
+    standalone: false
 })
 export class UsageTabComponent implements OnInit {
     @Input()

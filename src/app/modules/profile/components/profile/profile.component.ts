@@ -11,6 +11,7 @@ import { Tab } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
+    standalone: false
 })
 export class ProfileComponent implements OnInit {
     constructor(

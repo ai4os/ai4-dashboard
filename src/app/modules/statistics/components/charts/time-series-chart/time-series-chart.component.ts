@@ -5,6 +5,7 @@ import { EChartsOption } from 'echarts';
     selector: 'app-time-series-chart',
     templateUrl: './time-series-chart.component.html',
     styleUrls: ['./time-series-chart.component.scss'],
+    standalone: false
 })
 export class TimeSeriesChartComponent implements OnInit {
     constructor() {}

@@ -7,6 +7,7 @@ import { gitInfo } from '@environments/version';
     selector: 'app-footer',
     templateUrl: './footer.component.html',
     styleUrl: './footer.component.scss',
+    standalone: false
 })
 export class FooterComponent implements OnInit {
     constructor(private appConfigService: AppConfigService) {}

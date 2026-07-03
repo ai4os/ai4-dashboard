@@ -16,6 +16,7 @@ import { showHardwareField } from '../hardware-conf-form/hardware-conf-form.comp
     selector: 'app-oscar-train',
     templateUrl: './oscar-train.component.html',
     styleUrl: './oscar-train.component.scss',
+    standalone: false
 })
 export class OscarTrainComponent implements OnInit {
     constructor(

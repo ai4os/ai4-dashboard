@@ -7,6 +7,7 @@ import {
 
 @Pipe({
     name: 'searchAi4eoscModule',
+    standalone: false
 })
 export class SearchAi4eoscPipe implements PipeTransform {
     public transform(value: Array<ModuleSummary>, searchValue: string) {
@@ -22,6 +23,7 @@ export class SearchAi4eoscPipe implements PipeTransform {
 
 @Pipe({
     name: 'searchAi4lifeModule',
+    standalone: false
 })
 export class SearchAi4lifePipe implements PipeTransform {
     public transform(value: Array<Ai4lifeModule>, searchValue: string) {
@@ -38,6 +40,7 @@ export class SearchAi4lifePipe implements PipeTransform {
 
 @Pipe({
     name: 'searchLlms',
+    standalone: false
 })
 export class SearchLlmsPipe implements PipeTransform {
     public transform(value: Array<VllmModelConfig>, searchValue: string) {

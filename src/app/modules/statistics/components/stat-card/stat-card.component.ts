@@ -9,6 +9,7 @@ import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.co
     selector: 'app-stat-card',
     templateUrl: './stat-card.component.html',
     styleUrls: ['./stat-card.component.scss'],
+    standalone: false
 })
 export class StatCardComponent implements OnInit {
     @Input() title = '';

@@ -41,6 +41,7 @@ import { formatDate } from '@app/shared/utils/formatDate';
     selector: 'app-deployments-table',
     templateUrl: './deployments-table.component.html',
     styleUrl: './deployments-table.component.scss',
+    standalone: false
 })
 export class DeploymentsTableComponent implements OnInit, OnDestroy {
     constructor(

@@ -9,6 +9,7 @@ import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
     selector: 'app-ai4life-list',
     templateUrl: './ai4life-list.component.html',
     styleUrl: './ai4life-list.component.scss',
+    standalone: false
 })
 export class Ai4lifeListComponent implements OnInit {
     constructor(

@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-resource-bar',
     templateUrl: './resource-bar.component.html',
     styleUrl: './resource-bar.component.scss',
+    standalone: false
 })
 export class ResourceBarComponent {
     @Input() label: string = '';

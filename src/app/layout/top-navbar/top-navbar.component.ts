@@ -10,6 +10,7 @@ import { environment } from '@environments/environment';
     selector: 'app-top-navbar',
     templateUrl: './top-navbar.component.html',
     styleUrls: ['./top-navbar.component.scss'],
+    standalone: false
 })
 export class TopNavbarComponent implements OnInit {
     private authService = inject(AuthService);

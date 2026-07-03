@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
     selector: 'app-forbidden',
     templateUrl: './forbidden.component.html',
     styleUrls: ['./forbidden.component.scss'],
+    standalone: false
 })
 export class ForbiddenComponent implements OnInit {
     constructor(private route: ActivatedRoute) {}

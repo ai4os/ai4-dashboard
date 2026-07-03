@@ -7,6 +7,7 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     selector: 'app-llm-card',
     templateUrl: './llm-card.component.html',
     styleUrl: './llm-card.component.scss',
+    standalone: false
 })
 export class LlmCardComponent implements OnInit {
     constructor(

@@ -16,6 +16,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
     selector: 'app-federated-conf-form',
     templateUrl: './federated-conf-form.component.html',
     styleUrls: ['./federated-conf-form.component.scss'],
+    standalone: false
 })
 export class FederatedConfFormComponent implements OnInit {
     constructor(

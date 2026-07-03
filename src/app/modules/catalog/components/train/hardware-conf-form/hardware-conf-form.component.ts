@@ -30,6 +30,7 @@ const mockedConfObject: confObjectRange = {
     selector: 'app-hardware-conf-form',
     templateUrl: './hardware-conf-form.component.html',
     styleUrls: ['./hardware-conf-form.component.scss'],
+    standalone: false
 })
 export class HardwareConfFormComponent implements OnInit {
     constructor(

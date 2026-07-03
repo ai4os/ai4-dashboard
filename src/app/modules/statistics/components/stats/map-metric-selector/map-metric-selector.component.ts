@@ -12,6 +12,7 @@ export interface MetricOption {
     selector: 'app-map-metric-selector',
     templateUrl: './map-metric-selector.component.html',
     styleUrls: ['./map-metric-selector.component.scss'],
+    standalone: false
 })
 export class MapMetricSelectorComponent {
     @Input() active: MapMetric = 'pue';

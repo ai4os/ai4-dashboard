@@ -23,6 +23,7 @@ const mockedConfObject: confObjectRange = {
     selector: 'app-nvflare-conf-form',
     templateUrl: './nvflare-conf-form.component.html',
     styleUrl: './nvflare-conf-form.component.scss',
+    standalone: false
 })
 export class NvflareConfFormComponent {
     constructor(

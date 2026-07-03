@@ -12,6 +12,7 @@ export interface Tab {
     selector: 'app-ui-tabs',
     templateUrl: './ui-tabs.component.html',
     styleUrl: './ui-tabs.component.scss',
+    standalone: false
 })
 export class UiTabsComponent {
     @Input() tabs: Tab[] = [];

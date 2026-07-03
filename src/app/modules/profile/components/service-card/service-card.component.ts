@@ -18,6 +18,7 @@ export type ProviderCardStatus =
     selector: 'app-service-card',
     templateUrl: './service-card.component.html',
     styleUrl: './service-card.component.scss',
+    standalone: false
 })
 export class ServiceCardComponent {
     @Input() title!: string;

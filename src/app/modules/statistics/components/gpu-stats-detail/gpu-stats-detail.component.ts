@@ -8,6 +8,7 @@ import { EChartsOption } from 'echarts';
     selector: 'app-gpu-stats-detail',
     templateUrl: './gpu-stats-detail.component.html',
     styleUrls: ['./gpu-stats-detail.component.scss'],
+    standalone: false
 })
 export class GpuStatsDetailComponent implements OnInit {
     constructor(

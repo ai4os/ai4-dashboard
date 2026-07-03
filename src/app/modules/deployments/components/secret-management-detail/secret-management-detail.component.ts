@@ -26,6 +26,7 @@ export interface SecretField {
     selector: 'app-secret-management-detail',
     templateUrl: './secret-management-detail.component.html',
     styleUrls: ['./secret-management-detail.component.scss'],
+    standalone: false
 })
 export class SecretManagementDetailComponent implements OnInit {
     constructor(

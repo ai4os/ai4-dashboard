@@ -5,6 +5,7 @@ import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
     selector: 'app-ai4life-module-card',
     templateUrl: './ai4life-module-card.component.html',
     styleUrl: './ai4life-module-card.component.scss',
+    standalone: false
 })
 export class Ai4lifeModuleCardComponent {
     constructor() {}

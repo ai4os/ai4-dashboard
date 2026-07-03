@@ -13,6 +13,7 @@ export interface SecretField {
     selector: 'app-inference-detail',
     templateUrl: './inference-detail.component.html',
     styleUrls: ['./inference-detail.component.scss'],
+    standalone: false
 })
 export class InferenceDetailComponent implements OnInit {
     constructor(

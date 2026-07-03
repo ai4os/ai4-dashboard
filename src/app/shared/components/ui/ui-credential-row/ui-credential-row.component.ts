@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-ui-credential-row',
     templateUrl: './ui-credential-row.component.html',
     styleUrls: ['./ui-credential-row.component.scss'],
+    standalone: false
 })
 export class UiCredentialRowComponent {
     @Input() value = '';

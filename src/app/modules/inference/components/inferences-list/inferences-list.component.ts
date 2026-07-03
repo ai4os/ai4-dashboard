@@ -16,6 +16,7 @@ import { formatDate } from '@app/shared/utils/formatDate';
 @Component({
     selector: 'app-inferences-list',
     templateUrl: './inferences-list.component.html',
+    standalone: false
 })
 export class InferencesListComponent implements OnInit {
     constructor(

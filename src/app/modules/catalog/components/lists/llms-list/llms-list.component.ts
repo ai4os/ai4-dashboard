@@ -10,6 +10,7 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     selector: 'app-llms-list',
     templateUrl: './llms-list.component.html',
     styleUrl: './llms-list.component.scss',
+    standalone: false
 })
 export class LlmsListComponent {
     constructor(

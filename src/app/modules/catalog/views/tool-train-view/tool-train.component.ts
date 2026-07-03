@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-tool-train',
     templateUrl: './tool-train.component.html',
+    standalone: false
 })
 export class ToolTrainComponent implements OnInit {
     constructor(private route: ActivatedRoute) {}

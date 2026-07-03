@@ -14,6 +14,7 @@ import {
     selector: 'app-catalog-list',
     templateUrl: './catalog-list.component.html',
     styleUrl: './catalog-list.component.scss',
+    standalone: false
 })
 export class CatalogListComponent {
     constructor(

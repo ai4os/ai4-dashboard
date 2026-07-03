@@ -6,6 +6,7 @@ import { EChartsOption } from 'echarts';
     selector: 'app-footprint-chart',
     templateUrl: './footprint-chart.component.html',
     styleUrl: './footprint-chart.component.scss',
+    standalone: false
 })
 export class FootprintChartComponent {
     @Input() title: string = '';

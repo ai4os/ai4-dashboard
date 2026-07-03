@@ -13,6 +13,7 @@ import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.
 @Component({
     selector: 'app-cvat',
     templateUrl: './cvat.component.html',
+    standalone: false
 })
 export class CvatComponent implements OnInit {
     constructor(

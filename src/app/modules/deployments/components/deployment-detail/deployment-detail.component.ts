@@ -15,6 +15,7 @@ import { BatchService } from '@app/modules/batch/services/batch.service';
     selector: 'app-deployment-detail',
     templateUrl: './deployment-detail.component.html',
     styleUrls: ['./deployment-detail.component.scss'],
+    standalone: false
 })
 export class DeploymentDetailComponent implements OnInit {
     constructor(

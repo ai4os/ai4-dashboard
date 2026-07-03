@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-ui-chip',
     templateUrl: './ui-chip.component.html',
     styleUrl: './ui-chip.component.scss',
+    standalone: false
 })
 export class UiChipComponent {
     @Input() variant:

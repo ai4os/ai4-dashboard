@@ -6,6 +6,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     selector: 'app-iframe-dialog',
     templateUrl: './iframe-dialog.component.html',
     styleUrl: './iframe-dialog.component.scss',
+    standalone: false
 })
 export class IframeDialogComponent {
     iframeUrl: SafeResourceUrl;

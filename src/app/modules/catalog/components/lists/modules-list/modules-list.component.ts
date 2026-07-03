@@ -23,6 +23,7 @@ import { IntroJSService } from 'introjs/introjs.service';
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
     styleUrls: ['./modules-list.component.scss'],
+    standalone: false
 })
 export class ModulesListComponent implements OnInit, AfterViewInit {
     constructor(

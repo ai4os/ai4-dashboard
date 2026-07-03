@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
     selector: 'app-module-detail',
     templateUrl: './ai4eosc-module-detail.component.html',
     styleUrls: ['./ai4eosc-module-detail.component.scss'],
+    standalone: false
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
     constructor(

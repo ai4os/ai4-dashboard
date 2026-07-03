@@ -23,6 +23,7 @@ import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe
     selector: 'app-datacenters-tab',
     templateUrl: './datacenters-tab.component.html',
     styleUrls: ['./datacenters-tab.component.scss'],
+    standalone: false
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {
     constructor(private metricColor: MetricColorService) {

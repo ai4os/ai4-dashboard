@@ -8,6 +8,7 @@ import { getSnapshotBadge } from '../../utils/deployment-badge';
     selector: 'app-snapshot-detail',
     templateUrl: './snapshot-detail.component.html',
     styleUrl: './snapshot-detail.component.scss',
+    standalone: false
 })
 export class SnapshotDetailComponent {
     constructor(

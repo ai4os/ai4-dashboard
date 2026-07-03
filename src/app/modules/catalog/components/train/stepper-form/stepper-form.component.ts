@@ -26,6 +26,7 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
     selector: 'app-stepper-form',
     templateUrl: './stepper-form.component.html',
     styleUrls: ['./stepper-form.component.scss'],
+    standalone: false
 })
 export class StepperFormComponent implements OnInit {
     constructor(

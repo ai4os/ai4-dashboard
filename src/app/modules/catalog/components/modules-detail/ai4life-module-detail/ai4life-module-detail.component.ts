@@ -11,6 +11,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
     selector: 'app-ai4life-module-detail',
     templateUrl: './ai4life-module-detail.component.html',
     styleUrl: './ai4life-module-detail.component.scss',
+    standalone: false
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
     constructor(

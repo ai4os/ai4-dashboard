@@ -36,6 +36,7 @@ export interface DatasetTableRow {
     selector: 'app-datasets-list',
     templateUrl: './datasets-list.component.html',
     styleUrls: ['./datasets-list.component.scss'],
+    standalone: false
 })
 export class DatasetsListComponent implements OnInit {
     constructor(

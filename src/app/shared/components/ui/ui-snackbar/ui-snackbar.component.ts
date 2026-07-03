@@ -24,6 +24,7 @@ const DEFAULT_ICON: Record<UiSnackbarVariant, string> = {
     selector: 'app-ui-snackbar',
     templateUrl: './ui-snackbar.component.html',
     styleUrls: ['./ui-snackbar.component.scss'],
+    standalone: false
 })
 export class UiSnackbarComponent {
     constructor(

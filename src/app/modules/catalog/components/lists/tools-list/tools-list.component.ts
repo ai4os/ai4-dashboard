@@ -9,6 +9,7 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
     selector: 'app-tools-list',
     templateUrl: './tools-list.component.html',
     styleUrl: './tools-list.component.scss',
+    standalone: false
 })
 export class ToolsListComponent implements OnInit {
     constructor(

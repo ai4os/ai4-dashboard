@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-chip-with-icon',
     templateUrl: './chip-with-icon.component.html',
     styleUrls: ['./chip-with-icon.component.scss'],
+    standalone: false
 })
 export class ChipWithIconComponent {
     @Input()

@@ -30,6 +30,7 @@ import { formatDate } from '@app/shared/utils/formatDate';
     selector: 'app-deployments-list',
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
+    standalone: false
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
     constructor(

@@ -10,6 +10,7 @@ import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-ba
     selector: 'app-try-me-detail',
     templateUrl: './try-me-detail.component.html',
     styleUrls: ['./try-me-detail.component.scss'],
+    standalone: false
 })
 export class TryMeDetailComponent implements OnInit {
     constructor(

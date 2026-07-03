@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-ui-list-card',
     templateUrl: './ui-list-card.component.html',
     styleUrl: './ui-list-card.component.scss',
+    standalone: false
 })
 export class UiListCardComponent {
     @Input() title!: string;

@@ -11,6 +11,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
     selector: 'app-chat-bot',
     templateUrl: './chat-bot.component.html',
     styleUrl: './chat-bot.component.scss',
+    standalone: false
 })
 export class ChatBotComponent {
     constructor(

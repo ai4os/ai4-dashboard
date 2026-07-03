@@ -18,6 +18,7 @@ import { formatDate } from '@app/shared/utils/formatDate';
     selector: 'app-batch-list',
     templateUrl: './batch-list.component.html',
     styleUrl: './batch-list.component.scss',
+    standalone: false
 })
 export class BatchListComponent {
     constructor(

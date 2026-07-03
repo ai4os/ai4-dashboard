@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-ui-button',
     templateUrl: './ui-button.component.html',
     styleUrl: './ui-button.component.scss',
+    standalone: false
 })
 export class UiButtonComponent {
     @Input() variant:

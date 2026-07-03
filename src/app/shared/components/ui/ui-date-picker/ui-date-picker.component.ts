@@ -4,6 +4,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     selector: 'app-ui-date-picker',
     templateUrl: './ui-date-picker.component.html',
     styleUrls: ['./ui-date-picker.component.scss'],
+    standalone: false
 })
 export class UiDatePickerComponent {
     @Input() value: Date | null = null;

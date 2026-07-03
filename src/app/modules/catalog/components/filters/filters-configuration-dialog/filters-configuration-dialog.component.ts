@@ -6,6 +6,7 @@ import { FilterGroup } from '@app/shared/interfaces/module.interface';
     selector: 'app-filters-configuration-dialog',
     templateUrl: './filters-configuration-dialog.component.html',
     styleUrls: ['./filters-configuration-dialog.component.scss'],
+    standalone: false
 })
 export class FiltersConfigurationDialogComponent {
     constructor(

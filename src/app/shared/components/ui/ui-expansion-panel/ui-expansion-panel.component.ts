@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
     selector: 'app-ui-expansion-panel',
     templateUrl: './ui-expansion-panel.component.html',
     styleUrl: './ui-expansion-panel.component.scss',
+    standalone: false
 })
 export class UiExpansionPanelComponent {
     @Input() set expanded(value: boolean | undefined) {

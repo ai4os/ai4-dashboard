@@ -5,6 +5,7 @@ import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
     selector: 'app-footprint-tab',
     templateUrl: './footprint-tab.component.html',
     styleUrl: './footprint-tab.component.scss',
+    standalone: false
 })
 export class FootprintTabComponent implements OnInit {
     @Input() datacentersStats: DatacenterStats[] = [];

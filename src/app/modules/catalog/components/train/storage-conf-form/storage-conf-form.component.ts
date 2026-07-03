@@ -64,6 +64,7 @@ export function urlValidator(): ValidatorFn {
     selector: 'app-storage-conf-form',
     templateUrl: './storage-conf-form.component.html',
     styleUrls: ['./storage-conf-form.component.scss'],
+    standalone: false
 })
 export class StorageConfFormComponent implements OnInit {
     constructor(

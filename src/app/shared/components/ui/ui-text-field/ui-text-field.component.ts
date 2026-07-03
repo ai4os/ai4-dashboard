@@ -15,6 +15,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
     selector: 'app-ui-text-field',
     templateUrl: './ui-text-field.component.html',
     styleUrl: './ui-text-field.component.scss',
+    standalone: false
 })
 export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     @Input() label?: string;

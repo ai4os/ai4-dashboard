@@ -26,6 +26,7 @@ export interface ProjectLink {
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
+    standalone: false
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
     constructor(

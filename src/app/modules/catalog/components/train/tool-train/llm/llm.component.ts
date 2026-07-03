@@ -12,6 +12,7 @@ import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.
 @Component({
     selector: 'app-llm',
     templateUrl: './llm.component.html',
+    standalone: false
 })
 export class LlmComponent {
     constructor(

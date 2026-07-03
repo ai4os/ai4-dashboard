@@ -5,6 +5,7 @@ import { GpuStats } from '@app/shared/interfaces/stats.interface';
     selector: 'app-stats-container',
     templateUrl: './stats-container.component.html',
     styleUrls: ['./stats-container.component.scss'],
+    standalone: false
 })
 export class StatsContainerComponent implements OnInit {
     @Input() totalCpuNum = 0;

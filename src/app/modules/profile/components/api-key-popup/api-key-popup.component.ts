@@ -6,6 +6,7 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
     selector: 'app-api-key-popup',
     templateUrl: './api-key-popup.component.html',
     styleUrl: './api-key-popup.component.scss',
+    standalone: false
 })
 export class ApiKeyPopupComponent {
     constructor(

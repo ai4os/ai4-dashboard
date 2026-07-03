@@ -16,6 +16,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
     selector: 'app-federated-server',
     templateUrl: './federated-server.component.html',
     styleUrls: ['./federated-server.component.scss'],
+    standalone: false
 })
 export class FederatedServerComponent implements OnInit {
     constructor(

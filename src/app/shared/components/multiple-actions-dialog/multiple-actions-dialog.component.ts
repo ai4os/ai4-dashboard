@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     selector: 'app-multiple-actions-dialog',
     templateUrl: './multiple-actions-dialog.component.html',
     styleUrl: './multiple-actions-dialog.component.scss',
+    standalone: false
 })
 export class MultipleActionsDialogComponent {
     constructor(

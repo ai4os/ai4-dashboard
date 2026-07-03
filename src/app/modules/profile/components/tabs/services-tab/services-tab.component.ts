@@ -11,6 +11,7 @@ import {
     selector: 'app-services-tab',
     templateUrl: './services-tab.component.html',
     styleUrls: ['./services-tab.component.scss'],
+    standalone: false
 })
 export class ServicesTabComponent implements OnInit {
     store = inject(ServicesCredentialsStore);

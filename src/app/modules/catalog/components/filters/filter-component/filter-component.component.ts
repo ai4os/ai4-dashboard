@@ -5,6 +5,7 @@ import { FilterGroup } from '@app/shared/interfaces/module.interface';
     selector: 'app-filter-component',
     templateUrl: './filter-component.component.html',
     styleUrls: ['./filter-component.component.scss'],
+    standalone: false
 })
 export class FilterComponentComponent implements OnInit {
     @Input() libraries: Set<string> = new Set<string>();

@@ -16,6 +16,7 @@ import { ShowGeneralFormField } from '../general-conf-form/general-conf-form.com
     selector: 'app-batch-train',
     templateUrl: './batch-train.component.html',
     styleUrl: './batch-train.component.scss',
+    standalone: false
 })
 export class BatchTrainComponent {
     constructor(

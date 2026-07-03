@@ -9,6 +9,7 @@ import { forkJoin } from 'rxjs';
     selector: 'app-overview-tab',
     templateUrl: './overview-tab.component.html',
     styleUrls: ['./overview-tab.component.scss'],
+    standalone: false
 })
 export class OverviewTabComponent implements OnInit {
     constructor(

@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-stats-reduced-card',
     templateUrl: './stats-reduced-card.component.html',
     styleUrl: './stats-reduced-card.component.scss',
+    standalone: false
 })
 export class StatsReducedCardComponent {
     @Input() label: string = '';

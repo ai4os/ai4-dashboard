@@ -74,21 +74,16 @@ export interface ShowGeneralFormField {
         trigger('inOutAnimation', [
             transition(':enter', [
                 style({ visibility: 'hidden', opacity: 0 }),
-                animate(
-                    '0.2s ease-out',
-                    style({ visibility: 'visible', opacity: 1 })
-                ),
+                animate('0.2s ease-out', style({ visibility: 'visible', opacity: 1 })),
             ]),
             transition(':leave', [
                 query('@*', [animateChild()], { optional: true }),
                 style({ visibility: 'visible', opacity: 1 }),
-                animate(
-                    '0.1s ease-in',
-                    style({ visibility: 'hidden', opacity: 0 })
-                ),
+                animate('0.1s ease-in', style({ visibility: 'hidden', opacity: 0 })),
             ]),
         ]),
     ],
+    standalone: false
 })
 export class GeneralConfFormComponent implements OnInit {
     constructor(

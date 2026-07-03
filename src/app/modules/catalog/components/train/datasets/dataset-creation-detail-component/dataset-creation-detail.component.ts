@@ -50,6 +50,7 @@ export function doiOrUrlValidator(): ValidatorFn {
     selector: 'app-dataset-creation-detail',
     templateUrl: './dataset-creation-detail.component.html',
     styleUrls: ['./dataset-creation-detail.component.scss'],
+    standalone: false
 })
 export class DatasetCreationDetailComponent implements OnInit {
     constructor(

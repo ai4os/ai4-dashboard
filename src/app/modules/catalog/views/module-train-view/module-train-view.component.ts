@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
     selector: 'app-module-train-view',
     templateUrl: './module-train-view.component.html',
+    standalone: false
 })
 export class ModuleTrainViewComponent implements OnInit {
     constructor() {}

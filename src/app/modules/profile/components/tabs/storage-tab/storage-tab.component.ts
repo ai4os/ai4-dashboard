@@ -46,6 +46,7 @@ export function domainValidator(): ValidatorFn {
     selector: 'app-storage-tab',
     templateUrl: './storage-tab.component.html',
     styleUrl: './storage-tab.component.scss',
+    standalone: false
 })
 export class StorageTabComponent implements OnInit {
     @Input() isProjectMember = false;

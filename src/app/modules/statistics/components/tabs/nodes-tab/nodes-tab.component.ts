@@ -6,6 +6,7 @@ import { NodeStats } from '@app/shared/interfaces/stats.interface';
     selector: 'app-nodes-tab',
     templateUrl: './nodes-tab.component.html',
     styleUrls: ['./nodes-tab.component.scss'],
+    standalone: false
 })
 export class NodesTabComponent implements OnInit {
     @Input() nodesCpu: NodeStats[] = [];
