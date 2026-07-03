@@ -1,168 +1,156 @@
 <mat-toolbar class="aligned-with-icon">
-    {{ 'TRY-ME.DEPLOYMENT-DETAIL.TITLE' | translate }}
-    <mat-icon>view_in_ar</mat-icon>
+  {{ 'TRY-ME.DEPLOYMENT-DETAIL.TITLE' | translate }}
+  <mat-icon>view_in_ar</mat-icon>
 </mat-toolbar>
 
 <mat-card>
-    <ng-template #loading>
-        <div class="spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div>
-    </ng-template>
 
-    <mat-card-header>
-        <mat-card-title
+  <mat-card-header>
+    <mat-card-title
             [ngClass]="{
                 'card-title-mobile': mobileQuery.matches,
                 'card-title': !mobileQuery.matches,
             }"
-        >
-            <h2>{{ deployment?.title }}</h2>
-            <p>
-                <img
-                    *ngIf="deployment"
-                    src="https://img.shields.io/badge/status-{{ statusBadge }}"
-                    width="125"
-                />
-            </p>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content
+      >
+      <h2>{{ deployment?.title }}</h2>
+      <p>
+        @if (deployment) {
+          <img
+            src="https://img.shields.io/badge/status-{{ statusBadge }}"
+            width="125"
+            />
+        }
+      </p>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content
         [ngClass]="{
             'card-content-mobile': mobileQuery.matches,
         }"
     >
-        <ng-container *ngIf="!isLoading; else loading">
-            <div
+    @if (!isLoading) {
+      <div
                 [ngClass]="{
                     'deployment-detail-container-mobile': mobileQuery.matches,
                     'deployment-detail-container': !mobileQuery.matches,
                 }"
-            >
-                <div>
-                    <h3>
-                        {{
-                            'TRY-ME.DEPLOYMENT-DETAIL.DEPLOYMENT-ID' | translate
-                        }}
-                    </h3>
-                    <p id="uuid">{{ deployment?.job_ID }}</p>
-                </div>
-
-                <div>
-                    <h3>
-                        {{ 'TRY-ME.DEPLOYMENT-DETAIL.DESCRIPTION' | translate }}
-                    </h3>
-                    <p>{{ deployment?.description }}</p>
-                </div>
-
-                <div>
-                    <h3>
-                        {{
-                            'TRY-ME.DEPLOYMENT-DETAIL.DOCKER-IMAGE' | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.docker_image }}</p>
-                </div>
-
-                <div>
-                    <h3>
-                        {{
-                            'TRY-ME.DEPLOYMENT-DETAIL.CREATION-TIME' | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.submit_time }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'TRY-ME.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
-                                | translate
-                        }}
-                    </h3>
-                    <ng-container
-                        *ngIf="
-                            (deployment?.resources | json) !== '{}';
-                            else noResources
-                        "
-                    >
-                        <mat-list>
-                            <ng-container
-                                *ngFor="
-                                    let resource of deployment?.resources
-                                        | keyvalue
-                                "
-                            >
-                                <mat-list-item
-                                    >{{
-                                        'TRY-ME.DEPLOYMENT-DETAIL.RESOURCES.' +
-                                            (resource.key | uppercase)
-                                            | translate
-                                    }}:
-                                    {{
-                                        getResourceValue(resource)
-                                    }}</mat-list-item
-                                >
-                            </ng-container>
-                        </mat-list>
-                    </ng-container>
-                </div>
-                <div>
-                    <div class="datacenter-info">
-                        <h3>
-                            {{
-                                'TRY-ME.DEPLOYMENT-DETAIL.DATACENTER'
-                                    | translate
-                            }}
-                        </h3>
-                        <p>{{ deployment?.datacenter }}</p>
-                    </div>
-
-                    <div>
-                        <h3>
-                            {{
-                                'TRY-ME.DEPLOYMENT-DETAIL.ENDPOINTS' | translate
-                            }}
-                        </h3>
-                        <ng-container
-                            *ngIf="
-                                (deployment?.endpoints | json) !== '{}';
-                                else noResources
-                            "
-                        >
-                            <mat-list>
-                                <ng-container
-                                    *ngFor="
-                                        let endpoint of deployment?.endpoints
-                                            | keyvalue
-                                    "
-                                >
-                                    <mat-list-item>
-                                        <a
-                                            mat-button
-                                            [href]="endpoint.value"
-                                            target="_blank"
+        >
+        <div>
+          <h3>
+            {{
+            'TRY-ME.DEPLOYMENT-DETAIL.DEPLOYMENT-ID' | translate
+            }}
+          </h3>
+          <p id="uuid">{{ deployment?.job_ID }}</p>
+        </div>
+        <div>
+          <h3>
+            {{ 'TRY-ME.DEPLOYMENT-DETAIL.DESCRIPTION' | translate }}
+          </h3>
+          <p>{{ deployment?.description }}</p>
+        </div>
+        <div>
+          <h3>
+            {{
+            'TRY-ME.DEPLOYMENT-DETAIL.DOCKER-IMAGE' | translate
+            }}
+          </h3>
+          <p>{{ deployment?.docker_image }}</p>
+        </div>
+        <div>
+          <h3>
+            {{
+            'TRY-ME.DEPLOYMENT-DETAIL.CREATION-TIME' | translate
+            }}
+          </h3>
+          <p>{{ deployment?.submit_time }}</p>
+        </div>
+        <div>
+          <h3>
+            {{
+            'TRY-ME.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
+            | translate
+            }}
+          </h3>
+          @if (
+            (deployment?.resources | json) !== '{}') {
+            <mat-list>
+              @for (
+                resource of deployment?.resources
+                | keyvalue
+                ; track
+                resource) {
+                <mat-list-item
+                  >{{
+                  'TRY-ME.DEPLOYMENT-DETAIL.RESOURCES.' +
+                  (resource.key | uppercase)
+                  | translate
+                  }}:
+                  {{
+                  getResourceValue(resource)
+                  }}</mat-list-item
+                  >
+                }
+              </mat-list>
+            } @else {
+              -
+            }
+          </div>
+          <div>
+            <div class="datacenter-info">
+              <h3>
+                {{
+                'TRY-ME.DEPLOYMENT-DETAIL.DATACENTER'
+                | translate
+                }}
+              </h3>
+              <p>{{ deployment?.datacenter }}</p>
+            </div>
+            <div>
+              <h3>
+                {{
+                'TRY-ME.DEPLOYMENT-DETAIL.ENDPOINTS' | translate
+                }}
+              </h3>
+              @if (
+                (deployment?.endpoints | json) !== '{}') {
+                <mat-list>
+                  @for (
+                    endpoint of deployment?.endpoints
+                    | keyvalue
+                    ; track
+                    endpoint) {
+                    <mat-list-item>
+                      <a
+                        mat-button
+                        [href]="endpoint.value"
+                        target="_blank"
                                             [disabled]="
                                                 !isActiveEndPoint(endpoint.key)
                                             "
-                                        >
-                                            {{ $any(endpoint.key) | uppercase }}
-                                            <mat-icon>open_in_new</mat-icon></a
-                                        >
-                                    </mat-list-item>
-                                </ng-container>
-                            </mat-list>
-                        </ng-container>
-                    </div>
-                </div>
+                        >
+                        {{ $any(endpoint.key) | uppercase }}
+                        <mat-icon>open_in_new</mat-icon></a
+                        >
+                      </mat-list-item>
+                    }
+                  </mat-list>
+                } @else {
+                  -
+                }
+              </div>
             </div>
-
-            <ng-template #noResources> - </ng-template>
-        </ng-container>
-    </mat-card-content>
-    <mat-card-actions align="end">
+          </div>
+        } @else {
+          <div class="spinner">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+          </div>
+        }
+      </mat-card-content>
+      <mat-card-actions align="end">
         <button mat-raised-button mat-dialog-close>
-            {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+          {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
         </button>
-    </mat-card-actions>
-</mat-card>
+      </mat-card-actions>
+    </mat-card>

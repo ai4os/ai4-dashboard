@@ -26,7 +26,7 @@ export class BatchTrainComponent {
         private route: ActivatedRoute,
         private router: Router
     ) {
-        const navigation = this.router.getCurrentNavigation();
+        const navigation = this.router.currentNavigation();
         this.service =
             navigation?.extras?.state?.['service'] ||
             history.state?.['service'];

@@ -1,220 +1,221 @@
 <mat-card>
-    <span class="aligned-with-icon">
-        {{ cardName }} <mat-icon *ngIf="cardIcon">{{ cardIcon }}</mat-icon>
-        <img
-            *ngIf="cardImage"
-            [src]="'../../../../../assets/images/' + cardImage"
-            width="16"
-            height="16"
-        />
-    </span>
-    <mat-card-content>
-        <div class="table-container">
-            <table
-                mat-table
-                [dataSource]="dataSource"
-                class="mat-elevation-z8"
-                matSort
+  <span class="aligned-with-icon">
+    {{ cardName }} @if (cardIcon) {
+    <mat-icon>{{ cardIcon }}</mat-icon>
+  }
+  @if (cardImage) {
+    <img
+      [src]="'../../../../../assets/images/' + cardImage"
+      width="16"
+      height="16"
+      />
+  }
+</span>
+<mat-card-content>
+  <div class="table-container">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+      matSort
+      >
+      @for (column of columns; track column) {
+        <ng-container
+          [matColumnDef]="column.columnDef"
+          [sticky]="isSticky(column.columnDef)"
+          >
+          <mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by {column.header}"
+            >{{ column.header | translate }}</mat-header-cell
             >
-                <ng-container
-                    *ngFor="let column of columns"
-                    [matColumnDef]="column.columnDef"
-                    [sticky]="isSticky(column.columnDef)"
-                >
-                    <mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Sort by {column.header}"
-                        >{{ column.header | translate }}</mat-header-cell
-                    >
-                    <mat-cell
-                        *matCellDef="let row"
+            <mat-cell
+              *matCellDef="let row"
                         [ngClass]="{
                             'content-cell': column.columnDef === 'actions',
                         }"
-                        [matTooltip]="getMaintenanceInfo(row)"
-                        matTooltipPosition="right"
+              [matTooltip]="getMaintenanceInfo(row)"
+              matTooltipPosition="right"
                         [matTooltipDisabled]="
                             column.columnDef !== 'name' ||
                             !hasDatacenterUnderMaintenance(row)
                         "
+              >
+              @if (column.columnDef === 'actions') {
+                <div
+                  class="actions-container"
+                  >
+                  <button
+                    id="infoButton"
+                    class="action-button-in-cell"
+                    mat-button
+                    matTooltip="Info"
+                    matBadgeSize="small"
+                    matBadge="priority_high"
+                    matBadgeColor="warn"
+                    [matBadgeHidden]="!hasDeploymentErrors(row)"
+                    (click)="openDeploymentDetailDialog(row)"
                     >
-                        <div
-                            *ngIf="column.columnDef === 'actions'"
-                            class="actions-container"
+                    <mat-icon color="accent" id="infoIcon"
+                      >info</mat-icon
+                      >
+                    </button>
+                    @if (isFederatedServer(row)) {
+                      <button
+                        id="secrets-button"
+                        mat-button
+                        matTooltip="Manage secrets"
+                        class="action-button-in-cell"
+                        (click)="openToolSecretsDialog(row)"
                         >
-                            <button
-                                id="infoButton"
-                                class="action-button-in-cell"
-                                mat-button
-                                matTooltip="Info"
-                                matBadgeSize="small"
-                                matBadge="priority_high"
-                                matBadgeColor="warn"
-                                [matBadgeHidden]="!hasDeploymentErrors(row)"
-                                (click)="openDeploymentDetailDialog(row)"
+                        <mat-icon color="accent" id="keysIcon"
+                          >vpn_key</mat-icon
+                          >
+                        </button>
+                      }
+                      @if (
+                        deploymentType !== 'inference' &&
+                        deploymentType !== 'snapshot' &&
+                        deploymentType !== 'batch'
+                        ) {
+                        <div matTooltip="Quick access">
+                          <a
+                            id="quickAccessButton"
+                            mat-button
+                            [disabled]="!isDeploymentRunning(row)"
+                            [href]="getMainEndpoint(row)"
+                            target="_blank"
+                            class="action-button-in-cell"
+                            (click)="$event.stopPropagation()"
                             >
-                                <mat-icon color="accent" id="infoIcon"
-                                    >info</mat-icon
+                            <mat-icon color="accent" id="accessIcon"
+                              >terminal</mat-icon
+                              >
+                            </a>
+                          </div>
+                        }
+                        @if (
+                          deploymentType === 'module' ||
+                          row.containerName?.includes('ai4os-dev-env')
+                          ) {
+                          <div matTooltip="Create snapshot">
+                            <a
+                              id="snapshot-button"
+                              mat-button
+                              class="action-button-in-cell"
+                              [disabled]="!isDeploymentRunning(row)"
+                              (click)="createSnapshot($event, row)"
+                              >
+                              <mat-icon
+                                color="accent"
+                                id="snapshotIcon"
+                                >add_a_photo</mat-icon
                                 >
-                            </button>
-
-                            @if (isFederatedServer(row)) {
-                                <button
-                                    id="secrets-button"
-                                    mat-button
-                                    matTooltip="Manage secrets"
-                                    class="action-button-in-cell"
-                                    (click)="openToolSecretsDialog(row)"
-                                >
-                                    <mat-icon color="accent" id="keysIcon"
-                                        >vpn_key</mat-icon
-                                    >
-                                </button>
-                            }
-
-                            @if (
-                                deploymentType !== 'inference' &&
-                                deploymentType !== 'snapshot' &&
-                                deploymentType !== 'batch'
-                            ) {
-                                <div matTooltip="Quick access">
-                                    <a
-                                        id="quickAccessButton"
-                                        mat-button
-                                        [disabled]="!isDeploymentRunning(row)"
-                                        [href]="getMainEndpoint(row)"
-                                        target="_blank"
-                                        class="action-button-in-cell"
-                                        (click)="$event.stopPropagation()"
-                                    >
-                                        <mat-icon color="accent" id="accessIcon"
-                                            >terminal</mat-icon
-                                        >
-                                    </a>
-                                </div>
-                            }
-
-                            @if (
-                                deploymentType === 'module' ||
-                                row.containerName?.includes('ai4os-dev-env')
-                            ) {
-                                <div matTooltip="Create snapshot">
-                                    <a
-                                        id="snapshot-button"
-                                        mat-button
-                                        class="action-button-in-cell"
-                                        [disabled]="!isDeploymentRunning(row)"
-                                        (click)="createSnapshot($event, row)"
-                                    >
-                                        <mat-icon
-                                            color="accent"
-                                            id="snapshotIcon"
-                                            >add_a_photo</mat-icon
-                                        >
-                                    </a>
-                                </div>
-                            }
-
-                            @if (deploymentType === 'snapshot') {
-                                <div matTooltip="Redeploy snapshot">
-                                    <a
-                                        mat-button
-                                        [disabled]="row.status !== 'complete'"
-                                        class="action-button-in-cell"
-                                        (click)="redeploySnapshot($event, row)"
-                                    >
-                                        <mat-icon
-                                            color="accent"
-                                            id="redeployIcon"
-                                            >deployed_code_update</mat-icon
-                                        >
-                                    </a>
-                                </div>
-                            }
-
-                            <button
-                                id="deleteButton"
+                              </a>
+                            </div>
+                          }
+                          @if (deploymentType === 'snapshot') {
+                            <div matTooltip="Redeploy snapshot">
+                              <a
                                 mat-button
-                                matTooltip="Delete"
+                                [disabled]="row.status !== 'complete'"
                                 class="action-button-in-cell"
-                                (click)="removeDeployment($event, row)"
-                            >
-                                <mat-icon color="warn">delete</mat-icon>
+                                (click)="redeploySnapshot($event, row)"
+                                >
+                                <mat-icon
+                                  color="accent"
+                                  id="redeployIcon"
+                                  >deployed_code_update</mat-icon
+                                  >
+                                </a>
+                              </div>
+                            }
+                            <button
+                              id="deleteButton"
+                              mat-button
+                              matTooltip="Delete"
+                              class="action-button-in-cell"
+                              (click)="removeDeployment($event, row)"
+                              >
+                              <mat-icon color="warn">delete</mat-icon>
                             </button>
-                        </div>
-
+                          </div>
+                        }
                         @if (column.columnDef === 'status') {
-                            <img
+                          <img
                                 src="https://img.shields.io/badge/{{
                                     returnDeploymentBadge(row[column.columnDef])
                                 }}"
-                                height="20"
+                            height="20"
                             />
-                            @if (
-                                row[column.columnDef] === 'queued' &&
-                                row.gpus > 0
+                          @if (
+                            row[column.columnDef] === 'queued' &&
+                            row.gpus > 0
                             ) {
-                                <mat-icon
+                            <mat-icon
                                     [matTooltip]="
                                         'DEPLOYMENTS.DEPLOYMENT-DETAIL.GPU-WARNING'
                                             | translate
                                     "
-                                    class="ml-2 warning-icon"
-                                    (click)="openBatchDocumentation()"
-                                    >error</mat-icon
-                                >
+                              class="ml-2 warning-icon"
+                              (click)="openBatchDocumentation()"
+                              >error</mat-icon
+                              >
                             }
-                        } @else if (column.columnDef === 'name') {
+                          } @else if (column.columnDef === 'name') {
                             <span
-                                matBadgeSize="small"
-                                matBadge="priority_high"
-                                matBadgeColor="warn"
-                                matBadgeOverlap="false"
+                              matBadgeSize="small"
+                              matBadge="priority_high"
+                              matBadgeColor="warn"
+                              matBadgeOverlap="false"
                                 [matBadgeHidden]="
                                     !hasDatacenterUnderMaintenance(row)
                                 "
-                            >
-                                {{ row[column.columnDef] }}
+                              >
+                              {{ row[column.columnDef] }}
                             </span>
-                        } @else {
+                          } @else {
                             {{ row[column.columnDef] }}
-                        }
-                    </mat-cell>
-                </ng-container>
+                          }
+                        </mat-cell>
+                      </ng-container>
+                    }
 
-                <mat-header-row
-                    *matHeaderRowDef="displayedColumns"
-                ></mat-header-row>
-                <mat-row
-                    *matRowDef="let row; columns: displayedColumns"
-                ></mat-row>
+                    <mat-header-row
+                      *matHeaderRowDef="displayedColumns"
+                    ></mat-header-row>
+                    <mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></mat-row>
 
-                <ng-container *ngIf="!isLoading">
-                    <div *matNoDataRow class="no-deployment-message-container">
+                    @if (!isLoading) {
+                      <div *matNoDataRow class="no-deployment-message-container">
                         {{ 'DEPLOYMENTS.NO-DEPLOYMENTS' | translate }}
-                    </div>
-                </ng-container>
-            </table>
-        </div>
+                      </div>
+                    }
+                  </table>
+                </div>
 
-        <div *ngIf="isLoading" class="smaller-spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div>
-    </mat-card-content>
+                @if (isLoading) {
+                  <div class="smaller-spinner">
+                    <mat-progress-spinner color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
+                  </div>
+                }
+              </mat-card-content>
 
-    @if (showCardActions) {
-        <mat-card-actions align="end">
-            <a
-                mat-raised-button
-                aria-label=""
-                color="accent"
-                class="mt-2 mr-2 mb-2"
-                routerLink="/catalog/tools/ai4os-dev-env/deploy"
-            >
-                {{ 'DEPLOYMENTS.NEW-DEV-ENV' | translate }}
-            </a>
-        </mat-card-actions>
-    }
-</mat-card>
+              @if (showCardActions) {
+                <mat-card-actions align="end">
+                  <a
+                    mat-raised-button
+                    aria-label=""
+                    color="accent"
+                    class="mt-2 mr-2 mb-2"
+                    routerLink="/catalog/tools/ai4os-dev-env/deploy"
+                    >
+                    {{ 'DEPLOYMENTS.NEW-DEV-ENV' | translate }}
+                  </a>
+                </mat-card-actions>
+              }
+            </mat-card>

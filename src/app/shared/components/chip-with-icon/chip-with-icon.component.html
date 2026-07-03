@@ -1,11 +1,15 @@
 <div
-    class="chip"
-    [ngClass]="chipStyle"
-    matTooltip="{{ tooltip }}"
-    matTooltipPosition="above"
->
-    <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
-    <img *ngIf="image && !image.includes('Other')" src="{{ image }}" />
+  class="chip"
+  [ngClass]="chipStyle"
+  matTooltip="{{ tooltip }}"
+  matTooltipPosition="above"
+  >
+  @if (icon) {
+    <mat-icon>{{ icon }}</mat-icon>
+  }
+  @if (image && !image.includes('Other')) {
+    <img src="{{ image }}" />
+  }
 
-    <p>{{ text }}</p>
+  <p>{{ text }}</p>
 </div>

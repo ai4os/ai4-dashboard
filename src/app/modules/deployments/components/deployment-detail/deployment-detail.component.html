@@ -1,325 +1,309 @@
 <mat-toolbar class="mb-3 marketplace-toolbar detail-title">
-    <span>
-        @if (data.type === 'module') {
-            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.MODULE-TITLE' | translate }}
-        } @else if (data.type === 'tool') {
-            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
-        } @else if (data.type === 'batch') {
-            {{ 'BATCH.DETAIL.TITLE' | translate }}
-        }
+  <span>
+    @if (data.type === 'module') {
+      {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.MODULE-TITLE' | translate }}
+    } @else if (data.type === 'tool') {
+      {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
+    } @else if (data.type === 'batch') {
+      {{ 'BATCH.DETAIL.TITLE' | translate }}
+    }
 
-        <mat-icon>view_in_ar</mat-icon></span
+    <mat-icon>view_in_ar</mat-icon></span
     >
-</mat-toolbar>
+  </mat-toolbar>
 
-<mat-card>
-    <ng-template #loading>
-        <div class="spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div>
-    </ng-template>
+  <mat-card>
 
     <mat-card-header>
-        <mat-card-title
+      <mat-card-title
             [ngClass]="{
                 'card-title-mobile': mobileQuery.matches,
                 'card-title': !mobileQuery.matches,
             }"
         >
-            <h2>{{ deployment?.title }}</h2>
-            <p>
-                <img
-                    *ngIf="deployment"
-                    src="https://img.shields.io/badge/status-{{ statusBadge }}"
-                    width="125"
-                />
-            </p>
-        </mat-card-title>
+        <h2>{{ deployment?.title }}</h2>
+        <p>
+          @if (deployment) {
+            <img
+              src="https://img.shields.io/badge/status-{{ statusBadge }}"
+              width="125"
+              />
+          }
+        </p>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
             'card-content-mobile': mobileQuery.matches,
             'card-content': !mobileQuery.matches,
         }"
-    >
-        <div *ngIf="deploymentHasError">
-            <h4>
-                <mat-icon style="vertical-align: bottom" color="warn"
-                    >warning</mat-icon
-                >
-                <mat-error> Error: {{ deployment?.error_msg }}</mat-error>
+      >
+      @if (deploymentHasError) {
+        <div>
+          <h4>
+            <mat-icon style="vertical-align: bottom" color="warn"
+              >warning</mat-icon
+              >
+              <mat-error> Error: {{ deployment?.error_msg }}</mat-error>
             </h4>
-        </div>
-        <ng-container *ngIf="!isLoading; else loading">
-            <div
+          </div>
+        }
+        @if (!isLoading) {
+          <div
                 [ngClass]="{
                     'deployment-detail-container-mobile': mobileQuery.matches,
                     'deployment-detail-container': !mobileQuery.matches,
                 }"
             >
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.job_ID }}</p>
+            <div>
+              <h3>
+                {{
+                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID'
+                | translate
+                }}
+              </h3>
+              <p>{{ deployment?.job_ID }}</p>
+            </div>
+            <div>
+              <h3>
+                {{
+                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
+                | translate
+                }}
+              </h3>
+              <p>{{ deployment?.description }}</p>
+            </div>
+            <div>
+              <h3>
+                {{
+                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                | translate
+                }}
+              </h3>
+              <p>{{ deployment?.docker_image }}</p>
+            </div>
+            <div>
+              <h3>
+                {{
+                'DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME'
+                | translate
+                }}
+              </h3>
+              <p>{{ deployment?.submit_time }}</p>
+            </div>
+            <div>
+              <h3>
+                {{
+                'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
+                | translate
+                }}
+              </h3>
+              @if (
+                (deployment?.resources | json) !== '{}') {
+                <mat-list>
+                  @for (
+                    resource of deployment?.resources
+                    | keyvalue
+                    ; track
+                    resource) {
+                    <mat-list-item
+                      >{{
+                      'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' +
+                      (resource.key | uppercase)
+                      | translate
+                      }}:
+                      {{
+                      getResourceValue(resource)
+                      }}</mat-list-item
+                      >
+                    }
+                  </mat-list>
+                } @else {
+                  -
+                }
+              </div>
+              <div>
+                <div class="datacenter-info">
+                  <h3>
+                    {{
+                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DATACENTER'
+                    | translate
+                    }}
+                  </h3>
+                  <p>{{ deployment?.datacenter }}</p>
                 </div>
-
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.description }}</p>
-                </div>
-
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.docker_image }}</p>
-                </div>
-
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.submit_time }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
-                                | translate
-                        }}
-                    </h3>
-                    <ng-container
-                        *ngIf="
-                            (deployment?.resources | json) !== '{}';
-                            else noResources
-                        "
-                    >
-                        <mat-list>
-                            <ng-container
-                                *ngFor="
-                                    let resource of deployment?.resources
-                                        | keyvalue
-                                "
-                            >
-                                <mat-list-item
-                                    >{{
-                                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' +
-                                            (resource.key | uppercase)
-                                            | translate
-                                    }}:
-                                    {{
-                                        getResourceValue(resource)
-                                    }}</mat-list-item
-                                >
-                            </ng-container>
-                        </mat-list>
-                    </ng-container>
-                </div>
-                <div>
-                    <div class="datacenter-info">
-                        <h3>
-                            {{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DATACENTER'
-                                    | translate
-                            }}
-                        </h3>
-                        <p>{{ deployment?.datacenter }}</p>
-                    </div>
-
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS'
-                                | translate
-                        }}
-                    </h3>
-                    <ng-container
-                        *ngIf="
-                            (deployment?.endpoints | json) !== '{}';
-                            else noResources
-                        "
-                    >
-                        <mat-list>
-                            <ng-container
-                                *ngFor="
-                                    let endpoint of deployment?.endpoints
-                                        | keyvalue
-                                "
-                            >
-                                <mat-list-item>
-                                    <a
-                                        mat-button
-                                        [href]="endpoint.value"
-                                        target="_blank"
+                <h3>
+                  {{
+                  'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS'
+                  | translate
+                  }}
+                </h3>
+                @if (
+                  (deployment?.endpoints | json) !== '{}') {
+                  <mat-list>
+                    @for (
+                      endpoint of deployment?.endpoints
+                      | keyvalue
+                      ; track
+                      endpoint) {
+                      <mat-list-item>
+                        <a
+                          mat-button
+                          [href]="endpoint.value"
+                          target="_blank"
                                         [disabled]="
                                             !isActiveEndPoint(endpoint.key)
                                         "
-                                    >
-                                        {{ $any(endpoint.key) | uppercase }}
-                                        <mat-icon>open_in_new</mat-icon></a
-                                    >
-                                </mat-list-item>
-                            </ng-container>
-                        </mat-list>
-                    </ng-container>
+                          >
+                          {{ $any(endpoint.key) | uppercase }}
+                          <mat-icon>open_in_new</mat-icon></a
+                          >
+                        </mat-list-item>
+                      }
+                    </mat-list>
+                  } @else {
+                    -
+                  }
                 </div>
-            </div>
-            <ng-template #noResources> - </ng-template>
-
-            @if (
+              </div>
+              @if (
                 deployment?.tool_name === 'ai4os-llm' && tokenField.value !== ''
-            ) {
+                ) {
                 <div>
-                    <h3 class="mb-0">
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.DETAILS'
-                                | translate
-                        }}
-                    </h3>
-
-                    <div>
-                        <h4>
-                            {{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.URL'
-                                    | translate
-                            }}
-                        </h4>
-
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    disabled="true"
-                                    value="{{ deployment?.endpoints?.vllm }}/v1"
-                                />
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
+                  <h3 class="mb-0">
+                    {{
+                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.DETAILS'
+                    | translate
+                    }}
+                  </h3>
+                  <div>
+                    <h4>
+                      {{
+                      'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.URL'
+                      | translate
+                      }}
+                    </h4>
+                    <div class="token-container">
+                      <mat-form-field
+                        class="full-width mr-3"
+                        subscriptSizing="dynamic"
+                        >
+                        <input
+                          matInput
+                          disabled="true"
+                          value="{{ deployment?.endpoints?.vllm }}/v1"
+                          />
+                      </mat-form-field>
+                      <button
+                        mat-icon-button
+                        matTooltip="Copy"
                                 copy-to-clipboard="{{
                                     deployment?.endpoints?.vllm
                                 }}/v1"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
-                        </div>
+                        >
+                        <mat-icon matSuffix color="accent">
+                          content_copy</mat-icon
+                          >
+                        </button>
+                      </div>
                     </div>
-
                     <div class="mb-3">
-                        <h4>
-                            {{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.TOKEN'
-                                    | translate
-                            }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
+                      <h4>
+                        {{
+                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.TOKEN'
+                        | translate
+                        }}
+                      </h4>
+                      <div class="token-container">
+                        <mat-form-field
+                          class="full-width mr-3"
+                          subscriptSizing="dynamic"
+                          >
+                          <input
+                            matInput
                                     [type]="
                                         tokenField.hide ? 'password' : 'text'
                                     "
-                                    disabled="true"
-                                    value="{{ tokenField.value }}"
-                                />
-
-                                <button
-                                    mat-icon-button
-                                    matSuffix
+                            disabled="true"
+                            value="{{ tokenField.value }}"
+                            />
+                          <button
+                            mat-icon-button
+                            matSuffix
                                     [matTooltip]="
                                         tokenField.hide ? 'Show' : 'Hide'
                                     "
-                                    (click)="tokenField.hide = !tokenField.hide"
-                                    [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="tokenField.hide"
-                                >
-                                    <mat-icon color="accent">{{
-                                        tokenField.hide
-                                            ? 'visibility_off'
-                                            : 'visibility'
-                                    }}</mat-icon>
-                                </button>
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="tokenField.value"
+                            (click)="tokenField.hide = !tokenField.hide"
+                            [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="tokenField.hide"
                             >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
+                            <mat-icon color="accent">{{
+                              tokenField.hide
+                              ? 'visibility_off'
+                              : 'visibility'
+                            }}</mat-icon>
+                          </button>
+                        </mat-form-field>
+                        <button
+                          mat-icon-button
+                          matTooltip="Copy"
+                          [copy-to-clipboard]="tokenField.value"
+                          >
+                          <mat-icon matSuffix color="accent">
+                            content_copy</mat-icon
+                            >
+                          </button>
                         </div>
+                      </div>
                     </div>
-                </div>
-            }
-            @if (data.type === 'batch' && localBatchScript) {
-                <div class="mb-3">
-                    <h3>
+                  }
+                  @if (data.type === 'batch' && localBatchScript) {
+                    <div class="mb-3">
+                      <h3>
                         {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.DETAILS'
-                                | translate
+                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.DETAILS'
+                        | translate
                         }}
-                    </h3>
-
-                    <mat-expansion-panel>
+                      </h3>
+                      <mat-expansion-panel>
                         <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                {{
-                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
-                                        | translate
-                                }}
-                            </mat-panel-title>
+                          <mat-panel-title>
+                            {{
+                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
+                            | translate
+                            }}
+                          </mat-panel-title>
                         </mat-expansion-panel-header>
-
                         <app-text-editor
-                            [readonly]="true"
-                            [disabled]="true"
-                            [value]="localBatchScript"
-                            [height]="'inherit'"
+                          [readonly]="true"
+                          [disabled]="true"
+                          [value]="localBatchScript"
+                          [height]="'inherit'"
                         ></app-text-editor>
                         <button
-                            mat-icon-button
-                            matTooltip="Copy"
-                            matTooltipPosition="above"
-                            class="copy-button"
-                            [copy-to-clipboard]="localBatchScript"
-                        >
-                            <mat-icon matSuffix color="accent">
-                                content_copy</mat-icon
+                          mat-icon-button
+                          matTooltip="Copy"
+                          matTooltipPosition="above"
+                          class="copy-button"
+                          [copy-to-clipboard]="localBatchScript"
+                          >
+                          <mat-icon matSuffix color="accent">
+                            content_copy</mat-icon
                             >
-                        </button>
-                    </mat-expansion-panel>
-                </div>
-            }
-        </ng-container>
-    </mat-card-content>
-    <mat-card-actions align="end">
-        <button mat-raised-button mat-dialog-close>
-            {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
-        </button>
-    </mat-card-actions>
-</mat-card>
+                          </button>
+                        </mat-expansion-panel>
+                      </div>
+                    }
+                  } @else {
+                    <div class="spinner">
+                      <mat-progress-spinner color="primary" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                  }
+                </mat-card-content>
+                <mat-card-actions align="end">
+                  <button mat-raised-button mat-dialog-close>
+                    {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+                  </button>
+                </mat-card-actions>
+              </mat-card>
