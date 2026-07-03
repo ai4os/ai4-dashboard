@@ -52,21 +52,21 @@
 
     .mat-mdc-snack-bar-container {
         &.red-snackbar {
-            --mdc-snackbar-container-color: var(--neon-red);
+            --mat-snackbar-container-color: var(--neon-red);
             --mat-mdc-snack-bar-button-color: var(--white);
-            --mdc-snackbar-supporting-text-color: var(--white);
+            --mat-snackbar-supporting-text-color: var(--white);
             white-space: pre-wrap;
         }
         &.primary-snackbar {
-            --mdc-snackbar-container-color: var(--primary);
+            --mat-snackbar-container-color: var(--primary);
             --mat-mdc-snack-bar-button-color: var(--white);
-            --mdc-snackbar-supporting-text-color: var(--white);
+            --mat-snackbar-supporting-text-color: var(--white);
             white-space: pre-wrap;
         }
         &.success-snackbar {
-            --mdc-snackbar-container-color: var(--success-green);
+            --mat-snackbar-container-color: var(--success-green);
             --mat-mdc-snack-bar-button-color: var(--white);
-            --mdc-snackbar-supporting-text-color: var(--white);
+            --mat-snackbar-supporting-text-color: var(--white);
             white-space: pre-wrap;
         }
     }

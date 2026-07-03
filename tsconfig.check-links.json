@@ -3,7 +3,7 @@
       "target": "ES2017",
       "module": "CommonJS",
       "esModuleInterop": true,
-      "moduleResolution": "node",
+      "moduleResolution": "bundler",
       "outDir": "dist",
       "downlevelIteration": true,
       "strict": true,

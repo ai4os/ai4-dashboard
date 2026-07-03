@@ -39,28 +39,28 @@
 .mat-hint-text {
     -webkit-font-smoothing: antialiased;
     font-family: var(
-        --mdc-typography-caption-font-family,
+        --mat-typography-caption-font-family,
         var(
-            --mdc-typography-font-family,
+            --mat-typography-font-family,
             'Raleway',
             Arial,
             Helvetica,
             sans-serif
         )
     );
-    font-size: var(--mdc-typography-caption-font-size, 12px);
-    line-height: var(--mdc-typography-caption-line-height, 20px);
-    font-weight: var(--mdc-typography-caption-font-weight, 400);
+    font-size: var(--mat-typography-caption-font-size, 12px);
+    line-height: var(--mat-typography-caption-line-height, 20px);
+    font-weight: var(--mat-typography-caption-font-weight, 400);
     letter-spacing: var(
-        --mdc-typography-caption-letter-spacing,
+        --mat-typography-caption-letter-spacing,
         0.0333333333em
     );
     -webkit-text-decoration: var(
-        --mdc-typography-caption-text-decoration,
+        --mat-typography-caption-text-decoration,
         inherit
     );
-    text-decoration: var(--mdc-typography-caption-text-decoration, inherit);
-    text-transform: var(--mdc-typography-caption-text-transform, none);
+    text-decoration: var(--mat-typography-caption-text-decoration, inherit);
+    text-transform: var(--mat-typography-caption-text-transform, none);
 }
 
 .display-inline {
