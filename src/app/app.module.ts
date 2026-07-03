@@ -162,6 +162,7 @@ renderer.link = (token: Tokens.Link) => {
         CookieService,
         IntroJSService,
         provideHttpClient(withInterceptorsFromDi()),
+        provideZoneChangeDetection({ eventCoalescing: true }),
     ],
 })
 export class AppModule {
