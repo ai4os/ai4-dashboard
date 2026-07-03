@@ -1,5 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +19,8 @@ import {
     selector: 'app-catalog-list',
     templateUrl: './catalog-list.component.html',
     styleUrl: './catalog-list.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class CatalogListComponent {
     constructor(

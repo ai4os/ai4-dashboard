@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    signal,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
     selector: 'app-ui-expansion-panel',
     templateUrl: './ui-expansion-panel.component.html',
     styleUrl: './ui-expansion-panel.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
 export class UiExpansionPanelComponent {

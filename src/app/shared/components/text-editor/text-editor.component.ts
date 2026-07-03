@@ -6,6 +6,7 @@ import {
     Input,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { EditorState } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
@@ -17,7 +18,8 @@ import { basicSetup } from 'codemirror';
     selector: 'app-text-editor',
     templateUrl: './text-editor.component.html',
     styleUrl: './text-editor.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class TextEditorComponent implements AfterViewInit {
     @Input() value: string = '';
@@ -29,7 +31,7 @@ export class TextEditorComponent implements AfterViewInit {
     @Output() textChange = new EventEmitter<string>();
 
     @ViewChild('editorContainer', { static: true })
-        editorContainer!: ElementRef;
+    editorContainer!: ElementRef;
 
     editorView!: EditorView;
 

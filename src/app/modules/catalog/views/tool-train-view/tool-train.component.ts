@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-tool-train',
     templateUrl: './tool-train.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ToolTrainComponent implements OnInit {
     constructor(private route: ActivatedRoute) {}

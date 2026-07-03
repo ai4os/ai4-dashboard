@@ -32,7 +32,7 @@
                 variant="accent-outline"
                 class="top-navbar__login-btn"
                 icon="person"
-                [text]="userProfile()?.name"
+                [text]="$safeNavigationMigration(userProfile()?.name)"
                 [matMenuTriggerFor]="loginMenuAccess"
             >
             </app-ui-button>

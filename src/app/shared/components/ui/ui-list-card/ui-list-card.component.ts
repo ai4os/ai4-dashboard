@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-ui-list-card',
     templateUrl: './ui-list-card.component.html',
     styleUrl: './ui-list-card.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiListCardComponent {
     @Input() title!: string;

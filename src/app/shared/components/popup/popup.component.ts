@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-sanitizer.service';
 
@@ -6,7 +6,8 @@ import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-s
     selector: 'app-popup',
     templateUrl: './popup.component.html',
     styleUrls: ['./popup.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class PopupComponent {
     constructor(

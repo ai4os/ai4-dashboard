@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +14,7 @@ import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.c
 @Component({
     selector: 'app-ai4life-loader',
     templateUrl: './ai4life-loader.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
 export class Ai4lifeLoaderComponent {

@@ -10,6 +10,7 @@ import {
     computed,
     inject,
     signal,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
@@ -24,7 +25,8 @@ let nextId = 0;
     selector: 'app-ui-select',
     templateUrl: './ui-select.component.html',
     styleUrl: './ui-select.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiSelectComponent implements ControlValueAccessor {
     @Input() label?: string;

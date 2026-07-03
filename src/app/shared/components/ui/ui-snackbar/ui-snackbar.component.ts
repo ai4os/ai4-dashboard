@@ -1,4 +1,9 @@
-import { Component, Inject, Optional } from '@angular/core';
+import {
+    Component,
+    Inject,
+    Optional,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     MAT_SNACK_BAR_DATA,
     MatSnackBarRef,
@@ -24,7 +29,8 @@ const DEFAULT_ICON: Record<UiSnackbarVariant, string> = {
     selector: 'app-ui-snackbar',
     templateUrl: './ui-snackbar.component.html',
     styleUrls: ['./ui-snackbar.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiSnackbarComponent {
     constructor(

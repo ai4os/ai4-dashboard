@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
@@ -9,7 +15,8 @@ import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.co
     selector: 'app-stat-card',
     templateUrl: './stat-card.component.html',
     styleUrls: ['./stat-card.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class StatCardComponent implements OnInit {
     @Input() title = '';

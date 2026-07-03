@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 
 @Component({
     selector: 'app-stats-container',
     templateUrl: './stats-container.component.html',
     styleUrls: ['./stats-container.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class StatsContainerComponent implements OnInit {
     @Input() totalCpuNum = 0;

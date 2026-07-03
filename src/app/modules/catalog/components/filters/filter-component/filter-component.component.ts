@@ -1,11 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
 
 @Component({
     selector: 'app-filter-component',
     templateUrl: './filter-component.component.html',
     styleUrls: ['./filter-component.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class FilterComponentComponent implements OnInit {
     @Input() libraries: Set<string> = new Set<string>();

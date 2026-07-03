@@ -4,6 +4,7 @@ import {
     Component,
     OnInit,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -23,7 +24,8 @@ import { IntroJSService } from 'introjs/introjs.service';
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
     styleUrls: ['./modules-list.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ModulesListComponent implements OnInit, AfterViewInit {
     constructor(

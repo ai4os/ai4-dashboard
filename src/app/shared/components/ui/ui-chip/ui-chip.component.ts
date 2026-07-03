@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-ui-chip',
     templateUrl: './ui-chip.component.html',
     styleUrl: './ui-chip.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiChipComponent {
     @Input() variant:

@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../../services/modules-service/modules.service';
@@ -15,7 +20,8 @@ import { MatDialog } from '@angular/material/dialog';
     selector: 'app-module-detail',
     templateUrl: './ai4eosc-module-detail.component.html',
     styleUrls: ['./ai4eosc-module-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
     constructor(

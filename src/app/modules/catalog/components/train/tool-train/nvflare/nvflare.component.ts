@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
@@ -15,7 +15,8 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
 @Component({
     selector: 'app-nvflare',
     templateUrl: './nvflare.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class NvflareComponent {
     constructor(

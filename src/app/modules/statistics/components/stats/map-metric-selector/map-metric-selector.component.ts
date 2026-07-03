@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 
 export type MapMetric = 'pue' | 'jobs' | 'co2' | 'water' | 'green-score';
 
@@ -12,7 +18,8 @@ export interface MetricOption {
     selector: 'app-map-metric-selector',
     templateUrl: './map-metric-selector.component.html',
     styleUrls: ['./map-metric-selector.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class MapMetricSelectorComponent {
     @Input() active: MapMetric = 'pue';

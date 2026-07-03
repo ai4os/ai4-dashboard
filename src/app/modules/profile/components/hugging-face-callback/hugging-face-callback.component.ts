@@ -1,11 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+    Component,
+    inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HuggingFaceService } from '../../services/hugging-face-service/hugging-face.service';
 
 @Component({
     selector: 'app-huggingface-callback',
     templateUrl: './hugging-face-callback.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class HuggingFaceCallbackComponent implements OnInit {
     constructor(

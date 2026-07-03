@@ -1,5 +1,9 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
@@ -10,7 +14,8 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     selector: 'app-llms-list',
     templateUrl: './llms-list.component.html',
     styleUrl: './llms-list.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class LlmsListComponent {
     constructor(

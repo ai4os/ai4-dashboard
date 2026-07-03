@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-resource-bar',
     templateUrl: './resource-bar.component.html',
     styleUrl: './resource-bar.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ResourceBarComponent {
     @Input() label: string = '';

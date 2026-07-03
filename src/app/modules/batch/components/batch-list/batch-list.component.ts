@@ -1,5 +1,9 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -18,7 +22,8 @@ import { formatDate } from '@app/shared/utils/formatDate';
     selector: 'app-batch-list',
     templateUrl: './batch-list.component.html',
     styleUrl: './batch-list.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class BatchListComponent {
     constructor(

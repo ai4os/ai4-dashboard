@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
@@ -13,7 +19,8 @@ export interface SecretField {
     selector: 'app-inference-detail',
     templateUrl: './inference-detail.component.html',
     styleUrls: ['./inference-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class InferenceDetailComponent implements OnInit {
     constructor(

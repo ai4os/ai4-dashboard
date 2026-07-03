@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 export type ProviderCardStatus =
     | 'success-solid'
@@ -18,7 +18,8 @@ export type ProviderCardStatus =
     selector: 'app-service-card',
     templateUrl: './service-card.component.html',
     styleUrl: './service-card.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ServiceCardComponent {
     @Input() title!: string;

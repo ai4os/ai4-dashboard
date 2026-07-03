@@ -1,107 +1,108 @@
 <div class="content">
-  @if (mobileQuery.matches) {
-    <mat-toolbar class="mb-3 marketplace-toolbar mobile">
-      <form [formGroup]="searchFormGroup" class="search-form-mobile">
-        <mat-form-field
-          class="search-field-mobile filter-selector"
-          subscriptSizing="dynamic"
-          >
-          <mat-icon matPrefix>search</mat-icon>
-          <mat-label>Search</mat-label>
-          <input
-            matInput
-            type="search"
-            formControlName="search"
-            placeholder="Enter text to search"
-            />
-        </mat-form-field>
-      </form>
-    </mat-toolbar>
-  } @else {
-    <mat-toolbar class="marketplace-toolbar">
-      <div class="search-and-results-container">
-        <div class="search-filter-order-container">
-          <form [formGroup]="searchFormGroup">
-            <mat-form-field
-              class="filter-selector full-width"
-              subscriptSizing="dynamic"
-              >
-              <mat-icon matPrefix>search</mat-icon>
-              <mat-label>Search</mat-label>
-              <input
-                matInput
-                type="search"
-                formControlName="search"
-                placeholder="Enter text to search"
-                (input)="updateFilters()"
-                />
-            </mat-form-field>
-          </form>
-          <mat-chip
-            color="accent"
-            [matBadge]="selectedFilters.length"
-            matBadgePosition="above after"
-            (click)="openFiltersConfiguration()"
-            >
-            {{ 'CATALOG.FILTERS.ADITIONAL-FILTERS' | translate }}
-          </mat-chip>
-          <mat-divider [vertical]="true"></mat-divider>
-          <span class="small-text"> Sort: </span>
-          <mat-chip-listbox>
-            <mat-chip-option
-              [selected]="sortBy === 'name'"
-              value="name"
-              (selectionChange)="selectedSortingChip($event)"
-              >{{
-              'CATALOG.SORTING.NAME' | translate
-              }}</mat-chip-option
-              >
-              <mat-chip-option
-                [selected]="sortBy === 'recent'"
-                value="recent"
-                (selectionChange)="selectedSortingChip($event)"
-                >{{
-                'CATALOG.SORTING.MOST-RECENT' | translate
-                }}</mat-chip-option
+    @if (mobileQuery.matches) {
+        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+            <form [formGroup]="searchFormGroup" class="search-form-mobile">
+                <mat-form-field
+                    class="search-field-mobile filter-selector"
+                    subscriptSizing="dynamic"
                 >
-              </mat-chip-listbox>
+                    <mat-icon matPrefix>search</mat-icon>
+                    <mat-label>Search</mat-label>
+                    <input
+                        matInput
+                        type="search"
+                        formControlName="search"
+                        placeholder="Enter text to search"
+                    />
+                </mat-form-field>
+            </form>
+        </mat-toolbar>
+    } @else {
+        <mat-toolbar class="marketplace-toolbar">
+            <div class="search-and-results-container">
+                <div class="search-filter-order-container">
+                    <form [formGroup]="searchFormGroup">
+                        <mat-form-field
+                            class="filter-selector full-width"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-icon matPrefix>search</mat-icon>
+                            <mat-label>Search</mat-label>
+                            <input
+                                matInput
+                                type="search"
+                                formControlName="search"
+                                placeholder="Enter text to search"
+                                (input)="updateFilters()"
+                            />
+                        </mat-form-field>
+                    </form>
+                    <mat-chip
+                        color="accent"
+                        [matBadge]="selectedFilters.length"
+                        matBadgePosition="above after"
+                        (click)="openFiltersConfiguration()"
+                    >
+                        {{ 'CATALOG.FILTERS.ADITIONAL-FILTERS' | translate }}
+                    </mat-chip>
+                    <mat-divider [vertical]="true"></mat-divider>
+                    <span class="small-text"> Sort: </span>
+                    <mat-chip-listbox>
+                        <mat-chip-option
+                            [selected]="sortBy === 'name'"
+                            value="name"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'CATALOG.SORTING.NAME' | translate
+                            }}</mat-chip-option
+                        >
+                        <mat-chip-option
+                            [selected]="sortBy === 'recent'"
+                            value="recent"
+                            (selectionChange)="selectedSortingChip($event)"
+                            >{{
+                                'CATALOG.SORTING.MOST-RECENT' | translate
+                            }}</mat-chip-option
+                        >
+                    </mat-chip-listbox>
+                </div>
+                <span>
+                    <p class="results-text">
+                        {{ resultsFound }}
+                        {{ 'CATALOG.NUM-RESULTS' | translate }}
+                    </p>
+                </span>
             </div>
-            <span>
-              <p class="results-text">
-                {{ resultsFound }}
-                {{ 'CATALOG.NUM-RESULTS' | translate }}
-              </p>
-            </span>
-          </div>
         </mat-toolbar>
         <app-filter-component
-          [libraries]="librariesList"
-          [tasks]="tasksList"
-          [categories]="categoriesList"
-          [datatypes]="datatypesList"
-          [tags]="tagsList"
-          (librariesChanged)="filterByLibrary($event)"
-          (tasksChanged)="filterByTask($event)"
-          (categoriesChanged)="filterByCategory($event)"
-          (datatypesChanged)="filterByDatatype($event)"
-          (tagsChanged)="filterByTag($event)"
-          (changeDetected)="addFilter($event)"
+            [libraries]="librariesList"
+            [tasks]="tasksList"
+            [categories]="categoriesList"
+            [datatypes]="datatypesList"
+            [tags]="tagsList"
+            (librariesChanged)="filterByLibrary($event)"
+            (tasksChanged)="filterByTask($event)"
+            (categoriesChanged)="filterByCategory($event)"
+            (datatypesChanged)="filterByDatatype($event)"
+            (tagsChanged)="filterByTag($event)"
+            (changeDetected)="addFilter($event)"
         ></app-filter-component>
-      }
+    }
 
-
-      <div>
+    <div>
         <div class="modules-cards-container">
-          <span
-            fxFlex
+            <span
+                fxFlex
                 *ngFor="
                     let element of displayedElements
                         | searchAi4eoscModule
-                            : searchFormGroup.get('search')?.value as elements;
+                            : $safeNavigationMigration(
+                                  searchFormGroup.get('search')?.value
+                              ) as elements;
                     let first = first
                 "
-            class="m-2"
-            [id]="first ? 'step1' : null"
+                class="m-2"
+                [id]="first ? 'step1' : null"
                 [ngStyle]="{
                     display:
                         voName === 'vo.imagine-ai.eu' &&
@@ -110,10 +111,10 @@
                             : '',
                 }"
             >
-            <app-ai4eosc-module-card
-              [module]="element"
-            ></app-ai4eosc-module-card>
-          </span>
+                <app-ai4eosc-module-card
+                    [module]="element"
+                ></app-ai4eosc-module-card>
+            </span>
         </div>
-      </div>
     </div>
+</div>

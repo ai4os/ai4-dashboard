@@ -1,5 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
@@ -11,7 +16,8 @@ import { BreadcrumbService } from 'xng-breadcrumb';
     selector: 'app-ai4life-module-detail',
     templateUrl: './ai4life-module-detail.component.html',
     styleUrl: './ai4life-module-detail.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
     constructor(

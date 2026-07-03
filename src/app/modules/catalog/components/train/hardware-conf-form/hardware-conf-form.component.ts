@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -30,7 +36,8 @@ const mockedConfObject: confObjectRange = {
     selector: 'app-hardware-conf-form',
     templateUrl: './hardware-conf-form.component.html',
     styleUrls: ['./hardware-conf-form.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class HardwareConfFormComponent implements OnInit {
     constructor(

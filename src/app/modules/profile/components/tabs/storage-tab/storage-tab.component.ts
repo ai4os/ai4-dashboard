@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, inject, signal } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    inject,
+    signal,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
     AbstractControl,
@@ -46,7 +53,8 @@ export function domainValidator(): ValidatorFn {
     selector: 'app-storage-tab',
     templateUrl: './storage-tab.component.html',
     styleUrl: './storage-tab.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class StorageTabComponent implements OnInit {
     @Input() isProjectMember = false;

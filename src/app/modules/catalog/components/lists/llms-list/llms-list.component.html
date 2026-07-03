@@ -83,8 +83,9 @@
                     *ngFor="
                         let llm of llms
                             | searchLlms
-                                : searchFormGroup.get('search')
-                                      ?.value as modules
+                                : $safeNavigationMigration(
+                                      searchFormGroup.get('search')?.value
+                                  ) as modules
                     "
                     class="m-2"
                 >

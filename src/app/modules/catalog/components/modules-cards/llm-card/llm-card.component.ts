@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
@@ -7,7 +12,8 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     selector: 'app-llm-card',
     templateUrl: './llm-card.component.html',
     styleUrl: './llm-card.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class LlmCardComponent implements OnInit {
     constructor(

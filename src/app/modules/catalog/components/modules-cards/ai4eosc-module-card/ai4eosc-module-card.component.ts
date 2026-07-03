@@ -1,5 +1,10 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 
 @Component({
@@ -7,7 +12,8 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
     templateUrl: './ai4eosc-module-card.component.html',
     styleUrls: ['./ai4eosc-module-card.component.scss'],
     providers: [TitleCasePipe],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class Ai4eoscModuleCardComponent implements OnInit {
     constructor(public titleCasePipe: TitleCasePipe) {}

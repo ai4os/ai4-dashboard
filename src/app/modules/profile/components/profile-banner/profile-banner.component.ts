@@ -1,11 +1,12 @@
 // profile-banner.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-profile-banner',
     templateUrl: './profile-banner.component.html',
     styleUrls: ['./profile-banner.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ProfileBannerComponent {
     @Input() eyebrow = 'ACCOUNT';

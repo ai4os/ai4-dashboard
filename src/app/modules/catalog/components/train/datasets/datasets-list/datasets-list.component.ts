@@ -8,6 +8,7 @@ import {
     OnInit,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -36,7 +37,8 @@ export interface DatasetTableRow {
     selector: 'app-datasets-list',
     templateUrl: './datasets-list.component.html',
     styleUrls: ['./datasets-list.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DatasetsListComponent implements OnInit {
     constructor(

@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     confObjectRange,
     NvflareConfiguration,
@@ -23,7 +28,8 @@ const mockedConfObject: confObjectRange = {
     selector: 'app-nvflare-conf-form',
     templateUrl: './nvflare-conf-form.component.html',
     styleUrl: './nvflare-conf-form.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class NvflareConfFormComponent {
     constructor(

@@ -6,6 +6,7 @@ import {
     Inject,
     OnInit,
     Optional,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -50,7 +51,8 @@ export function doiOrUrlValidator(): ValidatorFn {
     selector: 'app-dataset-creation-detail',
     templateUrl: './dataset-creation-detail.component.html',
     styleUrls: ['./dataset-creation-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DatasetCreationDetailComponent implements OnInit {
     constructor(

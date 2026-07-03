@@ -1,19 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-chip-with-icon',
     templateUrl: './chip-with-icon.component.html',
     styleUrls: ['./chip-with-icon.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ChipWithIconComponent {
     @Input()
-        text!: string;
+    text!: string;
     @Input()
-        icon?: string;
+    icon?: string;
     @Input()
-        image?: string;
+    image?: string;
     @Input()
-        tooltip?: string;
+    tooltip?: string;
     @Input() chipStyle = 'default';
 }

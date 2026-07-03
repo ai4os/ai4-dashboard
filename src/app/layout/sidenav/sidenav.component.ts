@@ -5,6 +5,7 @@ import {
     Component,
     OnInit,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -26,7 +27,8 @@ export interface ProjectLink {
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
     constructor(

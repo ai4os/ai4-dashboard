@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-resources-card',
     templateUrl: './resources-card.component.html',
     styleUrl: './resources-card.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ResourcesCardComponent {
     @Input() usedCpu: number = 0;

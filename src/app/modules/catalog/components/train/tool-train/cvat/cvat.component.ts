@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,8 @@ import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.
 @Component({
     selector: 'app-cvat',
     templateUrl: './cvat.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class CvatComponent implements OnInit {
     constructor(

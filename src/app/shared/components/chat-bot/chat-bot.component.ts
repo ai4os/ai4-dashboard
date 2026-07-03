@@ -1,4 +1,10 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    Renderer2,
+    ViewChild,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     ChatMessage,
     ChatRequest,
@@ -11,7 +17,8 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
     selector: 'app-chat-bot',
     templateUrl: './chat-bot.component.html',
     styleUrl: './chat-bot.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ChatBotComponent {
     constructor(

@@ -8,6 +8,7 @@ import {
     Self,
     signal,
     SimpleChanges,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
@@ -15,7 +16,8 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
     selector: 'app-ui-text-field',
     templateUrl: './ui-text-field.component.html',
     styleUrl: './ui-text-field.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     @Input() label?: string;

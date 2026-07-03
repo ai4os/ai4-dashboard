@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
     GradioCreateResponse,
     GradioDeployment,
@@ -22,7 +22,8 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 @Component({
     selector: 'app-loading-screen',
     templateUrl: './loading-screen.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class LoadingScreenComponent implements OnInit {
     constructor(

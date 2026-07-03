@@ -3,6 +3,7 @@ import {
     HTTP_INTERCEPTORS,
     provideHttpClient,
     withInterceptorsFromDi,
+    withXhr,
 } from '@angular/common/http';
 import {
     NgModule,
@@ -166,7 +167,7 @@ renderer.link = (token: Tokens.Link) => {
         Title,
         CookieService,
         IntroJSService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideZoneChangeDetection({ eventCoalescing: true }),
     ],
 })

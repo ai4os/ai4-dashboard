@@ -1,5 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
@@ -16,7 +21,8 @@ import { formatDate } from '@app/shared/utils/formatDate';
 @Component({
     selector: 'app-inferences-list',
     templateUrl: './inferences-list.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class InferencesListComponent implements OnInit {
     constructor(

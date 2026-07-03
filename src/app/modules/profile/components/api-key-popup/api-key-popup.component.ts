@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
@@ -6,7 +6,8 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
     selector: 'app-api-key-popup',
     templateUrl: './api-key-popup.component.html',
     styleUrl: './api-key-popup.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ApiKeyPopupComponent {
     constructor(

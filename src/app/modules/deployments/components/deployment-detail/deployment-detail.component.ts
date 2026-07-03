@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
@@ -15,7 +21,8 @@ import { BatchService } from '@app/modules/batch/services/batch.service';
     selector: 'app-deployment-detail',
     templateUrl: './deployment-detail.component.html',
     styleUrls: ['./deployment-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DeploymentDetailComponent implements OnInit {
     constructor(
@@ -153,7 +160,7 @@ export class DeploymentDetailComponent implements OnInit {
     get localBatchScript(): string | undefined {
         return this.deployment?.templates?.['local/batch.sh'];
     }
-      
+
     getResourceValue(resource: KeyValue<string, number>): string {
         let resourceValue = resource.value.toString();
         if (resource.key.includes('MB')) {

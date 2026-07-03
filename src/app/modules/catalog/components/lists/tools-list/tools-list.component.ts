@@ -1,5 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -9,7 +14,8 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
     selector: 'app-tools-list',
     templateUrl: './tools-list.component.html',
     styleUrl: './tools-list.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ToolsListComponent implements OnInit {
     constructor(

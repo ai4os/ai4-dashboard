@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { StatsService } from '../../services/stats/stats.service';
 import {
     GlobalStats,
@@ -15,7 +20,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DashboardComponent implements OnInit {
     constructor(
@@ -211,18 +217,18 @@ export class DashboardComponent implements OnInit {
                             PUE: statsResponse['datacenters'][dc]['PUE'],
                             energy_quality: carbonArray.length
                                 ? carbonArray[
-                                    carbonArray.length - 1
-                                ][1].toFixed(2)
+                                      carbonArray.length - 1
+                                  ][1].toFixed(2)
                                 : null,
                             energy_water_usage: waterArray.length
                                 ? waterArray[waterArray.length - 1][1].toFixed(
-                                    2
-                                )
+                                      2
+                                  )
                                 : null,
                             green_score: greenScoreArray.length
                                 ? greenScoreArray[
-                                    greenScoreArray.length - 1
-                                ][1].toFixed(2)
+                                      greenScoreArray.length - 1
+                                  ][1].toFixed(2)
                                 : null,
                             nodes: statsResponse['datacenters'][dc]['nodes'],
                             affinity:

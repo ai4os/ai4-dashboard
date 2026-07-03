@@ -6,7 +6,13 @@ import {
     animateChild,
     query,
 } from '@angular/animations';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -89,6 +95,7 @@ export interface ShowGeneralFormField {
             ]),
         ]),
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
 export class GeneralConfFormComponent implements OnInit {

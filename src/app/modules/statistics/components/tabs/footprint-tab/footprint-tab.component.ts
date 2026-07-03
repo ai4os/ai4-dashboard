@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 
 @Component({
     selector: 'app-footprint-tab',
     templateUrl: './footprint-tab.component.html',
     styleUrl: './footprint-tab.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class FootprintTabComponent implements OnInit {
     @Input() datacentersStats: DatacenterStats[] = [];

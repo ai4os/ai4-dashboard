@@ -1,5 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -17,7 +22,8 @@ import { formatDate } from '@app/shared/utils/formatDate';
 @Component({
     selector: 'app-try-me-list',
     templateUrl: './try-me-list.component.html',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class TryMeListComponent implements OnInit {
     constructor(

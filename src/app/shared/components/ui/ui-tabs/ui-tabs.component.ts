@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 
 export interface Tab {
     id: string;
@@ -12,7 +18,8 @@ export interface Tab {
     selector: 'app-ui-tabs',
     templateUrl: './ui-tabs.component.html',
     styleUrl: './ui-tabs.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiTabsComponent {
     @Input() tabs: Tab[] = [];

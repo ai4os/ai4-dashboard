@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -10,7 +16,8 @@ import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-ba
     selector: 'app-try-me-detail',
     templateUrl: './try-me-detail.component.html',
     styleUrls: ['./try-me-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class TryMeDetailComponent implements OnInit {
     constructor(

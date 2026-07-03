@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { EChartsOption } from 'echarts';
 
 @Component({
     selector: 'app-time-series-chart',
     templateUrl: './time-series-chart.component.html',
     styleUrls: ['./time-series-chart.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class TimeSeriesChartComponent implements OnInit {
     constructor() {}

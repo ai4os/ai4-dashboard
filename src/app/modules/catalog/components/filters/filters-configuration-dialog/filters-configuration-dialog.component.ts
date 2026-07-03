@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
 
@@ -6,7 +6,8 @@ import { FilterGroup } from '@app/shared/interfaces/module.interface';
     selector: 'app-filters-configuration-dialog',
     templateUrl: './filters-configuration-dialog.component.html',
     styleUrls: ['./filters-configuration-dialog.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class FiltersConfigurationDialogComponent {
     constructor(

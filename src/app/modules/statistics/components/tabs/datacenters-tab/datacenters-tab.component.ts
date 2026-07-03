@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -23,7 +30,8 @@ import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe
     selector: 'app-datacenters-tab',
     templateUrl: './datacenters-tab.component.html',
     styleUrls: ['./datacenters-tab.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {
     constructor(private metricColor: MetricColorService) {
@@ -32,7 +40,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
 
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
-        drawer!: MatDrawer;
+    drawer!: MatDrawer;
 
     Math = Math;
     activeMetric: MapMetric = 'pue';
@@ -411,12 +419,12 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
         MapMetric,
         { label: string; unit: string }
     > = {
-            pue: { label: 'PUE', unit: '' },
-            jobs: { label: 'Jobs', unit: 'running' },
-            co2: { label: 'CO₂', unit: 'g/kWh' },
-            water: { label: 'Water', unit: 'l/kWh' },
-            'green-score': { label: 'Green Score', unit: '' },
-        };
+        pue: { label: 'PUE', unit: '' },
+        jobs: { label: 'Jobs', unit: 'running' },
+        co2: { label: 'CO₂', unit: 'g/kWh' },
+        water: { label: 'Water', unit: 'l/kWh' },
+        'green-score': { label: 'Green Score', unit: '' },
+    };
 
     private updatePopupContent(dc: DatacenterStats): void {
         const value = this.getMetricValue(dc, this.activeMetric);
@@ -427,8 +435,8 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
             value == null
                 ? '—'
                 : this.activeMetric === 'jobs'
-                    ? Math.trunc(value).toString()
-                    : value.toFixed(2);
+                  ? Math.trunc(value).toString()
+                  : value.toFixed(2);
 
         document.getElementById('popup-name')!.textContent = dc.name;
         document.getElementById('popup-flag')!.textContent =

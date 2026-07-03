@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchAi4lifePipe } from '@app/modules/catalog/pipes/search-card-pipe';
@@ -9,7 +15,8 @@ import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
     selector: 'app-ai4life-list',
     templateUrl: './ai4life-list.component.html',
     styleUrl: './ai4life-list.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class Ai4lifeListComponent implements OnInit {
     constructor(

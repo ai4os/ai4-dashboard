@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { distinctUntilChanged } from 'rxjs';
 import { VoInfo } from '@app/shared/interfaces/profile.interface';
@@ -11,7 +17,8 @@ import { Tab } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ProfileComponent implements OnInit {
     constructor(

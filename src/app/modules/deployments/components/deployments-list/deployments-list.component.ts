@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
@@ -30,7 +36,8 @@ import { formatDate } from '@app/shared/utils/formatDate';
     selector: 'app-deployments-list',
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
     constructor(
@@ -168,8 +175,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
-                        ) + deployment.docker_image.split(':')[1]
+                              'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                          ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,

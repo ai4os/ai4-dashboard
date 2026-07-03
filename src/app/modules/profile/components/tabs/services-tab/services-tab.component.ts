@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+    Component,
+    inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ServicesCredentialsStore } from '@app/modules/profile/store/services-credentials.store';
@@ -11,7 +16,8 @@ import {
     selector: 'app-services-tab',
     templateUrl: './services-tab.component.html',
     styleUrls: ['./services-tab.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ServicesTabComponent implements OnInit {
     store = inject(ServicesCredentialsStore);

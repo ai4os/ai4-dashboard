@@ -1,5 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     FormGroupDirective,
     FormBuilder,
@@ -16,7 +22,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
     selector: 'app-federated-conf-form',
     templateUrl: './federated-conf-form.component.html',
     styleUrls: ['./federated-conf-form.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class FederatedConfFormComponent implements OnInit {
     constructor(

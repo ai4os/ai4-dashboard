@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { NodeStats } from '@app/shared/interfaces/stats.interface';
 
@@ -6,7 +11,8 @@ import { NodeStats } from '@app/shared/interfaces/stats.interface';
     selector: 'app-nodes-tab',
     templateUrl: './nodes-tab.component.html',
     styleUrls: ['./nodes-tab.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class NodesTabComponent implements OnInit {
     @Input() nodesCpu: NodeStats[] = [];
@@ -44,14 +50,14 @@ export class NodesTabComponent implements OnInit {
 
     getBadgeClass(status: string): string {
         switch (status) {
-        case 'ready':
-            return 'ready-badge';
-        case 'test':
-            return 'test-badge';
-        case 'error':
-            return 'error-badge';
-        default:
-            return 'default-badge';
+            case 'ready':
+                return 'ready-badge';
+            case 'test':
+                return 'test-badge';
+            case 'error':
+                return 'error-badge';
+            default:
+                return 'default-badge';
         }
     }
 }

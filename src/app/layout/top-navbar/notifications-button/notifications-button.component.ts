@@ -5,6 +5,7 @@ import {
     OnInit,
     inject,
     signal,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import {
     PlatformStatus,
@@ -19,7 +20,8 @@ import * as yaml from 'js-yaml';
     selector: 'app-notifications-button',
     templateUrl: './notifications-button.component.html',
     styleUrls: ['./notifications-button.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class NotificationsButtonComponent implements OnInit {
     protected platformStatusService = inject(PlatformStatusService);

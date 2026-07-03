@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -16,7 +16,8 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
     selector: 'app-federated-server',
     templateUrl: './federated-server.component.html',
     styleUrls: ['./federated-server.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class FederatedServerComponent implements OnInit {
     constructor(

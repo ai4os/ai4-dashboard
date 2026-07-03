@@ -5,6 +5,7 @@ import {
     Input,
     OnInit,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -64,7 +65,8 @@ export function urlValidator(): ValidatorFn {
     selector: 'app-storage-conf-form',
     templateUrl: './storage-conf-form.component.html',
     styleUrls: ['./storage-conf-form.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class StorageConfFormComponent implements OnInit {
     constructor(

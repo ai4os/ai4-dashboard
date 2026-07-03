@@ -4,6 +4,7 @@ import {
     Inject,
     Injector,
     OnInit,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -26,7 +27,8 @@ export interface SecretField {
     selector: 'app-secret-management-detail',
     templateUrl: './secret-management-detail.component.html',
     styleUrls: ['./secret-management-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class SecretManagementDetailComponent implements OnInit {
     constructor(

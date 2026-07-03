@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { getSnapshotBadge } from '../../utils/deployment-badge';
@@ -8,7 +14,8 @@ import { getSnapshotBadge } from '../../utils/deployment-badge';
     selector: 'app-snapshot-detail',
     templateUrl: './snapshot-detail.component.html',
     styleUrl: './snapshot-detail.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class SnapshotDetailComponent {
     constructor(

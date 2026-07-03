@@ -1,4 +1,10 @@
-import { Component, ContentChildren, Input, QueryList } from '@angular/core';
+import {
+    Component,
+    ContentChildren,
+    Input,
+    QueryList,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
 
 export interface UiTableColumn<T> {
@@ -12,7 +18,8 @@ export interface UiTableColumn<T> {
     selector: 'app-ui-table',
     templateUrl: './ui-table.component.html',
     styleUrl: './ui-table.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UiTableComponent<T extends Record<string, any>> {
     @Input({ required: true }) columns: UiTableColumn<T>[] = [];

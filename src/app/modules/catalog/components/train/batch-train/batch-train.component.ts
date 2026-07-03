@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,8 @@ import { ShowGeneralFormField } from '../general-conf-form/general-conf-form.com
     selector: 'app-batch-train',
     templateUrl: './batch-train.component.html',
     styleUrl: './batch-train.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class BatchTrainComponent {
     constructor(

@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
@@ -8,7 +14,8 @@ import { EChartsOption } from 'echarts';
     selector: 'app-gpu-stats-detail',
     templateUrl: './gpu-stats-detail.component.html',
     styleUrls: ['./gpu-stats-detail.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class GpuStatsDetailComponent implements OnInit {
     constructor(

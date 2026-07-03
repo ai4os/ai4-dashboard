@@ -1,4 +1,10 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import {
+    Component,
+    computed,
+    inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -10,7 +16,8 @@ import { environment } from '@environments/environment';
     selector: 'app-top-navbar',
     templateUrl: './top-navbar.component.html',
     styleUrls: ['./top-navbar.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class TopNavbarComponent implements OnInit {
     private authService = inject(AuthService);

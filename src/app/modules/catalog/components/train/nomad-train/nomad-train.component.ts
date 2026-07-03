@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -16,7 +16,8 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
     selector: 'app-nomad-train',
     templateUrl: './nomad-train.component.html',
     styleUrls: ['./nomad-train.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class NomadTrainComponent implements OnInit {
     constructor(

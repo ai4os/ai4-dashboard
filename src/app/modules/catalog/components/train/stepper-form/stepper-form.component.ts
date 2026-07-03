@@ -10,6 +10,7 @@ import {
     Output,
     TemplateRef,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -26,7 +27,8 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
     selector: 'app-stepper-form',
     templateUrl: './stepper-form.component.html',
     styleUrls: ['./stepper-form.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class StepperFormComponent implements OnInit {
     constructor(
@@ -76,8 +78,7 @@ export class StepperFormComponent implements OnInit {
     @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
 
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
-        | ElementRef
-        | undefined;
+        ElementRef | undefined;
 
     showHelpForm: FormGroup = this._formBuilder.group({
         showHelpToggleButton: false,
@@ -116,8 +117,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 co2: this.step1Form.value.generalConfForm.co2EmissionsInput,
@@ -212,7 +213,7 @@ export class StepperFormComponent implements OnInit {
                             .strategyOptionsSelect ===
                         'Federated Averaging with Momentum (FedAvgM)'
                             ? this.step3Form!.value.federatedConfForm
-                                .momentumInput
+                                  .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
                     mp: this.step3Form!.value.federatedConfForm.dpInput
@@ -224,11 +225,11 @@ export class StepperFormComponent implements OnInit {
                     sampled_clients: this.step3Form!.value.federatedConfForm
                         .dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .sampledClientsNumInput
+                              .sampledClientsNumInput
                         : null,
                     clip_norm: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .clippingNormInput
+                              .clippingNormInput
                         : null,
                 };
                 request = this.deploymentsService.trainTool(
@@ -260,7 +261,7 @@ export class StepperFormComponent implements OnInit {
                                   this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
                                       this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
                                           60000
-                            ).toISOString(),
+                              ).toISOString(),
                     end_date:
                         this.step3Form!.value.nvflareConfForm.endDateInput ===
                         ''
@@ -269,7 +270,7 @@ export class StepperFormComponent implements OnInit {
                                   this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
                                       this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
                                           60000
-                            ).toISOString(),
+                              ).toISOString(),
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-nvflare',
@@ -294,7 +295,7 @@ export class StepperFormComponent implements OnInit {
                             ?.doi === ''
                             ? []
                             : this.step3Form!.value.storageConfForm
-                                .datasetsList,
+                                  .datasetsList,
                 };
 
                 if (this.title === 'AI4OS Development Environment') {
@@ -347,8 +348,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:
@@ -396,8 +397,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:

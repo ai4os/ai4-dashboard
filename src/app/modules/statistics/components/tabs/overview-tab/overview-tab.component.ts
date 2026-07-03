@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
@@ -9,7 +14,8 @@ import { forkJoin } from 'rxjs';
     selector: 'app-overview-tab',
     templateUrl: './overview-tab.component.html',
     styleUrls: ['./overview-tab.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class OverviewTabComponent implements OnInit {
     constructor(

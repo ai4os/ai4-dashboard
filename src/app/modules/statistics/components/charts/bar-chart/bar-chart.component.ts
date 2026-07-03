@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
@@ -7,7 +12,8 @@ import { EChartsOption } from 'echarts';
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
     styleUrls: ['./bar-chart.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class BarChartComponent implements OnInit {
     @Input() title: string = '';

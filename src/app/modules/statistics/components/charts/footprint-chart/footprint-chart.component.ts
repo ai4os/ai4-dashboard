@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
 
@@ -6,7 +6,8 @@ import { EChartsOption } from 'echarts';
     selector: 'app-footprint-chart',
     templateUrl: './footprint-chart.component.html',
     styleUrl: './footprint-chart.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class FootprintChartComponent {
     @Input() title: string = '';

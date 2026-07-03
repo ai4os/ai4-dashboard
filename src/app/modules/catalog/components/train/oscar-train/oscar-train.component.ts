@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,8 @@ import { showHardwareField } from '../hardware-conf-form/hardware-conf-form.comp
     selector: 'app-oscar-train',
     templateUrl: './oscar-train.component.html',
     styleUrl: './oscar-train.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class OscarTrainComponent implements OnInit {
     constructor(

@@ -1,4 +1,11 @@
-import { Component, OnInit, computed, signal, inject } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    computed,
+    signal,
+    inject,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
@@ -19,7 +26,8 @@ import {
     selector: 'app-api-keys-tab',
     templateUrl: './api-keys-tab.component.html',
     styleUrl: './api-keys-tab.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class ApiKeysTabComponent implements OnInit {
     constructor(

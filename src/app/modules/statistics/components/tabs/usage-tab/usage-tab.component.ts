@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { UserProfile } from '@app/core/services/auth/auth.service';
 import { GlobalStats } from '@app/shared/interfaces/stats.interface';
@@ -7,11 +12,12 @@ import { GlobalStats } from '@app/shared/interfaces/stats.interface';
     selector: 'app-usage-tab',
     templateUrl: './usage-tab.component.html',
     styleUrls: ['./usage-tab.component.scss'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class UsageTabComponent implements OnInit {
     @Input()
-        userProfile!: UserProfile;
+    userProfile!: UserProfile;
     @Input() dates: string[] = [];
     @Input() cpuMhzData: number[] = [];
     @Input() cpuNumData: number[] = [];

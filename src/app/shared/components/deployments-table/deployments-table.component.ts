@@ -8,6 +8,7 @@ import {
     OnInit,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -41,7 +42,8 @@ import { formatDate } from '@app/shared/utils/formatDate';
     selector: 'app-deployments-table',
     templateUrl: './deployments-table.component.html',
     styleUrl: './deployments-table.component.scss',
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class DeploymentsTableComponent implements OnInit, OnDestroy {
     constructor(
