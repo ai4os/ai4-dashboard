@@ -12,7 +12,7 @@ import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.
 @Component({
     selector: 'app-llm',
     templateUrl: './llm.component.html',
-    standalone: false
+    standalone: false,
 })
 export class LlmComponent {
     constructor(
@@ -21,7 +21,7 @@ export class LlmComponent {
         private route: ActivatedRoute,
         private router: Router
     ) {
-        const navigation = this.router.lastSuccessfulNavigation;
+        const navigation = this.router.lastSuccessfulNavigation();
         this.llmId = navigation?.extras?.state?.['llmId'];
     }
 

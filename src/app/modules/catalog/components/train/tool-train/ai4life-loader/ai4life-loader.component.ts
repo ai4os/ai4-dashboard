@@ -14,7 +14,7 @@ import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.c
 @Component({
     selector: 'app-ai4life-loader',
     templateUrl: './ai4life-loader.component.html',
-    standalone: false
+    standalone: false,
 })
 export class Ai4lifeLoaderComponent {
     constructor(
@@ -23,7 +23,7 @@ export class Ai4lifeLoaderComponent {
         private route: ActivatedRoute,
         private router: Router
     ) {
-        const navigation = this.router.lastSuccessfulNavigation;
+        const navigation = this.router.lastSuccessfulNavigation();
         this.modelId = navigation?.extras?.state?.['modelId'];
     }
 
