@@ -4,7 +4,7 @@ import {
     provideHttpClient,
     withInterceptorsFromDi,
 } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule, provideAppInitializer, inject } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 
@@ -143,28 +143,16 @@ renderer.link = (token: Tokens.Link) => {
             useClass: HttpErrorInterceptor,
             multi: true,
         },
-        {
-            provide: APP_INITIALIZER,
-            multi: true,
-            deps: [AppConfigService, OAuthModuleConfig],
-            useFactory: (
-                appConfigService: AppConfigService,
-                authConfig: OAuthModuleConfig
-            ) => {
-                return () => {
-                    return appConfigService
-                        .loadAppConfig(authConfig)
-                        .then(() => {
-                            if (
-                                appConfigService.apiURL &&
-                                appConfigService.apiURL !== ''
-                            ) {
-                                environment.api.base = appConfigService.apiURL;
-                            }
-                        });
-                };
-            },
-        },
+        provideAppInitializer(() => {
+            const appConfigService = inject(AppConfigService);
+            const authConfig = inject(OAuthModuleConfig);
+
+            return appConfigService.loadAppConfig(authConfig).then(() => {
+                if (appConfigService.apiURL && appConfigService.apiURL !== '') {
+                    environment.api.base = appConfigService.apiURL;
+                }
+            });
+        }),
         { provide: OAuthStorage, useFactory: storageFactory },
         {
             provide: OAuthModuleConfig,

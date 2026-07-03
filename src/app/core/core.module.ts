@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule, provideAppInitializer, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth/auth.service';
 import { authAppInitializerFactory } from './services/auth/auth-app-initializer.factory';
@@ -13,12 +13,10 @@ import { authAppInitializerFactory } from './services/auth/auth-app-initializer.
         {
             provide: AuthService,
         },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: authAppInitializerFactory,
-            deps: [AuthService],
-            multi: true,
-        },
+        provideAppInitializer(() => {
+            const authService = inject(AuthService);
+            return authAppInitializerFactory(authService)();
+        }),
     ],
 })
 export class CoreModule {}
