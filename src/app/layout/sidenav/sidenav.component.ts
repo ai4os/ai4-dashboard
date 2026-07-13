@@ -12,8 +12,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
-import { environment } from 'src/environments/environment';
-import { gitInfo } from 'src/environments/version';
+import { environment } from '@environments/environment';
+import { gitInfo } from '@environments/version';
 
 export interface ProjectLink {
     name: string;

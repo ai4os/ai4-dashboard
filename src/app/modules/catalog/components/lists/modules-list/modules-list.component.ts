@@ -18,7 +18,7 @@ import { filter } from 'rxjs';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { IntroJSService } from 'introjs/introjs.service';
+import { IntroJSService } from '../../../../../../../introjs/introjs.service';
 
 @Component({
     selector: 'app-modules-list',

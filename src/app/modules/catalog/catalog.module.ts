@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedModule } from '@shared/shared.module';
-import { MarkdownModule } from 'ngx-markdown';
 import { Ai4eoscModuleDetailComponent } from './components/modules-detail/ai4eosc-module-detail/ai4eosc-module-detail.component';
 import { DatasetCreationDetailComponent } from './components/train/datasets/dataset-creation-detail-component/dataset-creation-detail.component';
 import { DatasetsListComponent } from './components/train/datasets/datasets-list/datasets-list.component';
@@ -89,7 +88,6 @@ import { BatchTrainComponent } from './components/train/batch-train/batch-train.
         SharedModule,
         MatProgressBarModule,
         MatExpansionModule,
-        MarkdownModule.forChild(),
         FormsModule,
         ScrollingModule,
     ],

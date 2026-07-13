@@ -3,29 +3,31 @@ import {
     HTTP_INTERCEPTORS,
     provideHttpClient,
     withInterceptorsFromDi,
-    withXhr,
 } from '@angular/common/http';
 import {
     NgModule,
     provideAppInitializer,
     inject,
     provideZoneChangeDetection,
+    Injectable,
 } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
-
+import {
+    OAuthModule,
+    OAuthStorage,
+    OAuthModuleConfig,
+} from 'angular-oauth2-oidc';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, provideTranslateService } from '@ngx-translate/core';
+import { provideMarkdown, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
+import { Observable } from 'rxjs';
+
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { TopNavbarComponent } from './layout/top-navbar/top-navbar.component';
 import { SharedModule } from './shared/shared.module';
-
-import { MarkdownModule, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
 import { CoreModule } from './core/core.module';
 import { environment } from '@environments/environment';
 import {
@@ -38,22 +40,22 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NotificationsButtonComponent } from './layout/top-navbar/notifications-button/notifications-button.component';
 import { CookieService } from 'ngx-cookie-service';
 import { gitInfo } from '@environments/version';
-import { IntroJSService } from 'introjs/introjs.service';
-import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FooterComponent } from './layout/footer/footer.component';
 import { Tokens } from 'marked';
+import { IntroJSService } from '../../introjs/introjs.service';
 
 export function storageFactory(): OAuthStorage {
     return localStorage;
 }
 
-export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(
-        http,
-        './assets/i18n/',
-        '.json?v=' + gitInfo.version
-    );
+@Injectable({ providedIn: 'root' })
+export class CustomTranslateLoader implements TranslateLoader {
+    constructor(private http: HttpClient) {}
+
+    getTranslation(lang: string): Observable<any> {
+        return this.http.get(`./assets/i18n/${lang}.json?v=${gitInfo.version}`);
+    }
 }
 
 export function authConfigFactory(): OAuthModuleConfig {
@@ -112,28 +114,8 @@ renderer.link = (token: Tokens.Link) => {
         AppRoutingModule,
         ReactiveFormsModule,
         OAuthModule.forRoot(),
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            useDefaultLang: true,
-            loader: {
-                provide: TranslateLoader,
-                useFactory: createTranslateLoader,
-                deps: [HttpClient],
-            },
-        }),
-        BrowserAnimationsModule,
         SharedModule,
         CoreModule,
-        MarkdownModule.forRoot({
-            markedOptions: {
-                provide: MARKED_OPTIONS,
-                useValue: {
-                    renderer: renderer,
-                    gfm: true,
-                    breaks: false,
-                },
-            },
-        }),
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
         }),
@@ -149,6 +131,23 @@ renderer.link = (token: Tokens.Link) => {
             useClass: HttpErrorInterceptor,
             multi: true,
         },
+        provideTranslateService({
+            fallbackLang: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useClass: CustomTranslateLoader,
+            },
+        }),
+        provideMarkdown({
+            markedOptions: {
+                provide: MARKED_OPTIONS,
+                useValue: {
+                    renderer: renderer,
+                    gfm: true,
+                    breaks: false,
+                },
+            },
+        }),
         provideAppInitializer(() => {
             const appConfigService = inject(AppConfigService);
             const authConfig = inject(OAuthModuleConfig);
@@ -167,7 +166,7 @@ renderer.link = (token: Tokens.Link) => {
         Title,
         CookieService,
         IntroJSService,
-        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+        provideHttpClient(withInterceptorsFromDi()),
         provideZoneChangeDetection({ eventCoalescing: true }),
     ],
 })

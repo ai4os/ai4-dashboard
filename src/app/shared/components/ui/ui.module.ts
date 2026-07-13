@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { UiButtonComponent } from './ui-button/ui-button.component';
 import { MaterialModule } from '@app/shared/material.module';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { UiLoaderComponent } from './ui-loader/ui-loader.component';
 import { UiChipComponent } from './ui-chip/ui-chip.component';
 import { UiTabsComponent } from './ui-tabs/ui-tabs.component';
@@ -34,7 +34,7 @@ import { UiSelectComponent } from './ui-select/ui-select.component';
         UiExpansionPanelComponent,
         UiSelectComponent,
     ],
-    imports: [CommonModule, MaterialModule, TranslateModule],
+    imports: [CommonModule, MaterialModule, TranslatePipe, TranslateDirective],
     exports: [
         UiButtonComponent,
         UiLoaderComponent,

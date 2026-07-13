@@ -5,14 +5,15 @@ import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from './material.module';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { MarkdownComponent, MarkdownPipe } from 'ngx-markdown';
+
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import { BreadcrumbModule } from 'xng-breadcrumb';
 import { CopyToClipboardDirective } from './directives/copy-to-clipboard.directive';
 import { ChipWithIconComponent } from './components/chip-with-icon/chip-with-icon.component';
 import { DeploymentsTableComponent } from './components/deployments-table/deployments-table.component';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { IframeDialogComponent } from './components/iframe-dialog/iframe-dialog.component';
 import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
 import { MultipleActionsDialogComponent } from './components/multiple-actions-dialog/multiple-actions-dialog.component';
@@ -37,17 +38,19 @@ import { UiModule } from './components/ui/ui.module';
         CommonModule,
         MaterialModule,
         FormsModule,
-        TranslateModule,
         RouterModule,
-        MarkdownModule.forChild(),
+        TranslatePipe,
+        TranslateDirective,
+        BreadcrumbComponent,
+        BreadcrumbItemDirective,
+        MarkdownComponent,
+        MarkdownPipe,
         UiModule,
     ],
     exports: [
         ReactiveFormsModule,
         MaterialModule,
         RouterModule,
-        TranslateModule,
-        BreadcrumbModule,
         CopyToClipboardDirective,
         ChipWithIconComponent,
         DeploymentsTableComponent,
@@ -56,6 +59,12 @@ import { UiModule } from './components/ui/ui.module';
         SingleFileUploadComponent,
         MultipleActionsDialogComponent,
         TextEditorComponent,
+        TranslatePipe,
+        TranslateDirective,
+        BreadcrumbComponent,
+        BreadcrumbItemDirective,
+        MarkdownComponent,
+        MarkdownPipe,
         UiModule,
     ],
 })
