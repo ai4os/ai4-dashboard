@@ -10,7 +10,8 @@ import {
 } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { of } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('BatchTrainComponent', () => {
     let component: BatchTrainComponent;
@@ -19,10 +20,10 @@ describe('BatchTrainComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [BatchTrainComponent],
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: ModulesService, useValue: mockedModulesService },
                 {
                     provide: ActivatedRoute,

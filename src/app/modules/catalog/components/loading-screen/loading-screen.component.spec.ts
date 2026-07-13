@@ -1,5 +1,3 @@
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import {
     ComponentFixture,
     TestBed,
@@ -7,16 +5,16 @@ import {
     tick,
     discardPeriodicTasks,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { LoadingScreenComponent } from './loading-screen.component';
 import { mockedTryMeService } from '@app/modules/try-me/services/try-me.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('LoadingScreenComponent', () => {
     let component: LoadingScreenComponent;
@@ -25,15 +23,11 @@ describe('LoadingScreenComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [LoadingScreenComponent],
-            imports: [
-                NoopAnimationsModule,
-                SharedModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
 
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 { provide: TryMeService, useValue: mockedTryMeService },

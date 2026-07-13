@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ApiKeyPopupComponent } from './api-key-popup.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('ApiKeyPopupComponent', () => {
     let component: ApiKeyPopupComponent;
@@ -11,8 +12,10 @@ describe('ApiKeyPopupComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ApiKeyPopupComponent],
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             providers: [
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
             ],

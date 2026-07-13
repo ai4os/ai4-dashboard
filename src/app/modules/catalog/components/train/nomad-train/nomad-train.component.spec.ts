@@ -2,9 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NomadTrainComponent } from './nomad-train.component';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
 import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
@@ -23,6 +22,7 @@ import {
 import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { of } from 'rxjs';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('NomadTrainComponent', () => {
     let component: NomadTrainComponent;
@@ -45,13 +45,13 @@ describe('NomadTrainComponent', () => {
             ],
             imports: [
                 SharedModule,
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
+                TranslatePipe,
+                TranslateDirective,
                 RouterModule.forRoot([]),
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 FormGroupDirective,
                 FormBuilder,
                 OAuthStorage,

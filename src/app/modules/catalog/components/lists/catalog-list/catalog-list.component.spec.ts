@@ -17,6 +17,7 @@ import {
     mockMatDialog,
 } from '@app/shared/mocks/mat-dialog.mock';
 import { mockModuleSummaryList } from '@app/modules/catalog/services/modules-service/modules-service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('CatalogListComponent', () => {
     let component: CatalogListComponent;
@@ -25,10 +26,9 @@ describe('CatalogListComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [CatalogListComponent, SearchAi4eoscPipe],
-            imports: [SharedModule, NoopAnimationsModule],
+            imports: [SharedModule],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
                 {
                     provide: AppConfigService,
                     useValue: mockedConfigService,

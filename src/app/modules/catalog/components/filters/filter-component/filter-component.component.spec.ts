@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterComponentComponent } from './filter-component.component';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('FilterComponentComponent', () => {
     let component: FilterComponentComponent;
@@ -15,10 +15,11 @@ describe('FilterComponentComponent', () => {
             declarations: [FilterComponentComponent],
             imports: [
                 SharedModule,
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
+                TranslatePipe,
+                TranslateDirective,
                 FormsModule,
             ],
+            providers: [...COMMON_TEST_PROVIDERS],
         }).compileComponents();
 
         fixture = TestBed.createComponent(FilterComponentComponent);

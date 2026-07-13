@@ -11,11 +11,8 @@ import { InferencesListComponent } from './inferences-list.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -23,7 +20,7 @@ import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-se
 import { OscarInferenceService } from '../../services/oscar-inference.service';
 import { mockedOscarInferenceService } from '@app/modules/inference/services/oscar-inference.service.mock';
 import { MatTableDataSource } from '@angular/material/table';
-import { of } from 'rxjs';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('ServicesListComponent', () => {
     let component: InferencesListComponent;
@@ -32,14 +29,10 @@ describe('ServicesListComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [InferencesListComponent],
-            imports: [
-                SharedModule,
-                NoopAnimationsModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 {

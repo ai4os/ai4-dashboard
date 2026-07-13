@@ -4,8 +4,7 @@ import { DatasetsListComponent } from './datasets-list.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
@@ -15,6 +14,7 @@ import {
     mockedDataset,
     mockedDatasetRow,
 } from '@app/modules/catalog/services/zenodo-service/zenodo.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('DatasetsListComponent', () => {
     let component: DatasetsListComponent;
@@ -23,12 +23,10 @@ describe('DatasetsListComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [DatasetsListComponent],
-            imports: [
-                NoopAnimationsModule,
-                SharedModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

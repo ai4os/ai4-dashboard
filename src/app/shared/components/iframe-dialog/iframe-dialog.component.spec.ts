@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IframeDialogComponent } from './iframe-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('IframeDialogComponent', () => {
     let component: IframeDialogComponent;
@@ -10,9 +11,11 @@ describe('IframeDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             declarations: [IframeDialogComponent],
             providers: [
+                ...COMMON_TEST_PROVIDERS,
+
                 {
                     provide: MAT_DIALOG_DATA,
                     useValue: { url: 'https://example.com' },

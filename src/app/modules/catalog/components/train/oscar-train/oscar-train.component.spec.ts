@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OscarTrainComponent } from './oscar-train.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import {
@@ -13,6 +11,7 @@ import {
     mockedModulesService,
 } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { of } from 'rxjs';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 const mockedConfigService: any = {};
 
@@ -22,11 +21,10 @@ describe('OscarTrainComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             declarations: [OscarTrainComponent],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ModulesService, useValue: mockedModulesService },
                 {

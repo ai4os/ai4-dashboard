@@ -17,6 +17,7 @@ import {
     mockedCredentials,
     mockedNewCredential,
 } from '@app/modules/profile/services/profile-service/profile.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@app/shared/testing/test-providers';
 
 describe('ProfileService', () => {
     let service: ProfileService;
@@ -25,8 +26,8 @@ describe('ProfileService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 { provide: SecretsService, useValue: mockedSecretsService },

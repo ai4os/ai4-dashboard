@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PopupComponent } from './popup.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-sanitizer.service';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 const mockedHtmlSanitizerService: any = {
     getSanitizedText: jest.fn(),
@@ -17,8 +18,9 @@ describe('PopupComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [PopupComponent],
-            imports: [TranslateModule.forRoot(), SharedModule],
+            imports: [TranslatePipe, TranslateDirective, SharedModule],
             providers: [
+                ...COMMON_TEST_PROVIDERS,
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MatDialogRef, useValue: {} },
                 {

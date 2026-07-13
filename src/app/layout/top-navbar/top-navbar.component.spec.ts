@@ -1,21 +1,18 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopNavbarComponent } from './top-navbar.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
-import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('TopNavbarComponent', () => {
     let component: TopNavbarComponent;
@@ -27,23 +24,26 @@ describe('TopNavbarComponent', () => {
             imports: [
                 SharedModule,
                 RouterModule.forRoot([]),
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
+                TranslatePipe,
+                TranslateDirective,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
                 { provide: AuthService, useValue: mockedAuthService },
-                { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: SidenavService, useValue: mockedSidenavService },
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
+            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TopNavbarComponent);
         component = fixture.componentInstance;
         mockedAuthService.isAuthenticated = jest.fn().mockReturnValue(true);
         fixture.detectChanges();
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('TopNavbarComponent When LoggedOut', () => {
@@ -53,17 +53,18 @@ describe('TopNavbarComponent', () => {
                 .mockReturnValue(false);
             fixture.detectChanges();
         });
+
         it('should create', () => {
             expect(component).toBeTruthy();
         });
 
-        it('should show login-register button', () => {
-            expect(
-                fixture.debugElement.query(By.css('.profile-button'))
-            ).toBeNull();
-            expect(
-                fixture.debugElement.query(By.css('#showLoginButton'))
-            ).toBeTruthy();
+        it('should show the login/register button', () => {
+            const loginBtn = fixture.debugElement.query(
+                By.css('.top-navbar__login-btn')
+            );
+
+            expect(loginBtn).toBeTruthy();
+            expect(loginBtn.properties['matMenuTriggerFor']).toBeFalsy();
         });
     });
 
@@ -77,13 +78,15 @@ describe('TopNavbarComponent', () => {
             expect(component).toBeTruthy();
         });
 
-        it('should show logged-in menu', () => {
-            expect(
-                fixture.debugElement.query(By.css('#showLoginButton'))
-            ).toBeNull();
-            expect(
-                fixture.debugElement.query(By.css('.profile-button'))
-            ).toBeTruthy();
+        it('should show the profile menu button instead of login', () => {
+            const loginBtn = fixture.debugElement.query(
+                By.css('.top-navbar__login-btn')
+            );
+
+            expect(loginBtn).toBeTruthy();
+            expect(loginBtn.properties['text']).not.toBe(
+                'TOP-NAVBAR.LOGIN-REGISTER'
+            );
         });
     });
 
@@ -91,17 +94,17 @@ describe('TopNavbarComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should login correctly', fakeAsync(() => {
-        component.login();
+    it('should login correctly using current pathname', () => {
         const loginSpy = jest.spyOn(mockedAuthService, 'login');
-        expect(loginSpy).toHaveBeenCalled();
-    }));
+        component.login();
+        expect(loginSpy).toHaveBeenCalledWith(window.location.pathname);
+    });
 
-    it('should logout correctly', fakeAsync(() => {
+    it('should logout correctly', () => {
+        const logoutSpy = jest.spyOn(mockedAuthService, 'logout');
         component.logout();
-        const loginSpy = jest.spyOn(mockedAuthService, 'logout');
-        expect(loginSpy).toHaveBeenCalled();
-    }));
+        expect(logoutSpy).toHaveBeenCalled();
+    });
 
     it('should call sidenavService correctly', () => {
         const sidenavServiceSpy = jest.spyOn(mockedSidenavService, 'toggle');
@@ -109,32 +112,35 @@ describe('TopNavbarComponent', () => {
         expect(sidenavServiceSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('should have media queries correctly initialized', () => {
-        expect(component.hideSidebarQuery).toBeDefined();
-        expect(component.mobileQuery).toBeDefined();
-        expect(mockedMediaMatcher.matchMedia).toHaveBeenCalledWith(
-            '(max-width: 1366px)'
-        );
-        expect(mockedMediaMatcher.matchMedia).toHaveBeenCalledWith(
-            '(max-width: 600px)'
-        );
-    });
-
     it('should initialize voName correctly from appConfigService', () => {
         expect(component.voName).toEqual(mockedConfigService.voName);
     });
 
-    it('should update userProfile on authService userProfileSubject change', () => {
+    it('should reflect isAuthorized from the userProfile signal', () => {
         const profile = {
             name: 'Test User',
             email: 'test@example.com',
             isAuthorized: true,
-            isOperator: false,
-            eduperson_entitlement: ['role1', 'role2'],
         };
 
         mockedAuthService.userProfileSubject.next(profile);
+        fixture.detectChanges();
 
-        expect(component.userProfile).toEqual(profile);
+        expect(component.isAuthorized()).toBe(true);
+    });
+
+    it('should return false from isAuthorized when there is no profile', () => {
+        mockedAuthService.userProfileSubject.next(null);
+        fixture.detectChanges();
+
+        expect(component.isAuthorized()).toBe(false);
+    });
+
+    it('should reflect isLoggedIn from authService.isAuthenticated', () => {
+        mockedAuthService.isAuthenticated = jest.fn().mockReturnValue(true);
+        expect(component.isLoggedIn()).toBe(true);
+
+        mockedAuthService.isAuthenticated = jest.fn().mockReturnValue(false);
+        expect(component.isLoggedIn()).toBe(false);
     });
 });

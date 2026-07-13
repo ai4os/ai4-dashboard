@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FooterComponent } from './footer.component';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
-import { TranslateModule } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 
 describe('FooterComponent', () => {
     let component: FooterComponent;
@@ -13,11 +11,11 @@ describe('FooterComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             declarations: [FooterComponent],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         }).compileComponents();

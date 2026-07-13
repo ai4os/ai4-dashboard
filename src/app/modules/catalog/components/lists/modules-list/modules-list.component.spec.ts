@@ -4,13 +4,9 @@ import { ModulesListComponent } from './modules-list.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { SearchAi4eoscPipe } from '../../../pipes/search-card-pipe';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OAuthStorage } from 'angular-oauth2-oidc';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
@@ -18,6 +14,8 @@ import { mockedModulesService } from '@app/modules/catalog/services/modules-serv
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('ModulesListComponent', () => {
     let component: ModulesListComponent;
@@ -26,14 +24,10 @@ describe('ModulesListComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ModulesListComponent, SearchAi4eoscPipe],
-            imports: [
-                SharedModule,
-                NoopAnimationsModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 OAuthStorage,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },

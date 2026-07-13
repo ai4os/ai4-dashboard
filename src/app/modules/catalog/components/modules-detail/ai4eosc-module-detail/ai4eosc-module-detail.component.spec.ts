@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Ai4eoscModuleDetailComponent } from './ai4eosc-module-detail.component';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { TopNavbarComponent } from '@app/layout/top-navbar/top-navbar.component';
 import { ModulesService } from '../../../services/modules-service/modules.service';
 import { ActivatedRoute } from '@angular/router';
@@ -22,6 +20,8 @@ import {
 } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { mockedMarkdownService } from '@app/shared/mocks/markdown-service.mock';
 import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 const mockedModule = mockAi4eoscModules[0];
 
@@ -35,11 +35,12 @@ describe('ModuleDetailComponent', () => {
             imports: [
                 MarkdownComponent,
                 SharedModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
+                TranslateDirective,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: ModulesService, useValue: mockedModulesService },

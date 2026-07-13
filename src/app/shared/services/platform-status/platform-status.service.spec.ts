@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { PlatformStatusService } from './platform-status.service';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController } from '@angular/common/http/testing';
 import {
-    HttpTestingController,
-    provideHttpClientTesting,
-} from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+    TranslateDirective,
+    TranslatePipe,
+    TranslateService,
+} from '@ngx-translate/core';
 import {
     PlatformStatus,
     StatusNotification,
@@ -13,6 +13,7 @@ import {
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedPlatformStatusNotifications } from '@app/shared/services/platform-status/platform-status.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('PlatformStatusService', () => {
     let service: PlatformStatusService;
@@ -20,10 +21,10 @@ describe('PlatformStatusService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
         });

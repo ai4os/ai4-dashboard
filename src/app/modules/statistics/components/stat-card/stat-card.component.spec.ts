@@ -6,8 +6,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('StatCardComponent', () => {
     let component: StatCardComponent;
@@ -16,8 +17,10 @@ describe('StatCardComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [StatCardComponent],
-            imports: [TranslateModule.forRoot(), SharedModule],
+            imports: [TranslatePipe, TranslateDirective, SharedModule],
             providers: [
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],

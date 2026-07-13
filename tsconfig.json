@@ -14,6 +14,7 @@
         "experimentalDecorators": true,
         "moduleResolution": "bundler",
         "importHelpers": true,
+        "types": ["node", "jest"],
         "target": "ES2022",
         "module": "ES2022",
         "useDefineForClassFields": false,
@@ -26,7 +27,8 @@
             "@modules/*": ["./src/app/modules/*"],
             "@shared/*": ["./src/app/shared/*"],
             "@environments/*": ["./src/environments/*"],
-            "@data/*": ["./src/app/data/*"]
+            "@data/*": ["./src/app/data/*"],
+            "@testing/*": ["./src/app/shared/testing/*"]
         }
     },
     "angularCompilerOptions": {

@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolsListComponent } from './tools-list.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('ToolsListComponent', () => {
     let component: ToolsListComponent;
@@ -20,10 +19,10 @@ describe('ToolsListComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ToolsListComponent],
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: AuthService, useValue: mockedAuthService },

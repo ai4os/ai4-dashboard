@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeploymentsTableComponent } from './deployments-table.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { deploymentRow } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('DeploymentsTableComponent', () => {
     let component: DeploymentsTableComponent;
@@ -17,11 +16,11 @@ describe('DeploymentsTableComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
+            imports: [TranslatePipe, TranslateDirective],
             declarations: [DeploymentsTableComponent],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],

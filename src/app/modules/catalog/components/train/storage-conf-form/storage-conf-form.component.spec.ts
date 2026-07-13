@@ -4,18 +4,16 @@ import {
     StorageConfFormComponent,
     urlValidator,
 } from './storage-conf-form.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { FormBuilder, FormControl, FormGroupDirective } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;
@@ -30,14 +28,10 @@ describe('StorageConfFormComponent', () => {
 
         await TestBed.configureTestingModule({
             declarations: [StorageConfFormComponent],
-            imports: [
-                SharedModule,
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

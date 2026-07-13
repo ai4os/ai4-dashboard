@@ -4,21 +4,18 @@ import { DatasetCreationDetailComponent } from './dataset-creation-detail.compon
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { By } from '@angular/platform-browser';
 import { ZenodoService } from '@app/modules/catalog/services/zenodo-service/zenodo.service';
-import { of } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import {
     mockedDataset,
     mockedZenodoService,
 } from '@app/modules/catalog/services/zenodo-service/zenodo.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('DatasetCreationDetailComponent', () => {
     let component: DatasetCreationDetailComponent;
@@ -27,14 +24,10 @@ describe('DatasetCreationDetailComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [DatasetCreationDetailComponent],
-            imports: [
-                SharedModule,
-                BrowserAnimationsModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

@@ -5,18 +5,16 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { SharedModule } from '@app/shared/shared.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('SecretManagementDetailComponent', () => {
     let component: SecretManagementDetailComponent;
@@ -25,14 +23,10 @@ describe('SecretManagementDetailComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [SecretManagementDetailComponent],
-            imports: [
-                NoopAnimationsModule,
-                SharedModule,
-                TranslateModule.forRoot(),
-            ],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

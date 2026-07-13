@@ -7,14 +7,13 @@ import {
 
 import { NotificationsButtonComponent } from './notifications-button.component';
 import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { throwError } from 'rxjs';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { mockedPlatformStatusService } from '@app/shared/services/platform-status/platform-status.service.mock';
+import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
 describe('NotificationsButtonComponent', () => {
     let component: NotificationsButtonComponent;
@@ -23,10 +22,10 @@ describe('NotificationsButtonComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [NotificationsButtonComponent],
-            imports: [SharedModule, TranslateModule.forRoot()],
+            imports: [SharedModule, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...COMMON_TEST_PROVIDERS,
+
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 {
                     provide: PlatformStatusService,

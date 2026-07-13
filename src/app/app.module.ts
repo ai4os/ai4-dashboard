@@ -175,3 +175,10 @@ export class AppModule {
         iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     }
 }
+function provideAnimationsAsync(arg0: {
+    disableAnimations: boolean;
+}):
+    | import('@angular/core').Provider
+    | import('@angular/core').EnvironmentProviders {
+    throw new Error('Function not implemented.');
+}
