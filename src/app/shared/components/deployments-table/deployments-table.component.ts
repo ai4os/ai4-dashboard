@@ -15,7 +15,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
     DeploymentTableRow,
     Snapshot,
@@ -125,10 +128,12 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data:
-                    'Are you sure you want to delete this ' +
-                    this.deploymentType +
-                    '?',
+                data: {
+                    title:
+                        'Are you sure you want to delete this ' +
+                        this.deploymentType +
+                        '?',
+                } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
@@ -240,7 +245,13 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to create a snapshot of this deployment?`,
+                data: {
+                    title: `Are you sure you want to create a snapshot of this deployment?`,
+                    subtitlePrefix:
+                        'PROFILE.SERVICES-TAB.DIALOG.SUBTITLE-PREFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'PROFILE.SERVICES-TAB.DIALOG.UNLINK',
+                } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
             .afterClosed()

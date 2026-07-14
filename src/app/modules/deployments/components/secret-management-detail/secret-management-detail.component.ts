@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { Secret } from '@app/shared/interfaces/module.interface';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -145,14 +148,17 @@ export class SecretManagementDetailComponent implements OnInit {
     deleteSecret(name: string) {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data:
-                    this.secrets.length == 1
-                        ? this.translateService.instant(
-                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
-                          )
-                        : this.translateService.instant(
-                              'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
-                          ),
+                data: {
+                    title:
+                        this.secrets.length == 1
+                            ? this.translateService.instant(
+                                  'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
+                              )
+                            : this.translateService.instant(
+                                  'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
+                              ),
+                } as ConfirmationDialogData,
+
                 panelClass: 'ui-dialog-panel',
             })
             .afterClosed()

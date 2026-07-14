@@ -76,7 +76,7 @@ describe('module train form', function () {
             cy.contains('Close', { timeout: 10000 }).click();
 
             cy.get('#delete-button').click();
-            cy.get('#yesBtn').click();
+            cy.contains('Yes').click();
             cy.contains('No datasets added yet').should('be.visible');
         });
 

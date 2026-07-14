@@ -151,7 +151,7 @@ describe('try me section', function () {
 
     it('delete Gradio deployment', function () {
         cy.get('#deleteButton', { timeout: 50000 }).click();
-        cy.get('#yesBtn').click();
+        cy.contains('Yes').click();
         cy.contains('Successfully deleted deployment with uuid:', {
             timeout: 50000,
         }).should('be.visible');

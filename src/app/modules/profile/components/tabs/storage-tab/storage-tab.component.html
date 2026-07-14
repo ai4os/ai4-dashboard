@@ -11,9 +11,7 @@
     <app-ui-button
         variant="icon"
         icon="info"
-        [href]="
-            'https://docs.ai4os.eu/en/latest/technical/storage-providers.html#storage-providers'
-        "
+        [href]="'https://docs.ai4os.eu/en/latest/technical/storage-providers.html#storage-providers'"
         [tooltip]="'GENERAL.OPEN-DOCS' | translate"
     ></app-ui-button>
 </div>
@@ -61,6 +59,7 @@
                             (click)="onRelink(store.ai4osEndpoint)"
                         ></app-ui-button>
                         <app-ui-button
+                            id="deleteCredential"
                             variant="danger-solid"
                             icon="link_off"
                             [matTooltip]="
@@ -220,6 +219,7 @@
                                 class="add-provider__advanced-form"
                             >
                                 <app-ui-text-field
+                                    id="rcloneUser"
                                     [label]="
                                         'PROFILE.STORAGE-TAB.RCLONE.USER'
                                             | translate
@@ -235,6 +235,7 @@
                                 />
 
                                 <app-ui-text-field
+                                    id="rclonePassword"
                                     [label]="
                                         'PROFILE.STORAGE-TAB.RCLONE.PASS'
                                             | translate
@@ -259,6 +260,7 @@
                                 />
 
                                 <app-ui-text-field
+                                    id="storageUrl"
                                     [label]="
                                         'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL'
                                             | translate
@@ -284,6 +286,7 @@
 
                                 <div class="add-provider__advanced-actions">
                                     <app-ui-button
+                                        id="addCredential"
                                         variant="accent-solid"
                                         icon="add"
                                         [text]="

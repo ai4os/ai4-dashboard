@@ -13,7 +13,10 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DatasetCreationDetailComponent } from '../dataset-creation-detail-component/dataset-creation-detail.component';
 import { FormGroup } from '@angular/forms';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
@@ -184,7 +187,9 @@ export class DatasetsListComponent implements OnInit {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to delete this dataset?`,
+                data: {
+                    title: 'Are you sure you want to delete this dataset?',
+                } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
             .afterClosed()

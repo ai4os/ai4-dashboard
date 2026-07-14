@@ -1,6 +1,7 @@
 <nav class="ui-tabs">
     @for (tab of tabs; track tab.id) {
         <button
+            [id]="tab.id + '-tab'"
             class="ui-tabs__item"
             [class.ui-tabs__item--active]="tab.id === activeTabId"
             [class.ui-tabs__item--disabled]="tab.disabled"

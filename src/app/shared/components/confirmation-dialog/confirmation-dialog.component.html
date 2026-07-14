@@ -40,11 +40,13 @@
 
     <div mat-dialog-actions class="confirmation-dialog__actions">
         <app-ui-button
+            id="optionA"
             variant="primary-outline"
             [text]="optionA | translate"
             (click)="closeDialog()"
         ></app-ui-button>
         <app-ui-button
+            id="optionB"
             variant="danger-solid"
             [text]="optionB | translate"
             (click)="confirm()"

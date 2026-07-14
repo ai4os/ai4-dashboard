@@ -30,7 +30,10 @@ import { StorageService } from '@app/modules/catalog/services/storage-service/st
 import { timeout, catchError, throwError } from 'rxjs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -360,9 +363,9 @@ export class StorageConfFormComponent implements OnInit {
         ev.preventDefault();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: this.translateService.instant(
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
-                ),
+                data: {
+                    title: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE',
+                } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
