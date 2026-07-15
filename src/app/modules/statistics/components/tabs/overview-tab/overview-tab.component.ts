@@ -3,6 +3,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
@@ -18,10 +19,8 @@ import { forkJoin } from 'rxjs';
     standalone: false,
 })
 export class OverviewTabComponent implements OnInit {
-    constructor(
-        private readonly deploymentsService: DeploymentsService,
-        private readonly authService: AuthService
-    ) {}
+    deploymentsService = inject(DeploymentsService);
+    authService = inject(AuthService);
 
     @Input() clusterGlobalStats!: GlobalStats;
     @Input() gpuPerModelCluster!: GpuStats[];

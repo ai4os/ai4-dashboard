@@ -14,11 +14,8 @@ import { HuggingFaceService } from '../../services/hugging-face-service/hugging-
     standalone: false,
 })
 export class HuggingFaceCallbackComponent implements OnInit {
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router
-    ) {}
-
+    route = inject(ActivatedRoute);
+    router = inject(Router);
     huggingFaceService = inject(HuggingFaceService);
 
     ngOnInit(): void {

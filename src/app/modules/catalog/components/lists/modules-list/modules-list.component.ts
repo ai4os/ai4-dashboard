@@ -5,6 +5,7 @@ import {
     OnInit,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -18,7 +19,6 @@ import { filter } from 'rxjs';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { IntroJSService } from '../../../../../../../introjs/introjs.service';
 
 @Component({
     selector: 'app-modules-list',
@@ -28,17 +28,17 @@ import { IntroJSService } from '../../../../../../../introjs/introjs.service';
     standalone: false,
 })
 export class ModulesListComponent implements OnInit, AfterViewInit {
-    constructor(
-        private router: Router,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef,
-        private modulesService: ModulesService,
-        private snackbarService: SnackbarService,
-        private introService: IntroJSService,
-        public dialog: MatDialog
-    ) {
+    media = inject(MediaMatcher);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    dialog = inject(MatDialog);
+    router = inject(Router);
+    modulesService = inject(ModulesService);
+    snackbarService = inject(SnackbarService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
 
         // scroll to last scrollY position

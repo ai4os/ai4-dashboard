@@ -7,8 +7,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
     standalone: false,
 })
 export class ModuleTrainViewComponent implements OnInit {
-    constructor() {}
-
     protected platform = '';
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 import { HuggingFaceService } from '@app/modules/profile/services/hugging-face-service/hugging-face.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -10,11 +10,9 @@ interface MLflowCredentialsValue {
 
 @Injectable({ providedIn: 'root' })
 export class ServicesCredentialsStore {
-    constructor(
-        private secretsService: SecretsService,
-        private huggingFaceService: HuggingFaceService,
-        private snackbarService: SnackbarService
-    ) {}
+    secretsService = inject(SecretsService);
+    huggingFaceService = inject(HuggingFaceService);
+    snackbarService = inject(SnackbarService);
 
     readonly loading = computed(
         () => this._isMLflowLoading() || this._isHfLoading()

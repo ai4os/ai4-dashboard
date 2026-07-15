@@ -1,10 +1,10 @@
 import {
     ChangeDetectorRef,
     Component,
-    Inject,
     Injector,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -34,19 +34,25 @@ export interface SecretField {
     standalone: false,
 })
 export class SecretManagementDetailComponent implements OnInit {
-    constructor(
-        private readonly injector: Injector,
-        private secretsService: SecretsService,
-        public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string; name: string },
-        private snackbarService: SnackbarService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private fb: FormBuilder
-    ) {
+    data = inject<{
+        uuid: string;
+        name: string;
+    }>(MAT_DIALOG_DATA);
+
+    secretsService = inject(SecretsService);
+    dialog = inject(MatDialog);
+    injector = inject(Injector);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    confirmationDialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    fb = inject(FormBuilder);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
@@ -57,7 +63,6 @@ export class SecretManagementDetailComponent implements OnInit {
     });
 
     isLoading = false;
-    translateService!: TranslateService;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -72,7 +77,6 @@ export class SecretManagementDetailComponent implements OnInit {
         if (this.data.uuid) {
             this.getSecrets();
         }
-        this.translateService = this.injector.get(TranslateService);
     }
 
     getSecrets() {

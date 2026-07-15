@@ -4,9 +4,9 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 
@@ -18,14 +18,15 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
     standalone: false,
 })
 export class ToolsListComponent implements OnInit {
-    constructor(
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef,
-        private toolsService: ToolsService,
-        public dialog: MatDialog
-    ) {
+    media = inject(MediaMatcher);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    dialog = inject(ToolsService);
+    toolsService = inject(ToolsService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     private _mobileQueryListener: () => void;

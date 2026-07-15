@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { LiteLLMKeyResponse } from '@app/shared/interfaces/profile.interface';
 import { environment } from '@environments/environment';
@@ -11,11 +11,11 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class LlmApiKeysService {
-    constructor(private http: HttpClient) {}
+    http = inject(HttpClient);
 
     getLiteLLMKeys(): Observable<LiteLLMKeyResponse[]> {
         const url = `${base}${endpoints.litellm}`;
-        return this.http.get<Array<LiteLLMKeyResponse>>(url);
+        return this.http.get<LiteLLMKeyResponse[]>(url);
     }
 
     createLiteLLMKey(key_name: string, duration: string): Observable<string> {

@@ -3,12 +3,11 @@ import {
     EventEmitter,
     Input,
     OnChanges,
-    Optional,
     Output,
-    Self,
     signal,
     SimpleChanges,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
@@ -20,6 +19,8 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
     standalone: false,
 })
 export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
+    ngControl = inject(NgControl, { optional: true, self: true });
+
     @Input() label?: string;
     @Input() placeholder?: string;
     @Input() hint?: string;
@@ -40,7 +41,7 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     private onChange: (value: string) => void = () => {};
     private onTouched: () => void = () => {};
 
-    constructor(@Optional() @Self() public ngControl: NgControl) {
+    constructor() {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
         }

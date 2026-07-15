@@ -6,6 +6,7 @@ import {
     OnInit,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -31,14 +32,16 @@ export interface ProjectLink {
     standalone: false,
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        protected authService: AuthService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private sidenavService: SidenavService,
-        private appConfigService: AppConfigService
-    ) {
+    private _formBuilder = inject(FormBuilder);
+    protected authService = inject(AuthService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+    private sidenavService = inject(SidenavService);
+    private appConfigService = inject(AppConfigService);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);

@@ -1,9 +1,9 @@
 import {
     ChangeDetectorRef,
     Component,
-    Inject,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
@@ -25,21 +25,24 @@ import { BatchService } from '@app/modules/batch/services/batch.service';
     standalone: false,
 })
 export class DeploymentDetailComponent implements OnInit {
-    constructor(
-        private deploymentsService: DeploymentsService,
-        private secretsService: SecretsService,
-        public translateService: TranslateService,
-        private snackbarService: SnackbarService,
-        private batchService: BatchService,
+    confirmationDialog = inject(MatDialog);
+    data = inject<{
+        uuid: string;
+        type: string;
+    }>(MAT_DIALOG_DATA);
 
-        public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string; type: string },
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    deploymentsService = inject(DeploymentsService);
+    secretsService = inject(SecretsService);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    batchService = inject(BatchService);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

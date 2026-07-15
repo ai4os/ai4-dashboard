@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TagObject } from '@app/data/types/tags';
 import {
@@ -23,10 +23,8 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class ToolsService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    http = inject(HttpClient);
+    appConfigService = inject(AppConfigService);
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 
@@ -37,9 +35,9 @@ export class ToolsService {
             Object.keys(tags).forEach((key: string) => {
                 params = params.set(key, tags[key as keyof TagObject] || '');
             });
-            return this.http.get<Array<ModuleSummary>>(url, { params });
+            return this.http.get<ModuleSummary[]>(url, { params });
         } else {
-            return this.http.get<Array<ModuleSummary>>(url);
+            return this.http.get<ModuleSummary[]>(url);
         }
     }
 

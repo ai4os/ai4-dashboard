@@ -4,6 +4,7 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,20 +27,22 @@ import { formatDate } from '@app/shared/utils/formatDate';
     standalone: false,
 })
 export class TryMeListComponent implements OnInit {
-    constructor(
-        public tryMeService: TryMeService,
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    tryMeService = inject(TryMeService);
+    dialog = inject(MatDialog);
+    confirmationDialog = inject(MatDialog);
+    private snackbarService = inject(SnackbarService);
+    private media = inject(MediaMatcher);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: Array<TableColumn> = [
+    columns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
@@ -49,7 +52,7 @@ export class TryMeListComponent implements OnInit {
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
 
-    dataset: Array<DeploymentTableRow> = [];
+    dataset: DeploymentTableRow[] = [];
     dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;

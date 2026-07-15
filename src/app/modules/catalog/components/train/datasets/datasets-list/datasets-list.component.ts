@@ -9,6 +9,7 @@ import {
     Output,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -44,14 +45,16 @@ export interface DatasetTableRow {
     standalone: false,
 })
 export class DatasetsListComponent implements OnInit {
-    constructor(
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private _liveAnnouncer: LiveAnnouncer,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    dialog = inject(MatDialog);
+    confirmationDialog = inject(MatDialog);
+    private snackbarService = inject(SnackbarService);
+    private _liveAnnouncer = inject(LiveAnnouncer);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -68,7 +71,7 @@ export class DatasetsListComponent implements OnInit {
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
-    columns: Array<TableColumn> = [
+    columns: TableColumn[] = [
         { columnDef: 'id', header: '', hidden: true },
         {
             columnDef: 'name',
@@ -88,7 +91,7 @@ export class DatasetsListComponent implements OnInit {
         },
     ];
 
-    datasets: Array<DatasetTableRow> = [];
+    datasets: DatasetTableRow[] = [];
     dataSource!: MatTableDataSource<DatasetTableRow>;
     displayedColumns: string[] = [];
 

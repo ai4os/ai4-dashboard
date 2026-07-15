@@ -5,6 +5,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -40,14 +41,15 @@ const mockedConfObject: confObjectRange = {
     standalone: false,
 })
 export class HardwareConfFormComponent implements OnInit {
-    constructor(
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

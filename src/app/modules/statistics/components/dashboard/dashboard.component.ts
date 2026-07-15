@@ -3,6 +3,7 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { StatsService } from '../../services/stats/stats.service';
 import {
@@ -24,12 +25,12 @@ import { MediaMatcher } from '@angular/cdk/layout';
     standalone: false,
 })
 export class DashboardComponent implements OnInit {
-    constructor(
-        private statsService: StatsService,
-        private readonly authService: AuthService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    statsService = inject(StatsService);
+    readonly authService = inject(AuthService);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.authService.userProfile$.subscribe((profile) => {
             if (profile) {
                 this.userProfile = profile;
@@ -37,7 +38,8 @@ export class DashboardComponent implements OnInit {
             }
         });
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     userProfile?: UserProfile;

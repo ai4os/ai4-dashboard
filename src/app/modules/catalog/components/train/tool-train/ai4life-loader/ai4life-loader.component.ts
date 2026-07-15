@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,13 +22,13 @@ import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.c
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class Ai4lifeLoaderComponent {
-    constructor(
-        private toolsService: ToolsService,
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {
+export class Ai4lifeLoaderComponent implements OnInit {
+    toolsService = inject(ToolsService);
+    _formBuilder = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    router = inject(Router);
+
+    constructor() {
         const navigation = this.router.lastSuccessfulNavigation();
         this.modelId = navigation?.extras?.state?.['modelId'];
     }
@@ -31,7 +36,7 @@ export class Ai4lifeLoaderComponent {
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
     step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    modelId: string = '';
+    modelId = '';
     warningMessage = '';
 
     showHelp = false;

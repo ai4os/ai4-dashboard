@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,13 +20,13 @@ import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class LlmComponent {
-    constructor(
-        private toolsService: ToolsService,
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {
+export class LlmComponent implements OnInit {
+    toolsService = inject(ToolsService);
+    _formBuilder = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    router = inject(Router);
+
+    constructor() {
         const navigation = this.router.lastSuccessfulNavigation();
         this.llmId = navigation?.extras?.state?.['llmId'];
     }

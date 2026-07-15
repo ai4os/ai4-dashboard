@@ -11,6 +11,7 @@ import {
     TemplateRef,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -31,18 +32,17 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
     standalone: false,
 })
 export class StepperFormComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private deploymentsService: DeploymentsService,
-        private oscarInferenceService: OscarInferenceService,
-        private router: Router,
-        private snackbarService: SnackbarService
-    ) {
+    _formBuilder = inject(FormBuilder);
+    cdr = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    deploymentsService = inject(DeploymentsService);
+    oscarInferenceService = inject(OscarInferenceService);
+    router = inject(Router);
+    snackbarService = inject(SnackbarService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () => this.cdr.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

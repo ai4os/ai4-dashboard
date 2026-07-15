@@ -4,6 +4,7 @@ import {
     OnDestroy,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -40,22 +41,23 @@ import { formatDate } from '@app/shared/utils/formatDate';
     standalone: false,
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
-    constructor(
-        public dialog: MatDialog,
-        private deploymentsService: DeploymentsService,
-        private snackbarService: SnackbarService,
-        private snapshotService: SnapshotService,
-        public translateService: TranslateService,
-        private platformStatusService: PlatformStatusService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    deploymentsService = inject(DeploymentsService);
+    dialog = inject(MatDialog);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    snapshotService = inject(SnapshotService);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    platformStatusService = inject(PlatformStatusService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    snapshotColumns: Array<TableColumn> = [
+    snapshotColumns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
@@ -83,9 +85,9 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     notifications: StatusNotification[] = [];
     displayedNotifications: StatusNotification[] = [];
 
-    modulesDataset: Array<DeploymentTableRow> = [];
-    toolsDataset: Array<DeploymentTableRow> = [];
-    snapshotsDataset: Array<DeploymentTableRow> = [];
+    modulesDataset: DeploymentTableRow[] = [];
+    toolsDataset: DeploymentTableRow[] = [];
+    snapshotsDataset: DeploymentTableRow[] = [];
 
     modulesDataSource!: MatTableDataSource<DeploymentTableRow>;
     toolsDataSource!: MatTableDataSource<DeploymentTableRow>;
@@ -168,7 +170,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getDeployments())
             )
             .subscribe((deploymentsList: Deployment[]) => {
-                const updatedModulesDataset: Array<DeploymentTableRow> = [];
+                const updatedModulesDataset: DeploymentTableRow[] = [];
                 this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
                     const containerName = deployment.docker_image.includes(
@@ -253,7 +255,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getTools())
             )
             .subscribe((tools) => {
-                const updatedToolsDataset: Array<DeploymentTableRow> = [];
+                const updatedToolsDataset: DeploymentTableRow[] = [];
                 this.isToolsTableLoading = false;
                 tools.forEach((tool: Deployment) => {
                     const row: DeploymentTableRow = {

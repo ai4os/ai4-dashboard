@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -20,14 +25,14 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
     standalone: false,
 })
 export class NomadTrainComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private modulesService: ModulesService,
-        private toolsService: ToolsService,
-        public translateService: TranslateService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {
+    modulesService = inject(ModulesService);
+    _formBuilder = inject(FormBuilder);
+    toolsService = inject(ToolsService);
+    translateService = inject(TranslateService);
+    route = inject(ActivatedRoute);
+    router = inject(Router);
+
+    constructor() {
         const navigation = this.router.currentNavigation();
         this.service =
             navigation?.extras?.state?.['service'] ||

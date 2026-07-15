@@ -45,17 +45,17 @@ const routes: Routes = [
                         path: 'deployments',
                         canActivate: [AuthenticationGuard],
                         loadChildren: () =>
-                            import(
-                                '@modules/deployments/deployments.module'
-                            ).then((m) => m.DeploymentsModule),
+                            import('@modules/deployments/deployments.module').then(
+                                (m) => m.DeploymentsModule
+                            ),
                     },
                     {
                         path: 'inference',
                         canActivate: [AuthenticationGuard],
                         loadChildren: () =>
-                            import(
-                                '@app/modules/inference/inference.module'
-                            ).then((m) => m.InferenceModule),
+                            import('@app/modules/inference/inference.module').then(
+                                (m) => m.InferenceModule
+                            ),
                     },
                     {
                         path: 'try-me',

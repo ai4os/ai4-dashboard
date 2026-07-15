@@ -10,7 +10,7 @@ import { EChartsOption } from 'echarts';
     standalone: false,
 })
 export class FootprintChartComponent {
-    @Input() title: string = '';
+    @Input() title = '';
     @Input() tooltip?: string = '';
     @Input() set unit(unit: string) {
         this._unit = unit;
@@ -29,7 +29,7 @@ export class FootprintChartComponent {
         this.updateChart();
     }
 
-    protected _unit: string = '';
+    protected _unit = '';
     protected _legend: string[] = [];
     protected _timestamps: string[] = [];
     protected _values: number[][] = [];

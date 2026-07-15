@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
     ZenodoCommunity,
     ZenodoDataset,
@@ -16,7 +16,7 @@ const communitiesJsonUrl = '../../../assets/json/zenodo_communities.json';
     providedIn: 'root',
 })
 export class ZenodoService {
-    constructor(private http: HttpClient) {}
+    http = inject(HttpClient);
 
     getCommunities(): Observable<ZenodoCommunity[]> {
         return this.http.get<ZenodoCommunity[]>(communitiesJsonUrl);
@@ -29,7 +29,7 @@ export class ZenodoService {
             'communities/' + communityName + '/records'
         );
         const body = { q: 'resource_type.type:dataset' };
-        return this.http.post<Array<ZenodoDataset>>(url, body, {
+        return this.http.post<ZenodoDataset[]>(url, body, {
             params: params,
         });
     }
@@ -41,7 +41,7 @@ export class ZenodoService {
             'records/' + id + '/versions'
         );
         const body = {};
-        return this.http.post<Array<ZenodoDatasetVersion>>(url, body, {
+        return this.http.post<ZenodoDatasetVersion[]>(url, body, {
             params: params,
         });
     }

@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -20,11 +25,9 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
     standalone: false,
 })
 export class FederatedServerComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+    _formBuilder = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    toolsService = inject(ToolsService);
 
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';

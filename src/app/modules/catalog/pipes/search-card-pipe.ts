@@ -7,10 +7,10 @@ import {
 
 @Pipe({
     name: 'searchAi4eoscModule',
-    standalone: false
+    standalone: false,
 })
 export class SearchAi4eoscPipe implements PipeTransform {
-    public transform(value: Array<ModuleSummary>, searchValue: string) {
+    public transform(value: ModuleSummary[], searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(
@@ -23,10 +23,10 @@ export class SearchAi4eoscPipe implements PipeTransform {
 
 @Pipe({
     name: 'searchAi4lifeModule',
-    standalone: false
+    standalone: false,
 })
 export class SearchAi4lifePipe implements PipeTransform {
-    public transform(value: Array<Ai4lifeModule>, searchValue: string) {
+    public transform(value: Ai4lifeModule[], searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(
@@ -40,10 +40,10 @@ export class SearchAi4lifePipe implements PipeTransform {
 
 @Pipe({
     name: 'searchLlms',
-    standalone: false
+    standalone: false,
 })
 export class SearchLlmsPipe implements PipeTransform {
-    public transform(value: Array<VllmModelConfig>, searchValue: string) {
+    public transform(value: VllmModelConfig[], searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(

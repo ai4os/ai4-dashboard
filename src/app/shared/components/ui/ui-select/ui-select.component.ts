@@ -4,9 +4,7 @@ import {
     EventEmitter,
     HostListener,
     Input,
-    Optional,
     Output,
-    Self,
     computed,
     inject,
     signal,
@@ -29,6 +27,8 @@ let nextId = 0;
     standalone: false,
 })
 export class UiSelectComponent implements ControlValueAccessor {
+    ngControl = inject(NgControl, { optional: true, self: true });
+
     @Input() label?: string;
     @Input() placeholder?: string;
     @Input() hint?: string;
@@ -55,7 +55,7 @@ export class UiSelectComponent implements ControlValueAccessor {
 
     private elementRef = inject(ElementRef);
 
-    constructor(@Optional() @Self() public ngControl: NgControl) {
+    constructor() {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
         }

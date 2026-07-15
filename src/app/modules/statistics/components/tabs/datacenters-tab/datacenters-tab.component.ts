@@ -5,6 +5,7 @@ import {
     OnInit,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -34,7 +35,9 @@ import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe
     standalone: false,
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {
-    constructor(private metricColor: MetricColorService) {
+    metricColor = inject(MetricColorService);
+
+    constructor() {
         this.tileLayer.setSource(this.tileSource.source);
     }
 
@@ -58,7 +61,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     jobsNum = 0;
 
     private map!: Map;
-    private tileLayer: TileLayer<any> = new TileLayer();
+    private tileLayer = new TileLayer<any>();
     private tileSource = {
         name: 'CartoDB',
         source: new XYZ({

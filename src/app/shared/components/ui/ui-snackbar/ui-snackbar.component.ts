@@ -1,9 +1,4 @@
-import {
-    Component,
-    Inject,
-    Optional,
-    ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import {
     MAT_SNACK_BAR_DATA,
     MatSnackBarRef,
@@ -33,10 +28,11 @@ const DEFAULT_ICON: Record<UiSnackbarVariant, string> = {
     standalone: false,
 })
 export class UiSnackbarComponent {
-    constructor(
-        @Optional() private snackBarRef: MatSnackBarRef<UiSnackbarComponent>,
-        @Optional() @Inject(MAT_SNACK_BAR_DATA) public data: UiSnackbarData
-    ) {}
+    private snackBarRef = inject<MatSnackBarRef<UiSnackbarComponent>>(
+        MatSnackBarRef,
+        { optional: true }
+    );
+    data = inject<UiSnackbarData>(MAT_SNACK_BAR_DATA);
 
     get icon(): string {
         return this.data.icon ?? DEFAULT_ICON[this.data.variant];

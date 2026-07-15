@@ -3,6 +3,7 @@ import {
     Input,
     OnChanges,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MapMetric } from '../map-metric-selector/map-metric-selector.component';
 import {
@@ -22,7 +23,7 @@ export class MapMetricLegendComponent implements OnChanges {
 
     tiers: LegendTier[] = [];
 
-    constructor(private metricColor: MetricColorService) {}
+    metricColor = inject(MetricColorService);
 
     ngOnChanges(): void {
         this.tiers = this.metricColor.getLegend(this.metric);

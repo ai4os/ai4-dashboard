@@ -5,6 +5,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
@@ -28,14 +29,15 @@ export class StatCardComponent implements OnInit {
     @Input() usedLabel? = 'Used';
     @Input() freeLabel? = 'Free';
 
-    constructor(
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog
-    ) {
+    confirmationDialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    dialog = inject(MatDialog);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

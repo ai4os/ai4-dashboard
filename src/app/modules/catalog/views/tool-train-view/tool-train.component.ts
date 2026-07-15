@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
     standalone: false,
 })
 export class ToolTrainComponent implements OnInit {
-    constructor(private route: ActivatedRoute) {}
+    route = inject(ActivatedRoute);
 
     protected toolID = '';
 

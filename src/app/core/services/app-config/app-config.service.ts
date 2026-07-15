@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 import { firstValueFrom } from 'rxjs';
 
@@ -7,9 +7,9 @@ import { firstValueFrom } from 'rxjs';
     providedIn: 'root',
 })
 export class AppConfigService {
-    private appConfig: any;
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {}
+    private appConfig: any;
 
     loadAppConfig(oauthConfig: OAuthModuleConfig) {
         return firstValueFrom(this.http.get('/assets/config/config.json')).then(

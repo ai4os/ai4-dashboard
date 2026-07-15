@@ -8,10 +8,10 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     standalone: false,
 })
 export class ResourceBarComponent {
-    @Input() label: string = '';
-    @Input() used: number = 0;
-    @Input() total: number = 0;
-    @Input() unit: string = '';
+    @Input() label = '';
+    @Input() used = 0;
+    @Input() total = 0;
+    @Input() unit = '';
     @Input() color: '1' | '2' | '3' | '4' = '1';
 
     get pct(): number {

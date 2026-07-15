@@ -20,7 +20,7 @@ import { By } from '@angular/platform-browser';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
 import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
 
-const mockedDatasets: Array<DeploymentTableRow> = [
+const mockedDatasets: DeploymentTableRow[] = [
     {
         uuid: '9d7c8b08-904e-11ef-a9af-67eed56a1e49',
         status: 'running',

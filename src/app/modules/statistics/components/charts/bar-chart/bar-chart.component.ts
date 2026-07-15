@@ -16,7 +16,7 @@ import { EChartsOption } from 'echarts';
     standalone: false,
 })
 export class BarChartComponent implements OnInit {
-    @Input() title: string = '';
+    @Input() title = '';
     @Input() tooltip?: string = '';
     @Input() set categories(categories: string[]) {
         this._categories = categories;

@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 import { Secret } from '@app/shared/interfaces/module.interface';
 import { HuggingFaceTokenResponse } from '@app/shared/interfaces/profile.interface';
@@ -11,11 +11,9 @@ import { Observable, throwError, switchMap, tap, catchError, map } from 'rxjs';
     providedIn: 'root',
 })
 export class HuggingFaceService {
-    constructor(
-        private http: HttpClient,
-        private snackbarService: SnackbarService,
-        private injector: Injector
-    ) {}
+    http = inject(HttpClient);
+    injector = inject(Injector);
+    snackbarService = inject(SnackbarService);
 
     private get secretsService(): SecretsService {
         return this.injector.get(SecretsService);

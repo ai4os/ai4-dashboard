@@ -3,6 +3,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth/auth.service';
@@ -16,10 +17,8 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     standalone: false,
 })
 export class LlmCardComponent implements OnInit {
-    constructor(
-        protected authService: AuthService,
-        private router: Router
-    ) {}
+    protected authService = inject(AuthService);
+    private router = inject(Router);
 
     @Input() llm!: VllmModelConfig;
 

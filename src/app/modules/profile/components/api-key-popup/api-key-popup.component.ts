@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
@@ -10,11 +10,10 @@ import { ConfirmationDialogComponent } from '@app/shared/components/confirmation
     standalone: false,
 })
 export class ApiKeyPopupComponent {
-    constructor(
-        public dialog: MatDialogRef<ConfirmationDialogComponent>,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { key: string }
-    ) {}
+    dialog = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
+    data = inject<{
+        key: string;
+    }>(MAT_DIALOG_DATA);
 
     closeDialog(): void {
         this.dialog.close(false);

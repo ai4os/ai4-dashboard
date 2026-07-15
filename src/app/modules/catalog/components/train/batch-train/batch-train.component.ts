@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,14 +24,14 @@ import { ShowGeneralFormField } from '../general-conf-form/general-conf-form.com
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class BatchTrainComponent {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private modulesService: ModulesService,
-        public translateService: TranslateService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {
+export class BatchTrainComponent implements OnInit {
+    private _formBuilder = inject(FormBuilder);
+    private modulesService = inject(ModulesService);
+    translateService = inject(TranslateService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+
+    constructor() {
         const navigation = this.router.currentNavigation();
         this.service =
             navigation?.extras?.state?.['service'] ||

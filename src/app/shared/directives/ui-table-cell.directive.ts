@@ -1,10 +1,11 @@
-import { Directive, Input, TemplateRef } from '@angular/core';
+import { Directive, inject, Input, TemplateRef } from '@angular/core';
 
 @Directive({
     selector: '[uiTableCell]',
-    standalone: false
+    standalone: false,
 })
 export class UiTableCellDirective {
     @Input('uiTableCell') columnKey!: string;
-    constructor(public template: TemplateRef<any>) {}
+
+    template = inject(TemplateRef<any>);
 }

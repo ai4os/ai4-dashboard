@@ -4,6 +4,7 @@ import {
     Renderer2,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     ChatMessage,
@@ -21,20 +22,18 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
     standalone: false,
 })
 export class ChatBotComponent {
-    constructor(
-        private chatBotService: ChatBotService,
-        private renderer: Renderer2,
-        private snackbarService: SnackbarService,
-        private sidenavService: SidenavService
-    ) {}
+    private chatBotService = inject(ChatBotService);
+    private renderer = inject(Renderer2);
+    private snackbarService = inject(SnackbarService);
+    private sidenavService = inject(SidenavService);
 
     @ViewChild('messagesList') private messagesList!: ElementRef;
 
     open = false;
     expanded = false;
     isLoading = false;
-    message: string = '';
-    response: string = '';
+    message = '';
+    response = '';
     chatHistory: ChatRequest = {
         model: 'ai4eoscassistant',
         messages: [],

@@ -6,6 +6,7 @@ import {
     OnInit,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -72,21 +73,22 @@ export function urlValidator(): ValidatorFn {
     standalone: false,
 })
 export class StorageConfFormComponent implements OnInit {
-    constructor(
-        private profileService: ProfileService,
-        private storageService: StorageService,
-        private snackbarService: SnackbarService,
-        public translateService: TranslateService,
-        private modulesService: ModulesService,
-        private ctrlContainer: FormGroupDirective,
-        public confirmationDialog: MatDialog,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    profileService = inject(ProfileService);
+    storageService = inject(StorageService);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    modulesService = inject(ModulesService);
+    ctrlContainer = inject(FormGroupDirective);
+    confirmationDialog = inject(MatDialog);
+    fb = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    media = inject(MediaMatcher);
+    changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)

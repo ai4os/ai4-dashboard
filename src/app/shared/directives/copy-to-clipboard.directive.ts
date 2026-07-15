@@ -1,19 +1,17 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, inject, Input } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../services/snackbar/snackbar.service';
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
     selector: '[copy-to-clipboard]',
-    standalone: false
+    standalone: false,
 })
 export class CopyToClipboardDirective {
     @Input('copy-to-clipboard') value!: string | undefined | null;
 
-    constructor(
-        private clipboard: Clipboard,
-        private snackbarService: SnackbarService
-    ) {}
+    clipboard = inject(Clipboard);
+    snackbarService = inject(SnackbarService);
 
     @HostListener('click', ['$event'])
     public onClick(event: MouseEvent): void {

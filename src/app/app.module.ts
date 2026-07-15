@@ -51,7 +51,7 @@ export function storageFactory(): OAuthStorage {
 
 @Injectable({ providedIn: 'root' })
 export class CustomTranslateLoader implements TranslateLoader {
-    constructor(private http: HttpClient) {}
+    private http = inject(HttpClient);
 
     getTranslation(lang: string): Observable<any> {
         return this.http.get(`./assets/i18n/${lang}.json?v=${gitInfo.version}`);
@@ -171,7 +171,9 @@ renderer.link = (token: Tokens.Link) => {
     ],
 })
 export class AppModule {
-    constructor(iconRegistry: MatIconRegistry) {
+    constructor() {
+        const iconRegistry = inject(MatIconRegistry);
+
         iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     }
 }

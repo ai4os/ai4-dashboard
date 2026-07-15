@@ -4,6 +4,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 
@@ -16,7 +17,7 @@ import { ModuleSummary } from '@app/shared/interfaces/module.interface';
     standalone: false,
 })
 export class Ai4eoscModuleCardComponent implements OnInit {
-    constructor(public titleCasePipe: TitleCasePipe) {}
+    titleCasePipe = inject(TitleCasePipe);
 
     @Input() module!: ModuleSummary;
 

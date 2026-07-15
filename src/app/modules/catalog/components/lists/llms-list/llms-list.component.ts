@@ -3,6 +3,8 @@ import {
     ChangeDetectorRef,
     Component,
     ChangeDetectionStrategy,
+    OnInit,
+    inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,18 +19,19 @@ import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class LlmsListComponent {
-    constructor(
-        private toolsService: ToolsService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef,
-        public dialog: MatDialog,
-        private fb: FormBuilder
-    ) {
+export class LlmsListComponent implements OnInit {
+    private toolsService = inject(ToolsService);
+    private media = inject(MediaMatcher);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    dialog = inject(MatDialog);
+    private fb = inject(FormBuilder);
+
+    constructor() {
         this.filterPipe = new SearchLlmsPipe();
 
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     private _mobileQueryListener: () => void;

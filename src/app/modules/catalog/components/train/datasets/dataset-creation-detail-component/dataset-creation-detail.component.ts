@@ -3,10 +3,9 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Inject,
     OnInit,
-    Optional,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -55,17 +54,20 @@ export function doiOrUrlValidator(): ValidatorFn {
     standalone: false,
 })
 export class DatasetCreationDetailComponent implements OnInit {
-    constructor(
-        private zenodoService: ZenodoService,
-        public dialogRef: MatDialogRef<DatasetCreationDetailComponent>,
-        public confirmationDialog: MatDialog,
-        private appConfigService: AppConfigService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private fb: FormBuilder,
-        private snackbarService: SnackbarService,
-        @Optional() @Inject(MAT_DIALOG_DATA) public data: ZenodoSimpleDataset
-    ) {
+    private zenodoService = inject(ZenodoService);
+    dialogRef =
+        inject<MatDialogRef<DatasetCreationDetailComponent>>(MatDialogRef);
+    confirmationDialog = inject(MatDialog);
+    private appConfigService = inject(AppConfigService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+    private fb = inject(FormBuilder);
+    private snackbarService = inject(SnackbarService);
+    data = inject<ZenodoSimpleDataset>(MAT_DIALOG_DATA, { optional: true });
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);

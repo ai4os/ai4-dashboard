@@ -2,9 +2,10 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import {
     ChangeDetectorRef,
     Component,
-    Inject,
     OnInit,
     ChangeDetectionStrategy,
+    inject as inject_1,
+    inject,
 } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
@@ -17,15 +18,18 @@ import { getSnapshotBadge } from '../../utils/deployment-badge';
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class SnapshotDetailComponent {
-    constructor(
-        @Inject(MAT_DIALOG_DATA)
-        public data: { snapshot: Snapshot },
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+export class SnapshotDetailComponent implements OnInit {
+    data = inject_1<{
+        snapshot: Snapshot;
+    }>(MAT_DIALOG_DATA);
+
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

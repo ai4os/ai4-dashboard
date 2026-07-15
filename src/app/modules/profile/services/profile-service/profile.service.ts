@@ -4,9 +4,8 @@ import {
     HttpParams,
     HttpResponse,
 } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import {
     RequestLoginResponse,
@@ -22,11 +21,8 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class ProfileService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService,
-        private injector: Injector
-    ) {}
+    private http = inject(HttpClient);
+    private appConfigService = inject(AppConfigService);
 
     /*************************************************/
     /******************* NEXTCLOUD *******************/
@@ -59,7 +55,7 @@ export class ProfileService {
             .set('vo', this.appConfigService.voName)
             .set('subpath', '/services/storage');
 
-        return this.http.get<Array<StorageCredential>>(url, {
+        return this.http.get<StorageCredential[]>(url, {
             params: params,
         });
     }

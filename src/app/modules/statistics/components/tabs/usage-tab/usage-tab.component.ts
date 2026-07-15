@@ -3,6 +3,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { UserProfile } from '@app/core/services/auth/auth.service';
@@ -28,7 +29,7 @@ export class UsageTabComponent implements OnInit {
     @Input() runningData: number[] = [];
     @Input() userGlobalStats!: GlobalStats;
 
-    constructor(private appConfigService: AppConfigService) {}
+    private appConfigService = inject(AppConfigService);
 
     projectName = '';
 

@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import {
     GradioCreateResponse,
     GradioDeployment,
@@ -26,11 +31,9 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
     standalone: false,
 })
 export class LoadingScreenComponent implements OnInit {
-    constructor(
-        private tryMeService: TryMeService,
-        public translateService: TranslateService,
-        private snackbarService: SnackbarService
-    ) {}
+    tryMeService = inject(TryMeService);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
 
     module!: Ai4eoscModule;
     loadingText = '';

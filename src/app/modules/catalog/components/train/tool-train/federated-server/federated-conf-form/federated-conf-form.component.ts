@@ -5,6 +5,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     FormGroupDirective,
@@ -26,12 +27,12 @@ import { MediaMatcher } from '@angular/cdk/layout';
     standalone: false,
 })
 export class FederatedConfFormComponent implements OnInit {
-    constructor(
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.filteredMetrics = this.metricCtrl.valueChanges.pipe(
             startWith(null),
             map((metric: string | null) =>
@@ -39,7 +40,8 @@ export class FederatedConfFormComponent implements OnInit {
             )
         );
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

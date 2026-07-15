@@ -21,14 +21,15 @@ import { Tab } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
     standalone: false,
 })
 export class ProfileComponent implements OnInit {
-    constructor(
-        private readonly authService: AuthService,
-        public confirmationDialog: MatDialog,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    authService = inject(AuthService);
+    confirmationDialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

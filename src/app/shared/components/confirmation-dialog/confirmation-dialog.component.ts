@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface ConfirmationDialogData {
@@ -20,6 +20,9 @@ export interface ConfirmationDialogData {
     standalone: false,
 })
 export class ConfirmationDialogComponent {
+    dialog = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
+    data = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
+
     title: string;
     subtitlePrefix?: string;
     subtitleHighlight?: string;
@@ -29,10 +32,9 @@ export class ConfirmationDialogComponent {
     optionB: string;
     icon: string;
 
-    constructor(
-        public dialog: MatDialogRef<ConfirmationDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.title = data.title;
         this.subtitlePrefix = data.subtitlePrefix;
         this.subtitleHighlight = data.subtitleHighlight;

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     PlatformStatus,
@@ -12,11 +12,9 @@ import { map, Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class PlatformStatusService {
-    constructor(
-        private appConfigService: AppConfigService,
-        private translateService: TranslateService,
-        private http: HttpClient
-    ) {}
+    appConfigService = inject(AppConfigService);
+    translateService = inject(TranslateService);
+    http = inject(HttpClient);
 
     getPlatformPopup(): Observable<PlatformStatus[]> {
         const url =
@@ -59,7 +57,7 @@ export class PlatformStatusService {
     getNomadClusterNotifications(): Observable<PlatformStatus[]> {
         const url =
             'https://api.github.com/repos/AI4EOSC/status/issues?state=open&filter=all&sort=created&direction=desc&labels=nomad-maintenance';
-        return this.http.get<Array<PlatformStatus>>(url);
+        return this.http.get<PlatformStatus[]>(url);
     }
 
     /**       UTILS       **/

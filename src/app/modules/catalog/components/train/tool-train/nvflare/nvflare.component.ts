@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
@@ -18,12 +23,10 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class NvflareComponent {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+export class NvflareComponent implements OnInit {
+    _formBuilder = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    toolsService = inject(ToolsService);
 
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';

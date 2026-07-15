@@ -9,6 +9,7 @@ import {
     Output,
     ViewChild,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -49,16 +50,18 @@ import { formatDate } from '@app/shared/utils/formatDate';
     standalone: false,
 })
 export class DeploymentsTableComponent implements OnInit, OnDestroy {
-    constructor(
-        public dialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private snapshotService: SnapshotService,
-        public translateService: TranslateService,
-        public confirmationDialog: MatDialog,
-        private media: MediaMatcher,
-        private router: Router,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    dialog = inject(MatDialog);
+    private snackbarService = inject(SnackbarService);
+    private snapshotService = inject(SnapshotService);
+    translateService = inject(TranslateService);
+    confirmationDialog = inject(MatDialog);
+    private media = inject(MediaMatcher);
+    private router = inject(Router);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -72,14 +75,14 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     @Input() showCardActions = false;
     @Input() deploymentType = 'module';
     @Input() isLoading = false;
-    @Input() dataset: Array<DeploymentTableRow> = [];
+    @Input() dataset: DeploymentTableRow[] = [];
     @Input() dataSource!: MatTableDataSource<DeploymentTableRow>;
     @Input() datacentersNotifications: StatusNotification[] = [];
 
     @Output() showElementInfo = new EventEmitter<string>();
     @Output() deleteElement = new EventEmitter<string>();
 
-    @Input() columns: Array<TableColumn> = [
+    @Input() columns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },

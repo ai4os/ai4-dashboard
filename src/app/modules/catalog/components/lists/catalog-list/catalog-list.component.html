@@ -91,30 +91,32 @@
 
     <div>
         <div class="modules-cards-container">
-            <span
-                fxFlex
-                *ngFor="
-                    let element of displayedElements
-                        | searchAi4eoscModule
-                            : $safeNavigationMigration(
-                                  searchFormGroup.get('search')?.value
-                              ) as elements;
-                    let first = first
-                "
-                class="m-2"
-                [id]="first ? 'step1' : null"
-                [ngStyle]="{
-                    display:
-                        voName === 'vo.imagine-ai.eu' &&
-                        element.id === 'ai4os-llm'
-                            ? 'none'
-                            : '',
-                }"
-            >
-                <app-ai4eosc-module-card
-                    [module]="element"
-                ></app-ai4eosc-module-card>
-            </span>
+            @for (
+                element of displayedElements
+                    | searchAi4eoscModule
+                        : $safeNavigationMigration(
+                              searchFormGroup.get('search')?.value
+                          );
+                track element.id;
+                let first = $first
+            ) {
+                <span
+                    fxFlex
+                    class="m-2"
+                    [id]="first ? 'step1' : null"
+                    [ngStyle]="{
+                        display:
+                            voName === 'vo.imagine-ai.eu' &&
+                            element.id === 'ai4os-llm'
+                                ? 'none'
+                                : '',
+                    }"
+                >
+                    <app-ai4eosc-module-card
+                        [module]="element"
+                    ></app-ai4eosc-module-card>
+                </span>
+            }
         </div>
     </div>
 </div>

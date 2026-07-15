@@ -3,6 +3,8 @@ import {
     Component,
     Input,
     ChangeDetectionStrategy,
+    OnInit,
+    inject,
 } from '@angular/core';
 import {
     confObjectRange,
@@ -31,16 +33,17 @@ const mockedConfObject: confObjectRange = {
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class NvflareConfFormComponent {
-    constructor(
-        private readonly authService: AuthService,
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+export class NvflareConfFormComponent implements OnInit {
+    authService = inject(AuthService);
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

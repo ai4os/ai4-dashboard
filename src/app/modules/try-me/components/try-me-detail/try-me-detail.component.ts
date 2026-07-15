@@ -1,9 +1,9 @@
 import {
     ChangeDetectorRef,
     Component,
-    Inject,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
@@ -20,14 +20,17 @@ import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-ba
     standalone: false,
 })
 export class TryMeDetailComponent implements OnInit {
-    constructor(
-        private tryMeService: TryMeService,
-        public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string },
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    private tryMeService = inject(TryMeService);
+    confirmationDialog = inject(MatDialog);
+    data = inject<{
+        uuid: string;
+    }>(MAT_DIALOG_DATA);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);

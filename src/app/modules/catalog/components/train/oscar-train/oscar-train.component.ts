@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,13 +25,13 @@ import { showHardwareField } from '../hardware-conf-form/hardware-conf-form.comp
     standalone: false,
 })
 export class OscarTrainComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private modulesService: ModulesService,
-        public translateService: TranslateService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {
+    _formBuilder = inject(FormBuilder);
+    modulesService = inject(ModulesService);
+    translateService = inject(TranslateService);
+    route = inject(ActivatedRoute);
+    router = inject(Router);
+
+    constructor() {
         const navigation = this.router.currentNavigation();
         this.service =
             navigation?.extras?.state?.['service'] ||

@@ -8,14 +8,14 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     standalone: false,
 })
 export class ResourcesCardComponent {
-    @Input() usedCpu: number = 0;
-    @Input() totalCpu: number = 0;
-    @Input() usedMem: number = 0;
-    @Input() totalMem: number = 0;
-    @Input() memUnit: string = 'GiB';
-    @Input() usedDisk: number = 0;
-    @Input() totalDisk: number = 0;
-    @Input() diskUnit: string = 'GiB';
-    @Input() usedGpu: number = 0;
-    @Input() totalGpu: number = 0;
+    @Input() usedCpu = 0;
+    @Input() totalCpu = 0;
+    @Input() usedMem = 0;
+    @Input() totalMem = 0;
+    @Input() memUnit = 'GiB';
+    @Input() usedDisk = 0;
+    @Input() totalDisk = 0;
+    @Input() diskUnit = 'GiB';
+    @Input() usedGpu = 0;
+    @Input() totalGpu = 0;
 }

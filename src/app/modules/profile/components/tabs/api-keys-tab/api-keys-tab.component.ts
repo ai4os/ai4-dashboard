@@ -30,12 +30,12 @@ import {
     standalone: false,
 })
 export class ApiKeysTabComponent implements OnInit {
-    constructor(
-        private llmApiKeysService: LlmApiKeysService,
-        private snackbarService: SnackbarService,
-        private confirmationDialog: MatDialog,
-        private media: MediaMatcher
-    ) {
+    llmApiKeysService = inject(LlmApiKeysService);
+    confirmationDialog = inject(MatDialog);
+    snackbarService = inject(SnackbarService);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
     }
     private store = inject(LlmApiKeysStore);

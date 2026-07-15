@@ -4,6 +4,7 @@ import {
     Input,
     QueryList,
     ChangeDetectionStrategy,
+    AfterContentInit,
 } from '@angular/core';
 import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
 
@@ -21,7 +22,9 @@ export interface UiTableColumn<T> {
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class UiTableComponent<T extends Record<string, any>> {
+export class UiTableComponent<
+    T extends Record<string, any>,
+> implements AfterContentInit {
     @Input({ required: true }) columns: UiTableColumn<T>[] = [];
     @Input({ required: true }) data: T[] = [];
     @Input() trackByKey: keyof T = 'id' as keyof T;

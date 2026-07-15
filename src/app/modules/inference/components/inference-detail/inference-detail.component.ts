@@ -2,9 +2,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import {
     ChangeDetectorRef,
     Component,
-    Inject,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
@@ -23,16 +23,19 @@ export interface SecretField {
     standalone: false,
 })
 export class InferenceDetailComponent implements OnInit {
-    constructor(
-        private dialogRef: MatDialogRef<InferenceDetailComponent>,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        public oscarInferenceService: OscarInferenceService,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { name: string }
-    ) {
+    data = inject<{
+        name: string;
+    }>(MAT_DIALOG_DATA);
+
+    dialogRef = inject(MatDialogRef<InferenceDetailComponent>);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    oscarInferenceService = inject(OscarInferenceService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

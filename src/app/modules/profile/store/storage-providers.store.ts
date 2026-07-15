@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { ProfileService } from '@app/modules/profile/services/profile-service/profile.service';
 import { StorageCredential } from '@app/shared/interfaces/profile.interface';
 
@@ -6,7 +6,7 @@ const AI4OS_ENDPOINT = 'share.cloud.ai4eosc.eu';
 
 @Injectable({ providedIn: 'root' })
 export class StorageProvidersStore {
-    constructor(private profileService: ProfileService) {}
+    profileService = inject(ProfileService);
 
     private readonly _credentials = signal<StorageCredential[]>([]);
     private readonly _loading = signal(false);

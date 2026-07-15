@@ -22,11 +22,11 @@ import { basicSetup } from 'codemirror';
     standalone: false,
 })
 export class TextEditorComponent implements AfterViewInit {
-    @Input() value: string = '';
-    @Input() placeholder: string = '';
-    @Input() readonly: boolean = false;
-    @Input() disabled: boolean = false;
-    @Input() height: string = '200px';
+    @Input() value = '';
+    @Input() placeholder = '';
+    @Input() readonly = false;
+    @Input() disabled = false;
+    @Input() height = '200px';
 
     @Output() textChange = new EventEmitter<string>();
 

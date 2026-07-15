@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ProjectLink } from '../sidenav/sidenav.component';
 import { gitInfo } from '@environments/version';
@@ -11,7 +16,7 @@ import { gitInfo } from '@environments/version';
     standalone: false,
 })
 export class FooterComponent implements OnInit {
-    constructor(private appConfigService: AppConfigService) {}
+    private appConfigService = inject(AppConfigService);
 
     protected gitInfo = gitInfo;
     year = new Date().getFullYear();

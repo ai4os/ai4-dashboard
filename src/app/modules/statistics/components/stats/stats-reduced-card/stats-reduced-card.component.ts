@@ -8,9 +8,9 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     standalone: false,
 })
 export class StatsReducedCardComponent {
-    @Input() label: string = '';
+    @Input() label = '';
     @Input() value: string | number = '—';
-    @Input() icon: string = '';
+    @Input() icon = '';
     @Input() unit?: string = '';
     @Input() tooltip?: string = '';
 }

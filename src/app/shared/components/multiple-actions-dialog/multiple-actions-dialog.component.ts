@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -9,15 +9,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     standalone: false,
 })
 export class MultipleActionsDialogComponent {
-    constructor(
-        private dialogRef: MatDialogRef<MultipleActionsDialogComponent>,
-        @Inject(MAT_DIALOG_DATA)
-        public data: {
-            title: string;
-            optionA: string;
-            optionB: string;
-        }
-    ) {}
+    private dialogRef =
+        inject<MatDialogRef<MultipleActionsDialogComponent>>(MatDialogRef);
+    data = inject<{
+        title: string;
+        optionA: string;
+        optionB: string;
+    }>(MAT_DIALOG_DATA);
 
     onActionA() {
         this.dialogRef.close(this.data.optionA);

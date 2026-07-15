@@ -4,6 +4,7 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,27 +26,28 @@ import { formatDate } from '@app/shared/utils/formatDate';
     standalone: false,
 })
 export class InferencesListComponent implements OnInit {
-    constructor(
-        public oscarInferenceService: OscarInferenceService,
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    dialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    oscarInferenceService = inject(OscarInferenceService);
+    confirmationDialog = inject(MatDialog);
+    snackbarService = inject(SnackbarService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: Array<TableColumn> = [
+    columns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
-    dataset: Array<DeploymentTableRow> = [];
+    dataset: DeploymentTableRow[] = [];
     dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;

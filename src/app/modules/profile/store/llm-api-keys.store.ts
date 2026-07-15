@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { LlmApiKeysService } from '@app/modules/profile/services/llm-api-keys-service/llm-api-keys.service';
 import {
     LiteLLMKey,
@@ -14,7 +14,7 @@ export interface ApiKeyRow {
 
 @Injectable({ providedIn: 'root' })
 export class LlmApiKeysStore {
-    constructor(private llmApiKeysService: LlmApiKeysService) {}
+    llmApiKeysService = inject(LlmApiKeysService);
 
     private readonly _apiKeys = signal<ApiKeyRow[]>([]);
     private readonly _loading = signal(false);

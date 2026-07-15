@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
 
@@ -10,10 +10,9 @@ import { FilterGroup } from '@app/shared/interfaces/module.interface';
     standalone: false,
 })
 export class FiltersConfigurationDialogComponent {
-    constructor(
-        public dialogRef: MatDialogRef<FiltersConfigurationDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public filters: FilterGroup[]
-    ) {}
+    dialogRef =
+        inject<MatDialogRef<FiltersConfigurationDialogComponent>>(MatDialogRef);
+    filters = inject(MAT_DIALOG_DATA);
 
     deleteFilter(index: number) {
         this.filters.splice(index, 1);

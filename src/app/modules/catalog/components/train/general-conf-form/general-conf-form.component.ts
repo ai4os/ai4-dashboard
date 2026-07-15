@@ -12,6 +12,7 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -99,21 +100,22 @@ export interface ShowGeneralFormField {
     standalone: false,
 })
 export class GeneralConfFormComponent implements OnInit {
-    constructor(
-        private readonly authService: AuthService,
-        private toolsService: ToolsService,
-        private snackbarService: SnackbarService,
-        private secretsService: SecretsService,
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private router: Router
-    ) {
+    authService = inject(AuthService);
+    toolsService = inject(ToolsService);
+    snackbarService = inject(SnackbarService);
+    secretsService = inject(SecretsService);
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    router = inject(Router);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-        authService.loadUserProfile();
+        this.authService.loadUserProfile();
     }
 
     parentForm!: FormGroup;
@@ -133,8 +135,8 @@ export class GeneralConfFormComponent implements OnInit {
     hideUiPassword = true;
     hideHFToken = true;
 
-    initialCommandText: string = '';
-    commandText: string = '';
+    initialCommandText = '';
+    commandText = '';
     textManuallyModified = false;
     textEditorPlaceholder =
         'python /src/my-app/my-app/train.py --epochs 10 \ncp -r /src/my-app/models /storage/my-new-modelsweights \n...';

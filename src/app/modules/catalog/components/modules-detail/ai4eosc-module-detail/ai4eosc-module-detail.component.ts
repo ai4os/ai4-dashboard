@@ -3,6 +3,7 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
@@ -24,19 +25,22 @@ import { MatDialog } from '@angular/material/dialog';
     standalone: false,
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
-    constructor(
-        private modulesService: ModulesService,
-        private toolsService: ToolsService,
-        private authService: AuthService,
-        private route: ActivatedRoute,
-        private breadcrumbService: BreadcrumbService,
-        public translateService: TranslateService,
-        public dialog: MatDialog,
-        public location: Location,
-        private router: Router,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    private modulesService = inject(ModulesService);
+    private toolsService = inject(ToolsService);
+    private authService = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private breadcrumbService = inject(BreadcrumbService);
+    translateService = inject(TranslateService);
+    dialog = inject(MatDialog);
+    location = inject(Location);
+    private router = inject(Router);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+
+    constructor() {
+        const authService = this.authService;
+        const changeDetectorRef = this.changeDetectorRef;
+
         if (this.location.path().includes('tools')) {
             this.isTool = true;
         }
@@ -53,7 +57,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
 
-    dataIconDict: { [dataType: string]: string } = {
+    dataIconDict: Record<string, string> = {
         Image: 'image',
         Text: 'description',
         'Time Series': 'show_chart',

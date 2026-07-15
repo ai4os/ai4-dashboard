@@ -4,6 +4,7 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
@@ -20,22 +21,23 @@ import { BreadcrumbService } from 'xng-breadcrumb';
     standalone: false,
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
-    constructor(
-        private router: Router,
-        private authService: AuthService,
-        private breadcrumbService: BreadcrumbService,
-        private snackbarService: SnackbarService,
-        private modulesService: ModulesService,
-        private route: ActivatedRoute,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
-        if (authService.isAuthenticated()) {
-            authService.loadUserProfile();
+    private router = inject(Router);
+    private authService = inject(AuthService);
+    private breadcrumbService = inject(BreadcrumbService);
+    private snackbarService = inject(SnackbarService);
+    private modulesService = inject(ModulesService);
+    private route = inject(ActivatedRoute);
+    private media = inject(MediaMatcher);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
+        if (this.authService.isAuthenticated()) {
+            this.authService.loadUserProfile();
         }
 
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

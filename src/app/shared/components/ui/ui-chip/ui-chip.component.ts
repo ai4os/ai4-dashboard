@@ -1,4 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+    OnInit,
+} from '@angular/core';
 
 @Component({
     selector: 'app-ui-chip',
@@ -7,7 +12,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false,
 })
-export class UiChipComponent {
+export class UiChipComponent implements OnInit {
     @Input() variant:
         | 'primary-solid'
         | 'primary-outline'

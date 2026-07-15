@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import {
     UiSnackbarVariant,
@@ -10,7 +10,7 @@ import {
     providedIn: 'root',
 })
 export class SnackbarService {
-    constructor(private _snackBar: MatSnackBar) {}
+    _snackBar = inject(MatSnackBar);
 
     baseDuration = 3000;
     durationPerChar = 50;
