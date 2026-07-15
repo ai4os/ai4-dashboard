@@ -5,6 +5,9 @@ import {
     EventEmitter,
     ChangeDetectionStrategy,
 } from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface Tab {
     id: string;
@@ -19,7 +22,7 @@ export interface Tab {
     templateUrl: './ui-tabs.component.html',
     styleUrl: './ui-tabs.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatTooltip, MatIcon, TranslatePipe],
 })
 export class UiTabsComponent {
     @Input() tabs: Tab[] = [];

@@ -1,12 +1,26 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialogRef,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+} from '@angular/material/dialog';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-multiple-actions-dialog',
     templateUrl: './multiple-actions-dialog.component.html',
     styleUrl: './multiple-actions-dialog.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatDialogTitle,
+        CdkScrollable,
+        MatDialogContent,
+        MatDialogActions,
+        MatButton,
+    ],
 })
 export class MultipleActionsDialogComponent {
     private dialogRef =

@@ -13,6 +13,8 @@ import {
     ValidationErrors,
     ValidatorFn,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     catchError,
@@ -38,6 +40,16 @@ import {
     StorageCredential,
 } from '@app/shared/interfaces/profile.interface';
 import { StorageProvidersStore } from '@app/modules/profile/store/storage-providers.store';
+import { UiButtonComponent } from '../../../../../shared/components/ui/ui-button/ui-button.component';
+import { UiLoaderComponent } from '../../../../../shared/components/ui/ui-loader/ui-loader.component';
+import { ServiceCardComponent } from '../../service-card/service-card.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { UiCardComponent } from '../../../../../shared/components/ui/ui-card/ui-card.component';
+import { UiTextFieldComponent } from '../../../../../shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiExpansionPanelComponent } from '../../../../../shared/components/ui/ui-expansion-panel/ui-expansion-panel.component';
+import { MatIcon } from '@angular/material/icon';
+import { UiSelectComponent } from '../../../../../shared/components/ui/ui-select/ui-select.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export function domainValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -54,7 +66,20 @@ export function domainValidator(): ValidatorFn {
     templateUrl: './storage-tab.component.html',
     styleUrl: './storage-tab.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        UiButtonComponent,
+        UiLoaderComponent,
+        ServiceCardComponent,
+        MatTooltip,
+        UiCardComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        UiTextFieldComponent,
+        UiExpansionPanelComponent,
+        MatIcon,
+        UiSelectComponent,
+        TranslatePipe,
+    ],
 })
 export class StorageTabComponent implements OnInit {
     @Input() isProjectMember = false;

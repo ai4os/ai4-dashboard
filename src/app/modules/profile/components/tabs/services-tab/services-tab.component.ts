@@ -11,13 +11,26 @@ import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
 } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { UiLoaderComponent } from '../../../../../shared/components/ui/ui-loader/ui-loader.component';
+import { ServiceCardComponent } from '../../service-card/service-card.component';
+import { UiCredentialRowComponent } from '../../../../../shared/components/ui/ui-credential-row/ui-credential-row.component';
+import { UiButtonComponent } from '../../../../../shared/components/ui/ui-button/ui-button.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-services-tab',
     templateUrl: './services-tab.component.html',
     styleUrls: ['./services-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        UiLoaderComponent,
+        ServiceCardComponent,
+        UiCredentialRowComponent,
+        UiButtonComponent,
+        MatTooltip,
+        TranslatePipe,
+    ],
 })
 export class ServicesTabComponent implements OnInit {
     store = inject(ServicesCredentialsStore);

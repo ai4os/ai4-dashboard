@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FiltersConfigurationDialogComponent } from './filters-configuration-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('FiltersConfigurationDialogComponent', () => {
     let component: FiltersConfigurationDialogComponent;
@@ -16,10 +15,13 @@ describe('FiltersConfigurationDialogComponent', () => {
         };
 
         await TestBed.configureTestingModule({
-            declarations: [FiltersConfigurationDialogComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                FiltersConfigurationDialogComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MatDialogRef, useValue: dialogRefMock },

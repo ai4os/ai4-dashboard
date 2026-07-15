@@ -6,9 +6,30 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialogRef,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatFormField, MatInput, MatSuffix } from '@angular/material/input';
+import { CopyToClipboardDirective } from '../../../../shared/directives/copy-to-clipboard.directive';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface SecretField {
     value: string;
@@ -20,7 +41,28 @@ export interface SecretField {
     templateUrl: './inference-detail.component.html',
     styleUrls: ['./inference-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        NgClass,
+        MatList,
+        MatListItem,
+        MatIconButton,
+        MatTooltip,
+        MatFormField,
+        MatInput,
+        CopyToClipboardDirective,
+        MatSuffix,
+        MatProgressSpinner,
+        MatCardActions,
+        MatButton,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class InferenceDetailComponent implements OnInit {
     data = inject<{

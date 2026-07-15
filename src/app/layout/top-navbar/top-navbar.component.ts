@@ -11,13 +11,28 @@ import { AppConfigService } from '@app/core/services/app-config/app-config.servi
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from '@environments/environment';
+import { UiButtonComponent } from '../../shared/components/ui/ui-button/ui-button.component';
+import { NotificationsButtonComponent } from './notifications-button/notifications-button.component';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-top-navbar',
     templateUrl: './top-navbar.component.html',
     styleUrls: ['./top-navbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        UiButtonComponent,
+        NotificationsButtonComponent,
+        MatMenuTrigger,
+        MatMenu,
+        MatMenuItem,
+        RouterLink,
+        MatIcon,
+        TranslatePipe,
+    ],
 })
 export class TopNavbarComponent implements OnInit {
     private authService = inject(AuthService);

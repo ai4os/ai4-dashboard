@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StepperFormComponent } from './stepper-form.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
+
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -19,7 +19,7 @@ import { of, throwError } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DeploymentsListComponent } from '@app/modules/deployments/components/deployments-list/deployments-list.component';
 import { InferencesListComponent } from '@app/modules/inference/components/inferences-list/inferences-list.component';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('StepperFormComponent', () => {
     let component: StepperFormComponent;
@@ -28,9 +28,8 @@ describe('StepperFormComponent', () => {
     beforeEach(async () => {
         const formGroupDirective = new FormGroupDirective([], []);
         await TestBed.configureTestingModule({
-            declarations: [StepperFormComponent],
             imports: [
-                SharedModule,
+                StepperFormComponent,
                 TranslatePipe,
                 TranslateDirective,
                 RouterModule.forRoot([
@@ -45,7 +44,7 @@ describe('StepperFormComponent', () => {
                 ]),
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 FormGroupDirective,
                 FormBuilder,

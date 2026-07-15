@@ -7,13 +7,14 @@ import {
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ProjectLink } from '../sidenav/sidenav.component';
 import { gitInfo } from '@environments/version';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-footer',
     templateUrl: './footer.component.html',
     styleUrl: './footer.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [TranslatePipe],
 })
 export class FooterComponent implements OnInit {
     private appConfigService = inject(AppConfigService);

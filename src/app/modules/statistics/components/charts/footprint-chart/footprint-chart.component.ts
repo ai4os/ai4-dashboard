@@ -1,13 +1,16 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 @Component({
     selector: 'app-footprint-chart',
     templateUrl: './footprint-chart.component.html',
     styleUrl: './footprint-chart.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon, MatTooltip, NgxEchartsDirective],
 })
 export class FootprintChartComponent {
     @Input() title = '';

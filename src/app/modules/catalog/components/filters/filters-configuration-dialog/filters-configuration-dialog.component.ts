@@ -1,13 +1,48 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+    MatDialogRef,
+    MAT_DIALOG_DATA,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import {
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+} from '@angular/material/expansion';
+import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { MatMiniFabButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-filters-configuration-dialog',
     templateUrl: './filters-configuration-dialog.component.html',
     styleUrls: ['./filters-configuration-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatCard,
+        MatCardContent,
+        MatAccordion,
+        MatExpansionPanel,
+        MatExpansionPanelHeader,
+        MatExpansionPanelTitle,
+        ChipWithIconComponent,
+        MatMiniFabButton,
+        MatTooltip,
+        MatIcon,
+        MatCardActions,
+        MatButton,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class FiltersConfigurationDialogComponent {
     dialogRef =

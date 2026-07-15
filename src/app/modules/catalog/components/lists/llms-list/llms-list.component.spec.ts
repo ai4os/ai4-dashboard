@@ -6,8 +6,6 @@ import {
 } from '@angular/core/testing';
 
 import { LlmsListComponent } from './llms-list.component';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
@@ -20,7 +18,7 @@ import {
     mockedVllmsConfig,
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('LlmsListComponent', () => {
     let component: LlmsListComponent;
@@ -28,10 +26,14 @@ describe('LlmsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [LlmsListComponent, SearchLlmsPipe],
-            imports: [TranslatePipe, TranslateDirective],
+            imports: [
+                LlmsListComponent,
+                SearchLlmsPipe,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: ToolsService, useValue: mockedToolsService },
@@ -74,10 +76,9 @@ describe('LlmsListComponent', () => {
         // Reconfigure with error service
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
-            declarations: [LlmsListComponent],
-            imports: [TranslatePipe, TranslateDirective],
+            imports: [LlmsListComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

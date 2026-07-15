@@ -6,7 +6,11 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
     ConfirmationDialogComponent,
@@ -14,11 +18,38 @@ import {
 } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { Secret } from '@app/shared/interfaces/module.interface';
-import { FormBuilder, Validators } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
-import { TranslateService } from '@ngx-translate/core';
+import {
+    FormBuilder,
+    Validators,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import cryptoRandomString from 'crypto-random-string';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSuffix,
+    MatError,
+    MatHint,
+} from '@angular/material/input';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { CopyToClipboardDirective } from '../../../../shared/directives/copy-to-clipboard.directive';
 
 export interface SecretField {
     name: string;
@@ -31,7 +62,32 @@ export interface SecretField {
     templateUrl: './secret-management-detail.component.html',
     styleUrls: ['./secret-management-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatProgressSpinner,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatIconButton,
+        MatSuffix,
+        MatTooltip,
+        CopyToClipboardDirective,
+        MatPaginator,
+        FormsModule,
+        ReactiveFormsModule,
+        MatError,
+        MatHint,
+        MatButton,
+        MatCardActions,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class SecretManagementDetailComponent implements OnInit {
     data = inject<{

@@ -19,12 +19,16 @@ import {
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-try-me-list',
     templateUrl: './try-me-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
 export class TryMeListComponent implements OnInit {
     tryMeService = inject(TryMeService);

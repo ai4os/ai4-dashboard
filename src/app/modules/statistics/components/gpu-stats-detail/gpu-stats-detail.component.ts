@@ -6,16 +6,44 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { NgxEchartsDirective } from 'ngx-echarts';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-gpu-stats-detail',
     templateUrl: './gpu-stats-detail.component.html',
     styleUrls: ['./gpu-stats-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardContent,
+        NgClass,
+        NgxEchartsDirective,
+        MatProgressSpinner,
+        MatCardActions,
+        MatButton,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class GpuStatsDetailComponent implements OnInit {
     data = inject<{

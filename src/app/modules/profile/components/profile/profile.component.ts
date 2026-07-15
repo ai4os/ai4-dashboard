@@ -12,13 +12,26 @@ import { VoInfo } from '@app/shared/interfaces/profile.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Tab } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { ProfileBannerComponent } from '../profile-banner/profile-banner.component';
+import { UiTabsComponent } from '../../../../shared/components/ui/ui-tabs/ui-tabs.component';
+import { OverviewTabComponent } from '../tabs/overview-tab/overview-tab.component';
+import { ApiKeysTabComponent } from '../tabs/api-keys-tab/api-keys-tab.component';
+import { StorageTabComponent } from '../tabs/storage-tab/storage-tab.component';
+import { ServicesTabComponent } from '../tabs/services-tab/services-tab.component';
 
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        ProfileBannerComponent,
+        UiTabsComponent,
+        OverviewTabComponent,
+        ApiKeysTabComponent,
+        StorageTabComponent,
+        ServicesTabComponent,
+    ],
 })
 export class ProfileComponent implements OnInit {
     authService = inject(AuthService);

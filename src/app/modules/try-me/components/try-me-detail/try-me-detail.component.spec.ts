@@ -5,11 +5,10 @@ import { gradioDeployments } from '../../services/try-me.service.mock';
 import { of } from 'rxjs';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { TryMeService } from '../../services/try-me.service';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 const mockedDeployment: GradioDeployment = gradioDeployments[0];
 
@@ -42,10 +41,10 @@ describe('TryMeDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TryMeDetailComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            declarations: [],
+            imports: [TryMeDetailComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },

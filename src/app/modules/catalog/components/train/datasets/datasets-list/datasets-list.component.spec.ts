@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DatasetsListComponent } from './datasets-list.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
@@ -14,7 +13,7 @@ import {
     mockedDataset,
     mockedDatasetRow,
 } from '@app/modules/catalog/services/zenodo-service/zenodo.service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('DatasetsListComponent', () => {
     let component: DatasetsListComponent;
@@ -22,10 +21,9 @@ describe('DatasetsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DatasetsListComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [DatasetsListComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: MatDialogRef, useValue: {} },
                 { provide: MAT_DIALOG_DATA, useValue: {} },

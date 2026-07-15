@@ -5,7 +5,6 @@ import { SnackbarService } from '../services/snackbar/snackbar.service';
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
     selector: '[copy-to-clipboard]',
-    standalone: false,
 })
 export class CopyToClipboardDirective {
     @Input('copy-to-clipboard') value!: string | undefined | null;

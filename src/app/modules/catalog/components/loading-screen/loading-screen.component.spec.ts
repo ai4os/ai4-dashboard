@@ -10,11 +10,10 @@ import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { LoadingScreenComponent } from './loading-screen.component';
 import { mockedTryMeService } from '@app/modules/try-me/services/try-me.service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('LoadingScreenComponent', () => {
     let component: LoadingScreenComponent;
@@ -22,11 +21,13 @@ describe('LoadingScreenComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [LoadingScreenComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
-
+            imports: [
+                LoadingScreenComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: SnackbarService, useValue: mockedSnackbarService },

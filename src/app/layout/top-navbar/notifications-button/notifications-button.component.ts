@@ -15,13 +15,15 @@ import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-s
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import * as yaml from 'js-yaml';
+import { UiExpansionPanelComponent } from '../../../shared/components/ui/ui-expansion-panel/ui-expansion-panel.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-notifications-button',
     templateUrl: './notifications-button.component.html',
     styleUrls: ['./notifications-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [UiExpansionPanelComponent, TranslatePipe],
 })
 export class NotificationsButtonComponent implements OnInit {
     protected platformStatusService = inject(PlatformStatusService);

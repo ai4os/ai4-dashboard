@@ -16,13 +16,38 @@ import {
 } from '@app/shared/interfaces/stats.interface';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { MatToolbar } from '@angular/material/toolbar';
+import { NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatTabGroup, MatTab, MatTabContent } from '@angular/material/tabs';
+import { OverviewTabComponent } from '../tabs/overview-tab/overview-tab.component';
+import { DatacentersTabComponent } from '../tabs/datacenters-tab/datacenters-tab.component';
+import { FootprintTabComponent } from '../tabs/footprint-tab/footprint-tab.component';
+import { UsageTabComponent } from '../tabs/usage-tab/usage-tab.component';
+import { NodesTabComponent } from '../tabs/nodes-tab/nodes-tab.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        NgClass,
+        MatIcon,
+        MatTabGroup,
+        MatTab,
+        OverviewTabComponent,
+        MatTabContent,
+        DatacentersTabComponent,
+        FootprintTabComponent,
+        UsageTabComponent,
+        NodesTabComponent,
+        MatProgressSpinner,
+        TranslatePipe,
+    ],
 })
 export class DashboardComponent implements OnInit {
     statsService = inject(StatsService);

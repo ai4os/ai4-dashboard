@@ -13,13 +13,42 @@ import {
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatMiniFabButton, MatFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MarkdownComponent } from 'ngx-markdown';
+import { MatFormField, MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-chat-bot',
     templateUrl: './chat-bot.component.html',
     styleUrl: './chat-bot.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatCard,
+        NgClass,
+        MatCardHeader,
+        MatCardTitle,
+        MatMiniFabButton,
+        MatTooltip,
+        MatIcon,
+        MatCardContent,
+        MarkdownComponent,
+        MatFormField,
+        MatInput,
+        FormsModule,
+        MatFabButton,
+        TranslatePipe,
+    ],
 })
 export class ChatBotComponent {
     private chatBotService = inject(ChatBotService);

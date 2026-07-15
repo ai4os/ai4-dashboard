@@ -7,12 +7,11 @@ import {
     tick,
 } from '@angular/core/testing';
 import { DeploymentsListComponent } from './deployments-list.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { of } from 'rxjs';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { BrowserModule, By } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -28,7 +27,7 @@ import {
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { mockedSnapshotService } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
@@ -36,16 +35,16 @@ describe('DeploymentsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DeploymentsListComponent, DeploymentDetailComponent],
             imports: [
-                SharedModule,
-                BrowserModule,
+                DeploymentsListComponent,
+                DeploymentDetailComponent,
+
                 RouterModule.forRoot([]),
                 TranslatePipe,
                 TranslateDirective,
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {

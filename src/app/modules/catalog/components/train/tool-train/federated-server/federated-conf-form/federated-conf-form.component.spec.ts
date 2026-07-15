@@ -2,14 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FederatedConfFormComponent } from './federated-conf-form.component';
 import { FormGroupDirective, FormBuilder } from '@angular/forms';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { flowerDefaultFormValues } from './federated-conf-form.component.mock';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('FederatedConfFormComponent', () => {
     let component: FederatedConfFormComponent;
@@ -22,10 +21,13 @@ describe('FederatedConfFormComponent', () => {
             test: fb.control(null),
         });
         await TestBed.configureTestingModule({
-            declarations: [FederatedConfFormComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                FederatedConfFormComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 FormGroupDirective,
                 FormBuilder,

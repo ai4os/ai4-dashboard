@@ -1,9 +1,6 @@
 import { Directive, inject, Input, TemplateRef } from '@angular/core';
 
-@Directive({
-    selector: '[uiTableCell]',
-    standalone: false,
-})
+@Directive({ selector: '[uiTableCell]' })
 export class UiTableCellDirective {
     @Input('uiTableCell') columnKey!: string;
 

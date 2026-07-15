@@ -1,5 +1,15 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+    MatDialogRef,
+    MAT_DIALOG_DATA,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { UiButtonComponent } from '../ui/ui-button/ui-button.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface ConfirmationDialogData {
     title: string;
@@ -17,7 +27,15 @@ export interface ConfirmationDialogData {
     templateUrl: './confirmation-dialog.component.html',
     styleUrls: ['./confirmation-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatIcon,
+        MatDialogTitle,
+        CdkScrollable,
+        MatDialogContent,
+        MatDialogActions,
+        UiButtonComponent,
+        TranslatePipe,
+    ],
 })
 export class ConfirmationDialogComponent {
     dialog = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);

@@ -9,14 +9,13 @@ import { UsageTabComponent } from './usage-tab.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { By } from '@angular/platform-browser';
-import { SharedModule } from '@app/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedParsedUserProfile } from '@app/core/services/auth/auth-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('UsageTabComponent', () => {
     let component: UsageTabComponent;
@@ -24,10 +23,9 @@ describe('UsageTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [UsageTabComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [UsageTabComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
             schemas: [NO_ERRORS_SCHEMA],
@@ -75,20 +73,22 @@ describe('UsageTabComponent', () => {
     }));
 
     it('should show stats container', () => {
-        const { debugElement } = fixture;
-        const container = debugElement.query(By.css('app-stats-container'));
+        const statsContainer = fixture.debugElement.query(
+            By.css('app-stats-container')
+        );
+        const instance = statsContainer.componentInstance;
 
-        expect(container).toBeTruthy();
-        expect(container.properties.usedCpuNum).toBe(14);
-        expect(container.properties.totalCpuNum).toBe(345);
-        expect(container.properties.usedMemory).toBe(234);
-        expect(container.properties.totalMemory).toBe(234234);
-        expect(container.properties.usedDisk).toBe(234);
-        expect(container.properties.totalDisk).toBe(2346);
-        expect(container.properties.usedGpuNum).toBe(12);
-        expect(container.properties.totalGpuNum).toBe(545);
-        expect(container.properties.usedLabel).toBe('AI4EOSC Dashboard Test');
-        expect(container.properties.freeLabel).toBe('Test AI4EOSC');
+        expect(instance).toBeTruthy();
+        expect(instance.usedCpuNum).toBe(14);
+        expect(instance.totalCpuNum).toBe(345);
+        expect(instance.usedMemory).toBe(2);
+        expect(instance.totalMemory).toBe(16);
+        expect(instance.usedDisk).toBe(10);
+        expect(instance.totalDisk).toBe(64);
+        expect(instance.usedGpuNum).toBe(12);
+        expect(instance.totalGpuNum).toBe(545);
+        expect(instance.usedLabel).toBe('AI4EOSC Dashboard Test');
+        expect(instance.freeLabel).toBe('Test AI4EOSC');
     });
 });
 

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Ai4lifeModuleCardComponent } from './ai4life-module-card.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('Ai4lifeModuleCardComponent', () => {
     let component: Ai4lifeModuleCardComponent;
@@ -11,9 +11,12 @@ describe('Ai4lifeModuleCardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4lifeModuleCardComponent],
-            imports: [TranslatePipe, TranslateDirective],
-            providers: [...COMMON_TEST_PROVIDERS],
+            imports: [
+                Ai4lifeModuleCardComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
+            providers: [...testProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(Ai4lifeModuleCardComponent);

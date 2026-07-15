@@ -9,13 +9,24 @@ import {
 import { FormGroup } from '@angular/forms';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CatalogListComponent } from '../catalog-list/catalog-list.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tools-list',
     templateUrl: './tools-list.component.html',
     styleUrl: './tools-list.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatProgressSpinner,
+        CatalogListComponent,
+        TranslatePipe,
+    ],
 })
 export class ToolsListComponent implements OnInit {
     media = inject(MediaMatcher);

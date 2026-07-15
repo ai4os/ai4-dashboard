@@ -4,13 +4,15 @@ import {
     ChangeDetectionStrategy,
     OnInit,
 } from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-ui-chip',
     templateUrl: './ui-chip.component.html',
     styleUrl: './ui-chip.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatTooltip, MatIcon],
 })
 export class UiChipComponent implements OnInit {
     @Input() variant:

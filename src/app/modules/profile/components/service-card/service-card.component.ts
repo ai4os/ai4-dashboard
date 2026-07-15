@@ -1,4 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { UiCardComponent } from '../../../../shared/components/ui/ui-card/ui-card.component';
+import { UiChipComponent } from '../../../../shared/components/ui/ui-chip/ui-chip.component';
 
 export type ProviderCardStatus =
     | 'success-solid'
@@ -19,7 +21,7 @@ export type ProviderCardStatus =
     templateUrl: './service-card.component.html',
     styleUrl: './service-card.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [UiCardComponent, UiChipComponent],
 })
 export class ServiceCardComponent {
     @Input() title!: string;

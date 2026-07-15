@@ -4,7 +4,12 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     ModuleConfiguration,
@@ -16,13 +21,24 @@ import { ModulesService } from '@app/modules/catalog/services/modules-service/mo
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
+import { StepperFormComponent } from '../stepper-form/stepper-form.component';
+import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
+import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
+import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
 
 @Component({
     selector: 'app-nomad-train',
     templateUrl: './nomad-train.component.html',
     styleUrls: ['./nomad-train.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+        StorageConfFormComponent,
+    ],
 })
 export class NomadTrainComponent implements OnInit {
     modulesService = inject(ModulesService);

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SecretManagementDetailComponent } from './secret-management-detail.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
@@ -14,7 +13,7 @@ import { mockedConfigService } from '@app/core/services/app-config/app-config.mo
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('SecretManagementDetailComponent', () => {
     let component: SecretManagementDetailComponent;
@@ -22,10 +21,13 @@ describe('SecretManagementDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SecretManagementDetailComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                SecretManagementDetailComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },

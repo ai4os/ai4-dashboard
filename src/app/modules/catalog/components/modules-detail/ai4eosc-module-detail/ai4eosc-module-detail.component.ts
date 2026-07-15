@@ -5,24 +5,61 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../../services/modules-service/modules.service';
-import { BreadcrumbService } from 'xng-breadcrumb';
+import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
 import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../../services/tools-service/tools.service';
-import { Location } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IframeDialogComponent } from '@app/shared/components/iframe-dialog/iframe-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+} from '@angular/material/card';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MarkdownComponent } from 'ngx-markdown';
+import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
 
 @Component({
     selector: 'app-module-detail',
     templateUrl: './ai4eosc-module-detail.component.html',
     styleUrls: ['./ai4eosc-module-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        BreadcrumbComponent,
+        MatCard,
+        MatCardHeader,
+        NgClass,
+        MatCardTitle,
+        MatCardSubtitle,
+        MatTooltip,
+        MatButton,
+        MatMenuTrigger,
+        MatMenu,
+        MatMenuItem,
+        RouterLink,
+        MatDivider,
+        MatCardContent,
+        MatProgressSpinner,
+        MarkdownComponent,
+        ChipWithIconComponent,
+        TranslatePipe,
+    ],
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
     private modulesService = inject(ModulesService);

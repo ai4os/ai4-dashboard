@@ -19,13 +19,17 @@ import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { BatchService } from '../../services/batch.service';
 import { DeploymentDetailComponent } from '@app/modules/deployments/components/deployment-detail/deployment-detail.component';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-batch-list',
     templateUrl: './batch-list.component.html',
     styleUrl: './batch-list.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
 export class BatchListComponent implements OnInit {
     dialog = inject(MatDialog);

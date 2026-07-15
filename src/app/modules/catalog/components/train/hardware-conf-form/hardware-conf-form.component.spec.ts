@@ -2,12 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HardwareConfFormComponent } from './hardware-conf-form.component';
 import { FormGroupDirective, FormBuilder } from '@angular/forms';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { hardwareDefaultFormValues } from './hardware-conf-form.component.mock';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('HardwareConfFormComponent', () => {
     let component: HardwareConfFormComponent;
@@ -21,10 +20,13 @@ describe('HardwareConfFormComponent', () => {
         });
 
         await TestBed.configureTestingModule({
-            declarations: [HardwareConfFormComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                HardwareConfFormComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

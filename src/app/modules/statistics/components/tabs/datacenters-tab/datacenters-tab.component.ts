@@ -24,15 +24,33 @@ import { Cluster, XYZ } from 'ol/source';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
 import { MetricColorService } from '@app/modules/statistics/services/metric-color/metric-color.service';
-import { MapMetric } from '../../stats/map-metric-selector/map-metric-selector.component';
+import {
+    MapMetric,
+    MapMetricSelectorComponent,
+} from '../../stats/map-metric-selector/map-metric-selector.component';
 import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
+import { MapMetricLegendComponent } from '../../stats/map-metric-legend/map-metric-legend.component';
+import { StatsReducedCardComponent } from '../../stats/stats-reduced-card/stats-reduced-card.component';
+import { ResourcesCardComponent } from '../../stats/resources-card/resources-card.component';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
+import { CountryFlagPipe as CountryFlagPipe_1 } from '../../../pipes/country-flag.pipe';
 
 @Component({
     selector: 'app-datacenters-tab',
     templateUrl: './datacenters-tab.component.html',
     styleUrls: ['./datacenters-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MapMetricLegendComponent,
+        MapMetricSelectorComponent,
+        MatDrawer,
+        StatsReducedCardComponent,
+        ResourcesCardComponent,
+        MatIcon,
+        TranslatePipe,
+        CountryFlagPipe_1,
+    ],
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {
     metricColor = inject(MetricColorService);

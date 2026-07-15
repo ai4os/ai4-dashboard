@@ -5,13 +5,28 @@ import {
     EventEmitter,
     ChangeDetectionStrategy,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatInput } from '@angular/material/input';
+import {
+    MatDatepickerInput,
+    MatDatepicker,
+} from '@angular/material/datepicker';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-ui-date-picker',
     templateUrl: './ui-date-picker.component.html',
     styleUrls: ['./ui-date-picker.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatIcon,
+        MatTooltip,
+        MatInput,
+        MatDatepickerInput,
+        MatDatepicker,
+        TranslatePipe,
+    ],
 })
 export class UiDatePickerComponent {
     @Input() value: Date | null = null;

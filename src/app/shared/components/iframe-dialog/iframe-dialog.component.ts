@@ -1,13 +1,15 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogTitle } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-iframe-dialog',
     templateUrl: './iframe-dialog.component.html',
     styleUrl: './iframe-dialog.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatDialogTitle, MatIcon, TranslatePipe],
 })
 export class IframeDialogComponent {
     data = inject<{

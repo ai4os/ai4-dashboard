@@ -16,7 +16,6 @@ import {
     templateUrl: './map-metric-legend.component.html',
     styleUrls: ['./map-metric-legend.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
 })
 export class MapMetricLegendComponent implements OnChanges {
     @Input() metric: MapMetric = 'pue';

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BarChartComponent } from './bar-chart.component';
+import { testProviders } from '@app/shared/testing/test-providers';
 
 describe('BarChartComponent', () => {
     let component: BarChartComponent;
@@ -8,7 +9,8 @@ describe('BarChartComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [BarChartComponent],
+            imports: [BarChartComponent],
+            providers: testProviders,
         }).compileComponents();
 
         fixture = TestBed.createComponent(BarChartComponent);

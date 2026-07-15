@@ -6,13 +6,14 @@ import {
     signal,
     ChangeDetectionStrategy,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-ui-expansion-panel',
     templateUrl: './ui-expansion-panel.component.html',
     styleUrl: './ui-expansion-panel.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon],
 })
 export class UiExpansionPanelComponent {
     @Input() set expanded(value: boolean | undefined) {

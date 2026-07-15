@@ -7,7 +7,7 @@ import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedVllmsConfig } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { Router } from '@angular/router';
 import { mockRouter } from '@app/shared/mocks/router.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('LlmCardComponent', () => {
     let component: LlmCardComponent;
@@ -15,10 +15,10 @@ describe('LlmCardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [LlmCardComponent],
-            imports: [TranslatePipe, TranslateDirective],
+            declarations: [],
+            imports: [LlmCardComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: Router, useValue: mockRouter },
                 { provide: AuthService, useValue: mockedAuthService },

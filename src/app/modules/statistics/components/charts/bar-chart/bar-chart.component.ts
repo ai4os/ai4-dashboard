@@ -7,13 +7,16 @@ import {
 import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 @Component({
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
     styleUrls: ['./bar-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon, MatTooltip, NgxEchartsDirective],
 })
 export class BarChartComponent implements OnInit {
     @Input() title = '';

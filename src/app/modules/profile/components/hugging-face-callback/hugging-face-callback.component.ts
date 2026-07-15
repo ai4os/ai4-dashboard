@@ -6,12 +6,13 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HuggingFaceService } from '../../services/hugging-face-service/hugging-face.service';
+import { UiLoaderComponent } from '../../../../shared/components/ui/ui-loader/ui-loader.component';
 
 @Component({
     selector: 'app-huggingface-callback',
     templateUrl: './hugging-face-callback.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [UiLoaderComponent],
 })
 export class HuggingFaceCallbackComponent implements OnInit {
     route = inject(ActivatedRoute);

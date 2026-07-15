@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { NotificationsButtonComponent } from './notifications-button.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -11,7 +10,7 @@ import { of, throwError } from 'rxjs';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { mockedPlatformStatusService } from '@app/shared/services/platform-status/platform-status.service.mock';
 import { HtmlSanitizerService } from '@app/shared/services/html-sanitizer/html-sanitizer.service';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 const mockedHtmlSanitizerService: any = {
     getSanitizedText: jest.fn(),
@@ -36,10 +35,13 @@ describe('NotificationsButtonComponent', () => {
         );
 
         await TestBed.configureTestingModule({
-            declarations: [NotificationsButtonComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                NotificationsButtonComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 {

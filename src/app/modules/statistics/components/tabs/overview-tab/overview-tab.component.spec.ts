@@ -12,7 +12,7 @@ import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('OverviewTabComponent', () => {
     let component: OverviewTabComponent;
@@ -20,10 +20,9 @@ describe('OverviewTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [OverviewTabComponent],
-            imports: [TranslatePipe, TranslateDirective],
+            imports: [OverviewTabComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: OAuthService, useValue: mockedAuthService },
@@ -63,6 +62,6 @@ describe('OverviewTabComponent', () => {
         const title = compiled.querySelector('#title-user')?.textContent;
         expect(title).toContain('USERS');
         const cards = fixture.debugElement.queryAll(By.css('mat-card'));
-        expect(cards.length).toBe(6);
+        expect(cards.length).toBe(10);
     });
 });

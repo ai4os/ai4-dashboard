@@ -11,7 +11,10 @@ import {
     mockedModulesService,
 } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { of } from 'rxjs';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { MockStepperFormComponent } from '@app/shared/mocks/stepper-form.component.mock';
+import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 
 const mockedConfigService: any = {};
 
@@ -21,10 +24,10 @@ describe('OscarTrainComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslatePipe, TranslateDirective],
-            declarations: [OscarTrainComponent],
+            imports: [OscarTrainComponent, TranslatePipe, TranslateDirective],
+
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ModulesService, useValue: mockedModulesService },
                 {
@@ -35,8 +38,24 @@ describe('OscarTrainComponent', () => {
                         },
                     },
                 },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        set: jest.fn(),
+                        get: jest.fn(),
+                    },
+                },
             ],
-        }).compileComponents();
+        })
+            .overrideComponent(OscarTrainComponent, {
+                remove: {
+                    imports: [StepperFormComponent],
+                },
+                add: {
+                    imports: [MockStepperFormComponent],
+                },
+            })
+            .compileComponents();
 
         fixture = TestBed.createComponent(OscarTrainComponent);
         component = fixture.componentInstance;

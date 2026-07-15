@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, of, throwError } from 'rxjs';
 import { HuggingFaceService } from '../../services/hugging-face-service/hugging-face.service';
 import { mockRouter } from '@app/shared/mocks/router.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 import { mockedHuggingFaceService } from '../../services/hugging-face-service/hugging-face.service.mock';
 
 describe('HuggingFaceCallbackComponent', () => {
@@ -21,9 +21,9 @@ describe('HuggingFaceCallbackComponent', () => {
         );
 
         await TestBed.configureTestingModule({
-            declarations: [HuggingFaceCallbackComponent],
+            imports: [HuggingFaceCallbackComponent],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 {
                     provide: HuggingFaceService,
                     useValue: mockedHuggingFaceService,

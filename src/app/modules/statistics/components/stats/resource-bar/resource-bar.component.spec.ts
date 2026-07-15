@@ -8,7 +8,7 @@ describe('ResourceBarComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ResourceBarComponent],
+            imports: [ResourceBarComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(ResourceBarComponent);

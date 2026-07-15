@@ -10,7 +10,7 @@ import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('ToolsListComponent', () => {
     let component: ToolsListComponent;
@@ -18,10 +18,9 @@ describe('ToolsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ToolsListComponent],
-            imports: [TranslatePipe, TranslateDirective],
+            imports: [ToolsListComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

@@ -7,16 +7,44 @@ import {
     inject as inject_1,
     inject,
 } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { getSnapshotBadge } from '../../utils/deployment-badge';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatError } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-snapshot-detail',
     templateUrl: './snapshot-detail.component.html',
     styleUrl: './snapshot-detail.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        NgClass,
+        MatCardContent,
+        MatError,
+        MatProgressSpinner,
+        MatCardActions,
+        MatButton,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class SnapshotDetailComponent implements OnInit {
     data = inject_1<{

@@ -8,7 +8,7 @@ import {
 } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('ConfirmationDialogComponent', () => {
     let component: ConfirmationDialogComponent;
@@ -16,10 +16,14 @@ describe('ConfirmationDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MatDialogModule, TranslatePipe, TranslateDirective],
-            declarations: [ConfirmationDialogComponent],
+            imports: [
+                ConfirmationDialogComponent,
+                MatDialogModule,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: MatDialogRef, useValue: {} },
                 {

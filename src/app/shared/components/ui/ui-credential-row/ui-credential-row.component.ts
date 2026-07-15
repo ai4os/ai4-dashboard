@@ -6,13 +6,14 @@ import {
 } from '@angular/core';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-ui-credential-row',
     templateUrl: './ui-credential-row.component.html',
     styleUrls: ['./ui-credential-row.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon],
 })
 export class UiCredentialRowComponent {
     @Input() value = '';

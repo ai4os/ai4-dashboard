@@ -5,6 +5,7 @@ import {
     Output,
     ChangeDetectionStrategy,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 export type MapMetric = 'pue' | 'jobs' | 'co2' | 'water' | 'green-score';
 
@@ -19,7 +20,7 @@ export interface MetricOption {
     templateUrl: './map-metric-selector.component.html',
     styleUrls: ['./map-metric-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon],
 })
 export class MapMetricSelectorComponent {
     @Input() active: MapMetric = 'pue';

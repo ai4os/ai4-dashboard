@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NomadTrainComponent } from './nomad-train.component';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
@@ -10,8 +9,7 @@ import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-f
 import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OAuthStorage } from 'angular-oauth2-oidc';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
@@ -22,7 +20,10 @@ import {
 import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { of } from 'rxjs';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { MockStepperFormComponent } from '@app/shared/mocks/stepper-form.component.mock';
+import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 
 describe('NomadTrainComponent', () => {
     let component: NomadTrainComponent;
@@ -37,20 +38,17 @@ describe('NomadTrainComponent', () => {
         });
 
         await TestBed.configureTestingModule({
-            declarations: [
+            imports: [
                 NomadTrainComponent,
                 StorageConfFormComponent,
                 HardwareConfFormComponent,
                 GeneralConfFormComponent,
-            ],
-            imports: [
-                SharedModule,
                 TranslatePipe,
                 TranslateDirective,
                 RouterModule.forRoot([]),
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 FormGroupDirective,
                 FormBuilder,
@@ -68,8 +66,24 @@ describe('NomadTrainComponent', () => {
                         },
                     },
                 },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        set: jest.fn(),
+                        get: jest.fn(),
+                    },
+                },
             ],
-        }).compileComponents();
+        })
+            .overrideComponent(NomadTrainComponent, {
+                remove: {
+                    imports: [StepperFormComponent],
+                },
+                add: {
+                    imports: [MockStepperFormComponent],
+                },
+            })
+            .compileComponents();
 
         fixture = TestBed.createComponent(NomadTrainComponent);
         component = fixture.componentInstance;

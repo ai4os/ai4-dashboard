@@ -7,7 +7,6 @@ import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { By } from '@angular/platform-browser';
-import { SharedModule } from '@app/shared/shared.module';
 import { MatTabGroup } from '@angular/material/tabs';
 import { StatsService } from '../../services/stats/stats.service';
 import { expect } from '@jest/globals';
@@ -19,7 +18,7 @@ import {
 } from '@app/core/services/auth/auth-service.mock';
 import { mockedStatsService } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
@@ -27,10 +26,9 @@ describe('DashboardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DashboardComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [DashboardComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: OAuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },

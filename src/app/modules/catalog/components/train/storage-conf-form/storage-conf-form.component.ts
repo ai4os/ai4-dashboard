@@ -17,6 +17,8 @@ import {
     ValidationErrors,
     ValidatorFn,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     ModuleStorageConfiguration,
@@ -35,11 +37,32 @@ import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
 } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
-import { MatChipSelectionChange } from '@angular/material/chips';
-import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import {
+    MatChipSelectionChange,
+    MatChip,
+    MatChipAvatar,
+    MatChipListbox,
+    MatChipOption,
+} from '@angular/material/chips';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { DatasetsListComponent } from '../datasets/datasets-list/datasets-list.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatSuffix,
+    MatHint,
+} from '@angular/material/input';
+import {
+    MatSelect,
+    MatOption,
+    MatSelectTrigger,
+} from '@angular/material/select';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIconButton, MatButton } from '@angular/material/button';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -70,7 +93,29 @@ export function urlValidator(): ValidatorFn {
     templateUrl: './storage-conf-form.component.html',
     styleUrls: ['./storage-conf-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatChip,
+        MatIcon,
+        MatChipAvatar,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatSelect,
+        MatOption,
+        MatProgressSpinner,
+        MatSuffix,
+        MatHint,
+        RouterLink,
+        MatChipListbox,
+        MatChipOption,
+        MatSelectTrigger,
+        MatIconButton,
+        MatButton,
+        DatasetsListComponent,
+        TranslatePipe,
+    ],
 })
 export class StorageConfFormComponent implements OnInit {
     profileService = inject(ProfileService);

@@ -4,7 +4,12 @@ import {
     OnInit,
     inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -12,13 +17,22 @@ import {
     ModuleGeneralConfiguration,
     LlmToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../../general-conf-form/general-conf-form.component';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 
 @Component({
     selector: 'app-llm',
     templateUrl: './llm.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+    ],
 })
 export class LlmComponent implements OnInit {
     toolsService = inject(ToolsService);

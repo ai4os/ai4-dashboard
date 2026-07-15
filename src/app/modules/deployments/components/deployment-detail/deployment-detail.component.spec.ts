@@ -3,10 +3,7 @@ import { DeploymentDetailComponent } from './deployment-detail.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '@app/shared/material.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { RouterModule } from '@angular/router';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
@@ -20,7 +17,7 @@ import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('DeploymentDetailComponent', () => {
     let component: DeploymentDetailComponent;
@@ -28,17 +25,14 @@ describe('DeploymentDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DeploymentDetailComponent],
             imports: [
                 RouterModule.forRoot([]),
                 TranslatePipe,
                 TranslateDirective,
-                MaterialModule,
-                SharedModule,
-                BrowserModule,
+                DeploymentDetailComponent,
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },

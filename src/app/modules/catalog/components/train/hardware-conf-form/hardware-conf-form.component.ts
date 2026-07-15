@@ -12,11 +12,23 @@ import {
     FormGroup,
     FormGroupDirective,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     ModuleHardwareConfiguration,
     confObjectRange,
 } from '@app/shared/interfaces/module.interface';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatHint,
+} from '@angular/material/input';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface showHardwareField {
     cpu_num: boolean;
@@ -38,7 +50,19 @@ const mockedConfObject: confObjectRange = {
     templateUrl: './hardware-conf-form.component.html',
     styleUrls: ['./hardware-conf-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatError,
+        MatHint,
+        MatSelect,
+        MatOption,
+        TranslatePipe,
+    ],
 })
 export class HardwareConfFormComponent implements OnInit {
     ctrlContainer = inject(FormGroupDirective);

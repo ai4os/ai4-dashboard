@@ -8,16 +8,57 @@ import {
 import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { KeyValue } from '@angular/common';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+    KeyValue,
+    NgClass,
+    UpperCasePipe,
+    JsonPipe,
+    KeyValuePipe,
+} from '@angular/common';
+import {
+    MatDialog,
+    MAT_DIALOG_DATA,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-try-me-detail',
     templateUrl: './try-me-detail.component.html',
     styleUrls: ['./try-me-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        NgClass,
+        MatCardContent,
+        MatList,
+        MatListItem,
+        MatButton,
+        MatProgressSpinner,
+        MatCardActions,
+        MatDialogClose,
+        UpperCasePipe,
+        JsonPipe,
+        KeyValuePipe,
+        TranslatePipe,
+    ],
 })
 export class TryMeDetailComponent implements OnInit {
     private tryMeService = inject(TryMeService);

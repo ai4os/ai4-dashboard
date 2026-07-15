@@ -24,7 +24,7 @@ import {
     SnapshotService,
     StatusReturnSnapshot,
 } from '../../services/snapshots-service/snapshot.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import {
     PlatformStatus,
@@ -32,13 +32,16 @@ import {
 } from '@app/shared/interfaces/platform-status.interface';
 import * as yaml from 'js-yaml';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 
 @Component({
     selector: 'app-deployments-list',
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
     deploymentsService = inject(DeploymentsService);

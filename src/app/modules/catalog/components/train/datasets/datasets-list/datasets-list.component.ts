@@ -12,8 +12,21 @@ import {
     inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
+import {
+    MatTableDataSource,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatNoDataRow,
+} from '@angular/material/table';
 import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
@@ -21,8 +34,18 @@ import {
 import { DatasetCreationDetailComponent } from '../dataset-creation-detail-component/dataset-creation-detail.component';
 import { FormGroup } from '@angular/forms';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgClass } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface TableColumn {
     columnDef: string;
@@ -42,7 +65,30 @@ export interface DatasetTableRow {
     templateUrl: './datasets-list.component.html',
     styleUrls: ['./datasets-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatCard,
+        MatCardContent,
+        MatTable,
+        MatSort,
+        MatColumnDef,
+        MatHeaderCellDef,
+        MatHeaderCell,
+        MatSortHeader,
+        MatIcon,
+        MatTooltip,
+        MatCellDef,
+        MatCell,
+        NgClass,
+        MatCheckbox,
+        MatButton,
+        MatHeaderRowDef,
+        MatHeaderRow,
+        MatRowDef,
+        MatRow,
+        MatNoDataRow,
+        MatCardActions,
+        TranslatePipe,
+    ],
 })
 export class DatasetsListComponent implements OnInit {
     dialog = inject(MatDialog);

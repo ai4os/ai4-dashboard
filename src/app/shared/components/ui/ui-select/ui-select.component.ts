@@ -11,6 +11,8 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface SelectOption {
     value: string | number | boolean;
@@ -24,7 +26,7 @@ let nextId = 0;
     templateUrl: './ui-select.component.html',
     styleUrl: './ui-select.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon, TranslatePipe],
 })
 export class UiSelectComponent implements ControlValueAccessor {
     ngControl = inject(NgControl, { optional: true, self: true });

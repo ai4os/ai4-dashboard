@@ -10,13 +10,15 @@ import {
     inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-ui-text-field',
     templateUrl: './ui-text-field.component.html',
     styleUrl: './ui-text-field.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatIcon, TranslatePipe],
 })
 export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     ngControl = inject(NgControl, { optional: true, self: true });

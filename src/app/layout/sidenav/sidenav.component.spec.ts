@@ -4,7 +4,6 @@ import { SidenavComponent } from './sidenav.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MaterialModule } from '@app/shared/material.module';
 import { RouterModule } from '@angular/router';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
@@ -13,7 +12,7 @@ import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('SidenavComponent', () => {
     let component: SidenavComponent;
@@ -21,15 +20,15 @@ describe('SidenavComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SidenavComponent, TopNavbarComponent],
             imports: [
-                MaterialModule,
+                SidenavComponent,
+                TopNavbarComponent,
                 TranslatePipe,
                 TranslateDirective,
                 RouterModule.forRoot([]),
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

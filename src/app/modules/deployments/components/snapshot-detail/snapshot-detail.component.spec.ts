@@ -3,10 +3,9 @@ import { SnapshotDetailComponent } from './snapshot-detail.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSnapshots } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('SnapshotDetailComponent', () => {
     let component: SnapshotDetailComponent;
@@ -14,10 +13,13 @@ describe('SnapshotDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SnapshotDetailComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                SnapshotDetailComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 {
                     provide: MAT_DIALOG_DATA,

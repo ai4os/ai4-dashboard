@@ -4,7 +4,12 @@ import {
     OnInit,
     inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -13,14 +18,27 @@ import {
     ModuleHardwareConfiguration,
     Ai4LifeLoaderToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
-import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../../general-conf-form/general-conf-form.component';
+import {
+    showHardwareField,
+    HardwareConfFormComponent,
+} from '../../hardware-conf-form/hardware-conf-form.component';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 
 @Component({
     selector: 'app-ai4life-loader',
     templateUrl: './ai4life-loader.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+    ],
 })
 export class Ai4lifeLoaderComponent implements OnInit {
     toolsService = inject(ToolsService);

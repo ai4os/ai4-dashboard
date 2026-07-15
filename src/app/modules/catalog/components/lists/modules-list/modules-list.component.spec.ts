@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModulesListComponent } from './modules-list.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { SearchAi4eoscPipe } from '../../../pipes/search-card-pipe';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -15,7 +14,7 @@ import { ModulesService } from '@app/modules/catalog/services/modules-service/mo
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('ModulesListComponent', () => {
     let component: ModulesListComponent;
@@ -23,10 +22,14 @@ describe('ModulesListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ModulesListComponent, SearchAi4eoscPipe],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                ModulesListComponent,
+                SearchAi4eoscPipe,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 OAuthStorage,
                 { provide: AppConfigService, useValue: mockedConfigService },

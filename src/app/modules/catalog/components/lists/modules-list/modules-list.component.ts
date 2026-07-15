@@ -16,16 +16,31 @@ import {
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { filter } from 'rxjs';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup, MatTab } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CatalogListComponent } from '../catalog-list/catalog-list.component';
+import { Ai4lifeListComponent } from './ai4life-list/ai4life-list.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
     styleUrls: ['./modules-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatProgressSpinner,
+        MatTabGroup,
+        MatTab,
+        CatalogListComponent,
+        Ai4lifeListComponent,
+        TranslatePipe,
+    ],
 })
 export class ModulesListComponent implements OnInit, AfterViewInit {
     media = inject(MediaMatcher);

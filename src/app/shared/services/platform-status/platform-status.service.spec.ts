@@ -13,7 +13,7 @@ import {
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedPlatformStatusNotifications } from '@app/shared/services/platform-status/platform-status.service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('PlatformStatusService', () => {
     let service: PlatformStatusService;
@@ -23,7 +23,7 @@ describe('PlatformStatusService', () => {
         TestBed.configureTestingModule({
             imports: [TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],

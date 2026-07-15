@@ -18,12 +18,16 @@ import {
 } from '@app/shared/interfaces/deployment.interface';
 import { timer, takeUntil, switchMap, Subject } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-inferences-list',
     templateUrl: './inferences-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
 export class InferencesListComponent implements OnInit {
     dialog = inject(MatDialog);

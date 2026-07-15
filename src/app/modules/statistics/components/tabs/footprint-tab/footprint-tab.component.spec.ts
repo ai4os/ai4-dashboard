@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FootprintTabComponent } from './footprint-tab.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('FootprintTabComponent', () => {
     let component: FootprintTabComponent;
@@ -10,9 +10,8 @@ describe('FootprintTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [FootprintTabComponent],
-            imports: [TranslatePipe, TranslateDirective],
-            providers: [...COMMON_TEST_PROVIDERS],
+            imports: [FootprintTabComponent, TranslatePipe, TranslateDirective],
+            providers: [...testProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(FootprintTabComponent);

@@ -5,7 +5,7 @@ import { StatisticsRoutingModule } from './statistics-routing.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { TimeSeriesChartComponent } from './components/charts/time-series-chart/time-series-chart.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SharedModule } from '@app/shared/shared.module';
+
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { StatsContainerComponent } from './components/stats-container/stats-container.component';
 import { OverviewTabComponent } from './components/tabs/overview-tab/overview-tab.component';
@@ -25,7 +25,12 @@ import { MapMetricSelectorComponent } from './components/stats/map-metric-select
 import { MapMetricLegendComponent } from './components/stats/map-metric-legend/map-metric-legend.component';
 
 @NgModule({
-    declarations: [
+    imports: [
+        CommonModule,
+        StatisticsRoutingModule,
+        NgxEchartsModule.forChild(),
+        FormsModule,
+        CountryFlagPipe,
         TimeSeriesChartComponent,
         BarChartComponent,
         DashboardComponent,
@@ -43,14 +48,6 @@ import { MapMetricLegendComponent } from './components/stats/map-metric-legend/m
         ResourcesCardComponent,
         MapMetricSelectorComponent,
         MapMetricLegendComponent,
-    ],
-    imports: [
-        CommonModule,
-        StatisticsRoutingModule,
-        NgxEchartsModule.forChild(),
-        SharedModule,
-        FormsModule,
-        CountryFlagPipe,
     ],
 })
 export class StatisticsModule {}

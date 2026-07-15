@@ -2,13 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GpuStatsDetailComponent } from './gpu-stats-detail.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 const gpuStats = [{ type: 'Tesla V4', value: { gpuUsed: 10, gpuTotal: 20 } }];
 
@@ -18,10 +17,13 @@ describe('GpuStatsDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [GpuStatsDetailComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                GpuStatsDetailComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: MAT_DIALOG_DATA, useValue: { gpuStats } },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

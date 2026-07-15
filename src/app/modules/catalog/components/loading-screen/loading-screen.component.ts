@@ -23,12 +23,13 @@ import {
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-loading-screen',
     templateUrl: './loading-screen.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatProgressSpinner],
 })
 export class LoadingScreenComponent implements OnInit {
     tryMeService = inject(TryMeService);

@@ -5,7 +5,6 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     templateUrl: './resource-bar.component.html',
     styleUrl: './resource-bar.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
 })
 export class ResourceBarComponent {
     @Input() label = '';

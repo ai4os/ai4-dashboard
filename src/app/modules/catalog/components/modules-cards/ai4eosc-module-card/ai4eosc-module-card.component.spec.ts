@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Ai4eoscModuleCardComponent } from './ai4eosc-module-card.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { mockModuleSummaryList } from '@app/modules/catalog/services/modules-service/modules-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('ModuleCardComponent', () => {
     let component: Ai4eoscModuleCardComponent;
@@ -12,14 +11,13 @@ describe('ModuleCardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4eoscModuleCardComponent],
             imports: [
-                SharedModule,
+                Ai4eoscModuleCardComponent,
                 RouterModule.forRoot([]),
                 TranslatePipe,
                 TranslateDirective,
             ],
-            providers: [...COMMON_TEST_PROVIDERS],
+            providers: [...testProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(Ai4eoscModuleCardComponent);

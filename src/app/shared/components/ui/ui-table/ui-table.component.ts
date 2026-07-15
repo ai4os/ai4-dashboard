@@ -7,6 +7,8 @@ import {
     AfterContentInit,
 } from '@angular/core';
 import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
+import { NgTemplateOutlet } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface UiTableColumn<T> {
     key: keyof T | string;
@@ -20,7 +22,7 @@ export interface UiTableColumn<T> {
     templateUrl: './ui-table.component.html',
     styleUrl: './ui-table.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [NgTemplateOutlet, TranslatePipe],
 })
 export class UiTableComponent<
     T extends Record<string, any>,

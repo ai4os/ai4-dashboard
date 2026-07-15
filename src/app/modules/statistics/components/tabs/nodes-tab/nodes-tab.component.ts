@@ -4,15 +4,37 @@ import {
     OnInit,
     ChangeDetectionStrategy,
 } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { NodeStats } from '@app/shared/interfaces/stats.interface';
+import { MatToolbar } from '@angular/material/toolbar';
+import {
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+} from '@angular/material/expansion';
+import { MatBadge } from '@angular/material/badge';
+import { NgClass } from '@angular/common';
+import { StatsContainerComponent } from '../../stats-container/stats-container.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-nodes-tab',
     templateUrl: './nodes-tab.component.html',
     styleUrls: ['./nodes-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatAccordion,
+        MatExpansionPanel,
+        MatExpansionPanelHeader,
+        MatExpansionPanelTitle,
+        MatBadge,
+        NgClass,
+        StatsContainerComponent,
+        MatPaginator,
+        TranslatePipe,
+    ],
 })
 export class NodesTabComponent implements OnInit {
     @Input() nodesCpu: NodeStats[] = [];

@@ -11,13 +11,26 @@ import { MatDialog } from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
 import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.component';
+import { MatCard } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgxEchartsDirective } from 'ngx-echarts';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-stat-card',
     templateUrl: './stat-card.component.html',
     styleUrls: ['./stat-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatCard,
+        MatIcon,
+        MatIconButton,
+        MatTooltip,
+        NgxEchartsDirective,
+        TranslatePipe,
+    ],
 })
 export class StatCardComponent implements OnInit {
     @Input() title = '';

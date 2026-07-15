@@ -10,18 +10,38 @@ import {
     NvflareConfiguration,
     NvflareToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../../general-conf-form/general-conf-form.component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
+import {
+    showHardwareField,
+    HardwareConfFormComponent,
+} from '../../hardware-conf-form/hardware-conf-form.component';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
+import { NvflareConfFormComponent } from './nvflare-conf-form/nvflare-conf-form.component';
 
 @Component({
     selector: 'app-nvflare',
     templateUrl: './nvflare.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+        NvflareConfFormComponent,
+    ],
 })
 export class NvflareComponent implements OnInit {
     _formBuilder = inject(FormBuilder);

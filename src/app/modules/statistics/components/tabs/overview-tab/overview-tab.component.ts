@@ -10,13 +10,26 @@ import { DeploymentsService } from '@app/modules/deployments/services/deployment
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { GlobalStats, GpuStats } from '@app/shared/interfaces/stats.interface';
 import { forkJoin } from 'rxjs';
+import { MatToolbar } from '@angular/material/toolbar';
+import { StatsContainerComponent } from '../../stats-container/stats-container.component';
+import { MatCard } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-overview-tab',
     templateUrl: './overview-tab.component.html',
     styleUrls: ['./overview-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        StatsContainerComponent,
+        MatCard,
+        MatIcon,
+        MatProgressSpinner,
+        TranslatePipe,
+    ],
 })
 export class OverviewTabComponent implements OnInit {
     deploymentsService = inject(DeploymentsService);

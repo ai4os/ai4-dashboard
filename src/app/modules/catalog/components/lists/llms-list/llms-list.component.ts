@@ -6,18 +6,48 @@ import {
     OnInit,
     inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import {
+    MatFormField,
+    MatPrefix,
+    MatLabel,
+    MatInput,
+} from '@angular/material/input';
+import { LlmCardComponent } from '../../modules-cards/llm-card/llm-card.component';
+import { TranslatePipe } from '@ngx-translate/core';
+import { SearchLlmsPipe as SearchLlmsPipe_1 } from '../../../pipes/search-card-pipe';
 
 @Component({
     selector: 'app-llms-list',
     templateUrl: './llms-list.component.html',
     styleUrl: './llms-list.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatProgressSpinner,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatPrefix,
+        MatLabel,
+        MatInput,
+        LlmCardComponent,
+        TranslatePipe,
+        SearchLlmsPipe_1,
+    ],
 })
 export class LlmsListComponent implements OnInit {
     private toolsService = inject(ToolsService);

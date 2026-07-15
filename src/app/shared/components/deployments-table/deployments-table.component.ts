@@ -11,8 +11,21 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import {
+    MatTableDataSource,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatNoDataRow,
+} from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,19 +48,55 @@ import {
     getDeploymentBadge,
     getSnapshotBadge,
 } from '@app/modules/deployments/utils/deployment-badge';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
 import { formatDate } from '@app/shared/utils/formatDate';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { MatBadge } from '@angular/material/badge';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-deployments-table',
     templateUrl: './deployments-table.component.html',
     styleUrl: './deployments-table.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatCard,
+        MatIcon,
+        MatCardContent,
+        MatTable,
+        MatSort,
+        MatColumnDef,
+        MatHeaderCellDef,
+        MatHeaderCell,
+        MatSortHeader,
+        MatCellDef,
+        MatCell,
+        NgClass,
+        MatTooltip,
+        MatButton,
+        MatBadge,
+        MatHeaderRowDef,
+        MatHeaderRow,
+        MatRowDef,
+        MatRow,
+        MatNoDataRow,
+        MatProgressSpinner,
+        MatCardActions,
+        RouterLink,
+        TranslatePipe,
+    ],
 })
 export class DeploymentsTableComponent implements OnInit, OnDestroy {
     dialog = inject(MatDialog);

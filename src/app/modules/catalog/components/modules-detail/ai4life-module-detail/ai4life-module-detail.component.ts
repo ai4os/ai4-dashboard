@@ -11,14 +11,46 @@ import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { BreadcrumbService } from 'xng-breadcrumb';
+import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/list';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MarkdownComponent } from 'ngx-markdown';
+import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-ai4life-module-detail',
     templateUrl: './ai4life-module-detail.component.html',
     styleUrl: './ai4life-module-detail.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        BreadcrumbComponent,
+        MatCard,
+        MatCardHeader,
+        NgClass,
+        MatCardTitle,
+        MatTooltip,
+        MatButton,
+        MatDivider,
+        MatCardContent,
+        MatProgressSpinner,
+        MarkdownComponent,
+        ChipWithIconComponent,
+        TranslatePipe,
+    ],
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
     private router = inject(Router);

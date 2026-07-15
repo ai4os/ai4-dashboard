@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { SharedModule } from '@shared/shared.module';
+
 import { Ai4eoscModuleDetailComponent } from './components/modules-detail/ai4eosc-module-detail/ai4eosc-module-detail.component';
 import { DatasetCreationDetailComponent } from './components/train/datasets/dataset-creation-detail-component/dataset-creation-detail.component';
 import { DatasetsListComponent } from './components/train/datasets/datasets-list/datasets-list.component';
@@ -45,7 +45,13 @@ import { ModuleTrainViewComponent } from './views/module-train-view/module-train
 import { BatchTrainComponent } from './components/train/batch-train/batch-train.component';
 
 @NgModule({
-    declarations: [
+    imports: [
+        CommonModule,
+        CatalogRoutingModule,
+        MatProgressBarModule,
+        MatExpansionModule,
+        FormsModule,
+        ScrollingModule,
         ModulesListComponent,
         Ai4lifeListComponent,
         Ai4eoscModuleCardComponent,
@@ -81,15 +87,6 @@ import { BatchTrainComponent } from './components/train/batch-train/batch-train.
         OscarTrainComponent,
         ModuleTrainViewComponent,
         BatchTrainComponent,
-    ],
-    imports: [
-        CommonModule,
-        CatalogRoutingModule,
-        SharedModule,
-        MatProgressBarModule,
-        MatExpansionModule,
-        FormsModule,
-        ScrollingModule,
     ],
 })
 export class CatalogModule {}

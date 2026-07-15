@@ -9,7 +9,6 @@ import {
 
 import { TryMeListComponent } from './try-me-list.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { TryMeService } from '../../services/try-me.service';
@@ -18,7 +17,7 @@ import { gradioDeployments } from '../../services/try-me.service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { By } from '@angular/platform-browser';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 const mockedDatasets: DeploymentTableRow[] = [
     {
@@ -81,10 +80,9 @@ describe('TryMeListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TryMeListComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [TryMeListComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {

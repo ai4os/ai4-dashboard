@@ -4,7 +4,7 @@ import { NodesTabComponent } from './nodes-tab.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { expect } from '@jest/globals';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('NodesTabComponent', () => {
     let component: NodesTabComponent;
@@ -12,9 +12,8 @@ describe('NodesTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [NodesTabComponent],
-            imports: [TranslatePipe, TranslateDirective],
-            providers: [...COMMON_TEST_PROVIDERS],
+            imports: [NodesTabComponent, TranslatePipe, TranslateDirective],
+            providers: [...testProviders],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 

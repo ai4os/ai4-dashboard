@@ -21,13 +21,36 @@ import {
     ApiKeyRow,
     LlmApiKeysStore,
 } from '@app/modules/profile/store/llm-api-keys.store';
+import { UiButtonComponent } from '../../../../../shared/components/ui/ui-button/ui-button.component';
+import { UiExpansionPanelComponent } from '../../../../../shared/components/ui/ui-expansion-panel/ui-expansion-panel.component';
+import { MatIcon } from '@angular/material/icon';
+import { UiTextFieldComponent } from '../../../../../shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiDatePickerComponent } from '../../../../../shared/components/ui/ui-date-picker/ui-date-picker.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { UiLoaderComponent } from '../../../../../shared/components/ui/ui-loader/ui-loader.component';
+import { UiTableComponent } from '../../../../../shared/components/ui/ui-table/ui-table.component';
+import { UiTableCellDirective } from '../../../../../shared/directives/ui-table-cell.directive';
+import { UiChipComponent } from '../../../../../shared/components/ui/ui-chip/ui-chip.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-api-keys-tab',
     templateUrl: './api-keys-tab.component.html',
     styleUrl: './api-keys-tab.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        UiButtonComponent,
+        UiExpansionPanelComponent,
+        MatIcon,
+        UiTextFieldComponent,
+        UiDatePickerComponent,
+        MatTooltip,
+        UiLoaderComponent,
+        UiTableComponent,
+        UiTableCellDirective,
+        UiChipComponent,
+        TranslatePipe,
+    ],
 })
 export class ApiKeysTabComponent implements OnInit {
     llmApiKeysService = inject(LlmApiKeysService);

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InferenceDetailComponent } from './inference-detail.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -10,7 +9,7 @@ import { mockedConfigService } from '@app/core/services/app-config/app-config.mo
 import { OscarInferenceService } from '../../services/oscar-inference.service';
 import { mockedOscarInferenceService } from '@app/modules/inference/services/oscar-inference.service.mock';
 import { throwError } from 'rxjs';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('InferenceDetailComponent', () => {
     let component: InferenceDetailComponent;
@@ -18,10 +17,13 @@ describe('InferenceDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [InferenceDetailComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                InferenceDetailComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {

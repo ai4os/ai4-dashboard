@@ -5,15 +5,12 @@ import { AuthService } from '@app/core/services/auth/auth.service';
 import { RouterModule } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 const mockedModule = mockAi4lifeModules[0];
 
@@ -23,15 +20,14 @@ describe('Ai4lifeModuleDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4lifeModuleDetailComponent],
             imports: [
                 RouterModule.forRoot([]),
                 TranslatePipe,
                 TranslateDirective,
-                SharedModule,
+                Ai4lifeModuleDetailComponent,
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },

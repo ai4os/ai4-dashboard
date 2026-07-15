@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FederatedServerComponent } from './federated-server.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
@@ -21,7 +20,7 @@ import {
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('FederatedServerComponent', () => {
     let component: FederatedServerComponent;
@@ -30,20 +29,18 @@ describe('FederatedServerComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
-                SharedModule,
-                RouterModule.forRoot([]),
-                TranslatePipe,
-                TranslateDirective,
-            ],
-            declarations: [
                 FederatedServerComponent,
                 StepperFormComponent,
                 FederatedConfFormComponent,
                 HardwareConfFormComponent,
                 GeneralConfFormComponent,
+                RouterModule.forRoot([]),
+                TranslatePipe,
+                TranslateDirective,
             ],
+
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },

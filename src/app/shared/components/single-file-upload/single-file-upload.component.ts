@@ -6,13 +6,17 @@ import {
     Output,
     ChangeDetectionStrategy,
 } from '@angular/core';
+import { MatFabButton } from '@angular/material/button';
+import { NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-single-file-upload',
     templateUrl: './single-file-upload.component.html',
     styleUrl: './single-file-upload.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [MatFabButton, NgClass, MatIcon, TranslatePipe],
 })
 export class SingleFileUploadComponent implements OnInit {
     @Input() file: File | null = null;

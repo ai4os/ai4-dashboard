@@ -3,17 +3,12 @@ import { AppComponent } from './app.component';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { Subscription, of } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SharedModule } from './shared/shared.module';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './core/services/auth/auth.service';
 import { mockedAuthService } from './core/services/auth/auth-service.mock';
-import { mockedMediaMatcher } from './shared/mocks/media-matcher.mock';
 import { mockedConfigService } from './core/services/app-config/app-config.mock';
 import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('AppComponent', () => {
     let component: AppComponent;
@@ -27,17 +22,15 @@ describe('AppComponent', () => {
         await TestBed.configureTestingModule({
             imports: [
                 RouterModule.forRoot([]),
-                SharedModule,
+                AppComponent,
                 TranslatePipe,
                 TranslateDirective,
             ],
-            declarations: [AppComponent],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
-                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopNavbarComponent } from './top-navbar.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { By } from '@angular/platform-browser';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -12,7 +11,7 @@ import { mockedConfigService } from '@app/core/services/app-config/app-config.mo
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedSidenavService } from '@app/shared/services/sidenav/sidenav.service.mock';
 import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('TopNavbarComponent', () => {
     let component: TopNavbarComponent;
@@ -20,15 +19,14 @@ describe('TopNavbarComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TopNavbarComponent],
             imports: [
-                SharedModule,
+                TopNavbarComponent,
                 RouterModule.forRoot([]),
                 TranslatePipe,
                 TranslateDirective,
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: SidenavService, useValue: mockedSidenavService },
                 { provide: AppConfigService, useValue: mockedConfigService },

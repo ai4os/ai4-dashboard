@@ -3,6 +3,8 @@ import {
     MAT_SNACK_BAR_DATA,
     MatSnackBarRef,
 } from '@angular/material/snack-bar';
+import { NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 export type UiSnackbarVariant = 'primary' | 'accent' | 'success' | 'danger';
 
@@ -25,7 +27,7 @@ const DEFAULT_ICON: Record<UiSnackbarVariant, string> = {
     templateUrl: './ui-snackbar.component.html',
     styleUrls: ['./ui-snackbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [NgClass, MatIcon],
 })
 export class UiSnackbarComponent {
     private snackBarRef = inject<MatSnackBarRef<UiSnackbarComponent>>(

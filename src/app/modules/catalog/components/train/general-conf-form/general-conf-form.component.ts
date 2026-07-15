@@ -23,6 +23,8 @@ import {
     ValidationErrors,
     ValidatorFn,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     ModuleGeneralConfiguration,
@@ -34,6 +36,28 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Router } from '@angular/router';
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass, TitleCasePipe } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatHint,
+    MatSuffix,
+} from '@angular/material/input';
+import { MatChipListbox, MatChipOption } from '@angular/material/chips';
+import { MatDivider } from '@angular/material/list';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { SingleFileUploadComponent } from '../../../../../shared/components/single-file-upload/single-file-upload.component';
+import { TextEditorComponent } from '../../../../../shared/components/text-editor/text-editor.component';
+import { CopyToClipboardDirective } from '../../../../../shared/directives/copy-to-clipboard.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export function urlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -97,7 +121,35 @@ export interface ShowGeneralFormField {
         ]),
     ],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatProgressSpinner,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSlideToggle,
+        MatIconButton,
+        MatTooltip,
+        MatIcon,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatError,
+        MatHint,
+        MatChipListbox,
+        MatChipOption,
+        MatSuffix,
+        MatDivider,
+        MatSelect,
+        MatOption,
+        MatTabGroup,
+        MatTab,
+        SingleFileUploadComponent,
+        TextEditorComponent,
+        CopyToClipboardDirective,
+        MatFabButton,
+        TitleCasePipe,
+        TranslatePipe,
+    ],
 })
 export class GeneralConfFormComponent implements OnInit {
     authService = inject(AuthService);

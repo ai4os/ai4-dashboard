@@ -14,7 +14,7 @@ describe('MultipleActionsDialogComponent', () => {
     };
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MultipleActionsDialogComponent],
+            imports: [MultipleActionsDialogComponent],
             providers: [
                 { provide: MatDialogRef, useValue: mockDialogRef },
                 { provide: MAT_DIALOG_DATA, useValue: mockedData },

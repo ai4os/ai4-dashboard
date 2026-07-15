@@ -6,14 +6,14 @@ import {
 } from './storage-conf-form.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { FormBuilder, FormControl, FormGroupDirective } from '@angular/forms';
-import { SharedModule } from '@app/shared/shared.module';
+
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;
@@ -27,10 +27,13 @@ describe('StorageConfFormComponent', () => {
         });
 
         await TestBed.configureTestingModule({
-            declarations: [StorageConfFormComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                StorageConfFormComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 FormGroupDirective,
                 FormBuilder,

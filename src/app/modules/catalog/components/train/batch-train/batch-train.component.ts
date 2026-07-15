@@ -4,7 +4,12 @@ import {
     OnInit,
     inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
@@ -15,14 +20,27 @@ import {
     ModuleConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { ShowGeneralFormField } from '../general-conf-form/general-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../general-conf-form/general-conf-form.component';
+import { StepperFormComponent } from '../stepper-form/stepper-form.component';
+import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
+import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
 
 @Component({
     selector: 'app-batch-train',
     templateUrl: './batch-train.component.html',
     styleUrl: './batch-train.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+        StorageConfFormComponent,
+    ],
 })
 export class BatchTrainComponent implements OnInit {
     private _formBuilder = inject(FormBuilder);

@@ -7,13 +7,43 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
+import {
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    MatInput,
+} from '@angular/material/input';
+import {
+    MatSelect,
+    MatSelectTrigger,
+    MatOption,
+} from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-filter-component',
     templateUrl: './filter-component.component.html',
     styleUrls: ['./filter-component.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatFormField,
+        MatLabel,
+        MatPrefix,
+        MatSelect,
+        FormsModule,
+        MatSelectTrigger,
+        MatOption,
+        MatInput,
+        MatFabButton,
+        MatMiniFabButton,
+        MatTooltip,
+        MatIcon,
+        TranslatePipe,
+    ],
 })
 export class FilterComponentComponent implements OnInit {
     @Input() libraries: Set<string> = new Set<string>();

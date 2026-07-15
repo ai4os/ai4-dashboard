@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SingleFileUploadComponent } from './single-file-upload.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
-import { SharedModule } from '@app/shared/shared.module';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('SingleFileUploadComponent', () => {
     let component: SingleFileUploadComponent;
@@ -12,9 +11,12 @@ describe('SingleFileUploadComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SingleFileUploadComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
-            providers: [...COMMON_TEST_PROVIDERS],
+            imports: [
+                SingleFileUploadComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
+            providers: [...testProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(SingleFileUploadComponent);

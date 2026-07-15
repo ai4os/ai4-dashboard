@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneralConfFormComponent } from './general-conf-form.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { SidenavComponent } from '@app/layout/sidenav/sidenav.component';
@@ -13,7 +12,7 @@ import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedVllmsConfig } from '@app/modules/catalog/services/tools-service/tools-service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 const mockDefaultFormValues: ModuleGeneralConfiguration = {
     title: { name: '', value: '', description: '' },
@@ -34,10 +33,14 @@ describe('GeneralConfFormComponent', () => {
         });
 
         await TestBed.configureTestingModule({
-            declarations: [GeneralConfFormComponent, SidenavComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [
+                GeneralConfFormComponent,
+                SidenavComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 FormGroupDirective,
                 FormBuilder,
                 { provide: AppConfigService, useValue: mockedConfigService },

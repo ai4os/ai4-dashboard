@@ -19,7 +19,6 @@ import { basicSetup } from 'codemirror';
     templateUrl: './text-editor.component.html',
     styleUrl: './text-editor.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
 })
 export class TextEditorComponent implements AfterViewInit {
     @Input() value = '';

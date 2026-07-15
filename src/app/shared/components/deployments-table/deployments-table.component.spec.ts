@@ -8,7 +8,7 @@ import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { deploymentRow } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('DeploymentsTableComponent', () => {
     let component: DeploymentsTableComponent;
@@ -16,10 +16,13 @@ describe('DeploymentsTableComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslatePipe, TranslateDirective],
-            declarations: [DeploymentsTableComponent],
+            imports: [
+                DeploymentsTableComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

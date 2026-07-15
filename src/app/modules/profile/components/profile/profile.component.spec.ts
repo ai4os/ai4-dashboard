@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from './profile.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -11,7 +10,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('ProfileComponent', () => {
     let component: ProfileComponent;
@@ -19,10 +18,9 @@ describe('ProfileComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ProfileComponent],
-            imports: [SharedModule, TranslatePipe, TranslateDirective],
+            imports: [ProfileComponent, TranslatePipe, TranslateDirective],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
 
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

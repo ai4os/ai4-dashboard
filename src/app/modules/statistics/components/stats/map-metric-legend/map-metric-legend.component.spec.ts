@@ -8,7 +8,7 @@ describe('MapMetricLegendComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MapMetricLegendComponent],
+            imports: [MapMetricLegendComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(MapMetricLegendComponent);

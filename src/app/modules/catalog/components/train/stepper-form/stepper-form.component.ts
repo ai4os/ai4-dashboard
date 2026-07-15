@@ -13,8 +13,16 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import {
+    MatSlideToggleChange,
+    MatSlideToggle,
+} from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
@@ -23,13 +31,47 @@ import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatChip, MatChipAvatar } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import {
+    MatStepper,
+    MatStep,
+    MatStepLabel,
+    MatStepperNext,
+    MatStepperPrevious,
+} from '@angular/material/stepper';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-stepper-form',
     templateUrl: './stepper-form.component.html',
     styleUrls: ['./stepper-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [
+        MatToolbar,
+        FormsModule,
+        ReactiveFormsModule,
+        MatChip,
+        MatIcon,
+        MatChipAvatar,
+        NgClass,
+        BreadcrumbComponent,
+        MatSlideToggle,
+        MatProgressSpinner,
+        MatStepper,
+        MatStep,
+        MatStepLabel,
+        NgTemplateOutlet,
+        MatButton,
+        MatStepperNext,
+        MatStepperPrevious,
+        TranslatePipe,
+    ],
 })
 export class StepperFormComponent implements OnInit {
     _formBuilder = inject(FormBuilder);

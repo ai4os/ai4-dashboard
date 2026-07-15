@@ -17,14 +17,13 @@ import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '@app/shared/shared.module';
 import { BatchService } from '../../services/batch.service';
 import {
     expectedModulesDataset,
     mockedBatchService,
 } from '../../services/batch.service.mock';
 import { throwError } from 'rxjs';
-import { COMMON_TEST_PROVIDERS } from '@testing/test-providers';
+import { testProviders } from '@testing/test-providers';
 
 describe('BatchListComponent', () => {
     let component: BatchListComponent;
@@ -32,16 +31,15 @@ describe('BatchListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [BatchListComponent],
             imports: [
-                SharedModule,
+                BatchListComponent,
                 BrowserModule,
                 RouterModule.forRoot([]),
                 TranslatePipe,
                 TranslateDirective,
             ],
             providers: [
-                ...COMMON_TEST_PROVIDERS,
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

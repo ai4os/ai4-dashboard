@@ -23,13 +23,14 @@ import { ChatOverlayService } from './shared/services/chat-overlay/chat-overlay.
 import { PopupComponent } from './shared/components/popup/popup.component';
 import { AuthService, UserProfile } from './core/services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false,
+    imports: [RouterOutlet],
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'ai4-dashboard';
