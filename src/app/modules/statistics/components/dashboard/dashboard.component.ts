@@ -24,7 +24,6 @@ import { OverviewTabComponent } from '../tabs/overview-tab/overview-tab.componen
 import { DatacentersTabComponent } from '../tabs/datacenters-tab/datacenters-tab.component';
 import { FootprintTabComponent } from '../tabs/footprint-tab/footprint-tab.component';
 import { UsageTabComponent } from '../tabs/usage-tab/usage-tab.component';
-import { NodesTabComponent } from '../tabs/nodes-tab/nodes-tab.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -44,7 +43,6 @@ import { TranslatePipe } from '@ngx-translate/core';
         DatacentersTabComponent,
         FootprintTabComponent,
         UsageTabComponent,
-        NodesTabComponent,
         MatProgressSpinner,
         TranslatePipe,
     ],

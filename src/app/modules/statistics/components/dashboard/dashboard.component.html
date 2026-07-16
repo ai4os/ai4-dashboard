@@ -2,79 +2,107 @@
     [ngClass]="{
         'mb-3': !mobileQuery.matches,
     }"
-  >
-  <span id="title" class="aligned-with-icon">
-    {{ 'DASHBOARD.TITLE' | translate }}
-    <mat-icon>dashboard</mat-icon>
-  </span>
+>
+    <span id="title" class="aligned-with-icon">
+        {{ 'DASHBOARD.TITLE' | translate }}
+        <mat-icon>dashboard</mat-icon>
+    </span>
 </mat-toolbar>
 
-
 @if (!clusterStatsLoading) {
-  @if (clusterDataAvailable) {
-    <mat-tab-group
-      mat-stretch-tabs="false"
-      class="main-tabs"
-        [ngClass]="{
-            'main-tabs-mobile': mobileQuery.matches,
-            'main-tabs': !mobileQuery.matches,
-        }"
-      >
-      <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
-        <app-overview-tab
-          [clusterGlobalStats]="clusterGlobalStats"
-          [gpuPerModelCluster]="gpuPerModelCluster"
-        ></app-overview-tab>
-      </mat-tab>
-      <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
-        <ng-template matTabContent>
-          <app-datacenters-tab
-            [datacentersStats]="datacentersStats"
-          ></app-datacenters-tab>
-        </ng-template>
-      </mat-tab>
-      <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
-        <ng-template matTabContent>
-          <app-footprint-tab
-            [datacentersStats]="datacentersStats"
-          ></app-footprint-tab>
-        </ng-template>
-      </mat-tab>
-      @if (isLoggedIn() && !userStatsLoading && userProfile !== undefined) {
-        <mat-tab label="{{ 'DASHBOARD.USAGE-TAB' | translate }}">
-          <app-usage-tab
-            [userProfile]="userProfile"
-            [dates]="dates"
-            [cpuMhzData]="cpuMhzData"
-            [cpuNumData]="cpuNumData"
-            [memoryMBData]="memoryMBData"
-            [diskMBData]="diskMBData"
-            [gpuNumData]="gpuNumData"
-            [queuedData]="queuedData"
-            [runningData]="runningData"
-            [userGlobalStats]="userGlobalStats"
-          ></app-usage-tab>
-        </mat-tab>
-        @if (userProfile.isDeveloper) {
-          <mat-tab
-            label="{{ 'DASHBOARD.NODES-TAB' | translate }}"
-            >
-            <app-nodes-tab
-              [nodesCpu]="nodesCpu"
-              [nodesGpu]="nodesGpu"
-            ></app-nodes-tab>
-          </mat-tab>
-        }
-      }
-    </mat-tab-group>
-  } @else {
-    <p id="error" class="no-data-text">
-      {{ 'DASHBOARD.NO-DATA' | translate }}
-    </p>
-  }
+    @if (clusterDataAvailable) {
+        <mat-tab-group
+            mat-stretch-tabs="false"
+            class="main-tabs"
+            [ngClass]="{
+                'main-tabs-mobile': mobileQuery.matches,
+                'main-tabs': !mobileQuery.matches,
+            }"
+        >
+            <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
+                <app-overview-tab
+                    [clusterGlobalStats]="clusterGlobalStats"
+                    [gpuPerModelCluster]="gpuPerModelCluster"
+                ></app-overview-tab>
+            </mat-tab>
+            <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
+                <ng-template matTabContent>
+                    <app-datacenters-tab
+                        [datacentersStats]="datacentersStats"
+                    ></app-datacenters-tab>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
+                <ng-template matTabContent>
+                    <app-footprint-tab
+                        [datacentersStats]="datacentersStats"
+                    ></app-footprint-tab>
+                </ng-template>
+            </mat-tab>
+            @if (
+                isLoggedIn() && !userStatsLoading && userProfile !== undefined
+            ) {
+                <mat-tab label="{{ 'DASHBOARD.USAGE-TAB' | translate }}">
+                    <app-usage-tab
+                        [userProfile]="userProfile"
+                        [dates]="dates"
+                        [cpuMhzData]="cpuMhzData"
+                        [cpuNumData]="cpuNumData"
+                        [memoryMBData]="memoryMBData"
+                        [diskMBData]="diskMBData"
+                        [gpuNumData]="gpuNumData"
+                        [queuedData]="queuedData"
+                        [runningData]="runningData"
+                        [userGlobalStats]="userGlobalStats"
+                    ></app-usage-tab>
+                </mat-tab>
+
+                <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
+                    <ng-template matTabContent>
+                        <app-datacenters-tab
+                            [datacentersStats]="datacentersStats"
+                        ></app-datacenters-tab>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
+                    <ng-template matTabContent>
+                        <app-footprint-tab
+                            [datacentersStats]="datacentersStats"
+                        ></app-footprint-tab>
+                    </ng-template>
+                </mat-tab>
+
+                @if (
+                    isLoggedIn() &&
+                    !userStatsLoading &&
+                    userProfile !== undefined
+                ) {
+                    <mat-tab label="{{ 'DASHBOARD.USAGE-TAB' | translate }}">
+                        <app-usage-tab
+                            [userProfile]="userProfile"
+                            [dates]="dates"
+                            [cpuMhzData]="cpuMhzData"
+                            [cpuNumData]="cpuNumData"
+                            [memoryMBData]="memoryMBData"
+                            [diskMBData]="diskMBData"
+                            [gpuNumData]="gpuNumData"
+                            [queuedData]="queuedData"
+                            [runningData]="runningData"
+                            [userGlobalStats]="userGlobalStats"
+                        ></app-usage-tab>
+                    </mat-tab>
+                }
+            }
+        </mat-tab-group>
+    } @else {
+        <p id="error" class="no-data-text">
+            {{ 'DASHBOARD.NO-DATA' | translate }}
+        </p>
+    }
 } @else {
-  <div class="spinner">
-    <mat-progress-spinner color="primary" mode="indeterminate">
-    </mat-progress-spinner>
-  </div>
+    <div class="spinner">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
 }

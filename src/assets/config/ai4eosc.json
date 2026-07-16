@@ -16,11 +16,11 @@
         { "name": "SIDENAV.DOCUMENTATION", "url": "https://docs.ai4os.eu/" },
         {
             "name": "SIDENAV.TERMS-OF-USE",
-            "url": "https://ai4eosc.eu/platform/acceptable-use-policy/"
+            "url": "https://ai4eosc.eu/acceptable-use-policy/"
         },
         {
             "name": "SIDENAV.PRIVACY-POLICY",
-            "url": "https://ai4eosc.eu/platform/privacy-policy/"
+            "url": "https://ai4eosc.eu/privacy-policy/"
         }
     ]
 }

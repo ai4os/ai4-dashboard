@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.25.0](https://github.com/ai4os/ai4-dashboard/compare/v3.24.2...v3.25.0) (2026-06-30)
+
+
+### Features
+
+* remove nodes tab ([#501](https://github.com/ai4os/ai4-dashboard/issues/501)) ([a0b8713](https://github.com/ai4os/ai4-dashboard/commit/a0b871375d53782e7d1ba6898738161edc60deba))
+* update links ([#503](https://github.com/ai4os/ai4-dashboard/issues/503)) ([0a12265](https://github.com/ai4os/ai4-dashboard/commit/0a12265b6dd78e7edac94c891f24b0533b7506a2))
+
 ## [3.24.0](https://github.com/ai4os/ai4-dashboard/compare/v3.23.0...v3.24.0) (2026-04-23)
 
 
