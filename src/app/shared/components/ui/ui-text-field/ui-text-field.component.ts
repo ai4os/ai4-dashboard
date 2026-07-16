@@ -40,7 +40,10 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     protected disabled = signal(false);
     protected hidden = signal(true);
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onChange: (value: string) => void = () => {};
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onTouched: () => void = () => {};
 
     constructor() {

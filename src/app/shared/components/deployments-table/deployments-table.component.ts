@@ -293,7 +293,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         return badge;
     }
 
-    createSnapshot(e: MouseEvent, row: DeploymentTableRow) {
+    createSnapshot(e: Event, row: DeploymentTableRow) {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
@@ -331,7 +331,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
             });
     }
 
-    redeploySnapshot(e: MouseEvent, row: DeploymentTableRow) {
+    redeploySnapshot(e: Event, row: DeploymentTableRow) {
         e.stopPropagation();
 
         this.dialog

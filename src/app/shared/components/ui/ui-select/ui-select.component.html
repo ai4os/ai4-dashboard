@@ -4,9 +4,9 @@
     [class.ui-text-field--disabled]="disabled()"
 >
     @if (label) {
-        <label class="ui-text-field__label" [id]="labelId">{{
+        <span class="ui-text-field__label" [id]="labelId">{{
             label | translate
-        }}</label>
+        }}</span>
     }
 
     <div
@@ -67,6 +67,8 @@
                     "
                     [attr.aria-selected]="option.value === internalValue()"
                     (click)="selectOption(option, $event)"
+                    (keydown.enter)="selectOption(option, $event)"
+                    (keydown.space)="selectOption(option, $event)"
                     (mouseenter)="activeIndex.set(i)"
                 >
                     <span>{{ option.viewValue }}</span>

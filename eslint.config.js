@@ -30,7 +30,7 @@ module.exports = defineConfig([
                 'error',
                 {
                     type: 'attribute',
-                    prefix: 'app',
+                    prefix: ['app', 'ui'],
                     style: 'camelCase',
                 },
             ],
@@ -53,6 +53,7 @@ module.exports = defineConfig([
             ],
 
             '@typescript-eslint/no-explicit-any': 'warn',
+            '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
         },
     },
 
@@ -62,6 +63,9 @@ module.exports = defineConfig([
             angular.configs.templateRecommended,
             angular.configs.templateAccessibility,
         ],
-        rules: {},
+        rules: {
+            '@angular-eslint/template/alt-text': 'warn',
+            '@angular-eslint/template/interactive-supports-focus': 'warn',
+        },
     },
 ]);

@@ -52,7 +52,10 @@ export class UiSelectComponent implements ControlValueAccessor {
     protected readonly labelId = `ui-select-label-${this.instanceId}`;
     protected readonly panelId = `ui-select-panel-${this.instanceId}`;
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onChange: (value: any) => void = () => {};
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onTouched: () => void = () => {};
 
     private elementRef = inject(ElementRef);
@@ -81,7 +84,12 @@ export class UiSelectComponent implements ControlValueAccessor {
 
     protected toggle(): void {
         if (this.disabled()) return;
-        this.isOpen() ? this.close() : this.open();
+
+        if (this.isOpen()) {
+            this.close();
+        } else {
+            this.open();
+        }
     }
 
     protected open(): void {

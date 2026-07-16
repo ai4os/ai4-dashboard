@@ -1,7 +1,10 @@
 <div
+    role="button"
     class="ui-date-picker"
     [class.ui-date-picker--disabled]="disabled"
     (click)="!disabled && picker.open()"
+    (keydown.enter)="!disabled && picker.open()"
+    (keydown.space)="!disabled && picker.open()"
 >
     <mat-icon
         class="ui-date-picker__icon"

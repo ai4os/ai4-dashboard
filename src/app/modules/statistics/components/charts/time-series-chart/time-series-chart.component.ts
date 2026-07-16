@@ -16,8 +16,6 @@ import { NgxEchartsDirective } from 'ngx-echarts';
     imports: [MatCard, MatCardContent, NgxEchartsDirective],
 })
 export class TimeSeriesChartComponent implements OnInit {
-    constructor() {}
-
     chartOptionsCommon: EChartsOption = {};
     chartOptionsData: EChartsOption = {};
     colorPalette: string[] = [];

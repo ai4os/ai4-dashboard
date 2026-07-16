@@ -34,7 +34,5 @@ import { TranslatePipe } from '@ngx-translate/core';
     ],
 })
 export class Ai4lifeModuleCardComponent {
-    constructor() {}
-
     @Input() module!: Ai4lifeModule;
 }

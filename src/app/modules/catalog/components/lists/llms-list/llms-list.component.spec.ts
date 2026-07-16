@@ -19,6 +19,9 @@ import {
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
 import { testProviders } from '@testing/test-providers';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
+import { OAuthService, OAuthModuleConfig } from 'angular-oauth2-oidc';
 
 describe('LlmsListComponent', () => {
     let component: LlmsListComponent;
@@ -37,6 +40,11 @@ describe('LlmsListComponent', () => {
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: ToolsService, useValue: mockedToolsService },
+                { provide: OAuthService, useValue: mockedAuthService },
+                {
+                    provide: OAuthModuleConfig,
+                    useValue: mockedOAuthModuleConfig,
+                },
             ],
         }).compileComponents();
 

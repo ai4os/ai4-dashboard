@@ -1,124 +1,126 @@
 <mat-card class="mb-4">
-  <mat-card-content>
-    <div class="table-container">
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        class="mat-elevation-z8"
-        matSort
-        (matSortChange)="announceSortChange($event)"
-        >
-        @for (column of columns; track column) {
-          <ng-container
-            [matColumnDef]="column.columnDef"
-            [sticky]="isSticky(column.columnDef)"
+    <mat-card-content>
+        <div class="table-container">
+            <table
+                mat-table
+                [dataSource]="dataSource"
+                class="mat-elevation-z8"
+                matSort
+                (matSortChange)="announceSortChange($event)"
             >
-            <mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              sortActionDescription="Sort by {column.header}"
-              >{{ column.header | translate }}
-              @if (column.columnDef === 'forcePull') {
-                <mat-icon
-                  class="help-icon"
-                  color="accent"
-                            matTooltip="{{
-                                'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.FORCE-PULL-INFO'
-                                    | translate
-                            }}"
-                  [matTooltipPosition]="'above'"
-                  >help</mat-icon
-                  >
-                }
-              </mat-header-cell>
-              <mat-cell
-                *matCellDef="let row"
-                        [ngClass]="{
-                            'content-cell': column.columnDef !== 'name',
-                        }"
-                >@if (column.columnDef === 'name') {
-                <ng-container
-                  id="name-column"
-                  >
-                  {{ row[column.columnDef] }}
-                </ng-container>
-              }
-              @if (column.columnDef === 'source') {
-                <ng-container
-                  id="source-column"
-                  id="force-pull-column"
-                  >
-                  <img
-                                [ngClass]="{
-                                    'fit-image-doi':
-                                        row[column.columnDef] === 'doi',
-                                    'fit-image-url':
-                                        row[column.columnDef] === 'http',
-                                    'fit-image-zenodo':
-                                        row[column.columnDef] === 'zenodo',
-                                }"
-                                src="../../../../../assets/images/{{
-                                    row[column.columnDef]
-                                }}-logo.png"
-                    />
-                </ng-container>
-              }
-              @if (column.columnDef === 'forcePull') {
-                <div
-                  id="actions-column"
-                  class="actions-container"
-                  >
-                  <mat-checkbox
-                    #checkbox
-                    matTooltip="Force pull"
-                    (change)="changeForcePull($event, row)"
-                  ></mat-checkbox>
-                </div>
-              }
-              @if (column.columnDef === 'actions') {
-                <div
-                  class="actions-container"
-                  >
-                  <button
-                    id="delete-button"
-                    mat-button
-                    matTooltip="Delete"
-                    class="action-button-in-cell"
-                    (click)="removeDataset($event, row)"
+                @for (column of columns; track column) {
+                    <ng-container
+                        [matColumnDef]="column.columnDef"
+                        [sticky]="isSticky(column.columnDef)"
                     >
-                    <mat-icon color="warn">delete</mat-icon>
-                  </button>
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Sort by {column.header}"
+                            >{{ column.header | translate }}
+                            @if (column.columnDef === 'forcePull') {
+                                <mat-icon
+                                    class="help-icon"
+                                    color="accent"
+                                    matTooltip="{{
+                                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.FORCE-PULL-INFO'
+                                            | translate
+                                    }}"
+                                    [matTooltipPosition]="'above'"
+                                    >help</mat-icon
+                                >
+                            }
+                        </mat-header-cell>
+                        <mat-cell
+                            *matCellDef="let row"
+                            [ngClass]="{
+                                'content-cell': column.columnDef !== 'name',
+                            }"
+                        >
+                            @if (column.columnDef === 'name') {
+                                <ng-container id="name-column">
+                                    {{ row[column.columnDef] }}
+                                </ng-container>
+                            }
+                            @if (column.columnDef === 'source') {
+                                <ng-container
+                                    id="source-column"
+                                    id="force-pull-column"
+                                >
+                                    <img
+                                        [ngClass]="{
+                                            'fit-image-doi':
+                                                row[column.columnDef] === 'doi',
+                                            'fit-image-url':
+                                                row[column.columnDef] ===
+                                                'http',
+                                            'fit-image-zenodo':
+                                                row[column.columnDef] ===
+                                                'zenodo',
+                                        }"
+                                        src="../../../../../assets/images/{{
+                                            row[column.columnDef]
+                                        }}-logo.png"
+                                    />
+                                </ng-container>
+                            }
+                            @if (column.columnDef === 'forcePull') {
+                                <div
+                                    id="actions-column"
+                                    class="actions-container"
+                                >
+                                    <mat-checkbox
+                                        #checkbox
+                                        matTooltip="Force pull"
+                                        (change)="changeForcePull($event, row)"
+                                    ></mat-checkbox>
+                                </div>
+                            }
+                            @if (column.columnDef === 'actions') {
+                                <div class="actions-container">
+                                    <button
+                                        id="delete-button"
+                                        mat-button
+                                        matTooltip="Delete"
+                                        class="action-button-in-cell"
+                                        (click)="removeDataset($event, row)"
+                                    >
+                                        <mat-icon color="warn">delete</mat-icon>
+                                    </button>
+                                </div>
+                            }
+                        </mat-cell>
+                    </ng-container>
+                }
+
+                <mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></mat-row>
+
+                <div *matNoDataRow class="no-datasets-message-container">
+                    {{
+                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.NO-DATASETS'
+                            | translate
+                    }}
                 </div>
-              }
-            </mat-cell>
-          </ng-container>
-        }
-
-        <mat-header-row
-          *matHeaderRowDef="displayedColumns"
-        ></mat-header-row>
-        <mat-row
-          *matRowDef="let row; columns: displayedColumns"
-        ></mat-row>
-
-        <div *matNoDataRow class="no-datasets-message-container">
-          {{
-          'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.NO-DATASETS'
-          | translate
-          }}
+            </table>
         </div>
-      </table>
-    </div>
-  </mat-card-content>
-  <mat-card-actions align="end">
-    <a
-      mat-raised-button
-      aria-label=""
-      color="accent"
-      class="mt-2 mr-2 mb-2"
-      (click)="openAddDatasetDialog()"
-      >
-      {{ 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.ADD-DATASET' | translate }}
-    </a>
-  </mat-card-actions>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <a
+            role="button"
+            mat-raised-button
+            aria-label=""
+            color="accent"
+            class="mt-2 mr-2 mb-2"
+            (click)="openAddDatasetDialog()"
+            (keydown.enter)="openAddDatasetDialog()"
+            (keydown.space)="openAddDatasetDialog()"
+        >
+            {{ 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.ADD-DATASET' | translate }}
+        </a>
+    </mat-card-actions>
 </mat-card>
