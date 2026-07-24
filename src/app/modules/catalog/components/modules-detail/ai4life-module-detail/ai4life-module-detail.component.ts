@@ -1,34 +1,75 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { BreadcrumbService } from 'xng-breadcrumb';
+import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/list';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MarkdownComponent } from 'ngx-markdown';
+import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-ai4life-module-detail',
     templateUrl: './ai4life-module-detail.component.html',
     styleUrl: './ai4life-module-detail.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        BreadcrumbComponent,
+        MatCard,
+        MatCardHeader,
+        NgClass,
+        MatCardTitle,
+        MatTooltip,
+        MatButton,
+        MatDivider,
+        MatCardContent,
+        MatProgressSpinner,
+        MarkdownComponent,
+        ChipWithIconComponent,
+        TranslatePipe,
+    ],
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
-    constructor(
-        private router: Router,
-        private authService: AuthService,
-        private breadcrumbService: BreadcrumbService,
-        private snackbarService: SnackbarService,
-        private modulesService: ModulesService,
-        private route: ActivatedRoute,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
-        if (authService.isAuthenticated()) {
-            authService.loadUserProfile();
+    private router = inject(Router);
+    private authService = inject(AuthService);
+    private breadcrumbService = inject(BreadcrumbService);
+    private snackbarService = inject(SnackbarService);
+    private modulesService = inject(ModulesService);
+    private route = inject(ActivatedRoute);
+    private media = inject(MediaMatcher);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
+        if (this.authService.isAuthenticated()) {
+            this.authService.loadUserProfile();
         }
 
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

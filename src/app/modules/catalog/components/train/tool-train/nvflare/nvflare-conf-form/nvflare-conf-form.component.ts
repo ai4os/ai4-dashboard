@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import {
     confObjectRange,
     NvflareConfiguration,
@@ -8,9 +15,28 @@ import {
     FormGroup,
     FormGroupDirective,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatHint,
+    MatSuffix,
+    MatError,
+} from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect, MatOption } from '@angular/material/select';
+import {
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+} from '@angular/material/datepicker';
+import { TranslatePipe } from '@ngx-translate/core';
 
 const mockedConfObject: confObjectRange = {
     range: [],
@@ -23,17 +49,37 @@ const mockedConfObject: confObjectRange = {
     selector: 'app-nvflare-conf-form',
     templateUrl: './nvflare-conf-form.component.html',
     styleUrl: './nvflare-conf-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatHint,
+        MatIcon,
+        MatSuffix,
+        MatError,
+        MatSelect,
+        MatOption,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatDatepicker,
+        TranslatePipe,
+    ],
 })
-export class NvflareConfFormComponent {
-    constructor(
-        private readonly authService: AuthService,
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+export class NvflareConfFormComponent implements OnInit {
+    authService = inject(AuthService);
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

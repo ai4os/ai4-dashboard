@@ -6,10 +6,12 @@
         @if (
             isCvatTool &&
             !credentialsLoading &&
-            (this.storageConfFormGroup.get('storageServiceDatasetSelect')
-                ?.value === '' ||
-                this.storageConfFormGroup.get('storageServiceDatasetSelect')
-                    ?.value === undefined)
+            (storageConfFormGroup.get('storageServiceDatasetSelect')?.value ===
+                '' ||
+                $safeNavigationMigration(
+                    storageConfFormGroup.get('storageServiceDatasetSelect')
+                        ?.value
+                ) === undefined)
         ) {
             <span>
                 <mat-chip>
@@ -49,41 +51,48 @@
                 (selectionChange)="updateStorageConfiguration()"
             >
                 <mat-option>-</mat-option>
-                <mat-option
-                    *ngFor="let storageServiceOption of storageServiceOptions"
-                    [value]="storageServiceOption.value"
-                >
-                    {{ storageServiceOption.viewValue }}
-                </mat-option>
+                @for (
+                    storageServiceOption of storageServiceOptions;
+                    track storageServiceOption
+                ) {
+                    <mat-option [value]="storageServiceOption.value">
+                        {{ storageServiceOption.viewValue }}
+                    </mat-option>
+                }
             </mat-select>
-            <mat-spinner
-                *ngIf="credentialsLoading"
-                matSuffix
-                [diameter]="18"
-                class="input-spinner"
-            ></mat-spinner>
-            <mat-hint *ngIf="_showHelp">
-                {{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
-                        | translate
-                }}
-                <a [routerLink]="['/profile']" target="_blank">{{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.PROFILE-SECTION'
-                        | translate
-                }}</a
-                >.
-            </mat-hint>
-            <mat-hint *ngIf="!_showHelp && credentials.length === 0">
-                {{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-UNAVAILABLE'
-                        | translate
-                }}
-                <a [routerLink]="['/profile']" target="_blank">{{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-TRY-LINK'
-                        | translate
-                }}</a
-                >.
-            </mat-hint>
+            @if (credentialsLoading) {
+                <mat-spinner
+                    matSuffix
+                    [diameter]="18"
+                    class="input-spinner"
+                ></mat-spinner>
+            }
+            @if (_showHelp) {
+                <mat-hint>
+                    {{
+                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
+                            | translate
+                    }}
+                    <a [routerLink]="['/profile']" target="_blank">{{
+                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.PROFILE-SECTION'
+                            | translate
+                    }}</a
+                    >.
+                </mat-hint>
+            }
+            @if (!_showHelp && credentials.length === 0) {
+                <mat-hint>
+                    {{
+                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-UNAVAILABLE'
+                            | translate
+                    }}
+                    <a [routerLink]="['/profile']" target="_blank">{{
+                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-TRY-LINK'
+                            | translate
+                    }}</a
+                    >.
+                </mat-hint>
+            }
         </mat-form-field>
 
         @if (isCvatTool) {
@@ -129,48 +138,56 @@
                 >
                     <mat-select-trigger>
                         {{
-                            this.storageConfFormGroup.get(
-                                'snapshotDatasetSelect'
-                            )?.value
+                            storageConfFormGroup.get('snapshotDatasetSelect')
+                                ?.value
                         }}
                     </mat-select-trigger>
 
                     <mat-option>-</mat-option>
-                    <mat-option
-                        *ngFor="let snapshotOption of snapshotOptions"
-                        [value]="snapshotOption.value"
-                        class="snapshot-option-container"
-                    >
-                        {{ snapshotOption.viewValue }}
-                        <button
-                            mat-icon-button
-                            color="warn"
-                            (click)="
-                                deleteSnapshot($event, snapshotOption.value)
-                            "
+                    @for (
+                        snapshotOption of snapshotOptions;
+                        track snapshotOption
+                    ) {
+                        <mat-option
+                            [value]="snapshotOption.value"
+                            class="snapshot-option-container"
                         >
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </mat-option>
+                            {{ snapshotOption.viewValue }}
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="
+                                    deleteSnapshot($event, snapshotOption.value)
+                                "
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-option>
+                    }
                 </mat-select>
-                <mat-spinner
-                    *ngIf="snapshotsLoading"
-                    matSuffix
-                    [diameter]="18"
-                    class="input-spinner"
-                ></mat-spinner>
-                <mat-hint *ngIf="_showHelp">
-                    {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-HINT'
-                            | translate
-                    }}
-                </mat-hint>
-                <mat-hint *ngIf="!_showHelp && snapshotOptions.length === 0">
-                    {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-UNAVAILABLE'
-                            | translate
-                    }}
-                </mat-hint>
+                @if (snapshotsLoading) {
+                    <mat-spinner
+                        matSuffix
+                        [diameter]="18"
+                        class="input-spinner"
+                    ></mat-spinner>
+                }
+                @if (_showHelp) {
+                    <mat-hint>
+                        {{
+                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-HINT'
+                                | translate
+                        }}
+                    </mat-hint>
+                }
+                @if (!_showHelp && snapshotOptions.length === 0) {
+                    <mat-hint>
+                        {{
+                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-UNAVAILABLE'
+                                | translate
+                        }}
+                    </mat-hint>
+                }
             </mat-form-field>
         }
     </div>
@@ -193,22 +210,23 @@
                         }}
                     </mat-chip>
                 }
-                <button
-                    *ngIf="suggestedDatasetIsValid()"
-                    mat-stroked-button
-                    (click)="
-                        datasetsListComponent.addDataset(this.suggestedDataset)
-                    "
-                >
-                    <span class="aligned-with-icon scale-icon-down">
-                        <mat-icon color="accent">emoji_objects</mat-icon>
-                        {{
-                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DATASET-SUGGESTION'
-                                | translate
-                        }}
-                    </span>
-                </button></span
-            >
+                @if (suggestedDatasetIsValid()) {
+                    <button
+                        mat-stroked-button
+                        (click)="
+                            datasetsListComponent.addDataset(suggestedDataset)
+                        "
+                    >
+                        <span class="aligned-with-icon scale-icon-down">
+                            <mat-icon color="accent">emoji_objects</mat-icon>
+                            {{
+                                'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DATASET-SUGGESTION'
+                                    | translate
+                            }}
+                        </span>
+                    </button>
+                }
+            </span>
 
             <app-datasets-list
                 class="full-width"

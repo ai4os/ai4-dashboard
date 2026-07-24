@@ -1,0 +1,25 @@
+<app-ui-card [accentColor]="accentColor">
+    <div class="service-card__header">
+        <div class="service-card__icon">
+            <ng-content select="[serviceCardIcon]"></ng-content>
+        </div>
+
+        <div class="service-card__title-group">
+            <span class="service-card__title">{{ title }}</span>
+            @if (statusLabel) {
+                <app-ui-chip
+                    [variant]="chipVariant"
+                    [text]="statusLabel"
+                ></app-ui-chip>
+            }
+        </div>
+
+        <div class="service-card__actions">
+            <ng-content select="[serviceCardActions]"></ng-content>
+        </div>
+    </div>
+
+    <div class="service-card__content">
+        <ng-content></ng-content>
+    </div>
+</app-ui-card>

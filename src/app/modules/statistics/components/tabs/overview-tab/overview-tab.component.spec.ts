@@ -4,16 +4,15 @@ import { By } from '@angular/platform-browser';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { expect } from '@jest/globals';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { OverviewTabComponent } from './overview-tab.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedDeploymentService } from '@app/modules/deployments/services/deployments-service/deployments.service.mock';
 import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
+import { testProviders } from '@testing/test-providers';
 
 describe('OverviewTabComponent', () => {
     let component: OverviewTabComponent;
@@ -21,11 +20,10 @@ describe('OverviewTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [OverviewTabComponent],
-            imports: [TranslateModule.forRoot()],
+            imports: [OverviewTabComponent, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: OAuthService, useValue: mockedAuthService },
                 {
@@ -64,6 +62,6 @@ describe('OverviewTabComponent', () => {
         const title = compiled.querySelector('#title-user')?.textContent;
         expect(title).toContain('USERS');
         const cards = fixture.debugElement.queryAll(By.css('mat-card'));
-        expect(cards.length).toBe(6);
+        expect(cards.length).toBe(10);
     });
 });

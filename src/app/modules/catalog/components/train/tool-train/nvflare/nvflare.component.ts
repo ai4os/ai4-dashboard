@@ -1,27 +1,52 @@
-import { Component } from '@angular/core';
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     NvflareConfiguration,
     NvflareToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../../general-conf-form/general-conf-form.component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
+import {
+    showHardwareField,
+    HardwareConfFormComponent,
+} from '../../hardware-conf-form/hardware-conf-form.component';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
+import { NvflareConfFormComponent } from './nvflare-conf-form/nvflare-conf-form.component';
 
 @Component({
     selector: 'app-nvflare',
     templateUrl: './nvflare.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+        NvflareConfFormComponent,
+    ],
 })
-export class NvflareComponent {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+export class NvflareComponent implements OnInit {
+    _formBuilder = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    toolsService = inject(ToolsService);
 
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';

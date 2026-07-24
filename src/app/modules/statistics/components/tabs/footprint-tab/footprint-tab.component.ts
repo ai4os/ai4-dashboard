@@ -1,10 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
+import { BarChartComponent } from '../../charts/bar-chart/bar-chart.component';
+import { FootprintChartComponent } from '../../charts/footprint-chart/footprint-chart.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-footprint-tab',
     templateUrl: './footprint-tab.component.html',
     styleUrl: './footprint-tab.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [BarChartComponent, FootprintChartComponent, TranslatePipe],
 })
 export class FootprintTabComponent implements OnInit {
     @Input() datacentersStats: DatacenterStats[] = [];

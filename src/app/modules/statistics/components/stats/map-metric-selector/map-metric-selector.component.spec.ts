@@ -8,9 +8,8 @@ describe('MapMetricSelectorComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MapMetricSelectorComponent]
-        })
-            .compileComponents();
+            imports: [MapMetricSelectorComponent],
+        }).compileComponents();
 
         fixture = TestBed.createComponent(MapMetricSelectorComponent);
         component = fixture.componentInstance;

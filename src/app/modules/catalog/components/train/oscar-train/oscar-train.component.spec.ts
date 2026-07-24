@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OscarTrainComponent } from './oscar-train.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import {
@@ -13,6 +11,10 @@ import {
     mockedModulesService,
 } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { of } from 'rxjs';
+import { testProviders } from '@testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { MockStepperFormComponent } from '@app/shared/mocks/stepper-form.component.mock';
+import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 
 const mockedConfigService: any = {};
 
@@ -22,11 +24,10 @@ describe('OscarTrainComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [OscarTrainComponent],
+            imports: [OscarTrainComponent, TranslatePipe, TranslateDirective],
+
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ModulesService, useValue: mockedModulesService },
                 {
@@ -37,8 +38,24 @@ describe('OscarTrainComponent', () => {
                         },
                     },
                 },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        set: jest.fn(),
+                        get: jest.fn(),
+                    },
+                },
             ],
-        }).compileComponents();
+        })
+            .overrideComponent(OscarTrainComponent, {
+                remove: {
+                    imports: [StepperFormComponent],
+                },
+                add: {
+                    imports: [MockStepperFormComponent],
+                },
+            })
+            .compileComponents();
 
         fixture = TestBed.createComponent(OscarTrainComponent);
         component = fixture.componentInstance;

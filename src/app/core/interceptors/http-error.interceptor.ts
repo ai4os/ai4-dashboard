@@ -5,7 +5,7 @@ import {
     HttpRequest,
     HttpErrorResponse,
 } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -25,12 +25,10 @@ const isEGICheckinError = (value: EGICheckinError): value is EGICheckinError =>
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-    constructor(
-        private readonly injector: Injector,
-        private snackbarService: SnackbarService,
-        private router: Router,
-        private authService: AuthService
-    ) {}
+    private readonly injector = inject(Injector);
+    private snackbarService = inject(SnackbarService);
+    private router = inject(Router);
+    private authService = inject(AuthService);
 
     showSnackbar(messageStringKey: string, errorMessage: string) {
         const translateService = this.injector.get(TranslateService);

@@ -1,20 +1,39 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { GlobalStats, GpuStats } from '@app/shared/interfaces/stats.interface';
 import { forkJoin } from 'rxjs';
+import { MatToolbar } from '@angular/material/toolbar';
+import { StatsContainerComponent } from '../../stats-container/stats-container.component';
+import { MatCard } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-overview-tab',
     templateUrl: './overview-tab.component.html',
     styleUrls: ['./overview-tab.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        StatsContainerComponent,
+        MatCard,
+        MatIcon,
+        MatProgressSpinner,
+        TranslatePipe,
+    ],
 })
 export class OverviewTabComponent implements OnInit {
-    constructor(
-        private readonly deploymentsService: DeploymentsService,
-        private readonly authService: AuthService
-    ) {}
+    deploymentsService = inject(DeploymentsService);
+    authService = inject(AuthService);
 
     @Input() clusterGlobalStats!: GlobalStats;
     @Input() gpuPerModelCluster!: GpuStats[];

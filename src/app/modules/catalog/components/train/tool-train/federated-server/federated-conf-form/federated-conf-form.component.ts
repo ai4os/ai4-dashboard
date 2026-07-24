@@ -1,29 +1,84 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import {
     FormGroupDirective,
     FormBuilder,
     FormGroup,
     Validators,
     FormControl,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+    MatChipInputEvent,
+    MatChipGrid,
+    MatChipRow,
+    MatChipRemove,
+    MatChipInput,
+} from '@angular/material/chips';
+import {
+    MatAutocompleteSelectedEvent,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+} from '@angular/material/autocomplete';
 import { Observable, map, startWith } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatHint,
+} from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-federated-conf-form',
     templateUrl: './federated-conf-form.component.html',
     styleUrls: ['./federated-conf-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatHint,
+        MatChipGrid,
+        MatChipRow,
+        MatChipRemove,
+        MatIcon,
+        MatChipInput,
+        MatAutocompleteTrigger,
+        MatAutocomplete,
+        MatOption,
+        MatSelect,
+        MatSlideToggle,
+        MatIconButton,
+        MatTooltip,
+        TranslatePipe,
+    ],
 })
 export class FederatedConfFormComponent implements OnInit {
-    constructor(
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.filteredMetrics = this.metricCtrl.valueChanges.pipe(
             startWith(null),
             map((metric: string | null) =>
@@ -31,7 +86,8 @@ export class FederatedConfFormComponent implements OnInit {
             )
         );
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

@@ -1,0 +1,23 @@
+.ui-card {
+    position: relative;
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    &__accent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: var(--card-accent);
+    }
+}

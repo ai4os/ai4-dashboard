@@ -6,6 +6,7 @@ import {
     Input,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { EditorState } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
@@ -17,18 +18,19 @@ import { basicSetup } from 'codemirror';
     selector: 'app-text-editor',
     templateUrl: './text-editor.component.html',
     styleUrl: './text-editor.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class TextEditorComponent implements AfterViewInit {
-    @Input() value: string = '';
-    @Input() placeholder: string = '';
-    @Input() readonly: boolean = false;
-    @Input() disabled: boolean = false;
-    @Input() height: string = '200px';
+    @Input() value = '';
+    @Input() placeholder = '';
+    @Input() readonly = false;
+    @Input() disabled = false;
+    @Input() height = '200px';
 
     @Output() textChange = new EventEmitter<string>();
 
     @ViewChild('editorContainer', { static: true })
-        editorContainer!: ElementRef;
+    editorContainer!: ElementRef;
 
     editorView!: EditorView;
 

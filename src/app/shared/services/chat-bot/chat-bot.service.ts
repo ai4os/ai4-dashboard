@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { ChatRequest } from '@app/shared/interfaces/chat.interface';
@@ -12,10 +12,8 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class ChatBotService {
-    constructor(
-        private oauthService: OAuthService,
-        private appConfigService: AppConfigService
-    ) {}
+    oauthService = inject(OAuthService);
+    appConfigService = inject(AppConfigService);
 
     requestResponse(request: ChatRequest): Observable<string> {
         const url = `${base}${endpoints.chatCompletions}`;

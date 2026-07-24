@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
@@ -17,7 +24,7 @@ import {
     SnapshotService,
     StatusReturnSnapshot,
 } from '../../services/snapshots-service/snapshot.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import {
     PlatformStatus,
@@ -25,29 +32,35 @@ import {
 } from '@app/shared/interfaces/platform-status.interface';
 import * as yaml from 'js-yaml';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 
 @Component({
     selector: 'app-deployments-list',
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
-    constructor(
-        public dialog: MatDialog,
-        private deploymentsService: DeploymentsService,
-        private snackbarService: SnackbarService,
-        private snapshotService: SnapshotService,
-        public translateService: TranslateService,
-        private platformStatusService: PlatformStatusService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    deploymentsService = inject(DeploymentsService);
+    dialog = inject(MatDialog);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    snapshotService = inject(SnapshotService);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    platformStatusService = inject(PlatformStatusService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    snapshotColumns: Array<TableColumn> = [
+    snapshotColumns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
@@ -75,9 +88,9 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     notifications: StatusNotification[] = [];
     displayedNotifications: StatusNotification[] = [];
 
-    modulesDataset: Array<DeploymentTableRow> = [];
-    toolsDataset: Array<DeploymentTableRow> = [];
-    snapshotsDataset: Array<DeploymentTableRow> = [];
+    modulesDataset: DeploymentTableRow[] = [];
+    toolsDataset: DeploymentTableRow[] = [];
+    snapshotsDataset: DeploymentTableRow[] = [];
 
     modulesDataSource!: MatTableDataSource<DeploymentTableRow>;
     toolsDataSource!: MatTableDataSource<DeploymentTableRow>;
@@ -160,15 +173,15 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getDeployments())
             )
             .subscribe((deploymentsList: Deployment[]) => {
-                const updatedModulesDataset: Array<DeploymentTableRow> = [];
+                const updatedModulesDataset: DeploymentTableRow[] = [];
                 this.isModulesTableLoading = false;
                 deploymentsList.forEach((deployment: Deployment) => {
                     const containerName = deployment.docker_image.includes(
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
-                        ) + deployment.docker_image.split(':')[1]
+                              'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                          ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
                         uuid: deployment.job_ID,
@@ -245,7 +258,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.deploymentsService.getTools())
             )
             .subscribe((tools) => {
-                const updatedToolsDataset: Array<DeploymentTableRow> = [];
+                const updatedToolsDataset: DeploymentTableRow[] = [];
                 this.isToolsTableLoading = false;
                 tools.forEach((tool: Deployment) => {
                     const row: DeploymentTableRow = {

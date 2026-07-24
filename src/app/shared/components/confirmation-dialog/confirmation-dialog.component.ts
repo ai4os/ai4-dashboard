@@ -1,20 +1,80 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import {
+    MatDialogRef,
+    MAT_DIALOG_DATA,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { UiButtonComponent } from '../ui/ui-button/ui-button.component';
+import { TranslatePipe } from '@ngx-translate/core';
+
+export interface ConfirmationDialogData {
+    title: string;
+    subtitlePrefix?: string;
+    subtitleHighlight?: string;
+    subtitleSuffix?: string;
+    showCloseButton?: boolean;
+    optionA?: string;
+    optionB?: string;
+    icon?: string;
+}
 
 @Component({
     selector: 'app-confirmation-dialog',
     templateUrl: './confirmation-dialog.component.html',
     styleUrls: ['./confirmation-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatIcon,
+        MatDialogTitle,
+        CdkScrollable,
+        MatDialogContent,
+        MatDialogActions,
+        UiButtonComponent,
+        TranslatePipe,
+    ],
 })
 export class ConfirmationDialogComponent {
-    constructor(
-        public dialog: MatDialogRef<ConfirmationDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public message: string
-    ) {}
+    dialog = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
+    data = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
+
+    title: string;
+    subtitlePrefix?: string;
+    subtitleHighlight?: string;
+    subtitleSuffix?: string;
+    showCloseButton?: boolean;
+    optionA: string;
+    optionB: string;
+    icon: string;
+
+    constructor() {
+        const data = this.data;
+
+        this.title = data.title;
+        this.subtitlePrefix = data.subtitlePrefix;
+        this.subtitleHighlight = data.subtitleHighlight;
+        this.subtitleSuffix = data.subtitleSuffix;
+        this.showCloseButton = data.showCloseButton ?? false;
+        this.optionA = data.optionA ?? 'No';
+        this.optionB = data.optionB ?? 'Yes';
+        this.icon = data.icon ?? 'warning';
+    }
+
+    get hasSubtitle(): boolean {
+        return !!(
+            this.subtitlePrefix ||
+            this.subtitleHighlight ||
+            this.subtitleSuffix
+        );
+    }
 
     closeDialog(): void {
         this.dialog.close(false);
     }
+
     confirm(): void {
         this.dialog.close(true);
     }

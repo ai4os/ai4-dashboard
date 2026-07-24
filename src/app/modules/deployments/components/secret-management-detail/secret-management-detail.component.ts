@@ -1,20 +1,55 @@
 import {
     ChangeDetectorRef,
     Component,
-    Inject,
     Injector,
     OnInit,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { Secret } from '@app/shared/interfaces/module.interface';
-import { FormBuilder, Validators } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
-import { TranslateService } from '@ngx-translate/core';
+import {
+    FormBuilder,
+    Validators,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import cryptoRandomString from 'crypto-random-string';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSuffix,
+    MatError,
+    MatHint,
+} from '@angular/material/input';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { CopyToClipboardDirective } from '../../../../shared/directives/copy-to-clipboard.directive';
 
 export interface SecretField {
     name: string;
@@ -26,21 +61,54 @@ export interface SecretField {
     selector: 'app-secret-management-detail',
     templateUrl: './secret-management-detail.component.html',
     styleUrls: ['./secret-management-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatProgressSpinner,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatIconButton,
+        MatSuffix,
+        MatTooltip,
+        CopyToClipboardDirective,
+        MatPaginator,
+        FormsModule,
+        ReactiveFormsModule,
+        MatError,
+        MatHint,
+        MatButton,
+        MatCardActions,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class SecretManagementDetailComponent implements OnInit {
-    constructor(
-        private readonly injector: Injector,
-        private secretsService: SecretsService,
-        public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string; name: string },
-        private snackbarService: SnackbarService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private fb: FormBuilder
-    ) {
+    data = inject<{
+        uuid: string;
+        name: string;
+    }>(MAT_DIALOG_DATA);
+
+    secretsService = inject(SecretsService);
+    dialog = inject(MatDialog);
+    injector = inject(Injector);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    confirmationDialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    fb = inject(FormBuilder);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
@@ -51,7 +119,6 @@ export class SecretManagementDetailComponent implements OnInit {
     });
 
     isLoading = false;
-    translateService!: TranslateService;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
@@ -66,7 +133,6 @@ export class SecretManagementDetailComponent implements OnInit {
         if (this.data.uuid) {
             this.getSecrets();
         }
-        this.translateService = this.injector.get(TranslateService);
     }
 
     getSecrets() {
@@ -142,14 +208,18 @@ export class SecretManagementDetailComponent implements OnInit {
     deleteSecret(name: string) {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data:
-                    this.secrets.length == 1
-                        ? this.translateService.instant(
-                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
-                        )
-                        : this.translateService.instant(
-                            'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
-                        ),
+                data: {
+                    title:
+                        this.secrets.length == 1
+                            ? this.translateService.instant(
+                                  'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE-LAST-SECRET'
+                              )
+                            : this.translateService.instant(
+                                  'DEPLOYMENTS.DEPLOYMENT-SECRETS.DELETE'
+                              ),
+                } as ConfirmationDialogData,
+
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HtmlSanitizerService {
-    constructor(private sanitizer: DomSanitizer) {}
+    sanitizer = inject(DomSanitizer);
 
     getSanitizedText(html: string): SafeHtml {
         const cleanText = html.replace(

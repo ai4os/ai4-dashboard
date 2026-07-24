@@ -1,14 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StepperFormComponent } from './stepper-form.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '@app/shared/shared.module';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
@@ -22,6 +19,7 @@ import { of, throwError } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DeploymentsListComponent } from '@app/modules/deployments/components/deployments-list/deployments-list.component';
 import { InferencesListComponent } from '@app/modules/inference/components/inferences-list/inferences-list.component';
+import { testProviders } from '@testing/test-providers';
 
 describe('StepperFormComponent', () => {
     let component: StepperFormComponent;
@@ -30,11 +28,10 @@ describe('StepperFormComponent', () => {
     beforeEach(async () => {
         const formGroupDirective = new FormGroupDirective([], []);
         await TestBed.configureTestingModule({
-            declarations: [StepperFormComponent],
             imports: [
-                SharedModule,
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
+                StepperFormComponent,
+                TranslatePipe,
+                TranslateDirective,
                 RouterModule.forRoot([
                     {
                         path: 'tasks/deployments',
@@ -47,8 +44,8 @@ describe('StepperFormComponent', () => {
                 ]),
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

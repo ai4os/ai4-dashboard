@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StatCardComponent } from './stat-card.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { testProviders } from '@testing/test-providers';
 
 describe('StatCardComponent', () => {
     let component: StatCardComponent;
@@ -15,9 +15,10 @@ describe('StatCardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [StatCardComponent],
-            imports: [TranslateModule.forRoot(), SharedModule],
+            imports: [TranslatePipe, TranslateDirective, StatCardComponent],
             providers: [
+                ...testProviders,
+
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],

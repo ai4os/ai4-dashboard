@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
@@ -8,21 +18,36 @@ import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { showHardwareField } from '../../hardware-conf-form/hardware-conf-form.component';
-import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import {
+    showHardwareField,
+    HardwareConfFormComponent,
+} from '../../hardware-conf-form/hardware-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../../general-conf-form/general-conf-form.component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
+import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
 
 @Component({
     selector: 'app-federated-server',
     templateUrl: './federated-server.component.html',
     styleUrls: ['./federated-server.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        HardwareConfFormComponent,
+        FederatedConfFormComponent,
+    ],
 })
 export class FederatedServerComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+    _formBuilder = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    toolsService = inject(ToolsService);
 
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';

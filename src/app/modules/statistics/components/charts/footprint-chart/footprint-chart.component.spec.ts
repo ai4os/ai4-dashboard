@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FootprintChartComponent } from './footprint-chart.component';
+import { testProviders } from '@app/shared/testing/test-providers';
 
 describe('FootprintChartComponent', () => {
     let component: FootprintChartComponent;
@@ -8,7 +9,8 @@ describe('FootprintChartComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [FootprintChartComponent],
+            imports: [FootprintChartComponent],
+            providers: testProviders,
         }).compileComponents();
 
         fixture = TestBed.createComponent(FootprintChartComponent);

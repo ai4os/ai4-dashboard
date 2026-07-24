@@ -7,18 +7,14 @@ import {
     tick,
 } from '@angular/core/testing';
 import { DeploymentsListComponent } from './deployments-list.component';
-import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { BrowserModule, By } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
@@ -31,7 +27,7 @@ import {
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { mockedSnapshotService } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
-import { parseDateStringLiteral } from '@app/shared/utils/formatDate';
+import { testProviders } from '@testing/test-providers';
 
 describe('DeploymentsListComponent', () => {
     let component: DeploymentsListComponent;
@@ -39,17 +35,17 @@ describe('DeploymentsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DeploymentsListComponent, DeploymentDetailComponent],
             imports: [
-                SharedModule,
-                BrowserModule,
+                DeploymentsListComponent,
+                DeploymentDetailComponent,
+
                 RouterModule.forRoot([]),
-                NoopAnimationsModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
+                TranslateDirective,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 {
                     provide: DeploymentsService,

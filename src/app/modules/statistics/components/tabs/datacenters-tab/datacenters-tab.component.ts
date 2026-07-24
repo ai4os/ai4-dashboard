@@ -1,4 +1,12 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -16,22 +24,44 @@ import { Cluster, XYZ } from 'ol/source';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
 import { MetricColorService } from '@app/modules/statistics/services/metric-color/metric-color.service';
-import { MapMetric } from '../../stats/map-metric-selector/map-metric-selector.component';
+import {
+    MapMetric,
+    MapMetricSelectorComponent,
+} from '../../stats/map-metric-selector/map-metric-selector.component';
 import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
+import { MapMetricLegendComponent } from '../../stats/map-metric-legend/map-metric-legend.component';
+import { StatsReducedCardComponent } from '../../stats/stats-reduced-card/stats-reduced-card.component';
+import { ResourcesCardComponent } from '../../stats/resources-card/resources-card.component';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
+import { CountryFlagPipe as CountryFlagPipe_1 } from '../../../pipes/country-flag.pipe';
 
 @Component({
     selector: 'app-datacenters-tab',
     templateUrl: './datacenters-tab.component.html',
     styleUrls: ['./datacenters-tab.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MapMetricLegendComponent,
+        MapMetricSelectorComponent,
+        MatDrawer,
+        StatsReducedCardComponent,
+        ResourcesCardComponent,
+        MatIcon,
+        TranslatePipe,
+        CountryFlagPipe_1,
+    ],
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {
-    constructor(private metricColor: MetricColorService) {
+    metricColor = inject(MetricColorService);
+
+    constructor() {
         this.tileLayer.setSource(this.tileSource.source);
     }
 
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
-        drawer!: MatDrawer;
+    drawer!: MatDrawer;
 
     Math = Math;
     activeMetric: MapMetric = 'pue';
@@ -49,7 +79,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     jobsNum = 0;
 
     private map!: Map;
-    private tileLayer: TileLayer<any> = new TileLayer();
+    private tileLayer = new TileLayer<any>();
     private tileSource = {
         name: 'CartoDB',
         source: new XYZ({
@@ -410,12 +440,12 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
         MapMetric,
         { label: string; unit: string }
     > = {
-            pue: { label: 'PUE', unit: '' },
-            jobs: { label: 'Jobs', unit: 'running' },
-            co2: { label: 'CO₂', unit: 'g/kWh' },
-            water: { label: 'Water', unit: 'l/kWh' },
-            'green-score': { label: 'Green Score', unit: '' },
-        };
+        pue: { label: 'PUE', unit: '' },
+        jobs: { label: 'Jobs', unit: 'running' },
+        co2: { label: 'CO₂', unit: 'g/kWh' },
+        water: { label: 'Water', unit: 'l/kWh' },
+        'green-score': { label: 'Green Score', unit: '' },
+    };
 
     private updatePopupContent(dc: DatacenterStats): void {
         const value = this.getMetricValue(dc, this.activeMetric);
@@ -426,8 +456,8 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
             value == null
                 ? '—'
                 : this.activeMetric === 'jobs'
-                    ? Math.trunc(value).toString()
-                    : value.toFixed(2);
+                  ? Math.trunc(value).toString()
+                  : value.toFixed(2);
 
         document.getElementById('popup-name')!.textContent = dc.name;
         document.getElementById('popup-flag')!.textContent =

@@ -14,8 +14,8 @@
             mat-fab
             extended
             [ngClass]="{
-                'file-uploaded-button': this.file,
-                'no-file-uploaded-button': !this.file,
+                'file-uploaded-button': file,
+                'no-file-uploaded-button': !file,
             }"
             (click)="fileUpload.click()"
         >

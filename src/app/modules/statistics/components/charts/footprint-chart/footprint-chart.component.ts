@@ -1,14 +1,19 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 import { EChartsOption } from 'echarts';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 @Component({
     selector: 'app-footprint-chart',
     templateUrl: './footprint-chart.component.html',
     styleUrl: './footprint-chart.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatIcon, MatTooltip, NgxEchartsDirective],
 })
 export class FootprintChartComponent {
-    @Input() title: string = '';
+    @Input() title = '';
     @Input() tooltip?: string = '';
     @Input() set unit(unit: string) {
         this._unit = unit;
@@ -27,7 +32,7 @@ export class FootprintChartComponent {
         this.updateChart();
     }
 
-    protected _unit: string = '';
+    protected _unit = '';
     protected _legend: string[] = [];
     protected _timestamps: string[] = [];
     protected _values: number[][] = [];

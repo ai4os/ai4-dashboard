@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
@@ -12,17 +12,15 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class OscarInferenceService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    http = inject(HttpClient);
+    appConfigService = inject(AppConfigService);
 
     getServices(): Observable<OscarService[]> {
         const url = `${base}${endpoints.oscarServices}`;
         const params = new HttpParams()
             .set('vo', this.appConfigService.voName)
             .set('public', false);
-        return this.http.get<Array<OscarService>>(url, {
+        return this.http.get<OscarService[]>(url, {
             params: params,
         });
     }

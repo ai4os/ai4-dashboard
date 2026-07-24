@@ -2,12 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CatalogListComponent } from './catalog-list.component';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SharedModule } from '@app/shared/shared.module';
 import { SearchAi4eoscPipe } from '@app/modules/catalog/pipes/search-card-pipe';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
@@ -17,6 +13,7 @@ import {
     mockMatDialog,
 } from '@app/shared/mocks/mat-dialog.mock';
 import { mockModuleSummaryList } from '@app/modules/catalog/services/modules-service/modules-service.mock';
+import { testProviders } from '@testing/test-providers';
 
 describe('CatalogListComponent', () => {
     let component: CatalogListComponent;
@@ -24,11 +21,9 @@ describe('CatalogListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [CatalogListComponent, SearchAi4eoscPipe],
-            imports: [SharedModule, NoopAnimationsModule],
+            imports: [CatalogListComponent, SearchAi4eoscPipe],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 {
                     provide: AppConfigService,
                     useValue: mockedConfigService,

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ForbiddenComponent } from './forbidden.component';
 import { By } from '@angular/platform-browser';
-import { MaterialModule } from '@app/shared/material.module';
 import { RouterModule } from '@angular/router';
 
 describe('ForbiddenComponent', () => {
@@ -11,8 +10,7 @@ describe('ForbiddenComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [RouterModule.forRoot([]), MaterialModule],
-            declarations: [ForbiddenComponent],
+            imports: [RouterModule.forRoot([]), ForbiddenComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(ForbiddenComponent);

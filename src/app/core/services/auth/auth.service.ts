@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
@@ -20,12 +20,12 @@ export interface UserProfile {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    constructor(
-        private oauthService: OAuthService,
-        private injector: Injector,
-        private appConfigService: AppConfigService,
-        private oauthConfig: OAuthModuleConfig
-    ) {
+    private oauthService = inject(OAuthService);
+    private injector = inject(Injector);
+    private appConfigService = inject(AppConfigService);
+    private oauthConfig = inject(OAuthModuleConfig);
+
+    constructor() {
         window.addEventListener('storage', (event) => {
             // The `key` is `null` if the event was caused by `.clear()`
             if (event.key !== 'access_token' && event.key !== null) {
@@ -277,7 +277,7 @@ export class AuthService {
         this.router.navigateByUrl('/catalog/modules');
 
         // save 'on boarding library' and 'access level' related variables
-        const variables: { [key: string]: string | null } = {};
+        const variables: Record<string, string | null> = {};
         for (const key of Object.keys(localStorage)) {
             if (key.endsWith('Tour') || key.includes('accessLevel')) {
                 variables[key] = localStorage.getItem(key);

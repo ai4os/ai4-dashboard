@@ -14,6 +14,11 @@ import {
     mockNvflareToolConfiguration,
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { of } from 'rxjs';
+import { testProviders } from '@app/shared/testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
 
 describe('NvflareComponent', () => {
     let component: NvflareComponent;
@@ -21,21 +26,33 @@ describe('NvflareComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [RouterModule.forRoot([])],
-            declarations: [NvflareComponent],
+            imports: [NvflareComponent, RouterModule.forRoot([])],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ToolsService, useValue: mockedToolsService },
+                { provide: OAuthService, useValue: mockedAuthService },
+                {
+                    provide: OAuthModuleConfig,
+                    useValue: mockedOAuthModuleConfig,
+                },
                 {
                     provide: ActivatedRoute,
                     useValue: {
+                        params: of({}),
                         parent: {
                             params: of({
                                 id: 'ai4os-nvflare',
                             }),
                         },
+                    },
+                },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        breadcrumbs$: of([]),
+                        set: jest.fn(),
+                        get: jest.fn(),
                     },
                 },
             ],

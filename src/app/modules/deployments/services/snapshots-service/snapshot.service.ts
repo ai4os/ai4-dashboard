@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { environment } from '@environments/environment';
@@ -16,10 +16,8 @@ export interface StatusReturnSnapshot {
     providedIn: 'root',
 })
 export class SnapshotService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    http = inject(HttpClient);
+    appConfigService = inject(AppConfigService);
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
     readonly vosArrayParam = new HttpParams().set(
@@ -41,7 +39,7 @@ export class SnapshotService {
 
     getSnapshots(): Observable<Snapshot[]> {
         const url = `${base}${endpoints.deploymentSnapshots}`;
-        return this.http.get<Array<Snapshot>>(url, {
+        return this.http.get<Snapshot[]>(url, {
             params: this.vosArrayParam,
         });
     }

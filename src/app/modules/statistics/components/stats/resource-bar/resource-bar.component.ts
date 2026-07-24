@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-resource-bar',
     templateUrl: './resource-bar.component.html',
     styleUrl: './resource-bar.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class ResourceBarComponent {
-    @Input() label: string = '';
-    @Input() used: number = 0;
-    @Input() total: number = 0;
-    @Input() unit: string = '';
+    @Input() label = '';
+    @Input() used = 0;
+    @Input() total = 0;
+    @Input() unit = '';
     @Input() color: '1' | '2' | '3' | '4' = '1';
 
     get pct(): number {

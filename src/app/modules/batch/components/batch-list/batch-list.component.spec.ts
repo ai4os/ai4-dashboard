@@ -10,23 +10,20 @@ import {
 import { BatchListComponent } from './batch-list.component';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '@app/shared/shared.module';
 import { BatchService } from '../../services/batch.service';
 import {
     expectedModulesDataset,
     mockedBatchService,
 } from '../../services/batch.service.mock';
 import { throwError } from 'rxjs';
+import { testProviders } from '@testing/test-providers';
 
 describe('BatchListComponent', () => {
     let component: BatchListComponent;
@@ -34,17 +31,15 @@ describe('BatchListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [BatchListComponent],
             imports: [
-                SharedModule,
+                BatchListComponent,
                 BrowserModule,
                 RouterModule.forRoot([]),
-                NoopAnimationsModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
+                TranslateDirective,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: SnackbarService, useValue: mockedSnackbarService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

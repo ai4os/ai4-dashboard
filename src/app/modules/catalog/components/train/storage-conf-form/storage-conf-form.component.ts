@@ -5,6 +5,8 @@ import {
     Input,
     OnInit,
     ViewChild,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -15,6 +17,8 @@ import {
     ValidationErrors,
     ValidatorFn,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     ModuleStorageConfiguration,
@@ -29,12 +33,36 @@ import { StorageService } from '@app/modules/catalog/services/storage-service/st
 import { timeout, catchError, throwError } from 'rxjs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
-import { MatChipSelectionChange } from '@angular/material/chips';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import {
+    MatChipSelectionChange,
+    MatChip,
+    MatChipAvatar,
+    MatChipListbox,
+    MatChipOption,
+} from '@angular/material/chips';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { DatasetsListComponent } from '../datasets/datasets-list/datasets-list.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatSuffix,
+    MatHint,
+} from '@angular/material/input';
+import {
+    MatSelect,
+    MatOption,
+    MatSelectTrigger,
+} from '@angular/material/select';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIconButton, MatButton } from '@angular/material/button';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -64,27 +92,52 @@ export function urlValidator(): ValidatorFn {
     selector: 'app-storage-conf-form',
     templateUrl: './storage-conf-form.component.html',
     styleUrls: ['./storage-conf-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatChip,
+        MatIcon,
+        MatChipAvatar,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatSelect,
+        MatOption,
+        MatProgressSpinner,
+        MatSuffix,
+        MatHint,
+        RouterLink,
+        MatChipListbox,
+        MatChipOption,
+        MatSelectTrigger,
+        MatIconButton,
+        MatButton,
+        DatasetsListComponent,
+        TranslatePipe,
+    ],
 })
 export class StorageConfFormComponent implements OnInit {
-    constructor(
-        private profileService: ProfileService,
-        private storageService: StorageService,
-        private snackbarService: SnackbarService,
-        public translateService: TranslateService,
-        private modulesService: ModulesService,
-        private ctrlContainer: FormGroupDirective,
-        public confirmationDialog: MatDialog,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    profileService = inject(ProfileService);
+    storageService = inject(StorageService);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
+    modulesService = inject(ModulesService);
+    ctrlContainer = inject(FormGroupDirective);
+    confirmationDialog = inject(MatDialog);
+    fb = inject(FormBuilder);
+    route = inject(ActivatedRoute);
+    media = inject(MediaMatcher);
+    changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     @ViewChild(DatasetsListComponent)
-        datasetsListComponent!: DatasetsListComponent;
+    datasetsListComponent!: DatasetsListComponent;
 
     @Input() isCvatTool = false;
     @Input() rcloneIsRequired = false;
@@ -357,9 +410,10 @@ export class StorageConfFormComponent implements OnInit {
         ev.preventDefault();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: this.translateService.instant(
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE'
-                ),
+                data: {
+                    title: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE',
+                } as ConfirmationDialogData,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

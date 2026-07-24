@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '@environments/environment';
 import {
@@ -15,10 +15,8 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class ModulesService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    http = inject(HttpClient);
+    appConfigService = inject(AppConfigService);
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 
@@ -29,9 +27,9 @@ export class ModulesService {
             Object.keys(tags).forEach((key: string) => {
                 params = params.set(key, tags[key]);
             });
-            return this.http.get<Array<ModuleSummary>>(url, { params });
+            return this.http.get<ModuleSummary[]>(url, { params });
         } else {
-            return this.http.get<Array<ModuleSummary>>(url);
+            return this.http.get<ModuleSummary[]>(url);
         }
     }
 
@@ -69,7 +67,7 @@ export class ModulesService {
 
     getAi4lifeModules(): Observable<Ai4lifeModule[]> {
         const url = endpoints.ai4lifeModulesSummary;
-        return this.http.get<Array<any>>(url).pipe(
+        return this.http.get<any[]>(url).pipe(
             map((data) =>
                 Object.values(data).map((item) => ({
                     id: item.id,

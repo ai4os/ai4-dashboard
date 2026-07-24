@@ -1,22 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ProfileService } from './profile.service';
-import { provideHttpClient } from '@angular/common/http';
-import {
-    HttpTestingController,
-    provideHttpClientTesting,
-} from '@angular/common/http/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
-import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
-import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
-import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { environment } from '@environments/environment';
 import {
     mockedCredentials,
     mockedNewCredential,
 } from '@app/modules/profile/services/profile-service/profile.service.mock';
+import { testProviders } from '@app/shared/testing/test-providers';
 
 describe('ProfileService', () => {
     let service: ProfileService;
@@ -25,11 +18,9 @@ describe('ProfileService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
-                { provide: SnackbarService, useValue: mockedSnackbarService },
-                { provide: SecretsService, useValue: mockedSecretsService },
             ],
         });
         service = TestBed.inject(ProfileService);
@@ -141,39 +132,5 @@ describe('ProfileService', () => {
 
         expect(req.request.method).toBe('DELETE');
         req.flush({ status: 'success' });
-    });
-
-    it('should show error if OAuth state is invalid', (done) => {
-        localStorage.setItem('hf_nonce', 'abc');
-        service.validateOAuthRedirect('code123', 'wrong-state').subscribe({
-            error: (err) => {
-                expect(mockedSnackbarService.openError).toHaveBeenCalled();
-                expect(err.message).toContain('State mismatch');
-                done();
-            },
-        });
-    });
-
-    it('should exchange OAuth code for token and save it', () => {
-        const code = 'test-code';
-        const state = 'valid-state';
-        localStorage.setItem('hf_nonce', state);
-
-        const tokenResponse = { access_token: '1234' };
-        const tokenUrl = 'https://huggingface.co/oauth/token';
-
-        service.validateOAuthRedirect(code, state).subscribe(() => {
-            expect(localStorage.getItem('hf_access_token')).toBe('1234');
-            expect(mockedSecretsService.createSecret).toHaveBeenCalledWith(
-                { token: '1234' },
-                '/services/huggingface/token'
-            );
-            expect(mockedSnackbarService.openSuccess).toHaveBeenCalled();
-        });
-
-        const req = httpMock.expectOne(tokenUrl);
-        expect(req.request.method).toBe('POST');
-        expect(req.request.body).toContain(`code=${code}`);
-        req.flush(tokenResponse);
     });
 });

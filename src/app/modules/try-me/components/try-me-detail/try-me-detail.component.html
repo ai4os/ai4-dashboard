@@ -4,36 +4,32 @@
 </mat-toolbar>
 
 <mat-card>
-    <ng-template #loading>
-        <div class="spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div>
-    </ng-template>
-
     <mat-card-header>
         <mat-card-title
             [ngClass]="{
-                'card-title-mobile': this.mobileQuery.matches,
-                'card-title': !this.mobileQuery.matches,
+                'card-title-mobile': mobileQuery.matches,
+                'card-title': !mobileQuery.matches,
             }"
         >
             <h2>{{ deployment?.title }}</h2>
             <p>
-                <img
-                    *ngIf="deployment"
-                    src="https://img.shields.io/badge/status-{{ statusBadge }}"
-                    width="125"
-                />
+                @if (deployment) {
+                    <img
+                        src="https://img.shields.io/badge/status-{{
+                            statusBadge
+                        }}"
+                        width="125"
+                    />
+                }
             </p>
         </mat-card-title>
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches,
+            'card-content-mobile': mobileQuery.matches,
         }"
     >
-        <ng-container *ngIf="!isLoading; else loading">
+        @if (!isLoading) {
             <div
                 [ngClass]="{
                     'deployment-detail-container-mobile': mobileQuery.matches,
@@ -48,14 +44,12 @@
                     </h3>
                     <p id="uuid">{{ deployment?.job_ID }}</p>
                 </div>
-
                 <div>
                     <h3>
                         {{ 'TRY-ME.DEPLOYMENT-DETAIL.DESCRIPTION' | translate }}
                     </h3>
                     <p>{{ deployment?.description }}</p>
                 </div>
-
                 <div>
                     <h3>
                         {{
@@ -64,7 +58,6 @@
                     </h3>
                     <p>{{ deployment?.docker_image }}</p>
                 </div>
-
                 <div>
                     <h3>
                         {{
@@ -80,19 +73,17 @@
                                 | translate
                         }}
                     </h3>
-                    <ng-container
-                        *ngIf="
-                            (deployment?.resources | json) !== '{}';
-                            else noResources
-                        "
-                    >
+                    @if (
+                        ($safeNavigationMigration(deployment?.resources)
+                            | json) !== '{}'
+                    ) {
                         <mat-list>
-                            <ng-container
-                                *ngFor="
-                                    let resource of deployment?.resources
-                                        | keyvalue
-                                "
-                            >
+                            @for (
+                                resource of $safeNavigationMigration(
+                                    deployment?.resources
+                                ) | keyvalue;
+                                track resource
+                            ) {
                                 <mat-list-item
                                     >{{
                                         'TRY-ME.DEPLOYMENT-DETAIL.RESOURCES.' +
@@ -103,9 +94,11 @@
                                         getResourceValue(resource)
                                     }}</mat-list-item
                                 >
-                            </ng-container>
+                            }
                         </mat-list>
-                    </ng-container>
+                    } @else {
+                        -
+                    }
                 </div>
                 <div>
                     <div class="datacenter-info">
@@ -117,26 +110,23 @@
                         </h3>
                         <p>{{ deployment?.datacenter }}</p>
                     </div>
-
                     <div>
                         <h3>
                             {{
                                 'TRY-ME.DEPLOYMENT-DETAIL.ENDPOINTS' | translate
                             }}
                         </h3>
-                        <ng-container
-                            *ngIf="
-                                (deployment?.endpoints | json) !== '{}';
-                                else noResources
-                            "
-                        >
+                        @if (
+                            ($safeNavigationMigration(deployment?.endpoints)
+                                | json) !== '{}'
+                        ) {
                             <mat-list>
-                                <ng-container
-                                    *ngFor="
-                                        let endpoint of deployment?.endpoints
-                                            | keyvalue
-                                    "
-                                >
+                                @for (
+                                    endpoint of $safeNavigationMigration(
+                                        deployment?.endpoints
+                                    ) | keyvalue;
+                                    track endpoint
+                                ) {
                                     <mat-list-item>
                                         <a
                                             mat-button
@@ -150,15 +140,20 @@
                                             <mat-icon>open_in_new</mat-icon></a
                                         >
                                     </mat-list-item>
-                                </ng-container>
+                                }
                             </mat-list>
-                        </ng-container>
+                        } @else {
+                            -
+                        }
                     </div>
                 </div>
             </div>
-
-            <ng-template #noResources> - </ng-template>
-        </ng-container>
+        } @else {
+            <div class="spinner">
+                <mat-progress-spinner color="primary" mode="indeterminate">
+                </mat-progress-spinner>
+            </div>
+        }
     </mat-card-content>
     <mat-card-actions align="end">
         <button mat-raised-button mat-dialog-close>

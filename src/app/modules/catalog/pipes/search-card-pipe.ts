@@ -5,11 +5,9 @@ import {
     VllmModelConfig,
 } from '@app/shared/interfaces/module.interface';
 
-@Pipe({
-    name: 'searchAi4eoscModule',
-})
+@Pipe({ name: 'searchAi4eoscModule' })
 export class SearchAi4eoscPipe implements PipeTransform {
-    public transform(value: Array<ModuleSummary>, searchValue: string) {
+    public transform(value: ModuleSummary[], searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(
@@ -20,11 +18,9 @@ export class SearchAi4eoscPipe implements PipeTransform {
     }
 }
 
-@Pipe({
-    name: 'searchAi4lifeModule',
-})
+@Pipe({ name: 'searchAi4lifeModule' })
 export class SearchAi4lifePipe implements PipeTransform {
-    public transform(value: Array<Ai4lifeModule>, searchValue: string) {
+    public transform(value: Ai4lifeModule[], searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(
@@ -36,11 +32,9 @@ export class SearchAi4lifePipe implements PipeTransform {
     }
 }
 
-@Pipe({
-    name: 'searchLlms',
-})
+@Pipe({ name: 'searchLlms' })
 export class SearchLlmsPipe implements PipeTransform {
-    public transform(value: Array<VllmModelConfig>, searchValue: string) {
+    public transform(value: VllmModelConfig[], searchValue: string) {
         if (!searchValue) return value;
 
         return value.filter(

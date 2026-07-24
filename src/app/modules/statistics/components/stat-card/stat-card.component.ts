@@ -1,14 +1,36 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
 import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.component';
+import { MatCard } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgxEchartsDirective } from 'ngx-echarts';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-stat-card',
     templateUrl: './stat-card.component.html',
     styleUrls: ['./stat-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatCard,
+        MatIcon,
+        MatIconButton,
+        MatTooltip,
+        NgxEchartsDirective,
+        TranslatePipe,
+    ],
 })
 export class StatCardComponent implements OnInit {
     @Input() title = '';
@@ -20,14 +42,15 @@ export class StatCardComponent implements OnInit {
     @Input() usedLabel? = 'Used';
     @Input() freeLabel? = 'Free';
 
-    constructor(
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog
-    ) {
+    confirmationDialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    dialog = inject(MatDialog);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

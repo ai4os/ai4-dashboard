@@ -4,6 +4,8 @@ import {
     Component,
     OnInit,
     ViewChild,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -14,28 +16,44 @@ import {
     ModuleSummary,
 } from '@app/shared/interfaces/module.interface';
 import { filter } from 'rxjs';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup, MatTab } from '@angular/material/tabs';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { IntroJSService } from 'introjs/introjs.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CatalogListComponent } from '../catalog-list/catalog-list.component';
+import { Ai4lifeListComponent } from './ai4life-list/ai4life-list.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
     styleUrls: ['./modules-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatProgressSpinner,
+        MatTabGroup,
+        MatTab,
+        CatalogListComponent,
+        Ai4lifeListComponent,
+        TranslatePipe,
+    ],
 })
 export class ModulesListComponent implements OnInit, AfterViewInit {
-    constructor(
-        private router: Router,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef,
-        private modulesService: ModulesService,
-        private snackbarService: SnackbarService,
-        private introService: IntroJSService,
-        public dialog: MatDialog
-    ) {
+    media = inject(MediaMatcher);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    dialog = inject(MatDialog);
+    router = inject(Router);
+    modulesService = inject(ModulesService);
+    snackbarService = inject(SnackbarService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
 
         // scroll to last scrollY position

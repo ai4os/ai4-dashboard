@@ -1,24 +1,63 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
 import { EChartsOption } from 'echarts';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { NgxEchartsDirective } from 'ngx-echarts';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-gpu-stats-detail',
     templateUrl: './gpu-stats-detail.component.html',
     styleUrls: ['./gpu-stats-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardContent,
+        NgClass,
+        NgxEchartsDirective,
+        MatProgressSpinner,
+        MatCardActions,
+        MatButton,
+        MatDialogClose,
+        TranslatePipe,
+    ],
 })
 export class GpuStatsDetailComponent implements OnInit {
-    constructor(
-        public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { gpuStats: GpuStats[] },
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    data = inject<{
+        gpuStats: GpuStats[];
+    }>(MAT_DIALOG_DATA);
+
+    confirmationDialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

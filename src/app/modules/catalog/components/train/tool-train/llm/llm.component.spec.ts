@@ -13,6 +13,10 @@ import {
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { of } from 'rxjs';
+import { testProviders } from '@app/shared/testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { MockStepperFormComponent } from '@app/shared/mocks/stepper-form.component.mock';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 
 describe('LlmComponent', () => {
     let component: LlmComponent;
@@ -20,16 +24,16 @@ describe('LlmComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [RouterModule.forRoot([])],
-            declarations: [LlmComponent],
+            imports: [LlmComponent, RouterModule.forRoot([])],
+
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ToolsService, useValue: mockedToolsService },
                 {
                     provide: ActivatedRoute,
                     useValue: {
+                        params: of({}),
                         parent: {
                             params: of({
                                 id: 'ai4os-llm',
@@ -37,8 +41,24 @@ describe('LlmComponent', () => {
                         },
                     },
                 },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        set: jest.fn(),
+                        get: jest.fn(),
+                    },
+                },
             ],
-        }).compileComponents();
+        })
+            .overrideComponent(LlmComponent, {
+                remove: {
+                    imports: [StepperFormComponent],
+                },
+                add: {
+                    imports: [MockStepperFormComponent],
+                },
+            })
+            .compileComponents();
 
         mockedToolsService.getTool.mockReturnValue(of(mockLlmTool));
 

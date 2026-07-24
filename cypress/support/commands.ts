@@ -72,16 +72,21 @@ Cypress.Commands.add('addNextcloudStorageCredentials', () => {
     cy.visit('http://localhost:8080/');
     cy.contains('TestAI4EOSC Cypress', { timeout: 10000 }).click();
     cy.contains('Profile').click();
+    cy.get('#storage-tab').click();
     cy.contains('Add configuration manually', { timeout: 10000 }).click();
-    cy.get('#rcloneUser', { timeout: 10000 }).type(Cypress.env('RCLONE_USER'));
-    cy.get('#rclonePassword', { timeout: 10000 }).type(
-        Cypress.env('RCLONE_PASSWORD')
+
+    cy.env(['RCLONE_USER', 'RCLONE_PASSWORD']).then(
+        ({ RCLONE_USER, RCLONE_PASSWORD }) => {
+            cy.get('#rcloneUser', { timeout: 10000 }).type(RCLONE_USER);
+            cy.get('#rclonePassword', { timeout: 10000 }).type(RCLONE_PASSWORD);
+            cy.get('#storageUrl', { timeout: 10000 }).type(
+                'https://share.cloud.ai4eosc.eu'
+            );
+            cy.get('#addCredential').click();
+        }
     );
-    cy.get('#storageUrl', { timeout: 10000 }).type(
-        'https://share.cloud.ai4eosc.eu'
-    );
-    cy.get('#saveRcloneCredentialsBtn').click();
-    cy.contains('Re-link', { timeout: 20000 })
+
+    cy.contains('Reconnect', { timeout: 20000 })
         .should('exist')
         .scrollIntoView()
         .should('be.visible');
@@ -91,9 +96,10 @@ Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
     cy.visit('http://localhost:8080/');
     cy.contains('TestAI4EOSC Cypress', { timeout: 10000 }).click();
     cy.contains('Profile').click();
-    cy.get('#deleteNextcloudStorageCredentialsBtn').click();
-    cy.contains('Yes').click();
-    cy.contains('Link', { timeout: 20000 })
+    cy.get('#storage-tab').click();
+    cy.get('#deleteCredential').click();
+    cy.get('#optionB').click();
+    cy.contains('Connect', { timeout: 20000 })
         .should('exist')
         .scrollIntoView()
         .should('be.visible');

@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -8,18 +18,29 @@ import {
     ModuleStorageConfiguration,
     CvatToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
-import { ShowGeneralFormField } from '../../general-conf-form/general-conf-form.component';
+import {
+    ShowGeneralFormField,
+    GeneralConfFormComponent,
+} from '../../general-conf-form/general-conf-form.component';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
+import { StorageConfFormComponent } from '../../storage-conf-form/storage-conf-form.component';
 
 @Component({
     selector: 'app-cvat',
     templateUrl: './cvat.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        StepperFormComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        GeneralConfFormComponent,
+        StorageConfFormComponent,
+    ],
 })
 export class CvatComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private toolsService: ToolsService
-    ) {}
+    private _formBuilder = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toolsService = inject(ToolsService);
 
     title = '';
     step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';

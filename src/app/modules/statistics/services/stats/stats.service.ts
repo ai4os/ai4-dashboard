@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import {
     ClusterStats,
@@ -14,10 +14,8 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class StatsService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    http = inject(HttpClient);
+    appConfigService = inject(AppConfigService);
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 

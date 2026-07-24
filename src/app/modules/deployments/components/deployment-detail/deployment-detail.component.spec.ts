@@ -2,14 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeploymentDetailComponent } from './deployment-detail.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '@app/shared/material.module';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import {
@@ -22,6 +17,7 @@ import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { mockedSecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service.mock';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { mockedSnackbarService } from '@app/shared/services/snackbar/snackbar-service.mock';
+import { testProviders } from '@testing/test-providers';
 
 describe('DeploymentDetailComponent', () => {
     let component: DeploymentDetailComponent;
@@ -29,17 +25,15 @@ describe('DeploymentDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DeploymentDetailComponent],
             imports: [
                 RouterModule.forRoot([]),
-                TranslateModule.forRoot(),
-                MaterialModule,
-                SharedModule,
-                BrowserModule,
+                TranslatePipe,
+                TranslateDirective,
+                DeploymentDetailComponent,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MAT_DIALOG_DATA, useValue: {} },
                 {

@@ -1,35 +1,83 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { ModulesService } from '../../../services/modules-service/modules.service';
-import { BreadcrumbService } from 'xng-breadcrumb';
+import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
 import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../../services/tools-service/tools.service';
-import { Location } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IframeDialogComponent } from '@app/shared/components/iframe-dialog/iframe-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+} from '@angular/material/card';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MarkdownComponent } from 'ngx-markdown';
+import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
 
 @Component({
     selector: 'app-module-detail',
     templateUrl: './ai4eosc-module-detail.component.html',
     styleUrls: ['./ai4eosc-module-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        BreadcrumbComponent,
+        MatCard,
+        MatCardHeader,
+        NgClass,
+        MatCardTitle,
+        MatCardSubtitle,
+        MatTooltip,
+        MatButton,
+        MatMenuTrigger,
+        MatMenu,
+        MatMenuItem,
+        RouterLink,
+        MatDivider,
+        MatCardContent,
+        MatProgressSpinner,
+        MarkdownComponent,
+        ChipWithIconComponent,
+        TranslatePipe,
+    ],
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
-    constructor(
-        private modulesService: ModulesService,
-        private toolsService: ToolsService,
-        private authService: AuthService,
-        private route: ActivatedRoute,
-        private breadcrumbService: BreadcrumbService,
-        public translateService: TranslateService,
-        public dialog: MatDialog,
-        public location: Location,
-        private router: Router,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    private modulesService = inject(ModulesService);
+    private toolsService = inject(ToolsService);
+    private authService = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private breadcrumbService = inject(BreadcrumbService);
+    translateService = inject(TranslateService);
+    dialog = inject(MatDialog);
+    location = inject(Location);
+    private router = inject(Router);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+
+    constructor() {
+        const authService = this.authService;
+        const changeDetectorRef = this.changeDetectorRef;
+
         if (this.location.path().includes('tools')) {
             this.isTool = true;
         }
@@ -46,7 +94,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
 
-    dataIconDict: { [dataType: string]: string } = {
+    dataIconDict: Record<string, string> = {
         Image: 'image',
         Text: 'description',
         'Time Series': 'show_chart',

@@ -15,5 +15,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.formatOnSave": true
     },
-    "prettier.tabWidth": 4
+    "prettier.tabWidth": 4,
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "jest.runMode": "on-demand"
 }

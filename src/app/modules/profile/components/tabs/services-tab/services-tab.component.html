@@ -1,0 +1,107 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'PROFILE.SERVICES-TAB.SUBTITLE' | translate }}
+        </h3>
+        <p class="section-header__subtitle">
+            {{ 'PROFILE.SERVICES-TAB.DESCRIPTION' | translate }}
+        </p>
+    </div>
+</div>
+
+@if (store.loading()) {
+    <div class="loader-container">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else {
+    <div class="tab-panel">
+        <!-- MLflow credentials -->
+        @let mlflow = store.mlflowCredentials();
+        @let mlflowLinked = mlflow.username && mlflow.password;
+
+        <app-service-card
+            [title]="'PROFILE.SERVICES-TAB.MLFLOW' | translate"
+            [statusLabel]="
+                mlflowLinked
+                    ? ('PROFILE.STATUS.LINKED' | translate)
+                    : ('PROFILE.STATUS.UNLINKED' | translate)
+            "
+            [statusVariant]="mlflowLinked ? 'success-solid' : 'default-solid'"
+            accentColor="#43C9ED"
+        >
+            <img
+                serviceCardIcon
+                src="../../../../../assets/images/services/mlflow-icon.png"
+                alt="mlflow"
+            />
+
+            @if (mlflowLinked) {
+                <app-ui-credential-row
+                    [value]="mlflow.username"
+                ></app-ui-credential-row>
+                <app-ui-credential-row
+                    [value]="mlflow.password"
+                    [maskable]="true"
+                ></app-ui-credential-row>
+            } @else {
+                <div serviceCardActions>
+                    <app-ui-button
+                        variant="accent-solid"
+                        icon="link"
+                        [text]="'PROFILE.ACTIONS.LINK' | translate"
+                        (click)="syncMlflow()"
+                    ></app-ui-button>
+                </div>
+            }
+        </app-service-card>
+
+        <!-- Hugging Face token -->
+        @let hfToken = store.hfToken();
+
+        <app-service-card
+            [title]="'PROFILE.SERVICES-TAB.HF' | translate"
+            [statusLabel]="
+                hfToken
+                    ? ('PROFILE.STATUS.LINKED' | translate)
+                    : ('PROFILE.STATUS.UNLINKED' | translate)
+            "
+            [statusVariant]="hfToken ? 'success-solid' : 'default-solid'"
+            accentColor="#FDB01D"
+        >
+            <img
+                serviceCardIcon
+                src="../../../../../assets/images/services/hf-icon.png"
+                alt="Hugging Face"
+            />
+
+            <div serviceCardActions>
+                <app-ui-button
+                    [variant]="hfToken ? 'accent-outline' : 'accent-solid'"
+                    icon="link"
+                    [text]="
+                        hfToken
+                            ? ('PROFILE.ACTIONS.RE-LINK' | translate)
+                            : ('PROFILE.ACTIONS.LINK' | translate)
+                    "
+                    (click)="startLoginWithHuggingFace()"
+                ></app-ui-button>
+
+                @if (hfToken) {
+                    <app-ui-button
+                        variant="danger-solid"
+                        icon="link_off"
+                        [matTooltip]="'PROFILE.ACTIONS.UNLINK' | translate"
+                        (click)="unsyncHuggingFace()"
+                    ></app-ui-button>
+                }
+            </div>
+
+            @if (hfToken) {
+                <app-ui-credential-row
+                    [value]="hfToken"
+                    [maskable]="true"
+                ></app-ui-credential-row>
+            }
+        </app-service-card>
+    </div>
+}

@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { StatsService } from '../../services/stats/stats.service';
 import {
     GlobalStats,
@@ -10,19 +16,44 @@ import {
 } from '@app/shared/interfaces/stats.interface';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { MatToolbar } from '@angular/material/toolbar';
+import { NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatTabGroup, MatTab, MatTabContent } from '@angular/material/tabs';
+import { OverviewTabComponent } from '../tabs/overview-tab/overview-tab.component';
+import { DatacentersTabComponent } from '../tabs/datacenters-tab/datacenters-tab.component';
+import { FootprintTabComponent } from '../tabs/footprint-tab/footprint-tab.component';
+import { UsageTabComponent } from '../tabs/usage-tab/usage-tab.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        NgClass,
+        MatIcon,
+        MatTabGroup,
+        MatTab,
+        OverviewTabComponent,
+        MatTabContent,
+        DatacentersTabComponent,
+        FootprintTabComponent,
+        UsageTabComponent,
+        MatProgressSpinner,
+        TranslatePipe,
+    ],
 })
 export class DashboardComponent implements OnInit {
-    constructor(
-        private statsService: StatsService,
-        private readonly authService: AuthService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    statsService = inject(StatsService);
+    readonly authService = inject(AuthService);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.authService.userProfile$.subscribe((profile) => {
             if (profile) {
                 this.userProfile = profile;
@@ -30,7 +61,8 @@ export class DashboardComponent implements OnInit {
             }
         });
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     userProfile?: UserProfile;
@@ -210,18 +242,18 @@ export class DashboardComponent implements OnInit {
                             PUE: statsResponse['datacenters'][dc]['PUE'],
                             energy_quality: carbonArray.length
                                 ? carbonArray[
-                                    carbonArray.length - 1
-                                ][1].toFixed(2)
+                                      carbonArray.length - 1
+                                  ][1].toFixed(2)
                                 : null,
                             energy_water_usage: waterArray.length
                                 ? waterArray[waterArray.length - 1][1].toFixed(
-                                    2
-                                )
+                                      2
+                                  )
                                 : null,
                             green_score: greenScoreArray.length
                                 ? greenScoreArray[
-                                    greenScoreArray.length - 1
-                                ][1].toFixed(2)
+                                      greenScoreArray.length - 1
+                                  ][1].toFixed(2)
                                 : null,
                             nodes: statsResponse['datacenters'][dc]['nodes'],
                             affinity:

@@ -1,5 +1,5 @@
 <div class="content">
-    <ng-container *ngIf="mobileQuery.matches; else desktop">
+    @if (mobileQuery.matches) {
         <mat-toolbar class="mb-3 marketplace-toolbar mobile">
             <form [formGroup]="searchFormGroup" class="search-form-mobile">
                 <mat-form-field
@@ -17,9 +17,7 @@
                 </mat-form-field>
             </form>
         </mat-toolbar>
-    </ng-container>
-
-    <ng-template #desktop>
+    } @else {
         <mat-toolbar class="marketplace-toolbar">
             <div class="search-and-results-container">
                 <form [formGroup]="searchFormGroup">
@@ -38,7 +36,6 @@
                         />
                     </mat-form-field>
                 </form>
-
                 <span>
                     <p class="results-text">
                         {{ resultsFound }}
@@ -47,21 +44,23 @@
                 </span>
             </div>
         </mat-toolbar>
-    </ng-template>
+    }
 
     <div class="modules-cards-container">
-        <span
-            fxFlex
-            *ngFor="
-                let module of modules
-                    | searchAi4lifeModule
-                        : this.searchFormGroup.get('search')?.value as modules
-            "
-            class="m-2"
-        >
-            <app-ai4life-module-card
-                [module]="module"
-            ></app-ai4life-module-card>
-        </span>
+        @for (
+            module of modules
+                | searchAi4lifeModule
+                    : $safeNavigationMigration(
+                          searchFormGroup.get('search')?.value
+                      );
+            track module.id;
+            let first = $first
+        ) {
+            <span fxFlex class="m-2">
+                <app-ai4life-module-card
+                    [module]="module"
+                ></app-ai4life-module-card>
+            </span>
+        }
     </div>
 </div>

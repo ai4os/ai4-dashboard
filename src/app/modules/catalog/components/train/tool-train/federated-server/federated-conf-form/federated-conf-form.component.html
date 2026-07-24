@@ -26,9 +26,11 @@
                 min="{{ _defaultFormValues?.rounds?.range[0] }}"
                 max="{{ _defaultFormValues?.rounds?.range[1] }}"
             />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.rounds.description
-            }}</mat-hint>
+            @if (_showHelp) {
+                <mat-hint>{{
+                    _defaultFormValues?.rounds.description
+                }}</mat-hint>
+            }
         </mat-form-field>
 
         <mat-form-field id="metric-field">
@@ -36,20 +38,22 @@
                 'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.METRIC' | translate
             }}</mat-label>
             <mat-chip-grid #chipGrid aria-label="Metric selection">
-                <div *ngFor="let metric of metrics">
-                    <mat-chip-row
-                        class="metric-chip-row"
-                        (removed)="remove(metric)"
-                    >
-                        {{ metric }}
-                        <button
-                            matChipRemove
-                            [attr.aria-label]="'remove ' + metric"
+                @for (metric of metrics; track metric) {
+                    <div>
+                        <mat-chip-row
+                            class="metric-chip-row"
+                            (removed)="remove(metric)"
                         >
-                            <mat-icon>cancel</mat-icon>
-                        </button>
-                    </mat-chip-row>
-                </div>
+                            {{ metric }}
+                            <button
+                                matChipRemove
+                                [attr.aria-label]="'remove ' + metric"
+                            >
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                    </div>
+                }
 
                 <input
                     placeholder="New Metric..."
@@ -63,16 +67,20 @@
                     (matChipInputTokenEnd)="add($event)"
                 />
             </mat-chip-grid>
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.metric.description
-            }}</mat-hint>
+            @if (_showHelp) {
+                <mat-hint>{{
+                    _defaultFormValues?.metric.description
+                }}</mat-hint>
+            }
             <mat-autocomplete
                 #auto="matAutocomplete"
                 (optionSelected)="selected($event)"
             >
-                <div *ngFor="let metric of defaultMetrics">
-                    <mat-option [value]="metric">{{ metric }}</mat-option>
-                </div>
+                @for (metric of defaultMetrics; track metric) {
+                    <div>
+                        <mat-option [value]="metric">{{ metric }}</mat-option>
+                    </div>
+                }
             </mat-autocomplete>
         </mat-form-field>
 
@@ -90,9 +98,11 @@
                 min="{{ _defaultFormValues?.min_fit_clients?.range[0] }}"
                 max="{{ _defaultFormValues?.min_fit_clients?.range[1] }}"
             />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.min_fit_clients.description
-            }}</mat-hint>
+            @if (_showHelp) {
+                <mat-hint>{{
+                    _defaultFormValues?.min_fit_clients.description
+                }}</mat-hint>
+            }
         </mat-form-field>
 
         <mat-form-field>
@@ -109,9 +119,11 @@
                 min="{{ _defaultFormValues?.min_available_clients?.range[0] }}"
                 max="{{ _defaultFormValues?.min_available_clients?.range[1] }}"
             />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.min_available_clients.description
-            }}</mat-hint>
+            @if (_showHelp) {
+                <mat-hint>{{
+                    _defaultFormValues?.min_available_clients.description
+                }}</mat-hint>
+            }
         </mat-form-field>
 
         <mat-form-field>
@@ -123,58 +135,61 @@
                 formControlName="strategyOptionsSelect"
                 (selectionChange)="checkStrategy()"
             >
-                <mat-option
-                    *ngFor="let strategyOption of strategyOptions"
-                    [value]="strategyOption.value"
-                >
-                    {{ strategyOption.viewValue }}
-                </mat-option>
+                @for (strategyOption of strategyOptions; track strategyOption) {
+                    <mat-option [value]="strategyOption.value">
+                        {{ strategyOption.viewValue }}
+                    </mat-option>
+                }
             </mat-select>
-            <mat-hint *ngIf="_showHelp" class="html-tags-div">
-                <div
-                    [innerHTML]="_defaultFormValues?.strategy.description"
-                ></div
-            ></mat-hint>
-            <mat-hint
-                *ngIf="!_showHelp && showStrategiesInfo"
-                class="html-tags-div"
-                >{{
+            @if (_showHelp) {
+                <mat-hint class="html-tags-div">
+                    <div
+                        [innerHTML]="
+                            $safeNavigationMigration(
+                                _defaultFormValues?.strategy.description
+                            )
+                        "
+                    ></div
+                ></mat-hint>
+            }
+            @if (!_showHelp && showStrategiesInfo) {
+                <mat-hint class="html-tags-div">{{
                     'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.NOTE-AGG-STRAT'
                         | translate
-                }}</mat-hint
-            >
+                }}</mat-hint>
+            }
         </mat-form-field>
 
-        <mat-form-field
-            *ngIf="
-                this.federatedConfFormGroup.get('strategyOptionsSelect')
-                    ?.value === 'FedProx strategy (FedProx)'
-            "
-        >
-            <mat-label>{{
-                'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.MU' | translate
-            }}</mat-label>
-            <input
-                type="number"
-                step="0.1"
-                matInput
-                placeholder=""
-                value=""
-                formControlName="muInput"
-                min="{{ _defaultFormValues?.mu?.range[0] }}"
-                max="{{ _defaultFormValues?.mu?.range[1] }}"
-            />
-            <mat-hint *ngIf="_showHelp">{{
-                _defaultFormValues?.mu.description
-            }}</mat-hint>
-        </mat-form-field>
+        @if (
+            federatedConfFormGroup.get('strategyOptionsSelect')?.value ===
+            'FedProx strategy (FedProx)'
+        ) {
+            <mat-form-field>
+                <mat-label>{{
+                    'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.MU' | translate
+                }}</mat-label>
+                <input
+                    type="number"
+                    step="0.1"
+                    matInput
+                    placeholder=""
+                    value=""
+                    formControlName="muInput"
+                    min="{{ _defaultFormValues?.mu?.range[0] }}"
+                    max="{{ _defaultFormValues?.mu?.range[1] }}"
+                />
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues?.mu.description
+                    }}</mat-hint>
+                }
+            </mat-form-field>
+        }
 
-        <ng-container
-            *ngIf="
-                this.federatedConfFormGroup.get('strategyOptionsSelect')
-                    ?.value === 'Federated Averaging with Momentum (FedAvgM)'
-            "
-        >
+        @if (
+            federatedConfFormGroup.get('strategyOptionsSelect')?.value ===
+            'Federated Averaging with Momentum (FedAvgM)'
+        ) {
             <mat-form-field>
                 <mat-label>{{
                     'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.FL' | translate
@@ -189,11 +204,12 @@
                     min="{{ _defaultFormValues?.fl?.range[0] }}"
                     max="{{ _defaultFormValues?.fl?.range[1] }}"
                 />
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues?.fl.description
-                }}</mat-hint>
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues?.fl.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
-
             <mat-form-field>
                 <mat-label>{{
                     'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.MOMENTUM'
@@ -209,11 +225,13 @@
                     min="{{ _defaultFormValues?.momentum?.range[0] }}"
                     max="{{ _defaultFormValues?.momentum.range[1] }}"
                 />
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues?.momentum.description
-                }}</mat-hint>
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues?.momentum.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
-        </ng-container>
+        }
     </div>
 
     <span class="title-and-toggles">
@@ -255,18 +273,23 @@
                             | translate
                     }}</mat-label>
                     <mat-select formControlName="mpInput">
-                        <mat-option
-                            *ngFor="let mpOption of mpOptions"
-                            [value]="mpOption.value"
-                        >
-                            {{ mpOption.viewValue }}
-                        </mat-option>
+                        @for (mpOption of mpOptions; track mpOption) {
+                            <mat-option [value]="mpOption.value">
+                                {{ mpOption.viewValue }}
+                            </mat-option>
+                        }
                     </mat-select>
-                    <mat-hint *ngIf="_showHelp" class="html-tags-div">
-                        <div
-                            [innerHTML]="_defaultFormValues?.mp.description"
-                        ></div
-                    ></mat-hint>
+                    @if (_showHelp) {
+                        <mat-hint class="html-tags-div">
+                            <div
+                                [innerHTML]="
+                                    $safeNavigationMigration(
+                                        _defaultFormValues?.mp.description
+                                    )
+                                "
+                            ></div
+                        ></mat-hint>
+                    }
                 </mat-form-field>
                 <button
                     mat-icon-button
@@ -293,9 +316,11 @@
                     min="{{ _defaultFormValues?.noise_mult?.range[0] }}"
                     max="{{ _defaultFormValues?.noise_mult?.range[1] }}"
                 />
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues?.noise_mult.description
-                }}</mat-hint>
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues?.noise_mult.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
 
             <mat-form-field>
@@ -310,9 +335,11 @@
                     min="{{ _defaultFormValues?.sampled_clients?.range[0] }}"
                     max="{{ _defaultFormValues?.sampled_clients?.range[1] }}"
                 />
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues?.sampled_clients.description
-                }}</mat-hint>
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues?.sampled_clients.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
 
             <mat-form-field>
@@ -328,9 +355,11 @@
                     min="{{ _defaultFormValues?.clip_norm?.range[0] }}"
                     max="{{ _defaultFormValues?.clip_norm?.range[1] }}"
                 />
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues?.clip_norm.description
-                }}</mat-hint>
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues?.clip_norm.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
         </div>
     }

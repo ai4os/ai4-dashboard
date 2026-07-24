@@ -6,11 +6,9 @@ import {
 } from '@angular/core/testing';
 
 import { LlmsListComponent } from './llms-list.component';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -20,6 +18,10 @@ import {
     mockedVllmsConfig,
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
+import { testProviders } from '@testing/test-providers';
+import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
+import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
+import { OAuthService, OAuthModuleConfig } from 'angular-oauth2-oidc';
 
 describe('LlmsListComponent', () => {
     let component: LlmsListComponent;
@@ -27,14 +29,22 @@ describe('LlmsListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [LlmsListComponent, SearchLlmsPipe],
-            imports: [TranslateModule.forRoot()],
+            imports: [
+                LlmsListComponent,
+                SearchLlmsPipe,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 { provide: ToolsService, useValue: mockedToolsService },
+                { provide: OAuthService, useValue: mockedAuthService },
+                {
+                    provide: OAuthModuleConfig,
+                    useValue: mockedOAuthModuleConfig,
+                },
             ],
         }).compileComponents();
 
@@ -74,11 +84,10 @@ describe('LlmsListComponent', () => {
         // Reconfigure with error service
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
-            declarations: [LlmsListComponent],
-            imports: [TranslateModule.forRoot()],
+            imports: [LlmsListComponent, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 {

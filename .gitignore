@@ -47,3 +47,7 @@ Thumbs.db
 /src/assets/mocks/
 cypress/screenshots/*
 cypress/videos/*
+
+# Credentials
+cypress.env.json
+src/app/core/services/auth/auth.config.ts

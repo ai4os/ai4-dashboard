@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnChanges,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { MapMetric } from '../map-metric-selector/map-metric-selector.component';
 import {
     LegendTier,
@@ -9,13 +15,14 @@ import {
     selector: 'app-map-metric-legend',
     templateUrl: './map-metric-legend.component.html',
     styleUrls: ['./map-metric-legend.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class MapMetricLegendComponent implements OnChanges {
     @Input() metric: MapMetric = 'pue';
 
     tiers: LegendTier[] = [];
 
-    constructor(private metricColor: MetricColorService) {}
+    metricColor = inject(MetricColorService);
 
     ngOnChanges(): void {
         this.tiers = this.metricColor.getLegend(this.metric);

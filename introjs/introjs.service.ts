@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import introJs from 'intro.js';
 
@@ -6,7 +6,7 @@ import introJs from 'intro.js';
     providedIn: 'root',
 })
 export class IntroJSService {
-    constructor(protected authService: AuthService) {}
+    authService = inject(AuthService);
 
     introJS = introJs();
 

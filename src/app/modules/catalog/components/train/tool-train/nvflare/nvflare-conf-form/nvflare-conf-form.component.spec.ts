@@ -3,11 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NvflareConfFormComponent } from './nvflare-conf-form.component';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { of } from 'rxjs';
-import { SharedModule } from '@app/shared/shared.module';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { testProviders } from '@testing/test-providers';
 
 const mockedAuthService: any = {
     isAuthenticated: jest.fn(),
@@ -41,12 +40,13 @@ describe('NvflareConfFormComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
-                SharedModule,
-                BrowserAnimationsModule,
-                TranslateModule.forRoot(),
+                NvflareConfFormComponent,
+                TranslatePipe,
+                TranslateDirective,
             ],
-            declarations: [NvflareConfFormComponent],
+
             providers: [
+                ...testProviders,
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DatacentersTabComponent } from './datacenters-tab.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '@app/shared/shared.module';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { By } from '@angular/platform-browser';
 import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
+import { testProviders } from '@testing/test-providers';
 
 describe('DatacentersTabComponent', () => {
     let component: DatacentersTabComponent;
@@ -15,13 +14,13 @@ describe('DatacentersTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DatacentersTabComponent],
             imports: [
-                TranslateModule.forRoot(),
-                SharedModule,
-                BrowserAnimationsModule,
+                DatacentersTabComponent,
+                TranslatePipe,
+                TranslateDirective,
                 CountryFlagPipe,
             ],
+            providers: [...testProviders],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 

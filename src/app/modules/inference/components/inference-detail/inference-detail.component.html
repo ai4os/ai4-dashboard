@@ -7,13 +7,6 @@
 </mat-toolbar>
 
 <mat-card>
-    <ng-template #loading>
-        <div class="spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-        </div>
-    </ng-template>
-
     <mat-card-header>
         <mat-card-title class="service-detail-title">
             <h2>{{ service?.title }}</h2>
@@ -21,11 +14,11 @@
     </mat-card-header>
     <mat-card-content
         [ngClass]="{
-            'card-content-mobile': this.mobileQuery.matches,
-            'card-content': !this.mobileQuery.matches,
+            'card-content-mobile': mobileQuery.matches,
+            'card-content': !mobileQuery.matches,
         }"
     >
-        <ng-container *ngIf="!isLoading; else loading">
+        @if (!isLoading) {
             <div
                 class=""
                 [ngClass]="{
@@ -51,7 +44,6 @@
                             {{ service?.name }}
                         </p>
                     </div>
-
                     @if (service?.description !== '') {
                         <div>
                             <h3>
@@ -63,7 +55,6 @@
                             <p>{{ service?.description }}</p>
                         </div>
                     }
-
                     <div>
                         <h3>
                             {{
@@ -73,7 +64,6 @@
                         </h3>
                         <p>{{ service?.image }}</p>
                     </div>
-
                     <div>
                         <h3>
                             {{
@@ -83,7 +73,6 @@
                         </h3>
                         <p>{{ service?.submit_time }}</p>
                     </div>
-
                     <div>
                         <h3>
                             {{
@@ -97,28 +86,23 @@
                                     'INFERENCE.INFERENCE-DETAIL.CPU'
                                         | translate
                                 }}:
-
                                 {{ service?.cpu }}
                             </mat-list-item>
                             <mat-list-item>
                                 {{
                                     'INFERENCE.INFERENCE-DETAIL.MEMORY'
                                         | translate
-                                }}:
-
-                                {{ service?.memory }}B
+                                }}: {{ service?.memory }}B
                             </mat-list-item>
                         </mat-list>
                     </div>
                 </div>
-
                 <div>
                     <h3 class="mb-0">
                         {{
                             'INFERENCE.INFERENCE-DETAIL.SYNC-CALLS' | translate
                         }}
                     </h3>
-
                     <span class="title-with-button">
                         <h4>
                             {{
@@ -137,7 +121,6 @@
                             <mat-icon color="accent">help</mat-icon>
                         </button>
                     </span>
-
                     <div class="token-container">
                         <mat-form-field
                             class="full-width mr-3"
@@ -152,14 +135,15 @@
                         <button
                             mat-icon-button
                             matTooltip="Copy"
-                            [copy-to-clipboard]="service?.endpoint"
+                            [copy-to-clipboard]="
+                                $safeNavigationMigration(service?.endpoint)
+                            "
                         >
                             <mat-icon matSuffix color="accent">
                                 content_copy</mat-icon
                             >
                         </button>
                     </div>
-
                     <div class="mb-3">
                         <h4>
                             {{ 'INFERENCE.INFERENCE-DETAIL.TOKEN' | translate }}
@@ -177,7 +161,6 @@
                                     disabled="true"
                                     value="{{ tokenField.value }}"
                                 />
-
                                 <button
                                     mat-icon-button
                                     matSuffix
@@ -207,14 +190,12 @@
                         </div>
                     </div>
                 </div>
-
                 <div>
                     <h3 class="mb-0">
                         {{
                             'INFERENCE.INFERENCE-DETAIL.ASYNC-CALLS' | translate
                         }}
                     </h3>
-
                     <div>
                         <h4>
                             {{
@@ -224,7 +205,6 @@
                         </h4>
                         <p>{{ service?.name }}</p>
                     </div>
-
                     <div>
                         <h4>
                             {{
@@ -232,7 +212,6 @@
                                     | translate
                             }}
                         </h4>
-
                         <div class="token-container">
                             <mat-form-field
                                 class="full-width mr-3"
@@ -251,8 +230,10 @@
                                 mat-icon-button
                                 matTooltip="Copy"
                                 [copy-to-clipboard]="
-                                    service?.storage_providers?.minio?.default
-                                        ?.endpoint
+                                    $safeNavigationMigration(
+                                        service?.storage_providers?.minio
+                                            ?.default?.endpoint
+                                    )
                                 "
                             >
                                 <mat-icon matSuffix color="accent">
@@ -261,7 +242,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <h4>
                             {{
@@ -284,7 +264,6 @@
                                     disabled="true"
                                     value="{{ accessKeyField.value }}"
                                 />
-
                                 <button
                                     mat-icon-button
                                     matSuffix
@@ -316,7 +295,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <h4>
                             {{
@@ -339,7 +317,6 @@
                                     disabled="true"
                                     value="{{ minioSecretField.value }}"
                                 />
-
                                 <button
                                     mat-icon-button
                                     matSuffix
@@ -373,7 +350,12 @@
                     </div>
                 </div>
             </div>
-        </ng-container>
+        } @else {
+            <div class="spinner">
+                <mat-progress-spinner color="primary" mode="indeterminate">
+                </mat-progress-spinner>
+            </div>
+        }
     </mat-card-content>
 
     <mat-card-actions align="end">

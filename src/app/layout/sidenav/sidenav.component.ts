@@ -5,14 +5,29 @@ import {
     Component,
     OnInit,
     ViewChild,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatSidenav } from '@angular/material/sidenav';
+import {
+    MatSidenav,
+    MatSidenavContainer,
+    MatSidenavContent,
+} from '@angular/material/sidenav';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
-import { environment } from 'src/environments/environment';
-import { gitInfo } from 'src/environments/version';
+import { environment } from '@environments/environment';
+import { gitInfo } from '@environments/version';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatNavList, MatListItem } from '@angular/material/list';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgClass } from '@angular/common';
+import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
+import { FooterComponent } from '../footer/footer.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface ProjectLink {
     name: string;
@@ -26,16 +41,36 @@ export interface ProjectLink {
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatSidenavContainer,
+        MatSidenav,
+        MatIconButton,
+        MatIcon,
+        RouterLink,
+        MatNavList,
+        MatListItem,
+        MatTooltip,
+        RouterLinkActive,
+        MatSidenavContent,
+        NgClass,
+        TopNavbarComponent,
+        RouterOutlet,
+        FooterComponent,
+        TranslatePipe,
+    ],
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        protected authService: AuthService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private sidenavService: SidenavService,
-        private appConfigService: AppConfigService
-    ) {
+    private _formBuilder = inject(FormBuilder);
+    protected authService = inject(AuthService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+    private sidenavService = inject(SidenavService);
+    private appConfigService = inject(AppConfigService);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 1366px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);

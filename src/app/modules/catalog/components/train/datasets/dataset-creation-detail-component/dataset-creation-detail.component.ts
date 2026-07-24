@@ -3,9 +3,9 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Inject,
     OnInit,
-    Optional,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -13,13 +13,21 @@ import {
     FormControl,
     ValidationErrors,
     ValidatorFn,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     MAT_DIALOG_DATA,
     MatDialog,
     MatDialogRef,
+    MatDialogClose,
 } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import {
+    MatTabChangeEvent,
+    MatTabGroup,
+    MatTab,
+    MatTabLabel,
+} from '@angular/material/tabs';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ZenodoService } from '@app/modules/catalog/services/zenodo-service/zenodo.service';
 import {
@@ -30,6 +38,35 @@ import {
 } from '@app/shared/interfaces/dataset.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable, map, startWith } from 'rxjs';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSuffix,
+    MatError,
+} from '@angular/material/input';
+import {
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+} from '@angular/material/autocomplete';
+import {
+    CdkVirtualScrollViewport,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualForOf,
+} from '@angular/cdk/scrolling';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatDivider } from '@angular/material/list';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export function doiOrUrlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -50,19 +87,55 @@ export function doiOrUrlValidator(): ValidatorFn {
     selector: 'app-dataset-creation-detail',
     templateUrl: './dataset-creation-detail.component.html',
     styleUrls: ['./dataset-creation-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardContent,
+        NgClass,
+        MatTabGroup,
+        MatTab,
+        MatTabLabel,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatAutocompleteTrigger,
+        MatAutocomplete,
+        CdkVirtualScrollViewport,
+        CdkFixedSizeVirtualScroll,
+        NgStyle,
+        CdkVirtualForOf,
+        MatOption,
+        MatSelect,
+        MatProgressSpinner,
+        MatSuffix,
+        MatError,
+        MatDivider,
+        MatCardActions,
+        MatButton,
+        MatDialogClose,
+        AsyncPipe,
+        TranslatePipe,
+    ],
 })
 export class DatasetCreationDetailComponent implements OnInit {
-    constructor(
-        private zenodoService: ZenodoService,
-        public dialogRef: MatDialogRef<DatasetCreationDetailComponent>,
-        public confirmationDialog: MatDialog,
-        private appConfigService: AppConfigService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private fb: FormBuilder,
-        private snackbarService: SnackbarService,
-        @Optional() @Inject(MAT_DIALOG_DATA) public data: ZenodoSimpleDataset
-    ) {
+    private zenodoService = inject(ZenodoService);
+    dialogRef =
+        inject<MatDialogRef<DatasetCreationDetailComponent>>(MatDialogRef);
+    confirmationDialog = inject(MatDialog);
+    private appConfigService = inject(AppConfigService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+    private fb = inject(FormBuilder);
+    private snackbarService = inject(SnackbarService);
+    data = inject<ZenodoSimpleDataset>(MAT_DIALOG_DATA, { optional: true });
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);

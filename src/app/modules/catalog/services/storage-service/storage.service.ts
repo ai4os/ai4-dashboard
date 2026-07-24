@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 import { File } from '@app/shared/interfaces/module.interface';
@@ -12,10 +12,8 @@ const { base, endpoints } = environment.api;
     providedIn: 'root',
 })
 export class StorageService {
-    constructor(
-        private http: HttpClient,
-        private appConfigService: AppConfigService
-    ) {}
+    http = inject(HttpClient);
+    appConfigService = inject(AppConfigService);
 
     readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
 
@@ -30,7 +28,7 @@ export class StorageService {
             .set('subpath', 'ai4os-storage/tools/cvat/backups');
         const headers = new HttpHeaders().set('X-Silent-Error', 'true');
 
-        return this.http.get<Array<File>>(url, { headers, params });
+        return this.http.get<File[]>(url, { headers, params });
     }
 
     deleteSnapshot(
@@ -59,6 +57,6 @@ export class StorageService {
             .set('vo', this.appConfigService.voName);
         const headers = new HttpHeaders().set('X-Silent-Error', 'true');
 
-        return this.http.get<Array<File>>(url, { headers, params });
+        return this.http.get<File[]>(url, { headers, params });
     }
 }

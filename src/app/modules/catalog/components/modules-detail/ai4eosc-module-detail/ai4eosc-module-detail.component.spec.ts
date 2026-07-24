@@ -1,18 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Ai4eoscModuleDetailComponent } from './ai4eosc-module-detail.component';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { TopNavbarComponent } from '@app/layout/top-navbar/top-navbar.component';
 import { ModulesService } from '../../../services/modules-service/modules.service';
-import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '../../../services/tools-service/tools.service';
-import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
-import { of } from 'rxjs';
+import { MarkdownComponent } from 'ngx-markdown';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { provideHttpClient } from '@angular/common/http';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
@@ -20,8 +14,10 @@ import {
     mockAi4eoscModules,
     mockedModulesService,
 } from '@app/modules/catalog/services/modules-service/modules-service.mock';
-import { mockedMarkdownService } from '@app/shared/mocks/markdown-service.mock';
 import { mockedToolsService } from '@app/modules/catalog/services/tools-service/tools-service.mock';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { testProviders } from '@testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 const mockedModule = mockAi4eoscModules[0];
 
@@ -31,33 +27,27 @@ describe('ModuleDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4eoscModuleDetailComponent, TopNavbarComponent],
+            declarations: [],
             imports: [
+                Ai4eoscModuleDetailComponent,
+                TopNavbarComponent,
                 MarkdownComponent,
-                SharedModule,
-                TranslateModule.forRoot(),
+                TranslatePipe,
+                TranslateDirective,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: ModulesService, useValue: mockedModulesService },
                 { provide: ToolsService, useValue: mockedToolsService },
-                { provide: MarkdownService, useValue: mockedMarkdownService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },
                 {
-                    provide: ActivatedRoute,
+                    provide: BreadcrumbService,
                     useValue: {
-                        params: of({
-                            id: 'test',
-                        }),
-                        snapshot: {
-                            paramMap: {
-                                get: () => 'test', // represents the id
-                            },
-                        },
-                        routeConfig: { path: 'test' },
+                        set: jest.fn(),
+                        get: jest.fn(),
                     },
                 },
             ],

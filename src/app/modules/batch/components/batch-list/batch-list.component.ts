@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -13,27 +19,34 @@ import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { BatchService } from '../../services/batch.service';
 import { DeploymentDetailComponent } from '@app/modules/deployments/components/deployment-detail/deployment-detail.component';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-batch-list',
     templateUrl: './batch-list.component.html',
     styleUrl: './batch-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
-export class BatchListComponent {
-    constructor(
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private batchService: BatchService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+export class BatchListComponent implements OnInit {
+    dialog = inject(MatDialog);
+    confirmationDialog = inject(MatDialog);
+    snackbarService = inject(SnackbarService);
+    batchService = inject(BatchService);
+    media = inject(MediaMatcher);
+    changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: Array<TableColumn> = [
+    columns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
@@ -41,7 +54,7 @@ export class BatchListComponent {
         { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
-    dataset: Array<DeploymentTableRow> = [];
+    dataset: DeploymentTableRow[] = [];
     dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;

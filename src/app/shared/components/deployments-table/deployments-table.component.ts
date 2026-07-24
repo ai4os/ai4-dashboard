@@ -8,13 +8,31 @@ import {
     OnInit,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import {
+    MatTableDataSource,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatNoDataRow,
+} from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {
     DeploymentTableRow,
     Snapshot,
@@ -30,29 +48,69 @@ import {
     getDeploymentBadge,
     getSnapshotBadge,
 } from '@app/modules/deployments/utils/deployment-badge';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
 import { formatDate } from '@app/shared/utils/formatDate';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { MatBadge } from '@angular/material/badge';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-deployments-table',
     templateUrl: './deployments-table.component.html',
     styleUrl: './deployments-table.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatCard,
+        MatIcon,
+        MatCardContent,
+        MatTable,
+        MatSort,
+        MatColumnDef,
+        MatHeaderCellDef,
+        MatHeaderCell,
+        MatSortHeader,
+        MatCellDef,
+        MatCell,
+        NgClass,
+        MatTooltip,
+        MatButton,
+        MatBadge,
+        MatHeaderRowDef,
+        MatHeaderRow,
+        MatRowDef,
+        MatRow,
+        MatNoDataRow,
+        MatProgressSpinner,
+        MatCardActions,
+        RouterLink,
+        TranslatePipe,
+    ],
 })
 export class DeploymentsTableComponent implements OnInit, OnDestroy {
-    constructor(
-        public dialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private snapshotService: SnapshotService,
-        public translateService: TranslateService,
-        public confirmationDialog: MatDialog,
-        private media: MediaMatcher,
-        private router: Router,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    dialog = inject(MatDialog);
+    private snackbarService = inject(SnackbarService);
+    private snapshotService = inject(SnapshotService);
+    translateService = inject(TranslateService);
+    confirmationDialog = inject(MatDialog);
+    private media = inject(MediaMatcher);
+    private router = inject(Router);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -66,14 +124,14 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     @Input() showCardActions = false;
     @Input() deploymentType = 'module';
     @Input() isLoading = false;
-    @Input() dataset: Array<DeploymentTableRow> = [];
+    @Input() dataset: DeploymentTableRow[] = [];
     @Input() dataSource!: MatTableDataSource<DeploymentTableRow>;
     @Input() datacentersNotifications: StatusNotification[] = [];
 
     @Output() showElementInfo = new EventEmitter<string>();
     @Output() deleteElement = new EventEmitter<string>();
 
-    @Input() columns: Array<TableColumn> = [
+    @Input() columns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
@@ -122,10 +180,13 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data:
-                    'Are you sure you want to delete this ' +
-                    this.deploymentType +
-                    '?',
+                data: {
+                    title:
+                        'Are you sure you want to delete this ' +
+                        this.deploymentType +
+                        '?',
+                } as ConfirmationDialogData,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
@@ -232,11 +293,18 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         return badge;
     }
 
-    createSnapshot(e: MouseEvent, row: DeploymentTableRow) {
+    createSnapshot(e: Event, row: DeploymentTableRow) {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to create a snapshot of this deployment?`,
+                data: {
+                    title: `Are you sure you want to create a snapshot of this deployment?`,
+                    subtitlePrefix:
+                        'PROFILE.SERVICES-TAB.DIALOG.SUBTITLE-PREFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'PROFILE.SERVICES-TAB.DIALOG.UNLINK',
+                } as ConfirmationDialogData,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
@@ -263,7 +331,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
             });
     }
 
-    redeploySnapshot(e: MouseEvent, row: DeploymentTableRow) {
+    redeploySnapshot(e: Event, row: DeploymentTableRow) {
         e.stopPropagation();
 
         this.dialog

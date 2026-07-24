@@ -13,6 +13,10 @@ import {
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { of } from 'rxjs';
+import { testProviders } from '@app/shared/testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { MockStepperFormComponent } from '@app/shared/mocks/stepper-form.component.mock';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 
 describe('Ai4lifeLoaderComponent', () => {
     let component: Ai4lifeLoaderComponent;
@@ -20,11 +24,9 @@ describe('Ai4lifeLoaderComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4lifeLoaderComponent],
-            imports: [RouterModule.forRoot([])],
+            imports: [Ai4lifeLoaderComponent, RouterModule.forRoot([])],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ToolsService, useValue: mockedToolsService },
                 {
@@ -37,8 +39,24 @@ describe('Ai4lifeLoaderComponent', () => {
                         },
                     },
                 },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        set: jest.fn(),
+                        get: jest.fn(),
+                    },
+                },
             ],
-        }).compileComponents();
+        })
+            .overrideComponent(Ai4lifeLoaderComponent, {
+                remove: {
+                    imports: [StepperFormComponent],
+                },
+                add: {
+                    imports: [MockStepperFormComponent],
+                },
+            })
+            .compileComponents();
 
         mockedToolsService.getTool.mockReturnValue(of(mockAi4lifeTool));
 

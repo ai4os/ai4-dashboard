@@ -15,7 +15,7 @@ export interface Deployment {
         memory_MB: number;
         disk_MB: number;
     };
-    endpoints?: { [index: string]: string };
+    endpoints?: Record<string, string>;
     active_endpoints?: [string];
     main_endpoint: string;
     alloc_ID?: string;
@@ -47,7 +47,7 @@ export interface DeploymentTableRow {
     creationTime: string;
     gpus?: string | number;
     size?: string;
-    endpoints?: { [index: string]: string } | undefined;
+    endpoints?: Record<string, string> | undefined;
     mainEndpoint?: string;
     error_msg?: string;
     description?: string;

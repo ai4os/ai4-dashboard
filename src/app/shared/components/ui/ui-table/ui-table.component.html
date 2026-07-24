@@ -1,0 +1,42 @@
+<div class="ui-table" role="table">
+    <div class="ui-table__header" role="row">
+        @for (col of columns; track col.key) {
+            <div
+                class="ui-table__header-cell"
+                [class.ui-table__header-cell--center]="col.align === 'center'"
+                [class.ui-table__header-cell--right]="col.align === 'right'"
+                [style.flex]="col.width ? '0 0 ' + col.width : '1'"
+                role="columnheader"
+            >
+                {{ col.label | translate }}
+            </div>
+        }
+    </div>
+
+    @if (data.length === 0) {
+        <div class="ui-table__empty">{{ emptyMessage | translate }}</div>
+    } @else {
+        @for (row of data; track trackByFn($index, row)) {
+            <div class="ui-table__row" role="row">
+                @for (col of columns; track col.key) {
+                    <div
+                        class="ui-table__cell"
+                        [class.ui-table__cell--center]="col.align === 'center'"
+                        [class.ui-table__cell--right]="col.align === 'right'"
+                        [style.flex]="col.width ? '0 0 ' + col.width : '1'"
+                        role="cell"
+                    >
+                        @if (getTemplate(col.key.toString()); as tpl) {
+                            <ng-container
+                                [ngTemplateOutlet]="tpl.template"
+                                [ngTemplateOutletContext]="{ $implicit: row }"
+                            ></ng-container>
+                        } @else {
+                            {{ row[col.key] }}
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

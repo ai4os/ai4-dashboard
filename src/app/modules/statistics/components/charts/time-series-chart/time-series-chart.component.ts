@@ -1,14 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { EChartsOption } from 'echarts';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { NgxEchartsDirective } from 'ngx-echarts';
 
 @Component({
     selector: 'app-time-series-chart',
     templateUrl: './time-series-chart.component.html',
     styleUrls: ['./time-series-chart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatCard, MatCardContent, NgxEchartsDirective],
 })
 export class TimeSeriesChartComponent implements OnInit {
-    constructor() {}
-
     chartOptionsCommon: EChartsOption = {};
     chartOptionsData: EChartsOption = {};
     colorPalette: string[] = [];

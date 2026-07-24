@@ -15,11 +15,12 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular/build:application",
                     "options": {
-                        "outputPath": "dist/ai4-dashboard",
+                        "outputPath": {
+                            "base": "dist/ai4-dashboard"
+                        },
                         "index": "src/index.html",
-                        "main": "src/main.ts",
                         "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
@@ -27,13 +28,12 @@
                         "stylePreprocessorOptions": {
                             "includePaths": ["src/theme/exports"]
                         },
-                        "scripts": []
+                        "scripts": [],
+                        "browser": "src/main.ts"
                     },
                     "configurations": {
                         "ai4eosc-local": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -73,9 +73,7 @@
                             ]
                         },
                         "ai4eosc-development-1": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -116,9 +114,7 @@
                             ]
                         },
                         "ai4eosc-development": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -162,13 +158,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2.5mb",
+                                    "maximumError": "3mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
+                                    "maximumWarning": "4kb",
+                                    "maximumError": "6kb"
                                 }
                             ],
                             "outputHashing": "all",
@@ -211,13 +207,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2.5mb",
+                                    "maximumError": "3mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
+                                    "maximumWarning": "4kb",
+                                    "maximumError": "6kb"
                                 }
                             ],
                             "outputHashing": "all",
@@ -257,9 +253,7 @@
                             ]
                         },
                         "imagine-local": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -299,9 +293,7 @@
                             ]
                         },
                         "imagine-development": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -345,13 +337,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2.5mb",
+                                    "maximumError": "3mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
+                                    "maximumWarning": "4kb",
+                                    "maximumError": "6kb"
                                 }
                             ],
                             "outputHashing": "all",
@@ -394,13 +386,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2.5mb",
+                                    "maximumError": "3mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
+                                    "maximumWarning": "4kb",
+                                    "maximumError": "6kb"
                                 }
                             ],
                             "outputHashing": "all",
@@ -440,9 +432,7 @@
                             ]
                         },
                         "ai4life-production": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -483,9 +473,7 @@
                             ]
                         },
                         "kmd4eosc-production": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -529,7 +517,7 @@
                     "defaultConfiguration": "ai4eosc-production"
                 },
                 "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "builder": "@angular/build:dev-server",
                     "configurations": {
                         "ai4eosc-local": {
                             "buildTarget": "ai4-dashboard:build:ai4eosc-local"
@@ -568,7 +556,7 @@
                     "defaultConfiguration": "ai4eosc-local"
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "builder": "@angular/build:extract-i18n",
                     "options": {
                         "buildTarget": "ai4-dashboard:build"
                     }
@@ -585,5 +573,31 @@
     "cli": {
         "schematicCollections": ["@angular-eslint/schematics"],
         "analytics": false
+    },
+    "schematics": {
+        "@schematics/angular:component": {
+            "type": "component"
+        },
+        "@schematics/angular:directive": {
+            "type": "directive"
+        },
+        "@schematics/angular:service": {
+            "type": "service"
+        },
+        "@schematics/angular:guard": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+            "typeSeparator": "."
+        }
     }
 }

@@ -173,10 +173,10 @@ export const mockedClusterStats: ClusterStats = {
 export const mockedGlobalStats: GlobalStats = {
     cpuNumAgg: 14,
     cpuNumTotal: 345,
-    memoryMBAgg: 234,
-    memoryMBTotal: 234234,
-    diskMBAgg: 234,
-    diskMBTotal: 2346,
+    memoryMBAgg: 2048,
+    memoryMBTotal: 16384,
+    diskMBAgg: 10240,
+    diskMBTotal: 65536,
     gpuNumAgg: 12,
     gpuNumTotal: 545,
 };

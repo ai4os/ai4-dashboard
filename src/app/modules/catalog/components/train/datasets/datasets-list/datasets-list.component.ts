@@ -8,16 +8,44 @@ import {
     OnInit,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { ConfirmationDialogComponent } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
+import {
+    MatTableDataSource,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatNoDataRow,
+} from '@angular/material/table';
+import {
+    ConfirmationDialogComponent,
+    ConfirmationDialogData,
+} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DatasetCreationDetailComponent } from '../dataset-creation-detail-component/dataset-creation-detail.component';
 import { FormGroup } from '@angular/forms';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import {
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgClass } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface TableColumn {
     columnDef: string;
@@ -36,16 +64,43 @@ export interface DatasetTableRow {
     selector: 'app-datasets-list',
     templateUrl: './datasets-list.component.html',
     styleUrls: ['./datasets-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatCard,
+        MatCardContent,
+        MatTable,
+        MatSort,
+        MatColumnDef,
+        MatHeaderCellDef,
+        MatHeaderCell,
+        MatSortHeader,
+        MatIcon,
+        MatTooltip,
+        MatCellDef,
+        MatCell,
+        NgClass,
+        MatCheckbox,
+        MatButton,
+        MatHeaderRowDef,
+        MatHeaderRow,
+        MatRowDef,
+        MatRow,
+        MatNoDataRow,
+        MatCardActions,
+        TranslatePipe,
+    ],
 })
 export class DatasetsListComponent implements OnInit {
-    constructor(
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private _liveAnnouncer: LiveAnnouncer,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    dialog = inject(MatDialog);
+    confirmationDialog = inject(MatDialog);
+    private snackbarService = inject(SnackbarService);
+    private _liveAnnouncer = inject(LiveAnnouncer);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -56,13 +111,13 @@ export class DatasetsListComponent implements OnInit {
     }
 
     @Input()
-        storageConfFormGroup!: FormGroup;
+    storageConfFormGroup!: FormGroup;
 
     @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
     @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
 
-    columns: Array<TableColumn> = [
+    columns: TableColumn[] = [
         { columnDef: 'id', header: '', hidden: true },
         {
             columnDef: 'name',
@@ -82,7 +137,7 @@ export class DatasetsListComponent implements OnInit {
         },
     ];
 
-    datasets: Array<DatasetTableRow> = [];
+    datasets: DatasetTableRow[] = [];
     dataSource!: MatTableDataSource<DatasetTableRow>;
     displayedColumns: string[] = [];
 
@@ -181,7 +236,10 @@ export class DatasetsListComponent implements OnInit {
         e.stopPropagation();
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
-                data: `Are you sure you want to delete this dataset?`,
+                data: {
+                    title: 'Are you sure you want to delete this dataset?',
+                } as ConfirmationDialogData,
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {

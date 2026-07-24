@@ -14,6 +14,10 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { testProviders } from '@app/shared/testing/test-providers';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { MockStepperFormComponent } from '@app/shared/mocks/stepper-form.component.mock';
+import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 
 describe('CvatComponent', () => {
     let component: CvatComponent;
@@ -21,10 +25,9 @@ describe('CvatComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [CvatComponent],
+            imports: [CvatComponent],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: ToolsService, useValue: mockedToolsService },
                 {
@@ -37,8 +40,24 @@ describe('CvatComponent', () => {
                         },
                     },
                 },
+                {
+                    provide: BreadcrumbService,
+                    useValue: {
+                        set: jest.fn(),
+                        get: jest.fn(),
+                    },
+                },
             ],
-        }).compileComponents();
+        })
+            .overrideComponent(CvatComponent, {
+                remove: {
+                    imports: [StepperFormComponent],
+                },
+                add: {
+                    imports: [MockStepperFormComponent],
+                },
+            })
+            .compileComponents();
 
         mockedToolsService.getTool.mockReturnValue(of(mockCvatTool));
 

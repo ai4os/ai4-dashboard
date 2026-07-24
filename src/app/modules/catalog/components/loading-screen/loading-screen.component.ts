@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import {
     GradioCreateResponse,
     GradioDeployment,
@@ -18,17 +23,18 @@ import {
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-loading-screen',
     templateUrl: './loading-screen.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatProgressSpinner],
 })
 export class LoadingScreenComponent implements OnInit {
-    constructor(
-        private tryMeService: TryMeService,
-        public translateService: TranslateService,
-        private snackbarService: SnackbarService
-    ) {}
+    tryMeService = inject(TryMeService);
+    translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
 
     module!: Ai4eoscModule;
     loadingText = '';

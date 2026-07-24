@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Ai4lifeListComponent } from './ai4life-list.component';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { SharedModule } from '@app/shared/shared.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { SearchAi4lifePipe } from '@app/modules/catalog/pipes/search-card-pipe';
 import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
+import { testProviders } from '@app/shared/testing/test-providers';
 
 describe('Ai4lifeListComponent', () => {
     let component: Ai4lifeListComponent;
@@ -14,11 +11,8 @@ describe('Ai4lifeListComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4lifeListComponent, SearchAi4lifePipe],
-            providers: [
-                { provide: MediaMatcher, useValue: mockedMediaMatcher },
-            ],
-            imports: [SharedModule, NoopAnimationsModule],
+            imports: [Ai4lifeListComponent, SearchAi4lifePipe],
+            providers: testProviders,
         }).compileComponents();
 
         fixture = TestBed.createComponent(Ai4lifeListComponent);

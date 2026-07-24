@@ -2,14 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FederatedConfFormComponent } from './federated-conf-form.component';
 import { FormGroupDirective, FormBuilder } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '@app/shared/shared.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { flowerDefaultFormValues } from './federated-conf-form.component.mock';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { testProviders } from '@testing/test-providers';
 
 describe('FederatedConfFormComponent', () => {
     let component: FederatedConfFormComponent;
@@ -22,13 +21,14 @@ describe('FederatedConfFormComponent', () => {
             test: fb.control(null),
         });
         await TestBed.configureTestingModule({
-            declarations: [FederatedConfFormComponent],
             imports: [
-                SharedModule,
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
+                FederatedConfFormComponent,
+                TranslatePipe,
+                TranslateDirective,
             ],
             providers: [
+                ...testProviders,
+
                 FormGroupDirective,
                 FormBuilder,
                 { provide: FormGroupDirective, useValue: formGroupDirective },

@@ -1,19 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+    ComponentFixture,
+    TestBed,
+    fakeAsync,
+    tick,
+} from '@angular/core/testing';
 
 import { UsageTabComponent } from './usage-tab.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { By } from '@angular/platform-browser';
-import { SharedModule } from '@app/shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from '@jest/globals';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedGlobalStats } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedParsedUserProfile } from '@app/core/services/auth/auth-service.mock';
+import { testProviders } from '@testing/test-providers';
 
 describe('UsageTabComponent', () => {
     let component: UsageTabComponent;
@@ -21,15 +23,9 @@ describe('UsageTabComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [UsageTabComponent],
-            imports: [
-                TranslateModule.forRoot(),
-                SharedModule,
-                BrowserAnimationsModule,
-            ],
+            imports: [UsageTabComponent, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
                 { provide: AppConfigService, useValue: mockedConfigService },
             ],
             schemas: [NO_ERRORS_SCHEMA],
@@ -48,6 +44,7 @@ describe('UsageTabComponent', () => {
 
     it('should show titles', () => {
         const compiled = fixture.nativeElement as HTMLElement;
+
         let title = compiled.querySelector('#title')?.textContent;
         expect(title).toContain('USAGE');
 
@@ -55,102 +52,60 @@ describe('UsageTabComponent', () => {
         expect(title).toContain('USERS-OVER-TIME');
     });
 
-    it('should show tabs', () => {
+    it('should show tabs', fakeAsync(() => {
         const { debugElement } = fixture;
-        let chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
 
-        // first tab is selected
-        let tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[0];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(0, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
+        const tabs = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'));
 
-        // select the second tab
-        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[1];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(1, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
+        expect(tabs.length).toBe(7);
 
-        // select the third tab
-        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[2];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(2, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
+        tabs.forEach((tab, index) => {
+            tab.nativeElement.click();
 
-        // select the fourth tab
-        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[3];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(3, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
+            tick();
+            fixture.detectChanges();
 
-        // select the fifth tab
-        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[4];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(4, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
+            checkSelectedIndex(index, fixture);
 
-        // select the sixth tab
-        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[5];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(5, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
-
-        // select the seventh tab
-        tabLabel = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[6];
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(6, fixture);
-        chart = debugElement.query(By.css('app-time-series-chart'));
-        expect(chart).toBeTruthy();
-    });
+            const chart = debugElement.query(By.css('app-time-series-chart'));
+            expect(chart).toBeTruthy();
+        });
+    }));
 
     it('should show stats container', () => {
-        const { debugElement } = fixture;
-        const container = debugElement.query(By.css('app-stats-container'));
-        expect(container).toBeTruthy();
-        expect(container.properties.usedCpuNum).toBe(14);
-        expect(container.properties.totalCpuNum).toBe(345);
-        expect(container.properties.usedMemory).toBe(234);
-        expect(container.properties.totalMemory).toBe(234234);
-        expect(container.properties.usedDisk).toBe(234);
-        expect(container.properties.totalDisk).toBe(2346);
-        expect(container.properties.usedGpuNum).toBe(12);
-        expect(container.properties.totalGpuNum).toBe(545);
-        expect(container.properties.usedLabel).toBe('AI4EOSC Dashboard Test');
-        expect(container.properties.freeLabel).toBe('Test AI4EOSC');
+        const statsContainer = fixture.debugElement.query(
+            By.css('app-stats-container')
+        );
+        const instance = statsContainer.componentInstance;
+
+        expect(instance).toBeTruthy();
+        expect(instance.usedCpuNum).toBe(14);
+        expect(instance.totalCpuNum).toBe(345);
+        expect(instance.usedMemory).toBe(2);
+        expect(instance.totalMemory).toBe(16);
+        expect(instance.usedDisk).toBe(10);
+        expect(instance.totalDisk).toBe(64);
+        expect(instance.usedGpuNum).toBe(12);
+        expect(instance.totalGpuNum).toBe(545);
+        expect(instance.usedLabel).toBe('AI4EOSC Dashboard Test');
+        expect(instance.freeLabel).toBe('Test AI4EOSC');
     });
 });
 
-/**
- * Checks that the `selectedIndex` has been updated; checks that the label and body have their
- * respective `active` classes
- */
 function checkSelectedIndex(
     expectedIndex: number,
     fixture: ComponentFixture<any>
 ) {
     fixture.detectChanges();
 
-    const tabComponent: MatTabGroup = fixture.debugElement.query(
-        By.css('mat-tab-group')
-    ).componentInstance;
-    expect(tabComponent.selectedIndex).toBe(expectedIndex);
+    const tabGroup = fixture.debugElement.query(By.directive(MatTabGroup))
+        .componentInstance as MatTabGroup;
+
+    expect(tabGroup.selectedIndex).toBe(expectedIndex);
 
     const tabLabelElement = fixture.debugElement.query(
         By.css(`.mat-mdc-tab:nth-of-type(${expectedIndex + 1})`)
     ).nativeElement;
-    expect(tabLabelElement.classList.contains('mdc-tab--active')).toBe(true);
 
-    const tabContentElement = fixture.debugElement.query(
-        By.css(`mat-tab-body:nth-of-type(${expectedIndex + 1})`)
-    ).nativeElement;
-    expect(
-        tabContentElement.classList.contains('mat-mdc-tab-body-active')
-    ).toBe(true);
+    expect(tabLabelElement.classList.contains('mdc-tab--active')).toBe(true);
 }

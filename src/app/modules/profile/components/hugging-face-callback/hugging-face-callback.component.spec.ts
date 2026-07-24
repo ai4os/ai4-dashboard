@@ -2,12 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HuggingFaceCallbackComponent } from './hugging-face-callback.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, throwError } from 'rxjs';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ProfileService } from '../../services/profile-service/profile.service';
-import { mockedProfileService } from '@app/modules/profile/services/profile-service/profile.service.mock';
+import { Subject, of, throwError } from 'rxjs';
+import { HuggingFaceService } from '../../services/hugging-face-service/hugging-face.service';
 import { mockRouter } from '@app/shared/mocks/router.mock';
+import { testProviders } from '@testing/test-providers';
+import { mockedHuggingFaceService } from '../../services/hugging-face-service/hugging-face.service.mock';
 
 describe('HuggingFaceCallbackComponent', () => {
     let component: HuggingFaceCallbackComponent;
@@ -17,12 +16,18 @@ describe('HuggingFaceCallbackComponent', () => {
     beforeEach(async () => {
         queryParamsSubject = new Subject();
 
+        mockedHuggingFaceService.validateOAuthRedirect.mockReturnValue(
+            of(undefined)
+        );
+
         await TestBed.configureTestingModule({
-            declarations: [HuggingFaceCallbackComponent],
+            imports: [HuggingFaceCallbackComponent],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
-                { provide: ProfileService, useValue: mockedProfileService },
+                ...testProviders,
+                {
+                    provide: HuggingFaceService,
+                    useValue: mockedHuggingFaceService,
+                },
                 { provide: Router, useValue: mockRouter },
                 {
                     provide: ActivatedRoute,
@@ -49,29 +54,30 @@ describe('HuggingFaceCallbackComponent', () => {
     it('should call validateOAuthRedirect and navigate on success', () => {
         queryParamsSubject.next({ code: 'testCode', state: 'testState' });
 
-        expect(mockedProfileService.validateOAuthRedirect).toHaveBeenCalledWith(
-            'testCode',
-            'testState'
-        );
+        expect(
+            mockedHuggingFaceService.validateOAuthRedirect
+        ).toHaveBeenCalledWith('testCode', 'testState');
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/profile']);
     });
 
     it('should navigate on validateOAuthRedirect error', () => {
-        queryParamsSubject.next({ code: 'testCode', state: 'testState' });
-
-        mockedProfileService.validateOAuthRedirect.mockReturnValue(
+        mockedHuggingFaceService.validateOAuthRedirect.mockReturnValue(
             throwError(() => new Error('Error'))
         );
 
-        expect(mockedProfileService.validateOAuthRedirect).toHaveBeenCalled();
+        queryParamsSubject.next({ code: 'testCode', state: 'testState' });
+
+        expect(
+            mockedHuggingFaceService.validateOAuthRedirect
+        ).toHaveBeenCalled();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/profile']);
     });
 
-    it('should navigate when code or state is missing', async () => {
+    it('should navigate when code or state is missing', () => {
         queryParamsSubject.next({});
 
         expect(
-            mockedProfileService.validateOAuthRedirect
+            mockedHuggingFaceService.validateOAuthRedirect
         ).not.toHaveBeenCalled();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/profile']);
     });

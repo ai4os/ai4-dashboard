@@ -27,24 +27,26 @@
                 }"
             ></xng-breadcrumb>
 
-            <mat-slide-toggle
-                *ngIf="!mobileQuery.matches"
-                color="accent"
-                formControlName="showHelpToggleButton"
-                #showHelpToggle
-                (change)="showHelpButtonChange($event)"
-            >
-                Show help
-            </mat-slide-toggle>
+            @if (!mobileQuery.matches) {
+                <mat-slide-toggle
+                    color="accent"
+                    formControlName="showHelpToggleButton"
+                    #showHelpToggle
+                    (change)="showHelpButtonChange($event)"
+                >
+                    Show help
+                </mat-slide-toggle>
+            }
         </div>
     </div>
 </form>
 
-<div *ngIf="isLoading; else stepper" class="spinner">
-    <mat-progress-spinner color="primary" mode="indeterminate">
-    </mat-progress-spinner>
-</div>
-<ng-template #stepper>
+@if (isLoading) {
+    <div class="spinner">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+} @else {
     <mat-stepper
         [orientation]="getStepperOrientation()"
         linear
@@ -60,9 +62,7 @@
                     'next-back-buttons': !mobileQuery.matches,
                 }"
             >
-                <ng-container
-                    *ngIf="numberOfSteps === 1; else middleStepButtons"
-                >
+                @if (numberOfSteps === 1) {
                     <button
                         mat-raised-button
                         color="accent"
@@ -71,8 +71,7 @@
                     >
                         {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
                     </button>
-                </ng-container>
-                <ng-template #middleStepButtons>
+                } @else {
                     <button
                         mat-raised-button
                         class="mr-2"
@@ -94,7 +93,7 @@
                     >
                         {{ 'GENERAL-BUTTONS.NEXT' | translate }}
                     </button>
-                </ng-template>
+                }
             </div>
         </mat-step>
         @if (numberOfSteps > 1) {
@@ -109,9 +108,7 @@
                         'next-back-buttons': !mobileQuery.matches,
                     }"
                 >
-                    <ng-container
-                        *ngIf="numberOfSteps === 2; else middleStepButtons"
-                    >
+                    @if (numberOfSteps === 2) {
                         <button
                             mat-raised-button
                             matStepperPrevious
@@ -127,8 +124,7 @@
                         >
                             {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
                         </button>
-                    </ng-container>
-                    <ng-template #middleStepButtons>
+                    } @else {
                         <button
                             mat-raised-button
                             matStepperPrevious
@@ -140,33 +136,40 @@
                         <button mat-raised-button matStepperNext color="accent">
                             {{ 'GENERAL-BUTTONS.NEXT' | translate }}
                         </button>
-                    </ng-template>
+                    }
                 </div>
             </mat-step>
-            <mat-step *ngIf="numberOfSteps === 3">
-                <ng-template matStepLabel>{{
-                    step3Title! | translate
-                }}</ng-template>
-                <ng-container [ngTemplateOutlet]="step3"></ng-container>
-                <div
-                    [ngClass]="{
-                        'next-back-buttons-mobile': mobileQuery.matches,
-                        'next-back-buttons': !mobileQuery.matches,
-                    }"
-                >
-                    <button mat-raised-button matStepperPrevious class="mr-2">
-                        {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                    </button>
-                    <button
-                        mat-raised-button
-                        color="accent"
-                        (click)="submitTrainingRequest()"
-                        [disabled]="!checkFormValidity(step3Form!)"
+
+            @if (numberOfSteps === 3) {
+                <mat-step>
+                    <ng-template matStepLabel>{{
+                        step3Title! | translate
+                    }}</ng-template>
+                    <ng-container [ngTemplateOutlet]="step3"></ng-container>
+                    <div
+                        [ngClass]="{
+                            'next-back-buttons-mobile': mobileQuery.matches,
+                            'next-back-buttons': !mobileQuery.matches,
+                        }"
                     >
-                        {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
-                    </button>
-                </div>
-            </mat-step>
+                        <button
+                            mat-raised-button
+                            matStepperPrevious
+                            class="mr-2"
+                        >
+                            {{ 'GENERAL-BUTTONS.BACK' | translate }}
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="accent"
+                            (click)="submitTrainingRequest()"
+                            [disabled]="!checkFormValidity(step3Form!)"
+                        >
+                            {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
+                        </button>
+                    </div>
+                </mat-step>
+            }
         }
     </mat-stepper>
-</ng-template>
+}

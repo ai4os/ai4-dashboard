@@ -1,4 +1,11 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    Renderer2,
+    ViewChild,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import {
     ChatMessage,
     ChatRequest,
@@ -6,27 +13,56 @@ import {
 import { ChatBotService } from '@app/shared/services/chat-bot/chat-bot.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+} from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatMiniFabButton, MatFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MarkdownComponent } from 'ngx-markdown';
+import { MatFormField, MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-chat-bot',
     templateUrl: './chat-bot.component.html',
     styleUrl: './chat-bot.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatCard,
+        NgClass,
+        MatCardHeader,
+        MatCardTitle,
+        MatMiniFabButton,
+        MatTooltip,
+        MatIcon,
+        MatCardContent,
+        MarkdownComponent,
+        MatFormField,
+        MatInput,
+        FormsModule,
+        MatFabButton,
+        TranslatePipe,
+    ],
 })
 export class ChatBotComponent {
-    constructor(
-        private chatBotService: ChatBotService,
-        private renderer: Renderer2,
-        private snackbarService: SnackbarService,
-        private sidenavService: SidenavService
-    ) {}
+    private chatBotService = inject(ChatBotService);
+    private renderer = inject(Renderer2);
+    private snackbarService = inject(SnackbarService);
+    private sidenavService = inject(SidenavService);
 
     @ViewChild('messagesList') private messagesList!: ElementRef;
 
     open = false;
     expanded = false;
     isLoading = false;
-    message: string = '';
-    response: string = '';
+    message = '';
+    response = '';
     chatHistory: ChatRequest = {
         model: 'ai4eoscassistant',
         messages: [],

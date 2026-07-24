@@ -10,9 +10,19 @@ import {
     Output,
     TemplateRef,
     ViewChild,
+    ChangeDetectionStrategy,
+    inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import {
+    MatSlideToggleChange,
+    MatSlideToggle,
+} from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
@@ -21,25 +31,60 @@ import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatChip, MatChipAvatar } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import {
+    MatStepper,
+    MatStep,
+    MatStepLabel,
+    MatStepperNext,
+    MatStepperPrevious,
+} from '@angular/material/stepper';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-stepper-form',
     templateUrl: './stepper-form.component.html',
     styleUrls: ['./stepper-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        FormsModule,
+        ReactiveFormsModule,
+        MatChip,
+        MatIcon,
+        MatChipAvatar,
+        NgClass,
+        BreadcrumbComponent,
+        MatSlideToggle,
+        MatProgressSpinner,
+        MatStepper,
+        MatStep,
+        MatStepLabel,
+        NgTemplateOutlet,
+        MatButton,
+        MatStepperNext,
+        MatStepperPrevious,
+        TranslatePipe,
+    ],
 })
 export class StepperFormComponent implements OnInit {
-    constructor(
-        private _formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private deploymentsService: DeploymentsService,
-        private oscarInferenceService: OscarInferenceService,
-        private router: Router,
-        private snackbarService: SnackbarService
-    ) {
+    _formBuilder = inject(FormBuilder);
+    cdr = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    deploymentsService = inject(DeploymentsService);
+    oscarInferenceService = inject(OscarInferenceService);
+    router = inject(Router);
+    snackbarService = inject(SnackbarService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () => this.cdr.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
@@ -75,8 +120,7 @@ export class StepperFormComponent implements OnInit {
     @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
 
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
-        | ElementRef
-        | undefined;
+        ElementRef | undefined;
 
     showHelpForm: FormGroup = this._formBuilder.group({
         showHelpToggleButton: false,
@@ -115,8 +159,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 co2: this.step1Form.value.generalConfForm.co2EmissionsInput,
@@ -211,7 +255,7 @@ export class StepperFormComponent implements OnInit {
                             .strategyOptionsSelect ===
                         'Federated Averaging with Momentum (FedAvgM)'
                             ? this.step3Form!.value.federatedConfForm
-                                .momentumInput
+                                  .momentumInput
                             : null,
                     dp: this.step3Form!.value.federatedConfForm.dpInput,
                     mp: this.step3Form!.value.federatedConfForm.dpInput
@@ -223,11 +267,11 @@ export class StepperFormComponent implements OnInit {
                     sampled_clients: this.step3Form!.value.federatedConfForm
                         .dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .sampledClientsNumInput
+                              .sampledClientsNumInput
                         : null,
                     clip_norm: this.step3Form!.value.federatedConfForm.dpInput
                         ? this.step3Form!.value.federatedConfForm
-                            .clippingNormInput
+                              .clippingNormInput
                         : null,
                 };
                 request = this.deploymentsService.trainTool(
@@ -259,7 +303,7 @@ export class StepperFormComponent implements OnInit {
                                   this.step3Form!.value.nvflareConfForm.startingDateInput.getTime() -
                                       this.step3Form!.value.nvflareConfForm.startingDateInput.getTimezoneOffset() *
                                           60000
-                            ).toISOString(),
+                              ).toISOString(),
                     end_date:
                         this.step3Form!.value.nvflareConfForm.endDateInput ===
                         ''
@@ -268,7 +312,7 @@ export class StepperFormComponent implements OnInit {
                                   this.step3Form!.value.nvflareConfForm.endDateInput.getTime() -
                                       this.step3Form!.value.nvflareConfForm.endDateInput.getTimezoneOffset() *
                                           60000
-                            ).toISOString(),
+                              ).toISOString(),
                 };
                 request = this.deploymentsService.trainTool(
                     'ai4os-nvflare',
@@ -293,7 +337,7 @@ export class StepperFormComponent implements OnInit {
                             ?.doi === ''
                             ? []
                             : this.step3Form!.value.storageConfForm
-                                .datasetsList,
+                                  .datasetsList,
                 };
 
                 if (this.title === 'AI4OS Development Environment') {
@@ -346,8 +390,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:
@@ -395,8 +439,8 @@ export class StepperFormComponent implements OnInit {
                 title:
                     this.step1Form.value.generalConfForm.titleInput === ''
                         ? uniqueNamesGenerator({
-                            dictionaries: [colors, animals],
-                        })
+                              dictionaries: [colors, animals],
+                          })
                         : this.step1Form.value.generalConfForm.titleInput,
                 desc: this.step1Form.value.generalConfForm.descriptionInput,
                 docker_image:

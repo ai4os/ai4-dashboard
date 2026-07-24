@@ -4,16 +4,13 @@ import { Ai4lifeModuleDetailComponent } from './ai4life-module-detail.component'
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { RouterModule } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '@app/shared/shared.module';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
+import { testProviders } from '@testing/test-providers';
 
 const mockedModule = mockAi4lifeModules[0];
 
@@ -23,16 +20,15 @@ describe('Ai4lifeModuleDetailComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Ai4lifeModuleDetailComponent],
             imports: [
                 RouterModule.forRoot([]),
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
-                SharedModule,
+                TranslatePipe,
+                TranslateDirective,
+                Ai4lifeModuleDetailComponent,
             ],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: AuthService, useValue: mockedAuthService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

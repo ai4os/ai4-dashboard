@@ -1,5 +1,5 @@
 <div class="content">
-    <ng-container *ngIf="mobileQuery.matches; else desktop">
+    @if (mobileQuery.matches) {
         <mat-toolbar class="mb-3 marketplace-toolbar mobile">
             <form [formGroup]="searchFormGroup" class="search-form-mobile">
                 <mat-form-field
@@ -17,9 +17,7 @@
                 </mat-form-field>
             </form>
         </mat-toolbar>
-    </ng-container>
-
-    <ng-template #desktop>
+    } @else {
         <mat-toolbar class="marketplace-toolbar">
             <div class="search-and-results-container">
                 <div class="search-filter-order-container">
@@ -39,7 +37,6 @@
                             />
                         </mat-form-field>
                     </form>
-
                     <mat-chip
                         color="accent"
                         [matBadge]="selectedFilters.length"
@@ -48,11 +45,8 @@
                     >
                         {{ 'CATALOG.FILTERS.ADITIONAL-FILTERS' | translate }}
                     </mat-chip>
-
                     <mat-divider [vertical]="true"></mat-divider>
-
                     <span class="small-text"> Sort: </span>
-
                     <mat-chip-listbox>
                         <mat-chip-option
                             [selected]="sortBy === 'name'"
@@ -72,7 +66,6 @@
                         >
                     </mat-chip-listbox>
                 </div>
-
                 <span>
                     <p class="results-text">
                         {{ resultsFound }}
@@ -81,7 +74,6 @@
                 </span>
             </div>
         </mat-toolbar>
-
         <app-filter-component
             [libraries]="librariesList"
             [tasks]="tasksList"
@@ -95,33 +87,36 @@
             (tagsChanged)="filterByTag($event)"
             (changeDetected)="addFilter($event)"
         ></app-filter-component>
-    </ng-template>
+    }
 
     <div>
         <div class="modules-cards-container">
-            <span
-                fxFlex
-                *ngFor="
-                    let element of displayedElements
-                        | searchAi4eoscModule
-                            : this.searchFormGroup.get('search')
-                                  ?.value as elements;
-                    let first = first
-                "
-                class="m-2"
-                [id]="first ? 'step1' : null"
-                [ngStyle]="{
-                    display:
-                        voName === 'vo.imagine-ai.eu' &&
-                        element.id === 'ai4os-llm'
-                            ? 'none'
-                            : '',
-                }"
-            >
-                <app-ai4eosc-module-card
-                    [module]="element"
-                ></app-ai4eosc-module-card>
-            </span>
+            @for (
+                element of displayedElements
+                    | searchAi4eoscModule
+                        : $safeNavigationMigration(
+                              searchFormGroup.get('search')?.value
+                          );
+                track element.id;
+                let first = $first
+            ) {
+                <span
+                    fxFlex
+                    class="m-2"
+                    [id]="first ? 'step1' : null"
+                    [ngStyle]="{
+                        display:
+                            voName === 'vo.imagine-ai.eu' &&
+                            element.id === 'ai4os-llm'
+                                ? 'none'
+                                : '',
+                    }"
+                >
+                    <app-ai4eosc-module-card
+                        [module]="element"
+                    ></app-ai4eosc-module-card>
+                </span>
+            }
         </div>
     </div>
 </div>

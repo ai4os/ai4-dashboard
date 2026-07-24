@@ -1,15 +1,34 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
     FormGroupDirective,
     Validators,
+    FormsModule,
+    ReactiveFormsModule,
 } from '@angular/forms';
 import {
     ModuleHardwareConfiguration,
     confObjectRange,
 } from '@app/shared/interfaces/module.interface';
+import { NgClass } from '@angular/common';
+import {
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatHint,
+} from '@angular/material/input';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface showHardwareField {
     cpu_num: boolean;
@@ -30,16 +49,31 @@ const mockedConfObject: confObjectRange = {
     selector: 'app-hardware-conf-form',
     templateUrl: './hardware-conf-form.component.html',
     styleUrls: ['./hardware-conf-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatError,
+        MatHint,
+        MatSelect,
+        MatOption,
+        TranslatePipe,
+    ],
 })
 export class HardwareConfFormComponent implements OnInit {
-    constructor(
-        private ctrlContainer: FormGroupDirective,
-        private fb: FormBuilder,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    ctrlContainer = inject(FormGroupDirective);
+    fb = inject(FormBuilder);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 

@@ -48,7 +48,10 @@
             </span>
             <span class="drawer-dc-info__loc">
                 <span class="drawer-dc-info__flag">
-                    {{ selectedDatacenter?.country | countryFlag }}
+                    {{
+                        $safeNavigationMigration(selectedDatacenter?.country)
+                            | countryFlag
+                    }}
                 </span>
             </span>
         </div>

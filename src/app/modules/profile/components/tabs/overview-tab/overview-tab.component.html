@@ -1,0 +1,58 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'PROFILE.OVERVIEW-TAB.SUBTITLE' | translate }}
+        </h3>
+        <p class="section-header__subtitle">
+            {{ 'PROFILE.OVERVIEW-TAB.DESCRIPTION' | translate }}
+        </p>
+    </div>
+</div>
+
+<div class="tab-panel">
+    <!-- Virtual organisations -->
+    <div>
+        @for (vo of vos; track vo.name; let i = $index) {
+            <app-ui-list-card
+                [title]="vo.name"
+                [suffixText]="vo.roles.length + ' roles'"
+                [theme]="
+                    vo.name === appConfigService.voName ? 'primary' : 'default'
+                "
+                [tooltip]="
+                    vo.name === appConfigService.voName
+                        ? ('PROFILE.OVERVIEW-TAB.VO-TOOLTIP' | translate)
+                        : undefined
+                "
+            >
+                @for (role of vo.roles; track role; let isFirst = $first) {
+                    <app-ui-chip
+                        [text]="role"
+                        [variant]="
+                            isFirst && vo.name === appConfigService.voName
+                                ? 'accent-solid'
+                                : 'default-solid'
+                        "
+                        [tooltip]="
+                            isFirst && vo.name === appConfigService.voName
+                                ? ('PROFILE.OVERVIEW-TAB.ROLE-TOOLTIP'
+                                  | translate)
+                                : undefined
+                        "
+                    ></app-ui-chip>
+                }
+            </app-ui-list-card>
+        }
+
+        @if (vos.length === 0) {
+            <app-ui-list-card
+                [title]="'PROFILE.OVERVIEW-TAB.UNAUTHORIZED' | translate"
+                [suffixText]="
+                    'PROFILE.OVERVIEW-TAB.UNAUTHORIZED-DESC' | translate
+                "
+                theme="warning"
+            >
+            </app-ui-list-card>
+        }
+    </div>
+</div>

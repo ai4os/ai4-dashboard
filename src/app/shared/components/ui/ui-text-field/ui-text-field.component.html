@@ -1,0 +1,42 @@
+<div
+    class="ui-text-field"
+    [class.ui-text-field--invalid]="isInvalid"
+    [class.ui-text-field--disabled]="disabled()"
+>
+    @if (label) {
+        <span class="ui-text-field__label">{{ label | translate }}</span>
+    }
+
+    <div class="ui-text-field__wrapper">
+        @if (prefixIcon) {
+            <mat-icon class="ui-text-field__prefix">{{ prefixIcon }}</mat-icon>
+        }
+
+        <input
+            class="ui-text-field__input"
+            [type]="inputType"
+            [placeholder]="placeholder ?? ''"
+            [disabled]="disabled()"
+            [value]="internalValue()"
+            (input)="onInput($event)"
+            (blur)="onBlur()"
+        />
+
+        @if (maskable) {
+            <mat-icon
+                class="ui-text-field__suffix"
+                (click)="toggleVisibility()"
+            >
+                {{ hidden() ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+        }
+    </div>
+
+    @if (hint && !isInvalid) {
+        <span class="ui-text-field__hint">{{ hint | translate }}</span>
+    }
+
+    @if (isInvalid && currentError) {
+        <span class="ui-text-field__error">{{ currentError | translate }}</span>
+    }
+</div>

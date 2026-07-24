@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatsContainerComponent } from './stats-container.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { testProviders } from '@testing/test-providers';
 
 describe('StatsContainerComponent', () => {
     let component: StatsContainerComponent;
@@ -11,8 +11,13 @@ describe('StatsContainerComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [StatsContainerComponent],
-            imports: [TranslateModule.forRoot(), SharedModule],
+            imports: [
+                StatsContainerComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
+            providers: [...testProviders],
+
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 

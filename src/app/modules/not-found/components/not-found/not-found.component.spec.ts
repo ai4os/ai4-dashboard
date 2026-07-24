@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotFoundComponent } from './not-found.component';
 import { By } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from '@app/shared/shared.module';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { testProviders } from '@testing/test-providers';
 
 describe('NotFoundComponent', () => {
     let component: NotFoundComponent;
@@ -11,8 +11,8 @@ describe('NotFoundComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot(), SharedModule],
-            declarations: [NotFoundComponent],
+            imports: [TranslatePipe, TranslateDirective, NotFoundComponent],
+            providers: [...testProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(NotFoundComponent);

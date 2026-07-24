@@ -1,10 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { GpuStats } from '@app/shared/interfaces/stats.interface';
+import { StatCardComponent } from '../stat-card/stat-card.component';
+import { NgClass } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-stats-container',
     templateUrl: './stats-container.component.html',
     styleUrls: ['./stats-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [StatCardComponent, NgClass, TranslatePipe],
 })
 export class StatsContainerComponent implements OnInit {
     @Input() totalCpuNum = 0;

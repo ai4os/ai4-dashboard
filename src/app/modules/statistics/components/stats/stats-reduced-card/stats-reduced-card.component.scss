@@ -15,7 +15,7 @@
     }
 
     &__label {
-        font-size: var(--font-xs);
+        font-size: var(--font-size-xs);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--mat-sys-on-surface-variant);
@@ -36,14 +36,14 @@
     }
 
     &__value {
-        font-size: var(--font-2xl);
+        font-size: var(--font-size-xl);
         font-weight: 500;
         line-height: 1;
         color: var(--mat-sys-on-surface);
     }
 
     &__unit {
-        font-size: var(--font-sm);
+        font-size: var(--font-size-sm);
         color: var(--mat-sys-on-surface-variant);
         margin-top: 3px;
     }

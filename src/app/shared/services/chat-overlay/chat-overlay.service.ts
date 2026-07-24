@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
     GlobalPositionStrategy,
     Overlay,
@@ -15,10 +15,10 @@ export class ChatOverlayService {
     private overlayRef: OverlayRef;
     private positionStrategy: GlobalPositionStrategy;
 
-    constructor(
-        private overlay: Overlay,
-        private authService: AuthService
-    ) {
+    overlay = inject(Overlay);
+    authService = inject(AuthService);
+
+    constructor() {
         this.positionStrategy = this.overlay
             .position()
             .global()

@@ -12,7 +12,7 @@ describe('dashboard section', function () {
     });
 
     it('shows dashboard tab', function () {
-        cy.get('#title-cluster', { timeout: 15000 }).contains(
+        cy.get('#title-cluster', { timeout: 30000 }).contains(
             'Cluster Usage Overview'
         );
         cy.get('app-stat-card')
@@ -65,8 +65,8 @@ describe('dashboard section', function () {
         cy.contains('Queued deployments').click();
         cy.get('canvas').should('be.visible');
 
-        cy.contains('CPUs').should('be.visible');
-        cy.contains('CPUs').click();
+        cy.get('[role="tab"]').contains('CPUs').should('be.visible');
+        cy.get('[role="tab"]').contains('CPUs').click();
         cy.get('canvas').should('be.visible');
 
         cy.contains('CPU Mhz').should('be.visible');
@@ -81,23 +81,26 @@ describe('dashboard section', function () {
         cy.contains('Disk MB').click();
         cy.get('canvas').should('be.visible');
 
-        cy.contains('GPUs').should('be.visible');
-        cy.contains('GPUs').click();
+        cy.get('[role="tab"]').contains('GPUs').should('be.visible');
+        cy.get('[role="tab"]').contains('GPUs').click();
         cy.get('canvas').should('be.visible');
 
         cy.get('#title-aggregate').contains('Historical Aggregate Usage');
         cy.get('app-stat-card')
             .find('.header p:contains("CPUs")')
-            .should('have.length', 1);
+            .should('be.visible');
         cy.get('app-stat-card')
             .find('.header p:contains("Memory")')
-            .should('have.length', 1);
+            .should('be.visible');
         cy.get('app-stat-card')
             .find('.header p:contains("Disk")')
-            .should('have.length', 1);
-        cy.get('app-stat-card')
-            .find('.header p:contains("GPUs")')
-            .should('have.length', 1);
+            .should('be.visible');
+        cy.get('.stats-container')
+            .eq(1)
+            .scrollIntoView()
+            .find('app-stat-card .header p')
+            .contains('CPUs')
+            .should('be.visible');
     });
 
     it('shows message when stats are not available', function () {

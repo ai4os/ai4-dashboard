@@ -2,18 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { By } from '@angular/platform-browser';
-import { SharedModule } from '@app/shared/shared.module';
 import { MatTabGroup } from '@angular/material/tabs';
 import { StatsService } from '../../services/stats/stats.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@jest/globals';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import {
@@ -22,6 +18,7 @@ import {
 } from '@app/core/services/auth/auth-service.mock';
 import { mockedStatsService } from '@app/modules/statistics/services/stats/stats.service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';
+import { testProviders } from '@testing/test-providers';
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
@@ -29,15 +26,10 @@ describe('DashboardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DashboardComponent],
-            imports: [
-                TranslateModule.forRoot(),
-                SharedModule,
-                BrowserAnimationsModule,
-            ],
+            imports: [DashboardComponent, TranslatePipe, TranslateDirective],
             providers: [
-                provideHttpClient(),
-                provideHttpClientTesting(),
+                ...testProviders,
+
                 { provide: OAuthService, useValue: mockedAuthService },
                 { provide: AppConfigService, useValue: mockedConfigService },
                 { provide: MediaMatcher, useValue: mockedMediaMatcher },

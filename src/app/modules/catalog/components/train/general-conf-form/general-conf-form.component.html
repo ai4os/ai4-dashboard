@@ -50,21 +50,21 @@
                     formControlName="titleInput"
                     maxlength="45"
                 />
-                <mat-error
-                    *ngIf="
-                        generalConfFormGroup.get('titleInput')?.errors?.[
-                            'required'
-                        ]
-                    "
-                >
-                    {{
-                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED'
-                            | translate
-                    }}
-                </mat-error>
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues.title.description
-                }}</mat-hint>
+                @if (
+                    generalConfFormGroup.get('titleInput')?.errors?.['required']
+                ) {
+                    <mat-error>
+                        {{
+                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED'
+                                | translate
+                        }}
+                    </mat-error>
+                }
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues.title.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
 
             <mat-form-field>
@@ -80,145 +80,158 @@
                     }}"
                     formControlName="descriptionInput"
                 />
-                <mat-hint *ngIf="_showHelp">{{
-                    _defaultFormValues.desc?.description
-                }}</mat-hint>
+                @if (_showHelp) {
+                    <mat-hint>{{
+                        _defaultFormValues.desc?.description
+                    }}</mat-hint>
+                }
             </mat-form-field>
-            <div
-                *ngIf="_showFields.serviceToRunChip"
-                [ngClass]="{ 'mt-3': _showHelp }"
-            >
-                <div
-                    [ngClass]="{
-                        'form-flex': mobileQuery.matches,
-                        'service-to-run-container': !mobileQuery.matches,
-                        'mb-5': _showHelp && isPasswodRequired,
-                    }"
-                >
-                    <div>
-                        <mat-label>{{
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
-                                | translate
-                        }}</mat-label>
-                        <div class="service-to-run-chips">
-                            <mat-chip-listbox
-                                aria-label="Fish selection"
-                                formControlName="serviceToRunChip"
-                                multiple="false"
-                            >
-                                <mat-chip-option
-                                    #chipOption
-                                    *ngFor="
-                                        let serviceToRunOption of serviceToRunOptions
-                                    "
-                                    color="accent"
-                                    class="service-to-run-chip"
-                                    [value]="serviceToRunOption.value"
-                                    [selected]="
-                                        _defaultFormValues.service.value ===
-                                        serviceToRunOption.value
-                                    "
-                                    [selectable]="
-                                        chipOption.selected ? false : true
-                                    "
-                                    >{{
-                                        serviceToRunOption.viewValue | titlecase
-                                    }}</mat-chip-option
-                                >
-                            </mat-chip-listbox>
-                            <button
-                                *ngIf="_showFields.infoButton"
-                                mat-icon-button
-                                matTooltip="{{
-                                    'GENERAL-BUTTONS.OPEN-DOCUMENTATION'
-                                        | translate
-                                }}"
-                                [matTooltipPosition]="'above'"
-                                (click)="openFedServerDocs()"
-                            >
-                                <mat-icon color="accent">help</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-
-                    <mat-form-field
-                        appearance="fill"
+            @if (_showFields.serviceToRunChip) {
+                <div [ngClass]="{ 'mt-3': _showHelp }">
+                    <div
                         [ngClass]="{
-                            'password-input-field-mobile': mobileQuery.matches,
-                            'password-input-field': !mobileQuery.matches,
-                            'mt-2': _showHelp,
+                            'form-flex': mobileQuery.matches,
+                            'service-to-run-container': !mobileQuery.matches,
+                            'mb-5': _showHelp && isPasswodRequired,
                         }"
-                        [@inOutAnimation]
-                        *ngIf="isPasswodRequired"
                     >
-                        <mat-label>{{
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD'
-                                | translate
-                        }}</mat-label>
-                        <input
-                            [type]="
-                                hideServiceToRunPassword ? 'password' : 'text'
-                            "
-                            [@inOutAnimation]
-                            matInput
-                            placeholder="At least 9 characters"
-                            formControlName="serviceToRunPassInput"
-                            autocomplete="off"
-                        />
-                        <mat-icon
-                            matSuffix
-                            (click)="
-                                hideServiceToRunPassword =
-                                    !hideServiceToRunPassword
-                            "
-                            color="primary"
-                        >
-                            {{
-                                hideServiceToRunPassword
-                                    ? 'visibility_off'
-                                    : 'visibility'
-                            }}</mat-icon
-                        >
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get(
-                                    'serviceToRunPassInput'
-                                )?.errors?.['required']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED'
+                        <div>
+                            <mat-label>{{
+                                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
                                     | translate
-                            }}
-                        </mat-error>
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get(
-                                    'serviceToRunPassInput'
-                                )?.errors?.['minlength']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR'
-                                    | translate
-                            }}
-                        </mat-error>
-                        <mat-hint *ngIf="_showHelp">{{
-                            _defaultFormValues.jupyter_password?.description
-                        }}</mat-hint>
-                    </mat-form-field>
+                            }}</mat-label>
+                            <div class="service-to-run-chips">
+                                <mat-chip-listbox
+                                    aria-label="Fish selection"
+                                    formControlName="serviceToRunChip"
+                                    multiple="false"
+                                >
+                                    @for (
+                                        serviceToRunOption of serviceToRunOptions;
+                                        track serviceToRunOption
+                                    ) {
+                                        <mat-chip-option
+                                            #chipOption
+                                            color="accent"
+                                            class="service-to-run-chip"
+                                            [value]="serviceToRunOption.value"
+                                            [selected]="
+                                                _defaultFormValues.service
+                                                    .value ===
+                                                serviceToRunOption.value
+                                            "
+                                            [selectable]="
+                                                chipOption.selected
+                                                    ? false
+                                                    : true
+                                            "
+                                            >{{
+                                                serviceToRunOption.viewValue
+                                                    | titlecase
+                                            }}</mat-chip-option
+                                        >
+                                    }
+                                </mat-chip-listbox>
+                                @if (_showFields.infoButton) {
+                                    <button
+                                        mat-icon-button
+                                        matTooltip="{{
+                                            'GENERAL-BUTTONS.OPEN-DOCUMENTATION'
+                                                | translate
+                                        }}"
+                                        [matTooltipPosition]="'above'"
+                                        (click)="openFedServerDocs()"
+                                    >
+                                        <mat-icon color="accent">help</mat-icon>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                        @if (isPasswodRequired) {
+                            <mat-form-field
+                                appearance="fill"
+                                [ngClass]="{
+                                    'password-input-field-mobile':
+                                        mobileQuery.matches,
+                                    'password-input-field':
+                                        !mobileQuery.matches,
+                                    'mt-2': _showHelp,
+                                }"
+                                [@inOutAnimation]
+                            >
+                                <mat-label>{{
+                                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD'
+                                        | translate
+                                }}</mat-label>
+                                <input
+                                    [type]="
+                                        hideServiceToRunPassword
+                                            ? 'password'
+                                            : 'text'
+                                    "
+                                    [@inOutAnimation]
+                                    matInput
+                                    placeholder="At least 9 characters"
+                                    formControlName="serviceToRunPassInput"
+                                    autocomplete="off"
+                                />
+                                <mat-icon
+                                    matSuffix
+                                    (click)="
+                                        hideServiceToRunPassword =
+                                            !hideServiceToRunPassword
+                                    "
+                                    color="primary"
+                                >
+                                    {{
+                                        hideServiceToRunPassword
+                                            ? 'visibility_off'
+                                            : 'visibility'
+                                    }}</mat-icon
+                                >
+                                @if (
+                                    generalConfFormGroup.get(
+                                        'serviceToRunPassInput'
+                                    )?.errors?.['required']
+                                ) {
+                                    <mat-error>
+                                        {{
+                                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED'
+                                                | translate
+                                        }}
+                                    </mat-error>
+                                }
+                                @if (
+                                    generalConfFormGroup.get(
+                                        'serviceToRunPassInput'
+                                    )?.errors?.['minlength']
+                                ) {
+                                    <mat-error>
+                                        {{
+                                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR'
+                                                | translate
+                                        }}
+                                    </mat-error>
+                                }
+                                @if (_showHelp) {
+                                    <mat-hint>{{
+                                        _defaultFormValues.jupyter_password
+                                            ?.description
+                                    }}</mat-hint>
+                                }
+                            </mat-form-field>
+                        }
+                    </div>
+                    @if (_showHelp) {
+                        <span class="mat-hint-text">
+                            {{ _defaultFormValues.service.description }}
+                        </span>
+                    }
                 </div>
-                <ng-container *ngIf="_showHelp">
-                    <span class="mat-hint-text">
-                        {{ _defaultFormValues.service.description }}
-                    </span>
-                </ng-container>
-            </div>
+            }
         </div>
 
-        <ng-container
-            *ngIf="_showFields.dockerImageInput && _showFields.dockerTagSelect"
-        >
+        @if (_showFields.dockerImageInput && _showFields.dockerTagSelect) {
             <h4 [ngClass]="{ 'mt-3': _showHelp }">
                 {{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS'
@@ -242,10 +255,11 @@
                         placeholder=""
                         formControlName="dockerImageInput"
                     />
-
-                    <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.docker_image.description
-                    }}</mat-hint>
+                    @if (_showHelp) {
+                        <mat-hint>{{
+                            _defaultFormValues.docker_image.description
+                        }}</mat-hint>
+                    }
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{
@@ -253,21 +267,25 @@
                             | translate
                     }}</mat-label>
                     <mat-select formControlName="dockerTagSelect">
-                        <mat-option
-                            *ngFor="let dockerTagOption of dockerTagOptions"
-                            [value]="dockerTagOption.value"
-                        >
-                            {{ dockerTagOption.viewValue }}
-                        </mat-option>
+                        @for (
+                            dockerTagOption of dockerTagOptions;
+                            track dockerTagOption
+                        ) {
+                            <mat-option [value]="dockerTagOption.value">
+                                {{ dockerTagOption.viewValue }}
+                            </mat-option>
+                        }
                     </mat-select>
-                    <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.docker_tag.description
-                    }}</mat-hint>
+                    @if (_showHelp) {
+                        <mat-hint>{{
+                            _defaultFormValues.docker_tag.description
+                        }}</mat-hint>
+                    }
                 </mat-form-field>
             </div>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="_showFields.cvatFields">
+        @if (_showFields.cvatFields) {
             <h4 [ngClass]="{ 'mt-3': _showHelp }">
                 {{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-CREDENTIALS'
@@ -293,22 +311,24 @@
                         type="text"
                         formControlName="cvatUsernameInput"
                     />
-                    <mat-error
-                        *ngIf="
-                            generalConfFormGroup.get('cvatUsernameInput')
-                                ?.errors?.['required']
-                        "
-                    >
-                        {{
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-USERNAME-REQUIRED'
-                                | translate
-                        }}
-                    </mat-error>
-                    <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.cvat_username?.description
-                    }}</mat-hint>
+                    @if (
+                        generalConfFormGroup.get('cvatUsernameInput')?.errors?.[
+                            'required'
+                        ]
+                    ) {
+                        <mat-error>
+                            {{
+                                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-USERNAME-REQUIRED'
+                                    | translate
+                            }}
+                        </mat-error>
+                    }
+                    @if (_showHelp) {
+                        <mat-hint>{{
+                            _defaultFormValues.cvat_username?.description
+                        }}</mat-hint>
+                    }
                 </mat-form-field>
-
                 <mat-form-field appearance="fill">
                     <mat-label>{{
                         'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-PASSWORD'
@@ -327,25 +347,28 @@
                     >
                         {{ hideCvatPassword ? 'visibility_off' : 'visibility' }}
                     </mat-icon>
-                    <mat-error
-                        *ngIf="
-                            generalConfFormGroup.get('cvatPasswordInput')
-                                ?.errors?.['required']
-                        "
-                    >
-                        {{
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-PASSWORD-REQUIRED'
-                                | translate
-                        }}
-                    </mat-error>
-                    <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.cvat_password?.description
-                    }}</mat-hint>
+                    @if (
+                        generalConfFormGroup.get('cvatPasswordInput')?.errors?.[
+                            'required'
+                        ]
+                    ) {
+                        <mat-error>
+                            {{
+                                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CVAT-PASSWORD-REQUIRED'
+                                    | translate
+                            }}
+                        </mat-error>
+                    }
+                    @if (_showHelp) {
+                        <mat-hint>{{
+                            _defaultFormValues.cvat_password?.description
+                        }}</mat-hint>
+                    }
                 </mat-form-field>
             </div>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="_showFields.ai4lifeFields">
+        @if (_showFields.ai4lifeFields) {
             <h4 [ngClass]="{ 'mt-3': _showHelp }">
                 {{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.MODEL-OPTIONS'
@@ -368,19 +391,23 @@
                         formControlName="modelIdSelect"
                         (selectionChange)="modelChanged()"
                     >
-                        <mat-option
-                            *ngFor="let modelIdOption of modelIdOptions"
-                            [value]="modelIdOption.value"
-                        >
-                            {{ modelIdOption.viewValue }}
-                        </mat-option>
+                        @for (
+                            modelIdOption of modelIdOptions;
+                            track modelIdOption
+                        ) {
+                            <mat-option [value]="modelIdOption.value">
+                                {{ modelIdOption.viewValue }}
+                            </mat-option>
+                        }
                     </mat-select>
-                    <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.model_id?.description
-                    }}</mat-hint>
+                    @if (_showHelp) {
+                        <mat-hint>{{
+                            _defaultFormValues.model_id?.description
+                        }}</mat-hint>
+                    }
                 </mat-form-field>
             </div>
-        </ng-container>
+        }
 
         @if (_showFields.llmFields) {
             <h4 [ngClass]="{ 'mt-3': _showHelp }">
@@ -400,26 +427,28 @@
                     }}</mat-label>
 
                     <mat-select formControlName="deploymentTypeSelect">
-                        <mat-option
-                            *ngFor="
-                                let deploymentTypeOption of deploymentTypeOptions
-                            "
-                            [value]="deploymentTypeOption.value"
-                        >
-                            {{ deploymentTypeOption.viewValue }}
-                        </mat-option>
+                        @for (
+                            deploymentTypeOption of deploymentTypeOptions;
+                            track deploymentTypeOption
+                        ) {
+                            <mat-option [value]="deploymentTypeOption.value">
+                                {{ deploymentTypeOption.viewValue }}
+                            </mat-option>
+                        }
                     </mat-select>
 
-                    <mat-hint *ngIf="_showHelp">{{
-                        _defaultFormValues.llm?.type?.description
-                    }}</mat-hint>
+                    @if (_showHelp) {
+                        <mat-hint>{{
+                            _defaultFormValues.llm?.type?.description
+                        }}</mat-hint>
+                    }
                 </mat-form-field>
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'both' ||
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'vllm'
+                    generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                        'both' ||
+                    generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                        'vllm'
                 ) {
                     <mat-form-field>
                         <mat-label>{{
@@ -430,24 +459,29 @@
                             formControlName="vllmModelSelect"
                             (selectionChange)="modelChanged()"
                         >
-                            <mat-option
-                                *ngFor="let vllModel of vllmModelOptions"
-                                [value]="vllModel.value"
-                            >
-                                {{ vllModel.viewValue }}
-                            </mat-option>
+                            @for (
+                                vllModel of vllmModelOptions;
+                                track vllModel
+                            ) {
+                                <mat-option [value]="vllModel.value">
+                                    {{ vllModel.viewValue }}
+                                </mat-option>
+                            }
                         </mat-select>
-                        <mat-hint *ngIf="_showHelp">{{
-                            _defaultFormValues.llm?.vllm_model_id?.description
-                        }}</mat-hint>
+                        @if (_showHelp) {
+                            <mat-hint>{{
+                                _defaultFormValues.llm?.vllm_model_id
+                                    ?.description
+                            }}</mat-hint>
+                        }
                     </mat-form-field>
                 }
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'both' ||
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'open-webui'
+                    generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                        'both' ||
+                    generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                        'open-webui'
                 ) {
                     <mat-form-field>
                         <mat-label>{{
@@ -462,28 +496,28 @@
                             type="text"
                             formControlName="uiUsernameInput"
                         />
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get('uiUsernameInput')
-                                    ?.errors?.['required']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get('uiUsernameInput')
-                                    ?.errors?.['invalidEmail']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME-INVALID'
-                                    | translate
-                            }}
-                        </mat-error>
+                        @if (
+                            generalConfFormGroup.get('uiUsernameInput')
+                                ?.errors?.['required']
+                        ) {
+                            <mat-error>
+                                {{
+                                    'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME-REQUIRED'
+                                        | translate
+                                }}
+                            </mat-error>
+                        }
+                        @if (
+                            generalConfFormGroup.get('uiUsernameInput')
+                                ?.errors?.['invalidEmail']
+                        ) {
+                            <mat-error>
+                                {{
+                                    'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-USERNAME-INVALID'
+                                        | translate
+                                }}
+                            </mat-error>
+                        }
                     </mat-form-field>
 
                     <mat-form-field>
@@ -507,26 +541,28 @@
                                 hideUiPassword ? 'visibility_off' : 'visibility'
                             }}
                         </mat-icon>
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get('uiPasswordInput')
-                                    ?.errors?.['required']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-PASSWORD-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                        <mat-hint *ngIf="_showHelp">{{
-                            _defaultFormValues.llm?.ui_password?.description
-                        }}</mat-hint>
+                        @if (
+                            generalConfFormGroup.get('uiPasswordInput')
+                                ?.errors?.['required']
+                        ) {
+                            <mat-error>
+                                {{
+                                    'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.UI-PASSWORD-REQUIRED'
+                                        | translate
+                                }}
+                            </mat-error>
+                        }
+                        @if (_showHelp) {
+                            <mat-hint>{{
+                                _defaultFormValues.llm?.ui_password?.description
+                            }}</mat-hint>
+                        }
                     </mat-form-field>
                 }
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'open-webui'
+                    generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                    'open-webui'
                 ) {
                     <mat-form-field>
                         <mat-label>{{
@@ -562,15 +598,18 @@
                                 }}
                             </mat-error>
                         }
-                        <mat-hint *ngIf="_showHelp">{{
-                            _defaultFormValues.llm?.openai_api_url?.description
-                        }}</mat-hint>
+                        @if (_showHelp) {
+                            <mat-hint>{{
+                                _defaultFormValues.llm?.openai_api_url
+                                    ?.description
+                            }}</mat-hint>
+                        }
                     </mat-form-field>
                 }
 
                 @if (
-                    this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'open-webui'
+                    generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                    'open-webui'
                 ) {
                     <mat-form-field>
                         <mat-label>{{
@@ -584,28 +623,31 @@
                             type="string"
                             formControlName="openaiApiKeyInput"
                         />
-                        <mat-error
-                            *ngIf="
-                                generalConfFormGroup.get('openaiApiKeyInput')
-                                    ?.errors?.['required']
-                            "
-                        >
-                            {{
-                                'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.API-KEY-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                        <mat-hint *ngIf="_showHelp">{{
-                            _defaultFormValues.llm?.openai_api_key?.description
-                        }}</mat-hint>
+                        @if (
+                            generalConfFormGroup.get('openaiApiKeyInput')
+                                ?.errors?.['required']
+                        ) {
+                            <mat-error>
+                                {{
+                                    'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.API-KEY-REQUIRED'
+                                        | translate
+                                }}
+                            </mat-error>
+                        }
+                        @if (_showHelp) {
+                            <mat-hint>{{
+                                _defaultFormValues.llm?.openai_api_key
+                                    ?.description
+                            }}</mat-hint>
+                        }
                     </mat-form-field>
                 }
 
                 @if (
                     modelNeedsToken &&
-                    (this.generalConfFormGroup.get('deploymentTypeSelect')
-                        ?.value === 'both' ||
-                        this.generalConfFormGroup.get('deploymentTypeSelect')
+                    (generalConfFormGroup.get('deploymentTypeSelect')?.value ===
+                        'both' ||
+                        generalConfFormGroup.get('deploymentTypeSelect')
                             ?.value === 'vllm')
                 ) {
                     <div class="field-with-info">
@@ -635,21 +677,24 @@
                                         : 'visibility'
                                 }}</mat-icon>
                             </button>
-                            <mat-error
-                                *ngIf="
-                                    generalConfFormGroup.get(
-                                        'huggingFaceTokenInput'
-                                    )?.errors?.['required']
-                                "
-                            >
-                                {{
-                                    'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN-REQUIRED'
-                                        | translate
-                                }}
-                            </mat-error>
-                            <mat-hint *ngIf="_showHelp">{{
-                                _defaultFormValues.llm?.HF_token?.description
-                            }}</mat-hint>
+                            @if (
+                                generalConfFormGroup.get(
+                                    'huggingFaceTokenInput'
+                                )?.errors?.['required']
+                            ) {
+                                <mat-error>
+                                    {{
+                                        'CATALOG.MODULE-TRAIN.LLM-CONF-FORM.HUGGING-FACE-TOKEN-REQUIRED'
+                                            | translate
+                                    }}
+                                </mat-error>
+                            }
+                            @if (_showHelp) {
+                                <mat-hint>{{
+                                    _defaultFormValues.llm?.HF_token
+                                        ?.description
+                                }}</mat-hint>
+                            }
                         </mat-form-field>
                         <button
                             mat-icon-button
@@ -711,8 +756,8 @@
                     <div class="form-flex tab-content">
                         <app-single-file-upload
                             [file]="
-                                this.generalConfFormGroup.get('batchFile')
-                                    ?.value ?? null
+                                generalConfFormGroup.get('batchFile')?.value ??
+                                null
                             "
                             (fileUploaded)="updateBatchFile($event)"
                         ></app-single-file-upload>
@@ -750,12 +795,18 @@
                                 [ngClass]="{
                                     'no-file-uploaded-button':
                                         textManuallyModified ||
-                                        generalConfFormGroup.get('batchFile')
-                                            ?.value === null,
+                                        $safeNavigationMigration(
+                                            generalConfFormGroup.get(
+                                                'batchFile'
+                                            )?.value
+                                        ) === null,
                                     'file-uploaded-button':
                                         !textManuallyModified &&
-                                        generalConfFormGroup.get('batchFile')
-                                            ?.value !== null,
+                                        $safeNavigationMigration(
+                                            generalConfFormGroup.get(
+                                                'batchFile'
+                                            )?.value
+                                        ) !== null,
                                 }"
                                 [disabled]="commandText === ''"
                                 (click)="createFileFromText()"
@@ -767,12 +818,14 @@
                     </div>
                 </mat-tab>
             </mat-tab-group>
-            <mat-hint *ngIf="_showHelp" style="font-size: 12px">
-                {{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-HELP'
-                        | translate
-                }}
-            </mat-hint>
+            @if (_showHelp) {
+                <mat-hint style="font-size: 12px">
+                    {{
+                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-HELP'
+                            | translate
+                    }}
+                </mat-hint>
+            }
         }
     </form>
 }

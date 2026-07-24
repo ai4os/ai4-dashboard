@@ -76,14 +76,14 @@
 </mat-toolbar>
 <app-stats-container
     id="user-stats"
-    [usedCpuNum]="this.userGlobalStats.cpuNumAgg"
-    [totalCpuNum]="this.userGlobalStats.cpuNumTotal"
-    [usedMemory]="this.userGlobalStats.memoryMBAgg"
-    [totalMemory]="this.userGlobalStats.memoryMBTotal"
-    [usedDisk]="this.userGlobalStats.diskMBAgg"
-    [totalDisk]="this.userGlobalStats.diskMBTotal"
-    [usedGpuNum]="this.userGlobalStats.gpuNumAgg"
-    [totalGpuNum]="this.userGlobalStats.gpuNumTotal"
+    [usedCpuNum]="userGlobalStats.cpuNumAgg"
+    [totalCpuNum]="userGlobalStats.cpuNumTotal"
+    [usedMemory]="userGlobalStats.memoryMBAgg"
+    [totalMemory]="userGlobalStats.memoryMBTotal"
+    [usedDisk]="userGlobalStats.diskMBAgg"
+    [totalDisk]="userGlobalStats.diskMBTotal"
+    [usedGpuNum]="userGlobalStats.gpuNumAgg"
+    [totalGpuNum]="userGlobalStats.gpuNumTotal"
     [usedLabel]="getUsername()"
     [freeLabel]="getVO()"
 ></app-stats-container>

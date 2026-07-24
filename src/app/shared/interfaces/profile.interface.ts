@@ -12,6 +12,13 @@ export interface CompleteLoginResponse {
     appPassword: string;
 }
 
+export interface StorageProvider {
+    id: string;
+    name: string;
+    domain: string;
+    official?: boolean;
+}
+
 export interface StorageCredential {
     vendor: string;
     server: string;

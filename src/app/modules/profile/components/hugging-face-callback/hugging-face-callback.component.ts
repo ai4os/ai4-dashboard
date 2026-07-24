@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component,
+    inject,
+    OnInit,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProfileService } from '../../services/profile-service/profile.service';
+import { HuggingFaceService } from '../../services/hugging-face-service/hugging-face.service';
+import { UiLoaderComponent } from '../../../../shared/components/ui/ui-loader/ui-loader.component';
 
 @Component({
     selector: 'app-huggingface-callback',
     templateUrl: './hugging-face-callback.component.html',
-    styleUrls: ['./hugging-face-callback.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [UiLoaderComponent],
 })
 export class HuggingFaceCallbackComponent implements OnInit {
-    constructor(
-        private route: ActivatedRoute,
-        private profileService: ProfileService,
-        private router: Router
-    ) {}
+    route = inject(ActivatedRoute);
+    router = inject(Router);
+    huggingFaceService = inject(HuggingFaceService);
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
@@ -20,7 +25,7 @@ export class HuggingFaceCallbackComponent implements OnInit {
             const state = params['state'];
 
             if (code && state) {
-                this.profileService
+                this.huggingFaceService
                     .validateOAuthRedirect(code, state)
                     .subscribe({
                         next: () => this.router.navigate(['/profile']),

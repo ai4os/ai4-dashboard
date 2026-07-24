@@ -1,25 +1,77 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { KeyValue } from '@angular/common';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+    KeyValue,
+    NgClass,
+    UpperCasePipe,
+    JsonPipe,
+    KeyValuePipe,
+} from '@angular/common';
+import {
+    MatDialog,
+    MAT_DIALOG_DATA,
+    MatDialogClose,
+} from '@angular/material/dialog';
 import { getDeploymentBadge } from '@app/modules/deployments/utils/deployment-badge';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import {
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+} from '@angular/material/card';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-try-me-detail',
     templateUrl: './try-me-detail.component.html',
     styleUrls: ['./try-me-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        MatIcon,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        NgClass,
+        MatCardContent,
+        MatList,
+        MatListItem,
+        MatButton,
+        MatProgressSpinner,
+        MatCardActions,
+        MatDialogClose,
+        UpperCasePipe,
+        JsonPipe,
+        KeyValuePipe,
+        TranslatePipe,
+    ],
 })
 export class TryMeDetailComponent implements OnInit {
-    constructor(
-        private tryMeService: TryMeService,
-        public confirmationDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA)
-        public data: { uuid: string },
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher
-    ) {
+    private tryMeService = inject(TryMeService);
+    confirmationDialog = inject(MatDialog);
+    data = inject<{
+        uuid: string;
+    }>(MAT_DIALOG_DATA);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private media = inject(MediaMatcher);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);

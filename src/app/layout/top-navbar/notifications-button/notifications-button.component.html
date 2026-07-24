@@ -1,100 +1,94 @@
-<button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon
-        class="mat-icon notifications-icon"
-        *ngIf="
-            displayedNotifications.length === 0;
-            else notificationsAvailableIcon
+<div class="notifications-button">
+    <button
+        type="button"
+        class="notifications-button__trigger"
+        [class.notifications-button__trigger--active]="isOpen()"
+        [attr.aria-expanded]="isOpen()"
+        aria-haspopup="true"
+        [attr.aria-label]="
+            (displayedNotifications().length > 0
+                ? 'TOP-NAVBAR.NOTIFICATIONS-AVAILABLE'
+                : 'TOP-NAVBAR.NO-NOTIFICATIONS'
+            ) | translate
         "
-        ><span class="material-symbols-outlined"> notifications </span>
-    </mat-icon>
-
-    <ng-template #notificationsAvailableIcon>
-        <mat-icon color="accent" class="mat-icon">
-            <img src="../../../assets/images/notifications-icon.png" />
-        </mat-icon>
-    </ng-template>
-</button>
-
-<mat-menu class="notifications-menu" #menu="matMenu" xPosition="before">
-    <cdk-accordion
-        *ngIf="displayedNotifications.length === 0; else notificationList"
-        class="accordion"
+        (click)="toggleMenu()"
     >
-        <cdk-accordion-item
-            #accordionItem="cdkAccordionItem"
-            class="accordion-item"
-            tabindex="0"
-        >
-            <div class="accordion-item-header center-content">
-                <i class="grey-text">
-                    {{ 'TOP-NAVBAR.NO-NOTIFICATIONS' | translate }}</i
-                >
-            </div>
-        </cdk-accordion-item>
-    </cdk-accordion>
+        <span class="material-symbols-outlined notifications-button__icon">
+            notifications
+        </span>
+        @if (displayedNotifications().length > 0) {
+            <span class="notifications-button__badge"></span>
+        }
+    </button>
 
-    <ng-template #notificationList>
-        <cdk-accordion class="accordion">
-            <cdk-accordion-item
-                *ngFor="
-                    let notification of displayedNotifications;
-                    let index = index
-                "
-                #accordionItem="cdkAccordionItem"
-                class="accordion-item"
-                role="button"
-                tabindex="0"
-                [attr.aria-expanded]="accordionItem.expanded"
-                (click)="$event.stopPropagation()"
-            >
-                <div
-                    class="accordion-item-header"
-                    (click)="accordionItem.toggle()"
-                >
-                    <mat-icon
-                        matListItemIcon
-                        class="element-icon"
-                        color="accent"
-                    >
-                        info
-                    </mat-icon>
-                    <div class="title-container">
-                        {{ notification.title }}
-                        <span
-                            *ngIf="notification.summary !== ''"
-                            class="accordion-item-description"
-                        >
-                            <mat-icon> keyboard_arrow_down </mat-icon>
-                        </span>
-                    </div>
+    @if (isOpen()) {
+        <div class="notifications-button__panel" role="menu">
+            @if (displayedNotifications().length === 0) {
+                <div class="notifications-button__empty">
+                    <i class="grey-text">{{
+                        'TOP-NAVBAR.NO-NOTIFICATIONS' | translate
+                    }}</i>
                 </div>
-                <div
-                    *ngIf="notification.summary !== ''"
-                    class="accordion-item-body"
-                    role="region"
-                    [style.display]="accordionItem.expanded ? '' : 'none'"
-                >
-                    <i
-                        class="grey-text"
-                        [innerHTML]="
-                            htmlSanitizerService.getSanitizedText(
-                                notification.summary!
-                            )
-                        "
-                    ></i>
-                    @if (
-                        notification.downtimeStart &&
-                        notification.downtimeEnd &&
-                        notification.datacenters
+            } @else {
+                <ul class="notifications-button__list">
+                    @for (
+                        notification of displayedNotifications();
+                        track notification.title
                     ) {
-                        <i class="grey-text">{{
-                            platformStatusService.getMaintenanceInfo(
-                                notification
-                            )
-                        }}</i>
+                        <li class="notifications-button__item">
+                            <app-ui-expansion-panel
+                                [expanded]="isExpanded(notification.title)"
+                                [isExpansible]="!!notification.summary"
+                                (expandedChange)="
+                                    onExpandedChange(notification.title, $event)
+                                "
+                            >
+                                <div
+                                    panelHeader
+                                    class="notifications-button__item-header"
+                                >
+                                    <span
+                                        class="material-symbols-outlined notifications-button__item-icon"
+                                    >
+                                        info
+                                    </span>
+                                    <span
+                                        class="notifications-button__item-title"
+                                    >
+                                        {{ notification.title }}
+                                    </span>
+                                </div>
+                                @if (notification.summary) {
+                                    <div
+                                        panelContent
+                                        class="notifications-button__item-body"
+                                    >
+                                        <i
+                                            class="grey-text"
+                                            [innerHTML]="
+                                                htmlSanitizerService.getSanitizedText(
+                                                    notification.summary!
+                                                )
+                                            "
+                                        ></i>
+                                        @if (
+                                            notification.downtimeStart &&
+                                            notification.downtimeEnd &&
+                                            notification.datacenters
+                                        ) {
+                                            <i class="grey-text">{{
+                                                platformStatusService.getMaintenanceInfo(
+                                                    notification
+                                                )
+                                            }}</i>
+                                        }
+                                    </div>
+                                }
+                            </app-ui-expansion-panel>
+                        </li>
                     }
-                </div>
-            </cdk-accordion-item>
-        </cdk-accordion>
-    </ng-template>
-</mat-menu>
+                </ul>
+            }
+        </div>
+    }
+</div>

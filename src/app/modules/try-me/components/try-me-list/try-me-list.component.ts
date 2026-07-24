@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -13,26 +19,34 @@ import {
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-try-me-list',
     templateUrl: './try-me-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
 })
 export class TryMeListComponent implements OnInit {
-    constructor(
-        public tryMeService: TryMeService,
-        public dialog: MatDialog,
-        public confirmationDialog: MatDialog,
-        private snackbarService: SnackbarService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {
+    tryMeService = inject(TryMeService);
+    dialog = inject(MatDialog);
+    confirmationDialog = inject(MatDialog);
+    private snackbarService = inject(SnackbarService);
+    private media = inject(MediaMatcher);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: Array<TableColumn> = [
+    columns: TableColumn[] = [
         { columnDef: 'uuid', header: '', hidden: true },
         { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
         { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
@@ -42,7 +56,7 @@ export class TryMeListComponent implements OnInit {
         { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
     ];
 
-    dataset: Array<DeploymentTableRow> = [];
+    dataset: DeploymentTableRow[] = [];
     dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;

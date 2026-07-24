@@ -1,7 +1,25 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatChipSelectionChange } from '@angular/material/chips';
+import {
+    ChangeDetectorRef,
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+    OnInit,
+    OnDestroy,
+    inject,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import {
+    MatChipSelectionChange,
+    MatChip,
+    MatChipListbox,
+    MatChipOption,
+} from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { FiltersConfigurationDialogComponent } from '@app/modules/catalog/components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
@@ -9,20 +27,58 @@ import {
     ModuleSummary,
     FilterGroup,
 } from '@app/shared/interfaces/module.interface';
+import { MatToolbar } from '@angular/material/toolbar';
+import {
+    MatFormField,
+    MatPrefix,
+    MatLabel,
+    MatInput,
+} from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatBadge } from '@angular/material/badge';
+import { MatDivider } from '@angular/material/list';
+import { FilterComponentComponent } from '../../filters/filter-component/filter-component.component';
+import { NgStyle } from '@angular/common';
+import { Ai4eoscModuleCardComponent } from '../../modules-cards/ai4eosc-module-card/ai4eosc-module-card.component';
+import { TranslatePipe } from '@ngx-translate/core';
+import { SearchAi4eoscPipe } from '../../../pipes/search-card-pipe';
 
 @Component({
     selector: 'app-catalog-list',
     templateUrl: './catalog-list.component.html',
     styleUrl: './catalog-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [
+        MatToolbar,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatIcon,
+        MatPrefix,
+        MatLabel,
+        MatInput,
+        MatChip,
+        MatBadge,
+        MatDivider,
+        MatChipListbox,
+        MatChipOption,
+        FilterComponentComponent,
+        NgStyle,
+        Ai4eoscModuleCardComponent,
+        TranslatePipe,
+        SearchAi4eoscPipe,
+    ],
 })
-export class CatalogListComponent {
-    constructor(
-        private fb: FormBuilder,
-        private appConfigService: AppConfigService,
-        private media: MediaMatcher,
-        private changeDetectorRef: ChangeDetectorRef,
-        public dialog: MatDialog
-    ) {
+export class CatalogListComponent implements OnInit, OnDestroy {
+    private fb = inject(FormBuilder);
+    private appConfigService = inject(AppConfigService);
+    private media = inject(MediaMatcher);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    dialog = inject(MatDialog);
+
+    constructor() {
+        const changeDetectorRef = this.changeDetectorRef;
+
         this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -137,7 +193,7 @@ export class CatalogListComponent {
 
     getFilters(filter: string): Set<string> {
         let options: string[] = [];
-        const tagFrequencyMap: { [key: string]: number } = {};
+        const tagFrequencyMap: Record<string, number> = {};
 
         this.elements.forEach((m) => {
             const variables = m[filter];

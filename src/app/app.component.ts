@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ChangeDetectionStrategy,
+    inject,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AppConfigService } from './core/services/app-config/app-config.service';
 import { Subscription } from 'rxjs';
@@ -16,32 +23,36 @@ import { ChatOverlayService } from './shared/services/chat-overlay/chat-overlay.
 import { PopupComponent } from './shared/components/popup/popup.component';
 import { AuthService, UserProfile } from './core/services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [RouterOutlet],
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'ai4-dashboard';
     //keep refs to subscriptions to be able to unsubscribe later
     private statusChangeSubscription!: Subscription;
 
-    constructor(
-        private titleService: Title,
-        private platformStatusService: PlatformStatusService,
-        private appConfigService: AppConfigService,
-        private chatOverlayService: ChatOverlayService,
-        private snackbarService: SnackbarService,
-        protected authService: AuthService,
-        public translateService: TranslateService,
-        public dialog: MatDialog,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher,
-        private cookieService: CookieService
-    ) {
+    titleService = inject(Title);
+    platformStatusService = inject(PlatformStatusService);
+    appConfigService = inject(AppConfigService);
+    chatOverlayService = inject(ChatOverlayService);
+    snackbarService = inject(SnackbarService);
+    authService = inject(AuthService);
+    translateService = inject(TranslateService);
+    dialog = inject(MatDialog);
+    changeDetectorRef = inject(ChangeDetectorRef);
+    media = inject(MediaMatcher);
+    cookieService = inject(CookieService);
+
+    constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this._mobileQueryListener = () =>
+            this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
     mobileQuery: MediaQueryList;
@@ -156,7 +167,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     getHighestAccessLevel(roles: string[]): string {
         const order = ['ap-d', 'ap-u', 'ap-b', 'ap-a1', 'ap-a', 'ap-0'];
-        let best: string = 'ap-0';
+        let best = 'ap-0';
         const voNameEscaped = this.appConfigService.voName.replace(
             /[.*+?^${}()|[\]\\]/g,
             '\\$&'

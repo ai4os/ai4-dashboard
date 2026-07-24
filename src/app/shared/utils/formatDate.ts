@@ -1,4 +1,4 @@
-export function formatDate(input: string, showHour: boolean = true): string {
+export function formatDate(input: string, showHour = true): string {
     const date = typeof input === 'string' ? new Date(input) : input;
 
     const options: Intl.DateTimeFormatOptions = {
