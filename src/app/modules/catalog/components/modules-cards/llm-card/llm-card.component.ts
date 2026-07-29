@@ -3,25 +3,19 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    DestroyRef,
     inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
 import { MatTooltip } from '@angular/material/tooltip';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardSubtitle,
-    MatCardFooter,
-} from '@angular/material/card';
-import { MatDivider } from '@angular/material/list';
 import { MarkdownComponent } from 'ngx-markdown';
-import { MatChipSet } from '@angular/material/chips';
-import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 
 @Component({
     selector: 'app-llm-card',
@@ -30,49 +24,42 @@ import { TranslatePipe } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MatTooltip,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        MatDivider,
-        MatCardSubtitle,
         MarkdownComponent,
-        MatCardFooter,
-        MatChipSet,
-        ChipWithIconComponent,
+        UiCardComponent,
+        UiChipComponent,
         TranslatePipe,
+        UiButtonComponent,
     ],
 })
 export class LlmCardComponent implements OnInit {
-    protected authService = inject(AuthService);
+    private authService = inject(AuthService);
     private router = inject(Router);
+    private destroyRef = inject(DestroyRef);
 
-    @Input() llm!: VllmModelConfig;
+    @Input({ required: true }) llm!: VllmModelConfig;
 
     isAuthorized = false;
-    image = '';
+
+    get logoSrc(): string {
+        const familyName = this.llm.family.toLowerCase();
+        return `../../../assets/images/llm-families/${familyName}.svg`;
+    }
 
     ngOnInit(): void {
-        this.image = this.llm.family;
-
-        this.authService.userProfile$.subscribe((profile) => {
-            if (profile) {
-                this.isAuthorized =
-                    this.authService.isAuthenticated() && profile.isAuthorized;
-            }
-        });
+        this.authService.userProfile$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((profile) => {
+                if (profile) {
+                    this.isAuthorized =
+                        this.authService.isAuthenticated() &&
+                        profile.isAuthorized;
+                }
+            });
     }
 
-    loadLLM() {
+    loadLLM(): void {
         this.router.navigate(['catalog/llms/ai4os-llm/deploy'], {
-            state: { llmId: this.llm.family + '/' + this.llm.name },
+            state: { llmId: `${this.llm.family}/${this.llm.name}` },
         });
-    }
-
-    openLink(e: MouseEvent) {
-        e.stopPropagation();
-        const url =
-            'https://huggingface.co/' + this.llm.family + '/' + this.llm.name;
-        window.open(url);
     }
 }

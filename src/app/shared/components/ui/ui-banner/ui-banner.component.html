@@ -1,0 +1,29 @@
+<div class="ui-banner" [class]="'ui-banner--' + variant">
+    <div class="ui-banner__content">
+        <ng-content></ng-content>
+    </div>
+
+    @switch (decoration) {
+        @case ('circles') {
+            <div class="ui-banner__circles" aria-hidden="true">
+                <span class="ui-banner__circle ui-banner__circle--lg"></span>
+                <span class="ui-banner__circle ui-banner__circle--md"></span>
+                <span class="ui-banner__circle ui-banner__circle--sm"></span>
+            </div>
+        }
+
+        @case ('catalog') {
+            <div class="ui-banner__catalog" aria-hidden="true">
+                <span
+                    class="ui-banner__catalog-item ui-banner__catalog-item--1"
+                ></span>
+                <span
+                    class="ui-banner__catalog-item ui-banner__catalog-item--2"
+                ></span>
+                <span
+                    class="ui-banner__catalog-item ui-banner__catalog-item--3"
+                ></span>
+            </div>
+        }
+    }
+</div>

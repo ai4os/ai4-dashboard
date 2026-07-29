@@ -1,60 +1,52 @@
-<div
-    class="basic-card"
-    [class]="{ 'default-cursor': !isAuthorized }"
+<app-ui-card
+    [class.llm-card--disabled]="!isAuthorized"
+    [accentColor]="'var(--color-primary)'"
     [matTooltip]="'CATALOG.MODULE-DETAIL.UNAUTHORIZED' | translate"
     [matTooltipDisabled]="isAuthorized"
+    matTooltipClass="ui-tooltip"
+    (click)="loadLLM()"
 >
-    <mat-card
-        class="basic-card"
-        [class]="{ 'disabled-card': !isAuthorized }"
-        (click)="loadLLM()"
-    >
-        <span></span>
-        <mat-card-header class="basic-card-header">
-            <mat-card-title>
-                <img
-                    [matTooltip]="llm.family"
-                    src="../../../assets/images/llm-companies/{{
-                        image
-                    }}_logo.png"
-                />
+    <header class="llm-card__header">
+        <span class="llm-card__title">
+            <img
+                class="llm-card__logo"
+                [matTooltip]="llm.family"
+                matTooltipClass="ui-tooltip"
+                [src]="logoSrc"
+                alt=""
+            />
+            <h3 class="llm-card__title">{{ llm.name }}</h3>
+        </span>
 
-                <span>{{ llm.name }}</span>
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-divider></mat-divider>
-            <div class="basic-card-content">
-                <mat-card-subtitle class="mt-2">
-                    <markdown
-                        [data]="llm.description"
-                        ngPreserveWhitespaces
-                        [disableSanitizer]="true"
-                    >
-                    </markdown>
-                </mat-card-subtitle>
-            </div>
-        </mat-card-content>
+        <app-ui-button
+            variant="icon"
+            icon="open_in_new"
+            [href]="'https://huggingface.co/' + llm.family + '/' + llm.name"
+            [tooltip]="'CATALOG.DETAIL.LINK' | translate"
+            (click)="$event.stopPropagation()"
+        ></app-ui-button>
+    </header>
 
-        <mat-card-footer class="basic-card-footer">
-            <mat-chip-set class="chip-set">
-                <app-chip-with-icon
-                    [image]="'../../../assets/images/llm-companies/hf_logo.png'"
-                    text="Card"
-                    tooltip=" {{ 'CATALOG.MODULE-DETAIL.LINK' | translate }}"
-                    (click)="openLink($event)"
-                ></app-chip-with-icon>
-                <app-chip-with-icon
-                    icon="straighten"
-                    [text]="llm.context"
-                    tooltip=" {{ 'CATALOG.MODULE-DETAIL.CONTEXT' | translate }}"
-                ></app-chip-with-icon>
-                <app-chip-with-icon
-                    icon="license"
-                    [text]="llm.license"
-                    tooltip=" {{ 'CATALOG.MODULE-DETAIL.LICENSE' | translate }}"
-                ></app-chip-with-icon>
-            </mat-chip-set>
-        </mat-card-footer>
-    </mat-card>
-</div>
+    <div class="llm-card__body">
+        <markdown
+            [data]="llm.description"
+            ngPreserveWhitespaces
+            [disableSanitizer]="true"
+        ></markdown>
+    </div>
+
+    <footer class="llm-card__footer">
+        <app-ui-chip
+            variant="default-solid"
+            icon="straighten"
+            [text]="llm.context"
+            [tooltip]="'CATALOG.LLMS.CONTEXT' | translate"
+        ></app-ui-chip>
+        <app-ui-chip
+            variant="default-solid"
+            icon="license"
+            [text]="llm.license"
+            [tooltip]="'CATALOG.DETAIL.LICENSE' | translate"
+        ></app-ui-chip>
+    </footer>
+</app-ui-card>

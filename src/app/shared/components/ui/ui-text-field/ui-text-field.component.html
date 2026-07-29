@@ -22,6 +22,17 @@
             (blur)="onBlur()"
         />
 
+        @if (clearable && internalValue() && !disabled()) {
+            <mat-icon
+                class="ui-text-field__suffix"
+                [matTooltip]="'GENERAL.CLEAR' | translate"
+                matTooltipClass="ui-tooltip"
+                (click)="clear()"
+            >
+                close
+            </mat-icon>
+        }
+
         @if (maskable) {
             <mat-icon
                 class="ui-text-field__suffix"

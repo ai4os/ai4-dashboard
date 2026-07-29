@@ -13,6 +13,7 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MatTooltip } from '@angular/material/tooltip';
 
 export interface SelectOption {
     value: string | number | boolean;
@@ -26,7 +27,7 @@ let nextId = 0;
     templateUrl: './ui-select.component.html',
     styleUrl: './ui-select.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatIcon, TranslatePipe],
+    imports: [MatIcon, TranslatePipe, MatTooltip],
 })
 export class UiSelectComponent implements ControlValueAccessor {
     ngControl = inject(NgControl, { optional: true, self: true });
@@ -36,6 +37,8 @@ export class UiSelectComponent implements ControlValueAccessor {
     @Input() hint?: string;
     @Input() options: SelectOption[] = [];
     @Input() errorMessages: Record<string, string> = {};
+    @Input() prefixIcon?: string;
+    @Input() showLabel? = true;
 
     @Output() valueChange = new EventEmitter<any>();
 

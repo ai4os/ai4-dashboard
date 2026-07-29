@@ -38,6 +38,7 @@
         color: var(--color-text-primary);
         font-family: inherit;
         min-width: 0;
+        line-height: var(--line-height-base);
 
         &::placeholder {
             color: var(--color-text-tertiary);
@@ -138,6 +139,24 @@
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-lg);
+
+    // Scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: var(--radius-sm);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-primary);
+        border-radius: var(--radius-sm);
+    }
 
     &__empty {
         padding: var(--space-sm) var(--space-md);

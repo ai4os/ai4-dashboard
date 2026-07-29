@@ -41,6 +41,7 @@
         "NO": "No",
         "REVOKE": "Revoke",
         "CANCEL": "Cancel",
+        "CLEAR": "Clear",
         "FORMS": {
             "REQUIRED": "This field is required"
         }
@@ -150,7 +151,24 @@
             "DISCONNECTED": "Disconnected"
         }
     },
-
+    "CATALOG": {
+        "COMMON": {
+            "NUM-RESULTS": "result(s) found",
+            "NO-RESULTS": "No results found",
+            "SEARCH-PLACEHOLDER": "Enter text to search",
+            "LOAD-ERROR": "Error loading the catalog. Please reload the page and try again."
+        },
+        "DETAIL": {
+            "LICENSE": "License",
+            "LINK": "Link to model"
+        },
+        "LLMS": {
+            "TITLE": "LLMs",
+            "FILTER-FAMILY": "Filter by family",
+            "ALL": "All",
+            "CONTEXT": "Context"
+        }
+    },
 
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -327,7 +345,7 @@
             }
         }
     },
-    "CATALOG": {
+    "CATALOG-OLD": {
         "MODULES-TITLE": "Modules",
         "TOOLS-TITLE": "Tools",
         "LLMS-TITLE": "LLMs",

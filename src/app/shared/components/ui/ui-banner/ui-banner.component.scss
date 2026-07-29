@@ -1,0 +1,212 @@
+.ui-banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) 28px;
+    color: var(--color-text-inverse);
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        background-size: 200px 200px;
+        z-index: 1;
+    }
+
+    /* Variantes de color */
+    --circle-shadow-rgb: var(--color-accent-rgb);
+
+    &--brand {
+        background:
+            radial-gradient(
+                ellipse 60% 80% at 8% 15%,
+                rgba(255, 255, 255, 0.14) 0%,
+                transparent 55%
+            ),
+            radial-gradient(
+                ellipse 55% 70% at 92% 90%,
+                rgba(var(--color-hero-shadow-rgb), 0.4) 0%,
+                transparent 58%
+            ),
+            var(--gradient-brand);
+    }
+
+    &--primary {
+        --circle-shadow-rgb: var(--color-primary-rgb);
+
+        background:
+            radial-gradient(
+                ellipse 60% 80% at 8% 15%,
+                rgba(255, 255, 255, 0.14) 0%,
+                transparent 55%
+            ),
+            radial-gradient(
+                ellipse 55% 70% at 92% 90%,
+                rgba(var(--color-hero-shadow-rgb), 0.4) 0%,
+                transparent 58%
+            ),
+            var(--gradient-primary);
+    }
+
+    /* ng-content */
+    &__content {
+        position: relative;
+        z-index: 3;
+        min-width: 0;
+    }
+
+    /* =========================================
+       CIRCLES 
+       ========================================= */
+    &__circles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+    }
+
+    &__circle {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        transform: translate(35%, 45%);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: transparent;
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.38),
+            0 0 40px rgba(var(--circle-shadow-rgb), 0.38),
+            0 0 90px rgba(var(--circle-shadow-rgb), 0.18),
+            inset 0 0 18px rgba(255, 255, 255, 0.12);
+
+        &--sm {
+            width: 20%;
+            animation: circlePulseSm 7s ease-in-out infinite 0s;
+        }
+        &--md {
+            width: 34%;
+            animation: circlePulseMd 7s ease-in-out infinite 0.9s;
+        }
+        &--lg {
+            width: 50%;
+            animation: circlePulseLg 7s ease-in-out infinite 1.8s;
+        }
+    }
+
+    /* =========================================
+       CATALOG
+       ========================================= */
+    &__catalog {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+
+        --card-size: clamp(46px, 3.5vw, 60px);
+
+        --anchor-right: 44px;
+        --anchor-bottom: 26px;
+    }
+
+    &__catalog-item {
+        position: absolute;
+        right: var(--anchor-right);
+        bottom: var(--anchor-bottom);
+        width: var(--card-size);
+        aspect-ratio: 1;
+        border-radius: var(--radius-md, 10px);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.3),
+            0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
+            inset 0 0 14px rgba(255, 255, 255, 0.08);
+
+        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+
+        animation: catalogFloat 6s ease-in-out infinite;
+
+        &--1 {
+            --tx: 0px;
+            --ty: 0px;
+            --r: 8deg;
+
+            animation-delay: 0s;
+        }
+
+        &--2 {
+            --tx: -50px;
+            --ty: -20px;
+            --r: 4deg;
+
+            animation-delay: 0.8s;
+        }
+
+        &--3 {
+            --tx: -100px;
+            --ty: 2px;
+            --r: -7deg;
+
+            animation-delay: 1.6s;
+        }
+    }
+}
+
+@keyframes circlePulseSm {
+    0%,
+    100% {
+        transform: translate(35%, 45%) scale(1);
+    }
+    50% {
+        transform: translate(35%, 45%) scale(1.1);
+    }
+}
+
+@keyframes circlePulseMd {
+    0%,
+    100% {
+        transform: translate(35%, 45%) scale(1);
+    }
+    50% {
+        transform: translate(35%, 45%) scale(1.08);
+    }
+}
+
+@keyframes circlePulseLg {
+    0%,
+    100% {
+        transform: translate(35%, 45%) scale(1);
+    }
+    50% {
+        transform: translate(35%, 45%) scale(1.06);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ui-banner__circle {
+        animation: none;
+    }
+}
+
+@keyframes catalogFloat {
+    0%,
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+    }
+
+    50% {
+        transform: translate(var(--tx), calc(var(--ty) - 8px)) rotate(var(--r));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ui-banner__circle,
+    .ui-banner__catalog-item {
+        animation: none;
+    }
+}

@@ -47,6 +47,7 @@
         background: transparent;
         font-size: var(--font-size-sm);
         color: var(--color-text-primary);
+        line-height: var(--line-height-base);
         cursor: pointer;
 
         &::placeholder {

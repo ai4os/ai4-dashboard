@@ -3,7 +3,7 @@
     [class.ui-text-field--invalid]="isInvalid"
     [class.ui-text-field--disabled]="disabled()"
 >
-    @if (label) {
+    @if (showLabel) {
         <span class="ui-text-field__label" [id]="labelId">{{
             label | translate
         }}</span>
@@ -21,6 +21,15 @@
         (click)="toggle()"
         (keydown)="onTriggerKeydown($event)"
     >
+        @if (prefixIcon) {
+            <mat-icon
+                class="ui-text-field__prefix"
+                [matTooltip]="label | translate"
+                matTooltipClass="ui-tooltip"
+                >{{ prefixIcon }}</mat-icon
+            >
+        }
+
         <span
             class="ui-text-field__input ui-select__value"
             [class.ui-select__value--placeholder]="!selectedOption()"
