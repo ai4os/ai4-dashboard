@@ -29,6 +29,12 @@ export class LlmApiKeysStore {
         this.llmApiKeysService.getLiteLLMKeys().subscribe({
             next: (keys) => {
                 this._apiKeys.set(keys.map((k) => this.mapKey(k)));
+
+                // Filter key with id genai_app, so user cannot delete it
+                this._apiKeys.set(
+                    this._apiKeys().filter((k) => k.id !== 'genai_app')
+                );
+
                 this.loaded = true;
                 this._loading.set(false);
             },
