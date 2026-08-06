@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.26.0](https://github.com/ai4os/ai4-dashboard/compare/v3.25.0...v3.26.0) (2026-08-06)
+
+
+### Features
+
+* add filter to api keys store ([#515](https://github.com/ai4os/ai4-dashboard/issues/515)) ([15354b6](https://github.com/ai4os/ai4-dashboard/commit/15354b63769f8009ba319f5e584457e5e92983a4))
+* remove affinities panel ([#517](https://github.com/ai4os/ai4-dashboard/issues/517)) ([aa7cf29](https://github.com/ai4os/ai4-dashboard/commit/aa7cf29a51c79c7f0f3e7cd04f5791ed5fbb18aa))
+
 ## [3.25.0](https://github.com/ai4os/ai4-dashboard/compare/v3.24.2...v3.25.0) (2026-06-30)
 
 
