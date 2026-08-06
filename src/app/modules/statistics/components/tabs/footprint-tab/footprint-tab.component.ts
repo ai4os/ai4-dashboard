@@ -5,7 +5,6 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
-import { BarChartComponent } from '../../charts/bar-chart/bar-chart.component';
 import { FootprintChartComponent } from '../../charts/footprint-chart/footprint-chart.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -14,14 +13,13 @@ import { TranslatePipe } from '@ngx-translate/core';
     templateUrl: './footprint-tab.component.html',
     styleUrl: './footprint-tab.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [BarChartComponent, FootprintChartComponent, TranslatePipe],
+    imports: [FootprintChartComponent, TranslatePipe],
 })
 export class FootprintTabComponent implements OnInit {
     @Input() datacentersStats: DatacenterStats[] = [];
 
     protected datacenterNames: string[] = [];
     protected datacenterCountries: string[] = [];
-    protected affinityValues: number[] = [];
 
     protected carbonTimestamps: string[] = [];
     protected carbonValues: number[][] = [];
@@ -37,7 +35,6 @@ export class FootprintTabComponent implements OnInit {
         this.datacenterCountries = this.datacentersStats.map(
             (dc) => dc.country
         );
-        this.affinityValues = this.datacentersStats.map((dc) => dc.affinity);
 
         this.carbonTimestamps =
             this.datacentersStats[0]?.footprints.carbon.map((f) => {
