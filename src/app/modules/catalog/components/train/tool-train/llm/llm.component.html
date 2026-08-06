@@ -15,6 +15,12 @@
                 [showHelp]="showHelp"
                 [showFields]="showGeneralFields"
             ></app-general-conf-form>
+            <app-llm-conf-form
+                class="child-form-container"
+                [defaultFormValues]="llmConfDefaultValues"
+                [showHelp]="showHelp"
+                [modelId]="modelId"
+            ></app-llm-conf-form>
         </form>
     </ng-template>
 </app-stepper-form>

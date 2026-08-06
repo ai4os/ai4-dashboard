@@ -1,29 +1,55 @@
 .title {
     white-space: normal;
     text-align: center;
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-semibold);
 }
 
 .next-back-buttons {
     display: flex;
     justify-content: flex-end;
+    gap: var(--space-sm);
 }
 
 .next-back-buttons-mobile {
     display: flex;
     justify-content: space-evenly;
+    gap: var(--space-sm);
+}
+
+.next-back-buttons,
+.next-back-buttons-mobile {
+    ::ng-deep .mat-mdc-raised-button {
+        border-radius: var(--radius-pill) !important;
+        font-size: var(--font-size-sm) !important;
+        font-weight: var(--font-weight-medium) !important;
+        letter-spacing: -0.01em;
+        box-shadow: none !important;
+        transition:
+            background 0.15s,
+            transform 0.15s;
+
+        &:not(:disabled):hover {
+            transform: translateY(-1px);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
 }
 
 .breadcrumbs-and-help-container {
     display: flex;
     justify-content: space-between;
-    margin: 0 1rem;
-    gap: 1.5em;
+    margin: 0 var(--space-lg);
+    gap: var(--space-xl);
     align-items: center;
 }
 
 .mobile-breadcrumb {
-    padding-top: 10px;
-    font-size: 0.83em;
+    padding-top: var(--space-md);
+    font-size: var(--font-size-xs);
     display: flex;
     justify-content: center;
 }
@@ -31,33 +57,34 @@
 .warning-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5em;
+    gap: var(--space-xl);
 }
 
 .warning-chip {
-    font-size: 12px;
-    line-height: 20px;
-    border: solid 2px var(--warning-orange);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-base);
+    border: solid 2px var(--color-warning);
     background-color: color-mix(
         in srgb,
-        var(--warning-orange) 15%,
+        var(--color-warning) 15%,
         transparent
     ) !important;
     height: fit-content;
-    padding: 0.5em;
+    padding: var(--space-sm);
     align-self: center;
-    color: #9b3100;
+    color: var(--color-warning-dark);
     max-width: fit-content;
     width: 50%;
+    border-radius: var(--radius-sm);
 
     mat-icon {
-        color: var(--warning-orange);
+        color: var(--color-warning);
         transform: scale(1.5);
     }
 }
 
 ::ng-deep .warning-chip .mat-mdc-chip-action-label {
-    color: #9b3100 !important;
+    color: var(--color-warning-dark) !important;
     text-wrap-mode: wrap;
 }
 

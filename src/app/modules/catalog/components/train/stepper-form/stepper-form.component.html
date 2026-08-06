@@ -28,14 +28,11 @@
             ></xng-breadcrumb>
 
             @if (!mobileQuery.matches) {
-                <mat-slide-toggle
-                    color="accent"
+                <app-ui-toggle
                     formControlName="showHelpToggleButton"
-                    #showHelpToggle
-                    (change)="showHelpButtonChange($event)"
-                >
-                    Show help
-                </mat-slide-toggle>
+                    [label]="'GENERAL.SHOW-HELP' | translate"
+                    (checkedChange)="showHelpButtonChange($event)"
+                ></app-ui-toggle>
             }
         </div>
     </div>

@@ -53,7 +53,6 @@ describe('GeneralConfFormComponent', () => {
         fixture = TestBed.createComponent(GeneralConfFormComponent);
         component = fixture.componentInstance;
         component.defaultFormValues = mockDefaultFormValues;
-        component.vllModelsConfigurations = mockedVllmsConfig;
         fixture.detectChanges();
     });
 
@@ -189,40 +188,5 @@ describe('GeneralConfFormComponent', () => {
         const cvatUsername =
             component.generalConfFormGroup.get('cvatUsernameInput');
         expect(cvatUsername?.value).toBe('cvat@example.com');
-    });
-
-    it('should set email based on profile for llm', () => {
-        component['_showFields'].llmFields = true;
-        (mockedAuthService.userProfileSubject as any).next({
-            email: 'llm@example.com',
-        });
-
-        fixture.detectChanges();
-        const llmUsername =
-            component.generalConfFormGroup.get('uiUsernameInput');
-        expect(llmUsername?.value).toBe('llm@example.com');
-    });
-
-    it('should enable huggingFaceTokenInput if model requires token', () => {
-        const model = 'meta-llama/Llama-3.2-3B-Instruct';
-        component.generalConfFormGroup.get('vllmModelSelect')?.setValue(model);
-        component.modelChanged();
-
-        expect(component.modelNeedsToken).toBe(true);
-        expect(
-            component.generalConfFormGroup.get('huggingFaceTokenInput')?.enabled
-        ).toBe(true);
-    });
-
-    it('should disable huggingFaceTokenInput if model does not require token', () => {
-        const model = 'Qwen/Qwen2.5-7B-Instruct-AWQ';
-        component.generalConfFormGroup.get('vllmModelSelect')?.setValue(model);
-        component.modelChanged();
-
-        expect(component.modelNeedsToken).toBe(false);
-        expect(
-            component.generalConfFormGroup.get('huggingFaceTokenInput')
-                ?.disabled
-        ).toBe(true);
     });
 });

@@ -84,7 +84,6 @@ export class FederatedServerComponent implements OnInit {
         infoButton: true,
         cvatFields: false,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: false,
     };
 
@@ -118,7 +117,7 @@ export class FederatedServerComponent implements OnInit {
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
     }
 }

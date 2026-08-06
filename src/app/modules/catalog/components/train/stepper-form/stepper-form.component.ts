@@ -19,10 +19,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import {
-    MatSlideToggleChange,
-    MatSlideToggle,
-} from '@angular/material/slide-toggle';
+import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle.component';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
@@ -61,7 +58,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         MatChipAvatar,
         NgClass,
         BreadcrumbComponent,
-        MatSlideToggle,
+        UiToggleComponent,
         MatProgressSpinner,
         MatStepper,
         MatStep,
@@ -117,7 +114,7 @@ export class StepperFormComponent implements OnInit {
     @Input() platform?: string = 'nomad';
     @Input() isLoading!: boolean;
 
-    @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
+    @Output() showHelpButtonEvent = new EventEmitter<boolean>();
 
     @ViewChild('showHelpToggle', { read: ElementRef }) element:
         ElementRef | undefined;
@@ -137,8 +134,8 @@ export class StepperFormComponent implements OnInit {
         return false;
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelpButtonEvent.emit(event);
+    showHelpButtonChange(checked: boolean) {
+        this.showHelpButtonEvent.emit(checked);
     }
 
     submitTrainingRequest() {
@@ -201,19 +198,16 @@ export class StepperFormComponent implements OnInit {
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else if (this.title == 'Deploy your LLM') {
             data.llm = {
-                type: this.step1Form.value.generalConfForm.deploymentTypeSelect,
-                vllm_model_id:
-                    this.step1Form.value.generalConfForm.vllmModelSelect,
-                ui_username:
-                    this.step1Form.value.generalConfForm.uiUsernameInput,
-                ui_password:
-                    this.step1Form.value.generalConfForm.uiPasswordInput,
+                type: this.step1Form.value.llmConfForm.deploymentTypeSelect,
+                vllm_model_id: this.step1Form.value.llmConfForm.vllmModelSelect,
+                ui_username: this.step1Form.value.llmConfForm.uiUsernameInput,
+                ui_password: this.step1Form.value.llmConfForm.uiPasswordInput,
                 HF_token:
-                    this.step1Form.value.generalConfForm.huggingFaceTokenInput,
+                    this.step1Form.value.llmConfForm.huggingFaceTokenInput,
                 openai_api_key:
-                    this.step1Form.value.generalConfForm.openaiApiKeyInput,
+                    this.step1Form.value.llmConfForm.openaiApiKeyInput,
                 openai_api_url:
-                    this.step1Form.value.generalConfForm.openaiApiUrlInput,
+                    this.step1Form.value.llmConfForm.openaiApiUrlInput,
             };
             request = this.deploymentsService.trainTool('ai4os-llm', data);
         } else {

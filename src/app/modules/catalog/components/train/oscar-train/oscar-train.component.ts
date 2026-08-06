@@ -120,7 +120,7 @@ export class OscarTrainComponent implements OnInit {
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
     }
 }
