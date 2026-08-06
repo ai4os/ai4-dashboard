@@ -107,15 +107,16 @@ export class ToolsService {
     getVllmModelConfiguration(): Observable<VllmModelConfig[]> {
         const url =
             'https://raw.githubusercontent.com/ai4os/ai4-papi/refs/heads/master/etc/vllm.yaml';
+
         return this.http.get(url, { responseType: 'text' }).pipe(
             map((yamlText) => {
                 const parsedYaml = yaml.load(yamlText) as {
-                    models: Record<string, Omit<VllmModelConfig, 'name'>>;
+                    models: Record<string, Omit<VllmModelConfig, 'id'>>;
                 };
 
                 return Object.entries(parsedYaml.models).map(
-                    ([name, config]) => ({
-                        name, // model name
+                    ([id, config]) => ({
+                        id,
                         ...config,
                     })
                 );

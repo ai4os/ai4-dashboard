@@ -63,6 +63,7 @@ import {
 } from '@angular/material/select';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIconButton, MatButton } from '@angular/material/button';
+import { urlValidator } from '@app/shared/utils/validators';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -74,19 +75,6 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
     value: { stringValue: '', booleanValue: false },
     description: '',
 };
-
-export function urlValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-        const urlPattern =
-            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
-        const value = control.value;
-        let validURL = true;
-        if (value.trim().length > 0) {
-            validURL = urlPattern.test(value);
-        }
-        return validURL ? null : { invalidURL: true };
-    };
-}
 
 @Component({
     selector: 'app-storage-conf-form',

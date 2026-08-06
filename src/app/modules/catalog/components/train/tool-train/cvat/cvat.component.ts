@@ -65,7 +65,6 @@ export class CvatComponent implements OnInit {
         infoButton: true,
         cvatFields: true,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: false,
     };
 

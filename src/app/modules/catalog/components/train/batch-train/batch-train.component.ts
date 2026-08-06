@@ -82,7 +82,6 @@ export class BatchTrainComponent implements OnInit {
         infoButton: false,
         cvatFields: false,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: true,
     };
 

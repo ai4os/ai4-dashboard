@@ -79,7 +79,6 @@ export class OscarTrainComponent implements OnInit {
         infoButton: true,
         cvatFields: false,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: false,
     };
 

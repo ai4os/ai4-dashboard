@@ -257,6 +257,7 @@ export interface Secret {
 }
 
 export interface VllmModelConfig {
+    id: string;
     name: string;
     description: string;
     family: string;

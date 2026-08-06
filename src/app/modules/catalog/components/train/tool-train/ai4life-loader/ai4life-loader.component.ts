@@ -76,7 +76,6 @@ export class Ai4lifeLoaderComponent implements OnInit {
         infoButton: true,
         cvatFields: false,
         ai4lifeFields: true,
-        llmFields: false,
         batchFields: false,
     };
 

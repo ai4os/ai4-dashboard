@@ -75,7 +75,6 @@ export class NvflareComponent implements OnInit {
         co2EmissionsInput: false,
         cvatFields: false,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: false,
     };
 
