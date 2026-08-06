@@ -1,5 +1,5 @@
 # ---- Stage 1: Build ----
-    FROM node:20.5.1 AS builder
+    FROM node:24 AS builder
     ARG TENANT=''
     
     WORKDIR /app
