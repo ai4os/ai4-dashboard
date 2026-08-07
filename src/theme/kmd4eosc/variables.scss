@@ -79,3 +79,26 @@
         }
     }
 }
+
+$color-primary: #0a3780;
+$color-primary-light: #c1d9ff;
+$color-primary-dark: #031633;
+$color-primary-rgb: rgb(10, 55, 128);
+
+$color-accent: #00cbf7;
+$color-accent-light: #f4fdff;
+$color-accent-dark: #007994;
+$color-accent-rgb: rgb(0, 203, 247);
+$color-accent-dark-rgb: rgb(0, 121, 148);
+
+$color-default: #8e8c8c;
+$color-default-light: #f7f6f6;
+$color-default-dark: #151515;
+
+$color-surface: #faf7f4;
+$color-surface-card: #ffffff;
+$color-border: rgba(0, 0, 0, 0.08);
+
+$color-hero-shadow-rgb: 80, 10, 30;
+
+@import '../exports/variables';

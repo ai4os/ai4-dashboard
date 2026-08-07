@@ -18,7 +18,12 @@ import {
     OAuthModuleConfig,
 } from 'angular-oauth2-oidc';
 
-import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
+import {
+    provideTranslateService,
+    TranslateLoader,
+    TranslateService,
+} from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 
 import { provideMarkdown, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
 
@@ -138,6 +143,7 @@ export const appConfig: ApplicationConfig = {
         },
 
         provideTranslateService({
+            lang: 'en',
             fallbackLang: 'en',
             loader: {
                 provide: TranslateLoader,
@@ -172,6 +178,15 @@ export const appConfig: ApplicationConfig = {
         provideAppInitializer(() => {
             const authService = inject(AuthService);
             return authAppInitializerFactory(authService)();
+        }),
+
+        // Blocks the app startup until the current language is loaded. Without this,
+        // components like AppComponent may execute (and call translateService.get()/instant())
+        // before CustomTranslateLoader has finished fetching the translation JSON,
+        // and ngx-translate returns the key instead of the translated text.
+        provideAppInitializer(() => {
+            const translate = inject(TranslateService);
+            return firstValueFrom(translate.use('en'));
         }),
 
         provideAppInitializer(() => {
