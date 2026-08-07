@@ -56,43 +56,6 @@
                         [userGlobalStats]="userGlobalStats"
                     ></app-usage-tab>
                 </mat-tab>
-
-                <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
-                    <ng-template matTabContent>
-                        <app-datacenters-tab
-                            [datacentersStats]="datacentersStats"
-                        ></app-datacenters-tab>
-                    </ng-template>
-                </mat-tab>
-
-                <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
-                    <ng-template matTabContent>
-                        <app-footprint-tab
-                            [datacentersStats]="datacentersStats"
-                        ></app-footprint-tab>
-                    </ng-template>
-                </mat-tab>
-
-                @if (
-                    isLoggedIn() &&
-                    !userStatsLoading &&
-                    userProfile !== undefined
-                ) {
-                    <mat-tab label="{{ 'DASHBOARD.USAGE-TAB' | translate }}">
-                        <app-usage-tab
-                            [userProfile]="userProfile"
-                            [dates]="dates"
-                            [cpuMhzData]="cpuMhzData"
-                            [cpuNumData]="cpuNumData"
-                            [memoryMBData]="memoryMBData"
-                            [diskMBData]="diskMBData"
-                            [gpuNumData]="gpuNumData"
-                            [queuedData]="queuedData"
-                            [runningData]="runningData"
-                            [userGlobalStats]="userGlobalStats"
-                        ></app-usage-tab>
-                    </mat-tab>
-                }
             }
         </mat-tab-group>
     } @else {

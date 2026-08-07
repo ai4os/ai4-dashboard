@@ -1,29 +1,48 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnDestroy,
+    DestroyRef,
     OnInit,
-    ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
-import { AppConfigService } from './core/services/app-config/app-config.service';
-import { Subscription } from 'rxjs';
+import { RouterOutlet } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { CookieService } from 'ngx-cookie-service';
+import { TranslateService } from '@ngx-translate/core';
+import * as yaml from 'js-yaml';
+import { filter } from 'rxjs';
+
+import { AppConfigService } from './core/services/app-config/app-config.service';
 import { PlatformStatusService } from './shared/services/platform-status/platform-status.service';
 import {
     PlatformStatus,
     StatusNotification,
 } from './shared/interfaces/platform-status.interface';
 import { SnackbarService } from './shared/services/snackbar/snackbar.service';
-import { CookieService } from 'ngx-cookie-service';
-import * as yaml from 'js-yaml';
 import { ChatOverlayService } from './shared/services/chat-overlay/chat-overlay.service';
 import { PopupComponent } from './shared/components/popup/popup.component';
 import { AuthService, UserProfile } from './core/services/auth/auth.service';
-import { TranslateService } from '@ngx-translate/core';
-import { RouterOutlet } from '@angular/router';
+
+const MOBILE_BREAKPOINT_QUERY = '(max-width: 650px)';
+const DIALOG_WIDTH_MOBILE = '300px';
+const DIALOG_WIDTH_DESKTOP = '650px';
+const ACCESS_LEVEL_STORAGE_KEY = 'accessLevel';
+const STATUS_POPUP_COOKIE = 'statusPopup';
+
+// + privilegio a - privilegio
+const ACCESS_LEVEL_ORDER = [
+    'ap-d',
+    'ap-u',
+    'ap-b',
+    'ap-a1',
+    'ap-a',
+    'ap-0',
+] as const;
+type AccessLevel = (typeof ACCESS_LEVEL_ORDER)[number];
 
 @Component({
     selector: 'app-root',
@@ -32,52 +51,92 @@ import { RouterOutlet } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [RouterOutlet],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
     title = 'ai4-dashboard';
-    //keep refs to subscriptions to be able to unsubscribe later
-    private statusChangeSubscription!: Subscription;
 
-    titleService = inject(Title);
-    platformStatusService = inject(PlatformStatusService);
-    appConfigService = inject(AppConfigService);
-    chatOverlayService = inject(ChatOverlayService);
-    snackbarService = inject(SnackbarService);
-    authService = inject(AuthService);
-    translateService = inject(TranslateService);
-    dialog = inject(MatDialog);
-    changeDetectorRef = inject(ChangeDetectorRef);
-    media = inject(MediaMatcher);
-    cookieService = inject(CookieService);
+    private readonly titleService = inject(Title);
+    private readonly platformStatusService = inject(PlatformStatusService);
+    private readonly appConfigService = inject(AppConfigService);
+    private readonly chatOverlayService = inject(ChatOverlayService);
+    private readonly snackbarService = inject(SnackbarService);
+    private readonly authService = inject(AuthService);
+    private readonly translateService = inject(TranslateService);
+    private readonly dialog = inject(MatDialog);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
+    private readonly cookieService = inject(CookieService);
+    private readonly destroyRef = inject(DestroyRef);
 
-    constructor() {
-        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () =>
-            this.changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
-    mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    readonly mobileQuery: MediaQueryList = this.media.matchMedia(
+        MOBILE_BREAKPOINT_QUERY
+    );
+    private readonly mobileQueryListener = () =>
+        this.changeDetectorRef.detectChanges();
 
     userProfile?: UserProfile;
 
-    addPlausibleScript() {
-        const scriptElement = document.getElementById('plausible-script');
-        if (!scriptElement) {
-            const node = document.createElement('script'); // creates the script tag
-            node.id = 'plausible-script';
-            node.src = this.appConfigService.analytics['src']; // sets the source (insert url in between quotes)
-            node.type = 'text/javascript'; // set the script type
-            node.defer = true;
-            node.setAttribute(
-                'data-domain',
-                this.appConfigService.analytics['domain']
+    constructor() {
+        this.mobileQuery.addEventListener('change', this.mobileQueryListener);
+        this.destroyRef.onDestroy(() => {
+            this.mobileQuery.removeEventListener(
+                'change',
+                this.mobileQueryListener
             );
-            document.getElementsByTagName('head')[0].appendChild(node);
+            this.cookieService.delete(STATUS_POPUP_COOKIE);
+        });
+    }
+
+    ngOnInit(): void {
+        this.titleService.setTitle(this.appConfigService.title);
+        this.addPlausibleScript();
+        this.checkPlatformStatus();
+        this.watchUserProfile();
+        this.maybeOpenChat();
+    }
+
+    private watchUserProfile(): void {
+        this.authService.userProfile$
+            .pipe(
+                filter((profile): profile is UserProfile => !!profile),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((profile) => {
+                this.userProfile = profile;
+                this.checkUserRoles();
+                this.changeDetectorRef.detectChanges();
+            });
+    }
+
+    private maybeOpenChat(): void {
+        if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
+            /* TODO: enable chat when Milvus problem is solved */
+            // this.chatOverlayService.openChat();
         }
     }
 
-    openPopup(statusNotification: StatusNotification) {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
+    private addPlausibleScript(): void {
+        if (document.getElementById('plausible-script')) {
+            return;
+        }
+        const script = document.createElement('script');
+        script.id = 'plausible-script';
+        script.src = this.appConfigService.analytics['src'];
+        script.type = 'text/javascript';
+        script.defer = true;
+        script.setAttribute(
+            'data-domain',
+            this.appConfigService.analytics['domain']
+        );
+        document.head.appendChild(script);
+    }
+
+    private dialogWidth(): string {
+        return this.mobileQuery.matches
+            ? DIALOG_WIDTH_MOBILE
+            : DIALOG_WIDTH_DESKTOP;
+    }
+
+    private openStatusPopup(statusNotification: StatusNotification): void {
         if (
             statusNotification.downtimeStart &&
             statusNotification.downtimeEnd &&
@@ -89,6 +148,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 )
             );
         }
+
+        const width = this.dialogWidth();
         this.dialog.open(PopupComponent, {
             data: {
                 icon: 'warning',
@@ -96,7 +157,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 title: statusNotification.title,
                 summary: statusNotification.summary,
             },
-            width: width,
+            width,
             maxWidth: width,
             minWidth: width,
             autoFocus: false,
@@ -104,161 +165,114 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
-    parseStatusString(eventString: string): StatusNotification {
-        let eventLines = eventString.trim().split('\n');
-
-        const eventObject: any = {};
-        eventLines = eventLines.slice(1, 6);
-
-        eventLines.forEach((line) => {
-            const [key, value] = line.split(': ');
-
-            eventObject[key.trim()] = value !== undefined ? value.trim() : '';
-        });
-
-        return eventObject;
-    }
-
-    checkPlatformStatus() {
-        const now = new Date().getTime();
-        this.platformStatusService.getPlatformPopup().subscribe({
-            next: (status: PlatformStatus[]) => {
-                if (status.length > 0) {
-                    const popup = this.cookieService.get('statusPopup');
-                    if (!popup && status[0].body != null) {
-                        const yamlBody = status[0].body
-                            .replace(/```yaml/g, '')
-                            .replace(/```[\s\S]*/, '');
-                        const n: StatusNotification = yaml.load(
-                            yamlBody
-                        ) as StatusNotification;
-                        // filter by vo
-                        if (
-                            (n.vo !== '' &&
-                                n.vo === this.appConfigService.voName) ||
-                            n.vo === null
-                        ) {
-                            // filter by date
-                            if (n.start && n.end) {
-                                n.start = new Date(n.start);
-                                n.end = new Date(n.end);
-                                if (
-                                    n.start.getTime() <= now &&
-                                    n.end.getTime() > now
-                                ) {
-                                    this.openPopup(n);
-                                    this.cookieService.set(
-                                        'statusPopup',
-                                        'seen'
-                                    );
-                                }
-                            }
-                        }
+    private checkPlatformStatus(): void {
+        const now = Date.now();
+        this.platformStatusService
+            .getPlatformPopup()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (statuses: PlatformStatus[]) => {
+                    const [latest] = statuses;
+                    if (
+                        !latest?.body ||
+                        this.cookieService.get(STATUS_POPUP_COOKIE)
+                    ) {
+                        return;
                     }
-                }
-            },
-            error: () => {
-                this.snackbarService.openError(
-                    "Couldn't update the notifications. Please try again later."
-                );
-            },
-        });
+
+                    const yamlBody = latest.body
+                        .replace(/```yaml/g, '')
+                        .replace(/```[\s\S]*/, '');
+                    const notification = yaml.load(
+                        yamlBody
+                    ) as StatusNotification;
+
+                    const matchesVo =
+                        notification.vo === null ||
+                        (notification.vo !== '' &&
+                            notification.vo === this.appConfigService.voName);
+
+                    if (
+                        !matchesVo ||
+                        !notification.start ||
+                        !notification.end
+                    ) {
+                        return;
+                    }
+
+                    const start = new Date(notification.start).getTime();
+                    const end = new Date(notification.end).getTime();
+                    if (start <= now && end > now) {
+                        this.openStatusPopup(notification);
+                        this.cookieService.set(STATUS_POPUP_COOKIE, 'seen');
+                    }
+                },
+                error: () => {
+                    this.snackbarService.openError(
+                        "Couldn't update the notifications. Please try again later."
+                    );
+                },
+            });
     }
 
-    getHighestAccessLevel(roles: string[]): string {
-        const order = ['ap-d', 'ap-u', 'ap-b', 'ap-a1', 'ap-a', 'ap-0'];
-        let best = 'ap-0';
+    private getHighestAccessLevel(roles: string[]): AccessLevel {
         const voNameEscaped = this.appConfigService.voName.replace(
             /[.*+?^${}()|[\]\\]/g,
             '\\$&'
         );
+        const pattern = new RegExp(
+            `^access:${voNameEscaped}:(ap-d|ap-u|ap-b|ap-a1|ap-a)$`
+        );
 
-        roles.forEach((role) => {
-            const match = role.match(
-                `^access:${voNameEscaped}:(ap-d|ap-u|ap-b|ap-a1|ap-a)$`
-            );
-
+        let best: AccessLevel = 'ap-0';
+        for (const role of roles) {
+            const match = role.match(pattern);
             if (match) {
-                const level = match[1];
+                const level = match[1] as AccessLevel;
                 if (
-                    best === null ||
-                    order.indexOf(level) < order.indexOf(best)
+                    ACCESS_LEVEL_ORDER.indexOf(level) <
+                    ACCESS_LEVEL_ORDER.indexOf(best)
                 ) {
                     best = level;
                 }
             }
-        });
-
+        }
         return best;
     }
 
-    checkUserRoles() {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-
-        const savedHighestRole = localStorage.getItem('accessLevel') ?? '';
+    private checkUserRoles(): void {
+        const savedHighestRole =
+            localStorage.getItem(ACCESS_LEVEL_STORAGE_KEY) ?? '';
         const currentHighestRole = this.getHighestAccessLevel(
-            this.userProfile?.roles || []
+            this.userProfile?.roles ?? []
         );
 
-        if (
-            savedHighestRole === '' ||
-            savedHighestRole !== currentHighestRole
-        ) {
-            localStorage.setItem('accessLevel', currentHighestRole);
+        if (savedHighestRole === currentHighestRole) {
+            return;
+        }
+        localStorage.setItem(ACCESS_LEVEL_STORAGE_KEY, currentHighestRole);
 
-            this.translateService
-                .get(
-                    ['PROFILE.ACCESS-MODAL-TITLE', 'PROFILE.ACCESS-MODAL-BODY'],
-                    { currentHighestRole }
-                )
-                .subscribe((translations) => {
-                    this.dialog.open(PopupComponent, {
-                        data: {
-                            icon: 'identity_platform',
-                            isWarning: false,
-                            title: translations['PROFILE.ACCESS-MODAL-TITLE'],
-                            summary: translations['PROFILE.ACCESS-MODAL-BODY'],
-                        },
-                        width,
-                        maxWidth: width,
-                        minWidth: width,
-                        autoFocus: false,
-                        restoreFocus: false,
-                    });
+        this.translateService
+            .get(['PROFILE.ACCESS-MODAL-TITLE', 'PROFILE.ACCESS-MODAL-BODY'], {
+                currentHighestRole,
+            })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((translations) => {
+                const width = this.dialogWidth();
+                this.dialog.open(PopupComponent, {
+                    data: {
+                        icon: 'identity_platform',
+                        isWarning: false,
+                        title: translations['PROFILE.ACCESS-MODAL-TITLE'],
+                        summary: translations['PROFILE.ACCESS-MODAL-BODY'],
+                    },
+                    width,
+                    maxWidth: width,
+                    minWidth: width,
+                    autoFocus: false,
+                    restoreFocus: false,
+                    panelClass: 'ui-dialog-panel',
                 });
-        }
-    }
-
-    ngOnInit(): void {
-        // get the current profile if it already exists
-        const currentProfile = this.authService.userProfileSubject.getValue();
-        if (currentProfile) {
-            this.userProfile = currentProfile;
-            this.checkUserRoles();
-        }
-
-        // subscribe to receive future updates
-        this.authService.userProfile$.subscribe((profile) => {
-            if (profile) {
-                this.userProfile = profile;
-                this.checkUserRoles();
-                this.changeDetectorRef.detectChanges();
-            }
-        });
-
-        this.titleService.setTitle(this.appConfigService.title);
-        this.addPlausibleScript();
-        this.checkPlatformStatus();
-
-        if (this.appConfigService.voName !== 'vo.imagine-ai.eu') {
-            /* TODO: enable chat when Milvus problem is solved */
-            // this.chatOverlayService.openChat();
-        }
-    }
-
-    ngOnDestroy() {
-        // unsubscribe to cookieconsent observables to prevent memory leaks
-        this.cookieService.delete('statusPopup');
-        this.statusChangeSubscription.unsubscribe();
+            });
     }
 }
