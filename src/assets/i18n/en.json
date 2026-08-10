@@ -184,7 +184,9 @@
             "LLMS": {
                 "SUBTITLE": "LLM options",
                 "TYPE": "Type",
+                "TYPE-REQUIRED": "Please select the type of deployment",
                 "VLLM-MODEL": "VLLM model",
+                "VLLM-MODEL-REQUIRED": "Please select a VLLM model",
                 "USERNAME": "UI Username",
                 "USERNAME-REQUIRED": "Please add a username for the UI",
                 "USERNAME-INVALID": "Invalid email format",
@@ -380,7 +382,6 @@
     "CATALOG-OLD": {
         "MODULES-TITLE": "Modules",
         "TOOLS-TITLE": "Tools",
-        "LLMS-TITLE": "LLMs",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
@@ -574,23 +575,6 @@
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
                 "CLIP-NORM": "Clipping norm"
-            },
-            "LLM-CONF-FORM": {
-                "TITLE": "LLM options",
-                "VLLM-MODEL": "VLLM model",
-                "UI-USERNAME": "UI Username",
-                "UI-USERNAME-REQUIRED": "Please add a username for the UI",
-                "UI-USERNAME-INVALID": "Invalid email format",
-                "UI-PASSWORD": "UI Password",
-                "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
-                "HUGGING-FACE-TOKEN": "Hugging Face token",
-                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
-                "HUGGING-FACE-TOKEN-TERMS": "You have to accept the terms to be able to use the model",
-                "API-KEY": "OpenAI API Key",
-                "API-KEY-REQUIRED": "Please add the OpenAI API Key",
-                "API-URL": "OpenAI API base URL",
-                "API-URL-REQUIRED": "Please add the OpenAI API base URL",
-                "API-URL-FORMAT": "Invalid URL format"
             },
             "NVFLARE-CONF-FORM": {
                 "TITLE": "NVFlare options",
