@@ -13,10 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { debounceTime, map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 
-import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
-import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
 import {
@@ -29,6 +27,7 @@ import {
     Tab,
     UiTabsComponent,
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { LlmsStore } from '@app/modules/catalog/store/llms.store';
 
 const ALL_FAMILIES = 'ALL' as const;
 const MOBILE_BREAKPOINT = '(max-width: 600px)';
@@ -53,7 +52,7 @@ const SEARCH_DEBOUNCE_MS = 250;
     ],
 })
 export class LlmsListComponent implements OnInit {
-    private readonly toolsService = inject(ToolsService);
+    store = inject(LlmsStore);
     private readonly fb = inject(FormBuilder);
     private readonly breakpointObserver = inject(BreakpointObserver);
     private readonly translate = inject(TranslateService);
@@ -96,12 +95,23 @@ export class LlmsListComponent implements OnInit {
         { initialValue: this.translate.instant('CATALOG.LLMS.ALL') }
     );
 
-    readonly llms = signal<VllmModelConfig[]>([]);
-    readonly llmsLoading = signal(false);
-    readonly llmsError = signal(false);
+    readonly selfLlms = this.store.selfLlms;
+    readonly platformLlms = this.store.platformLlms;
+
+    readonly activeTab = signal<string>('platform-wide');
+    readonly llmsLoading = this.store.loading;
+    readonly llmsError = this.store.error;
+
+    readonly activeLlms = computed(() =>
+        this.activeTab() === 'platform-wide'
+            ? this.platformLlms()
+            : this.selfLlms()
+    );
 
     readonly families = computed(() => {
-        const uniqueFamilies = new Set(this.llms().map((llm) => llm.family));
+        const uniqueFamilies = new Set(
+            this.activeLlms().map((llm) => llm.family)
+        );
         return [...uniqueFamilies].sort((a, b) => a.localeCompare(b));
     });
 
@@ -117,15 +127,13 @@ export class LlmsListComponent implements OnInit {
         const search = this.searchTerm().trim().toLowerCase();
         const family = this.selectedFamily();
 
-        return this.llms().filter((llm) => {
+        return this.activeLlms().filter((llm) => {
             const matchesFamily =
                 family === ALL_FAMILIES || llm.family === family;
-
             const matchesSearch =
                 !search ||
-                llm.name.toLowerCase().includes(search) ||
-                llm.description.toLowerCase().includes(search);
-
+                llm.name?.toLowerCase().includes(search) ||
+                llm.description?.toLowerCase().includes(search);
             return matchesFamily && matchesSearch;
         });
     });
@@ -146,29 +154,12 @@ export class LlmsListComponent implements OnInit {
             },
         ];
     }
-    activeTab = 'platform-wide';
 
     onTabSelected(tabId: string) {
-        this.activeTab = tabId;
+        this.activeTab.set(tabId);
     }
 
     ngOnInit(): void {
-        this.loadLlms();
-    }
-
-    private loadLlms(): void {
-        this.llmsLoading.set(true);
-        this.llmsError.set(false);
-
-        this.toolsService.getVllmModelConfiguration().subscribe({
-            next: (llms) => {
-                this.llms.set(llms);
-                this.llmsLoading.set(false);
-            },
-            error: () => {
-                this.llmsLoading.set(false);
-                this.llmsError.set(true);
-            },
-        });
+        this.store.ensureLoaded();
     }
 }

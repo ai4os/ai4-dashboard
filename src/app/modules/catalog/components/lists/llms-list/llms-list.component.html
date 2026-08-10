@@ -67,46 +67,25 @@
 
         <app-ui-tabs
             [tabs]="tabs"
-            [activeTabId]="activeTab"
+            [activeTabId]="activeTab()"
             (tabChange)="onTabSelected($event)"
         >
         </app-ui-tabs>
 
         <div class="tab-content-container">
-            @switch (activeTab) {
-                @case ('platform-wide') {
-                    @if (filteredLlms().length > 0) {
-                        <div class="modules-cards-container">
-                            @for (llm of filteredLlms(); track llm.name) {
-                                <span class="m-2">
-                                    <app-llm-card [llm]="llm"></app-llm-card>
-                                </span>
-                            }
-                        </div>
-                    } @else {
-                        <div class="llms-empty-state">
-                            <mat-icon>search_off</mat-icon>
-                            <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
-                        </div>
+            @if (filteredLlms().length > 0) {
+                <div class="modules-cards-container">
+                    @for (llm of filteredLlms(); track llm.id) {
+                        <span class="m-2">
+                            <app-llm-card [llm]="llm"></app-llm-card>
+                        </span>
                     }
-                }
-
-                @case ('self-deployed') {
-                    @if (filteredLlms().length > 0) {
-                        <div class="modules-cards-container">
-                            @for (llm of filteredLlms(); track llm.name) {
-                                <span class="m-2">
-                                    <app-llm-card [llm]="llm"></app-llm-card>
-                                </span>
-                            }
-                        </div>
-                    } @else {
-                        <div class="llms-empty-state">
-                            <mat-icon>search_off</mat-icon>
-                            <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
-                        </div>
-                    }
-                }
+                </div>
+            } @else {
+                <div class="llms-empty-state">
+                    <mat-icon>search_off</mat-icon>
+                    <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
+                </div>
             }
         </div>
     }

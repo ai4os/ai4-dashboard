@@ -19,4 +19,11 @@
         height: 4px;
         background-color: var(--card-accent);
     }
+
+    &--disabled {
+        cursor: not-allowed !important;
+        opacity: 0.65;
+        filter: grayscale(80%);
+        pointer-events: none;
+    }
 }

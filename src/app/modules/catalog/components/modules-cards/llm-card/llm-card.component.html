@@ -1,8 +1,8 @@
 <app-ui-card
-    [class.llm-card--disabled]="!isAuthorized"
+    [disabled]="isDisabled"
     [accentColor]="'var(--color-primary)'"
-    [matTooltip]="'CATALOG.MODULE-DETAIL.UNAUTHORIZED' | translate"
-    [matTooltipDisabled]="isAuthorized"
+    [matTooltip]="tooltipText | translate"
+    [matTooltipDisabled]="!isDisabled"
     matTooltipClass="ui-tooltip"
     (click)="loadLLM()"
 >
@@ -28,25 +28,49 @@
     </header>
 
     <div class="llm-card__body">
-        <markdown
-            [data]="llm.description"
-            ngPreserveWhitespaces
-            [disableSanitizer]="true"
-        ></markdown>
+        @if ('description' in llm && llm.description) {
+            <markdown
+                [data]="llm.description"
+                ngPreserveWhitespaces
+                [disableSanitizer]="true"
+            ></markdown>
+        }
     </div>
 
     <footer class="llm-card__footer">
-        <app-ui-chip
-            variant="default-solid"
-            icon="straighten"
-            [text]="llm.context"
-            [tooltip]="'CATALOG.LLMS.CONTEXT' | translate"
-        ></app-ui-chip>
-        <app-ui-chip
-            variant="default-solid"
-            icon="license"
-            [text]="llm.license"
-            [tooltip]="'CATALOG.DETAIL.LICENSE' | translate"
-        ></app-ui-chip>
+        @if ('status' in llm && llm.status) {
+            <app-ui-chip
+                variant="default-solid"
+                [icon]="
+                    llm.status === 'healthy'
+                        ? 'check_circle'
+                        : llm.status === 'unhealthy'
+                          ? 'error'
+                          : 'help'
+                "
+                [text]="llm.status"
+                [tooltip]="'CATALOG.DETAIL.STATUS' | translate"
+                [class.status-healthy]="llm.status === 'healthy'"
+                [class.status-unhealthy]="llm.status === 'unhealthy'"
+            ></app-ui-chip>
+        }
+
+        @if ('context' in llm && llm.context) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="straighten"
+                [text]="llm.context"
+                [tooltip]="'CATALOG.DETAIL.CONTEXT' | translate"
+            ></app-ui-chip>
+        }
+
+        @if ('license' in llm && llm.license) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="license"
+                [text]="llm.license"
+                [tooltip]="'CATALOG.DETAIL.LICENSE' | translate"
+            ></app-ui-chip>
+        }
     </footer>
 </app-ui-card>
