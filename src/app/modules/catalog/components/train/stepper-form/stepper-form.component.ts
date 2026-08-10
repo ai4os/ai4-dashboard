@@ -33,7 +33,6 @@ import { MatChip, MatChipAvatar } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import {
     MatStepper,
     MatStep,
@@ -43,6 +42,7 @@ import {
 } from '@angular/material/stepper';
 import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 
 @Component({
     selector: 'app-stepper-form',
@@ -59,7 +59,6 @@ import { TranslatePipe } from '@ngx-translate/core';
         NgClass,
         BreadcrumbComponent,
         UiToggleComponent,
-        MatProgressSpinner,
         MatStepper,
         MatStep,
         MatStepLabel,
@@ -68,6 +67,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         MatStepperNext,
         MatStepperPrevious,
         TranslatePipe,
+        UiLoaderComponent,
     ],
 })
 export class StepperFormComponent implements OnInit {
@@ -113,6 +113,14 @@ export class StepperFormComponent implements OnInit {
     @Input() warningMessage?: string = '';
     @Input() platform?: string = 'nomad';
     @Input() isLoading!: boolean;
+    /**
+     * Non-destructive loading overlay: covers the already-rendered stepper
+     * without unmounting it (unlike isLoading). Use this for transient
+     * loads triggered by a child form once the stepper is already mounted
+     * (e.g. a sub-form fetching a token) — isLoading would tear the child
+     * down mid-request and it could never signal completion.
+     */
+    @Input() fieldsLoading = false;
 
     @Output() showHelpButtonEvent = new EventEmitter<boolean>();
 

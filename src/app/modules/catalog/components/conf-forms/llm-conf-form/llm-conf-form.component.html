@@ -1,289 +1,120 @@
-@if (isLoading) {
-    <div class="spinner spinner_overlay">
-        <mat-progress-spinner color="primary" mode="indeterminate">
-        </mat-progress-spinner>
+<form [formGroup]="llmConfFormGroup" class="llm-conf-form">
+    <h4>
+        {{ 'CATALOG.CONF-FORMS.LLMS.SUBTITLE' | translate }}
+    </h4>
+    <div
+        [class]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <app-ui-select
+            formControlName="deploymentTypeSelect"
+            label="{{ 'CATALOG.CONF-FORMS.LLMS.TYPE' | translate }}"
+            [options]="deploymentTypeOptions"
+            [hint]="_showHelp ? _defaultFormValues.type.description : ''"
+            [errorMessages]="deploymentTypeErrors"
+        ></app-ui-select>
+
+        @if (
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'both' ||
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'vllm'
+        ) {
+            <app-ui-select
+                formControlName="vllmModelSelect"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.VLLM-MODEL' | translate }}"
+                [options]="vllmModelOptions"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues.vllm_model_id.description
+                        : ''
+                "
+                [errorMessages]="vllmModelErrors"
+                (valueChange)="modelChanged()"
+            ></app-ui-select>
+        }
+
+        @if (
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'both' ||
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'open-webui'
+        ) {
+            <app-ui-text-field
+                formControlName="uiUsernameInput"
+                type="email"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.USERNAME' | translate }}"
+                [errorMessages]="uiUsernameErrors"
+            ></app-ui-text-field>
+
+            <app-ui-text-field
+                formControlName="uiPasswordInput"
+                [maskable]="true"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.PASSWORD' | translate }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.ui_password.description : ''
+                "
+                [errorMessages]="uiPasswordErrors"
+            ></app-ui-text-field>
+        }
+
+        @if (
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'open-webui'
+        ) {
+            <app-ui-text-field
+                formControlName="openaiApiUrlInput"
+                type="url"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.API-URL' | translate }}"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues.openai_api_url.description
+                        : ''
+                "
+                [errorMessages]="openaiApiUrlErrors"
+            ></app-ui-text-field>
+
+            <app-ui-text-field
+                formControlName="openaiApiKeyInput"
+                [maskable]="true"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.API-KEY' | translate }}"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues.openai_api_key.description
+                        : ''
+                "
+                [errorMessages]="openaiApiKeyErrors"
+            ></app-ui-text-field>
+        }
+
+        @if (
+            modelNeedsToken &&
+            (llmConfFormGroup.get('deploymentTypeSelect')?.value === 'both' ||
+                llmConfFormGroup.get('deploymentTypeSelect')?.value === 'vllm')
+        ) {
+            <div class="field-with-info">
+                <app-ui-text-field
+                    class="full-width"
+                    formControlName="huggingFaceTokenInput"
+                    [maskable]="true"
+                    label="{{
+                        'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN' | translate
+                    }}"
+                    [hint]="
+                        _showHelp ? _defaultFormValues.HF_token.description : ''
+                    "
+                    [errorMessages]="hfTokenErrors"
+                ></app-ui-text-field>
+                <app-ui-button
+                    variant="icon"
+                    icon="help"
+                    tooltip="{{
+                        'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN-TERMS'
+                            | translate
+                    }}"
+                    [href]="
+                        'https://huggingface.co/' +
+                        llmConfFormGroup.get('vllmModelSelect')?.value
+                    "
+                ></app-ui-button>
+            </div>
+        }
     </div>
-} @else {
-    <form [formGroup]="llmConfFormGroup" class="llm-conf-form">
-        <h4>
-            {{ 'CATALOG.CONF-FORMS.LLMS.SUBTITLE' | translate }}
-        </h4>
-        <mat-divider class="mt-3 mb-3"></mat-divider>
-        <div [class]="mobileQuery.matches ? 'form-flex' : 'form-grid'">
-            <mat-form-field>
-                <mat-label>{{
-                    'CATALOG.CONF-FORMS.LLMS.TYPE' | translate
-                }}</mat-label>
-
-                <mat-select formControlName="deploymentTypeSelect">
-                    @for (
-                        deploymentTypeOption of deploymentTypeOptions;
-                        track deploymentTypeOption
-                    ) {
-                        <mat-option [value]="deploymentTypeOption.value">
-                            {{ deploymentTypeOption.viewValue }}
-                        </mat-option>
-                    }
-                </mat-select>
-
-                @if (_showHelp) {
-                    <mat-hint>{{
-                        _defaultFormValues.type.description
-                    }}</mat-hint>
-                }
-            </mat-form-field>
-
-            @if (
-                llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                    'both' ||
-                llmConfFormGroup.get('deploymentTypeSelect')?.value === 'vllm'
-            ) {
-                <mat-form-field>
-                    <mat-label>{{
-                        'CATALOG.CONF-FORMS.LLMS.VLLM-MODEL' | translate
-                    }}</mat-label>
-                    <mat-select
-                        formControlName="vllmModelSelect"
-                        (selectionChange)="modelChanged()"
-                    >
-                        @for (vllModel of vllmModelOptions; track vllModel) {
-                            <mat-option [value]="vllModel.value">
-                                {{ vllModel.viewValue }}
-                            </mat-option>
-                        }
-                    </mat-select>
-                    @if (_showHelp) {
-                        <mat-hint>{{
-                            _defaultFormValues.vllm_model_id.description
-                        }}</mat-hint>
-                    }
-                </mat-form-field>
-            }
-
-            @if (
-                llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                    'both' ||
-                llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                    'open-webui'
-            ) {
-                <mat-form-field>
-                    <mat-label>{{
-                        'CATALOG.CONF-FORMS.LLMS.USERNAME' | translate
-                    }}</mat-label>
-                    <input
-                        matInput
-                        placeholder=""
-                        value=""
-                        type="text"
-                        formControlName="uiUsernameInput"
-                    />
-                    @if (
-                        llmConfFormGroup.get('uiUsernameInput')?.errors?.[
-                            'required'
-                        ]
-                    ) {
-                        <mat-error>
-                            {{
-                                'CATALOG.CONF-FORMS.LLMS.USERNAME-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                    }
-                    @if (
-                        llmConfFormGroup.get('uiUsernameInput')?.errors?.[
-                            'invalidEmail'
-                        ]
-                    ) {
-                        <mat-error>
-                            {{
-                                'CATALOG.CONF-FORMS.LLMS.USERNAME-INVALID'
-                                    | translate
-                            }}
-                        </mat-error>
-                    }
-                </mat-form-field>
-
-                <mat-form-field>
-                    <mat-label>{{
-                        'CATALOG.CONF-FORMS.LLMS.PASSWORD' | translate
-                    }}</mat-label>
-                    <input
-                        matInput
-                        placeholder=""
-                        value=""
-                        formControlName="uiPasswordInput"
-                        [type]="hideUiPassword ? 'password' : 'text'"
-                    />
-                    <mat-icon
-                        matSuffix
-                        (click)="hideUiPassword = !hideUiPassword"
-                        color="accent"
-                    >
-                        {{ hideUiPassword ? 'visibility_off' : 'visibility' }}
-                    </mat-icon>
-                    @if (
-                        llmConfFormGroup.get('uiPasswordInput')?.errors?.[
-                            'required'
-                        ]
-                    ) {
-                        <mat-error>
-                            {{
-                                'CATALOG.CONF-FORMS.LLMS.PASSWORD-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                    }
-                    @if (_showHelp) {
-                        <mat-hint>{{
-                            _defaultFormValues.ui_password.description
-                        }}</mat-hint>
-                    }
-                </mat-form-field>
-            }
-
-            @if (
-                llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                'open-webui'
-            ) {
-                <mat-form-field>
-                    <mat-label>{{
-                        'CATALOG.CONF-FORMS.LLMS.API-URL' | translate
-                    }}</mat-label>
-                    <input
-                        matInput
-                        placeholder=""
-                        value=""
-                        type="string"
-                        formControlName="openaiApiUrlInput"
-                    />
-                    @if (
-                        llmConfFormGroup.get('openaiApiUrlInput')?.errors?.[
-                            'required'
-                        ]
-                    ) {
-                        <mat-error>
-                            {{
-                                'CATALOG.CONF-FORMS.LLMS.API-URL-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                    } @else if (
-                        llmConfFormGroup
-                            .get('openaiApiUrlInput')
-                            ?.hasError('invalidURL')
-                    ) {
-                        <mat-error>
-                            {{
-                                'CATALOG.CONF-FORMS.LLMS.API-URL-FORMAT'
-                                    | translate
-                            }}
-                        </mat-error>
-                    }
-                    @if (_showHelp) {
-                        <mat-hint>{{
-                            _defaultFormValues.openai_api_url.description
-                        }}</mat-hint>
-                    }
-                </mat-form-field>
-            }
-
-            @if (
-                llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                'open-webui'
-            ) {
-                <mat-form-field>
-                    <mat-label>{{
-                        'CATALOG.CONF-FORMS.LLMS.API-KEY' | translate
-                    }}</mat-label>
-                    <input
-                        matInput
-                        placeholder=""
-                        value=""
-                        type="string"
-                        formControlName="openaiApiKeyInput"
-                    />
-                    @if (
-                        llmConfFormGroup.get('openaiApiKeyInput')?.errors?.[
-                            'required'
-                        ]
-                    ) {
-                        <mat-error>
-                            {{
-                                'CATALOG.CONF-FORMS.LLMS.API-KEY-REQUIRED'
-                                    | translate
-                            }}
-                        </mat-error>
-                    }
-                    @if (_showHelp) {
-                        <mat-hint>{{
-                            _defaultFormValues.openai_api_key.description
-                        }}</mat-hint>
-                    }
-                </mat-form-field>
-            }
-
-            @if (
-                modelNeedsToken &&
-                (llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                    'both' ||
-                    llmConfFormGroup.get('deploymentTypeSelect')?.value ===
-                        'vllm')
-            ) {
-                <div class="field-with-info">
-                    <mat-form-field class="full-width">
-                        <mat-label>{{
-                            'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN'
-                                | translate
-                        }}</mat-label>
-                        <input
-                            matInput
-                            placeholder=""
-                            value=""
-                            [type]="hideHFToken ? 'password' : 'text'"
-                            formControlName="huggingFaceTokenInput"
-                        />
-                        <button
-                            mat-icon-button
-                            matSuffix
-                            [matTooltip]="hideHFToken ? 'Show' : 'Hide'"
-                            (click)="hideHFToken = !hideHFToken"
-                            [attr.aria-label]="'Hide token'"
-                            [attr.aria-pressed]="hideHFToken"
-                        >
-                            <mat-icon color="accent">{{
-                                hideHFToken ? 'visibility_off' : 'visibility'
-                            }}</mat-icon>
-                        </button>
-                        @if (
-                            llmConfFormGroup.get('huggingFaceTokenInput')
-                                ?.errors?.['required']
-                        ) {
-                            <mat-error>
-                                {{
-                                    'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN-REQUIRED'
-                                        | translate
-                                }}
-                            </mat-error>
-                        }
-                        @if (_showHelp) {
-                            <mat-hint>{{
-                                _defaultFormValues.HF_token.description
-                            }}</mat-hint>
-                        }
-                    </mat-form-field>
-                    <button
-                        mat-icon-button
-                        matTooltip="{{
-                            'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN-TERMS'
-                                | translate
-                        }}"
-                        [matTooltipPosition]="'above'"
-                        (click)="openHFModel()"
-                    >
-                        <mat-icon color="accent">help</mat-icon>
-                    </button>
-                </div>
-            }
-        </div>
-    </form>
-}
+</form>

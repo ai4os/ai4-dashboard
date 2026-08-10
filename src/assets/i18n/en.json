@@ -36,6 +36,7 @@
         "COPIED-TO-CLIPBOARD": "Copied to clipboard!",
         "OPEN-DOCS": "Open documentation",
         "NO-DATA": "No data available",
+        "SHOW-HELP": "Show help",
         "CONFIRM-ACTION": "Confirm action",
         "YES": "Yes",
         "NO": "No",
@@ -166,7 +167,38 @@
             "TITLE": "LLMs",
             "FILTER-FAMILY": "Filter by family",
             "ALL": "All",
-            "CONTEXT": "Context"
+            "CONTEXT": "Context",
+            "PLATFORM-WIDE-TAB": "Platform wide",
+            "SELF-DEPLOYED-TAB": "Self-deployed"
+        },
+        "CONF-FORMS": {
+            "TRAIN-TITLE": "Configure training",
+            "GENERAL": {
+                "TITLE" : "General configuration",
+                "SUBTITLE": "Deployment options",
+                "DEPLOYMENT-TITLE": "Deployment title",
+                "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
+                "DEPLOYMENT-DESCRIPTION": "Deployment description",
+                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments"
+            },
+            "LLMS": {
+                "SUBTITLE": "LLM options",
+                "TYPE": "Type",
+                "VLLM-MODEL": "VLLM model",
+                "USERNAME": "UI Username",
+                "USERNAME-REQUIRED": "Please add a username for the UI",
+                "USERNAME-INVALID": "Invalid email format",
+                "PASSWORD": "UI Password",
+                "PASSWORD-REQUIRED": "Please add a password for the UI",
+                "HUGGING-FACE-TOKEN": "Hugging Face token",
+                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "HUGGING-FACE-TOKEN-TERMS": "You have to accept the terms to be able to use the model",
+                "API-KEY": "OpenAI API Key",
+                "API-KEY-REQUIRED": "Please add the OpenAI API Key",
+                "API-URL": "OpenAI API base URL",
+                "API-URL-REQUIRED": "Please add the OpenAI API base URL",
+                "API-URL-FORMAT": "Invalid URL format"
+            }
         }
     },
 
@@ -439,7 +471,6 @@
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
         },
         "MODULE-TRAIN": {
-            "TITLE": "Configure training",
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
             "DATA-CONF": "Data configuration",
@@ -448,11 +479,7 @@
             "NVFLARE-CONF": "NVFlare configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
-                "TITLE": "Deployment options",
-                "DEPLOYMENT-TITLE": "Deployment title",
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
-                "DEPLOYMENT-DESCRIPTION": "Deployment description",
-                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
                 "CO2": "Monitor CO2 emissions",
                 "SERVICE-TO-RUN": "Service to run",
                 "PASSWORD": "Password",

@@ -17,11 +17,11 @@
     --neutral-value: #ef9f27;
     --bad-value: #e03355;
 
-    --primary: #4bac5c;
+    --primary: var(--color-primary);
     --primary-text: #151515;
-    --accent: #2f4858;
+    --accent: var(--color-accent);
     --secondary: #008d78;
-    --accent-dark: #0a1114;
+    --accent-dark: var(--color-accent-dark);
 
     /** Font-Weight Vars **/
     --raleway-bold: 700;

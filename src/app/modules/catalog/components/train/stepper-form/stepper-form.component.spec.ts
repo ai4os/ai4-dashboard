@@ -164,11 +164,10 @@ describe('StepperFormComponent', () => {
     });
 
     describe('showHelpButtonChange()', () => {
-        it('should emit event', () => {
+        it('should update toggle', () => {
             const emitSpy = jest.spyOn(component.showHelpButtonEvent, 'emit');
-            const event = { checked: true } as MatSlideToggleChange;
-            component.showHelpButtonChange(event);
-            expect(emitSpy).toHaveBeenCalledWith(event);
+            component.showHelpButtonChange(true);
+            expect(emitSpy).toHaveBeenCalledWith(true);
         });
     });
 });

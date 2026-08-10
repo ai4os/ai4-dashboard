@@ -1,4 +1,4 @@
-<form [formGroup]="generalConfFormGroup" class="general-conf-form">
+<form [formGroup]="generalConfFormGroup" class="conf-form">
     <span class="title-and-toggles">
         <h4>
             {{ 'CATALOG.CONF-FORMS.GENERAL.SUBTITLE' | translate }}
@@ -6,21 +6,20 @@
 
         @if (_showFields.co2EmissionsInput) {
             <div class="toggle-and-info">
-                <mat-slide-toggle formControlName="co2EmissionsInput">
-                    {{
+                <app-ui-toggle
+                    formControlName="co2EmissionsInput"
+                    label="{{
                         'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.CO2' | translate
-                    }}
-                </mat-slide-toggle>
-                <button
-                    mat-icon-button
-                    matTooltip="{{
+                    }}"
+                ></app-ui-toggle>
+                <app-ui-button
+                    variant="icon"
+                    icon="help"
+                    tooltip="{{
                         'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
                     }}"
-                    [matTooltipPosition]="'above'"
-                    (click)="openCo2Docs()"
-                >
-                    <mat-icon color="accent">help</mat-icon>
-                </button>
+                    href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions"
+                ></app-ui-button>
             </div>
         }
     </span>
@@ -31,46 +30,28 @@
             'form-grid': !mobileQuery.matches,
         }"
     >
-        <mat-form-field appearance="fill">
-            <mat-label>{{
+        <app-ui-text-field
+            id="deployment-title"
+            formControlName="titleInput"
+            maxlength="45"
+            label="{{
                 'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-TITLE' | translate
-            }}</mat-label>
-            <input
-                id="deployment-title"
-                matInput
-                placeholder=""
-                formControlName="titleInput"
-                maxlength="45"
-            />
-            @if (generalConfFormGroup.get('titleInput')?.errors?.['required']) {
-                <mat-error>
-                    {{
-                        'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-TITLE-REQUIRED'
-                            | translate
-                    }}
-                </mat-error>
-            }
-            @if (_showHelp) {
-                <mat-hint>{{ _defaultFormValues.title.description }}</mat-hint>
-            }
-        </mat-form-field>
+            }}"
+            [hint]="_showHelp ? _defaultFormValues.title.description : ''"
+            [errorMessages]="titleErrors"
+        ></app-ui-text-field>
 
-        <mat-form-field>
-            <mat-label>{{
+        <app-ui-text-field
+            formControlName="descriptionInput"
+            placeholder="{{
+                'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-DESCRIPTION-PLACEHOLDER'
+                    | translate
+            }}"
+            label="{{
                 'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-DESCRIPTION' | translate
-            }}</mat-label>
-            <input
-                matInput
-                placeholder="{{
-                    'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-DESCRIPTION-PLACEHOLDER'
-                        | translate
-                }}"
-                formControlName="descriptionInput"
-            />
-            @if (_showHelp) {
-                <mat-hint>{{ _defaultFormValues.desc?.description }}</mat-hint>
-            }
-        </mat-form-field>
+            }}"
+            [hint]="_showHelp ? _defaultFormValues.desc?.description : ''"
+        ></app-ui-text-field>
         @if (_showFields.serviceToRunChip) {
             <div [ngClass]="{ 'mt-3': _showHelp }">
                 <div
@@ -115,92 +96,42 @@
                                 }
                             </mat-chip-listbox>
                             @if (_showFields.infoButton) {
-                                <button
-                                    mat-icon-button
-                                    matTooltip="{{
+                                <app-ui-button
+                                    variant="icon"
+                                    icon="help"
+                                    tooltip="{{
                                         'GENERAL-BUTTONS.OPEN-DOCUMENTATION'
                                             | translate
                                     }}"
-                                    [matTooltipPosition]="'above'"
-                                    (click)="openFedServerDocs()"
-                                >
-                                    <mat-icon color="accent">help</mat-icon>
-                                </button>
+                                    href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html"
+                                ></app-ui-button>
                             }
                         </div>
                     </div>
                     @if (isPasswodRequired) {
-                        <mat-form-field
-                            appearance="fill"
+                        <app-ui-text-field
+                            [@inOutAnimation]
                             [ngClass]="{
                                 'password-input-field-mobile':
                                     mobileQuery.matches,
                                 'password-input-field': !mobileQuery.matches,
                                 'mt-2': _showHelp,
                             }"
-                            [@inOutAnimation]
-                        >
-                            <mat-label>{{
-                                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.PASSWORD'
+                            formControlName="serviceToRunPassInput"
+                            [maskable]="true"
+                            placeholder="At least 9 characters"
+                            label="{{
+                                'CATALOG.CONF-FORMS.GENERAL.PASSWORD'
                                     | translate
-                            }}</mat-label>
-                            <input
-                                [type]="
-                                    hideServiceToRunPassword
-                                        ? 'password'
-                                        : 'text'
-                                "
-                                [@inOutAnimation]
-                                matInput
-                                placeholder="At least 9 characters"
-                                formControlName="serviceToRunPassInput"
-                                autocomplete="off"
-                            />
-                            <mat-icon
-                                matSuffix
-                                (click)="
-                                    hideServiceToRunPassword =
-                                        !hideServiceToRunPassword
-                                "
-                                color="primary"
-                            >
-                                {{
-                                    hideServiceToRunPassword
-                                        ? 'visibility_off'
-                                        : 'visibility'
-                                }}</mat-icon
-                            >
-                            @if (
-                                generalConfFormGroup.get(
-                                    'serviceToRunPassInput'
-                                )?.errors?.['required']
-                            ) {
-                                <mat-error>
-                                    {{
-                                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED'
-                                            | translate
-                                    }}
-                                </mat-error>
-                            }
-                            @if (
-                                generalConfFormGroup.get(
-                                    'serviceToRunPassInput'
-                                )?.errors?.['minlength']
-                            ) {
-                                <mat-error>
-                                    {{
-                                        'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR'
-                                            | translate
-                                    }}
-                                </mat-error>
-                            }
-                            @if (_showHelp) {
-                                <mat-hint>{{
-                                    _defaultFormValues.jupyter_password
-                                        ?.description
-                                }}</mat-hint>
-                            }
-                        </mat-form-field>
+                            }}"
+                            [errorMessages]="servicePasswordErrors"
+                            [hint]="
+                                _showHelp
+                                    ? _defaultFormValues.jupyter_password
+                                          ?.description
+                                    : ''
+                            "
+                        ></app-ui-text-field>
                     }
                 </div>
                 @if (_showHelp) {
@@ -226,43 +157,27 @@
                 'form-grid': !mobileQuery.matches,
             }"
         >
-            <mat-form-field>
-                <mat-label>{{
+            <app-ui-text-field
+                formControlName="dockerImageInput"
+                label="{{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
                         | translate
-                }}</mat-label>
-                <input
-                    matInput
-                    placeholder=""
-                    formControlName="dockerImageInput"
-                />
-                @if (_showHelp) {
-                    <mat-hint>{{
-                        _defaultFormValues.docker_image.description
-                    }}</mat-hint>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>{{
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.docker_image.description : ''
+                "
+            ></app-ui-text-field>
+            <app-ui-select
+                formControlName="dockerTagSelect"
+                [options]="dockerTagOptions"
+                label="{{
                     'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG'
                         | translate
-                }}</mat-label>
-                <mat-select formControlName="dockerTagSelect">
-                    @for (
-                        dockerTagOption of dockerTagOptions;
-                        track dockerTagOption
-                    ) {
-                        <mat-option [value]="dockerTagOption.value">
-                            {{ dockerTagOption.viewValue }}
-                        </mat-option>
-                    }
-                </mat-select>
-                @if (_showHelp) {
-                    <mat-hint>{{
-                        _defaultFormValues.docker_tag.description
-                    }}</mat-hint>
-                }
-            </mat-form-field>
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.docker_tag.description : ''
+                "
+            ></app-ui-select>
         </div>
     }
 

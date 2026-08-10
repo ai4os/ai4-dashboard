@@ -27,7 +27,10 @@ import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interf
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle.component';
 import { MatIconButton, MatFabButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
@@ -62,6 +65,12 @@ export interface ShowGeneralFormField {
     cvatFields: boolean;
     // ai4life
     ai4lifeFields: boolean;
+    /**
+     * @deprecated LLM fields moved to app-llm-conf-form. This flag is no
+     * longer read by GeneralConfFormComponent; kept optional so existing
+     * consumers don't need to change until they migrate to the new component.
+     */
+    llmFields?: boolean;
     // batch
     batchFields: boolean;
 }
@@ -91,9 +100,12 @@ export interface ShowGeneralFormField {
     ],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
+        UiSelectComponent,
+        UiTextFieldComponent,
+        UiButtonComponent,
+        UiToggleComponent,
         FormsModule,
         ReactiveFormsModule,
-        MatSlideToggle,
         MatIconButton,
         MatTooltip,
         MatIcon,
@@ -139,6 +151,17 @@ export class GeneralConfFormComponent implements OnInit {
 
     protected _defaultFormValues!: ModuleGeneralConfiguration;
     protected _showHelp = false;
+
+    protected readonly titleErrors = {
+        required:
+            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED',
+    };
+    protected readonly servicePasswordErrors = {
+        required:
+            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED',
+        minlength:
+            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR',
+    };
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
     dockerTagOptions: { value: string; viewValue: string }[] = [];
@@ -240,7 +263,6 @@ export class GeneralConfFormComponent implements OnInit {
     }
 
     isPasswodRequired = false;
-    hideServiceToRunPassword = true;
     hideCvatPassword = true;
 
     generalConfFormGroup = this.fb.group({
@@ -312,18 +334,6 @@ export class GeneralConfFormComponent implements OnInit {
         } else if (this._showFields.batchFields) {
             this.generalConfFormGroup.get('batchFile')?.enable();
         }
-    }
-
-    openFedServerDocs(): void {
-        const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html';
-        window.open(url);
-    }
-
-    openCo2Docs(): void {
-        const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions';
-        window.open(url);
     }
 
     updateBatchFile(file: File) {

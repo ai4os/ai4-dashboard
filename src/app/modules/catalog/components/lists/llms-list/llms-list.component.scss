@@ -1,4 +1,4 @@
-.content {
+.tab-content-container {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
@@ -11,18 +11,15 @@
     min-height: 240px;
 }
 
-.marketplace-toolbar {
-    background: transparent;
-    height: auto;
-    padding: 0.5rem 0;
-}
-
 .llms-filters {
     display: flex;
-    align-items: stretch;
-    flex-direction: column;
+    align-items: flex-start;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 0.5rem;
+    background: transparent;
+    height: auto;
+    padding-top: 1rem;
 
     &.mobile {
         flex-direction: column;

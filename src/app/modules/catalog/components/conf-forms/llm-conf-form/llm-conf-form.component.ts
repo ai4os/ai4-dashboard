@@ -1,10 +1,14 @@
 import {
     ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
     OnInit,
+    Output,
     ChangeDetectionStrategy,
     inject,
+    SimpleChanges,
+    OnChanges,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -23,22 +27,11 @@ import {
     LlmConfiguration,
     VllmModelConfig,
 } from '@app/shared/interfaces/module.interface';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIcon } from '@angular/material/icon';
-import {
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    MatHint,
-    MatSuffix,
-} from '@angular/material/input';
-import { MatSelect, MatOption } from '@angular/material/select';
-import { MatDivider } from '@angular/material/list';
-import { TranslatePipe } from '@ngx-translate/core';
 import { emailValidator, urlValidator } from '@app/shared/utils/validators';
+import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface SelectOption {
     value: string;
@@ -51,25 +44,15 @@ interface SelectOption {
     styleUrls: ['./llm-conf-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatProgressSpinner,
         FormsModule,
         ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatError,
-        MatHint,
-        MatSuffix,
-        MatDivider,
-        MatSelect,
-        MatOption,
-        MatIconButton,
-        MatTooltip,
-        MatIcon,
+        UiSelectComponent,
+        UiTextFieldComponent,
+        UiButtonComponent,
         TranslatePipe,
     ],
 })
-export class LlmConfFormComponent implements OnInit {
+export class LlmConfFormComponent implements OnInit, OnChanges {
     private readonly authService = inject(AuthService);
     private readonly toolsService = inject(ToolsService);
     private readonly snackbarService = inject(SnackbarService);
@@ -91,18 +74,47 @@ export class LlmConfFormComponent implements OnInit {
 
     protected _defaultFormValues!: LlmConfiguration;
     protected _showHelp = false;
-    protected isLoading = false;
+    private _isLoading = false;
+
+    @Output() isLoadingChange = new EventEmitter<boolean>();
+
+    private setLoading(value: boolean): void {
+        this._isLoading = value;
+        this.isLoadingChange.emit(value);
+    }
 
     deploymentTypeOptions: SelectOption[] = [];
     vllmModelOptions: SelectOption[] = [];
     private vllModelsConfigurations: VllmModelConfig[] = [];
 
     modelNeedsToken = false;
-    hideUiPassword = true;
-    hideHFToken = true;
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
+
+    protected readonly deploymentTypeErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.TYPE-REQUIRED',
+    };
+    protected readonly vllmModelErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.VLLM-MODEL-REQUIRED',
+    };
+    protected readonly uiUsernameErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.USERNAME-REQUIRED',
+        invalidEmail: 'CATALOG.CONF-FORMS.LLMS.USERNAME-INVALID',
+    };
+    protected readonly uiPasswordErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.PASSWORD-REQUIRED',
+    };
+    protected readonly openaiApiUrlErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.API-URL-REQUIRED',
+        invalidURL: 'CCATALOG.CONF-FORMS.LLMS.API-URL-FORMAT',
+    };
+    protected readonly openaiApiKeyErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.API-KEY-REQUIRED',
+    };
+    protected readonly hfTokenErrors = {
+        required: 'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN-REQUIRED',
+    };
 
     /**
      * Model id preselected by the caller (e.g. navigated here from an LLM
@@ -110,53 +122,10 @@ export class LlmConfFormComponent implements OnInit {
      * over the default model id returned by the configuration endpoint.
      */
     @Input() modelId?: string;
+    @Input() defaultFormValues!: LlmConfiguration;
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
-    }
-
-    @Input() set defaultFormValues(defaultFormValues: LlmConfiguration) {
-        if (!defaultFormValues) {
-            return;
-        }
-        this._defaultFormValues = defaultFormValues;
-
-        this.deploymentTypeOptions = (
-            defaultFormValues.type?.options ?? []
-        ).map((type) => ({ value: type, viewValue: type }));
-        this.llmConfFormGroup
-            .get('deploymentTypeSelect')
-            ?.setValue(defaultFormValues.type?.value as string);
-
-        this.vllmModelOptions = (
-            defaultFormValues.vllm_model_id?.options ?? []
-        ).map((option) => ({ value: option, viewValue: option }));
-        this.llmConfFormGroup
-            .get('vllmModelSelect')
-            ?.setValue(
-                this.modelId ??
-                    (defaultFormValues.vllm_model_id?.value as string)
-            );
-        this.modelChanged();
-
-        this.llmConfFormGroup
-            .get('uiPasswordInput')
-            ?.setValue(defaultFormValues.ui_password?.value as string);
-        this.llmConfFormGroup
-            .get('openaiApiKeyInput')
-            ?.setValue(defaultFormValues.openai_api_key?.value as string);
-        this.llmConfFormGroup
-            .get('openaiApiUrlInput')
-            ?.setValue(defaultFormValues.openai_api_url?.value as string);
-
-        const hfToken = localStorage.getItem('hf_access_token') ?? '';
-        if (hfToken === '') {
-            this.getHFToken();
-        } else {
-            this.llmConfFormGroup
-                .get('huggingFaceTokenInput')
-                ?.setValue(hfToken);
-        }
     }
 
     llmConfFormGroup = this.fb.group({
@@ -190,6 +159,55 @@ export class LlmConfFormComponent implements OnInit {
                 this.changeDetectorRef.detectChanges();
             }
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['defaultFormValues'] && this.defaultFormValues) {
+            this._defaultFormValues = this.defaultFormValues;
+
+            this.deploymentTypeOptions = (
+                this.defaultFormValues.type?.options ?? []
+            ).map((type) => ({ value: type, viewValue: type }));
+
+            this.llmConfFormGroup
+                .get('deploymentTypeSelect')
+                ?.setValue(this.defaultFormValues.type?.value as string);
+
+            this.vllmModelOptions = (
+                this.defaultFormValues.vllm_model_id?.options ?? []
+            ).map((option) => ({ value: option, viewValue: option }));
+
+            this.llmConfFormGroup
+                .get('vllmModelSelect')
+                ?.setValue(
+                    this.modelId ??
+                        (this.defaultFormValues.vllm_model_id?.value as string)
+                );
+            this.modelChanged();
+
+            this.llmConfFormGroup
+                .get('uiPasswordInput')
+                ?.setValue(this.defaultFormValues.ui_password?.value as string);
+            this.llmConfFormGroup
+                .get('openaiApiKeyInput')
+                ?.setValue(
+                    this.defaultFormValues.openai_api_key?.value as string
+                );
+            this.llmConfFormGroup
+                .get('openaiApiUrlInput')
+                ?.setValue(
+                    this.defaultFormValues.openai_api_url?.value as string
+                );
+
+            const hfToken = localStorage.getItem('hf_access_token') ?? '';
+            if (hfToken === '') {
+                this.getHFToken();
+            } else {
+                this.llmConfFormGroup
+                    .get('huggingFaceTokenInput')
+                    ?.setValue(hfToken);
+            }
+        }
     }
 
     private getModelsConfig(): void {
@@ -257,28 +275,21 @@ export class LlmConfFormComponent implements OnInit {
     }
 
     getHFToken(): void {
-        this.isLoading = true;
+        this.setLoading(true);
         const subpath = '/services/huggingface';
         this.secretsService.getSecrets(subpath).subscribe({
             next: (tokens) => {
                 this.llmConfFormGroup
                     .get('huggingFaceTokenInput')
                     ?.setValue(Object.values(tokens)[0]?.token ?? '');
-                this.isLoading = false;
+                this.setLoading(false);
             },
             error: () => {
                 this.snackbarService.openError(
                     "Couldn't retrieve your Hugging Face token. Please try again later."
                 );
-                this.isLoading = false;
+                this.setLoading(false);
             },
         });
-    }
-
-    openHFModel(): void {
-        const url =
-            'https://huggingface.co/' +
-            this.llmConfFormGroup.get('vllmModelSelect')?.value;
-        window.open(url);
     }
 }

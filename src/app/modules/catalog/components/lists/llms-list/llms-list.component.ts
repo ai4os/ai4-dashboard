@@ -25,6 +25,10 @@ import {
 } from '@app/shared/components/ui/ui-select/ui-select.component';
 import { LlmCardComponent } from '../../modules-cards/llm-card/llm-card.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import {
+    Tab,
+    UiTabsComponent,
+} from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
 
 const ALL_FAMILIES = 'ALL' as const;
 const MOBILE_BREAKPOINT = '(max-width: 600px)';
@@ -45,6 +49,7 @@ const SEARCH_DEBOUNCE_MS = 250;
         TranslatePipe,
         UiBannerComponent,
         UiLoaderComponent,
+        UiTabsComponent,
     ],
 })
 export class LlmsListComponent implements OnInit {
@@ -126,6 +131,26 @@ export class LlmsListComponent implements OnInit {
     });
 
     readonly resultsFound = computed(() => this.filteredLlms().length);
+
+    get tabs(): Tab[] {
+        return [
+            {
+                id: 'platform-wide',
+                label: 'CATALOG.LLMS.PLATFORM-WIDE-TAB',
+                icon: 'cloud',
+            },
+            {
+                id: 'self-deployed',
+                label: 'CATALOG.LLMS.SELF-DEPLOYED-TAB',
+                icon: 'dns',
+            },
+        ];
+    }
+    activeTab = 'platform-wide';
+
+    onTabSelected(tabId: string) {
+        this.activeTab = tabId;
+    }
 
     ngOnInit(): void {
         this.loadLlms();

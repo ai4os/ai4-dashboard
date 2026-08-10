@@ -17,11 +17,14 @@
     --neutral-value: #ef9f27;
     --bad-value: #e03355;
 
-    --primary: #00cbf7;
+    --primary: var(--color-primary);
     --primary-text: #151515;
-    --accent: #0a3780;
+    --accent: var(--color-accent);
     --secondary: #005fa6;
-    --accent-dark: #7db865;
+    /* El valor original (#7db865, un verde) no guardaba relación de tono con
+       --accent (#0a3780, azul) — probable error histórico de copy/paste.
+       Se sustituye por el oscurecido real de --color-accent. */
+    --accent-dark: var(--color-accent-dark);
 
     /** Font-Weight Vars **/
     --raleway-bold: 700;

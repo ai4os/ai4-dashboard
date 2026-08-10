@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, switchMap } from 'rxjs';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
@@ -22,16 +21,19 @@ import {
 } from '../../general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { LlmConfFormComponent } from '../../../conf-forms/llm-conf-form/llm-conf-form.component';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
     selector: 'app-llm',
     templateUrl: './llm.component.html',
+    styleUrls: ['./llm.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         StepperFormComponent,
         ReactiveFormsModule,
         GeneralConfFormComponent,
         LlmConfFormComponent,
+        MatDivider,
     ],
 })
 export class LlmComponent implements OnInit {
@@ -55,6 +57,8 @@ export class LlmComponent implements OnInit {
 
     showHelp = false;
     showLoader = false;
+    /** Covers the already-rendered form with an overlay (doesn't unmount it). */
+    llmFieldsLoading = false;
 
     readonly generalConfForm: FormGroup = this.formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
@@ -87,6 +91,7 @@ export class LlmComponent implements OnInit {
         parentParams
             .pipe(
                 switchMap((params) => {
+                    this.showLoader = true;
                     const toolId = params['id'];
                     return forkJoin({
                         tool: this.toolsService.getTool(toolId),
@@ -101,16 +106,22 @@ export class LlmComponent implements OnInit {
                     this.title = tool.title;
                     this.generalConfDefaultValues = toolConfiguration.general;
                     this.llmConfDefaultValues = toolConfiguration.llm;
+                    this.showLoader = false;
                 },
                 error: () => {
                     this.snackbarService.openError(
                         "Couldn't load the LLM configuration. Please try again later."
                     );
+                    this.showLoader = false;
                 },
             });
     }
 
-    showHelpButtonChange(checked: boolean) {
+    showHelpButtonChange(checked: boolean): void {
         this.showHelp = checked;
+    }
+
+    onLlmLoadingChange(isLoading: boolean): void {
+        this.llmFieldsLoading = isLoading;
     }
 }

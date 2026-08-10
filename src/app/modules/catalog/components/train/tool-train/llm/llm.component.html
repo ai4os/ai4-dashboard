@@ -5,21 +5,24 @@
     [step1Form]="generalConfForm"
     [step1Title]="step1Title"
     [isLoading]="showLoader"
+    [fieldsLoading]="llmFieldsLoading"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
 >
     <ng-template #step1>
-        <form [formGroup]="generalConfForm">
+        <form [formGroup]="generalConfForm" class="form">
             <app-general-conf-form
                 class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
                 [showHelp]="showHelp"
                 [showFields]="showGeneralFields"
             ></app-general-conf-form>
+            <mat-divider></mat-divider>
             <app-llm-conf-form
                 class="child-form-container"
                 [defaultFormValues]="llmConfDefaultValues"
                 [showHelp]="showHelp"
                 [modelId]="modelId"
+                (isLoadingChange)="onLlmLoadingChange($event)"
             ></app-llm-conf-form>
         </form>
     </ng-template>

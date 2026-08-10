@@ -91,3 +91,27 @@
 ::ng-deep .child-form-container-show-help form {
     min-height: 575px;
 }
+
+::ng-deep .mat-horizontal-stepper-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.stepper-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.stepper-loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+    border-radius: var(--radius-md);
+}

@@ -93,13 +93,10 @@ describe('FederatedServerComponent', () => {
     });
 
     it('should toggle showHelp when showHelpButtonChange is triggered', () => {
-        const toggleOn = { checked: true } as MatSlideToggleChange;
-        const toggleOff = { checked: false } as MatSlideToggleChange;
-
-        component.showHelpButtonChange(toggleOn);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
 
-        component.showHelpButtonChange(toggleOff);
+        component.showHelpButtonChange(false);
         expect(component.showHelp).toBe(false);
     });
 });

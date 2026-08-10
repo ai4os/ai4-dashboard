@@ -24,64 +24,89 @@
             <p>{{ 'CATALOG.COMMON.LOAD-ERROR' | translate }}</p>
         </div>
     } @else {
-        <div class="content">
-            <mat-toolbar
-                class="marketplace-toolbar llms-filters"
-                [class.mobile]="isMobile()"
+        <mat-toolbar class="llms-filters" [class.mobile]="isMobile()">
+            <form
+                [formGroup]="filtersForm"
+                class="llms-filters__form"
+                [class.llms-filters__form--mobile]="isMobile()"
             >
-                <form
-                    [formGroup]="filtersForm"
-                    class="llms-filters__form"
-                    [class.llms-filters__form--mobile]="isMobile()"
-                >
-                    <app-ui-text-field
-                        class="llms-filters__search"
-                        formControlName="search"
-                        prefixIcon="search"
-                        [clearable]="true"
-                        [placeholder]="
-                            'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate
-                        "
-                    ></app-ui-text-field>
+                <app-ui-text-field
+                    class="llms-filters__search"
+                    formControlName="search"
+                    prefixIcon="search"
+                    [clearable]="true"
+                    [placeholder]="
+                        'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate
+                    "
+                ></app-ui-text-field>
 
-                    <app-ui-select
-                        class="llms-filters__family"
-                        formControlName="family"
-                        prefixIcon="category"
-                        [label]="'CATALOG.LLMS.FILTER-FAMILY'"
-                        [options]="familyOptions()"
-                        [showLabel]="false"
-                    ></app-ui-select>
-                </form>
+                <app-ui-select
+                    class="llms-filters__family"
+                    formControlName="family"
+                    prefixIcon="category"
+                    [label]="'CATALOG.LLMS.FILTER-FAMILY'"
+                    [options]="familyOptions()"
+                    [showLabel]="false"
+                ></app-ui-select>
+            </form>
 
-                @if (!isMobile()) {
-                    <p class="llms-filters__results">
-                        {{ resultsFound() }}
-                        {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
-                    </p>
-                }
-            </mat-toolbar>
-
-            @if (isMobile()) {
-                <p class="llms-filters__results llms-filters__results--mobile">
+            @if (!isMobile()) {
+                <p class="llms-filters__results">
                     {{ resultsFound() }}
                     {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
                 </p>
             }
+        </mat-toolbar>
 
-            @if (filteredLlms().length > 0) {
-                <div class="modules-cards-container">
-                    @for (llm of filteredLlms(); track llm.name) {
-                        <span class="m-2">
-                            <app-llm-card [llm]="llm"></app-llm-card>
-                        </span>
+        @if (isMobile()) {
+            <p class="llms-filters__results llms-filters__results--mobile">
+                {{ resultsFound() }}
+                {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
+            </p>
+        }
+
+        <app-ui-tabs
+            [tabs]="tabs"
+            [activeTabId]="activeTab"
+            (tabChange)="onTabSelected($event)"
+        >
+        </app-ui-tabs>
+
+        <div class="tab-content-container">
+            @switch (activeTab) {
+                @case ('platform-wide') {
+                    @if (filteredLlms().length > 0) {
+                        <div class="modules-cards-container">
+                            @for (llm of filteredLlms(); track llm.name) {
+                                <span class="m-2">
+                                    <app-llm-card [llm]="llm"></app-llm-card>
+                                </span>
+                            }
+                        </div>
+                    } @else {
+                        <div class="llms-empty-state">
+                            <mat-icon>search_off</mat-icon>
+                            <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
+                        </div>
                     }
-                </div>
-            } @else {
-                <div class="llms-empty-state">
-                    <mat-icon>search_off</mat-icon>
-                    <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
-                </div>
+                }
+
+                @case ('self-deployed') {
+                    @if (filteredLlms().length > 0) {
+                        <div class="modules-cards-container">
+                            @for (llm of filteredLlms(); track llm.name) {
+                                <span class="m-2">
+                                    <app-llm-card [llm]="llm"></app-llm-card>
+                                </span>
+                            }
+                        </div>
+                    } @else {
+                        <div class="llms-empty-state">
+                            <mat-icon>search_off</mat-icon>
+                            <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
+                        </div>
+                    }
+                }
             }
         </div>
     }
