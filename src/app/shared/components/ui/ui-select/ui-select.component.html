@@ -11,6 +11,8 @@
 
     <div
         class="ui-text-field__wrapper ui-select__trigger"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
         tabindex="0"
         role="combobox"
         aria-haspopup="listbox"
@@ -51,7 +53,17 @@
         </mat-icon>
     </div>
 
-    @if (isOpen()) {
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        (overlayOutsideClick)="close()"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        [cdkConnectedOverlayWidth]="
+            trigger.elementRef.nativeElement.offsetWidth
+        "
+    >
         <ul
             class="ui-select-panel"
             role="listbox"
@@ -90,7 +102,7 @@
                 </li>
             }
         </ul>
-    }
+    </ng-template>
 
     @if (hint && !isInvalid) {
         <span class="ui-text-field__hint">{{ hint | translate }}</span>
