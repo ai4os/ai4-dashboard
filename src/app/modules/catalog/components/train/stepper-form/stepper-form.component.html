@@ -1,42 +1,32 @@
-<mat-toolbar class="title">
-    <h4>
-        {{ 'CATALOG.CONF-FORMS.TRAIN-TITLE' | translate }}:
-        <strong>{{ title }}</strong>
-    </h4>
-</mat-toolbar>
+<header class="stepper-header">
+    <div class="stepper-header__top-bar">
+        <xng-breadcrumb class="stepper-header__breadcrumb"></xng-breadcrumb>
 
-<form [formGroup]="showHelpForm" ngNativeValidate>
-    <div class="warning-container">
-        @if (warningMessage !== '') {
-            <mat-chip class="warning-chip">
-                <mat-icon matChipAvatar color="warn">warning</mat-icon>
-                <div [innerHTML]="warningMessage"></div>
-            </mat-chip>
-        }
-
-        <div
-            [ngClass]="{
-                'grid-1-column': mobileQuery.matches,
-                'breadcrumbs-and-help-container': !mobileQuery.matches,
-            }"
-        >
-            <xng-breadcrumb
-                [ngClass]="{
-                    'mobile-breadcrumb': mobileQuery.matches,
-                    'mb-3': !mobileQuery.matches,
-                }"
-            ></xng-breadcrumb>
-
-            @if (!mobileQuery.matches) {
-                <app-ui-toggle
-                    formControlName="showHelpToggleButton"
-                    [label]="'GENERAL.SHOW-HELP' | translate"
-                    (checkedChange)="showHelpButtonChange($event)"
-                ></app-ui-toggle>
-            }
-        </div>
+        <form [formGroup]="showHelpForm" ngNativeValidate>
+            <app-ui-toggle
+                formControlName="showHelpToggleButton"
+                [label]="'GENERAL.SHOW-HELP' | translate"
+                (checkedChange)="showHelpButtonChange($event)"
+            ></app-ui-toggle>
+        </form>
     </div>
-</form>
+
+    <app-ui-banner variant="primary" decoration="none">
+        <div class="stepper-header__heading">
+            <span class="stepper-header__eyebrow">
+                {{ 'CATALOG.CONF-FORMS.TRAIN-TITLE' | translate }}
+            </span>
+            <h1 class="stepper-header__title">{{ title }}</h1>
+        </div>
+    </app-ui-banner>
+
+    @if (warningMessage !== '') {
+        <mat-chip class="warning-chip">
+            <mat-icon matChipAvatar color="warn">warning</mat-icon>
+            <div [innerHTML]="warningMessage"></div>
+        </mat-chip>
+    }
+</header>
 
 @if (isLoading) {
     <div class="stepper-loading-overlay">
@@ -54,6 +44,7 @@
             linear
             #stepper
             class="mb-4"
+            [ngClass]="{ 'stepper--single': numberOfSteps === 1 }"
         >
             <mat-step [stepControl]="step1Form">
                 <ng-template matStepLabel>{{

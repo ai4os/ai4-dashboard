@@ -10,8 +10,8 @@
     --white-three: #f8f8f8;
     --warm-grey: #7b7b7b;
     --greyish-brown: #4a4a49;
-    --neon-red: #ff0000;
-    --success-green: #41bc13;
+    --neon-red: #dc3545;
+    --success-green: #28a745;
     --warning-orange: #ff5f15;
     --good-value: #1d9e75;
     --neutral-value: #ef9f27;
@@ -21,9 +21,6 @@
     --primary-text: #151515;
     --accent: var(--color-accent);
     --secondary: #005fa6;
-    /* El valor original (#7db865, un verde) no guardaba relación de tono con
-       --accent (#0a3780, azul) — probable error histórico de copy/paste.
-       Se sustituye por el oscurecido real de --color-accent. */
     --accent-dark: var(--color-accent-dark);
 
     /** Font-Weight Vars **/

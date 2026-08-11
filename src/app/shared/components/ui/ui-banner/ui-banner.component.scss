@@ -52,6 +52,29 @@
             var(--gradient-primary);
     }
 
+    &--default {
+        /* Variante clara: texto oscuro en vez de --color-text-inverse */
+        --circle-shadow-rgb: 142, 140, 140;
+        color: var(--greyish-brown);
+
+        background:
+            radial-gradient(
+                ellipse 60% 80% at 8% 15%,
+                rgba(255, 255, 255, 0.6) 0%,
+                transparent 55%
+            ),
+            radial-gradient(
+                ellipse 55% 70% at 92% 90%,
+                rgba(0, 0, 0, 0.05) 0%,
+                transparent 58%
+            ),
+            linear-gradient(
+                135deg,
+                var(--light-gray) 0%,
+                var(--border-gray) 100%
+            );
+    }
+
     /* ng-content */
     &__content {
         position: relative;

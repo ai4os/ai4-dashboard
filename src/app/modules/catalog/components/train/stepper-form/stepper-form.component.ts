@@ -3,13 +3,11 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef,
     EventEmitter,
     Input,
     OnInit,
     Output,
     TemplateRef,
-    ViewChild,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
@@ -28,7 +26,6 @@ import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatChip, MatChipAvatar } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
@@ -43,6 +40,7 @@ import {
 import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 
 @Component({
     selector: 'app-stepper-form',
@@ -50,7 +48,6 @@ import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader
     styleUrls: ['./stepper-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
         FormsModule,
         ReactiveFormsModule,
         MatChip,
@@ -68,6 +65,7 @@ import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader
         MatStepperPrevious,
         TranslatePipe,
         UiLoaderComponent,
+        UiBannerComponent,
     ],
 })
 export class StepperFormComponent implements OnInit {
@@ -123,9 +121,6 @@ export class StepperFormComponent implements OnInit {
     @Input() fieldsLoading = false;
 
     @Output() showHelpButtonEvent = new EventEmitter<boolean>();
-
-    @ViewChild('showHelpToggle', { read: ElementRef }) element:
-        ElementRef | undefined;
 
     showHelpForm: FormGroup = this._formBuilder.group({
         showHelpToggleButton: false,
