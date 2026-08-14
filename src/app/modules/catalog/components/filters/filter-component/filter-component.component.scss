@@ -1,16 +1,14 @@
 .filter-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
     gap: 1.5em;
-}
+    padding-inline: var(--space-lg);
 
-::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
-    border-radius: 50px;
-}
-
-::ng-deep .filter-selector .mdc-line-ripple {
-    display: none;
+    app-ui-select-multiple {
+        flex: 1;
+        min-width: 0;
+    }
 }
 
 .selector-icon {

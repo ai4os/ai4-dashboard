@@ -1,39 +1,23 @@
-<mat-card
-  class="basic-card"
-    [ngClass]="{
-        'tool-card': isTool,
-    }"
-    [routerLink]="[
-        isTool && module.name !== 'ai4os-dev-env' ? module.name : module.name,
-    ]"
-  >
-  <mat-card-header class="basic-card-header">
-    <mat-card-title>
-      @if (isTool) {
-        <mat-icon
-          color="primary"
-          [matTooltip]="'CATALOG.TOOL' | translate"
-          >handyman</mat-icon
-          >
+<app-ui-card [accentColor]="'var(--color-primary)'" (click)="openModule()">
+    <header class="module-card__header">
+        <span class="module-card__title">
+            <mat-icon class="module-card__icon">{{ typeIcon }}</mat-icon>
+            <h3 class="module-card__title">{{ module.title }}</h3>
+        </span>
+    </header>
+
+    <div class="module-card__body">
+        <p>{{ module.summary }}</p>
+    </div>
+
+    <footer class="module-card__footer">
+        @if (module.license) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="license"
+                [text]="module.license"
+                [tooltip]="'CATALOG.DETAIL.LICENSE' | translate"
+            ></app-ui-chip>
         }
-        @if (!isTool) {
-          <mat-icon
-            color="primary"
-            [matTooltip]="'CATALOG.MODULE' | translate"
-            >model_training</mat-icon
-            >
-          }
-
-          <span>{{ module.title }}</span>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-divider></mat-divider>
-
-        <div class="basic-card-content">
-          <mat-card-subtitle class="mt-2">{{
-            module.summary
-          }}</mat-card-subtitle>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    </footer>
+</app-ui-card>

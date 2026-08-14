@@ -21,6 +21,8 @@ export class UiButtonComponent implements OnInit {
         | 'primary-outline'
         | 'accent-solid'
         | 'accent-outline'
+        | 'default-solid'
+        | 'default-outline'
         | 'danger-solid'
         | 'danger-outline'
         | 'icon' = 'primary-solid';

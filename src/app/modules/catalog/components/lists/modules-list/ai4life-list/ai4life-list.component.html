@@ -1,66 +1,73 @@
 <div class="content">
-    @if (mobileQuery.matches) {
-        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
-            <form [formGroup]="searchFormGroup" class="search-form-mobile">
-                <mat-form-field
-                    class="search-field-mobile filter-selector"
-                    subscriptSizing="dynamic"
-                >
-                    <mat-icon matPrefix>search</mat-icon>
-                    <mat-label>Search</mat-label>
-                    <input
-                        matInput
-                        type="search"
-                        formControlName="search"
-                        placeholder="Enter text to search"
-                    />
-                </mat-form-field>
-            </form>
-        </mat-toolbar>
+    @if (modulesLoading()) {
+        <div class="spinner">
+            <app-ui-loader></app-ui-loader>
+        </div>
+    } @else if (modulesError()) {
+        <div class="ai4life-error-state">
+            <mat-icon>error_outline</mat-icon>
+            <p>{{ 'CATALOG.COMMON.LOAD-ERROR' | translate }}</p>
+        </div>
     } @else {
-        <mat-toolbar class="marketplace-toolbar">
-            <div class="search-and-results-container">
-                <form [formGroup]="searchFormGroup">
-                    <mat-form-field
-                        class="filter-selector full-width"
-                        subscriptSizing="dynamic"
-                    >
-                        <mat-icon matPrefix>search</mat-icon>
-                        <mat-label>Search</mat-label>
-                        <input
-                            matInput
-                            type="search"
-                            formControlName="search"
-                            placeholder="Enter text to search"
-                            (input)="updateResultsFound()"
-                        />
-                    </mat-form-field>
-                </form>
-                <span>
-                    <p class="results-text">
-                        {{ resultsFound }}
-                        {{ 'CATALOG.NUM-RESULTS' | translate }}
-                    </p>
-                </span>
-            </div>
-        </mat-toolbar>
-    }
+        <mat-toolbar class="ai4life-filters" [class.mobile]="isMobile()">
+            <form
+                [formGroup]="filtersForm"
+                class="ai4life-filters__form"
+                [class.ai4life-filters__form--mobile]="isMobile()"
+            >
+                <app-ui-text-field
+                    class="ai4life-filters__search"
+                    formControlName="search"
+                    prefixIcon="search"
+                    [clearable]="true"
+                    [placeholder]="
+                        'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate
+                    "
+                ></app-ui-text-field>
+            </form>
 
-    <div class="modules-cards-container">
-        @for (
-            module of modules
-                | searchAi4lifeModule
-                    : $safeNavigationMigration(
-                          searchFormGroup.get('search')?.value
-                      );
-            track module.id;
-            let first = $first
-        ) {
-            <span fxFlex class="m-2">
-                <app-ai4life-module-card
-                    [module]="module"
-                ></app-ai4life-module-card>
-            </span>
+            @if (!isMobile()) {
+                <p class="ai4life-filters__results">
+                    {{ resultsFound() }}
+                    {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
+                </p>
+            }
+        </mat-toolbar>
+
+        @if (isMobile()) {
+            <p class="ai4life-filters__results ai4life-filters__results--mobile">
+                {{ resultsFound() }}
+                {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
+            </p>
         }
-    </div>
+
+        <div class="tab-content-container">
+            @if (pagedModules().length > 0) {
+                <div class="modules-cards-container">
+                    @for (module of pagedModules(); track module.id) {
+                        <span class="m-2">
+                            <app-ai4life-module-card
+                                [module]="module"
+                            ></app-ai4life-module-card>
+                        </span>
+                    }
+                </div>
+
+                <mat-paginator
+                    class="ai4life-paginator"
+                    [length]="resultsFound()"
+                    [pageSize]="pageSize"
+                    [pageIndex]="pageIndex()"
+                    [hidePageSize]="true"
+                    [showFirstLastButtons]="true"
+                    (page)="onPageChange($event)"
+                ></mat-paginator>
+            } @else {
+                <div class="ai4life-empty-state">
+                    <mat-icon>search_off</mat-icon>
+                    <p>{{ 'CATALOG.COMMON.NO-RESULTS' | translate }}</p>
+                </div>
+            }
+        </div>
+    }
 </div>

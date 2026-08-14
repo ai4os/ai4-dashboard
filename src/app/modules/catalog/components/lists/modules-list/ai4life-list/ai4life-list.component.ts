@@ -1,90 +1,106 @@
-import { MediaMatcher } from '@angular/cdk/layout';
 import {
-    ChangeDetectorRef,
-    Component,
-    Input,
-    OnInit,
     ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
     inject,
+    signal,
 } from '@angular/core';
-import {
-    FormBuilder,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-} from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { SearchAi4lifePipe } from '@app/modules/catalog/pipes/search-card-pipe';
-import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 import { MatToolbar } from '@angular/material/toolbar';
-import {
-    MatFormField,
-    MatPrefix,
-    MatLabel,
-    MatInput,
-} from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
-import { Ai4lifeModuleCardComponent } from '../../../modules-cards/ai4life-module-card/ai4life-module-card.component';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SearchAi4lifePipe as SearchAi4lifePipe_1 } from '../../../../pipes/search-card-pipe';
+
+import { ModulesStore } from '@app/modules/catalog/store/modules.store';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { Ai4lifeModuleCardComponent } from '../../../modules-cards/ai4life-module-card/ai4life-module-card.component';
+
+const MOBILE_BREAKPOINT = '(max-width: 600px)';
+const SEARCH_DEBOUNCE_MS = 250;
+const PAGE_SIZE = 16;
 
 @Component({
     selector: 'app-ai4life-list',
     templateUrl: './ai4life-list.component.html',
     styleUrl: './ai4life-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatToolbar,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormField,
         MatIcon,
-        MatPrefix,
-        MatLabel,
-        MatInput,
+        MatPaginator,
+        ReactiveFormsModule,
+        UiTextFieldComponent,
+        UiLoaderComponent,
         Ai4lifeModuleCardComponent,
         TranslatePipe,
-        SearchAi4lifePipe_1,
     ],
 })
-export class Ai4lifeListComponent implements OnInit {
-    media = inject(MediaMatcher);
-    changeDetectorRef = inject(ChangeDetectorRef);
-    dialog = inject(MatDialog);
-    fb = inject(FormBuilder);
+export class Ai4lifeListComponent {
+    readonly store = inject(ModulesStore);
+    private readonly fb = inject(FormBuilder);
+    private readonly breakpointObserver = inject(BreakpointObserver);
+
+    readonly isMobile = toSignal(
+        this.breakpointObserver
+            .observe(MOBILE_BREAKPOINT)
+            .pipe(map((state) => state.matches)),
+        { initialValue: this.breakpointObserver.isMatched(MOBILE_BREAKPOINT) }
+    );
+
+    readonly filtersForm = this.fb.nonNullable.group({
+        search: '',
+    });
+
+    private readonly searchTerm = toSignal(
+        this.filtersForm.controls.search.valueChanges.pipe(
+            startWith(this.filtersForm.controls.search.value),
+            debounceTime(SEARCH_DEBOUNCE_MS)
+        ),
+        { initialValue: this.filtersForm.controls.search.value }
+    );
+
+    readonly pageIndex = signal(0);
+    readonly pageSize = PAGE_SIZE;
+
+    readonly modulesLoading = this.store.loading;
+    readonly modulesError = this.store.error;
+    readonly modules = computed(() => this.store.ai4lifeModules());
+
+    readonly filteredModules = computed(() => {
+        const search = this.searchTerm().trim().toLowerCase();
+        if (!search) return this.modules();
+
+        return this.modules().filter(
+            (m) =>
+                m.name?.toLowerCase().includes(search) ||
+                m.description?.toLowerCase().includes(search) ||
+                m.tags?.some((tag) => tag.toLowerCase().includes(search))
+        );
+    });
+
+    readonly resultsFound = computed(() => this.filteredModules().length);
+
+    readonly pagedModules = computed(() => {
+        const start = this.pageIndex() * this.pageSize;
+        return this.filteredModules().slice(start, start + this.pageSize);
+    });
 
     constructor() {
-        this.filterPipe = new SearchAi4lifePipe();
-
-        this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () =>
-            this.changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
-
-    @Input() modules: Ai4lifeModule[] = [];
-
-    searchFormGroup!: FormGroup;
-    filterPipe: SearchAi4lifePipe;
-    resultsFound = 0;
-
-    ngOnInit(): void {
-        this.initializeForm();
-        this.resultsFound = this.modules.length;
+        effect(
+            () => {
+                this.filteredModules();
+                this.pageIndex.set(0);
+            },
+            { allowSignalWrites: true }
+        );
     }
 
-    initializeForm() {
-        this.searchFormGroup = this.fb.group({
-            search: '',
-        });
-    }
-
-    updateResultsFound() {
-        this.resultsFound = this.filterPipe.transform(
-            this.modules,
-            this.searchFormGroup.controls['search'].value
-        ).length;
+    onPageChange(event: PageEvent): void {
+        this.pageIndex.set(event.pageIndex);
     }
 }

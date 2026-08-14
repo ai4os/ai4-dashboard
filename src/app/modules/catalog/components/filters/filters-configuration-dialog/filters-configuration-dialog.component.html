@@ -1,98 +1,105 @@
-<mat-card class="card">
-  <mat-card-content class="filters-container">
-    <mat-accordion class="mb-3">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ 'CATALOG.FILTERS.INFO-FILTERS-TITLE' | translate }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div
-          [innerHTML]="'CATALOG.FILTERS.INFO-FILTERS' | translate"
-        ></div>
-      </mat-expansion-panel>
-    </mat-accordion>
+<div class="confirmation-dialog filters-dialog">
+    <div class="confirmation-dialog__top-accent"></div>
 
-    @for (filter of filters; track filter; let i = $index) {
-      <div
-        class="filter-container"
-        >
-        <div class="box-container">
-          <div class="box-title">Filter #{{ i + 1 }}</div>
-          <div class="box-content">
-            @for (library of filter.libraries; track library) {
-              <app-chip-with-icon
-                text="{{ library }}"
-                chipStyle="default"
-              ></app-chip-with-icon>
-            }
-            @for (task of filter.tasks; track task) {
-              <app-chip-with-icon
-                text="{{ task }}"
-                chipStyle="default"
-              ></app-chip-with-icon>
-            }
-            @for (category of filter.categories; track category) {
-              <app-chip-with-icon
-                text="{{ category }}"
-                chipStyle="default"
-              ></app-chip-with-icon>
-            }
-            @for (datatype of filter.datatypes; track datatype) {
-              <app-chip-with-icon
-                text="{{ datatype }}"
-                chipStyle="default"
-              ></app-chip-with-icon>
-            }
-            @for (tag of filter.tags; track tag) {
-              <app-chip-with-icon
-                text="{{ tag }}"
-                chipStyle="default"
-              ></app-chip-with-icon>
-            }
-          </div>
-          <button
-            mat-mini-fab
-            color="warn"
-            class="delete-button"
-            [matTooltip]="'GENERAL-BUTTONS.DELETE' | translate"
-            matTooltipPosition="above"
-            (click)="deleteFilter(i)"
-            >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-    }
-  </mat-card-content>
-  <mat-card-actions class="actions-container" align="end">
-    @if (filters.length > 0) {
-      <div>
-        <button
-          class="white-text-button"
-          mat-raised-button
-          color="warn"
-          (click)="resetFilters()"
-          [matTooltip]="'CATALOG.FILTERS.RESET-TOOLTIP' | translate"
-          matTooltipPosition="above"
-          >
-          {{ 'CATALOG.FILTERS.RESET' | translate }}
-        </button>
-        <button
-          class="white-text-button ml-3"
-          mat-raised-button
-          color="accent"
-          [mat-dialog-close]="filters"
-          [matTooltip]="'CATALOG.FILTERS.APPLY-TOOLTIP' | translate"
-          matTooltipPosition="above"
-          >
-          {{ 'CATALOG.FILTERS.APPLY' | translate }}
-        </button>
-      </div>
-    } @else {
-      <button mat-button mat-raised-button (click)="closeDialog()">
-        {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
-      </button>
-    }
-  </mat-card-actions>
-</mat-card>
+    <div
+        mat-dialog-content
+        class="confirmation-dialog__content filters-dialog__content"
+    >
+        <app-ui-expansion-panel class="filters-info-panel">
+            <div panelHeader class="filters-info-panel__header">
+                <mat-icon>info</mat-icon>
+                <span>{{
+                    'CATALOG.FILTERS.INFO-FILTERS-TITLE' | translate
+                }}</span>
+            </div>
+            <div
+                panelContent
+                class="filters-info-panel__content"
+                [innerHTML]="'CATALOG.FILTERS.INFO-FILTERS' | translate"
+            ></div>
+        </app-ui-expansion-panel>
+
+        @if (filters.length > 0) {
+            <div class="filters-list">
+                @for (filter of filters; track filter; let i = $index) {
+                    <div class="filter-card">
+                        <div class="filter-card__header">
+                            <span class="filter-card__title">
+                                {{ 'CATALOG.FILTERS.FILTER' | translate }} #{{
+                                    i + 1
+                                }}
+                            </span>
+                            <app-ui-button
+                                class="filter-card__delete"
+                                variant="danger-solid"
+                                icon="delete"
+                                [tooltip]="'GENERAL-BUTTONS.DELETE' | translate"
+                                (click)="deleteFilter(i)"
+                            ></app-ui-button>
+                        </div>
+
+                        <div class="filter-card__chips">
+                            @for (library of filter.libraries; track library) {
+                                <app-ui-chip
+                                    variant="default-solid"
+                                    [text]="library"
+                                ></app-ui-chip>
+                            }
+                            @for (task of filter.tasks; track task) {
+                                <app-ui-chip
+                                    variant="default-solid"
+                                    [text]="task"
+                                ></app-ui-chip>
+                            }
+                            @for (
+                                category of filter.categories;
+                                track category
+                            ) {
+                                <app-ui-chip
+                                    variant="default-solid"
+                                    [text]="category"
+                                ></app-ui-chip>
+                            }
+                            @for (
+                                datatype of filter.datatypes;
+                                track datatype
+                            ) {
+                                <app-ui-chip
+                                    variant="default-solid"
+                                    [text]="datatype"
+                                ></app-ui-chip>
+                            }
+                            @for (tag of filter.tags; track tag) {
+                                <app-ui-chip
+                                    variant="default-solid"
+                                    [text]="tag"
+                                ></app-ui-chip>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div mat-dialog-actions class="confirmation-dialog__actions">
+        @if (filters.length > 0) {
+            <app-ui-button
+                variant="default-solid"
+                [text]="'CATALOG.FILTERS.RESET' | translate"
+                (click)="resetFilters()"
+            ></app-ui-button>
+            <app-ui-button
+                variant="accent-solid"
+                [text]="'CATALOG.FILTERS.APPLY' | translate"
+                [mat-dialog-close]="filters"
+            ></app-ui-button>
+        } @else {
+            <app-ui-button
+                variant="default-outline"
+                [text]="'GENERAL-BUTTONS.CLOSE' | translate"
+                (click)="closeDialog()"
+            ></app-ui-button>
+        }
+    </div>
+</div>

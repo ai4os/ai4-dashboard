@@ -1,55 +1,64 @@
-import { TitleCasePipe, NgClass } from '@angular/common';
-import {
-    Component,
-    Input,
-    OnInit,
-    ChangeDetectionStrategy,
-    inject,
-} from '@angular/core';
-import { ModuleSummary } from '@app/shared/interfaces/module.interface';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardSubtitle,
-} from '@angular/material/card';
-import { RouterLink } from '@angular/router';
+import { Component, Input, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatDivider } from '@angular/material/list';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { ModuleSummary } from '@app/shared/interfaces/module.interface';
 
 @Component({
     selector: 'app-ai4eosc-module-card',
     templateUrl: './ai4eosc-module-card.component.html',
-    styleUrls: ['./ai4eosc-module-card.component.scss'],
-    providers: [TitleCasePipe],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [
-        MatCard,
-        NgClass,
-        RouterLink,
-        MatCardHeader,
-        MatCardTitle,
-        MatIcon,
-        MatTooltip,
-        MatCardContent,
-        MatDivider,
-        MatCardSubtitle,
-        TranslatePipe,
-    ],
+    styleUrl: './ai4eosc-module-card.component.scss',
+    imports: [UiCardComponent, UiChipComponent, MatIcon, TranslatePipe],
 })
-export class Ai4eoscModuleCardComponent implements OnInit {
-    titleCasePipe = inject(TitleCasePipe);
+export class Ai4eoscModuleCardComponent {
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
-    @Input() module!: ModuleSummary;
+    @Input({ required: true }) module!: ModuleSummary;
 
-    isTool = false;
+    get isTool(): boolean {
+        return this.module.categories?.includes('AI4 tools') ?? false;
+    }
 
-    ngOnInit(): void {
-        if (this.module) {
-            this.isTool = this.module.categories.includes('AI4 tools');
+    get typeIcon(): string {
+        const dataTypes = this.module['data-type'];
+        const defaultIcon = this.isTool ? 'handyman' : 'model_training';
+
+        if (!dataTypes || dataTypes.length !== 1) {
+            return defaultIcon;
         }
+
+        const type = dataTypes[0].toLowerCase();
+
+        if (type === 'other') {
+            return defaultIcon;
+        }
+
+        if (type === 'video') {
+            return 'videocam';
+        }
+        if (type === 'image') {
+            return 'image';
+        }
+        if (type === 'audio') {
+            return 'audiotrack';
+        }
+        if (type === 'text') {
+            return 'description';
+        }
+        if (type === 'tabular') {
+            return 'table_view';
+        }
+        if (type === 'time series') {
+            return 'timeline';
+        }
+
+        return defaultIcon;
+    }
+
+    openModule(): void {
+        this.router.navigate([this.module.name], { relativeTo: this.route });
     }
 }

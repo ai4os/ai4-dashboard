@@ -49,6 +49,7 @@
 
     &__form {
         display: flex;
+        align-items: center;
         gap: var(--space-md);
         padding: var(--space-md) var(--space-lg);
         background: var(--color-surface-card);

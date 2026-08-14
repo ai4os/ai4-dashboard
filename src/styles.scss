@@ -4,6 +4,21 @@ body {
     margin: 0;
     font-family: var(--font-family-body, Roboto, 'Helvetica Neue', sans-serif);
     color: var(--primary-text);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: var(--radius-sm);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-primary);
+        border-radius: var(--radius-sm);
+    }
 }
 
 .grid-1-column {

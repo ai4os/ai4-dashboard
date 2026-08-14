@@ -4,21 +4,10 @@ import {
     MAT_DIALOG_DATA,
     MatDialogClose,
 } from '@angular/material/dialog';
-import { FilterGroup } from '@app/shared/interfaces/module.interface';
-import {
-    MatCard,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import {
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
-} from '@angular/material/expansion';
-import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
-import { MatMiniFabButton, MatButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiExpansionPanelComponent } from '@app/shared/components/ui/ui-expansion-panel/ui-expansion-panel.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -28,18 +17,11 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrls: ['./filters-configuration-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatCard,
-        MatCardContent,
-        MatAccordion,
-        MatExpansionPanel,
-        MatExpansionPanelHeader,
-        MatExpansionPanelTitle,
-        ChipWithIconComponent,
-        MatMiniFabButton,
-        MatTooltip,
+        UiCardComponent,
+        UiExpansionPanelComponent,
+        UiChipComponent,
+        UiButtonComponent,
         MatIcon,
-        MatCardActions,
-        MatButton,
         MatDialogClose,
         TranslatePipe,
     ],
