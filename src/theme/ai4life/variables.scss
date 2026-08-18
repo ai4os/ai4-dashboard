@@ -101,4 +101,35 @@ $color-border: rgba(0, 0, 0, 0.08);
 
 $color-hero-shadow-rgb: 80, 10, 30;
 
+$font-family-heading: 'Clash-Display', 'Roboto', 'Helvetica Neue', sans-serif;
+$font-family-body: 'Clash-Grotesk', 'Roboto', 'Helvetica Neue', sans-serif;
+
+$color-primary-scale: (
+    50: #89a5b8,
+    100: #7191a6,
+    200: #587e96,
+    300: #4c6f84,
+    400: #3d5b6e,
+    500: #2f4858,
+    600: #1e3340,
+    700: #192b36,
+    800: #121e25,
+    900: #0a1114,
+    950: #060a0c,
+);
+
+$color-accent-scale: (
+    50: #e8f5ea,
+    100: #c7e5cc,
+    200: #a4d4ac,
+    300: #80c58c,
+    400: #65b874,
+    500: #4bac5c,
+    600: #439d53,
+    700: #398b48,
+    800: #307a3e,
+    900: #215b2c,
+    950: #0b2b11,
+);
+
 @import '../exports/variables';

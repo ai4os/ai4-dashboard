@@ -96,8 +96,6 @@ $color-hero-shadow-rgb: 80, 10, 30;
 $font-family-heading: 'Clash-Display', 'Roboto', 'Helvetica Neue', sans-serif;
 $font-family-body: 'Clash-Grotesk', 'Roboto', 'Helvetica Neue', sans-serif;
 
-/* Escala OKLCH de 11 pasos (50→950), generada a partir del color de marca.
-   El color de marca "puro" (#008792) cae en el paso 600. */
 $color-primary-scale: (
     50: #f0fbfc,
     100: #d7f5f9,
@@ -106,21 +104,18 @@ $color-primary-scale: (
     400: #51b6c1,
     500: #2da0ac,
     600: #00848f,
-    // ≈ marca
     700: #006872,
     800: #004a52,
     900: #002b30,
     950: #001113,
 );
 
-/* Color de marca "puro" (#ff5b7f) cae en el paso 400. */
 $color-accent-scale: (
     50: #fff2f4,
     100: #ffdde3,
     200: #ffbecb,
     300: #ff92aa,
     400: #ff6386,
-    // ≈ marca
     500: #f24470,
     600: #cf2357,
     700: #a90241,
