@@ -16,6 +16,15 @@ export class Ai4eoscModuleCardComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
 
+    private readonly TYPE_ICON_MAP: Record<string, string> = {
+        video: 'videocam',
+        image: 'image',
+        audio: 'audiotrack',
+        text: 'description',
+        tabular: 'table_view',
+        'time series': 'timeline',
+    };
+
     @Input({ required: true }) module!: ModuleSummary;
 
     get isTool(): boolean {
@@ -23,39 +32,25 @@ export class Ai4eoscModuleCardComponent {
     }
 
     get typeIcon(): string {
-        const dataTypes = this.module['data-type'];
-        const defaultIcon = this.isTool ? 'handyman' : 'model_training';
+        const defaultIcon = 'model_training';
 
+        if (this.isTool) {
+            const id = this.module.id;
+            if (id === 'ai4os-llm') {
+                return 'network_intel_node';
+            }
+
+            return `assets/images/tools/${id}-icon.png`;
+        }
+
+        const dataTypes = this.module['data-type'];
         if (!dataTypes || dataTypes.length !== 1) {
             return defaultIcon;
         }
 
         const type = dataTypes[0].toLowerCase();
 
-        if (type === 'other') {
-            return defaultIcon;
-        }
-
-        if (type === 'video') {
-            return 'videocam';
-        }
-        if (type === 'image') {
-            return 'image';
-        }
-        if (type === 'audio') {
-            return 'audiotrack';
-        }
-        if (type === 'text') {
-            return 'description';
-        }
-        if (type === 'tabular') {
-            return 'table_view';
-        }
-        if (type === 'time series') {
-            return 'timeline';
-        }
-
-        return defaultIcon;
+        return this.TYPE_ICON_MAP[type] || defaultIcon;
     }
 
     openModule(): void {

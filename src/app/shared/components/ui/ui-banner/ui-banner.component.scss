@@ -122,9 +122,9 @@
     }
 
     /* =========================================
-       CATALOG
+       MODULES
        ========================================= */
-    &__catalog {
+    &__modules {
         position: absolute;
         inset: 0;
         pointer-events: none;
@@ -137,7 +137,7 @@
         --anchor-bottom: 26px;
     }
 
-    &__catalog-item {
+    &__modules-item {
         position: absolute;
         right: var(--anchor-right);
         bottom: var(--anchor-bottom);
@@ -152,7 +152,7 @@
 
         transform: translate(var(--tx), var(--ty)) rotate(var(--r));
 
-        animation: catalogFloat 6s ease-in-out infinite;
+        animation: modulesFloat 6s ease-in-out infinite;
 
         &--1 {
             --tx: 0px;
@@ -177,6 +177,120 @@
 
             animation-delay: 1.6s;
         }
+    }
+    /* =========================================
+       LLMS
+       ========================================= */
+    &__sparks {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+    }
+
+    &__spark {
+        position: absolute;
+        aspect-ratio: 1;
+        border-radius: var(--radius-md, 10px);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.3),
+            0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
+            inset 0 0 14px rgba(255, 255, 255, 0.08);
+        clip-path: polygon(
+            50% 0%,
+            61% 39%,
+            100% 50%,
+            61% 61%,
+            50% 100%,
+            39% 61%,
+            0% 50%,
+            39% 39%
+        );
+        filter: drop-shadow(0 0 14px rgba(var(--circle-shadow-rgb), 0.55));
+
+        &--lg {
+            width: clamp(26px, 2.6vw, 34px);
+            right: 44px;
+            bottom: 46px;
+            animation: sparkTwinkle 4s ease-in-out infinite 0s;
+        }
+        &--md {
+            width: clamp(16px, 1.6vw, 20px);
+            right: 80px;
+            bottom: 80px;
+            animation: sparkTwinkle 4s ease-in-out infinite 0.7s;
+        }
+        &--sm {
+            width: clamp(10px, 1vw, 13px);
+            right: 102px;
+            bottom: 38px;
+            animation: sparkTwinkle 4s ease-in-out infinite 1.4s;
+        }
+    }
+
+    /* =========================================
+       TOOLS
+       ========================================= */
+    &__gears {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+    }
+
+    &__gear {
+        position: absolute;
+        right: 44px;
+        bottom: 26px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border-style: dashed;
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 0 16px rgba(var(--circle-shadow-rgb), 0.28);
+
+        &--lg {
+            width: clamp(30px, 2.8vw, 38px);
+            border-width: 4px;
+            animation: gearSpin 10s linear infinite;
+        }
+        &--md {
+            width: clamp(20px, 1.9vw, 26px);
+            right: 84px;
+            bottom: 58px;
+            border-width: 3px;
+            animation: gearSpin 13s linear infinite reverse;
+        }
+        &--sm {
+            width: clamp(13px, 1.2vw, 17px);
+            right: 106px;
+            bottom: 28px;
+            border-width: 2px;
+            animation: gearSpin 8s linear infinite;
+        }
+    }
+}
+
+@keyframes gearSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sparkTwinkle {
+    0%,
+    100% {
+        opacity: 0.55;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.15);
     }
 }
 
@@ -216,7 +330,7 @@
     }
 }
 
-@keyframes catalogFloat {
+@keyframes modulesFloat {
     0%,
     100% {
         transform: translate(var(--tx), var(--ty)) rotate(var(--r));
@@ -229,7 +343,9 @@
 
 @media (prefers-reduced-motion: reduce) {
     .ui-banner__circle,
-    .ui-banner__catalog-item {
+    .ui-banner__modules-item,
+    .ui-banner__spark,
+    .ui-banner__gear {
         animation: none;
     }
 }

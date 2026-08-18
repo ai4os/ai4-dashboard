@@ -36,7 +36,6 @@ describe('ModuleCardComponent', () => {
 
     it('should set isTool to true when "AI4 tools" is present', () => {
         component.module.categories.push('AI4 tools');
-        component.ngOnInit();
         expect(component.isTool).toBe(true);
     });
 });

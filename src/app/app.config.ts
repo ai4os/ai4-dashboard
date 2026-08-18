@@ -25,7 +25,7 @@ import {
 } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
-import { provideMarkdown, MARKED_OPTIONS, MarkedRenderer } from 'ngx-markdown';
+import { provideMarkdown, MARKED_OPTIONS } from 'ngx-markdown';
 
 import {
     MAT_ICON_DEFAULT_OPTIONS,
@@ -62,37 +62,6 @@ import {
     CustomTranslateLoader,
     storageFactory,
 } from './app.providers';
-import { Tokens } from 'marked';
-
-const renderer = new MarkedRenderer();
-
-renderer.paragraph = (token: Tokens.Paragraph) => {
-    const text = token.text;
-
-    if (text.startsWith('&lt;img')) {
-        const div = document.createElement('div');
-        div.innerHTML = text.trim();
-        if (div.firstChild?.textContent != null) {
-            return div.firstChild.textContent;
-        } else {
-            return '';
-        }
-    } else {
-        return '<p>' + text + '</p>';
-    }
-};
-
-renderer.link = (token: Tokens.Link) => {
-    const href = token.href;
-    const title = token.title || '';
-    const text = token.text;
-
-    if (text.endsWith('/&gt;')) {
-        return text;
-    } else {
-        return '<a href="' + href + '" title="' + title + '">' + text + '</a>';
-    }
-};
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -155,7 +124,6 @@ export const appConfig: ApplicationConfig = {
             markedOptions: {
                 provide: MARKED_OPTIONS,
                 useValue: {
-                    renderer,
                     gfm: true,
                     breaks: false,
                 },

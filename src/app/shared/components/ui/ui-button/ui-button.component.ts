@@ -27,6 +27,8 @@ export class UiButtonComponent implements OnInit {
         | 'danger-outline'
         | 'icon' = 'primary-solid';
     @Input() icon?: string;
+    @Input() iconPosition?: string = 'left';
+    @Input() image?: string;
     @Input() text?: string;
     @Input() disabled = false;
     @Input() tooltip?: string;

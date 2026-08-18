@@ -29,13 +29,13 @@
 </header>
 
 @if (isLoading) {
-    <div class="stepper-loading-overlay">
+    <div class="spinner-loading-overlay">
         <app-ui-loader></app-ui-loader>
     </div>
 } @else {
     <div class="stepper-container">
         @if (fieldsLoading) {
-            <div class="stepper-loading-overlay">
+            <div class="spinner-loading-overlay">
                 <app-ui-loader></app-ui-loader>
             </div>
         }

@@ -1,29 +1,24 @@
 <div class="content">
-  @if (mobileQuery.matches) {
-    <mat-toolbar class="mb-3 marketplace-toolbar mobile">
-      <span
-        >{{ 'CATALOG.TOOLS-TITLE' | translate }}
-        <mat-icon>handyman</mat-icon></span
-        >
-      </mat-toolbar>
+    @if (isMobile()) {
+        <mat-toolbar class="mb-3 marketplace-toolbar mobile">
+            <span
+                >{{ 'CATALOG.TOOLS.TITLE' | translate }}
+                <mat-icon>handyman</mat-icon></span
+            >
+        </mat-toolbar>
     } @else {
-      <mat-toolbar class="marketplace-toolbar">
-        <div class="marketplaces-container">
-          <span class="aligned-with-icon">
-            {{ 'CATALOG.TOOLS-TITLE' | translate }}
-            <mat-icon>handyman</mat-icon>
-          </span>
-        </div>
-      </mat-toolbar>
+        <app-ui-banner variant="primary" decoration="tools">
+            <h1>
+                {{ 'CATALOG.TOOLS.TITLE' | translate }}
+            </h1>
+        </app-ui-banner>
     }
 
-
-    @if (toolsLoading) {
-      <div class="spinner">
-        <mat-progress-spinner color="primary" mode="indeterminate">
-        </mat-progress-spinner>
-      </div>
-    } @else {
-      <app-catalog-list [elements]="tools"></app-catalog-list>
-    }
-  </div>
+    <app-catalog-list
+        [elements]="store.tools()"
+        [loading]="toolsLoading()"
+        [error]="toolsError()"
+        [storageKey]="catalogStorageKey"
+        [initialFilters]="ai4eoscInitialFilters()"
+    ></app-catalog-list>
+</div>

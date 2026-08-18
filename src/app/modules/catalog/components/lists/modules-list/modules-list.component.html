@@ -7,7 +7,7 @@
             </span>
         </mat-toolbar>
     } @else {
-        <app-ui-banner variant="primary" decoration="catalog">
+        <app-ui-banner variant="primary" decoration="modules">
             <h1>
                 {{ 'CATALOG.MODULES.TITLE' | translate }}
             </h1>
@@ -15,7 +15,7 @@
     }
 
     @if (modulesLoading()) {
-        <div class="spinner">
+        <div class="spinner-loading-overlay">
             <app-ui-loader></app-ui-loader>
         </div>
     } @else if (modulesError()) {

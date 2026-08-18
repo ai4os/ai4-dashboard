@@ -292,6 +292,11 @@ mat-icon,
                 color: var(--color-accent);
             }
         }
+
+        &[disabled],
+        &:disabled {
+            cursor: not-allowed !important;
+        }
     }
 }
 
@@ -315,6 +320,17 @@ mat-icon,
 .input-spinner {
     float: right;
     margin: 0px 8px;
+}
+
+.spinner-loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+    border-radius: var(--radius-md);
 }
 
 .spinner-with-description {

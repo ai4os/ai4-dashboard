@@ -1,7 +1,15 @@
 <app-ui-card [accentColor]="'var(--color-primary)'" (click)="openModule()">
     <header class="module-card__header">
         <span class="module-card__title">
-            <mat-icon class="module-card__icon">{{ typeIcon }}</mat-icon>
+            @if (typeIcon.includes('.png')) {
+                <img
+                    class="module-card__icon custom-logo"
+                    [src]="typeIcon"
+                    alt="Tool Logo"
+                />
+            } @else {
+                <mat-icon class="module-card__icon">{{ typeIcon }}</mat-icon>
+            }
             <h3 class="module-card__title">{{ module.title }}</h3>
         </span>
     </header>

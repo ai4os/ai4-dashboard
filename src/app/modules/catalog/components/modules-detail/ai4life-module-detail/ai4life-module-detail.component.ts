@@ -12,22 +12,16 @@ import { ModulesService } from '@app/modules/catalog/services/modules-service/mo
 import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-} from '@angular/material/card';
 import { NgClass } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
-import { MatButton } from '@angular/material/button';
-import { MatDivider } from '@angular/material/list';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MarkdownComponent } from 'ngx-markdown';
-import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 
 @Component({
     selector: 'app-ai4life-module-detail',
@@ -35,21 +29,17 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrl: './ai4life-module-detail.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
         MatIcon,
         BreadcrumbComponent,
-        MatCard,
-        MatCardHeader,
         NgClass,
-        MatCardTitle,
         MatTooltip,
-        MatButton,
-        MatDivider,
-        MatCardContent,
-        MatProgressSpinner,
         MarkdownComponent,
-        ChipWithIconComponent,
         TranslatePipe,
+        UiCardComponent,
+        UiButtonComponent,
+        UiChipComponent,
+        UiBannerComponent,
+        UiLoaderComponent,
     ],
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
@@ -187,12 +177,12 @@ export class Ai4lifeModuleDetailComponent implements OnInit {
             : this.module.tags;
     }
 
-    toggleEllipsis() {
+    toggleEllipsis(): void {
         this.tagsCollapsed = !this.tagsCollapsed;
-        if (this.tagsCollapsed) {
-            this.tags = this.module.tags.slice(0, 7);
-        } else {
-            this.tags = this.module.tags;
-        }
+    }
+
+    openLicenseVocab(license: string) {
+        const url = `https://op.europa.eu/en/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/licence/${license}`;
+        window.open(url);
     }
 }

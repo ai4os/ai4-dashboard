@@ -51,7 +51,6 @@
         border-color: var(--color-accent);
         background-color: var(--color-accent-light);
     }
-
     &--success-solid {
         color: var(--color-success);
         border: transparent;
@@ -67,13 +66,84 @@
     &--warning-solid {
         color: var(--color-warning-dark);
         border: transparent;
-        background: var(--color-warning-light);
+        background-color: var(--color-warning-light);
     }
 
     &--warning-outline {
         color: var(--color-warning-dark);
         border-color: var(--color-warning-dark);
         background-color: var(--color-warning-light);
+    }
+
+    &--secondary-1-solid {
+        color: var(--color-secondary-1);
+        border: transparent;
+        background-color: var(--color-secondary-1-light);
+    }
+
+    &--secondary-1-outline {
+        color: var(--color-secondary-1);
+        border-color: var(--color-secondary-1);
+        background-color: var(--color-secondary-1-light);
+    }
+
+    &--secondary-2-solid {
+        color: var(--color-secondary-2);
+        border: transparent;
+        background-color: var(--color-secondary-2-light);
+    }
+    &--secondary-2-outline {
+        color: var(--color-secondary-2);
+        border-color: var(--color-secondary-2);
+        background-color: var(--color-secondary-2-light);
+    }
+
+    &--secondary-3-solid {
+        color: var(--color-secondary-3);
+        border: transparent;
+        background-color: var(--color-secondary-3-light);
+    }
+
+    &--secondary-3-outline {
+        color: var(--color-secondary-3);
+        border-color: var(--color-secondary-3);
+        background-color: var(--color-secondary-3-light);
+    }
+
+    &--secondary-4-solid {
+        color: var(--color-secondary-4);
+        border: transparent;
+        background-color: var(--color-secondary-4-light);
+    }
+
+    &--secondary-4-outline {
+        color: var(--color-secondary-4);
+        border-color: var(--color-secondary-4);
+        background-color: var(--color-secondary-4-light);
+    }
+
+    &--secondary-5-solid {
+        color: var(--color-secondary-5);
+        border: transparent;
+        background-color: var(--color-secondary-5-light);
+    }
+
+    &--secondary-5-outline {
+        color: var(--color-secondary-5);
+        border-color: var(--color-secondary-5);
+        background-color: var(--color-secondary-5-light);
+    }
+
+    &--danger-solid {
+        color: var(--color-danger);
+        border: transparent;
+        background-color: var(--color-danger-light);
+    }
+
+    &--danger-outline {
+        color: var(--color-danger);
+        border-color: var(--color-danger);
+        background-color: var(--color-danger-light);
     }
 
     &--default-solid {

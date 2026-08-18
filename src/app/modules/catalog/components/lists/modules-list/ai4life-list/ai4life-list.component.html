@@ -1,6 +1,6 @@
 <div class="content">
     @if (modulesLoading()) {
-        <div class="spinner">
+        <div class="spinner-loading-overlay">
             <app-ui-loader></app-ui-loader>
         </div>
     } @else if (modulesError()) {
@@ -35,7 +35,9 @@
         </mat-toolbar>
 
         @if (isMobile()) {
-            <p class="ai4life-filters__results ai4life-filters__results--mobile">
+            <p
+                class="ai4life-filters__results ai4life-filters__results--mobile"
+            >
                 {{ resultsFound() }}
                 {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
             </p>

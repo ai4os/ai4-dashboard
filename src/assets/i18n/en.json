@@ -166,12 +166,64 @@
             "LICENSE": "License",
             "STATUS": "Status",
             "LINK": "Link to model",
+            "ABOUT": "About",
             "CATEGORIES": "Platform Categories",
             "LIBRARIES": "Libraries",
             "TAGS": "Tags",
             "TASKS": "Tasks",
             "DATA-TYPES": "Data Types",
-            "DOWNLOADS": "Downloads"
+            "DOWNLOADS": "Downloads",
+            "DOWNLOAD-COUNT": "Download Count",
+            "DATES": "Dates",
+            "CREATED": "Created",
+            "UPDATED": "Updated",
+            "TRY": {
+                "TITLE": "Try",
+                "LOGOUT": "You must have the role 'ap-a' to try a module",
+                "USER-INTERFACE": "User Interface",
+                "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
+                "INFERENCE-API": "REST API",
+                "OSCAR-SWAGGER": "// TODO"
+            },
+            "BATCH": {
+                "TITLE": "Batch"
+            },
+            "DEPLOY": {
+                "TITLE": "Deploy",
+                "API-SERVERLESS": "Inference API (serverless)",
+                "OSCAR": "Serverless inference API on the project's OSCAR cluster",
+                "API-PLATFORM": "Inference API + UI (dedicated)",
+                "NOMAD": "Dedicated inference API + UI on the project's Nomad cluster",
+                "API-CLOUD": "Inference API (cloud)",
+                "IM": "Deploy on your own cloud resources via IM",
+                "API-EU": "Inference API (EU Node)",
+                "EU-NODE": "Deploy in the EOSC EU Node cloud resources"
+            },
+            "CODESPACES": {
+                "TITLE": "Codespaces",
+                "JUPYTERLAB": "Open in JupyterLab",
+                "VSCODE": "Open in VScode"
+            },
+            "ADDITIONAL-RESOURCES": {
+                "TITLE": "Additional Resources",
+                "DATASET": "Dataset",
+                "DOCUMENTATION": "Docs",
+                "WEIGHTS": "Weights",
+                "CITATION": "Citation",
+                "BASE-MODEL": "Base model"
+            },
+            "PROVENANCE": {
+                "TITLE": "Provenance",
+                "VIEW": "View",
+                "DOWNLOAD": "Download RDF",
+                "DIALOG": "Provenance graph"
+            },
+            "METADATA": {
+                "DOWNLOAD": "Download metadata",
+                "JSON": "JSON (application/json)",
+                "JSON-LD": "JSON-LD (application/ld+json)",
+                "TURTLE": "Turtle (text/turtle)"
+            }
         },
         "FILTERS": {
             "ADITIONAL-FILTERS": "Additional filters",
@@ -194,7 +246,9 @@
             "TITLE": "Modules",
             "AI4EOSC-TAB": "AI4EOSC",
             "AI4LIFE-TAB": "AI4Life"
-
+        },
+        "TOOLS": {
+            "TITLE": "Tools"
         },
         "LLMS": {
             "TITLE": "LLMs",
@@ -425,66 +479,16 @@
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",
-            "BUILD-STATUS": "Build status",
-            "DATES": "Dates",
-            "CREATED": "Created",
-            "UPDATED": "Updated",
-            "CATEGORIES": "Platform Categories",
-            "LIBRARIES": "Libraries",
-            "TAGS": "Tags",
-            "TASKS": "Tasks",
-            "DATA-TYPES": "Data Types",
+
+
+
             "ABOUT": "About",
-            "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
             "UNAUTHORIZED": "You must login and be a member of project to use this",
-            "PROVENANCE": {
-                "TITLE": "Provenance",
-                "VIEW": "View",
-                "DOWNLOAD": "Download RDF",
-                "DIALOG": "Provenance graph"
-            },
-            "METADATA": {
-                "DOWNLOAD": "Download metadata",
-                "JSON": "JSON format (application/json)",
-                "JSON-LD": "JSON-LD format (application/ld+json)",
-                "TURTLE": "Turtle format (text/turtle)"
-            },
-            "ADDITIONAL-RESOURCES": {
-                "TITLE": "Additional Resources",
-                "DATASET": "Dataset",
-                "DOCUMENTATION": "Docs",
-                "WEIGHTS": "Weights",
-                "CITATION": "Citation",
-                "BASE-MODEL": "Base model"
-            },
-            "TRY": {
-                "TITLE": "Try",
-                "LOGOUT": "You must have the role 'ap-a' to try a module",
-                "USER-INTERFACE": "User Interface",
-                "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
-                "INFERENCE-API": "REST API",
-                "OSCAR-SWAGGER": "// TODO"
-            },
-            "BATCH": {
-                "TITLE": "Batch"
-            },
-            "DEPLOY": {
-                "TITLE": "Deploy",
-                "API-SERVERLESS": "Inference API (serverless)",
-                "OSCAR": "Serverless inference API on the project's OSCAR cluster",
-                "API-PLATFORM": "Inference API + UI (dedicated)",
-                "NOMAD": "Dedicated inference API + UI on the project's Nomad cluster",
-                "API-CLOUD": "Inference API (cloud)",
-                "IM": "Deploy on your own cloud resources via IM",
-                "API-EU": "Inference API (EU Node)",
-                "EU-NODE": "Deploy in the EOSC EU Node cloud resources"
-            },
-            "CODESPACES": {
-                "TITLE": "Codespaces",
-                "JUPYTERLAB": "Open in JupyterLab",
-                "VSCODE": "Open in VScode"
-            },
+
+
+
+
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organisation to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."

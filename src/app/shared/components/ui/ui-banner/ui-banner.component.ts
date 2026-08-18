@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
-export type BannerDecoration = 'none' | 'circles' | 'catalog';
+export type BannerDecoration =
+    'none' | 'circles' | 'modules' | 'tools' | 'llms';
 
 @Component({
     selector: 'app-ui-banner',

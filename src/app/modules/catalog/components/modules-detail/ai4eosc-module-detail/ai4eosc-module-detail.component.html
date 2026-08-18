@@ -1,147 +1,137 @@
-<mat-toolbar class="mb-3">
-    @if (!isTool) {
-        <span class="aligned-with-icon">
-            {{ 'CATALOG.MODULE-DETAIL.TITLE' | translate }}
-            <mat-icon>view_in_ar</mat-icon>
-        </span>
-    } @else {
-        <span class="aligned-with-icon">
-            {{ 'CATALOG.MODULE-DETAIL.TOOL-TITLE' | translate }}
-            <mat-icon>view_in_ar</mat-icon>
-        </span>
-    }
-</mat-toolbar>
+@if (isLoading) {
+    <div class="spinner-loading-overlay">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else {
+    <!-- Header -->
+    <header class="header">
+        <div class="header__top-bar">
+            <xng-breadcrumb class="header__breadcrumb"></xng-breadcrumb>
+        </div>
 
-<xng-breadcrumb class="mb-3"></xng-breadcrumb>
-
-<mat-card class="detail-card">
-    @if (!isLoading) {
-        <mat-card-header
-            [ngClass]="{
-                'module-detail-card-header-mobile': mobileQuery.matches,
-                'module-detail-card-header': !mobileQuery.matches,
-            }"
-        >
-            <mat-card-title
-                ><h1>{{ module.title }}</h1>
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ module.summary }}
-            </mat-card-subtitle>
-            @if (!isTool) {
-                <div
-                    [ngClass]="{
-                        'action-buttons-container-mobile': mobileQuery.matches,
-                        'action-buttons-container': !mobileQuery.matches,
-                    }"
-                >
-                    <div
-                        class="tooltip-container"
-                        [matTooltipDisabled]="isAuthorized()"
-                        matTooltip=" {{
-                            'CATALOG.MODULE-DETAIL.TRY.LOGOUT' | translate
-                        }}"
+        <app-ui-banner variant="primary" decoration="none">
+            <div
+                [ngClass]="{
+                    'header-row-mobile': mobileQuery.matches,
+                    'header-row': !mobileQuery.matches,
+                }"
+            >
+                <div class="header__heading">
+                    <h1 class="header__title">{{ module.title }}</h1>
+                    <p
+                        style="
+                            margin: 0;
+                            opacity: 0.9;
+                            font-size: var(--font-size-base);
+                        "
                     >
-                        <a
-                            class="action-button"
-                            mat-raised-button
-                            color="accent"
-                            [matMenuTriggerFor]="tryMenu"
-                            [disabled]="!isAuthorized()"
+                        {{ module.summary }}
+                    </p>
+                </div>
+
+                <!-- MODULES -->
+                @if (!isTool) {
+                    <div
+                        [ngClass]="{
+                            'action-buttons-container-mobile':
+                                mobileQuery.matches,
+                            'action-buttons-container': !mobileQuery.matches,
+                        }"
+                    >
+                        <!-- Try -->
+                        <div
+                            class="tooltip-container"
+                            matTooltip=" {{
+                                'CATALOG.DETAIL.TRY.LOGOUT' | translate
+                            }}"
+                            matTooltipClass="ui-tooltip"
+                            [matTooltipDisabled]="isAuthorized()"
                         >
-                            {{ 'CATALOG.MODULE-DETAIL.TRY.TITLE' | translate }}
-                            <mat-icon class="arrow-button">
-                                keyboard_arrow_down
-                            </mat-icon>
-                        </a>
-                    </div>
-                    <mat-menu #tryMenu="matMenu" xPosition="before">
-                        <button
-                            mat-menu-item
-                            (click)="createGradioDeployment()"
+                            <app-ui-button
+                                variant="accent-solid"
+                                [text]="'CATALOG.DETAIL.TRY.TITLE' | translate"
+                                icon="expand_more"
+                                iconPosition="right"
+                                [matMenuTriggerFor]="tryMenu"
+                                [disabled]="!isAuthorized()"
+                            ></app-ui-button>
+                        </div>
+                        <mat-menu
+                            #tryMenu="matMenu"
+                            xPosition="before"
+                            class="ui-dropdown-panel"
+                            hasBackdrop="true"
                         >
-                            <span class="button-with-icon">
+                            <button
+                                mat-menu-item
+                                (click)="createGradioDeployment()"
+                            >
                                 <img
-                                    src="../../../../../assets/images/gradio-logo.png"
+                                    class="menu-item-icon"
+                                    src="../../../../../assets/images/module-detail/gradio.svg"
                                 />
                                 <div class="button-texts">
                                     <b>
                                         {{
-                                            'CATALOG.MODULE-DETAIL.TRY.USER-INTERFACE'
+                                            'CATALOG.DETAIL.TRY.USER-INTERFACE'
                                                 | translate
                                         }}</b
                                     >
                                     <span class="button-description-text">
                                         {{
-                                            'CATALOG.MODULE-DETAIL.TRY.NOMAD-GRADIO'
+                                            'CATALOG.DETAIL.TRY.NOMAD-GRADIO'
                                                 | translate
                                         }}</span
                                     >
                                 </div>
-                            </span>
-                        </button>
-                        <button
-                            mat-menu-item
-                            [disabled]="true"
-                            style="display: none"
-                        >
-                            <span class="button-with-icon">
-                                <img
-                                    src="../../../../../assets/images/module-detail/swagger-logo.svg"
-                                />
-                                <div class="button-texts">
-                                    <b>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.TRY.INFERENCE-API'
-                                                | translate
-                                        }}</b
-                                    >
-                                    <span class="button-description-text">{{
-                                        'CATALOG.MODULE-DETAIL.TRY.OSCAR-SWAGGER'
+                            </button>
+                        </mat-menu>
+
+                        <!-- Deploy -->
+                        @if (isLoggedIn()) {
+                            <div class="tooltip-container">
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    [text]="
+                                        'CATALOG.DETAIL.DEPLOY.TITLE'
                                             | translate
-                                    }}</span>
-                                </div>
-                            </span>
-                        </button>
-                    </mat-menu>
-                    @if (isLoggedIn()) {
-                        <a
-                            class="action-button"
-                            mat-raised-button
-                            color="accent"
-                            [matMenuTriggerFor]="deployMenu"
-                        >
-                            {{
-                                'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate
-                            }}
-                            <mat-icon class="arrow-button">
-                                keyboard_arrow_down
-                            </mat-icon>
-                        </a>
-                        <mat-menu #deployMenu="matMenu" xPosition="before">
-                            @if (module.links.docker_image) {
-                                <button
-                                    class="action-button sub-button"
-                                    mat-menu-item
-                                    (click)="trainModulePlatform('oscar')"
-                                    [disabled]="
-                                        !isProjectMember() ||
-                                        module.links.docker_image === undefined
                                     "
-                                    matTooltip=" {{
-                                        'ERRORS.UNAUTHORIZED' | translate
-                                    }}"
-                                    [matTooltipPosition]="'left'"
-                                    [matTooltipDisabled]="isProjectMember()"
-                                >
-                                    <span class="button-with-icon">
+                                    icon="expand_more"
+                                    iconPosition="right"
+                                    [matMenuTriggerFor]="deployMenu"
+                                ></app-ui-button>
+                            </div>
+
+                            <mat-menu
+                                #deployMenu="matMenu"
+                                xPosition="before"
+                                class="ui-dropdown-panel"
+                                hasBackdrop="true"
+                            >
+                                @if (module.links.docker_image) {
+                                    <button
+                                        mat-menu-item
+                                        (click)="trainModulePlatform('oscar')"
+                                        [disabled]="
+                                            !isProjectMember() ||
+                                            module.links.docker_image ===
+                                                undefined
+                                        "
+                                        matTooltip=" {{
+                                            'ERRORS.UNAUTHORIZED' | translate
+                                        }}"
+                                        matTooltipClass="ui-tooltip"
+                                        [matTooltipPosition]="'left'"
+                                        [matTooltipDisabled]="isProjectMember()"
+                                    >
                                         <img
+                                            class="menu-item-icon"
                                             src="../../../../../assets/images/oscar-logo.png"
                                         />
                                         <div class="button-texts">
                                             <b>
                                                 {{
-                                                    'CATALOG.MODULE-DETAIL.DEPLOY.API-SERVERLESS'
+                                                    'CATALOG.DETAIL.DEPLOY.API-SERVERLESS'
                                                         | translate
                                                 }}
                                             </b>
@@ -149,496 +139,476 @@
                                                 class="button-description-text"
                                             >
                                                 {{
-                                                    'CATALOG.MODULE-DETAIL.DEPLOY.OSCAR'
+                                                    'CATALOG.DETAIL.DEPLOY.OSCAR'
                                                         | translate
                                                 }}
                                             </span>
                                         </div>
-                                    </span>
-                                </button>
-                            }
-                            <button
-                                mat-menu-item
-                                class="action-button sub-button"
-                                (click)="trainModulePlatform('nomad')"
-                                [disabled]="!isProjectMember()"
-                                matTooltip=" {{
-                                    'ERRORS.UNAUTHORIZED' | translate
-                                }}"
-                                [matTooltipPosition]="'left'"
-                                [matTooltipDisabled]="isProjectMember()"
-                            >
-                                <span class="button-with-icon">
+                                    </button>
+                                }
+                                <button
+                                    mat-menu-item
+                                    (click)="trainModulePlatform('nomad')"
+                                    [disabled]="!isProjectMember()"
+                                    matTooltip=" {{
+                                        'ERRORS.UNAUTHORIZED' | translate
+                                    }}"
+                                    matTooltipClass="ui-tooltip"
+                                    [matTooltipPosition]="'left'"
+                                    [matTooltipDisabled]="isProjectMember()"
+                                >
                                     <img
-                                        src="../../../../../assets/images/module-detail/nomad-icon.svg"
+                                        class="menu-item-icon"
+                                        src="../../../../../assets/images/module-detail/nomad.svg"
                                     />
                                     <div class="button-texts">
                                         <b>
                                             {{
-                                                'CATALOG.MODULE-DETAIL.DEPLOY.API-PLATFORM'
+                                                'CATALOG.DETAIL.DEPLOY.API-PLATFORM'
                                                     | translate
                                             }}</b
                                         >
                                         <span class="button-description-text">
                                             {{
-                                                'CATALOG.MODULE-DETAIL.DEPLOY.NOMAD'
+                                                'CATALOG.DETAIL.DEPLOY.NOMAD'
                                                     | translate
                                             }}
                                         </span>
                                     </div>
-                                </span>
-                            </button>
-                            <a
-                                class="action-button sub-button"
-                                mat-menu-item
-                                target="_blank"
-                                [href]="
-                                    'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
-                                    module.links.docker_image
-                                "
-                            >
-                                <span class="button-with-icon">
+                                </button>
+                                <a
+                                    mat-menu-item
+                                    target="_blank"
+                                    [href]="
+                                        'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
+                                        module.links.docker_image
+                                    "
+                                >
                                     <img
+                                        class="menu-item-icon"
                                         src="../../../../../assets/images/module-detail/im-logo.png"
                                     />
                                     <div class="button-texts">
                                         <b>
                                             {{
-                                                'CATALOG.MODULE-DETAIL.DEPLOY.API-CLOUD'
+                                                'CATALOG.DETAIL.DEPLOY.API-CLOUD'
                                                     | translate
                                             }}
                                         </b>
                                         <span class="button-description-text">
                                             {{
-                                                'CATALOG.MODULE-DETAIL.DEPLOY.IM'
+                                                'CATALOG.DETAIL.DEPLOY.IM'
                                                     | translate
                                             }}
                                         </span>
                                     </div>
-                                </span>
-                            </a>
-                            <a
-                                class="action-button sub-button"
-                                mat-menu-item
-                                target="_blank"
-                                href="https://docs.ai4eosc.eu/en/latest/howtos/deploy/eosc-node.html"
-                            >
-                                <span class="button-with-icon">
+                                </a>
+                                <a
+                                    mat-menu-item
+                                    target="_blank"
+                                    href="https://docs.ai4eosc.eu/en/latest/howtos/deploy/eosc-node.html"
+                                >
                                     <img
                                         style="width: 24px; height: 24px"
-                                        src="../../../../../assets/images/module-detail/circle-eu-flag.png"
+                                        class="menu-item-icon"
+                                        src="../../../../../assets/images/module-detail/circle-eu-flag.svg"
                                     />
                                     <div class="button-texts">
                                         <b>
                                             {{
-                                                'CATALOG.MODULE-DETAIL.DEPLOY.API-EU'
+                                                'CATALOG.DETAIL.DEPLOY.API-EU'
                                                     | translate
                                             }}
                                         </b>
                                         <span class="button-description-text">
                                             {{
-                                                'CATALOG.MODULE-DETAIL.DEPLOY.EU-NODE'
+                                                'CATALOG.DETAIL.DEPLOY.EU-NODE'
                                                     | translate
                                             }}
                                         </span>
                                     </div>
-                                </span>
-                            </a>
-                        </mat-menu>
-                        <div
-                            class="tooltip-container"
-                            [matTooltipDisabled]="isProjectMember()"
-                            matTooltip=" {{
-                                'ERRORS.UNAUTHORIZED' | translate
-                            }}"
-                        >
-                            <a
-                                class="action-button"
-                                mat-raised-button
-                                color="accent"
-                                [matMenuTriggerFor]="codespacesMenu"
-                                [disabled]="!isProjectMember()"
-                            >
-                                {{
-                                    'CATALOG.MODULE-DETAIL.CODESPACES.TITLE'
-                                        | translate
-                                }}
-                                <mat-icon class="arrow-button">
-                                    keyboard_arrow_down
-                                </mat-icon>
-                            </a>
-                        </div>
-                        <mat-menu #codespacesMenu="matMenu" xPosition="before">
-                            <button
-                                mat-menu-item
-                                (click)="trainModuleCodespaces('jupyter')"
-                            >
-                                <span class="button-with-icon">
-                                    <img
-                                        src="../../../../../assets/images/module-detail/jupyter-logo.png"
-                                    />
-                                    <div class="button-texts">
-                                        <b>
-                                            {{
-                                                'CATALOG.MODULE-DETAIL.CODESPACES.JUPYTERLAB'
-                                                    | translate
-                                            }}</b
-                                        >
-                                    </div>
-                                </span>
-                            </button>
-                            @if (
-                                module.title === 'AI4OS Development Environment'
-                            ) {
-                                <button
-                                    mat-menu-item
-                                    (click)="trainModuleCodespaces('vscode')"
-                                >
-                                    <span class="button-with-icon">
-                                        <img
-                                            src="../../../../../assets/images/module-detail/vscode-logo.png"
-                                        />
-                                        <div class="button-texts">
-                                            <b>
-                                                {{
-                                                    'CATALOG.MODULE-DETAIL.CODESPACES.VSCODE'
-                                                        | translate
-                                                }}</b
-                                            >
-                                        </div>
-                                    </span>
-                                </button>
-                            }
-                        </mat-menu>
-                        <div
-                            class="tooltip-container"
-                            [matTooltipDisabled]="isProjectMember()"
-                            matTooltip=" {{
-                                'ERRORS.UNAUTHORIZED' | translate
-                            }}"
-                        >
-                            <button
-                                class="action-button"
-                                mat-raised-button
-                                color="accent"
-                                (click)="deployBatch()"
-                                [disabled]="!isProjectMember()"
+                                </a>
+                            </mat-menu>
+
+                            <!-- Codespaces -->
+                            <div
+                                class="tooltip-container"
                                 matTooltip=" {{
                                     'ERRORS.UNAUTHORIZED' | translate
                                 }}"
-                                [matTooltipPosition]="'left'"
+                                matTooltipClass="ui-tooltip"
                                 [matTooltipDisabled]="isProjectMember()"
                             >
-                                {{
-                                    'CATALOG.MODULE-DETAIL.BATCH.TITLE'
-                                        | translate
-                                }}
-                            </button>
-                        </div>
-                    }
-                </div>
-            }
-            @if (isTool && isLoggedIn()) {
-                <div
-                    [ngClass]="{
-                        'action-buttons-container-mobile': mobileQuery.matches,
-                        'action-buttons-container': !mobileQuery.matches,
-                    }"
-                >
-                    <div
-                        class="tooltip-container"
-                        [matTooltipDisabled]="isProjectMember()"
-                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
-                    >
-                        @if (module.id === 'ai4os-dev-env') {
-                            <a
-                                class="action-button"
-                                mat-raised-button
-                                color="accent"
-                                [matMenuTriggerFor]="deployMenu"
-                                [disabled]="!isProjectMember()"
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    [text]="
+                                        'CATALOG.DETAIL.CODESPACES.TITLE'
+                                            | translate
+                                    "
+                                    icon="expand_more"
+                                    iconPosition="right"
+                                    [matMenuTriggerFor]="codespacesMenu"
+                                    [disabled]="!isProjectMember()"
+                                ></app-ui-button>
+                            </div>
+                            <mat-menu
+                                #codespacesMenu="matMenu"
+                                xPosition="before"
+                                class="ui-dropdown-panel"
+                                hasBackdrop="true"
                             >
-                                {{
-                                    'CATALOG.MODULE-DETAIL.DEPLOY.TITLE'
-                                        | translate
-                                }}
-                                <mat-icon class="arrow-button">
-                                    keyboard_arrow_down
-                                </mat-icon>
-                            </a>
-                            <mat-menu #deployMenu="matMenu" xPosition="before">
                                 <button
                                     mat-menu-item
                                     (click)="trainModuleCodespaces('jupyter')"
                                 >
-                                    <span class="button-with-icon">
-                                        <img
-                                            src="../../../../../assets/images/module-detail/jupyter-logo.png"
-                                        />
-                                        <div class="button-texts">
-                                            <b>
-                                                {{
-                                                    'CATALOG.MODULE-DETAIL.CODESPACES.JUPYTERLAB'
-                                                        | translate
-                                                }}</b
-                                            >
-                                        </div>
-                                    </span>
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="trainModuleCodespaces('vscode')"
-                                >
-                                    <span class="button-with-icon">
-                                        <img
-                                            src="../../../../../assets/images/module-detail/vscode-logo.png"
-                                        />
-                                        <div class="button-texts">
-                                            <b>
-                                                {{
-                                                    'CATALOG.MODULE-DETAIL.CODESPACES.VSCODE'
-                                                        | translate
-                                                }}</b
-                                            >
-                                        </div>
-                                    </span>
+                                    <img
+                                        class="menu-item-icon"
+                                        src="../../../../../assets/images/module-detail/jupyter.svg"
+                                    />
+                                    <b>
+                                        {{
+                                            'CATALOG.DETAIL.CODESPACES.JUPYTERLAB'
+                                                | translate
+                                        }}</b
+                                    >
                                 </button>
                             </mat-menu>
-                        } @else {
-                            <a
-                                class="action-button"
-                                mat-raised-button
-                                color="accent"
-                                routerLink="deploy"
-                                id="deploy-tool-button"
-                                [disabled]="!isProjectMember()"
+
+                            <!-- Batch -->
+                            <div
+                                class="tooltip-container"
+                                matTooltip=" {{
+                                    'ERRORS.UNAUTHORIZED' | translate
+                                }}"
+                                matTooltipClass="ui-tooltip"
+                                [matTooltipDisabled]="isProjectMember()"
                             >
-                                {{
-                                    'CATALOG.MODULE-DETAIL.DEPLOY.TITLE'
-                                        | translate
-                                }}
-                            </a>
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    [text]="
+                                        'CATALOG.DETAIL.BATCH.TITLE' | translate
+                                    "
+                                    (click)="deployBatch()"
+                                    [disabled]="!isProjectMember()"
+                                ></app-ui-button>
+                            </div>
                         }
                     </div>
-                </div>
-            }
-        </mat-card-header>
-    }
+                }
 
-    <mat-divider></mat-divider>
-
-    <mat-card-content>
-        @if (isLoading) {
-            <div class="spinner spinner-with-description">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
-            </div>
-        }
-
-        @if (!isLoading) {
-            <div
-                [ngClass]="{
-                    'grid-1-column': mobileQuery.matches,
-                    'grid-2-columns-content': !mobileQuery.matches,
-                }"
-            >
-                <div class="module-description">
-                    <markdown
-                        [data]="module.description"
-                        ngPreserveWhitespaces
-                        [disableSanitizer]="true"
+                <!-- TOOLS -->
+                @if (isTool && isLoggedIn()) {
+                    <div
+                        [ngClass]="{
+                            'action-buttons-container-mobile':
+                                mobileQuery.matches,
+                            'action-buttons-container': !mobileQuery.matches,
+                        }"
                     >
-                    </markdown>
-                </div>
-                <div class="info-container">
-                    <div class="flex-container">
-                        @if (module.license !== '') {
-                            <app-chip-with-icon
-                                icon="license"
-                                text="{{ module.license }}"
-                                tooltip=" {{
-                                    'CATALOG.MODULE-DETAIL.LICENSE' | translate
-                                }}"
-                                class="license-chip"
-                                (click)="openLicenseVocab(module.license)"
-                            ></app-chip-with-icon>
-                        }
-                        <div class="license-and-badges">
-                            <a
-                                href="{{ module.links.cicd_url }}"
-                                target="_blank"
-                                ><img
-                                    alt="Build Status"
-                                    src="{{ module.links.cicd_badge }}"
-                            /></a>
-                            @if (module.doi) {
-                                @if (module.links.zenodo_doi) {
+                        <!-- Deploy -->
+                        <div
+                            class="tooltip-container"
+                            matTooltip=" {{
+                                'ERRORS.UNAUTHORIZED' | translate
+                            }}"
+                            matTooltipClass="ui-tooltip"
+                            [matTooltipDisabled]="isProjectMember()"
+                        >
+                            @if (module.id === 'ai4os-dev-env') {
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    [text]="
+                                        'CATALOG.DETAIL.DEPLOY.TITLE'
+                                            | translate
+                                    "
+                                    icon="expand_more"
+                                    iconPosition="right"
+                                    [matMenuTriggerFor]="deployMenu"
+                                    [disabled]="!isProjectMember()"
+                                ></app-ui-button>
+                                <mat-menu
+                                    #deployMenu="matMenu"
+                                    xPosition="before"
+                                    class="ui-dropdown-panel"
+                                    hasBackdrop="true"
+                                >
+                                    <button
+                                        mat-menu-item
+                                        (click)="
+                                            trainModuleCodespaces('jupyter')
+                                        "
+                                    >
+                                        <img
+                                            class="menu-item-icon"
+                                            src="../../../../../assets/images/module-detail/jupyter.svg"
+                                        />
+
+                                        <b>{{
+                                            'CATALOG.DETAIL.CODESPACES.JUPYTERLAB'
+                                                | translate
+                                        }}</b>
+                                    </button>
+                                    <button
+                                        mat-menu-item
+                                        (click)="
+                                            trainModuleCodespaces('vscode')
+                                        "
+                                    >
+                                        <img
+                                            class="menu-item-icon"
+                                            src="../../../../../assets/images/module-detail/vscode.svg"
+                                        />
+                                        <b>
+                                            {{
+                                                'CATALOG.DETAIL.CODESPACES.VSCODE'
+                                                    | translate
+                                            }}</b
+                                        >
+                                    </button>
+                                </mat-menu>
+                            } @else {
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    [text]="
+                                        'CATALOG.DETAIL.DEPLOY.TITLE'
+                                            | translate
+                                    "
+                                    routerLink="deploy"
+                                    id="deploy-tool-button"
+                                    [disabled]="!isProjectMember()"
+                                ></app-ui-button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </app-ui-banner>
+    </header>
+
+    <!-- Body -->
+    <app-ui-card>
+        <div
+            [ngClass]="{
+                'grid-1-column': mobileQuery.matches,
+                'grid-2-columns-content': !mobileQuery.matches,
+            }"
+        >
+            <!-- Description -->
+            <div class="module-description">
+                <markdown
+                    [data]="module.description"
+                    ngPreserveWhitespaces
+                    [disableSanitizer]="true"
+                >
+                </markdown>
+            </div>
+
+            <div class="info-container">
+                <!-- About -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.ABOUT' | translate }}
+                    </span>
+
+                    <app-ui-card>
+                        <div class="sidebar-section__content">
+                            <div class="badges-row">
+                                @if (module.license !== '') {
+                                    <app-ui-chip
+                                        icon="license"
+                                        [text]="module.license"
+                                        [tooltip]="
+                                            'CATALOG.DETAIL.LICENSE' | translate
+                                        "
+                                        variant="primary-outline"
+                                        class="license-chip"
+                                        (click)="
+                                            openLicenseVocab(module.license)
+                                        "
+                                    ></app-ui-chip>
+                                }
+
+                                <span>
+                                    @if (module.doi) {
+                                        @if (module.links.zenodo_doi) {
+                                            <a
+                                                href="{{
+                                                    module.links.zenodo_doi
+                                                }}"
+                                                target="_blank"
+                                                class="badge-link"
+                                                ><img
+                                                    alt="DOI Badge"
+                                                    src="{{
+                                                        getDOIBadgeUrl(
+                                                            module.doi
+                                                        )
+                                                    }}"
+                                            /></a>
+                                        } @else {
+                                            <img
+                                                alt="DOI Badge"
+                                                class="badge-link"
+                                                src="{{
+                                                    getDOIBadgeUrl(module.doi)
+                                                }}"
+                                            />
+                                        }
+                                    }
                                     <a
-                                        href="{{ module.links.zenodo_doi }}"
+                                        href="{{ module.links.cicd_url }}"
                                         target="_blank"
+                                        class="badge-link"
                                         ><img
                                             alt="Build Status"
-                                            src="{{
-                                                getDOIBadgeUrl(module.doi)
-                                            }}"
+                                            src="{{ module.links.cicd_badge }}"
                                     /></a>
-                                } @else {
-                                    <img
-                                        alt="Build Status"
-                                        src="{{ getDOIBadgeUrl(module.doi) }}"
-                                    />
-                                }
-                            }
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{ 'CATALOG.MODULE-DETAIL.TASKS' | translate }}
-                        </div>
-                        <div class="box-content">
+                    </app-ui-card>
+                </div>
+
+                <!-- Tasks -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.TASKS' | translate }}
+                    </span>
+                    <app-ui-card>
+                        <div class="sidebar-section__content">
                             @for (task of module.tasks; track task) {
-                                <app-chip-with-icon
-                                    text="{{ task }}"
-                                    chipStyle="default"
-                                ></app-chip-with-icon>
+                                <app-ui-chip
+                                    [text]="task"
+                                    variant="secondary-1-solid"
+                                ></app-ui-chip>
                             }
                         </div>
-                    </div>
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{ 'CATALOG.MODULE-DETAIL.LIBRARIES' | translate }}
-                        </div>
-                        <div class="box-content">
+                    </app-ui-card>
+                </div>
+
+                <!-- Libraries -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.LIBRARIES' | translate }}
+                    </span>
+                    <app-ui-card>
+                        <div class="sidebar-section__content">
                             @for (library of module.libraries; track library) {
-                                <app-chip-with-icon
-                                    [image]="
-                                        '../../../assets/images/libraries/' +
-                                        library +
-                                        '_logo.png'
-                                    "
-                                    text="{{ library }}"
-                                    chipStyle="default"
-                                ></app-chip-with-icon>
+                                <app-ui-chip
+                                    [text]="library"
+                                    variant="secondary-2-solid"
+                                ></app-ui-chip>
                             }
                         </div>
-                    </div>
-                    @if (
-                        module['data-type'] && module['data-type'].length > 0
-                    ) {
-                        <div class="box-container">
-                            <div class="box-title">
-                                {{
-                                    'CATALOG.MODULE-DETAIL.DATA-TYPES'
-                                        | translate
-                                }}
-                            </div>
-                            <div class="box-content">
+                    </app-ui-card>
+                </div>
+
+                <!-- Data types -->
+                @if (module['data-type'] && module['data-type'].length > 0) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.DATA-TYPES' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="sidebar-section__content">
                                 @for (type of module['data-type']; track type) {
-                                    <app-chip-with-icon
-                                        text="{{ type }}"
-                                        icon="{{ convertTypeToIcon(type) }}"
-                                        chipStyle="default"
-                                    ></app-chip-with-icon>
+                                    <app-ui-chip
+                                        [text]="type"
+                                        [icon]="convertTypeToIcon(type)"
+                                        variant="secondary-3-solid"
+                                    ></app-ui-chip>
                                 }
                             </div>
-                        </div>
-                    }
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{ 'CATALOG.MODULE-DETAIL.TAGS' | translate }}
-                        </div>
-                        <div class="box-content">
+                        </app-ui-card>
+                    </div>
+                }
+
+                <!-- Tags -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.TAGS' | translate }}
+                    </span>
+                    <app-ui-card>
+                        <div class="sidebar-section__content">
                             @for (tag of module.tags; track tag) {
-                                <app-chip-with-icon
-                                    text="{{ tag }}"
-                                    [image]="'../../../assets/images/module-detail/tag.png'"
-                                    chipStyle="default"
-                                ></app-chip-with-icon>
+                                <app-ui-chip
+                                    [text]="tag"
+                                    icon="sell"
+                                    variant="secondary-4-solid"
+                                ></app-ui-chip>
                             }
                         </div>
-                    </div>
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{ 'CATALOG.MODULE-DETAIL.CATEGORIES' | translate }}
-                        </div>
-                        <div class="box-content">
+                    </app-ui-card>
+                </div>
+
+                <!-- Categories -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.CATEGORIES' | translate }}
+                    </span>
+                    <app-ui-card>
+                        <div class="sidebar-section__content">
                             @for (
                                 category of module.categories;
                                 track category
                             ) {
-                                <app-chip-with-icon
-                                    text="{{ category }}"
-                                    chipStyle="default"
-                                ></app-chip-with-icon>
+                                <app-ui-chip
+                                    [text]="category"
+                                    variant="secondary-5-solid"
+                                ></app-ui-chip>
                             }
                         </div>
-                    </div>
-                    @if (
-                        !isTool &&
-                        !module.links.source_code.includes('deephdc/')
-                    ) {
-                        <!-- TODO: remove this condition when all modules are migrated -->
-                        <div class="box-container">
-                            <div class="box-title">
-                                {{
-                                    'CATALOG.MODULE-DETAIL.PROVENANCE.TITLE'
-                                        | translate
-                                }}
-                            </div>
+                    </app-ui-card>
+                </div>
+
+                <!-- Provenance -->
+                @if (
+                    !isTool && !module.links.source_code.includes('deephdc/')
+                ) {
+                    <!-- TODO: remove this condition when all modules are migrated -->
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.PROVENANCE.TITLE' | translate }}
+                        </span>
+                        <app-ui-card>
                             <div class="grid-resources">
-                                <a
-                                    role="button"
-                                    class="action-button"
-                                    mat-raised-button
-                                    (keydown.enter)="
-                                        openProvenanceIframeDialog()
-                                    "
-                                    (keydown.space)="
-                                        openProvenanceIframeDialog()
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="conversion_path"
+                                    [text]="
+                                        'CATALOG.DETAIL.PROVENANCE.VIEW'
+                                            | translate
                                     "
                                     (click)="openProvenanceIframeDialog()"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <mat-icon>conversion_path</mat-icon>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.PROVENANCE.VIEW'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
+                                ></app-ui-button>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="download"
+                                    [text]="
+                                        'CATALOG.DETAIL.PROVENANCE.DOWNLOAD'
+                                            | translate
+                                    "
                                     [href]="
                                         'https://provenance.cloud.ai4eosc.eu/rdf?applicationId=' +
                                         module.id
                                     "
-                                    target="_blank"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <mat-icon>download</mat-icon>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.PROVENANCE.DOWNLOAD'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
-                                <a
-                                    class="action-button download-metadata-button"
-                                    mat-raised-button
-                                    [matMenuTriggerFor]="downloadMetadataMenu"
-                                >
-                                    {{
-                                        'CATALOG.MODULE-DETAIL.METADATA.DOWNLOAD'
+                                ></app-ui-button>
+                                <app-ui-button
+                                    class="download-metadata-button"
+                                    variant="default-outline"
+                                    icon="expand_more"
+                                    iconPosition="right"
+                                    [text]="
+                                        'CATALOG.DETAIL.METADATA.DOWNLOAD'
                                             | translate
-                                    }}
-                                    <mat-icon class="arrow-button">
-                                        keyboard_arrow_down
-                                    </mat-icon>
-                                </a>
+                                    "
+                                    [matMenuTriggerFor]="downloadMetadataMenu"
+                                ></app-ui-button>
                                 <mat-menu
                                     #downloadMetadataMenu="matMenu"
                                     xPosition="before"
+                                    class="ui-dropdown-panel"
+                                    hasBackdrop="true"
                                 >
                                     <button
                                         mat-menu-item
@@ -646,20 +616,13 @@
                                             downloadMetadata('application/json')
                                         "
                                     >
-                                        <span class="button-with-icon">
-                                            <mat-icon class="arrow-button">
-                                                download
-                                            </mat-icon>
-                                            <div class="button-texts">
-                                                <span>
-                                                    {{
-                                                        'CATALOG.MODULE-DETAIL.METADATA.JSON'
-                                                            | translate
-                                                    }}</span
-                                                >
-                                            </div>
-                                        </span>
+                                        <mat-icon>download</mat-icon>
+                                        {{
+                                            'CATALOG.DETAIL.METADATA.JSON'
+                                                | translate
+                                        }}
                                     </button>
+
                                     <button
                                         mat-menu-item
                                         (click)="
@@ -668,218 +631,173 @@
                                             )
                                         "
                                     >
-                                        <span class="button-with-icon">
-                                            <mat-icon class="arrow-button">
-                                                download
-                                            </mat-icon>
-                                            <div class="button-texts">
-                                                <span>
-                                                    {{
-                                                        'CATALOG.MODULE-DETAIL.METADATA.JSON-LD'
-                                                            | translate
-                                                    }}</span
-                                                >
-                                            </div>
-                                        </span>
+                                        <mat-icon>download</mat-icon>
+                                        {{
+                                            'CATALOG.DETAIL.METADATA.JSON-LD'
+                                                | translate
+                                        }}
                                     </button>
+
                                     <button
                                         mat-menu-item
                                         (click)="
                                             downloadMetadata('text/turtle')
                                         "
                                     >
-                                        <span class="button-with-icon">
-                                            <mat-icon class="arrow-button">
-                                                download
-                                            </mat-icon>
-                                            <div class="button-texts">
-                                                <span>
-                                                    {{
-                                                        'CATALOG.MODULE-DETAIL.METADATA.TURTLE'
-                                                            | translate
-                                                    }}</span
-                                                >
-                                            </div>
-                                        </span>
+                                        <mat-icon>download</mat-icon>
+                                        {{
+                                            'CATALOG.DETAIL.METADATA.TURTLE'
+                                                | translate
+                                        }}
                                     </button>
                                 </mat-menu>
                             </div>
-                        </div>
-                    }
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{
-                                'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.TITLE'
-                                    | translate
-                            }}
-                        </div>
+                        </app-ui-card>
+                    </div>
+                }
+
+                <!-- Additional resources -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{
+                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.TITLE'
+                                | translate
+                        }}
+                    </span>
+                    <app-ui-card>
                         <div class="grid-resources">
-                            <a
-                                class="action-button"
-                                mat-raised-button
-                                href="{{ module.links.source_code }}"
-                                target="_blank"
-                            >
-                                <span class="aligned-with-icon">
-                                    <img
-                                        src="../../../../../assets/images/module-detail/github-icon.png"
-                                    />
-                                    {{ 'GENERAL-BUTTONS.GITHUB' | translate }}
-                                </span>
-                            </a>
-                            <a
-                                class="action-button"
-                                mat-raised-button
-                                href="{{ module.links.source_code }}/issues"
-                                target="_blank"
-                            >
-                                <span class="aligned-with-icon">
-                                    <img
-                                        src="../../../../../assets/images/module-detail/github-icon.png"
-                                    />
-                                    {{
-                                        'GENERAL-BUTTONS.REPORT-ISSUE'
-                                            | translate
-                                    }}
-                                </span>
-                            </a>
+                            <app-ui-button
+                                variant="default-outline"
+                                image="../../../../../assets/images/module-detail/github.svg"
+                                [text]="'GENERAL-BUTTONS.GITHUB' | translate"
+                                [href]="module.links.source_code"
+                            ></app-ui-button>
+
+                            <app-ui-button
+                                variant="default-outline"
+                                icon="bug_report"
+                                [text]="
+                                    'GENERAL-BUTTONS.REPORT-ISSUE' | translate
+                                "
+                                [href]="module.links.source_code + '/issues'"
+                            ></app-ui-button>
+
                             @if (module.links.dataset) {
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
-                                    href="{{ module.links.dataset }}"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <img
-                                            src="../../../../../assets/images/module-detail/database.png"
-                                        />
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.DATASET'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="database"
+                                    [text]="
+                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.DATASET'
+                                            | translate
+                                    "
+                                    [href]="module.links.dataset"
+                                ></app-ui-button>
                             }
                             @if (module.links.docker_image) {
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
-                                    href="https://hub.docker.com/r/{{
+                                <app-ui-button
+                                    variant="default-outline"
+                                    image="../../../../../assets/images/module-detail/dockerhub.svg"
+                                    [text]="
+                                        'GENERAL-BUTTONS.DOCKERHUB' | translate
+                                    "
+                                    [href]="
+                                        'https://hub.docker.com/r/' +
                                         module.links.docker_image
-                                    }}"
-                                    target="_blank"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <img
-                                            src="../../../../../assets/images/module-detail/dockerhub.png"
-                                        />
-                                        {{
-                                            'GENERAL-BUTTONS.DOCKERHUB'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
+                                    "
+                                ></app-ui-button>
                             }
                             @if (module.links.documentation) {
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
-                                    href="{{ module.links.documentation }}"
-                                    target="_blank"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <mat-icon> description </mat-icon>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.DOCUMENTATION'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="description"
+                                    [text]="
+                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.DOCUMENTATION'
+                                            | translate
+                                    "
+                                    [href]="module.links.documentation"
+                                ></app-ui-button>
                             }
                             @if (module.links.weights) {
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
-                                    href="{{ module.links.weights }}"
-                                    target="_blank"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <mat-icon> weight </mat-icon>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.WEIGHTS'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="weight"
+                                    [text]="
+                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.WEIGHTS'
+                                            | translate
+                                    "
+                                    [href]="module.links.weights"
+                                ></app-ui-button>
                             }
                             @if (module.links.citation) {
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
-                                    href="{{ module.links.citation }}"
-                                    target="_blank"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <mat-icon>format_quote</mat-icon>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.CITATION'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="format_quote"
+                                    [text]="
+                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.CITATION'
+                                            | translate
+                                    "
+                                    [href]="module.links.citation"
+                                ></app-ui-button>
                             }
                             @if (module.links.base_model) {
-                                <a
-                                    class="action-button"
-                                    mat-raised-button
-                                    href="{{ module.links.base_model }}"
-                                    target="_blank"
-                                >
-                                    <span class="aligned-with-icon">
-                                        <mat-icon>model_training</mat-icon>
-                                        {{
-                                            'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.BASE-MODEL'
-                                                | translate
-                                        }}
-                                    </span>
-                                </a>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="model_training"
+                                    [text]="
+                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.BASE-MODEL'
+                                            | translate
+                                    "
+                                    [href]="module.links.base_model"
+                                ></app-ui-button>
                             }
                         </div>
-                    </div>
-                    @if (
-                        module.dates &&
-                        (module.dates.created || module.dates.updated)
-                    ) {
-                        <div class="box-container">
-                            <div class="box-title">
-                                {{ 'CATALOG.MODULE-DETAIL.DATES' | translate }}
-                            </div>
-                            <div class="flex-container">
+                    </app-ui-card>
+                </div>
+
+                <!-- Dates -->
+                @if (
+                    module.dates &&
+                    (module.dates.created || module.dates.updated)
+                ) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.DATES' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="dates-content">
                                 @if (module.dates.created) {
-                                    <app-chip-with-icon
-                                        icon="calendar_month"
-                                        text="{{ module.dates.created }}"
-                                        tooltip=" {{
-                                            'CATALOG.MODULE-DETAIL.CREATED'
-                                                | translate
-                                        }}"
-                                    ></app-chip-with-icon>
+                                    <div class="date-row">
+                                        <mat-icon>calendar_month</mat-icon>
+                                        <span class="date-row__label">
+                                            {{
+                                                'CATALOG.DETAIL.CREATED'
+                                                    | translate
+                                            }}
+                                        </span>
+                                        <span class="date-row__value">
+                                            {{ module.dates.created }}
+                                        </span>
+                                    </div>
                                 }
                                 @if (module.dates.updated) {
-                                    <app-chip-with-icon
-                                        icon="update"
-                                        text="{{ module.dates.updated }}"
-                                        tooltip=" {{
-                                            'CATALOG.MODULE-DETAIL.UPDATED'
-                                                | translate
-                                        }}"
-                                    ></app-chip-with-icon>
+                                    <div class="date-row">
+                                        <mat-icon>update</mat-icon>
+                                        <span class="date-row__label">
+                                            {{
+                                                'CATALOG.DETAIL.UPDATED'
+                                                    | translate
+                                            }}
+                                        </span>
+                                        <span class="date-row__value">
+                                            {{ module.dates.updated }}
+                                        </span>
+                                    </div>
                                 }
                             </div>
-                        </div>
-                    }
-                </div>
+                        </app-ui-card>
+                    </div>
+                }
             </div>
-        }
-    </mat-card-content>
-</mat-card>
+        </div>
+    </app-ui-card>
+}

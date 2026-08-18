@@ -1,6 +1,7 @@
 <button
     [class]="'ui-btn ui-btn--' + variant"
     [class.ui-btn--icon-only]="icon && !text"
+    [class.ui-btn--icon-right]="iconPosition === 'right'"
     [disabled]="disabled"
     [matTooltip]="tooltip ?? ''"
     [matTooltipDisabled]="!tooltip"
@@ -9,6 +10,9 @@
 >
     @if (icon) {
         <mat-icon>{{ icon }}</mat-icon>
+    }
+    @if (image) {
+        <img [src]="image" />
     }
     @if (text) {
         <span>{{ text | translate }}</span>

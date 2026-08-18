@@ -44,6 +44,17 @@ $grid-breakpoints: (
     --color-warning-light: #fef3c7;
     --color-warning-dark: #92400e;
 
+    --color-secondary-1: #d1a930;
+    --color-secondary-1-light: #fff9e8;
+    --color-secondary-2: #7b61a8;
+    --color-secondary-2-light: #f1ecf7;
+    --color-secondary-3: #3f7cac;
+    --color-secondary-3-light: #ecf3f8;
+    --color-secondary-4: #52a675;
+    --color-secondary-4-light: #ecf6f0;
+    --color-secondary-5: #e58f65;
+    --color-secondary-5-light: #fdf0ea;
+
     /* ── Components: colours — escala completa (11 pasos, estilo Tailwind/oklch) ──
        Cada tema define $color-primary-scale / $color-accent-scale con las claves
        50/100/200/300/400/500/600/700/800/900/950. El paso que coincide con el
