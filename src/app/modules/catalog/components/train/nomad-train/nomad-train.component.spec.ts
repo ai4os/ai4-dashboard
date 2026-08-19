@@ -147,10 +147,10 @@ describe('NomadTrainComponent', () => {
     });
 
     it('should toggle help state when showHelpButtonChange is triggered', () => {
-        component.showHelpButtonChange({ checked: true } as any);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
 
-        component.showHelpButtonChange({ checked: false } as any);
+        component.showHelpButtonChange(false);
         expect(component.showHelp).toBe(false);
     });
 });

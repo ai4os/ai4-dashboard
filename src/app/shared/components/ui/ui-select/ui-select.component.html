@@ -3,7 +3,7 @@
     [class.ui-text-field--invalid]="isInvalid"
     [class.ui-text-field--disabled]="disabled()"
 >
-    @if (label) {
+    @if (showLabel) {
         <span class="ui-text-field__label" [id]="labelId">{{
             label | translate
         }}</span>
@@ -11,6 +11,8 @@
 
     <div
         class="ui-text-field__wrapper ui-select__trigger"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
         tabindex="0"
         role="combobox"
         aria-haspopup="listbox"
@@ -21,6 +23,15 @@
         (click)="toggle()"
         (keydown)="onTriggerKeydown($event)"
     >
+        @if (prefixIcon) {
+            <mat-icon
+                class="ui-text-field__prefix"
+                [matTooltip]="label | translate"
+                matTooltipClass="ui-tooltip"
+                >{{ prefixIcon }}</mat-icon
+            >
+        }
+
         <span
             class="ui-text-field__input ui-select__value"
             [class.ui-select__value--placeholder]="!selectedOption()"
@@ -42,7 +53,17 @@
         </mat-icon>
     </div>
 
-    @if (isOpen()) {
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        (overlayOutsideClick)="close()"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        [cdkConnectedOverlayWidth]="
+            trigger.elementRef.nativeElement.offsetWidth
+        "
+    >
         <ul
             class="ui-select-panel"
             role="listbox"
@@ -81,7 +102,7 @@
                 </li>
             }
         </ul>
-    }
+    </ng-template>
 
     @if (hint && !isInvalid) {
         <span class="ui-text-field__hint">{{ hint | translate }}</span>

@@ -1,16 +1,38 @@
-<button
-    [class]="'ui-btn ui-btn--' + variant"
-    [class.ui-btn--icon-only]="icon && !text"
-    [disabled]="disabled"
-    [matTooltip]="tooltip ?? ''"
-    [matTooltipDisabled]="!tooltip"
-    matTooltipClass="ui-tooltip"
-    (click)="onClick()"
->
-    @if (icon) {
-        <mat-icon>{{ icon }}</mat-icon>
-    }
-    @if (text) {
-        <span>{{ text | translate }}</span>
-    }
-</button>
+@if (href) {
+    <a
+        [class]="'ui-btn ui-btn--' + variant"
+        [class.ui-btn--icon-only]="icon && !text"
+        [href]="href"
+        target="_blank"
+        rel="noopener noreferrer"
+        [matTooltip]="tooltip ?? ''"
+        [matTooltipDisabled]="!tooltip"
+        matTooltipClass="ui-tooltip"
+        (click)="onLinkClick($event)"
+    >
+        @if (icon) {
+            <mat-icon>{{ icon }}</mat-icon>
+        }
+        @if (text) {
+            <span>{{ text | translate }}</span>
+        }
+    </a>
+} @else {
+    <button
+        type="button"
+        [class]="'ui-btn ui-btn--' + variant"
+        [class.ui-btn--icon-only]="icon && !text"
+        [disabled]="disabled"
+        [matTooltip]="tooltip ?? ''"
+        [matTooltipDisabled]="!tooltip"
+        matTooltipClass="ui-tooltip"
+        (click)="onClick()"
+    >
+        @if (icon) {
+            <mat-icon>{{ icon }}</mat-icon>
+        }
+        @if (text) {
+            <span>{{ text | translate }}</span>
+        }
+    </button>
+}

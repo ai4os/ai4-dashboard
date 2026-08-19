@@ -82,7 +82,6 @@ export class BatchTrainComponent implements OnInit {
         infoButton: false,
         cvatFields: false,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: true,
     };
 
@@ -171,7 +170,7 @@ export class BatchTrainComponent implements OnInit {
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
     }
 }

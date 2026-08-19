@@ -76,7 +76,6 @@ export class Ai4lifeLoaderComponent implements OnInit {
         infoButton: true,
         cvatFields: false,
         ai4lifeFields: true,
-        llmFields: false,
         batchFields: false,
     };
 
@@ -119,7 +118,7 @@ export class Ai4lifeLoaderComponent implements OnInit {
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
     }
 }

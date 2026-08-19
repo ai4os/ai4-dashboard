@@ -3,25 +3,22 @@ import {
     Input,
     OnInit,
     ChangeDetectionStrategy,
+    DestroyRef,
     inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { VllmModelConfig } from '@app/shared/interfaces/module.interface';
 import { MatTooltip } from '@angular/material/tooltip';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardSubtitle,
-    MatCardFooter,
-} from '@angular/material/card';
-import { MatDivider } from '@angular/material/list';
 import { MarkdownComponent } from 'ngx-markdown';
-import { MatChipSet } from '@angular/material/chips';
-import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import {
+    SelfLllmSummary,
+    PlatformLlmSummary,
+} from '@app/shared/interfaces/llms.interface';
 
 @Component({
     selector: 'app-llm-card',
@@ -30,49 +27,73 @@ import { TranslatePipe } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MatTooltip,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        MatDivider,
-        MatCardSubtitle,
         MarkdownComponent,
-        MatCardFooter,
-        MatChipSet,
-        ChipWithIconComponent,
+        UiCardComponent,
+        UiChipComponent,
         TranslatePipe,
+        UiButtonComponent,
     ],
 })
 export class LlmCardComponent implements OnInit {
-    protected authService = inject(AuthService);
+    private authService = inject(AuthService);
     private router = inject(Router);
+    private destroyRef = inject(DestroyRef);
 
-    @Input() llm!: VllmModelConfig;
+    @Input({ required: true }) type!: string;
+    @Input({ required: true }) llm!: SelfLllmSummary | PlatformLlmSummary;
 
     isAuthorized = false;
-    image = '';
+
+    get logoSrc(): string {
+        const familyName = this.llm.family.toLowerCase();
+        // TODO: review images when metadata is ready
+        return `../../../assets/images/llm-families/${familyName}.svg`;
+    }
+
+    get isHealthy(): boolean {
+        return 'status' in this.llm ? this.llm.status === 'healthy' : true;
+    }
+
+    get isDisabled(): boolean {
+        return !this.isAuthorized || !this.isHealthy;
+    }
+
+    get tooltipText(): string {
+        if (!this.isAuthorized) {
+            return 'CATALOG.COMMON.UNAUTHORIZED';
+        }
+        if (!this.isHealthy) {
+            return 'CATALOG.LLMS.MODEL-UNAVAILABLE';
+        }
+        return '';
+    }
 
     ngOnInit(): void {
-        this.image = this.llm.family;
-
-        this.authService.userProfile$.subscribe((profile) => {
-            if (profile) {
-                this.isAuthorized =
-                    this.authService.isAuthenticated() && profile.isAuthorized;
-            }
-        });
+        this.authService.userProfile$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((profile) => {
+                if (profile) {
+                    this.isAuthorized =
+                        this.authService.isAuthenticated() &&
+                        profile.isAuthorized;
+                }
+            });
     }
 
-    loadLLM() {
-        this.router.navigate(['catalog/llms/ai4os-llm/deploy'], {
-            state: { llmId: this.llm.family + '/' + this.llm.name },
-        });
-    }
+    loadLLM(): void {
+        if (this.isDisabled) {
+            return;
+        }
 
-    openLink(e: MouseEvent) {
-        e.stopPropagation();
-        const url =
-            'https://huggingface.co/' + this.llm.family + '/' + this.llm.name;
-        window.open(url);
+        // platform-wide
+        if (this.type === 'platform-wide') {
+            const url = `https://genai.cloud.ai4eosc.eu/chat?model=${encodeURIComponent(this.llm.id)}`;
+            window.open(url);
+        } else {
+            // self-deployed
+            this.router.navigate(['catalog/llms/ai4os-llm/deploy'], {
+                state: { llmId: `${this.llm.id}` },
+            });
+        }
     }
 }

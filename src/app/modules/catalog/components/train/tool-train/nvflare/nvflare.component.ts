@@ -75,7 +75,6 @@ export class NvflareComponent implements OnInit {
         co2EmissionsInput: false,
         cvatFields: false,
         ai4lifeFields: false,
-        llmFields: false,
         batchFields: false,
     };
 
@@ -115,7 +114,7 @@ export class NvflareComponent implements OnInit {
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
     }
 }

@@ -3,13 +3,11 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef,
     EventEmitter,
     Input,
     OnInit,
     Output,
     TemplateRef,
-    ViewChild,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
@@ -19,10 +17,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import {
-    MatSlideToggleChange,
-    MatSlideToggle,
-} from '@angular/material/slide-toggle';
+import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle.component';
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
@@ -31,12 +26,10 @@ import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable } from 'rxjs';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatChip, MatChipAvatar } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import {
     MatStepper,
     MatStep,
@@ -46,6 +39,8 @@ import {
 } from '@angular/material/stepper';
 import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 
 @Component({
     selector: 'app-stepper-form',
@@ -53,7 +48,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrls: ['./stepper-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
         FormsModule,
         ReactiveFormsModule,
         MatChip,
@@ -61,8 +55,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         MatChipAvatar,
         NgClass,
         BreadcrumbComponent,
-        MatSlideToggle,
-        MatProgressSpinner,
+        UiToggleComponent,
         MatStepper,
         MatStep,
         MatStepLabel,
@@ -71,6 +64,8 @@ import { TranslatePipe } from '@ngx-translate/core';
         MatStepperNext,
         MatStepperPrevious,
         TranslatePipe,
+        UiLoaderComponent,
+        UiBannerComponent,
     ],
 })
 export class StepperFormComponent implements OnInit {
@@ -116,11 +111,16 @@ export class StepperFormComponent implements OnInit {
     @Input() warningMessage?: string = '';
     @Input() platform?: string = 'nomad';
     @Input() isLoading!: boolean;
+    /**
+     * Non-destructive loading overlay: covers the already-rendered stepper
+     * without unmounting it (unlike isLoading). Use this for transient
+     * loads triggered by a child form once the stepper is already mounted
+     * (e.g. a sub-form fetching a token) — isLoading would tear the child
+     * down mid-request and it could never signal completion.
+     */
+    @Input() fieldsLoading = false;
 
-    @Output() showHelpButtonEvent = new EventEmitter<MatSlideToggleChange>();
-
-    @ViewChild('showHelpToggle', { read: ElementRef }) element:
-        ElementRef | undefined;
+    @Output() showHelpButtonEvent = new EventEmitter<boolean>();
 
     showHelpForm: FormGroup = this._formBuilder.group({
         showHelpToggleButton: false,
@@ -137,8 +137,8 @@ export class StepperFormComponent implements OnInit {
         return false;
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelpButtonEvent.emit(event);
+    showHelpButtonChange(checked: boolean) {
+        this.showHelpButtonEvent.emit(checked);
     }
 
     submitTrainingRequest() {
@@ -201,19 +201,16 @@ export class StepperFormComponent implements OnInit {
             request = this.deploymentsService.trainTool('ai4os-cvat', data);
         } else if (this.title == 'Deploy your LLM') {
             data.llm = {
-                type: this.step1Form.value.generalConfForm.deploymentTypeSelect,
-                vllm_model_id:
-                    this.step1Form.value.generalConfForm.vllmModelSelect,
-                ui_username:
-                    this.step1Form.value.generalConfForm.uiUsernameInput,
-                ui_password:
-                    this.step1Form.value.generalConfForm.uiPasswordInput,
+                type: this.step1Form.value.llmConfForm.deploymentTypeSelect,
+                vllm_model_id: this.step1Form.value.llmConfForm.vllmModelSelect,
+                ui_username: this.step1Form.value.llmConfForm.uiUsernameInput,
+                ui_password: this.step1Form.value.llmConfForm.uiPasswordInput,
                 HF_token:
-                    this.step1Form.value.generalConfForm.huggingFaceTokenInput,
+                    this.step1Form.value.llmConfForm.huggingFaceTokenInput,
                 openai_api_key:
-                    this.step1Form.value.generalConfForm.openaiApiKeyInput,
+                    this.step1Form.value.llmConfForm.openaiApiKeyInput,
                 openai_api_url:
-                    this.step1Form.value.generalConfForm.openaiApiUrlInput,
+                    this.step1Form.value.llmConfForm.openaiApiUrlInput,
             };
             request = this.deploymentsService.trainTool('ai4os-llm', data);
         } else {

@@ -8,4 +8,5 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 })
 export class UiCardComponent {
     @Input() accentColor?: string;
+    @Input() disabled? = false;
 }

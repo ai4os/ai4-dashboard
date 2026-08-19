@@ -22,10 +22,23 @@
             (blur)="onBlur()"
         />
 
+        @if (clearable && internalValue() && !disabled()) {
+            <mat-icon
+                class="ui-text-field__suffix"
+                [matTooltip]="'GENERAL.CLEAR' | translate"
+                matTooltipClass="ui-tooltip"
+                (click)="clear()"
+            >
+                close
+            </mat-icon>
+        }
+
         @if (maskable) {
             <mat-icon
                 class="ui-text-field__suffix"
                 (click)="toggleVisibility()"
+                (keydown.enter)="toggleVisibility()"
+                (keydown.space)="toggleVisibility()"
             >
                 {{ hidden() ? 'visibility_off' : 'visibility' }}
             </mat-icon>

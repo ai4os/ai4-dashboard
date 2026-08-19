@@ -19,6 +19,7 @@ import { nvflareDefaultFormValues } from '@app/modules/catalog/components/train/
 
 export const mockedVllmsConfig: VllmModelConfig[] = [
     {
+        id: 'meta-llama/Llama-3.2-3B-Instruct',
         name: 'Llama-3.2-3B-Instruct',
         description: 'A mock LLM model',
         family: 'meta-llama',
@@ -28,6 +29,7 @@ export const mockedVllmsConfig: VllmModelConfig[] = [
         args: [],
     },
     {
+        id: 'Qwen/Qwen2.5-7B-Instruct-AWQ',
         name: 'Qwen2.5-7B-Instruct-AWQ',
         description: 'Another mock LLM model',
         family: 'Qwen',
@@ -40,14 +42,16 @@ export const mockedVllmsConfig: VllmModelConfig[] = [
 
 export const mockedYamlVllmsConfig = `
 models:
-  Llama-3.2-3B-Instruct:
+  meta-llama/Llama-3.2-3B-Instruct:
+    name: Llama-3.2-3B-Instruct
     description: A mock LLM model
     family: meta-llama
     needs_HF_token: true
     license: ''
     context: ''
     args: []
-  Qwen2.5-7B-Instruct-AWQ:
+  Qwen/Qwen2.5-7B-Instruct-AWQ:
+    name: Qwen2.5-7B-Instruct-AWQ
     description: Another mock LLM model
     family: Qwen
     needs_HF_token: false

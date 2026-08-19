@@ -1,82 +1,103 @@
-@use '@angular/material' as mat;
-.basic-card {
-    border-radius: 25px;
+:host {
+    display: flex;
     min-height: 225px;
-    width: 100%;
-    height: 100%;
-
-    &:hover {
-        @include mat.elevation(12);
-        cursor: pointer;
-    }
-
-    & .mat-mdc-card-title {
-        font-size: 1.1rem;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-
-        & img {
-            overflow: visible;
-            width: 20px;
-            top: 5px;
-            left: -4px;
-        }
-    }
-
-    & .mat-mdc-card-content {
-        font-size: 1rem;
-    }
-
-    border: 1px solid var(--border-gray);
+    transition: transform 0.15s ease;
 }
 
-.basic-card-header .mat-icon {
-    overflow: visible;
-    transform: scale(0.8);
-    position: relative;
-    top: 5px;
-    left: -4px;
+:host:not(:has(.ui-card--disabled)):hover {
+    transform: translateY(-2px);
 }
 
-.basic-card-content {
-    color: var(--dark-grey);
+:host:has(.ui-card--disabled):hover {
+    cursor: not-allowed !important;
 }
 
-.basic-card-footer {
+::ng-deep .ui-card {
+    cursor: pointer;
+
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    height: 100%;
-    padding: 16px;
-    transform: scale(0.9);
+    flex-direction: column;
+    gap: var(--space-md);
+    height: -webkit-fill-available;
 
-    ::ng-deep .mdc-evolution-chip-set__chips {
-        justify-content: space-evenly;
-        gap: 0.5em;
-    }
+    background:
+        radial-gradient(
+            ellipse 60% 80% at 8% 15%,
+            rgba(255, 255, 255, 0.03) 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse 55% 70% at 92% 90%,
+            rgba(var(--color-hero-shadow-rgb), 0.08) 0%,
+            transparent 58%
+        ),
+        linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)),
+        var(--gradient-primary);
 }
 
-.chip-set {
-    display: block;
-}
-
-.disabled-card {
-    pointer-events: none;
-    opacity: 0.7;
-}
-
-.default-cursor {
-    cursor: default !important;
-}
-
-mat-card-subtitle {
+.llm-card__header {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.5em;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+
+.llm-card__title {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin: 0;
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
     overflow-wrap: break-word;
     word-break: break-word;
+}
+
+.llm-card__logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    background-color: var(--color-surface-card);
+    padding: 4px;
+    border-radius: var(--radius-xs);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.llm-card__body {
+    flex: 1;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-base);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.llm-card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+
+    ::ng-deep app-ui-chip {
+        cursor: default;
+        text-transform: capitalize;
+
+        &.status-healthy {
+            color: var(--success-green);
+
+            mat-icon {
+                color: var(--success-green);
+            }
+        }
+
+        &.status-unhealthy {
+            color: var(--neon-red);
+
+            mat-icon {
+                color: var(--neon-red);
+            }
+        }
+    }
 }

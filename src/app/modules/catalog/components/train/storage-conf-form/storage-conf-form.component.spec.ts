@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-    StorageConfFormComponent,
-    urlValidator,
-} from './storage-conf-form.component';
+import { StorageConfFormComponent } from './storage-conf-form.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { FormBuilder, FormControl, FormGroupDirective } from '@angular/forms';
 
@@ -14,6 +11,7 @@ import { of } from 'rxjs';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
 import { testProviders } from '@testing/test-providers';
+import { urlValidator } from '@app/shared/utils/validators';
 
 describe('StorageConfFormComponent', () => {
     let component: StorageConfFormComponent;

@@ -1,4 +1,8 @@
-<div class="ui-card" [style.--card-accent]="accentColor">
+<div
+    [class]="'ui-card'"
+    [style.--card-accent]="accentColor"
+    [class.ui-card--disabled]="disabled"
+>
     @if (accentColor) {
         <div class="ui-card__accent"></div>
     }

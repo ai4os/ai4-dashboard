@@ -11,11 +11,11 @@ $grid-breakpoints: (
 }
 
 :root {
-    /* ── Components: colours ── */
+    /* ── Components: colours (compat layer — mismo nombre de siempre) ── */
     --color-primary: #{$color-primary};
     --color-primary-light: #{$color-primary-light};
     --color-primary-dark: #{$color-primary-dark};
-    --color-primary-rgb: #{$color-accent-rgb};
+    --color-primary-rgb: #{$color-primary-rgb};
 
     --color-accent: #{$color-accent};
     --color-accent-light: #{$color-accent-light};
@@ -43,6 +43,21 @@ $grid-breakpoints: (
     --color-warning: #f88d13;
     --color-warning-light: #fef3c7;
     --color-warning-dark: #92400e;
+
+    /* ── Components: colours — escala completa (11 pasos, estilo Tailwind/oklch) ──
+       Cada tema define $color-primary-scale / $color-accent-scale con las claves
+       50/100/200/300/400/500/600/700/800/900/950. El paso que coincide con el
+       color de marca "puro" varía por tema (ver comentario en cada variables.scss). */
+    @each $step, $value in $color-primary-scale {
+        --color-primary-#{$step}: #{$value};
+    }
+    @each $step, $value in $color-accent-scale {
+        --color-accent-#{$step}: #{$value};
+    }
+
+    /* ── Typography: font families ── */
+    --font-family-heading: #{$font-family-heading};
+    --font-family-body: #{$font-family-body};
 
     /* ── Typography: sizes ── */
     --font-size-xs: 13px;
@@ -77,6 +92,7 @@ $grid-breakpoints: (
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
+    --radius-xl: 32px;
     --radius-pill: 999px;
 
     /* ── Text: colours ── */
@@ -89,16 +105,65 @@ $grid-breakpoints: (
     --color-border-subtle: rgba(0, 0, 0, 0.08);
     --color-border-default: rgba(0, 0, 0, 0.12);
 
-    /* ── Shadows ── */
+    /* ── Shadows: neutras (compat) ── */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
 
-    /* ── Gradients ── */
+    /* ── Shadows: nuevas, estilo "soft elevation" ── */
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-2:
+        0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.08),
+        0 20px 48px rgba(0, 0, 0, 0.06);
+    --shadow-3:
+        0 4px 8px rgba(0, 0, 0, 0.05), 0 16px 40px rgba(0, 0, 0, 0.1),
+        0 40px 80px rgba(0, 0, 0, 0.07);
+
+    /* ── Shadows: coloreadas con el color de marca ── */
+    --shadow-primary: 0 8px 24px rgba(var(--color-primary-rgb), 0.25);
+    --shadow-accent: 0 8px 24px rgba(var(--color-accent-rgb), 0.25);
+    --glow-primary-sm: 0 0 20px rgba(var(--color-primary-rgb), 0.3);
+    --glow-primary-md:
+        0 0 40px rgba(var(--color-primary-rgb), 0.35),
+        0 0 80px rgba(var(--color-primary-rgb), 0.15);
+
+    /* ── Surfaces de página (estilo "landing") ── */
+    --page-bg: #f0f0ed;
+    --card-bg: var(--color-surface-card);
+    --card-border: var(--color-border-subtle);
+
+    /* ── Gradientes ── */
     --gradient-brand: linear-gradient(
         135deg,
         var(--color-primary-dark) 0%,
         var(--color-accent-dark) 55%,
         var(--color-accent) 100%
     );
+    --gradient-primary: linear-gradient(
+        140deg,
+        var(--color-primary-900) 0%,
+        var(--color-primary-700) 45%,
+        var(--color-primary-600) 100%
+    );
+    --gradient-accent: linear-gradient(
+        140deg,
+        var(--color-accent-900) 0%,
+        var(--color-accent-700) 45%,
+        var(--color-accent-600) 100%
+    );
+    --gradient-primary-soft: linear-gradient(
+        135deg,
+        rgba(var(--color-primary-rgb), 0.1),
+        rgba(var(--color-primary-rgb), 0.04)
+    );
+    --gradient-accent-soft: linear-gradient(
+        135deg,
+        rgba(var(--color-accent-rgb), 0.1),
+        rgba(var(--color-accent-rgb), 0.04)
+    );
+
+    /* ── Transiciones ── */
+    --transition-fast: 0.25s ease;
+    --transition-base: 0.4s ease;
+    --transition-slow: 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -86,13 +86,10 @@ describe('CvatComponent', () => {
     });
 
     it('should toggle showHelp when help toggle is clicked', () => {
-        const toggleEvent = { checked: true } as MatSlideToggleChange;
-        component.showHelpButtonChange(toggleEvent);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
 
-        component.showHelpButtonChange({
-            checked: false,
-        } as MatSlideToggleChange);
+        component.showHelpButtonChange(false);
         expect(component.showHelp).toBe(false);
     });
 });

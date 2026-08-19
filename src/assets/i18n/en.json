@@ -36,11 +36,14 @@
         "COPIED-TO-CLIPBOARD": "Copied to clipboard!",
         "OPEN-DOCS": "Open documentation",
         "NO-DATA": "No data available",
+        "NO-OPTIONS": "No options available",
+        "SHOW-HELP": "Show help",
         "CONFIRM-ACTION": "Confirm action",
         "YES": "Yes",
         "NO": "No",
         "REVOKE": "Revoke",
         "CANCEL": "Cancel",
+        "CLEAR": "Clear",
         "FORMS": {
             "REQUIRED": "This field is required"
         }
@@ -150,7 +153,61 @@
             "DISCONNECTED": "Disconnected"
         }
     },
+    "CATALOG": {
+        "COMMON": {
+            "NUM-RESULTS": "result(s) found",
+            "NO-RESULTS": "No results found",
+            "SEARCH-PLACEHOLDER": "Enter text to search",
+            "LOAD-ERROR": "Error loading the catalog. Please reload the page and try again.",
+            "UNAUTHORIZED": "You must login and be a member of project to use this"
+        },
+        "DETAIL": {
+            "CONTEXT": "Context",
+            "LICENSE": "License",
+            "STATUS": "Status",
+            "LINK": "Link to model"
+        },
+        "LLMS": {
+            "TITLE": "LLMs",
+            "FILTER-FAMILY": "Filter by family",
+            "ALL": "All",
+            "PLATFORM-WIDE-TAB": "Platform wide",
+            "SELF-DEPLOYED-TAB": "Self-deployed",
+            "MODEL-UNAVAILABLE": "This model is currently unavailable"
 
+        },
+        "CONF-FORMS": {
+            "TRAIN-TITLE": "Configure training",
+            "GENERAL": {
+                "TITLE" : "General configuration",
+                "SUBTITLE": "Deployment options",
+                "DEPLOYMENT-TITLE": "Deployment title",
+                "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
+                "DEPLOYMENT-DESCRIPTION": "Deployment description",
+                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments"
+            },
+            "LLMS": {
+                "SUBTITLE": "LLM options",
+                "TYPE": "Type",
+                "TYPE-REQUIRED": "Please select the type of deployment",
+                "VLLM-MODEL": "VLLM model",
+                "VLLM-MODEL-REQUIRED": "Please select a VLLM model",
+                "USERNAME": "UI Username",
+                "USERNAME-REQUIRED": "Please add a username for the UI",
+                "USERNAME-INVALID": "Invalid email format",
+                "PASSWORD": "UI Password",
+                "PASSWORD-REQUIRED": "Please add a password for the UI",
+                "HUGGING-FACE-TOKEN": "Hugging Face token",
+                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
+                "HUGGING-FACE-TOKEN-TERMS": "You have to accept the terms to be able to use the model",
+                "API-KEY": "OpenAI API Key",
+                "API-KEY-REQUIRED": "Please add the OpenAI API Key",
+                "API-URL": "OpenAI API base URL",
+                "API-URL-REQUIRED": "Please add the OpenAI API base URL",
+                "API-URL-FORMAT": "Invalid URL format"
+            }
+        }
+    },
 
     "DASHBOARD": {
         "TITLE": "Dashboard",
@@ -327,10 +384,9 @@
             }
         }
     },
-    "CATALOG": {
+    "CATALOG-OLD": {
         "MODULES-TITLE": "Modules",
         "TOOLS-TITLE": "Tools",
-        "LLMS-TITLE": "LLMs",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
         "MODULE": "AI4 Module",
@@ -366,8 +422,6 @@
             "ABOUT": "About",
             "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
-            "CONTEXT": "Tokens",
-            "LINK": "Link to model",
             "UNAUTHORIZED": "You must login and be a member of project to use this",
             "PROVENANCE": {
                 "TITLE": "Provenance",
@@ -421,7 +475,6 @@
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
         },
         "MODULE-TRAIN": {
-            "TITLE": "Configure training",
             "GENERAL-CONF": "General configuration",
             "HARDWARE-CONF": "Hardware configuration",
             "DATA-CONF": "Data configuration",
@@ -430,11 +483,7 @@
             "NVFLARE-CONF": "NVFlare configuration",
             "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "GENERAL-CONF-FORM": {
-                "TITLE": "Deployment options",
-                "DEPLOYMENT-TITLE": "Deployment title",
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
-                "DEPLOYMENT-DESCRIPTION": "Deployment description",
-                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
                 "CO2": "Monitor CO2 emissions",
                 "SERVICE-TO-RUN": "Service to run",
                 "PASSWORD": "Password",
@@ -529,23 +578,6 @@
                 "NOISE-MULT": "Noise multiplier",
                 "SAMPLED-CLIENTS": "Number of sampled clients",
                 "CLIP-NORM": "Clipping norm"
-            },
-            "LLM-CONF-FORM": {
-                "TITLE": "LLM options",
-                "VLLM-MODEL": "VLLM model",
-                "UI-USERNAME": "UI Username",
-                "UI-USERNAME-REQUIRED": "Please add a username for the UI",
-                "UI-USERNAME-INVALID": "Invalid email format",
-                "UI-PASSWORD": "UI Password",
-                "UI-PASSWORD-REQUIRED": "Please add a password for the UI",
-                "HUGGING-FACE-TOKEN": "Hugging Face token",
-                "HUGGING-FACE-TOKEN-REQUIRED": "Please add your Hugging Face token",
-                "HUGGING-FACE-TOKEN-TERMS": "You have to accept the terms to be able to use the model",
-                "API-KEY": "OpenAI API Key",
-                "API-KEY-REQUIRED": "Please add the OpenAI API Key",
-                "API-URL": "OpenAI API base URL",
-                "API-URL-REQUIRED": "Please add the OpenAI API base URL",
-                "API-URL-FORMAT": "Invalid URL format"
             },
             "NVFLARE-CONF-FORM": {
                 "TITLE": "NVFlare options",

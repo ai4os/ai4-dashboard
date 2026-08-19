@@ -1,7 +1,18 @@
 export const endpoints = {
+    // Catalog (modules)
     modulesSummary: '/catalog/modules/detail',
     module: '/catalog/modules/:name/metadata',
     moduleNomadConfiguration: '/catalog/modules/:name/config',
+
+    // Catalog (tools)
+    toolsSummary: '/catalog/tools/detail',
+    tool: '/catalog/tools/:name/metadata',
+    toolConfiguration: '/catalog/tools/:name/config',
+
+    // Catalog (LLMs)
+    llmsSelfSummary: '/catalog/llms/self/detail',
+    llmsPlatformSummary: '/catalog/llms/platform/detail',
+
     moduleOscarConfiguration: '/inference/oscar/conf',
     trainModule: '/deployments/modules',
     trainTool: '/deployments/tools',
@@ -9,9 +20,7 @@ export const endpoints = {
     toolByUUID: '/deployments/tools/:deploymentUUID',
     deployments: '/deployments/modules',
     tools: '/deployments/tools',
-    toolsSummary: '/catalog/tools/detail',
-    tool: '/catalog/tools/:name/metadata',
-    toolConfiguration: '/catalog/tools/:name/config',
+
     secrets: '/secrets',
     userStats: '/deployments/stats/user',
     clusterStats: '/deployments/stats/cluster',

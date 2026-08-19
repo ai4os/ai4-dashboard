@@ -1,0 +1,20 @@
+.llm-conf-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    h4 {
+        margin-block: var(--space-md);
+    }
+}
+
+.field-with-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    gap: var(--space-sm);
+}
+
+.full-width {
+    width: 100%;
+}

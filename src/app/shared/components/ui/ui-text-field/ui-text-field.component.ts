@@ -12,13 +12,14 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-ui-text-field',
     templateUrl: './ui-text-field.component.html',
     styleUrl: './ui-text-field.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatIcon, TranslatePipe],
+    imports: [MatIcon, TranslatePipe, MatTooltip],
 })
 export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     ngControl = inject(NgControl, { optional: true, self: true });
@@ -30,6 +31,7 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     @Input() maskable = false;
     @Input() prefixIcon?: string;
     @Input() errorMessages: Record<string, string> = {};
+    @Input() clearable = false;
 
     // Standalone mode (without formControlName).
     // When using formControlName, value comes from writeValue().
@@ -89,6 +91,14 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
 
     protected toggleVisibility(): void {
         this.hidden.set(!this.hidden());
+    }
+
+    protected clear(): void {
+        if (this.disabled()) return;
+        this.internalValue.set('');
+        this.onChange('');
+        this.valueChange.emit('');
+        this.onTouched();
     }
 
     get isInvalid(): boolean {
