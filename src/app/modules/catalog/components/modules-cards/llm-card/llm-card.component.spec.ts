@@ -34,21 +34,4 @@ describe('LlmCardComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
-
-    it('should call router.navigate with correct arguments on loadLLM()', () => {
-        // TODO: redo (now loadLLM does not exist, we use the store to do so)
-        // component.loadLLM();
-        // expect(mockRouter.navigate).toHaveBeenCalledWith(
-        //     ['catalog/llms/ai4os-llm/deploy'],
-        //     {
-        //         state: {
-        //             llmId: `${component.llm.family}/${component.llm.name}`,
-        //         },
-        //     }
-        // );
-    });
-
-    it('should open Hugging Face link on openLink()', () => {
-        // TODO: redo
-    });
 });
