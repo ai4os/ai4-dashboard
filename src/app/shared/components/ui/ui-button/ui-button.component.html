@@ -5,6 +5,8 @@
     [matTooltip]="tooltip ?? ''"
     [matTooltipDisabled]="!tooltip"
     matTooltipClass="ui-tooltip"
+    (keydown.enter)="onClick()"
+    (keydown.space)="onClick()"
     (click)="onClick()"
 >
     @if (icon) {

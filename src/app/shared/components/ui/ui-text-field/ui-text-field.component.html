@@ -37,6 +37,8 @@
             <mat-icon
                 class="ui-text-field__suffix"
                 (click)="toggleVisibility()"
+                (keydown.enter)="toggleVisibility()"
+                (keydown.space)="toggleVisibility()"
             >
                 {{ hidden() ? 'visibility_off' : 'visibility' }}
             </mat-icon>

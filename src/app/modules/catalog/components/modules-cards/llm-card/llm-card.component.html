@@ -4,6 +4,8 @@
     [matTooltip]="tooltipText | translate"
     [matTooltipDisabled]="!isDisabled"
     matTooltipClass="ui-tooltip"
+    (keydown.enter)="loadLLM()"
+    (keydown.space)="loadLLM()"
     (click)="loadLLM()"
 >
     <header class="llm-card__header">
