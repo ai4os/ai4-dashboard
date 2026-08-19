@@ -4,6 +4,8 @@
     [matTooltip]="tooltipText | translate"
     [matTooltipDisabled]="!isDisabled"
     matTooltipClass="ui-tooltip"
+    (keydown.enter)="loadLLM()"
+    (keydown.space)="loadLLM()"
     (click)="loadLLM()"
 >
     <header class="llm-card__header">
@@ -23,7 +25,6 @@
             icon="open_in_new"
             [href]="'https://huggingface.co/' + llm.family + '/' + llm.name"
             [tooltip]="'CATALOG.DETAIL.LINK' | translate"
-            (click)="$event.stopPropagation()"
         ></app-ui-button>
     </header>
 

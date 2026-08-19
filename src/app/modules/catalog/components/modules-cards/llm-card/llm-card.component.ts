@@ -39,6 +39,7 @@ export class LlmCardComponent implements OnInit {
     private router = inject(Router);
     private destroyRef = inject(DestroyRef);
 
+    @Input({ required: true }) type!: string;
     @Input({ required: true }) llm!: SelfLllmSummary | PlatformLlmSummary;
 
     isAuthorized = false;
@@ -84,8 +85,15 @@ export class LlmCardComponent implements OnInit {
             return;
         }
 
-        this.router.navigate(['catalog/llms/ai4os-llm/deploy'], {
-            state: { llmId: `${this.llm.id}` },
-        });
+        // platform-wide
+        if (this.type === 'platform-wide') {
+            const url = `https://genai.cloud.ai4eosc.eu/chat?model=${encodeURIComponent(this.llm.id)}`;
+            window.open(url);
+        } else {
+            // self-deployed
+            this.router.navigate(['catalog/llms/ai4os-llm/deploy'], {
+                state: { llmId: `${this.llm.id}` },
+            });
+        }
     }
 }

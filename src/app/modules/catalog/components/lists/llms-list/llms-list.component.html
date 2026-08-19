@@ -24,6 +24,40 @@
             <p>{{ 'CATALOG.COMMON.LOAD-ERROR' | translate }}</p>
         </div>
     } @else {
+        <mat-toolbar class="llms-filters" [class.mobile]="isMobile()">
+            <form
+                [formGroup]="filtersForm"
+                class="llms-filters__form"
+                [class.llms-filters__form--mobile]="isMobile()"
+            >
+                <app-ui-text-field
+                    class="llms-filters__search"
+                    formControlName="search"
+                    prefixIcon="search"
+                    [clearable]="true"
+                    [placeholder]="
+                        'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate
+                    "
+                ></app-ui-text-field>
+
+                <app-ui-select
+                    class="llms-filters__family"
+                    formControlName="family"
+                    prefixIcon="category"
+                    [label]="'CATALOG.LLMS.FILTER-FAMILY'"
+                    [options]="familyOptions()"
+                    [showLabel]="false"
+                ></app-ui-select>
+            </form>
+
+            @if (!isMobile()) {
+                <p class="llms-filters__results">
+                    {{ resultsFound() }}
+                    {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
+                </p>
+            }
+        </mat-toolbar>
+
         @if (isMobile()) {
             <p class="llms-filters__results llms-filters__results--mobile">
                 {{ resultsFound() }}
@@ -39,45 +73,14 @@
         </app-ui-tabs>
 
         <div class="tab-content-container">
-            <mat-toolbar class="llms-filters" [class.mobile]="isMobile()">
-                <form
-                    [formGroup]="filtersForm"
-                    class="llms-filters__form"
-                    [class.llms-filters__form--mobile]="isMobile()"
-                >
-                    <app-ui-text-field
-                        class="llms-filters__search"
-                        formControlName="search"
-                        prefixIcon="search"
-                        [clearable]="true"
-                        [placeholder]="
-                            'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate
-                        "
-                    ></app-ui-text-field>
-
-                    <app-ui-select
-                        class="llms-filters__family"
-                        formControlName="family"
-                        prefixIcon="category"
-                        [label]="'CATALOG.LLMS.FILTER-FAMILY'"
-                        [options]="familyOptions()"
-                        [showLabel]="false"
-                    ></app-ui-select>
-                </form>
-
-                @if (!isMobile()) {
-                    <p class="llms-filters__results">
-                        {{ resultsFound() }}
-                        {{ 'CATALOG.COMMON.NUM-RESULTS' | translate }}
-                    </p>
-                }
-            </mat-toolbar>
-
             @if (filteredLlms().length > 0) {
                 <div class="modules-cards-container">
                     @for (llm of filteredLlms(); track llm.id) {
                         <span class="m-2">
-                            <app-llm-card [llm]="llm"></app-llm-card>
+                            <app-llm-card
+                                [type]="activeTab()"
+                                [llm]="llm"
+                            ></app-llm-card>
                         </span>
                     }
                 </div>

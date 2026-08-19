@@ -107,7 +107,7 @@ export class LlmConfFormComponent implements OnInit, OnChanges {
     };
     protected readonly openaiApiUrlErrors = {
         required: 'CATALOG.CONF-FORMS.LLMS.API-URL-REQUIRED',
-        invalidURL: 'CCATALOG.CONF-FORMS.LLMS.API-URL-FORMAT',
+        invalidURL: 'CATALOG.CONF-FORMS.LLMS.API-URL-FORMAT',
     };
     protected readonly openaiApiKeyErrors = {
         required: 'CATALOG.CONF-FORMS.LLMS.API-KEY-REQUIRED',

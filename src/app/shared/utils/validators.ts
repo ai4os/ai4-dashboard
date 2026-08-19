@@ -2,11 +2,23 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function urlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-        const urlPattern =
-            /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
-        const value = control.value;
-        const validURL = urlPattern.test(value);
-        return validURL ? null : { invalidURL: true };
+        const value = control.value?.trim();
+
+        if (!value) {
+            return { invalidURL: true };
+        }
+
+        try {
+            const url = new URL(value);
+
+            if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+                return { invalidURL: true };
+            }
+
+            return null;
+        } catch {
+            return { invalidURL: true };
+        }
     };
 }
 
