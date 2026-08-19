@@ -24,6 +24,7 @@ export class UiButtonComponent implements OnInit {
         | 'danger-solid'
         | 'danger-outline'
         | 'icon' = 'primary-solid';
+
     @Input() icon?: string;
     @Input() text?: string;
     @Input() disabled = false;
@@ -38,9 +39,11 @@ export class UiButtonComponent implements OnInit {
         }
     }
 
-    onClick() {
-        if (this.href) {
-            window.open(this.href, '_blank', 'noopener,noreferrer');
-        }
+    onClick(): void {
+        // Action button behaviour
+    }
+
+    onLinkClick(event: MouseEvent): void {
+        event.stopPropagation();
     }
 }
