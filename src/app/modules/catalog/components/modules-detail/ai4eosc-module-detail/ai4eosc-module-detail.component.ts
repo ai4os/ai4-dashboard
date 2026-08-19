@@ -16,22 +16,15 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IframeDialogComponent } from '@app/shared/components/iframe-dialog/iframe-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-} from '@angular/material/card';
 import { MatTooltip } from '@angular/material/tooltip';
-import { MatButton } from '@angular/material/button';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
-import { MatDivider } from '@angular/material/list';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MarkdownComponent } from 'ngx-markdown';
-import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 
 @Component({
     selector: 'app-module-detail',
@@ -39,26 +32,21 @@ import { ChipWithIconComponent } from '../../../../../shared/components/chip-wit
     styleUrls: ['./ai4eosc-module-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
         MatIcon,
         BreadcrumbComponent,
-        MatCard,
-        MatCardHeader,
         NgClass,
-        MatCardTitle,
-        MatCardSubtitle,
         MatTooltip,
-        MatButton,
         MatMenuTrigger,
         MatMenu,
         MatMenuItem,
         RouterLink,
-        MatDivider,
-        MatCardContent,
-        MatProgressSpinner,
         MarkdownComponent,
-        ChipWithIconComponent,
         TranslatePipe,
+        UiBannerComponent,
+        UiCardComponent,
+        UiChipComponent,
+        UiButtonComponent,
+        UiLoaderComponent,
     ],
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
@@ -138,6 +126,9 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             if (this.isTool) {
                 this.toolsService.getTool(params['id']).subscribe((tool) => {
                     this.module = tool;
+                    this.module.description = this.cleanMarkdown(
+                        this.module.description
+                    );
                     this.breadcrumbService.set('@moduleName', tool.title);
                     this.isLoading = false;
                 });
@@ -146,6 +137,9 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                     .getModule(params['id'])
                     .subscribe((module) => {
                         this.module = module;
+                        this.module.description = this.cleanMarkdown(
+                            this.module.description
+                        );
                         this.breadcrumbService.set('@moduleName', module.title);
                         this.isLoading = false;
                     });
@@ -226,5 +220,12 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     openLicenseVocab(license: string) {
         const url = `https://op.europa.eu/en/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/licence/${license}`;
         window.open(url);
+    }
+
+    private cleanMarkdown(text: string): string {
+        if (!text) return '';
+        // Searches for '<img... src="" and removes the comma so that it becomes valid HTML
+        // (the API returns invalid HTML)
+        return text.replace(/<img([^>]+?),\s*src=/gi, '<img$1 src=');
     }
 }

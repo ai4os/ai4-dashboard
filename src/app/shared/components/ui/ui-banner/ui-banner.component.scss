@@ -122,9 +122,9 @@
     }
 
     /* =========================================
-       CATALOG
+       MODULES
        ========================================= */
-    &__catalog {
+    &__modules {
         position: absolute;
         inset: 0;
         pointer-events: none;
@@ -137,7 +137,7 @@
         --anchor-bottom: 26px;
     }
 
-    &__catalog-item {
+    &__modules-item {
         position: absolute;
         right: var(--anchor-right);
         bottom: var(--anchor-bottom);
@@ -152,7 +152,7 @@
 
         transform: translate(var(--tx), var(--ty)) rotate(var(--r));
 
-        animation: catalogFloat 6s ease-in-out infinite;
+        animation: modulesFloat 6s ease-in-out infinite;
 
         &--1 {
             --tx: 0px;
@@ -177,6 +177,178 @@
 
             animation-delay: 1.6s;
         }
+    }
+
+    /* =========================================
+       LLMS
+       ========================================= */
+    &__llms {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+
+        --anchor-right: 44px;
+        --anchor-bottom: 26px;
+    }
+
+    &__llm-node {
+        position: absolute;
+        right: var(--anchor-right);
+        bottom: var(--anchor-bottom);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.3),
+            0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
+            inset 0 0 14px rgba(255, 255, 255, 0.08);
+
+        transform: translate(var(--tx), var(--ty));
+        animation: smoothFloat 6s ease-in-out infinite;
+
+        &--1 {
+            width: 55px;
+            height: 38px;
+            border-radius: 16px 16px 2px 16px;
+            --tx: 0px;
+            --ty: 0px;
+            animation-delay: 0s;
+        }
+
+        &--2 {
+            width: 42px;
+            height: 28px;
+            border-radius: 14px 14px 14px 4px;
+            --tx: -45px;
+            --ty: -22px;
+            animation-delay: 0.8s;
+        }
+
+        &--3 {
+            width: 28px;
+            height: 20px;
+            border-radius: 10px 10px 2px 10px;
+            --tx: -15px;
+            --ty: -45px;
+            animation-delay: 1.6s;
+        }
+    }
+
+    /* =========================================
+       TOOLS
+       ========================================= */
+    &__tools {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+
+        --anchor-right: 44px;
+        --anchor-bottom: 30px;
+    }
+
+    &__tool-item {
+        position: absolute;
+        right: var(--anchor-right);
+        bottom: var(--anchor-bottom);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.3),
+            0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
+            inset 0 0 14px rgba(255, 255, 255, 0.08);
+
+        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+        animation: gearFloat 6s ease-in-out infinite;
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: calc(-1 * var(--teeth-size));
+            border-radius: 50%;
+            border: var(--teeth-size) solid rgba(255, 255, 255, 0.15);
+            z-index: -1;
+
+            -webkit-mask-image: repeating-conic-gradient(
+                #000 0deg,
+                #000 22.5deg,
+                transparent 22.5deg,
+                transparent 45deg
+            );
+            mask-image: repeating-conic-gradient(
+                #000 0deg,
+                #000 22.5deg,
+                transparent 22.5deg,
+                transparent 45deg
+            );
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32%;
+            height: 32%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow:
+                inset 0 2px 6px rgba(0, 0, 0, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        &--1 {
+            width: 56px;
+            height: 56px;
+            --tx: 0px;
+            --ty: 0px;
+            --r: 15deg;
+            --teeth-size: 6px;
+            animation-delay: 0s;
+        }
+
+        &--2 {
+            width: 42px;
+            height: 42px;
+            --tx: -65px;
+            --ty: 10px;
+            --r: -10deg;
+            --teeth-size: 5px;
+            animation-delay: 0.8s;
+        }
+
+        &--3 {
+            width: 28px;
+            height: 28px;
+            --tx: -60px;
+            --ty: -45px;
+            --r: 25deg;
+            --teeth-size: 4px;
+            animation-delay: 1.6s;
+        }
+    }
+}
+
+@keyframes smoothFloat {
+    0%,
+    100% {
+        transform: translate(var(--tx), var(--ty));
+    }
+    50% {
+        transform: translate(var(--tx), calc(var(--ty) - 8px));
+    }
+}
+
+@keyframes gearFloat {
+    0%,
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+    }
+    50% {
+        transform: translate(var(--tx), calc(var(--ty) - 8px))
+            rotate(calc(var(--r) + 8deg));
     }
 }
 
@@ -216,7 +388,7 @@
     }
 }
 
-@keyframes catalogFloat {
+@keyframes modulesFloat {
     0%,
     100% {
         transform: translate(var(--tx), var(--ty)) rotate(var(--r));
@@ -229,7 +401,9 @@
 
 @media (prefers-reduced-motion: reduce) {
     .ui-banner__circle,
-    .ui-banner__catalog-item {
+    .ui-banner__modules-item,
+    .ui-banner__llm-node,
+    .ui-banner__tool-item {
         animation: none;
     }
 }

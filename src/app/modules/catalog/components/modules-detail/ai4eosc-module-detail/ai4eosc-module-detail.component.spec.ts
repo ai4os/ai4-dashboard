@@ -18,6 +18,7 @@ import { mockedToolsService } from '@app/modules/catalog/services/tools-service/
 import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { testProviders } from '@testing/test-providers';
 import { BreadcrumbService } from 'xng-breadcrumb';
+import { of } from 'rxjs';
 
 const mockedModule = mockAi4eoscModules[0];
 
@@ -48,6 +49,7 @@ describe('ModuleDetailComponent', () => {
                     useValue: {
                         set: jest.fn(),
                         get: jest.fn(),
+                        breadcrumbs$: of([]),
                     },
                 },
             ],

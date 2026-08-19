@@ -6,7 +6,7 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     letter-spacing: -0.01em;
     cursor: pointer;
     border: 1px solid transparent;
@@ -19,6 +19,16 @@
 
     &--icon-only {
         padding: var(--space-sm);
+    }
+
+    &--icon-right {
+        flex-direction: row-reverse;
+    }
+
+    img {
+        font-size: var(--font-size-md);
+        width: var(--font-size-md);
+        height: var(--font-size-md);
     }
 
     mat-icon {
@@ -83,6 +93,28 @@
 
         &:hover:not(:disabled) {
             background: var(--color-danger-dark);
+            transform: translateY(-1px);
+        }
+    }
+
+    &--default-outline {
+        background: transparent;
+        color: var(--color-default-dark);
+        border-color: var(--color-border-default);
+
+        &:hover:not(:disabled) {
+            background: var(--color-default-light);
+            border-color: var(--color-default);
+            transform: translateY(-1px);
+        }
+    }
+
+    &--default-solid {
+        background: var(--color-text-secondary);
+        color: var(--white);
+
+        &:hover:not(:disabled) {
+            background: var(--color-text-primary);
             transform: translateY(-1px);
         }
     }

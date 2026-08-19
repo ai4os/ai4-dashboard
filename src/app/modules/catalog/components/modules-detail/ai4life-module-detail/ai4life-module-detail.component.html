@@ -1,182 +1,232 @@
-<mat-toolbar class="mb-3">
-    <span class="aligned-with-icon">
-        {{ 'CATALOG.MODULE-DETAIL.TITLE' | translate }}
-        <mat-icon>view_in_ar</mat-icon>
-    </span>
-</mat-toolbar>
+@if (isLoading) {
+    <div class="spinner-loading-overlay">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else {
+    <!-- Header -->
+    <header class="header">
+        <div class="header__top-bar">
+            <xng-breadcrumb class="header__breadcrumb"></xng-breadcrumb>
+        </div>
 
-<xng-breadcrumb class="mb-3"></xng-breadcrumb>
-
-<mat-card class="detail-card">
-    @if (!isLoading) {
-        <mat-card-header
-            [ngClass]="{
-                'module-detail-card-header-mobile': mobileQuery.matches,
-                'module-detail-card-header': !mobileQuery.matches,
-            }"
-        >
-            <mat-card-title
-                ><h1>{{ module.name }}</h1>
-            </mat-card-title>
-            @if (isLoggedIn()) {
-                <div
-                    [ngClass]="{
-                        'action-buttons-container-mobile': mobileQuery.matches,
-                        'action-buttons-container': !mobileQuery.matches,
-                    }"
-                >
-                    <div
-                        class="tooltip-container"
-                        [matTooltipDisabled]="isAuthorized()"
-                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
-                    >
-                        <a
-                            role="button"
-                            class="action-button"
-                            mat-raised-button
-                            color="accent"
-                            [disabled]="!isAuthorized()"
-                            (click)="train()"
-                            (keydown.enter)="train()"
-                            (keydown.space)="train()"
-                            id="deploy-tool-button"
-                        >
-                            {{
-                                'CATALOG.MODULE-DETAIL.DEPLOY.TITLE' | translate
-                            }}
-                        </a>
-                    </div>
-                </div>
-            }
-        </mat-card-header>
-    }
-
-    <mat-divider></mat-divider>
-
-    <mat-card-content>
-        @if (isLoading) {
-            <div class="spinner spinner-with-description">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
-            </div>
-        }
-
-        @if (!isLoading) {
+        <app-ui-banner variant="primary" decoration="none">
             <div
                 [ngClass]="{
-                    'grid-1-column': mobileQuery.matches,
-                    'grid-2-columns-content': !mobileQuery.matches,
+                    'header-row-mobile': mobileQuery.matches,
+                    'header-row': !mobileQuery.matches,
                 }"
             >
-                <div class="module-description">
-                    <markdown
-                        [data]="module.description"
-                        ngPreserveWhitespaces
-                        [disableSanitizer]="true"
-                    >
-                    </markdown>
-                    <img src="{{ module.covers[0] }}" />
+                <div class="header__heading">
+                    <h1 class="header__title">{{ module.name }}</h1>
                 </div>
-                <div class="info-container">
-                    <div class="flex-container">
-                        @if (doiIsValid()) {
-                            <div>
+
+                @if (isLoggedIn()) {
+                    <div
+                        [ngClass]="{
+                            'action-buttons-container-mobile':
+                                mobileQuery.matches,
+                            'action-buttons-container': !mobileQuery.matches,
+                        }"
+                    >
+                        <div
+                            class="tooltip-container"
+                            matTooltip=" {{
+                                'CATALOG.DETAIL.TRY.LOGOUT' | translate
+                            }}"
+                            matTooltipClass="ui-tooltip"
+                            [matTooltipDisabled]="isAuthorized()"
+                        >
+                            <app-ui-button
+                                variant="accent-solid"
+                                [text]="
+                                    'CATALOG.DETAIL.DEPLOY.TITLE' | translate
+                                "
+                                [disabled]="!isAuthorized()"
+                                (click)="train()"
+                                (keydown.enter)="train()"
+                                (keydown.space)="train()"
+                            ></app-ui-button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </app-ui-banner>
+    </header>
+
+    <!-- Body -->
+    <app-ui-card>
+        <div
+            [ngClass]="{
+                'grid-1-column': mobileQuery.matches,
+                'grid-2-columns-content': !mobileQuery.matches,
+            }"
+        >
+            <!-- Description -->
+            <div class="module-description">
+                <markdown
+                    [data]="module.description"
+                    ngPreserveWhitespaces
+                    [disableSanitizer]="true"
+                >
+                </markdown>
+                <img src="{{ module.covers[0] }}" />
+            </div>
+
+            <div class="info-container">
+                <!-- About -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.ABOUT' | translate }}
+                    </span>
+
+                    <app-ui-card>
+                        <div class="badges-row">
+                            @if (module.license !== '') {
+                                <app-ui-chip
+                                    icon="license"
+                                    [text]="module.license"
+                                    [tooltip]="
+                                        'CATALOG.DETAIL.LICENSE' | translate
+                                    "
+                                    variant="primary-outline"
+                                    class="license-chip"
+                                    (click)="openLicenseVocab(module.license)"
+                                ></app-ui-chip>
+                            }
+
+                            <app-ui-chip
+                                icon="download"
+                                [text]="module.downloadCount"
+                                tooltip=" {{
+                                    'CATALOG.DETAIL.DOWNLOAD-COUNT' | translate
+                                }}"
+                                variant="primary-outline"
+                            ></app-ui-chip>
+
+                            @if (doiIsValid()) {
                                 <img
-                                    alt="Build Status"
+                                    alt="DOI Badge"
+                                    class="badge-link"
                                     src="{{ getDOIBadgeUrl(module.doi) }}"
                                 />
-                            </div>
-                        }
-                    </div>
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{ 'CATALOG.MODULE-DETAIL.ABOUT' | translate }}
-                        </div>
-                        <div class="flex-container">
-                            <app-chip-with-icon
-                                icon="download"
-                                text="{{ module.downloadCount }}"
-                                tooltip=" {{
-                                    'CATALOG.MODULE-DETAIL.DOWNLOAD-COUNT'
-                                        | translate
-                                }}"
-                            ></app-chip-with-icon>
-                            <app-chip-with-icon
-                                icon="license"
-                                text="{{ module.license }}"
-                                tooltip=" {{
-                                    'CATALOG.MODULE-DETAIL.LICENSE' | translate
-                                }}"
-                            ></app-chip-with-icon>
-                        </div>
-                    </div>
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{ 'CATALOG.MODULE-DETAIL.TAGS' | translate }}
-                        </div>
-                        <div class="box-content">
-                            @for (tag of tags; track tag) {
-                                <app-chip-with-icon
-                                    text="{{ tag }}"
-                                    [image]="'../../../assets/images/module-detail/tag.png'"
-                                    chipStyle="default"
-                                ></app-chip-with-icon>
                             }
                         </div>
-                        @if (module.tags.length >= 7) {
-                            <span
-                                class="collapse-tags"
+                    </app-ui-card>
+                </div>
+
+                <!-- Tags -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{ 'CATALOG.DETAIL.TAGS' | translate }}
+                    </span>
+                    <app-ui-card>
+                        <div class="sidebar-section__content">
+                            @for (tag of module.tags.slice(0, 7); track tag) {
+                                <app-ui-chip
+                                    [text]="tag"
+                                    icon="sell"
+                                    variant="secondary-1-solid"
+                                ></app-ui-chip>
+                            }
+                        </div>
+
+                        @if (module.tags.length > 7) {
+                            <div
+                                class="tags-expansion-wrapper"
+                                [class.tags-expansion-wrapper--open]="
+                                    !tagsCollapsed
+                                "
+                            >
+                                <div class="tags-expansion-content">
+                                    <div
+                                        class="sidebar-section__content"
+                                        style="padding-top: var(--space-sm)"
+                                    >
+                                        @for (
+                                            tag of module.tags.slice(7);
+                                            track tag
+                                        ) {
+                                            <app-ui-chip
+                                                [text]="tag"
+                                                icon="sell"
+                                                variant="secondary-1-solid"
+                                            ></app-ui-chip>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botón Toggle -->
+                            <button
+                                class="tags-panel-toggle"
                                 (click)="toggleEllipsis()"
                                 (keydown.enter)="toggleEllipsis()"
                                 (keydown.space)="toggleEllipsis()"
-                                ><b>{{
-                                    tagsCollapsed ? 'Show more' : 'Show less'
-                                }}</b></span
                             >
-                        }
-                    </div>
-                    <div class="box-container">
-                        <div class="box-title">
-                            {{
-                                'CATALOG.MODULE-DETAIL.ADDITIONAL-RESOURCES.TITLE'
-                                    | translate
-                            }}
-                        </div>
-                        <div class="grid-resources">
-                            <a
-                                class="action-button"
-                                mat-raised-button
-                                href="https://bioimage.io/#/?id={{ module.id }}"
-                                target="_blank"
-                            >
-                                <span class="aligned-with-icon">
-                                    <img
-                                        src="../../../../../assets/images/module-detail/bioimage-logo.png"
-                                    />
-                                    {{ 'GENERAL-BUTTONS.BIOIMAGE' | translate }}
+                                <span class="tags-panel-toggle__text">
+                                    {{
+                                        tagsCollapsed
+                                            ? 'Show more'
+                                            : 'Show less'
+                                    }}
                                 </span>
-                            </a>
-                        </div>
-                    </div>
-                    @if (module.created) {
-                        <div class="box-container">
-                            <div class="box-title">
-                                {{ 'CATALOG.MODULE-DETAIL.DATES' | translate }}
-                            </div>
-                            <div class="flex-container">
-                                <app-chip-with-icon
-                                    icon="calendar_month"
-                                    text="{{ module.created }}"
-                                    tooltip=" {{
-                                        'CATALOG.MODULE-DETAIL.CREATED'
-                                            | translate
-                                    }}"
-                                ></app-chip-with-icon>
-                            </div>
-                        </div>
-                    }
+                                <mat-icon
+                                    class="tags-panel-toggle__chevron"
+                                    [class.tags-panel-toggle__chevron--open]="
+                                        !tagsCollapsed
+                                    "
+                                >
+                                    expand_more
+                                </mat-icon>
+                            </button>
+                        }
+                    </app-ui-card>
                 </div>
+
+                <!-- Additional resources -->
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
+                        {{
+                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.TITLE'
+                                | translate
+                        }}
+                    </span>
+                    <app-ui-card>
+                        <app-ui-button
+                            variant="default-outline"
+                            image="../../../../../assets/images/module-detail/bioimage.svg"
+                            [text]="'GENERAL-BUTTONS.BIOIMAGE' | translate"
+                            [href]="
+                                'https://bioimage.io/#/artifacts/' + module.id
+                            "
+                        ></app-ui-button>
+                    </app-ui-card>
+                </div>
+
+                <!-- Date -->
+                @if (module.created) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.DATES' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="dates-content">
+                                <div class="date-row">
+                                    <mat-icon>calendar_month</mat-icon>
+                                    <span class="date-row__label">
+                                        {{
+                                            'CATALOG.DETAIL.CREATED' | translate
+                                        }}
+                                    </span>
+                                    <span class="date-row__value">
+                                        {{ module.created }}
+                                    </span>
+                                </div>
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
             </div>
-        }
-    </mat-card-content>
-</mat-card>
+        </div>
+    </app-ui-card>
+}

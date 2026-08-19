@@ -7,7 +7,7 @@
             </span>
         </mat-toolbar>
     } @else {
-        <app-ui-banner variant="primary" decoration="catalog">
+        <app-ui-banner variant="primary" decoration="llms">
             <h1>
                 {{ 'CATALOG.LLMS.TITLE' | translate }}
             </h1>
@@ -15,7 +15,7 @@
     }
 
     @if (llmsLoading()) {
-        <div class="spinner">
+        <div class="spinner-loading-overlay">
             <app-ui-loader></app-ui-loader>
         </div>
     } @else if (llmsError()) {

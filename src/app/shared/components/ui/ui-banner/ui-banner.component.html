@@ -12,16 +12,38 @@
             </div>
         }
 
-        @case ('catalog') {
-            <div class="ui-banner__catalog" aria-hidden="true">
+        @case ('modules') {
+            <div class="ui-banner__modules" aria-hidden="true">
                 <span
-                    class="ui-banner__catalog-item ui-banner__catalog-item--1"
+                    class="ui-banner__modules-item ui-banner__modules-item--1"
                 ></span>
                 <span
-                    class="ui-banner__catalog-item ui-banner__catalog-item--2"
+                    class="ui-banner__modules-item ui-banner__modules-item--2"
                 ></span>
                 <span
-                    class="ui-banner__catalog-item ui-banner__catalog-item--3"
+                    class="ui-banner__modules-item ui-banner__modules-item--3"
+                ></span>
+            </div>
+        }
+
+        @case ('llms') {
+            <div class="ui-banner__llms" aria-hidden="true">
+                <span class="ui-banner__llm-node ui-banner__llm-node--1"></span>
+                <span class="ui-banner__llm-node ui-banner__llm-node--2"></span>
+                <span class="ui-banner__llm-node ui-banner__llm-node--3"></span>
+            </div>
+        }
+
+        @case ('tools') {
+            <div class="ui-banner__tools" aria-hidden="true">
+                <span
+                    class="ui-banner__tool-item ui-banner__tool-item--1"
+                ></span>
+                <span
+                    class="ui-banner__tool-item ui-banner__tool-item--2"
+                ></span>
+                <span
+                    class="ui-banner__tool-item ui-banner__tool-item--3"
                 ></span>
             </div>
         }

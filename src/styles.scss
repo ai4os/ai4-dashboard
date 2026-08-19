@@ -4,6 +4,34 @@ body {
     margin: 0;
     font-family: var(--font-family-body, Roboto, 'Helvetica Neue', sans-serif);
     color: var(--primary-text);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: var(--radius-sm);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-primary);
+        border-radius: var(--radius-sm);
+    }
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+}
+
+h1,
+.mat-typography h1 {
+    font-family: var(--font-family-heading) !important;
 }
 
 .grid-1-column {
@@ -277,6 +305,11 @@ mat-icon,
                 color: var(--color-accent);
             }
         }
+
+        &[disabled],
+        &:disabled {
+            cursor: not-allowed !important;
+        }
     }
 }
 
@@ -300,6 +333,17 @@ mat-icon,
 .input-spinner {
     float: right;
     margin: 0px 8px;
+}
+
+.spinner-loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+    border-radius: var(--radius-md);
 }
 
 .spinner-with-description {

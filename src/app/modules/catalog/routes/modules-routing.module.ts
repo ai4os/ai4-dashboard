@@ -51,7 +51,7 @@ const routes: Routes = [
             {
                 path: '',
                 component: Ai4lifeModuleDetailComponent,
-                data: { breadcrumb: { skip: 'true' } },
+                data: { breadcrumb: { alias: 'moduleName' } },
             },
         ],
     },

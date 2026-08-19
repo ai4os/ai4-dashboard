@@ -165,7 +165,90 @@
             "CONTEXT": "Context",
             "LICENSE": "License",
             "STATUS": "Status",
-            "LINK": "Link to model"
+            "LINK": "Link to model",
+            "ABOUT": "About",
+            "CATEGORIES": "Platform Categories",
+            "LIBRARIES": "Libraries",
+            "TAGS": "Tags",
+            "TASKS": "Tasks",
+            "DATA-TYPES": "Data Types",
+            "DOWNLOADS": "Downloads",
+            "DOWNLOAD-COUNT": "Download Count",
+            "DATES": "Dates",
+            "CREATED": "Created",
+            "UPDATED": "Updated",
+            "TRY": {
+                "TITLE": "Try",
+                "LOGOUT": "You must have the role 'ap-a' to try a module",
+                "USER-INTERFACE": "User Interface",
+                "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
+                "INFERENCE-API": "REST API",
+                "OSCAR-SWAGGER": "// TODO"
+            },
+            "BATCH": {
+                "TITLE": "Batch"
+            },
+            "DEPLOY": {
+                "TITLE": "Deploy",
+                "API-SERVERLESS": "Inference API (serverless)",
+                "OSCAR": "Serverless inference API on the project's OSCAR cluster",
+                "API-PLATFORM": "Inference API + UI (dedicated)",
+                "NOMAD": "Dedicated inference API + UI on the project's Nomad cluster",
+                "API-CLOUD": "Inference API (cloud)",
+                "IM": "Deploy on your own cloud resources via IM",
+                "API-EU": "Inference API (EU Node)",
+                "EU-NODE": "Deploy in the EOSC EU Node cloud resources"
+            },
+            "CODESPACES": {
+                "TITLE": "Codespaces",
+                "JUPYTERLAB": "Open in JupyterLab",
+                "VSCODE": "Open in VScode"
+            },
+            "ADDITIONAL-RESOURCES": {
+                "TITLE": "Additional Resources",
+                "DATASET": "Dataset",
+                "DOCUMENTATION": "Docs",
+                "WEIGHTS": "Weights",
+                "CITATION": "Citation",
+                "BASE-MODEL": "Base model"
+            },
+            "PROVENANCE": {
+                "TITLE": "Provenance",
+                "VIEW": "View",
+                "DOWNLOAD": "Download RDF",
+                "DIALOG": "Provenance graph"
+            },
+            "METADATA": {
+                "DOWNLOAD": "Download metadata",
+                "JSON": "JSON (application/json)",
+                "JSON-LD": "JSON-LD (application/ld+json)",
+                "TURTLE": "Turtle (text/turtle)"
+            }
+        },
+        "FILTERS": {
+            "ADITIONAL-FILTERS": "Additional filters",
+            "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
+            "INFO-FILTERS": "<ul><li><p><strong>Between filters</strong>: Filters are combined using \"OR\" logic. For example, if you use Filter #1 (library = [PyTorch]) and Filter #2 (category = [AI4 tools], tag = [federated learning]), you'll see all modules and tools that meet either condition.</p></li><li><p><strong>Within a filter</strong>: Conditions inside a single filter are combined using \"AND\" logic. For instance, Filter #1 (library = [PyTorch], tag = [federated learning]) will only show results that meet both conditions.</p></li><li><p><strong>Within fields</strong>: Options inside a field are treated with \"OR\" logic. For example, Filter #1 (library = [PyTorch, Keras, Other]) will return results that include any of these libraries.</p></li></ul>",
+            "CLEAR-FILTERS": "Clear current filter",
+            "APPLY": "Apply",
+            "APPLY-TOOLTIP": "Apply current filters",
+            "RESET": "Reset",
+            "RESET-TOOLTIP": "Delete all filters",
+            "ADD": "Add filter",
+            "FILTER": "Filter"
+        },
+        "SORTING": {
+            "TOOLTIP": "Sort by",
+            "NAME": "Name",
+            "MOST-RECENT": "Most recent"
+        },
+        "MODULES": {
+            "TITLE": "Modules",
+            "AI4EOSC-TAB": "AI4EOSC",
+            "AI4LIFE-TAB": "AI4Life"
+        },
+        "TOOLS": {
+            "TITLE": "Tools"
         },
         "LLMS": {
             "TITLE": "LLMs",
@@ -174,7 +257,6 @@
             "PLATFORM-WIDE-TAB": "Platform wide",
             "SELF-DEPLOYED-TAB": "Self-deployed",
             "MODEL-UNAVAILABLE": "This model is currently unavailable"
-
         },
         "CONF-FORMS": {
             "TRAIN-TITLE": "Configure training",
@@ -385,7 +467,6 @@
         }
     },
     "CATALOG-OLD": {
-        "MODULES-TITLE": "Modules",
         "TOOLS-TITLE": "Tools",
         "NEW-DEPLOYMENT": "New deployment",
         "NUM-RESULTS": "result(s) found",
@@ -393,83 +474,21 @@
         "TOOL": "AI4 Tool",
         "AI4LIFE": "AI4Life Module",
         "LLM": "LLM Module",
-        "FILTERS": {
-            "ADITIONAL-FILTERS": "Additional filters",
-            "INFO-FILTERS-TITLE": "Filters can help you quickly find the module or tool that best fits your needs. Here's a brief overview of how they work.",
-            "INFO-FILTERS": "<ul><li><p><strong>Between filters</strong>: Filters are combined using \"OR\" logic. For example, if you use Filter #1 (library = [PyTorch]) and Filter #2 (category = [AI4 tools], tag = [federated learning]), you'll see all modules and tools that meet either condition.</p></li><li><p><strong>Within a filter</strong>: Conditions inside a single filter are combined using \"AND\" logic. For instance, Filter #1 (library = [PyTorch], tag = [federated learning]) will only show results that meet both conditions.</p></li><li><p><strong>Within fields</strong>: Options inside a field are treated with \"OR\" logic. For example, Filter #1 (library = [PyTorch, Keras, Other]) will return results that include any of these libraries.</p></li></ul>",
-            "CLEAR-FILTERS": "Clear current filter",
-            "APPLY": "Apply",
-            "APPLY-TOOLTIP": "Apply current filters",
-            "RESET": "Reset",
-            "RESET-TOOLTIP": "Delete all filters"
-        },
-        "SORTING": {
-            "NAME": "By name",
-            "MOST-RECENT": "By most recent"
-        },
+
+
         "MODULE-DETAIL": {
             "TITLE": "Module",
             "TOOL-TITLE": "Tool",
-            "BUILD-STATUS": "Build status",
-            "DATES": "Dates",
-            "CREATED": "Created",
-            "UPDATED": "Updated",
-            "CATEGORIES": "Platform Categories",
-            "LIBRARIES": "Libraries",
-            "TAGS": "Tags",
-            "TASKS": "Tasks",
-            "DATA-TYPES": "Data Types",
+
+
+
             "ABOUT": "About",
-            "DOWNLOAD-COUNT": "Download Count",
             "LICENSE": "License",
             "UNAUTHORIZED": "You must login and be a member of project to use this",
-            "PROVENANCE": {
-                "TITLE": "Provenance",
-                "VIEW": "View",
-                "DOWNLOAD": "Download RDF",
-                "DIALOG": "Provenance graph"
-            },
-            "METADATA": {
-                "DOWNLOAD": "Download metadata",
-                "JSON": "JSON format (application/json)",
-                "JSON-LD": "JSON-LD format (application/ld+json)",
-                "TURTLE": "Turtle format (text/turtle)"
-            },
-            "ADDITIONAL-RESOURCES": {
-                "TITLE": "Additional Resources",
-                "DATASET": "Dataset",
-                "DOCUMENTATION": "Docs",
-                "WEIGHTS": "Weights",
-                "CITATION": "Citation",
-                "BASE-MODEL": "Base model"
-            },
-            "TRY": {
-                "TITLE": "Try",
-                "LOGOUT": "You must have the role 'ap-a' to try a module",
-                "USER-INTERFACE": "User Interface",
-                "NOMAD-GRADIO": "Create a short 10min deployment using Gradio",
-                "INFERENCE-API": "REST API",
-                "OSCAR-SWAGGER": "// TODO"
-            },
-            "BATCH": {
-                "TITLE": "Batch"
-            },
-            "DEPLOY": {
-                "TITLE": "Deploy",
-                "API-SERVERLESS": "Inference API (serverless)",
-                "OSCAR": "Serverless inference API on the project's OSCAR cluster",
-                "API-PLATFORM": "Inference API + UI (dedicated)",
-                "NOMAD": "Dedicated inference API + UI on the project's Nomad cluster",
-                "API-CLOUD": "Inference API (cloud)",
-                "IM": "Deploy on your own cloud resources via IM",
-                "API-EU": "Inference API (EU Node)",
-                "EU-NODE": "Deploy in the EOSC EU Node cloud resources"
-            },
-            "CODESPACES": {
-                "TITLE": "Codespaces",
-                "JUPYTERLAB": "Open in JupyterLab",
-                "VSCODE": "Open in VScode"
-            },
+
+
+
+
             "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organisation to use this",
             "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
             "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."

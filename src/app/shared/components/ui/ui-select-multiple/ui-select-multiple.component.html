@@ -1,0 +1,127 @@
+<div
+    class="ui-text-field"
+    [class.ui-text-field--invalid]="isInvalid"
+    [class.ui-text-field--disabled]="disabled()"
+>
+    @if (showLabel) {
+        <span class="ui-text-field__label" [id]="labelId">{{
+            label | translate
+        }}</span>
+    }
+
+    <!-- TRIGGER -->
+    <div
+        class="ui-text-field__wrapper ui-select__trigger"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+        tabindex="0"
+        role="combobox"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-controls]="panelId"
+        [attr.aria-labelledby]="label ? labelId : null"
+        [attr.aria-disabled]="disabled()"
+        (click)="toggle()"
+        (keydown)="onTriggerKeydown($event)"
+    >
+        @if (prefixIcon) {
+            <mat-icon
+                class="ui-text-field__prefix"
+                [matTooltip]="label | translate"
+                matTooltipClass="ui-tooltip"
+                >{{ prefixIcon }}</mat-icon
+            >
+        }
+
+        <span
+            class="ui-text-field__input ui-select__value"
+            [class.ui-select__value--placeholder]="!displayValue()"
+        >
+            @if (displayValue()) {
+                <span class="ui-select__value-main">{{
+                    displayValue()!.main
+                }}</span>
+                @if (displayValue()!.extra) {
+                    <span class="ui-select__value-extra">{{
+                        displayValue()!.extra
+                    }}</span>
+                }
+            } @else {
+                {{ placeholder ? (placeholder | translate) : '' }}
+            }
+        </span>
+
+        <mat-icon
+            class="ui-text-field__suffix ui-select__arrow"
+            [class.ui-select__arrow--open]="isOpen()"
+            >expand_more</mat-icon
+        >
+    </div>
+
+    <!-- OVERLAY PANEL -->
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        (overlayOutsideClick)="close()"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        [cdkConnectedOverlayWidth]="
+            trigger.elementRef.nativeElement.offsetWidth
+        "
+    >
+        <div class="ui-select-panel-container">
+            @if (searchable) {
+                <div class="ui-select-panel__search">
+                    <mat-icon class="search-icon">search</mat-icon>
+                    <input
+                        type="text"
+                        [placeholder]="
+                            'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate
+                        "
+                        (input)="updateSearch($event)"
+                        (click)="$event.stopPropagation()"
+                    />
+                </div>
+            }
+
+            <ul class="ui-select-panel" role="listbox" [id]="panelId">
+                @if (!filteredOptions().length) {
+                    <li class="ui-select-panel__empty">
+                        {{ 'GENERAL.NO-OPTIONS' | translate }}
+                    </li>
+                }
+
+                @for (
+                    option of filteredOptions();
+                    track option.value;
+                    let i = $index
+                ) {
+                    <li
+                        class="ui-select-panel__option"
+                        role="option"
+                        [class.ui-select-panel__option--active]="
+                            i === activeIndex()
+                        "
+                        [class.ui-select-panel__option--selected]="
+                            isSelected(option.value)
+                        "
+                        [attr.aria-selected]="isSelected(option.value)"
+                        (click)="toggleOption(option, $event)"
+                        (keydown.enter)="toggleOption(option, $event)"
+                        (keydown.space)="toggleOption(option, $event)"
+                        (mouseenter)="activeIndex.set(i)"
+                    >
+                        <span>{{ option.viewValue }}</span>
+
+                        @if (isSelected(option.value)) {
+                            <mat-icon class="ui-select-panel__check"
+                                >check</mat-icon
+                            >
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </ng-template>
+</div>

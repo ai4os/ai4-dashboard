@@ -1,26 +1,38 @@
-<mat-card class="basic-card" [routerLink]="['ai4life/' + module.name]">
-    <mat-card-header class="basic-card-header">
-        <mat-card-title>
-            <mat-icon
-                color="primary"
-                [matTooltip]="'CATALOG.AI4LIFE' | translate"
-                >biotech</mat-icon
-            >
-            <span>{{ module.name }}</span>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <mat-divider></mat-divider>
+<app-ui-card [accentColor]="'var(--color-primary)'" (click)="openModule()">
+    <header class="module-card__header">
+        <span class="module-card__title">
+            <mat-icon class="module-card__icon">biotech</mat-icon>
+            <h3 class="module-card__title">{{ module.name }}</h3>
+        </span>
+    </header>
 
-        <div class="basic-card-content">
-            <mat-card-subtitle class="mt-2">
-                <markdown
-                    [data]="module.description"
-                    ngPreserveWhitespaces
-                    [disableSanitizer]="true"
-                >
-                </markdown>
-            </mat-card-subtitle>
-        </div>
-    </mat-card-content>
-</mat-card>
+    <div class="module-card__body">
+        @if (module.description) {
+            <markdown
+                [data]="module.description"
+                ngPreserveWhitespaces
+                [disableSanitizer]="true"
+            ></markdown>
+        }
+    </div>
+
+    <footer class="module-card__footer">
+        @if (module.license) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="license"
+                [text]="module.license"
+                [tooltip]="'CATALOG.DETAIL.LICENSE' | translate"
+            ></app-ui-chip>
+        }
+
+        @if (module.downloadCount && module.downloadCount !== '?') {
+            <app-ui-chip
+                variant="default-solid"
+                icon="download"
+                [text]="module.downloadCount"
+                [tooltip]="'CATALOG.DETAIL.DOWNLOADS' | translate"
+            ></app-ui-chip>
+        }
+    </footer>
+</app-ui-card>

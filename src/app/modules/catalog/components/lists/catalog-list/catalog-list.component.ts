@@ -1,375 +1,254 @@
-import { MediaMatcher } from '@angular/cdk/layout';
 import {
-    ChangeDetectorRef,
-    Component,
-    Input,
     ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
     OnInit,
-    OnDestroy,
+    computed,
+    effect,
     inject,
+    input,
+    signal,
 } from '@angular/core';
-import {
-    FormBuilder,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-} from '@angular/forms';
-import {
-    MatChipSelectionChange,
-    MatChip,
-    MatChipListbox,
-    MatChipOption,
-} from '@angular/material/chips';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatBadge } from '@angular/material/badge';
+import { MatDivider } from '@angular/material/divider';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
 import { FiltersConfigurationDialogComponent } from '@app/modules/catalog/components/filters/filters-configuration-dialog/filters-configuration-dialog.component';
 import {
     ModuleSummary,
     FilterGroup,
 } from '@app/shared/interfaces/module.interface';
-import { MatToolbar } from '@angular/material/toolbar';
-import {
-    MatFormField,
-    MatPrefix,
-    MatLabel,
-    MatInput,
-} from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
-import { MatBadge } from '@angular/material/badge';
-import { MatDivider } from '@angular/material/list';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 import { FilterComponentComponent } from '../../filters/filter-component/filter-component.component';
-import { NgStyle } from '@angular/common';
 import { Ai4eoscModuleCardComponent } from '../../modules-cards/ai4eosc-module-card/ai4eosc-module-card.component';
-import { TranslatePipe } from '@ngx-translate/core';
-import { SearchAi4eoscPipe } from '../../../pipes/search-card-pipe';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { SelectOption } from '@app/shared/components/ui/ui-select/ui-select.component';
+
+type SortBy = 'name' | 'recent';
+
+const MOBILE_BREAKPOINT = '(max-width: 600px)';
+const SEARCH_DEBOUNCE_MS = 250;
+const PAGE_SIZE = 16;
+const SESSION_STORAGE_KEY = 'selectedFilters';
 
 @Component({
     selector: 'app-catalog-list',
     templateUrl: './catalog-list.component.html',
     styleUrl: './catalog-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatToolbar,
-        FormsModule,
         ReactiveFormsModule,
-        MatFormField,
         MatIcon,
-        MatPrefix,
-        MatLabel,
-        MatInput,
-        MatChip,
         MatBadge,
         MatDivider,
-        MatChipListbox,
-        MatChipOption,
+        MatPaginator,
         FilterComponentComponent,
-        NgStyle,
         Ai4eoscModuleCardComponent,
+        UiTextFieldComponent,
+        UiLoaderComponent,
         TranslatePipe,
-        SearchAi4eoscPipe,
+        FormsModule,
+        UiButtonComponent,
     ],
 })
-export class CatalogListComponent implements OnInit, OnDestroy {
-    private fb = inject(FormBuilder);
-    private appConfigService = inject(AppConfigService);
-    private media = inject(MediaMatcher);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    dialog = inject(MatDialog);
+export class CatalogListComponent implements OnInit {
+    // Data source: the parent (modules-list, tools-list, ...) owns the
+    // store/service call and just feeds the resulting elements + status here.
+    readonly elements = input.required<ModuleSummary[]>();
+    readonly loading = input<boolean>(false);
+    readonly error = input<boolean>(false);
 
+    // Each consumer keeps its own "additional filters" state isolated in
+    // sessionStorage (otherwise modules and tools would overwrite each other).
+    readonly storageKey = input<string>(SESSION_STORAGE_KEY);
+
+    private readonly fb = inject(FormBuilder);
+    private readonly breakpointObserver = inject(BreakpointObserver);
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly translate = inject(TranslateService);
+
+    readonly dialog = inject(MatDialog);
+
+    readonly isMobile = toSignal(
+        this.breakpointObserver
+            .observe(MOBILE_BREAKPOINT)
+            .pipe(map((state) => state.matches)),
+        { initialValue: this.breakpointObserver.isMatched(MOBILE_BREAKPOINT) }
+    );
+
+    readonly filtersForm = this.fb.nonNullable.group({
+        search: '',
+    });
+
+    private readonly searchTerm = toSignal(
+        this.filtersForm.controls.search.valueChanges.pipe(
+            startWith(this.filtersForm.controls.search.value),
+            debounceTime(SEARCH_DEBOUNCE_MS)
+        ),
+        { initialValue: this.filtersForm.controls.search.value }
+    );
+
+    readonly sortBy = signal<SortBy>('name');
+
+    // Optional default set of "additional filters" a parent can request the
+    // first time the list loads (e.g. VO-specific defaults). Replaces the
+    // hard-coded IMAGINE_VO logic that used to live in this component.
+    readonly initialFilters = input<FilterGroup[]>([]);
+
+    // "additional filters" applied through the filters dialog (OR'd together)
+    readonly selectedFilters = signal<FilterGroup[]>([]);
+
+    // inline dynamic filters (AND'd together)
+    readonly selectedLibraries = signal<string[]>([]);
+    readonly selectedTasks = signal<string[]>([]);
+    readonly selectedCategories = signal<string[]>([]);
+    readonly selectedDatatypes = signal<string[]>([]);
+    readonly selectedTags = signal<string[]>([]);
+
+    readonly sortOptions: SelectOption[] = [
+        {
+            value: 'name',
+            viewValue: this.translate.instant('CATALOG.SORTING.NAME'),
+        },
+        {
+            value: 'recent',
+            viewValue: this.translate.instant('CATALOG.SORTING.MOST-RECENT'),
+        },
+    ];
+
+    readonly pageIndex = signal(0);
+    readonly pageSize = PAGE_SIZE;
+
+    readonly librariesList = computed(() => this.getFilterOptions('libraries'));
+    readonly tasksList = computed(() => this.getFilterOptions('tasks'));
+    readonly categoriesList = computed(() =>
+        this.getFilterOptions('categories')
+    );
+    readonly datatypesList = computed(() => this.getFilterOptions('data-type'));
+    readonly tagsList = computed(() => this.getFilterOptions('tags', true));
+
+    readonly filteredElements = computed(() => {
+        const search = this.searchTerm().trim().toLowerCase();
+        const filtered = this.applyFilters(this.elements());
+
+        if (!search) return filtered;
+
+        return filtered.filter(
+            (m) =>
+                m.title?.toLowerCase().includes(search) ||
+                m.summary?.toLowerCase().includes(search)
+        );
+    });
+
+    readonly sortedElements = computed(() => {
+        const sortBy = this.sortBy();
+        const elements = [...this.filteredElements()];
+
+        if (sortBy === 'name') {
+            return elements.sort((a, b) => a.title.localeCompare(b.title));
+        }
+
+        return elements.sort((a, b) => {
+            if (a.dates === undefined) return 1;
+            if (b.dates === undefined) return -1;
+
+            const dateA = new Date(a.dates.updated).getTime();
+            const dateB = new Date(b.dates.updated).getTime();
+
+            if (isNaN(dateA)) return 1;
+            if (isNaN(dateB)) return -1;
+
+            return dateB - dateA;
+        });
+    });
+
+    readonly resultsFound = computed(() => this.sortedElements().length);
+
+    readonly pagedElements = computed(() => {
+        const start = this.pageIndex() * this.pageSize;
+        return this.sortedElements().slice(start, start + this.pageSize);
+    });
     constructor() {
-        const changeDetectorRef = this.changeDetectorRef;
+        // reset pagination whenever the filtered/sorted result set changes
+        effect(
+            () => {
+                this.sortedElements();
+                this.pageIndex.set(0);
+            },
+            { allowSignalWrites: true }
+        );
 
-        this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-        this.voName = this.appConfigService.voName;
+        this.destroyRef.onDestroy(() => {
+            sessionStorage.setItem(
+                this.storageKey(),
+                JSON.stringify(this.selectedFilters())
+            );
+        });
     }
-    @Input() elements: ModuleSummary[] = [];
-
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
-
-    displayedElements: ModuleSummary[] = [];
-    searchFormGroup!: FormGroup;
-    resultsFound = 0;
-    voName = '';
-
-    // sorting
-    sortBy = 'name';
-
-    // options
-    librariesList: Set<string> = new Set<string>();
-    tasksList: Set<string> = new Set<string>();
-    categoriesList: Set<string> = new Set<string>();
-    datatypesList: Set<string> = new Set<string>();
-    tagsList: Set<string> = new Set<string>();
-
-    // applied filters
-    selectedFilters: FilterGroup[] = [];
-    selectedLibraries: string[] = [];
-    selectedTasks: string[] = [];
-    selectedCategories: string[] = [];
-    selectedDatatypes: string[] = [];
-    selectedTags: string[] = [];
 
     ngOnInit(): void {
-        this.initializeForm();
+        const previousSelectedFilters = sessionStorage.getItem(
+            this.storageKey()
+        );
+        const parsedFilters: FilterGroup[] = previousSelectedFilters
+            ? JSON.parse(previousSelectedFilters)
+            : [];
 
-        this.librariesList = this.getFilters('libraries');
-        this.tasksList = this.getFilters('tasks');
-        this.categoriesList = this.getFilters('categories');
-        this.datatypesList = this.getFilters('data-type');
-        this.tagsList = this.getFilters('tags');
-
-        this.displayedElements = this.elements;
-        this.resultsFound = this.displayedElements.length;
-        this.orderElements();
-
-        const previousSelectedFilters =
-            sessionStorage.getItem('selectedFilters');
-        if (previousSelectedFilters) {
-            this.selectedFilters = JSON.parse(previousSelectedFilters);
-            this.updateFilters();
+        if (parsedFilters.length > 0) {
+            this.selectedFilters.set(parsedFilters);
         } else {
             this.applyInitialFilters();
         }
     }
 
-    initializeForm() {
-        this.searchFormGroup = this.fb.group({
-            search: '',
-        });
+    onPageChange(event: PageEvent): void {
+        this.pageIndex.set(event.pageIndex);
     }
 
-    applyInitialFilters() {
-        if (this.appConfigService.voName === 'vo.imagine-ai.eu') {
-            this.addFilter({
-                libraries: [],
-                tasks: [],
-                categories: ['AI4 tools'],
-                datatypes: [],
-                tags: [],
-            });
-            this.addFilter({
-                libraries: [],
-                tasks: [],
-                categories: [],
-                datatypes: [],
-                tags: ['vo.imagine-ai.eu'],
-            });
-            this.addFilter({
-                libraries: [],
-                tasks: [],
-                categories: [],
-                datatypes: ['Image'],
-                tags: ['general purpose'],
-            });
-        }
-    }
-
-    getNumResults(): number {
-        let filteredList = this.displayedElements;
-
-        filteredList = filteredList.filter(
-            (f) =>
-                f.title
-                    .toLocaleLowerCase()
-                    .includes(
-                        this.searchFormGroup.controls[
-                            'search'
-                        ].value.toLocaleLowerCase()
-                    ) ||
-                f.summary
-                    .toLocaleLowerCase()
-                    .includes(
-                        this.searchFormGroup.controls[
-                            'search'
-                        ].value.toLocaleLowerCase()
-                    )
+    toggleSort(): void {
+        this.sortBy.update((current) =>
+            current === 'name' ? 'recent' : 'name'
         );
-
-        return filteredList.length;
+    }
+    onSortChange(sortValue: SortBy): void {
+        this.sortBy.set(sortValue);
     }
 
-    getFilters(filter: string): Set<string> {
-        let options: string[] = [];
-        const tagFrequencyMap: Record<string, number> = {};
-
-        this.elements.forEach((m) => {
-            const variables = m[filter];
-            if (variables !== undefined) {
-                if (filter === 'tags') {
-                    variables.forEach((v: string) => {
-                        if (tagFrequencyMap[v]) {
-                            tagFrequencyMap[v]++;
-                        } else {
-                            tagFrequencyMap[v] = 1;
-                        }
-                    });
-                } else {
-                    options = options.concat(variables);
-                }
-            }
-        });
-
-        if (options.includes('Other')) {
-            options = options.filter((option) => option !== 'Other');
-            options.push('Other');
-        }
-
-        if (filter === 'tags') {
-            // order tags by frequency
-            options = Object.keys(tagFrequencyMap).sort((a, b) => {
-                return tagFrequencyMap[b] - tagFrequencyMap[a];
-            });
-        }
-
-        return new Set(options);
-    }
-
-    addFilter(filter: FilterGroup) {
+    addFilter(filter: FilterGroup): void {
         if (filter) {
-            this.selectedFilters.push(filter);
+            this.selectedFilters.update((filters) => [...filters, filter]);
         }
-        this.resetFilters();
-        this.updateFilters();
+        this.resetDynamicFilters();
     }
 
-    updateFilters() {
-        let joinedFilteredElements = new Set<ModuleSummary>();
-        let dynamicFilteredElements: ModuleSummary[] = [];
-        let staticFilteredElements: ModuleSummary[] = [];
+    filterByLibrary(libraries: string[]): void {
+        this.selectedLibraries.set(libraries);
+    }
 
-        // filter by static filters
-        if (this.selectedFilters.length > 0) {
-            this.selectedFilters.forEach((filter) => {
-                staticFilteredElements = this.elements;
-                // libraries filter
-                if (filter.libraries.length > 0) {
-                    staticFilteredElements = staticFilteredElements.filter(
-                        (m) =>
-                            filter.libraries.some((lib) =>
-                                m.libraries.includes(lib)
-                            )
-                    );
-                }
+    filterByTask(tasks: string[]): void {
+        this.selectedTasks.set(tasks);
+    }
 
-                // tasks filter
-                if (filter.tasks.length > 0) {
-                    staticFilteredElements = staticFilteredElements.filter(
-                        (m) =>
-                            filter.tasks.some((task) => m.tasks.includes(task))
-                    );
-                }
+    filterByCategory(categories: string[]): void {
+        this.selectedCategories.set(categories);
+    }
 
-                // categories filter
-                if (filter.categories.length > 0) {
-                    staticFilteredElements = staticFilteredElements.filter(
-                        (m) =>
-                            filter.categories.some((cat) =>
-                                m.categories.includes(cat)
-                            )
-                    );
-                }
-                // datatypes filter
-                if (filter.datatypes.length > 0) {
-                    staticFilteredElements = staticFilteredElements.filter(
-                        (m) =>
-                            filter.datatypes.some((dt) =>
-                                m['data-type']?.includes(dt)
-                            )
-                    );
-                }
-                // tags filter
-                if (filter.tags.length > 0) {
-                    staticFilteredElements = staticFilteredElements.filter(
-                        (m) => filter.tags.some((tag) => m.tags.includes(tag))
-                    );
-                }
+    filterByDatatype(datatypes: string[]): void {
+        this.selectedDatatypes.set(datatypes);
+    }
 
-                joinedFilteredElements = new Set([
-                    ...joinedFilteredElements,
-                    ...staticFilteredElements,
-                ]);
-            });
-        } else {
-            joinedFilteredElements = new Set([
-                ...joinedFilteredElements,
-                ...this.elements,
-            ]);
-        }
-
-        if (
-            this.selectedLibraries.length !== 0 ||
-            this.selectedTasks.length !== 0 ||
-            this.selectedCategories.length !== 0 ||
-            this.selectedDatatypes.length !== 0 ||
-            this.selectedTags.length !== 0
-        ) {
-            dynamicFilteredElements = this.elements;
-        }
-
-        // filter by dynamic filters
-        // libraries filter
-        if (this.selectedLibraries.length > 0) {
-            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
-                this.selectedLibraries.some((lib) => m.libraries.includes(lib))
-            );
-        }
-        // tasks filter
-        if (this.selectedTasks.length > 0) {
-            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
-                this.selectedTasks.some((task) => m.tasks.includes(task))
-            );
-        }
-        // categories filter
-        if (this.selectedCategories.length > 0) {
-            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
-                this.selectedCategories.some((cat) =>
-                    m.categories.includes(cat)
-                )
-            );
-        }
-        // datatypes filter
-        if (this.selectedDatatypes.length > 0) {
-            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
-                this.selectedDatatypes.some((dt) =>
-                    m['data-type']?.includes(dt)
-                )
-            );
-        }
-        // tags filter
-        if (this.selectedTags.length > 0) {
-            dynamicFilteredElements = dynamicFilteredElements.filter((m) =>
-                this.selectedTags.some((tag) => m.tags.includes(tag))
-            );
-        }
-
-        if (this.selectedFilters.length === 0) {
-            if (
-                this.selectedLibraries.length === 0 &&
-                this.selectedTasks.length === 0 &&
-                this.selectedCategories.length === 0 &&
-                this.selectedDatatypes.length === 0 &&
-                this.selectedTags.length === 0
-            ) {
-                // if no filters are selected, show all elements
-                joinedFilteredElements = new Set([...this.elements]);
-            } else {
-                // if only dynamic filters are selected, filter by dynamic filters
-                joinedFilteredElements = new Set([...dynamicFilteredElements]);
-            }
-        } else {
-            // if static filters are selected, filter by static and dynamic filters
-            joinedFilteredElements = new Set([
-                ...joinedFilteredElements,
-                ...dynamicFilteredElements,
-            ]);
-        }
-
-        this.displayedElements = Array.from(joinedFilteredElements);
-        this.orderElements();
-        this.resultsFound = this.getNumResults();
+    filterByTag(tags: string[]): void {
+        this.selectedTags.set(tags);
     }
 
     openFiltersConfiguration(): void {
@@ -377,101 +256,177 @@ export class CatalogListComponent implements OnInit, OnDestroy {
             FiltersConfigurationDialogComponent,
             {
                 disableClose: true,
-                data: this.selectedFilters,
+                data: this.selectedFilters(),
+                panelClass: 'ui-dialog-panel',
             }
         );
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.selectedFilters = result;
-                this.updateFilters();
+                this.selectedFilters.set(result);
             }
         });
     }
 
-    orderElements() {
-        // sort by name
-        if (this.sortBy === 'name') {
-            this.displayedElements.sort((a, b) => {
-                return a.title.localeCompare(b.title);
-            });
-        }
-
-        // order by most recent
-        if (this.sortBy === 'recent') {
-            this.displayedElements.sort((a, b) => {
-                // handle cases where dates are missing
-                if (a.dates === undefined) return 1;
-                if (b.dates === undefined) return -1;
-
-                const dateA = new Date(a.dates.updated).getTime();
-                const dateB = new Date(b.dates.updated).getTime();
-
-                // handle cases where updated dates are invalid or missing
-                if (isNaN(dateA)) return 1;
-                if (isNaN(dateB)) return -1;
-
-                return dateB - dateA;
-            });
-        }
+    private resetDynamicFilters(): void {
+        this.selectedLibraries.set([]);
+        this.selectedTasks.set([]);
+        this.selectedCategories.set([]);
+        this.selectedDatatypes.set([]);
+        this.selectedTags.set([]);
     }
 
-    resetFilters() {
-        this.selectedLibraries = [];
-        this.selectedTasks = [];
-        this.selectedCategories = [];
-        this.selectedDatatypes = [];
-        this.selectedTags = [];
+    private applyInitialFilters(): void {
+        if (this.initialFilters().length === 0) return;
+        this.selectedFilters.set(this.initialFilters());
     }
 
-    filterByLibrary(libraries: string[]) {
-        this.selectedLibraries = libraries;
-        this.updateFilters();
-    }
-
-    filterByTask(tasks: string[]) {
-        this.selectedTasks = tasks;
-        this.updateFilters();
-    }
-
-    filterByCategory(categories: string[]) {
-        this.selectedCategories = categories;
-        this.updateFilters();
-    }
-
-    filterByDatatype(datatypes: string[]) {
-        this.selectedDatatypes = datatypes;
-        this.updateFilters();
-    }
-
-    filterByTag(tags: string[]) {
-        this.selectedTags = tags;
-        this.updateFilters();
-    }
-
-    selectedSortingChip(event: MatChipSelectionChange) {
-        const selectedChipValue = event.source.value;
-
-        if (!event.selected && selectedChipValue === this.sortBy) {
-            event.source.select();
-            return;
-        }
-
-        if (event.selected) {
-            if (selectedChipValue === 'name') {
-                this.sortBy = 'name';
-            } else if (selectedChipValue === 'recent') {
-                this.sortBy = 'recent';
-            }
-
-            this.orderElements();
-        }
-    }
-
-    ngOnDestroy(): void {
-        sessionStorage.setItem(
-            'selectedFilters',
-            JSON.stringify(this.selectedFilters)
+    private applyFilters(elements: ModuleSummary[]): ModuleSummary[] {
+        const staticFilters = this.selectedFilters();
+        const dynamicFacets = {
+            libraries: this.selectedLibraries(),
+            tasks: this.selectedTasks(),
+            categories: this.selectedCategories(),
+            datatypes: this.selectedDatatypes(),
+            tags: this.selectedTags(),
+        };
+        const hasDynamicFacets = Object.values(dynamicFacets).some(
+            (values) => values.length > 0
         );
+
+        const staticResult = new Set<ModuleSummary>();
+        if (staticFilters.length > 0) {
+            staticFilters.forEach((filter) => {
+                this.matchStaticFilter(elements, filter).forEach((m) =>
+                    staticResult.add(m)
+                );
+            });
+        }
+
+        let dynamicResult: ModuleSummary[] = [];
+        if (hasDynamicFacets) {
+            dynamicResult = this.matchDynamicFacets(elements, dynamicFacets);
+        }
+
+        if (staticFilters.length === 0 && !hasDynamicFacets) {
+            return elements;
+        }
+        if (staticFilters.length === 0) {
+            return dynamicResult;
+        }
+
+        return Array.from(new Set([...staticResult, ...dynamicResult]));
+    }
+
+    private matchStaticFilter(
+        elements: ModuleSummary[],
+        filter: FilterGroup
+    ): ModuleSummary[] {
+        let result = elements;
+
+        if (filter.libraries.length > 0) {
+            result = result.filter((m) =>
+                filter.libraries.some((lib) => m.libraries.includes(lib))
+            );
+        }
+        if (filter.tasks.length > 0) {
+            result = result.filter((m) =>
+                filter.tasks.some((task) => m.tasks.includes(task))
+            );
+        }
+        if (filter.categories.length > 0) {
+            result = result.filter((m) =>
+                filter.categories.some((cat) => m.categories.includes(cat))
+            );
+        }
+        if (filter.datatypes.length > 0) {
+            result = result.filter((m) =>
+                filter.datatypes.some((dt) => m['data-type']?.includes(dt))
+            );
+        }
+        if (filter.tags.length > 0) {
+            result = result.filter((m) =>
+                filter.tags.some((tag) => m.tags.includes(tag))
+            );
+        }
+
+        return result;
+    }
+
+    private matchDynamicFacets(
+        elements: ModuleSummary[],
+        facets: {
+            libraries: string[];
+            tasks: string[];
+            categories: string[];
+            datatypes: string[];
+            tags: string[];
+        }
+    ): ModuleSummary[] {
+        let result = elements;
+
+        if (facets.libraries.length > 0) {
+            result = result.filter((m) =>
+                facets.libraries.some((lib) => m.libraries.includes(lib))
+            );
+        }
+        if (facets.tasks.length > 0) {
+            result = result.filter((m) =>
+                facets.tasks.some((task) => m.tasks.includes(task))
+            );
+        }
+        if (facets.categories.length > 0) {
+            result = result.filter((m) =>
+                facets.categories.some((cat) => m.categories.includes(cat))
+            );
+        }
+        if (facets.datatypes.length > 0) {
+            result = result.filter((m) =>
+                facets.datatypes.some((dt) => m['data-type']?.includes(dt))
+            );
+        }
+        if (facets.tags.length > 0) {
+            result = result.filter((m) =>
+                facets.tags.some((tag) => m.tags.includes(tag))
+            );
+        }
+
+        return result;
+    }
+
+    private getFilterOptions(
+        filter: string,
+        sortByFrequency = false
+    ): Set<string> {
+        let options: string[] = [];
+        const frequencyMap: Record<string, number> = {};
+
+        this.elements().forEach((m) => {
+            const values = m[filter];
+            if (values === undefined) return;
+
+            if (sortByFrequency) {
+                values.forEach((v: string) => {
+                    frequencyMap[v] = (frequencyMap[v] ?? 0) + 1;
+                });
+            } else {
+                options = options.concat(values);
+            }
+        });
+
+        if (sortByFrequency) {
+            const sorted = Object.keys(frequencyMap).sort(
+                (a, b) => frequencyMap[b] - frequencyMap[a]
+            );
+            return new Set(sorted);
+        }
+
+        if (options.includes('Other')) {
+            options = [
+                ...options.filter((option) => option !== 'Other'),
+                'Other',
+            ];
+        }
+        return new Set(options);
     }
 }

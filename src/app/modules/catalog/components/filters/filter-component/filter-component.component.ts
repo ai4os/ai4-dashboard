@@ -7,22 +7,10 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { FilterGroup } from '@app/shared/interfaces/module.interface';
-import {
-    MatFormField,
-    MatLabel,
-    MatPrefix,
-    MatInput,
-} from '@angular/material/input';
-import {
-    MatSelect,
-    MatSelectTrigger,
-    MatOption,
-} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiSelectMultipleComponent } from '@app/shared/components/ui/ui-select-multiple/ui-select-multiple.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 
 @Component({
     selector: 'app-filter-component',
@@ -30,19 +18,10 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrls: ['./filter-component.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatFormField,
-        MatLabel,
-        MatPrefix,
-        MatSelect,
         FormsModule,
-        MatSelectTrigger,
-        MatOption,
-        MatInput,
-        MatFabButton,
-        MatMiniFabButton,
-        MatTooltip,
-        MatIcon,
         TranslatePipe,
+        UiSelectMultipleComponent,
+        UiButtonComponent,
     ],
 })
 export class FilterComponentComponent implements OnInit {
@@ -58,6 +37,31 @@ export class FilterComponentComponent implements OnInit {
     @Output() datatypesChanged = new EventEmitter<string[]>();
     @Output() tagsChanged = new EventEmitter<string[]>();
     @Output() changeDetected = new EventEmitter<FilterGroup>();
+
+    get libraryOptions() {
+        return Array.from(this.libraries).map((v) => ({
+            value: v,
+            viewValue: v,
+        }));
+    }
+    get taskOptions() {
+        return Array.from(this.tasks).map((v) => ({ value: v, viewValue: v }));
+    }
+    get categoryOptions() {
+        return Array.from(this.categories).map((v) => ({
+            value: v,
+            viewValue: v,
+        }));
+    }
+    get datatypeOptions() {
+        return Array.from(this.datatypes).map((v) => ({
+            value: v,
+            viewValue: v,
+        }));
+    }
+    get tagOptions() {
+        return Array.from(this.tags).map((v) => ({ value: v, viewValue: v }));
+    }
 
     selectedLibraries: string[] = [];
     selectedTasks: string[] = [];
