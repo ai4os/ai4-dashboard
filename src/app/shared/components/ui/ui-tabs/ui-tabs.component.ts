@@ -29,10 +29,16 @@ export class UiTabsComponent {
     @Input() activeTabId?: string;
     @Output() tabChange = new EventEmitter<string>();
 
-    selectTab(id: string): void {
-        if (this.activeTabId !== id) {
-            this.activeTabId = id;
-            this.tabChange.emit(id);
+    indicatorLeft: number = 0;
+    indicatorWidth: number = 0;
+
+    selectTab(id: string, element?: EventTarget | null) {
+        this.activeTabId = id;
+        this.tabChange.emit(id);
+
+        if (element instanceof HTMLElement) {
+            this.indicatorLeft = element.offsetLeft + 12;
+            this.indicatorWidth = element.offsetWidth - 24;
         }
     }
 }
