@@ -23,10 +23,10 @@ import { TranslateService } from '@ngx-translate/core';
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../general-conf-form/general-conf-form.component';
+} from '../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
-import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
-import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
+import { HardwareConfFormComponent } from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
+import { StorageConfFormComponent } from '../../conf-forms/storage-conf-form/storage-conf-form.component';
 import { MatDivider } from '@angular/material/divider';
 import { BatchConfFormComponent } from '../../conf-forms/batch-conf-form/batch-conf-form.component';
 

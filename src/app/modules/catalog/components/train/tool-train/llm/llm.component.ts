@@ -18,7 +18,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../../general-conf-form/general-conf-form.component';
+} from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { LlmConfFormComponent } from '../../../conf-forms/llm-conf-form/llm-conf-form.component';
 import { MatDivider } from '@angular/material/divider';

@@ -2,6 +2,26 @@
     padding: 8px 16px;
 }
 
+.conf-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    h4 {
+        margin-block: var(--space-md);
+    }
+}
+
+.title-and-toggles {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+
+    app-ui-chip {
+        margin-left: auto;
+    }
+}
+
 .ui-text-field__hint {
     font-size: var(--font-size-xs);
     color: var(--color-text-tertiary);
@@ -28,16 +48,6 @@
             width: 40px !important;
             height: auto !important;
         }
-    }
-}
-
-.step-title {
-    display: flex;
-    align-items: center;
-    gap: 1.5em;
-
-    app-ui-chip {
-        margin-left: auto;
     }
 }
 

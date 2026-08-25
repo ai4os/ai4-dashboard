@@ -1,5 +1,7 @@
-<form [formGroup]="hardwareConfFormGroup">
-    <h4>{{ 'CATALOG.CONF-FORMS.HARDWARE.SUBTITLE' | translate }}</h4>
+<form [formGroup]="hardwareConfFormGroup" class="conf-form">
+    <span class="title-and-toggles">
+        <h4>{{ 'CATALOG.CONF-FORMS.HARDWARE.SUBTITLE' | translate }}</h4>
+    </span>
     <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,

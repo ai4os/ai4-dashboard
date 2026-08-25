@@ -4,9 +4,9 @@ import { NomadTrainComponent } from './nomad-train.component';
 import { FormBuilder, FormGroupDirective } from '@angular/forms';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
-import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
-import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
+import { StorageConfFormComponent } from '../../conf-forms/storage-conf-form/storage-conf-form.component';
+import { HardwareConfFormComponent } from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
+import { GeneralConfFormComponent } from '../../conf-forms/general-conf-form/general-conf-form.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 

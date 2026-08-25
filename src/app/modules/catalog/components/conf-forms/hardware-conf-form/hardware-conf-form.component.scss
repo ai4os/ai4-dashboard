@@ -1,0 +1,15 @@
+.conf-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    h4 {
+        margin-block: var(--space-md);
+    }
+}
+
+.title-and-toggles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -13,7 +13,7 @@ import {
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../../general-conf-form/general-conf-form.component';
+} from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import {
     FormBuilder,
     FormGroup,
@@ -24,7 +24,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
     ShowHardwareField,
     HardwareConfFormComponent,
-} from '../../hardware-conf-form/hardware-conf-form.component';
+} from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { NvflareConfFormComponent } from './nvflare-conf-form/nvflare-conf-form.component';

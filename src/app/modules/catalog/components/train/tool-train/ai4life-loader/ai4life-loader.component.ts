@@ -20,11 +20,11 @@ import {
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../../general-conf-form/general-conf-form.component';
+} from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import {
     ShowHardwareField,
     HardwareConfFormComponent,
-} from '../../hardware-conf-form/hardware-conf-form.component';
+} from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 
 @Component({

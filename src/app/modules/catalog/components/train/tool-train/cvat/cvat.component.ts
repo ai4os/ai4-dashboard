@@ -21,9 +21,9 @@ import {
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../../general-conf-form/general-conf-form.component';
+} from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
-import { StorageConfFormComponent } from '../../storage-conf-form/storage-conf-form.component';
+import { StorageConfFormComponent } from '../../../conf-forms/storage-conf-form/storage-conf-form.component';
 
 @Component({
     selector: 'app-cvat',

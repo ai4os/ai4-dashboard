@@ -10,9 +10,9 @@ import {
     mockAi4eoscModules,
     mockedModuleConfiguration,
 } from '../modules-service/modules-service.mock';
-import { generalDefaultFormValues } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component.mock';
-import { hardwareDefaultFormValues } from '@app/modules/catalog/components/train/hardware-conf-form/hardware-conf-form.component.mock';
-import { storageDefaultFormValues } from '@app/modules/catalog/components/train/storage-conf-form/storage-conf-form.component.mock';
+import { generalDefaultFormValues } from '@app/modules/catalog/components/conf-forms/general-conf-form/general-conf-form.component.mock';
+import { hardwareDefaultFormValues } from '@app/modules/catalog/components/conf-forms/hardware-conf-form/hardware-conf-form.component.mock';
+import { storageDefaultFormValues } from '@app/modules/catalog/components/conf-forms/storage-conf-form/storage-conf-form.component.mock';
 import { flowerDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/federated-server/federated-conf-form/federated-conf-form.component.mock';
 import { llmDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/llm/llm.component.mock';
 import { nvflareDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component.mock';

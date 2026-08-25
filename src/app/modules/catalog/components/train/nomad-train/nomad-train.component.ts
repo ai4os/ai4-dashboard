@@ -22,9 +22,9 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
-import { GeneralConfFormComponent } from '../general-conf-form/general-conf-form.component';
-import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
-import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
+import { GeneralConfFormComponent } from '../../conf-forms/general-conf-form/general-conf-form.component';
+import { HardwareConfFormComponent } from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
+import { StorageConfFormComponent } from '../../conf-forms/storage-conf-form/storage-conf-form.component';
 
 @Component({
     selector: 'app-nomad-train',

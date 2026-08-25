@@ -42,7 +42,7 @@ import {
 } from '@angular/material/chips';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
-import { DatasetsListComponent } from '../datasets/datasets-list/datasets-list.component';
+import { DatasetsListComponent } from '../../train/datasets/datasets-list/datasets-list.component';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
 import {
