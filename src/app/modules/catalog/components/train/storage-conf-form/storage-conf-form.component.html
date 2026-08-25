@@ -1,7 +1,7 @@
-<form [formGroup]="storageConfFormGroup" class="storage-conf-form">
+<form [formGroup]="storageConfFormGroup">
     <div class="step-title">
         <h4>
-            {{ 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-CONF' | translate }}
+            {{ 'CATALOG.CONF-FORMS.DATA.SUBTITLE-STORAGE' | translate }}
         </h4>
         @if (
             isCvatTool &&
@@ -13,25 +13,19 @@
                         ?.value
                 ) === undefined)
         ) {
-            <span>
-                <mat-chip>
-                    <span class="aligned-with-icon scale-icon-down">
-                        <mat-icon class="warning-icon">warning</mat-icon>
-                        {{
-                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.NO-STORAGE-SELECTED'
-                                | translate
-                        }}
-                    </span>
-                </mat-chip>
-            </span>
+            <app-ui-chip
+                variant="danger-solid"
+                icon="warning"
+                [text]="
+                    'CATALOG.CONF-FORMS.DATA.NO-STORAGE-SELECTED' | translate
+                "
+            ></app-ui-chip>
         } @else if (rcloneIsRequired) {
-            <mat-chip class="rclone-warning">
-                <mat-icon matChipAvatar color="warn">warning</mat-icon>
-                {{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-ERROR'
-                        | translate
-                }}
-            </mat-chip>
+            <app-ui-chip
+                variant="danger-solid"
+                icon="warning"
+                [text]="'CATALOG.CONF-FORMS.DATA.STORAGE-ERROR' | translate"
+            ></app-ui-chip>
         }
     </div>
     <div
@@ -41,59 +35,45 @@
             'grid-1-column': !mobileQuery.matches,
         }"
     >
-        <mat-form-field>
-            <mat-label>{{
-                'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE'
-                    | translate
-            }}</mat-label>
-            <mat-select
+        <div style="position: relative">
+            <app-ui-select
                 formControlName="storageServiceDatasetSelect"
-                (selectionChange)="updateStorageConfiguration()"
+                label="CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE"
+                [options]="storageServiceOptions"
+                (valueChange)="updateStorageConfiguration()"
             >
-                <mat-option>-</mat-option>
-                @for (
-                    storageServiceOption of storageServiceOptions;
-                    track storageServiceOption
-                ) {
-                    <mat-option [value]="storageServiceOption.value">
-                        {{ storageServiceOption.viewValue }}
-                    </mat-option>
+                @if (_showHelp) {
+                    <div ui-hint class="ui-text-field__hint">
+                        {{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-HINT-1'
+                                | translate
+                        }}
+                        <a [routerLink]="['/profile']" target="_blank">{{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-HINT-2'
+                                | translate
+                        }}</a
+                        >.
+                    </div>
                 }
-            </mat-select>
+                @if (!_showHelp && credentials.length === 0) {
+                    <div ui-hint class="ui-text-field__hint">
+                        {{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-UNAVAILABLE'
+                                | translate
+                        }}
+                        <a [routerLink]="['/profile']" target="_blank">{{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-TRY-LINK'
+                                | translate
+                        }}</a
+                        >.
+                    </div>
+                }
+            </app-ui-select>
+
             @if (credentialsLoading) {
-                <mat-spinner
-                    matSuffix
-                    [diameter]="18"
-                    class="input-spinner"
-                ></mat-spinner>
+                <app-ui-loader></app-ui-loader>
             }
-            @if (_showHelp) {
-                <mat-hint>
-                    {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-HINT'
-                            | translate
-                    }}
-                    <a [routerLink]="['/profile']" target="_blank">{{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.PROFILE-SECTION'
-                            | translate
-                    }}</a
-                    >.
-                </mat-hint>
-            }
-            @if (!_showHelp && credentials.length === 0) {
-                <mat-hint>
-                    {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-UNAVAILABLE'
-                            | translate
-                    }}
-                    <a [routerLink]="['/profile']" target="_blank">{{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.STORAGE-SERVICE-TRY-LINK'
-                            | translate
-                    }}</a
-                    >.
-                </mat-hint>
-            }
-        </mat-form-field>
+        </div>
 
         @if (isCvatTool) {
             <div class="snapshots-row">
@@ -196,19 +176,16 @@
         <div class="dataset-options-container">
             <span class="title-with-button">
                 <h4>
-                    {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DATASET-CONF'
-                            | translate
-                    }}
+                    {{ 'CATALOG.CONF-FORMS.DATA.SUBTITLE-DATASET' | translate }}
                 </h4>
                 @if (!storageConfFormGroup.valid && datasets.length > 0) {
-                    <mat-chip class="rclone-warning">
-                        <mat-icon matChipAvatar color="warn">warning</mat-icon>
-                        {{
-                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DATASET-ERROR'
-                                | translate
-                        }}
-                    </mat-chip>
+                    <app-ui-chip
+                        variant="danger-solid"
+                        icon="warning"
+                        [text]="
+                            'CATALOG.CONF-FORMS.DATA.DATASET-ERROR' | translate
+                        "
+                    ></app-ui-chip>
                 }
                 @if (suggestedDatasetIsValid()) {
                     <button
@@ -220,7 +197,7 @@
                         <span class="aligned-with-icon scale-icon-down">
                             <mat-icon color="accent">emoji_objects</mat-icon>
                             {{
-                                'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DATASET-SUGGESTION'
+                                'CATALOG.CONF-FORMS.DATA.DATASET-SUGGESTION'
                                     | translate
                             }}
                         </span>

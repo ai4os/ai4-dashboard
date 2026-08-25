@@ -56,9 +56,9 @@ export class NomadTrainComponent implements OnInit {
     }
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.DATA-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
+    step3Title = 'CATALOG.CONF-FORMS.DATA.TITLE';
 
     showHelp = false;
     showLoader = false;

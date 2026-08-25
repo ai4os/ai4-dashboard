@@ -1,177 +1,97 @@
-<form [formGroup]="hardwareConfFormGroup" class="hardware-conf-form">
-  <h4>{{ 'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.TITLE' | translate }}</h4>
-  <div
+<form [formGroup]="hardwareConfFormGroup">
+    <h4>{{ 'CATALOG.CONF-FORMS.HARDWARE.SUBTITLE' | translate }}</h4>
+    <div
         [ngClass]="{
             'form-flex': mobileQuery.matches,
             'form-grid': !mobileQuery.matches,
         }"
     >
-    @if (_showFields.cpu_num) {
-      <mat-form-field>
-        <mat-label>{{
-          'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-CPUS'
-          | translate
-        }}</mat-label>
-        <input
-          matInput
-          placeholder=""
-          value=""
-          type="number"
-          min="{{ _defaultFormValues.cpu_num.range[0] }}"
-          max="{{ _defaultFormValues.cpu_num.range[1] }}"
-          formControlName="cpuNumberInput"
-          />
-        @if (
-          hardwareConfFormGroup.get('cpuNumberInput')?.errors?.[
-          'max'
-          ] ||
-          hardwareConfFormGroup.get('cpuNumberInput')?.errors?.['min']
-          ) {
-          <mat-error
-            >
-            {{
-            'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
-            | translate
-            : {
-            min: _defaultFormValues.cpu_num.range[0],
-            max: _defaultFormValues.cpu_num.range[1],
-          }
-          }}
-        </mat-error>
-      }
-    </mat-form-field>
-  }
-  @if (_showFields.gpu_num) {
-    <mat-form-field>
-      <mat-label>{{
-        'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.NUMBER-OF-GPUS'
-        | translate
-      }}</mat-label>
-      <input
-        matInput
-        placeholder=""
-        value=""
-        type="number"
-        min="{{ _defaultFormValues.gpu_num.range[0] }}"
-        max="{{ _defaultFormValues.gpu_num.range[1] }}"
-        formControlName="gpuNumberInput"
-        />
-      @if (_showHelp) {
-        <mat-hint>{{
-          _defaultFormValues.gpu_num.description
-        }}</mat-hint>
-      }
-      @if (
-        hardwareConfFormGroup.get('gpuNumberInput')?.errors?.[
-        'max'
-        ] ||
-        hardwareConfFormGroup.get('gpuNumberInput')?.errors?.['min']
-        ) {
-        <mat-error
-          >
-          {{
-          'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
-          | translate
-          : {
-          min: _defaultFormValues.gpu_num.range[0],
-          max: _defaultFormValues.gpu_num.range[1],
+        <!-- CPUs -->
+        @if (_showFields.cpu_num) {
+            <app-ui-text-field
+                formControlName="cpuNumberInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.NUMBER-OF-CPUS"
+                [min]="_defaultFormValues.cpu_num.range[0]"
+                [max]="_defaultFormValues.cpu_num.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.cpu_num.range[0],
+                    max: _defaultFormValues.cpu_num.range[1],
+                }"
+            ></app-ui-text-field>
         }
-        }}
-      </mat-error>
-    }
-  </mat-form-field>
-}
-@if (_showFields.gpu_type) {
-  <mat-form-field>
-    <mat-label>{{
-      'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.GPU-MODEL' | translate
-    }}</mat-label>
-    <mat-select formControlName="gpuModelSelect">
-      @for (gpuModelOption of gpuModelOptions; track gpuModelOption) {
-        <mat-option
-          [value]="gpuModelOption.value"
-          >
-          {{ gpuModelOption.viewValue }}
-        </mat-option>
-      }
-    </mat-select>
-    @if (_showHelp) {
-      <mat-hint>{{
-        _defaultFormValues.gpu_type?.description
-      }}</mat-hint>
-    }
-  </mat-form-field>
-}
-@if (_showFields.ram) {
-  <mat-form-field>
-    <mat-label>{{
-      'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.RAM-MEMORY' | translate
-    }}</mat-label>
-    <input
-      matInput
-      placeholder=""
-      value=""
-      type="number"
-      min="{{ _defaultFormValues.ram.range[0] }}"
-      max="{{ _defaultFormValues.ram.range[1] }}"
-      formControlName="ramMemoryInput"
-      />
-    @if (
-      hardwareConfFormGroup.get('ramMemoryInput')?.errors?.[
-      'max'
-      ] ||
-      hardwareConfFormGroup.get('ramMemoryInput')?.errors?.['min']
-      ) {
-      <mat-error
-        >
-        {{
-        'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
-        | translate
-        : {
-        min: _defaultFormValues.ram.range[0],
-        max: _defaultFormValues.ram.range[1],
-      }
-      }}
-    </mat-error>
-  }
-</mat-form-field>
-}
-@if (_showFields.disk) {
-  <mat-form-field>
-    <mat-label>{{
-      'CATALOG.MODULE-TRAIN.HARDWARE-CONF-FORM.DISK-MEMORY'
-      | translate
-    }}</mat-label>
-    <input
-      matInput
-      placeholder=""
-      value=""
-      type="number"
-      min="{{ _defaultFormValues.disk.range[0] }}"
-      max="{{ _defaultFormValues.disk.range[1] }}"
-      formControlName="diskMemoryInput"
-      />
-    @if (
-      hardwareConfFormGroup.get('diskMemoryInput')?.errors?.[
-      'max'
-      ] ||
-      hardwareConfFormGroup.get('diskMemoryInput')?.errors?.[
-      'min'
-      ]
-      ) {
-      <mat-error
-        >
-        {{
-        'CATALOG.MODULE-TRAIN.OUT-OF-RANGE-ERROR'
-        | translate
-        : {
-        min: _defaultFormValues.disk.range[0],
-        max: _defaultFormValues.disk.range[1],
-      }
-      }}
-    </mat-error>
-  }
-</mat-form-field>
-}
-</div>
+
+        <!-- GPUs -->
+        @if (_showFields.gpu_num) {
+            <app-ui-text-field
+                formControlName="gpuNumberInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.NUMBER-OF-GPUS"
+                [min]="_defaultFormValues.gpu_num.range[0]"
+                [max]="_defaultFormValues.gpu_num.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.gpu_num.range[0],
+                    max: _defaultFormValues.gpu_num.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+        @if (_showFields.gpu_type) {
+            <app-ui-select
+                formControlName="gpuModelSelect"
+                [options]="gpuModelOptions"
+                label="{{
+                    'CATALOG.CONF-FORMS.HARDWARE.GPU-MODEL' | translate
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.gpu_type?.description : ''
+                "
+            ></app-ui-select>
+        }
+
+        <!-- RAM -->
+        @if (_showFields.ram) {
+            <app-ui-text-field
+                formControlName="ramMemoryInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.RAM-MEMORY"
+                [min]="_defaultFormValues.ram.range[0]"
+                [max]="_defaultFormValues.ram.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.ram.range[0],
+                    max: _defaultFormValues.ram.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+
+        <!-- Disk -->
+        @if (_showFields.disk) {
+            <app-ui-text-field
+                formControlName="diskMemoryInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.DISK-MEMORY"
+                [min]="_defaultFormValues.disk.range[0]"
+                [max]="_defaultFormValues.disk.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.disk.range[0],
+                    max: _defaultFormValues.disk.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+    </div>
 </form>

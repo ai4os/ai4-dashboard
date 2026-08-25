@@ -10,7 +10,6 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import {
@@ -24,7 +23,7 @@ import {
     GeneralConfFormComponent,
 } from '../general-conf-form/general-conf-form.component';
 import {
-    showHardwareField,
+    ShowHardwareField,
     HardwareConfFormComponent,
 } from '../hardware-conf-form/hardware-conf-form.component';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
@@ -57,8 +56,8 @@ export class OscarTrainComponent implements OnInit {
     }
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
 
     showHelp = false;
     showLoader = false;
@@ -82,7 +81,7 @@ export class OscarTrainComponent implements OnInit {
         batchFields: false,
     };
 
-    showHardwareFields: showHardwareField = {
+    showHardwareFields: ShowHardwareField = {
         cpu_num: true,
         ram: true,
         disk: false,

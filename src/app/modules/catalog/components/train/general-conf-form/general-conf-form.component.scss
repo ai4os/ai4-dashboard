@@ -22,6 +22,7 @@
 .service-to-run-container {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 .password-input-field {
@@ -32,43 +33,6 @@
     width: 100%;
 }
 
-.service-to-run-chip.mdc-evolution-chip--selected {
-    ::ng-deep .mdc-evolution-chip__text-label {
-        color: white !important;
-    }
-
-    ::ng-deep .mdc-evolution-chip__checkmark {
-        color: white !important;
-    }
-}
-
-.mat-hint-text {
-    -webkit-font-smoothing: antialiased;
-    font-family: var(
-        --mat-typography-caption-font-family,
-        var(
-            --mat-typography-font-family,
-            'Raleway',
-            Arial,
-            Helvetica,
-            sans-serif
-        )
-    );
-    font-size: var(--mat-typography-caption-font-size, 12px);
-    line-height: var(--mat-typography-caption-line-height, 20px);
-    font-weight: var(--mat-typography-caption-font-weight, 400);
-    letter-spacing: var(
-        --mat-typography-caption-letter-spacing,
-        0.0333333333em
-    );
-    -webkit-text-decoration: var(
-        --mat-typography-caption-text-decoration,
-        inherit
-    );
-    text-decoration: var(--mat-typography-caption-text-decoration, inherit);
-    text-transform: var(--mat-typography-caption-text-transform, none);
-}
-
 .display-inline {
     display: inline;
 }
@@ -77,10 +41,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-:host ::ng-deep .mat-mdc-form-field-error-wrapper {
-    padding: 0 10px;
 }
 
 .field-with-info {
@@ -126,6 +86,19 @@
     gap: 0.5em;
 }
 
-.limited-width-container {
-    max-width: 65%;
+.ui-text-field {
+    display: flex;
+    gap: var(--space-xs);
+    flex-direction: column;
+
+    &__label {
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-secondary);
+    }
+
+    &__hint {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-tertiary);
+    }
 }

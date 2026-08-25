@@ -43,8 +43,8 @@ export class CvatComponent implements OnInit {
     private toolsService = inject(ToolsService);
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.DATA-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.DATA.TITLE';
 
     showHelp = false;
     showLoader = false;

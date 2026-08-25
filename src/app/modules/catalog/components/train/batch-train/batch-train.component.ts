@@ -27,6 +27,8 @@ import {
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
 import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
+import { MatDivider } from '@angular/material/divider';
+import { BatchConfFormComponent } from '../../conf-forms/batch-conf-form/batch-conf-form.component';
 
 @Component({
     selector: 'app-batch-train',
@@ -40,14 +42,16 @@ import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form
         GeneralConfFormComponent,
         HardwareConfFormComponent,
         StorageConfFormComponent,
+        MatDivider,
+        BatchConfFormComponent,
     ],
 })
 export class BatchTrainComponent implements OnInit {
-    private _formBuilder = inject(FormBuilder);
-    private modulesService = inject(ModulesService);
+    private readonly _formBuilder = inject(FormBuilder);
+    private readonly modulesService = inject(ModulesService);
     translateService = inject(TranslateService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
     constructor() {
         const navigation = this.router.currentNavigation();
@@ -57,14 +61,15 @@ export class BatchTrainComponent implements OnInit {
     }
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.DATA-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
+    step3Title = 'CATALOG.CONF-FORMS.DATA.TITLE';
 
     showHelp = false;
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
+    batchConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
     storageConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;

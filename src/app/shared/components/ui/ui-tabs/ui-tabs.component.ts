@@ -29,8 +29,8 @@ export class UiTabsComponent {
     @Input() activeTabId?: string;
     @Output() tabChange = new EventEmitter<string>();
 
-    indicatorLeft: number = 0;
-    indicatorWidth: number = 0;
+    indicatorLeft = 0;
+    indicatorWidth = 0;
 
     selectTab(id: string, element?: EventTarget | null) {
         this.activeTabId = id;

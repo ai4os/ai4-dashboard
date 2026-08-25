@@ -9,13 +9,10 @@ import {
     inject,
 } from '@angular/core';
 import {
-    AbstractControl,
     FormBuilder,
     FormControl,
     FormGroup,
     FormGroupDirective,
-    ValidationErrors,
-    ValidatorFn,
     Validators,
     FormsModule,
     ReactiveFormsModule,
@@ -40,12 +37,10 @@ import {
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import {
     MatChipSelectionChange,
-    MatChip,
-    MatChipAvatar,
     MatChipListbox,
     MatChipOption,
 } from '@angular/material/chips';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { DatasetsListComponent } from '../datasets/datasets-list/datasets-list.component';
 import { MatIcon } from '@angular/material/icon';
@@ -63,7 +58,9 @@ import {
 } from '@angular/material/select';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIconButton, MatButton } from '@angular/material/button';
-import { urlValidator } from '@app/shared/utils/validators';
+import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
 
 const mockedConfObject: confObject = {
     name: '',
@@ -84,9 +81,7 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MatChip,
         MatIcon,
-        MatChipAvatar,
         NgClass,
         MatFormField,
         MatLabel,
@@ -103,6 +98,9 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
         MatButton,
         DatasetsListComponent,
         TranslatePipe,
+        UiSelectComponent,
+        UiLoaderComponent,
+        UiChipComponent,
     ],
 })
 export class StorageConfFormComponent implements OnInit {
@@ -137,9 +135,6 @@ export class StorageConfFormComponent implements OnInit {
     ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
-            this.storageConfFormGroup
-                .get('rcloneConfInput')
-                ?.setValue(defaultFormValues.rclone_conf.value as string);
             this.storageConfFormGroup.get('datasetsList')?.setValue([]);
         }
     }
@@ -152,11 +147,6 @@ export class StorageConfFormComponent implements OnInit {
             value: '',
             disabled: true,
         }),
-        rcloneConfInput: [''],
-        storageUrlInput: ['', [urlValidator()]],
-        rcloneVendorSelect: [''],
-        rcloneUserInput: [''],
-        rclonePasswordInput: [''],
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
@@ -194,7 +184,7 @@ export class StorageConfFormComponent implements OnInit {
     sortBy = 'recent';
     snapshots: File[] = [];
 
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
 
     ngOnInit(): void {
@@ -203,6 +193,10 @@ export class StorageConfFormComponent implements OnInit {
             'storageConfForm',
             this.storageConfFormGroup
         );
+
+        setTimeout(() => {
+            this.parentForm.updateValueAndValidity();
+        });
 
         this.getSuggestedDatasets();
         this.getLinkedStorageServices();
@@ -279,6 +273,10 @@ export class StorageConfFormComponent implements OnInit {
             .subscribe({
                 next: (credentials) => {
                     this.credentials = Object.values(credentials);
+                    this.storageServiceOptions = [
+                        { value: '', viewValue: '-' },
+                    ];
+
                     if (this.credentials.length > 0) {
                         this.credentials.forEach(
                             (credential: StorageCredential) => {
@@ -327,27 +325,10 @@ export class StorageConfFormComponent implements OnInit {
         );
 
         if (storageServiceName && storageServiceCredentials) {
-            this.storageConfFormGroup.patchValue({
-                rcloneVendorSelect: storageServiceCredentials.vendor,
-                rcloneUserInput: storageServiceCredentials.loginName,
-                rclonePasswordInput: storageServiceCredentials.appPassword,
-                storageUrlInput:
-                    storageServiceCredentials.server +
-                    `/remote.php/dav/files/${storageServiceCredentials.loginName}`,
-            });
-
             if (this.isCvatTool) {
                 this.updateSnapshots(storageServiceName);
             }
         } else {
-            this.storageConfFormGroup.patchValue({
-                rcloneVendorSelect: '',
-                rcloneUserInput: '',
-                rclonePasswordInput: '',
-                rcloneConfInput: '',
-                storageUrlInput: '',
-            });
-
             this.snapshotOptions = [];
             this.snapshots = [];
             this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
@@ -360,6 +341,8 @@ export class StorageConfFormComponent implements OnInit {
         this.storageService.getSnapshots(storageName).subscribe({
             next: (snapshots: File[]) => {
                 this.snapshots = Object.values(snapshots);
+                this.snapshotOptions = [{ value: '', viewValue: '-' }];
+
                 // filter directories
                 this.snapshots = this.snapshots.filter((s) => s.IsDir);
                 // sort by date (newest first)

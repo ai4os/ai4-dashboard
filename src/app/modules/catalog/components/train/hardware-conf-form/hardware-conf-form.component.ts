@@ -20,17 +20,11 @@ import {
     confObjectRange,
 } from '@app/shared/interfaces/module.interface';
 import { NgClass } from '@angular/common';
-import {
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    MatHint,
-} from '@angular/material/input';
-import { MatSelect, MatOption } from '@angular/material/select';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
 
-export interface showHardwareField {
+export interface ShowHardwareField {
     cpu_num: boolean;
     ram: boolean;
     disk: boolean;
@@ -54,14 +48,9 @@ const mockedConfObject: confObjectRange = {
         FormsModule,
         ReactiveFormsModule,
         NgClass,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatError,
-        MatHint,
-        MatSelect,
-        MatOption,
         TranslatePipe,
+        UiSelectComponent,
+        UiTextFieldComponent,
     ],
 })
 export class HardwareConfFormComponent implements OnInit {
@@ -85,7 +74,7 @@ export class HardwareConfFormComponent implements OnInit {
         gpu_type: true,
     };
 
-    @Input() set showFields(showFields: showHardwareField) {
+    @Input() set showFields(showFields: ShowHardwareField) {
         this._showFields = showFields;
     }
     parentForm!: FormGroup;
@@ -101,43 +90,19 @@ export class HardwareConfFormComponent implements OnInit {
     isGpuModelSelectDisabled = true;
 
     hardwareConfFormGroup = this.fb.group({
-        cpuNumberInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.cpu_num.range[0]),
-                Validators.max(this.defaultFormValues?.cpu_num.range[1]),
-            ],
-        ],
-        gpuNumberInput: [
-            0,
-            [
-                Validators.min(this.defaultFormValues?.gpu_num.range[0]),
-                Validators.max(this.defaultFormValues?.gpu_num.range[1]),
-            ],
-        ],
+        cpuNumberInput: ['', []],
+        gpuNumberInput: [0, []],
         descriptionInput: [''],
         gpuModelSelect: [{ value: '', disabled: true }],
-        ramMemoryInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.ram.range[0]),
-                Validators.max(this.defaultFormValues?.ram.range[1]),
-            ],
-        ],
-        diskMemoryInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.disk.range[0]),
-                Validators.max(this.defaultFormValues?.disk.range[1]),
-            ],
-        ],
+        ramMemoryInput: ['', []],
+        diskMemoryInput: ['', []],
     });
 
     protected _showHelp = false;
     protected _isFederatedModule = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
@@ -152,23 +117,61 @@ export class HardwareConfFormComponent implements OnInit {
     ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
+
             this.hardwareConfFormGroup
                 .get('cpuNumberInput')
                 ?.setValue(defaultFormValues.cpu_num.value as string);
             this.hardwareConfFormGroup
+                .get('cpuNumberInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.cpu_num.range[0]),
+                    Validators.max(defaultFormValues.cpu_num.range[1]),
+                ]);
+            this.hardwareConfFormGroup
+                .get('cpuNumberInput')
+                ?.updateValueAndValidity();
+
+            this.hardwareConfFormGroup
                 .get('gpuNumberInput')
                 ?.setValue(defaultFormValues.gpu_num?.value as number);
+            this.hardwareConfFormGroup
+                .get('gpuNumberInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.gpu_num.range[0]),
+                    Validators.max(defaultFormValues.gpu_num.range[1]),
+                ]);
+            this.hardwareConfFormGroup
+                .get('gpuNumberInput')
+                ?.updateValueAndValidity();
+
             this.hardwareConfFormGroup
                 .get('ramMemoryInput')
                 ?.setValue(defaultFormValues.ram.value as string);
             this.hardwareConfFormGroup
+                .get('ramMemoryInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.ram.range[0]),
+                    Validators.max(defaultFormValues.ram.range[1]),
+                ]);
+            this.hardwareConfFormGroup
+                .get('ramMemoryInput')
+                ?.updateValueAndValidity();
+
+            this.hardwareConfFormGroup
                 .get('diskMemoryInput')
                 ?.setValue(defaultFormValues.disk.value as string);
+            this.hardwareConfFormGroup
+                .get('diskMemoryInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.disk.range[0]),
+                    Validators.max(defaultFormValues.disk.range[1]),
+                ]);
+            this.hardwareConfFormGroup
+                .get('diskMemoryInput')
+                ?.updateValueAndValidity();
+
             defaultFormValues.gpu_type?.options?.forEach((tag: string) => {
-                this.gpuModelOptions.push({
-                    value: tag,
-                    viewValue: tag,
-                });
+                this.gpuModelOptions.push({ value: tag, viewValue: tag });
             });
             this.hardwareConfFormGroup
                 .get('gpuModelSelect')
@@ -213,6 +216,11 @@ export class HardwareConfFormComponent implements OnInit {
             'hardwareConfForm',
             this.hardwareConfFormGroup
         );
+
+        setTimeout(() => {
+            this.parentForm.updateValueAndValidity();
+        });
+
         this.gpuNumberSelectorBehaviourHandler();
     }
 }

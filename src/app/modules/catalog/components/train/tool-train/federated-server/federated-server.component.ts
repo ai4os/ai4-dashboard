@@ -19,14 +19,13 @@ import {
     ModuleHardwareConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import {
-    showHardwareField,
+    ShowHardwareField,
     HardwareConfFormComponent,
 } from '../../hardware-conf-form/hardware-conf-form.component';
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
 } from '../../general-conf-form/general-conf-form.component';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
 
@@ -65,7 +64,7 @@ export class FederatedServerComponent implements OnInit {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     federatedConfDefaultValues!: FederatedServerConfiguration;
 
-    showHardwareFields: showHardwareField = {
+    showHardwareFields: ShowHardwareField = {
         cpu_num: true,
         ram: true,
         disk: true,

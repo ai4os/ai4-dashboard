@@ -15,9 +15,7 @@
                 <app-ui-button
                     variant="icon"
                     icon="help"
-                    tooltip="{{
-                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
-                    }}"
+                    tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
                     href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions"
                 ></app-ui-button>
             </div>
@@ -30,6 +28,7 @@
             'form-grid': !mobileQuery.matches,
         }"
     >
+        <!-- Title -->
         <app-ui-text-field
             id="deployment-title"
             formControlName="titleInput"
@@ -38,9 +37,9 @@
                 'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-TITLE' | translate
             }}"
             [hint]="_showHelp ? _defaultFormValues.title.description : ''"
-            [errorMessages]="titleErrors"
         ></app-ui-text-field>
 
+        <!-- Description -->
         <app-ui-text-field
             formControlName="descriptionInput"
             placeholder="{{
@@ -52,8 +51,10 @@
             }}"
             [hint]="_showHelp ? _defaultFormValues.desc?.description : ''"
         ></app-ui-text-field>
+
+        <!-- Service to run -->
         @if (_showFields.serviceToRunChip) {
-            <div [ngClass]="{ 'mt-3': _showHelp }">
+            <div [ngClass]="{ 'ui-text-field': _showHelp }">
                 <div
                     [ngClass]="{
                         'form-flex': mobileQuery.matches,
@@ -61,56 +62,30 @@
                         'mb-5': _showHelp && isPasswodRequired,
                     }"
                 >
-                    <div>
-                        <mat-label>{{
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SERVICE-TO-RUN'
-                                | translate
-                        }}</mat-label>
-                        <div class="service-to-run-chips">
-                            <mat-chip-listbox
-                                aria-label="Fish selection"
-                                formControlName="serviceToRunChip"
-                                multiple="false"
-                            >
-                                @for (
-                                    serviceToRunOption of serviceToRunOptions;
-                                    track serviceToRunOption
-                                ) {
-                                    <mat-chip-option
-                                        #chipOption
-                                        color="accent"
-                                        class="service-to-run-chip"
-                                        [value]="serviceToRunOption.value"
-                                        [selected]="
-                                            _defaultFormValues.service.value ===
-                                            serviceToRunOption.value
-                                        "
-                                        [selectable]="
-                                            chipOption.selected ? false : true
-                                        "
-                                        >{{
-                                            serviceToRunOption.viewValue
-                                                | titlecase
-                                        }}</mat-chip-option
-                                    >
-                                }
-                            </mat-chip-listbox>
-                            @if (_showFields.infoButton) {
-                                <app-ui-button
-                                    variant="icon"
-                                    icon="help"
-                                    tooltip="{{
-                                        'GENERAL-BUTTONS.OPEN-DOCUMENTATION'
-                                            | translate
-                                    }}"
-                                    href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html"
-                                ></app-ui-button>
-                            }
-                        </div>
+                    <div
+                        class="service-to-run-chips"
+                        style="align-items: flex-end"
+                    >
+                        <app-ui-chip-group
+                            formControlName="serviceToRunChip"
+                            label="CATALOG.CONF-FORMS.GENERAL.SERVICE-TO-RUN"
+                            [options]="serviceToRunOptions"
+                        ></app-ui-chip-group>
+
+                        @if (_showFields.infoButton) {
+                            <app-ui-button
+                                class="ml-2"
+                                variant="icon"
+                                icon="help"
+                                tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                                href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html"
+                            ></app-ui-button>
+                        }
                     </div>
+
+                    <!-- Service to run (password) -->
                     @if (isPasswodRequired) {
                         <app-ui-text-field
-                            [@inOutAnimation]
                             [ngClass]="{
                                 'password-input-field-mobile':
                                     mobileQuery.matches,
@@ -120,37 +95,34 @@
                             formControlName="serviceToRunPassInput"
                             [maskable]="true"
                             placeholder="At least 9 characters"
-                            label="{{
-                                'CATALOG.CONF-FORMS.GENERAL.PASSWORD'
-                                    | translate
-                            }}"
+                            label="CATALOG.CONF-FORMS.GENERAL.PASSWORD"
                             [errorMessages]="servicePasswordErrors"
-                            [hint]="
-                                _showHelp
-                                    ? _defaultFormValues.jupyter_password
-                                          ?.description
-                                    : ''
-                            "
                         ></app-ui-text-field>
                     }
                 </div>
+
                 @if (_showHelp) {
-                    <span class="mat-hint-text">
+                    <span class="ui-text-field__hint">
                         {{ _defaultFormValues.service.description }}
+                        @if (
+                            isPasswodRequired &&
+                            _defaultFormValues.jupyter_password?.description
+                        ) {
+                            <br />{{
+                                _defaultFormValues.jupyter_password.description
+                            }}
+                        }
                     </span>
                 }
             </div>
         }
     </div>
 
+    <!-- Docker image -->
     @if (_showFields.dockerImageInput && _showFields.dockerTagSelect) {
         <h4 [ngClass]="{ 'mt-3': _showHelp }">
-            {{
-                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-OPTIONS'
-                    | translate
-            }}
+            {{ 'CATALOG.CONF-FORMS.GENERAL.DOCKER-OPTIONS' | translate }}
         </h4>
-        <mat-divider class="mt-3 mb-3"></mat-divider>
         <div
             [ngClass]="{
                 'form-flex': mobileQuery.matches,
@@ -160,8 +132,7 @@
             <app-ui-text-field
                 formControlName="dockerImageInput"
                 label="{{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-IMAGE'
-                        | translate
+                    'CATALOG.CONF-FORMS.GENERAL.DOCKER-IMAGE' | translate
                 }}"
                 [hint]="
                     _showHelp ? _defaultFormValues.docker_image.description : ''
@@ -171,8 +142,7 @@
                 formControlName="dockerTagSelect"
                 [options]="dockerTagOptions"
                 label="{{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DOCKER-TAG'
-                        | translate
+                    'CATALOG.CONF-FORMS.GENERAL.DOCKER-TAG' | translate
                 }}"
                 [hint]="
                     _showHelp ? _defaultFormValues.docker_tag.description : ''
@@ -300,118 +270,5 @@
                 }
             </mat-form-field>
         </div>
-    }
-
-    @if (_showFields.batchFields) {
-        <span class="toggle-and-info">
-            <h4 class="mt-1 mb-1" [ngClass]="{ 'mt-3': _showHelp }">
-                {{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-OPTIONS'
-                        | translate
-                }}
-            </h4>
-            <button
-                mat-icon-button
-                matTooltip="{{
-                    'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
-                }}"
-                [matTooltipPosition]="'above'"
-                (click)="openBatchTrainingDocs()"
-            >
-                <mat-icon color="accent">help</mat-icon>
-            </button>
-        </span>
-
-        <p class="limited-width-container mt-0">
-            {{
-                'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-EXPLANATION'
-                    | translate
-            }}
-        </p>
-
-        <mat-divider class="mb-3"></mat-divider>
-
-        <mat-tab-group
-            mat-stretch-tabs="false"
-            mat-align-tabs="start"
-            class="mb-1"
-            (selectedTabChange)="clearFileData()"
-        >
-            <mat-tab
-                label="{{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.UPLOAD-FILE'
-                        | translate
-                }}"
-            >
-                <div class="form-flex tab-content">
-                    <app-single-file-upload
-                        [file]="
-                            generalConfFormGroup.get('batchFile')?.value ?? null
-                        "
-                        (fileUploaded)="updateBatchFile($event)"
-                    ></app-single-file-upload>
-                </div>
-            </mat-tab>
-
-            <mat-tab
-                label="{{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-COMMANDS'
-                        | translate
-                }}"
-            >
-                <div
-                    class="form-flex-column tab-content limited-width-container"
-                >
-                    <app-text-editor
-                        [placeholder]="textEditorPlaceholder"
-                        (textChange)="onCommandTextChange($event)"
-                    ></app-text-editor>
-
-                    <div class="textarea-buttons">
-                        <button
-                            mat-icon-button
-                            matTooltip="Copy"
-                            matTooltipPosition="above"
-                            [copy-to-clipboard]="commandText"
-                        >
-                            <mat-icon matSuffix color="accent">
-                                content_copy</mat-icon
-                            >
-                        </button>
-                        <button
-                            mat-fab
-                            extended
-                            [ngClass]="{
-                                'no-file-uploaded-button':
-                                    textManuallyModified ||
-                                    $safeNavigationMigration(
-                                        generalConfFormGroup.get('batchFile')
-                                            ?.value
-                                    ) === null,
-                                'file-uploaded-button':
-                                    !textManuallyModified &&
-                                    $safeNavigationMigration(
-                                        generalConfFormGroup.get('batchFile')
-                                            ?.value
-                                    ) !== null,
-                            }"
-                            [disabled]="commandText === ''"
-                            (click)="createFileFromText()"
-                        >
-                            <mat-icon>attach_file</mat-icon>
-                            {{ 'FILE-UPLOAD.GENERATE-FILE' | translate }}*
-                        </button>
-                    </div>
-                </div>
-            </mat-tab>
-        </mat-tab-group>
-        @if (_showHelp) {
-            <mat-hint style="font-size: 12px">
-                {{
-                    'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.BATCH-HELP'
-                        | translate
-                }}
-            </mat-hint>
-        }
     }
 </form>

@@ -135,14 +135,14 @@
     }
 
     &--danger-solid {
-        color: var(--color-danger);
+        color: var(--color-danger-dark);
         border: transparent;
         background-color: var(--color-danger-light);
     }
 
     &--danger-outline {
-        color: var(--color-danger);
-        border-color: var(--color-danger);
+        color: var(--color-danger-dark);
+        border-color: var(--color-danger-dark);
         background-color: var(--color-danger-light);
     }
 

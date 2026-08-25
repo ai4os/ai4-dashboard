@@ -1,12 +1,4 @@
 import {
-    trigger,
-    transition,
-    style,
-    animate,
-    animateChild,
-    query,
-} from '@angular/animations';
-import {
     ChangeDetectorRef,
     Component,
     Input,
@@ -16,7 +8,6 @@ import {
 } from '@angular/core';
 import {
     FormBuilder,
-    FormControl,
     FormGroup,
     FormGroupDirective,
     Validators,
@@ -31,10 +22,8 @@ import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select
 import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
 import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle.component';
-import { MatIconButton, MatFabButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
-import { NgClass, TitleCasePipe } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     MatFormField,
     MatLabel,
@@ -43,14 +32,10 @@ import {
     MatHint,
     MatSuffix,
 } from '@angular/material/input';
-import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { MatDivider } from '@angular/material/list';
 import { MatSelect, MatOption } from '@angular/material/select';
-import { MatTabGroup, MatTab } from '@angular/material/tabs';
-import { SingleFileUploadComponent } from '../../../../../shared/components/single-file-upload/single-file-upload.component';
-import { TextEditorComponent } from '../../../../../shared/components/text-editor/text-editor.component';
-import { CopyToClipboardDirective } from '../../../../../shared/directives/copy-to-clipboard.directive';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiChipGroupComponent } from '@app/shared/components/ui/ui-chip-group/ui-chip-group.component';
 
 export interface ShowGeneralFormField {
     descriptionInput: boolean;
@@ -71,7 +56,9 @@ export interface ShowGeneralFormField {
      * consumers don't need to change until they migrate to the new component.
      */
     llmFields?: boolean;
-    // batch
+    /**
+     * @deprecated batch
+     */
     batchFields: boolean;
 }
 
@@ -79,25 +66,6 @@ export interface ShowGeneralFormField {
     selector: 'app-general-conf-form',
     templateUrl: './general-conf-form.component.html',
     styleUrls: ['./general-conf-form.component.scss'],
-    animations: [
-        trigger('inOutAnimation', [
-            transition(':enter', [
-                style({ visibility: 'hidden', opacity: 0 }),
-                animate(
-                    '0.2s ease-out',
-                    style({ visibility: 'visible', opacity: 1 })
-                ),
-            ]),
-            transition(':leave', [
-                query('@*', [animateChild()], { optional: true }),
-                style({ visibility: 'visible', opacity: 1 }),
-                animate(
-                    '0.1s ease-in',
-                    style({ visibility: 'hidden', opacity: 0 })
-                ),
-            ]),
-        ]),
-    ],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         UiSelectComponent,
@@ -106,8 +74,6 @@ export interface ShowGeneralFormField {
         UiToggleComponent,
         FormsModule,
         ReactiveFormsModule,
-        MatIconButton,
-        MatTooltip,
         MatIcon,
         NgClass,
         MatFormField,
@@ -115,20 +81,12 @@ export interface ShowGeneralFormField {
         MatInput,
         MatError,
         MatHint,
-        MatChipListbox,
-        MatChipOption,
         MatSuffix,
         MatDivider,
         MatSelect,
         MatOption,
-        MatTabGroup,
-        MatTab,
-        SingleFileUploadComponent,
-        TextEditorComponent,
-        CopyToClipboardDirective,
-        MatFabButton,
-        TitleCasePipe,
         TranslatePipe,
+        UiChipGroupComponent,
     ],
 })
 export class GeneralConfFormComponent implements OnInit {
@@ -152,29 +110,17 @@ export class GeneralConfFormComponent implements OnInit {
     protected _defaultFormValues!: ModuleGeneralConfiguration;
     protected _showHelp = false;
 
-    protected readonly titleErrors = {
-        required:
-            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.DEPLOYMENT-TITLE-REQUIRED',
-    };
     protected readonly servicePasswordErrors = {
-        required:
-            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-REQUIRED',
-        minlength:
-            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.JUPYTERLAB-PASS-LENGTH-ERROR',
+        required: 'CATALOG.CONF-FORMS.GENERAL.JUPYTERLAB-PASS-REQUIRED',
+        minlength: 'CATALOG.CONF-FORMS.GENERAL.JUPYTERLAB-PASS-LENGTH-ERROR',
     };
 
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
     dockerTagOptions: { value: string; viewValue: string }[] = [];
     modelIdOptions: { value: string; viewValue: string }[] = [];
 
-    initialCommandText = '';
-    commandText = '';
-    textManuallyModified = false;
-    textEditorPlaceholder =
-        'python /src/my-app/my-app/train.py --epochs 10 \ncp -r /src/my-app/models /storage/my-new-modelsweights \n...';
-
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     _showFields = {
         descriptionInput: true,
@@ -288,10 +234,6 @@ export class GeneralConfFormComponent implements OnInit {
         ],
         // AI4LIFE
         modelIdSelect: [''],
-        batchFile: new FormControl<File | null>(
-            { value: null, disabled: true },
-            Validators.required
-        ),
     });
 
     ngOnInit(): void {
@@ -331,43 +273,6 @@ export class GeneralConfFormComponent implements OnInit {
         if (this._showFields.cvatFields) {
             this.generalConfFormGroup.get('cvatUsernameInput')?.enable();
             this.generalConfFormGroup.get('cvatPasswordInput')?.enable();
-        } else if (this._showFields.batchFields) {
-            this.generalConfFormGroup.get('batchFile')?.enable();
         }
-    }
-
-    updateBatchFile(file: File) {
-        this.generalConfFormGroup.get('batchFile')?.setValue(file);
-    }
-
-    openBatchTrainingDocs() {
-        const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/batch.html#configuring-a-batch-job';
-        window.open(url);
-    }
-
-    createFileFromText(): void {
-        const content = this.commandText.trim();
-        this.initialCommandText = content;
-        const blob = new Blob([content], { type: 'text/x-shellscript' });
-        const file = new File([blob], 'script-from-text.sh', {
-            type: 'text/x-shellscript',
-        });
-        this.updateBatchFile(file);
-        this.snackbarService.openSuccess(
-            'Batch command file generated successfully!'
-        );
-        this.textManuallyModified = false;
-    }
-
-    clearFileData(): void {
-        this.generalConfFormGroup.get('batchFile')?.setValue(null);
-        this.textManuallyModified = false;
-    }
-
-    onCommandTextChange(newValue: string): void {
-        this.commandText = newValue;
-        this.textManuallyModified =
-            this.commandText.trim() !== this.initialCommandText.trim();
     }
 }

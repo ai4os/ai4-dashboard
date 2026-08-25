@@ -34,11 +34,11 @@
 
         <span
             class="ui-text-field__input ui-select__value"
-            [class.ui-select__value--placeholder]="!selectedOption()"
+            [class.ui-select__value--placeholder]="!selectedOption"
         >
             {{
-                selectedOption()
-                    ? selectedOption()!.viewValue
+                selectedOption
+                    ? selectedOption.viewValue
                     : placeholder
                       ? (placeholder | translate)
                       : ''
@@ -107,6 +107,9 @@
     @if (hint && !isInvalid) {
         <span class="ui-text-field__hint">{{ hint | translate }}</span>
     }
+
+    <!-- Hint loader (suffix) -->
+    <ng-content select="[ui-hint]"></ng-content>
 
     @if (isInvalid && currentError) {
         <span class="ui-text-field__error">{{ currentError | translate }}</span>

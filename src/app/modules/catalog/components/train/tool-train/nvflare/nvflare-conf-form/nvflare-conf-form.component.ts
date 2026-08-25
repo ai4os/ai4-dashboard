@@ -21,22 +21,10 @@ import {
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { NgClass } from '@angular/common';
-import {
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatHint,
-    MatSuffix,
-    MatError,
-} from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
-import { MatSelect, MatOption } from '@angular/material/select';
-import {
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatDatepicker,
-} from '@angular/material/datepicker';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiDatePickerComponent } from '@app/shared/components/ui/ui-date-picker/ui-date-picker.component';
 
 const mockedConfObject: confObjectRange = {
     range: [],
@@ -54,19 +42,10 @@ const mockedConfObject: confObjectRange = {
         FormsModule,
         ReactiveFormsModule,
         NgClass,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatHint,
-        MatIcon,
-        MatSuffix,
-        MatError,
-        MatSelect,
-        MatOption,
-        MatDatepickerInput,
-        MatDatepickerToggle,
-        MatDatepicker,
         TranslatePipe,
+        UiTextFieldComponent,
+        UiSelectComponent,
+        UiDatePickerComponent,
     ],
 })
 export class NvflareConfFormComponent implements OnInit {
@@ -126,6 +105,13 @@ export class NvflareConfFormComponent implements OnInit {
         }
     }
 
+    protected readonly usernameErrors = {
+        required: 'CATALOG.CONF-FORMS.NVFLARE.USERNAME-REQUIRED',
+    };
+    protected readonly passwordErrors = {
+        required: 'CATALOG.CONF-FORMS.NVFLARE.PASSWORD-REQUIRED',
+    };
+
     protected _defaultFormValues: NvflareConfiguration = {
         username: mockedConfObject,
         password: mockedConfObject,
@@ -151,7 +137,7 @@ export class NvflareConfFormComponent implements OnInit {
     publicProjectOptions: { value: string; viewValue: string }[] = [];
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
     protected _showHelp = false;
 
     ngOnInit(): void {
@@ -163,10 +149,12 @@ export class NvflareConfFormComponent implements OnInit {
     }
 
     get minEndDate() {
-        return this.nvflareConfFormGroup.get('startingDateInput')?.value;
+        return (
+            this.nvflareConfFormGroup.get('startingDateInput')?.value ?? null
+        );
     }
 
     get maxStartDate() {
-        return this.nvflareConfFormGroup.get('endDateInput')?.value;
+        return this.nvflareConfFormGroup.get('endDateInput')?.value ?? null;
     }
 }

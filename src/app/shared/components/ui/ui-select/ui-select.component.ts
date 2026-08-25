@@ -5,10 +5,10 @@ import {
     HostListener,
     Input,
     Output,
-    computed,
     inject,
     signal,
     ChangeDetectionStrategy,
+    TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
@@ -40,6 +40,7 @@ export class UiSelectComponent implements ControlValueAccessor {
     @Input() errorMessages: Record<string, string> = {};
     @Input() prefixIcon?: string;
     @Input() showLabel? = true;
+    @Input() optionTemplate?: TemplateRef<any>;
 
     @Output() valueChange = new EventEmitter<any>();
 
@@ -48,9 +49,11 @@ export class UiSelectComponent implements ControlValueAccessor {
     protected isOpen = signal(false);
     protected activeIndex = signal(-1);
 
-    protected selectedOption = computed(
-        () => this.options.find((o) => o.value === this.internalValue()) ?? null
-    );
+    protected get selectedOption(): SelectOption | null {
+        return (
+            this.options.find((o) => o.value === this.internalValue()) ?? null
+        );
+    }
 
     private readonly instanceId = nextId++;
     protected readonly labelId = `ui-select-label-${this.instanceId}`;
@@ -62,7 +65,7 @@ export class UiSelectComponent implements ControlValueAccessor {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onTouched: () => void = () => {};
 
-    private elementRef = inject(ElementRef);
+    private readonly elementRef = inject(ElementRef);
 
     constructor() {
         if (this.ngControl) {
