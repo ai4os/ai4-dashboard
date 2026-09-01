@@ -25,9 +25,6 @@
             <div class="actions-container" style="justify-content: center">
                 <app-ui-checkbox
                     variant="primary"
-                    [tooltip]="
-                        'CATALOG.CONF-FORMS.DATA.TABLE.FORCE-PULL' | translate
-                    "
                     [checked]="row.forcePull"
                     (valueChange)="changeForcePull($event, row)"
                 ></app-ui-checkbox>

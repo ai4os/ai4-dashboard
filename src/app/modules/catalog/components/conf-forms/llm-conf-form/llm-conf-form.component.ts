@@ -90,7 +90,7 @@ export class LlmConfFormComponent implements OnInit, OnChanges {
     modelNeedsToken = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     protected readonly deploymentTypeErrors = {
         required: 'CATALOG.CONF-FORMS.LLMS.TYPE-REQUIRED',

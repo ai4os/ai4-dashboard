@@ -14,6 +14,9 @@
         @if (icon) {
             <mat-icon>{{ icon }}</mat-icon>
         }
+        @if (image) {
+            <img [src]="image" />
+        }
         @if (text) {
             <span>{{ text | translate }}</span>
         }
@@ -32,6 +35,9 @@
     >
         @if (icon) {
             <mat-icon>{{ icon }}</mat-icon>
+        }
+        @if (image) {
+            <img [src]="image" />
         }
         @if (text) {
             <span>{{ text | translate }}</span>
