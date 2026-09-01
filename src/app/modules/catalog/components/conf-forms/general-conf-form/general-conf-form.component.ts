@@ -48,7 +48,9 @@ export interface ShowGeneralFormField {
     infoButton: boolean;
     // cvat
     cvatFields: boolean;
-    // ai4life
+    /**
+     * @deprecated ai4lifeFields
+     */
     ai4lifeFields: boolean;
     /**
      * @deprecated LLM fields moved to app-llm-conf-form. This flag is no
@@ -83,8 +85,6 @@ export interface ShowGeneralFormField {
         MatHint,
         MatSuffix,
         MatDivider,
-        MatSelect,
-        MatOption,
         TranslatePipe,
         UiChipGroupComponent,
     ],
@@ -194,17 +194,6 @@ export class GeneralConfFormComponent implements OnInit {
             this.generalConfFormGroup
                 .get('cvatPasswordInput')
                 ?.setValue(defaultFormValues.cvat_password?.value as string);
-
-            // AI4LIFE
-            this.generalConfFormGroup
-                .get('modelIdSelect')
-                ?.setValue(defaultFormValues.model_id?.value as string);
-            defaultFormValues.model_id?.options?.forEach((tag: string) => {
-                this.modelIdOptions.push({
-                    value: tag,
-                    viewValue: tag,
-                });
-            });
         }
     }
 
@@ -232,8 +221,6 @@ export class GeneralConfFormComponent implements OnInit {
             { value: '', disabled: true },
             [Validators.required],
         ],
-        // AI4LIFE
-        modelIdSelect: [''],
     });
 
     ngOnInit(): void {

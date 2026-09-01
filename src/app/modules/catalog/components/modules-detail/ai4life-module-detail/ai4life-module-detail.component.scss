@@ -127,8 +127,13 @@
         gap: var(--space-sm);
     }
 
-    ::ng-deep button {
-        width: 100%;
+    app-ui-button {
+        display: flex;
+        width: stretch;
+
+        ::ng-deep a {
+            width: stretch;
+        }
     }
 }
 

@@ -16,6 +16,8 @@ import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     Ai4LifeLoaderToolConfiguration,
+    Ai4lifeConfiguration,
+    confObject,
 } from '@app/shared/interfaces/module.interface';
 import {
     ShowGeneralFormField,
@@ -26,10 +28,19 @@ import {
     HardwareConfFormComponent,
 } from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
+import { MatDivider } from '@angular/material/divider';
+import { Ai4lifeConfFormComponent } from '../../../conf-forms/ai4life-conf-form/ai4life-conf-form.component';
+
+const mockedConfObject: confObject = {
+    name: '',
+    value: '',
+    description: '',
+};
 
 @Component({
     selector: 'app-ai4life-loader',
     templateUrl: './ai4life-loader.component.html',
+    styleUrls: ['./ai4life-loader.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         StepperFormComponent,
@@ -37,6 +48,8 @@ import { StepperFormComponent } from '../../stepper-form/stepper-form.component'
         ReactiveFormsModule,
         GeneralConfFormComponent,
         HardwareConfFormComponent,
+        MatDivider,
+        Ai4lifeConfFormComponent,
     ],
 })
 export class Ai4lifeLoaderComponent implements OnInit {
@@ -60,8 +73,12 @@ export class Ai4lifeLoaderComponent implements OnInit {
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
+    ai4lifeConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
+    ai4lifeConfDefaultValues: Ai4lifeConfiguration = {
+        model_id: mockedConfObject,
+    };
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
 
     showGeneralFields: ShowGeneralFormField = {
@@ -91,6 +108,7 @@ export class Ai4lifeLoaderComponent implements OnInit {
     }
 
     loadModule() {
+        this.showLoader = true;
         this.route.parent?.params.subscribe((params) => {
             this.toolsService.getTool(params['id']).subscribe((tool) => {
                 this.title = tool.title;
@@ -99,12 +117,17 @@ export class Ai4lifeLoaderComponent implements OnInit {
                 .getAi4LifeConfiguration(params['id'])
                 .subscribe((toolConf: Ai4LifeLoaderToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
+                    this.ai4lifeConfDefaultValues = {
+                        ...this.ai4lifeConfDefaultValues,
+                        model_id: toolConf.general.model_id!,
+                    };
                     if (this.modelId) {
-                        this.generalConfDefaultValues.model_id!.value =
+                        this.ai4lifeConfDefaultValues.model_id.value =
                             this.modelId;
                     }
 
                     this.hardwareConfDefaultValues = toolConf.hardware;
+
                     // Check if config has a warning
                     if (
                         this.hardwareConfDefaultValues.warning &&
@@ -113,6 +136,8 @@ export class Ai4lifeLoaderComponent implements OnInit {
                         this.warningMessage =
                             this.hardwareConfDefaultValues.warning;
                     }
+
+                    this.showLoader = false;
                 });
         });
     }

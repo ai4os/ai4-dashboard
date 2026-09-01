@@ -147,6 +147,10 @@ export interface NvflareConfiguration {
     end_date: confObject;
 }
 
+export interface Ai4lifeConfiguration {
+    model_id: confObject;
+}
+
 export interface ModuleConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
@@ -172,6 +176,7 @@ export interface LlmToolConfiguration {
 export interface Ai4LifeLoaderToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
+    ai4life: Ai4lifeConfiguration;
 }
 
 export interface NvflareToolConfiguration {
