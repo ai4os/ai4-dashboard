@@ -27,7 +27,7 @@ import {
 } from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
-import { NvflareConfFormComponent } from './nvflare-conf-form/nvflare-conf-form.component';
+import { NvflareConfFormComponent } from '../../../conf-forms/nvflare-conf-form/nvflare-conf-form.component';
 
 @Component({
     selector: 'app-nvflare',

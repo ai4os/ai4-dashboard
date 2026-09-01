@@ -15,7 +15,7 @@ import { hardwareDefaultFormValues } from '@app/modules/catalog/components/conf-
 import { storageDefaultFormValues } from '@app/modules/catalog/components/conf-forms/storage-conf-form/storage-conf-form.component.mock';
 import { flowerDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/federated-server/federated-conf-form/federated-conf-form.component.mock';
 import { llmDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/llm/llm.component.mock';
-import { nvflareDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component.mock';
+import { nvflareDefaultFormValues } from '@app/modules/catalog/components/conf-forms/nvflare-conf-form/nvflare-conf-form.component.mock';
 
 export const mockedVllmsConfig: VllmModelConfig[] = [
     {
