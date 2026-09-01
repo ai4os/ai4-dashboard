@@ -39,7 +39,7 @@ import { LlmsListComponent } from './components/lists/llms-list/llms-list.compon
 import { LlmCardComponent } from './components/modules-cards/llm-card/llm-card.component';
 import { CatalogListComponent } from './components/lists/catalog-list/catalog-list.component';
 import { NvflareComponent } from './components/train/tool-train/nvflare/nvflare.component';
-import { NvflareConfFormComponent } from './components/train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component';
+import { NvflareConfFormComponent } from './components/conf-forms/nvflare-conf-form/nvflare-conf-form.component';
 import { OscarTrainComponent } from './components/train/oscar-train/oscar-train.component';
 import { ModuleTrainViewComponent } from './views/module-train-view/module-train-view.component';
 import { BatchTrainComponent } from './components/train/batch-train/batch-train.component';

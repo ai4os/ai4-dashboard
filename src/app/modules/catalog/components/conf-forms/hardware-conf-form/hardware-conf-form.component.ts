@@ -92,7 +92,6 @@ export class HardwareConfFormComponent implements OnInit {
     hardwareConfFormGroup = this.fb.group({
         cpuNumberInput: ['', []],
         gpuNumberInput: [0, []],
-        descriptionInput: [''],
         gpuModelSelect: [{ value: '', disabled: true }],
         ramMemoryInput: ['', []],
         diskMemoryInput: ['', []],
@@ -118,54 +117,62 @@ export class HardwareConfFormComponent implements OnInit {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
 
-            this.hardwareConfFormGroup
-                .get('cpuNumberInput')
-                ?.setValue(defaultFormValues.cpu_num.value as string);
+            // --- CPU ---
             this.hardwareConfFormGroup
                 .get('cpuNumberInput')
                 ?.setValidators([
+                    ...(this._showFields.cpu_num ? [Validators.required] : []),
                     Validators.min(defaultFormValues.cpu_num.range[0]),
                     Validators.max(defaultFormValues.cpu_num.range[1]),
                 ]);
             this.hardwareConfFormGroup
                 .get('cpuNumberInput')
+                ?.setValue(defaultFormValues.cpu_num.value as string);
+            this.hardwareConfFormGroup
+                .get('cpuNumberInput')
                 ?.updateValueAndValidity();
 
+            // --- GPU ---
+            this.hardwareConfFormGroup
+                .get('gpuNumberInput')
+                ?.setValidators([
+                    ...(this._showFields.gpu_num ? [Validators.required] : []),
+                    Validators.min(defaultFormValues.gpu_num?.range[0]),
+                    Validators.max(defaultFormValues.gpu_num?.range[1]),
+                ]);
             this.hardwareConfFormGroup
                 .get('gpuNumberInput')
                 ?.setValue(defaultFormValues.gpu_num?.value as number);
             this.hardwareConfFormGroup
                 .get('gpuNumberInput')
-                ?.setValidators([
-                    Validators.min(defaultFormValues.gpu_num.range[0]),
-                    Validators.max(defaultFormValues.gpu_num.range[1]),
-                ]);
-            this.hardwareConfFormGroup
-                .get('gpuNumberInput')
                 ?.updateValueAndValidity();
 
-            this.hardwareConfFormGroup
-                .get('ramMemoryInput')
-                ?.setValue(defaultFormValues.ram.value as string);
+            // --- RAM ---
             this.hardwareConfFormGroup
                 .get('ramMemoryInput')
                 ?.setValidators([
-                    Validators.min(defaultFormValues.ram.range[0]),
-                    Validators.max(defaultFormValues.ram.range[1]),
+                    ...(this._showFields.ram ? [Validators.required] : []),
+                    Validators.min(defaultFormValues.ram?.range[0]),
+                    Validators.max(defaultFormValues.ram?.range[1]),
                 ]);
+            this.hardwareConfFormGroup
+                .get('ramMemoryInput')
+                ?.setValue(defaultFormValues.ram?.value as string);
             this.hardwareConfFormGroup
                 .get('ramMemoryInput')
                 ?.updateValueAndValidity();
 
-            this.hardwareConfFormGroup
-                .get('diskMemoryInput')
-                ?.setValue(defaultFormValues.disk.value as string);
+            // --- DISK ---
             this.hardwareConfFormGroup
                 .get('diskMemoryInput')
                 ?.setValidators([
-                    Validators.min(defaultFormValues.disk.range[0]),
-                    Validators.max(defaultFormValues.disk.range[1]),
+                    ...(this._showFields.disk ? [Validators.required] : []),
+                    Validators.min(defaultFormValues.disk?.range[0]),
+                    Validators.max(defaultFormValues.disk?.range[1]),
                 ]);
+            this.hardwareConfFormGroup
+                .get('diskMemoryInput')
+                ?.setValue(defaultFormValues.disk?.value as string);
             this.hardwareConfFormGroup
                 .get('diskMemoryInput')
                 ?.updateValueAndValidity();

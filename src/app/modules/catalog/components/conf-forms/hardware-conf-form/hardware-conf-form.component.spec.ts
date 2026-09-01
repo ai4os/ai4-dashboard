@@ -52,21 +52,55 @@ describe('HardwareConfFormComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('check valid config', () => {
+    it('check valid config (no gpu)', () => {
+        component.showFields = {
+            cpu_num: true,
+            ram: true,
+            disk: true,
+            gpu_num: false,
+            gpu_type: true,
+        };
+
+        component.defaultFormValues = hardwareDefaultFormValues;
+
         const cpuNumberInput =
             component.hardwareConfFormGroup.controls['cpuNumberInput'];
         cpuNumberInput.setValue('1');
+
         const ramMemoryInput =
             component.hardwareConfFormGroup.controls['ramMemoryInput'];
         ramMemoryInput.setValue('1');
+
         const diskMemoryInput =
             component.hardwareConfFormGroup.controls['diskMemoryInput'];
         diskMemoryInput.setValue('1');
 
-        // check required restrictions (no gpu)
         expect(component.hardwareConfFormGroup.valid).toBeTruthy();
+    });
 
-        // check required restrictions (gpu)
+    it('check valid config (gpu)', () => {
+        component.showFields = {
+            cpu_num: true,
+            ram: true,
+            disk: true,
+            gpu_num: true,
+            gpu_type: true,
+        };
+
+        component.defaultFormValues = hardwareDefaultFormValues;
+
+        const cpuNumberInput =
+            component.hardwareConfFormGroup.controls['cpuNumberInput'];
+        cpuNumberInput.setValue('1');
+
+        const ramMemoryInput =
+            component.hardwareConfFormGroup.controls['ramMemoryInput'];
+        ramMemoryInput.setValue('1');
+
+        const diskMemoryInput =
+            component.hardwareConfFormGroup.controls['diskMemoryInput'];
+        diskMemoryInput.setValue('1');
+
         const gpuNumberInput =
             component.hardwareConfFormGroup.controls['gpuNumberInput'];
         gpuNumberInput.setValue(1);
@@ -84,27 +118,69 @@ describe('HardwareConfFormComponent', () => {
         expect(component.hardwareConfFormGroup.valid).toBeTruthy();
     });
 
-    it('check invalid config', () => {
+    it('check invalid config (no gpu)', () => {
+        component.showFields = {
+            cpu_num: true,
+            ram: true,
+            disk: true,
+            gpu_num: false,
+            gpu_type: true,
+        };
+
+        component.defaultFormValues = hardwareDefaultFormValues;
+
         const cpuNumberInput =
             component.hardwareConfFormGroup.controls['cpuNumberInput'];
-        cpuNumberInput.setValue('5');
+        cpuNumberInput.setValue('10');
 
         const ramMemoryInput =
             component.hardwareConfFormGroup.controls['ramMemoryInput'];
-        ramMemoryInput.setValue('5');
+        ramMemoryInput.setValue('1');
 
         const diskMemoryInput =
             component.hardwareConfFormGroup.controls['diskMemoryInput'];
-        diskMemoryInput.setValue('5');
+        diskMemoryInput.setValue('1');
 
-        // check required restrictions (no gpu)
         expect(component.hardwareConfFormGroup.valid).toBeFalsy();
+    });
 
-        // check required restrictions (gpu)
+    it('check invalid config (gpu)', () => {
+        component.showFields = {
+            cpu_num: true,
+            ram: true,
+            disk: true,
+            gpu_num: true,
+            gpu_type: true,
+        };
+
+        component.defaultFormValues = hardwareDefaultFormValues;
+
+        const cpuNumberInput =
+            component.hardwareConfFormGroup.controls['cpuNumberInput'];
+        cpuNumberInput.setValue('10');
+
+        const ramMemoryInput =
+            component.hardwareConfFormGroup.controls['ramMemoryInput'];
+        ramMemoryInput.setValue('1');
+
+        const diskMemoryInput =
+            component.hardwareConfFormGroup.controls['diskMemoryInput'];
+        diskMemoryInput.setValue('1');
+
         const gpuNumberInput =
             component.hardwareConfFormGroup.controls['gpuNumberInput'];
-        gpuNumberInput.setValue(5);
+        gpuNumberInput.setValue(10);
 
+        const gpuModelSelect =
+            component.hardwareConfFormGroup.controls['gpuModelSelect'];
+        gpuModelSelect.setValue('Test');
+
+        expect(
+            component.hardwareConfFormGroup.controls.gpuNumberInput
+        ).toBeTruthy();
+        expect(
+            component.hardwareConfFormGroup.controls.gpuModelSelect
+        ).toBeTruthy();
         expect(component.hardwareConfFormGroup.valid).toBeFalsy();
     });
 });
