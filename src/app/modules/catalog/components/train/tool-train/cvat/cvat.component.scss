@@ -1,9 +1,6 @@
-::ng-deep .child-form-container form {
-    min-height: 500px;
-}
-
 .form {
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
+    min-height: 520px;
 }

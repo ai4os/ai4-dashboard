@@ -177,16 +177,4 @@ describe('GeneralConfFormComponent', () => {
             ?.setValue('deepaas');
         expect(passwordControl?.disabled).toBe(true);
     });
-
-    it('should set email based on profile for cvat', () => {
-        component['_showFields'].cvatFields = true;
-        (mockedAuthService.userProfileSubject as any).next({
-            email: 'cvat@example.com',
-        });
-
-        fixture.detectChanges();
-        const cvatUsername =
-            component.generalConfFormGroup.get('cvatUsernameInput');
-        expect(cvatUsername?.value).toBe('cvat@example.com');
-    });
 });

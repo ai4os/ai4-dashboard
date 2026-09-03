@@ -18,7 +18,6 @@ import {
     ModuleStorageConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';

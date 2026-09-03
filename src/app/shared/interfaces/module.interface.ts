@@ -64,91 +64,111 @@ export interface FilterGroup {
     tags: string[];
 }
 
-export interface confObject {
+export interface ConfObject {
     name: string;
     value: string | number | boolean | Date;
     description: string;
     options?: string[];
 }
 
-export interface confObjectRange extends confObject {
+export interface ConfObjectRange extends ConfObject {
     range: number[];
 }
 
-export interface confObjectStringArray extends confObject {
+export interface ConfObjectStringArray extends ConfObject {
     values: string[];
 }
 
-export interface confObjectStringBoolean {
+export interface ConfObjectStringBoolean {
     name: string;
     value: { stringValue: string; booleanValue: boolean };
     description: string;
     options?: string[];
 }
 
+export interface ConfObjectBoolean {
+    name: string;
+    value: boolean;
+    description: string;
+}
+
 export interface ModuleGeneralConfiguration {
-    title: confObject;
-    desc?: confObject;
-    co2?: confObject;
-    docker_image: confObject;
-    docker_tag: confObject;
-    service: confObject;
-    jupyter_password?: confObject;
+    title: ConfObject;
+    desc?: ConfObject;
+    co2?: ConfObject;
+    docker_image: ConfObject;
+    docker_tag: ConfObject;
+    service: ConfObject;
+    jupyter_password?: ConfObject;
     // CVAT
-    cvat_username?: confObject;
-    cvat_password?: confObject;
+    cvat_username?: ConfObject;
+    cvat_password?: ConfObject;
     // AI4LIFE
-    model_id?: confObject;
+    model_id?: ConfObject;
     // LLM
     llm?: LlmConfiguration;
 }
 
 export interface ModuleHardwareConfiguration {
-    cpu_num: confObjectRange;
-    ram: confObjectRange;
-    disk: confObjectRange;
-    gpu_num: confObjectRange;
-    gpu_type?: confObject;
+    cpu_num: ConfObjectRange;
+    ram: ConfObjectRange;
+    disk: ConfObjectRange;
+    gpu_num: ConfObjectRange;
+    gpu_type?: ConfObject;
     warning?: string;
 }
 
 export interface ModuleStorageConfiguration {
-    rclone_conf: confObject;
-    rclone_url: confObject;
-    rclone_vendor: confObject;
-    rclone_user: confObject;
-    rclone_password: confObject;
-    datasets: confObjectStringBoolean;
+    rclone_conf: ConfObject;
+    rclone_url: ConfObject;
+    rclone_vendor: ConfObject;
+    rclone_user: ConfObject;
+    rclone_password: ConfObject;
+    datasets: ConfObjectStringBoolean;
 }
 
 export interface FederatedServerConfiguration {
-    rounds: confObjectRange;
-    metric: confObjectStringArray;
-    min_clients: confObjectRange;
-    strategy: confObject;
+    rounds: ConfObjectRange;
+    metric: ConfObject;
+    min_fit_clients: ConfObjectRange;
+    min_available_clients: ConfObjectRange;
+    strategy: ConfObject;
+    mu: ConfObjectRange;
+    fl: ConfObjectRange;
+    momentum: ConfObjectRange;
+    dp: ConfObjectBoolean;
+    mp: ConfObject;
+    noise_mult: ConfObjectRange;
+    sampled_clients: ConfObjectRange;
+    clip_norm: ConfObjectRange;
 }
 
 export interface LlmConfiguration {
-    type: confObject;
-    vllm_model_id: confObjectRange;
-    ui_username: confObject;
-    ui_password: confObject;
-    HF_token: confObject;
-    openai_api_key: confObject;
-    openai_api_url: confObject;
+    type: ConfObject;
+    vllm_model_id: ConfObjectRange;
+    ui_username: ConfObject;
+    ui_password: ConfObject;
+    HF_token: ConfObject;
+    openai_api_key: ConfObject;
+    openai_api_url: ConfObject;
 }
 
 export interface NvflareConfiguration {
-    username: confObject;
-    password: confObject;
-    app_location: confObject;
-    public_project: confObjectRange;
-    starting_date: confObject;
-    end_date: confObject;
+    username: ConfObject;
+    password: ConfObject;
+    app_location: ConfObject;
+    public_project: ConfObjectRange;
+    starting_date: ConfObject;
+    end_date: ConfObject;
 }
 
 export interface Ai4lifeConfiguration {
-    model_id: confObject;
+    model_id: ConfObject;
+}
+
+export interface CvatConfiguration {
+    username: ConfObject;
+    password: ConfObject;
 }
 
 export interface ModuleConfiguration {

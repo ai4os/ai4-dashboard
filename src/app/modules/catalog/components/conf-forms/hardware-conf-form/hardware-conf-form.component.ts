@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 import {
     ModuleHardwareConfiguration,
-    confObjectRange,
+    ConfObjectRange,
 } from '@app/shared/interfaces/module.interface';
 import { NgClass } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -32,7 +32,7 @@ export interface ShowHardwareField {
     gpu_type: boolean;
 }
 
-const mockedConfObject: confObjectRange = {
+const mockedConfObject: ConfObjectRange = {
     range: [],
     name: '',
     value: '',

@@ -49,9 +49,9 @@ export class FederatedServerComponent implements OnInit {
     toolsService = inject(ToolsService);
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.FLOWER-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
+    step3Title = 'CATALOG.CONF-FORMS.FLOWER.TITLE';
 
     showHelp = false;
     showLoader = false;

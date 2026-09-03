@@ -7,7 +7,7 @@ import {
     inject,
 } from '@angular/core';
 import {
-    confObjectRange,
+    ConfObjectRange,
     NvflareConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import {
@@ -26,7 +26,7 @@ import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui
 import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
 import { UiDatePickerComponent } from '@app/shared/components/ui/ui-date-picker/ui-date-picker.component';
 
-const mockedConfObject: confObjectRange = {
+const mockedConfObject: ConfObjectRange = {
     range: [],
     name: '',
     value: '',

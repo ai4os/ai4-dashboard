@@ -36,6 +36,7 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     // For number input types
     @Input() min?: number | string;
     @Input() max?: number | string;
+    @Input() step?: number | string;
     @Input() errorTranslateParams?: Record<string, any>;
 
     // Standalone mode (without formControlName).

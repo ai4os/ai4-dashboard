@@ -1,4 +1,3 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
     ChangeDetectorRef,
     Component,
@@ -12,37 +11,52 @@ import {
     FormBuilder,
     FormGroup,
     Validators,
-    FormControl,
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import {
-    MatChipInputEvent,
-    MatChipGrid,
-    MatChipRow,
-    MatChipRemove,
-    MatChipInput,
-} from '@angular/material/chips';
-import {
-    MatAutocompleteSelectedEvent,
-    MatAutocompleteTrigger,
-    MatAutocomplete,
-} from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { NgClass } from '@angular/common';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
 import {
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatHint,
-} from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { TranslatePipe } from '@ngx-translate/core';
+    SelectOption,
+    UiSelectComponent,
+} from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiChipInputComponent } from '@app/shared/components/ui/ui-chip-input/ui-chip-input.component';
+import {
+    ConfObject,
+    ConfObjectBoolean,
+    ConfObjectRange,
+    FederatedServerConfiguration,
+} from '@app/shared/interfaces/module.interface';
+
+const mockedRange: ConfObjectRange = {
+    range: [],
+    name: '',
+    value: '',
+    description: '',
+};
+
+const mockedString: ConfObject = {
+    name: '',
+    value: '',
+    description: '',
+};
+
+const mockedOptions: ConfObject = {
+    name: '',
+    value: '',
+    options: [],
+    description: '',
+};
+
+const mockedBoolean: ConfObjectBoolean = {
+    name: '',
+    value: false,
+    description: '',
+};
 
 @Component({
     selector: 'app-federated-conf-form',
@@ -53,22 +67,11 @@ import { TranslatePipe } from '@ngx-translate/core';
         FormsModule,
         ReactiveFormsModule,
         NgClass,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatHint,
-        MatChipGrid,
-        MatChipRow,
-        MatChipRemove,
-        MatIcon,
-        MatChipInput,
-        MatAutocompleteTrigger,
-        MatAutocomplete,
-        MatOption,
-        MatSelect,
-        MatSlideToggle,
-        MatIconButton,
-        MatTooltip,
+        UiToggleComponent,
+        UiButtonComponent,
+        UiSelectComponent,
+        UiTextFieldComponent,
+        UiChipInputComponent,
         TranslatePipe,
     ],
 })
@@ -77,14 +80,9 @@ export class FederatedConfFormComponent implements OnInit {
     fb = inject(FormBuilder);
     changeDetectorRef = inject(ChangeDetectorRef);
     media = inject(MediaMatcher);
+    private readonly translate = inject(TranslateService);
 
     constructor() {
-        this.filteredMetrics = this.metricCtrl.valueChanges.pipe(
-            startWith(null),
-            map((metric: string | null) =>
-                metric ? this._filter(metric) : this.defaultMetrics.slice()
-            )
-        );
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () =>
             this.changeDetectorRef.detectChanges();
@@ -94,94 +92,42 @@ export class FederatedConfFormComponent implements OnInit {
     parentForm!: FormGroup;
 
     federatedConfFormGroup = this.fb.group({
-        roundsInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.rounds.range[0]),
-                Validators.max(this.defaultFormValues?.rounds.range[1]),
-            ],
-        ],
+        roundsInput: ['', []],
         metricInput: [['']],
-        minFitClientsInput: [
-            '',
-            [
-                Validators.min(
-                    this.defaultFormValues?.min_fit_clients.range[0]
-                ),
-                Validators.max(
-                    this.defaultFormValues?.min_fit_clients.range[1]
-                ),
-            ],
-        ],
-        minAvailableClientsInput: [
-            '',
-            [
-                Validators.min(
-                    this.defaultFormValues?.min_available_clients.range[0]
-                ),
-                Validators.max(
-                    this.defaultFormValues?.min_available_clients.range[1]
-                ),
-            ],
-        ],
+        minFitClientsInput: ['', []],
+        minAvailableClientsInput: ['', []],
         strategyOptionsSelect: [''],
-        muInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.mu.range[0]),
-                Validators.max(this.defaultFormValues?.mu.range[1]),
-            ],
-        ],
-        flInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.fl.range[0]),
-                Validators.max(this.defaultFormValues?.fl.range[1]),
-            ],
-        ],
-        momentumInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.momentum.range[0]),
-                Validators.max(this.defaultFormValues?.momentum.range[1]),
-            ],
-        ],
-        dpInput: false,
-        mpInput: false,
-        noiseMultInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.noise_mult.range[0]),
-                Validators.max(this.defaultFormValues?.noise_mult.range[1]),
-            ],
-        ],
-        sampledClientsNumInput: [
-            '',
-            [
-                Validators.min(
-                    this.defaultFormValues?.sampled_clients_num.range[0]
-                ),
-                Validators.max(
-                    this.defaultFormValues?.sampled_clients_num.range[1]
-                ),
-            ],
-        ],
-        clippingNormInput: [
-            '',
-            [
-                Validators.min(this.defaultFormValues?.clipping_norm.range[0]),
-                Validators.max(this.defaultFormValues?.clipping_norm.range[1]),
-            ],
-        ],
+        muInput: ['', []],
+        flInput: ['', []],
+        momentumInput: ['', []],
+        dpInput: [false],
+        mpInput: [false],
+        noiseMultInput: ['', []],
+        sampledClientsNumInput: ['', []],
+        clippingNormInput: ['', []],
     });
 
-    protected _defaultFormValues: any;
+    protected _defaultFormValues: FederatedServerConfiguration = {
+        rounds: mockedRange,
+        metric: mockedString,
+        min_fit_clients: mockedRange,
+        min_available_clients: mockedRange,
+        strategy: mockedOptions,
+        mu: mockedRange,
+        fl: mockedRange,
+        momentum: mockedRange,
+        dp: mockedBoolean,
+        mp: mockedOptions,
+        noise_mult: mockedRange,
+        sampled_clients: mockedRange,
+        clip_norm: mockedRange,
+    };
 
     protected _showHelp = false;
     protected showStrategiesInfo = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     @Input() set showHelp(showHelp: any) {
         this._showHelp = showHelp;
@@ -190,36 +136,113 @@ export class FederatedConfFormComponent implements OnInit {
     @Input() set defaultFormValues(defaultFormValues: any) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
+
+            // --- Rounds ---
+            this.federatedConfFormGroup
+                .get('roundsInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.rounds?.range?.[0]),
+                    Validators.max(defaultFormValues.rounds?.range?.[1]),
+                ]);
             this.federatedConfFormGroup
                 .get('roundsInput')
                 ?.setValue(defaultFormValues.rounds?.value);
             this.federatedConfFormGroup
+                .get('roundsInput')
+                ?.updateValueAndValidity();
+
+            // --- Metrics ---
+            this.federatedConfFormGroup
                 .get('metricInput')
                 ?.setValue(defaultFormValues.metric?.value);
+
+            // --- Min Fit Clients ---
+            this.federatedConfFormGroup
+                .get('minFitClientsInput')
+                ?.setValidators([
+                    Validators.min(
+                        defaultFormValues.min_fit_clients?.range?.[0]
+                    ),
+                    Validators.max(
+                        defaultFormValues.min_fit_clients?.range?.[1]
+                    ),
+                ]);
             this.federatedConfFormGroup
                 .get('minFitClientsInput')
                 ?.setValue(defaultFormValues.min_fit_clients?.value);
             this.federatedConfFormGroup
+                .get('minFitClientsInput')
+                ?.updateValueAndValidity();
+
+            // --- Min Available Clients ---
+            this.federatedConfFormGroup
+                .get('minAvailableClientsInput')
+                ?.setValidators([
+                    Validators.min(
+                        defaultFormValues.min_available_clients?.range?.[0]
+                    ),
+                    Validators.max(
+                        defaultFormValues.min_available_clients?.range?.[1]
+                    ),
+                ]);
+            this.federatedConfFormGroup
                 .get('minAvailableClientsInput')
                 ?.setValue(defaultFormValues.min_available_clients?.value);
+            this.federatedConfFormGroup
+                .get('minAvailableClientsInput')
+                ?.updateValueAndValidity();
+
+            // --- Strategies ---
             this.federatedConfFormGroup
                 .get('strategyOptionsSelect')
                 ?.setValue(defaultFormValues.strategy?.value);
             defaultFormValues.strategy?.options?.forEach((option: any) => {
-                this.strategyOptions.push({
-                    value: option,
-                    viewValue: option,
-                });
+                this.strategyOptions.push({ value: option, viewValue: option });
             });
+
+            // --- Mu ---
+            this.federatedConfFormGroup
+                .get('muInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.mu?.range?.[0]),
+                    Validators.max(defaultFormValues.mu?.range?.[1]),
+                ]);
             this.federatedConfFormGroup
                 .get('muInput')
                 ?.setValue(defaultFormValues.mu?.value);
             this.federatedConfFormGroup
+                .get('muInput')
+                ?.updateValueAndValidity();
+
+            // --- FL ---
+            this.federatedConfFormGroup
+                .get('flInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.fl?.range?.[0]),
+                    Validators.max(defaultFormValues.fl?.range?.[1]),
+                ]);
+            this.federatedConfFormGroup
                 .get('flInput')
                 ?.setValue(defaultFormValues.fl?.value);
             this.federatedConfFormGroup
+                .get('flInput')
+                ?.updateValueAndValidity();
+
+            // --- Momentum ---
+            this.federatedConfFormGroup
+                .get('momentumInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.momentum?.range?.[0]),
+                    Validators.max(defaultFormValues.momentum?.range?.[1]),
+                ]);
+            this.federatedConfFormGroup
                 .get('momentumInput')
                 ?.setValue(defaultFormValues.momentum?.value);
+            this.federatedConfFormGroup
+                .get('momentumInput')
+                ?.updateValueAndValidity();
+
+            // --- DP y MP ---
             this.federatedConfFormGroup
                 .get('dpInput')
                 ?.setValue(defaultFormValues.dp?.value);
@@ -227,30 +250,65 @@ export class FederatedConfFormComponent implements OnInit {
                 .get('mpInput')
                 ?.setValue(defaultFormValues.mp?.value);
             defaultFormValues.mp?.options?.forEach((option: any) => {
-                this.mpOptions.push({
-                    value: option,
-                    viewValue: option,
-                });
+                this.mpOptions.push({ value: option, viewValue: option });
             });
+
+            // --- Noise Mult ---
+            this.federatedConfFormGroup
+                .get('noiseMultInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.noise_mult?.range?.[0]),
+                    Validators.max(defaultFormValues.noise_mult?.range?.[1]),
+                ]);
             this.federatedConfFormGroup
                 .get('noiseMultInput')
                 ?.setValue(defaultFormValues.noise_mult?.value);
             this.federatedConfFormGroup
+                .get('noiseMultInput')
+                ?.updateValueAndValidity();
+
+            // --- Sampled Clients Num ---
+            this.federatedConfFormGroup
+                .get('sampledClientsNumInput')
+                ?.setValidators([
+                    Validators.min(
+                        defaultFormValues.sampled_clients_num?.range?.[0]
+                    ),
+                    Validators.max(
+                        defaultFormValues.sampled_clients_num?.range?.[1]
+                    ),
+                ]);
+            this.federatedConfFormGroup
                 .get('sampledClientsNumInput')
                 ?.setValue(defaultFormValues.sampled_clients?.value);
             this.federatedConfFormGroup
+                .get('sampledClientsNumInput')
+                ?.updateValueAndValidity();
+
+            // --- Clipping Norm ---
+            this.federatedConfFormGroup
+                .get('clippingNormInput')
+                ?.setValidators([
+                    Validators.min(defaultFormValues.clipping_norm?.range?.[0]),
+                    Validators.max(defaultFormValues.clipping_norm?.range?.[1]),
+                ]);
+            this.federatedConfFormGroup
                 .get('clippingNormInput')
                 ?.setValue(defaultFormValues.clip_norm?.value);
+            this.federatedConfFormGroup
+                .get('clippingNormInput')
+                ?.updateValueAndValidity();
         }
     }
 
-    separatorKeysCodes: number[] = [ENTER, COMMA];
-    addOnBlur = true;
-
-    metricCtrl = new FormControl('');
-    filteredMetrics: Observable<string[]>;
     metrics: string[] = ['accuracy'];
-    defaultMetrics: string[] = ['accuracy', 'mse', 'mae', 'rmse'];
+    protected defaultMetricOptions: SelectOption[] = [
+        'accuracy',
+        'mse',
+        'mae',
+        'rmse',
+    ].map((m) => ({ value: m, viewValue: m }));
+
     strategyOptions: any = [];
     mpOptions: any = [];
 
@@ -260,6 +318,10 @@ export class FederatedConfFormComponent implements OnInit {
             'federatedConfForm',
             this.federatedConfFormGroup
         );
+
+        setTimeout(() => {
+            this.parentForm.updateValueAndValidity();
+        });
     }
 
     checkStrategy(): void {
@@ -278,59 +340,15 @@ export class FederatedConfFormComponent implements OnInit {
         }
     }
 
-    openDifferentialPrivacyDocs(): void {
-        const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-differential-privacy';
-        window.open(url);
-    }
-
-    openMetricPrivacyDocs(): void {
-        const url =
-            'https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-metric-privacy';
-        window.open(url);
-    }
-
-    // Chip Input Functions
-    add(event: MatChipInputEvent): void {
-        const value = (event.value || '').trim();
-
-        if (value && !this.metrics.includes(value)) {
-            this.metrics.push(value);
-            this.federatedConfFormGroup
-                .get('metricInput')
-                ?.setValue(this.metrics);
+    get strategyHint(): string {
+        if (this._showHelp) {
+            return this._defaultFormValues.strategy?.description || '';
         }
-
-        event.chipInput!.clear();
-        this.metricCtrl.setValue(null);
-    }
-
-    remove(input: string): void {
-        const index = this.metrics.indexOf(input);
-
-        if (index >= 0) {
-            this.metrics.splice(index, 1);
-            this.federatedConfFormGroup
-                .get('metricInput')
-                ?.setValue(this.metrics);
+        if (this.showStrategiesInfo) {
+            return this.translate.instant(
+                'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.NOTE-AGG-STRAT'
+            );
         }
-    }
-
-    selected(event: MatAutocompleteSelectedEvent): void {
-        if (!this.metrics.includes(event.option.viewValue)) {
-            this.metrics.push(event.option.viewValue);
-            this.federatedConfFormGroup
-                .get('metricInput')
-                ?.setValue(this.metrics);
-        }
-        this.metricCtrl.setValue(null);
-    }
-
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.defaultMetrics.filter((metric) =>
-            metric.toLowerCase().includes(filterValue)
-        );
+        return '';
     }
 }

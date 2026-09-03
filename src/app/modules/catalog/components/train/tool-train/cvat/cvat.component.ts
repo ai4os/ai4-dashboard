@@ -10,13 +10,13 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     ModuleGeneralConfiguration,
     ModuleStorageConfiguration,
     CvatToolConfiguration,
+    CvatConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import {
     ShowGeneralFormField,
@@ -24,10 +24,13 @@ import {
 } from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { StorageConfFormComponent } from '../../../conf-forms/storage-conf-form/storage-conf-form.component';
+import { CvatConfFormComponent } from '../../../conf-forms/cvat-conf-form/cvat-conf-form.component';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
     selector: 'app-cvat',
     templateUrl: './cvat.component.html',
+    styleUrl: './cvat.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         StepperFormComponent,
@@ -35,12 +38,14 @@ import { StorageConfFormComponent } from '../../../conf-forms/storage-conf-form/
         ReactiveFormsModule,
         GeneralConfFormComponent,
         StorageConfFormComponent,
+        CvatConfFormComponent,
+        MatDivider,
     ],
 })
 export class CvatComponent implements OnInit {
-    private _formBuilder = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toolsService = inject(ToolsService);
+    private readonly _formBuilder = inject(FormBuilder);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toolsService = inject(ToolsService);
 
     title = '';
     step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
@@ -50,8 +55,10 @@ export class CvatComponent implements OnInit {
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
+    cvatConfForm: FormGroup = this._formBuilder.group({});
     storageConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
+    cvatConfDefaultValues!: CvatConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
     showGeneralFields: ShowGeneralFormField = {
@@ -81,6 +88,11 @@ export class CvatComponent implements OnInit {
                 .getCvatConfiguration(params['id'])
                 .subscribe((toolConf: CvatToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
+                    this.cvatConfDefaultValues = {
+                        ...this.cvatConfDefaultValues,
+                        username: toolConf.general.cvat_username!,
+                        password: toolConf.general.cvat_password!,
+                    };
                     this.storageConfDefaultValues = toolConf.storage;
                 });
         });

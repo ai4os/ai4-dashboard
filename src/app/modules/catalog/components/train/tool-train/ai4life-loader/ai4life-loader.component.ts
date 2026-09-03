@@ -17,7 +17,7 @@ import {
     ModuleHardwareConfiguration,
     Ai4LifeLoaderToolConfiguration,
     Ai4lifeConfiguration,
-    confObject,
+    ConfObject,
 } from '@app/shared/interfaces/module.interface';
 import {
     ShowGeneralFormField,
@@ -31,7 +31,7 @@ import { StepperFormComponent } from '../../stepper-form/stepper-form.component'
 import { MatDivider } from '@angular/material/divider';
 import { Ai4lifeConfFormComponent } from '../../../conf-forms/ai4life-conf-form/ai4life-conf-form.component';
 
-const mockedConfObject: confObject = {
+const mockedConfObject: ConfObject = {
     name: '',
     value: '',
     description: '',

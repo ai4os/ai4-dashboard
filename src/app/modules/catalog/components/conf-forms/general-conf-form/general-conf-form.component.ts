@@ -22,18 +22,7 @@ import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select
 import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
 import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle.component';
-import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
-import {
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    MatHint,
-    MatSuffix,
-} from '@angular/material/input';
-import { MatDivider } from '@angular/material/list';
-import { MatSelect, MatOption } from '@angular/material/select';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiChipGroupComponent } from '@app/shared/components/ui/ui-chip-group/ui-chip-group.component';
 
@@ -46,7 +35,9 @@ export interface ShowGeneralFormField {
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
     infoButton: boolean;
-    // cvat
+    /**
+     * @deprecated cvatFields
+     */
     cvatFields: boolean;
     /**
      * @deprecated ai4lifeFields
@@ -76,15 +67,7 @@ export interface ShowGeneralFormField {
         UiToggleComponent,
         FormsModule,
         ReactiveFormsModule,
-        MatIcon,
         NgClass,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatError,
-        MatHint,
-        MatSuffix,
-        MatDivider,
         TranslatePipe,
         UiChipGroupComponent,
     ],
@@ -186,19 +169,10 @@ export class GeneralConfFormComponent implements OnInit {
                     viewValue: service,
                 });
             });
-
-            // CVAT
-            this.generalConfFormGroup
-                .get('cvatUsernameInput')
-                ?.setValue(defaultFormValues.cvat_username?.value as string);
-            this.generalConfFormGroup
-                .get('cvatPasswordInput')
-                ?.setValue(defaultFormValues.cvat_password?.value as string);
         }
     }
 
     isPasswodRequired = false;
-    hideCvatPassword = true;
 
     generalConfFormGroup = this.fb.group({
         descriptionInput: [''],
@@ -212,15 +186,6 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
         federatedSecretInput: [{ value: '', disabled: true }],
-        // CVAT
-        cvatUsernameInput: [
-            { value: '', disabled: true },
-            [Validators.required],
-        ],
-        cvatPasswordInput: [
-            { value: '', disabled: true },
-            [Validators.required],
-        ],
     });
 
     ngOnInit(): void {
@@ -247,19 +212,5 @@ export class GeneralConfFormComponent implements OnInit {
                         ?.disable();
                 }
             });
-
-        this.authService.userProfile$.subscribe((profile) => {
-            if (profile && this._showFields.cvatFields) {
-                this.generalConfFormGroup
-                    .get('cvatUsernameInput')
-                    ?.setValue(profile.email);
-                this.changeDetectorRef.detectChanges();
-            }
-        });
-
-        if (this._showFields.cvatFields) {
-            this.generalConfFormGroup.get('cvatUsernameInput')?.enable();
-            this.generalConfFormGroup.get('cvatPasswordInput')?.enable();
-        }
     }
 }
