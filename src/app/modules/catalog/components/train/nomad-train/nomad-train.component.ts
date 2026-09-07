@@ -3,6 +3,7 @@ import {
     OnInit,
     ChangeDetectionStrategy,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -16,6 +17,7 @@ import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     ModuleStorageConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,6 +26,9 @@ import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 import { GeneralConfFormComponent } from '../../conf-forms/general-conf-form/general-conf-form.component';
 import { HardwareConfFormComponent } from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { StorageConfFormComponent } from '../../conf-forms/storage-conf-form/storage-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-nomad-train',
@@ -43,7 +48,9 @@ export class NomadTrainComponent implements OnInit {
     modulesService = inject(ModulesService);
     _formBuilder = inject(FormBuilder);
     toolsService = inject(ToolsService);
+    deploymentsService = inject(DeploymentsService);
     translateService = inject(TranslateService);
+    snackbarService = inject(SnackbarService);
     route = inject(ActivatedRoute);
     router = inject(Router);
 
@@ -69,8 +76,17 @@ export class NomadTrainComponent implements OnInit {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
+    @ViewChild(StorageConfFormComponent)
+    storageConfFormCmp!: StorageConfFormComponent;
+
     service: string | undefined;
     warningMessage = '';
+
+    moduleName = '';
 
     ngOnInit(): void {
         const deploymentType = sessionStorage.getItem('deploymentType');
@@ -84,6 +100,7 @@ export class NomadTrainComponent implements OnInit {
     }
 
     loadGenericModule() {
+        this.moduleName = 'ai4os-demo-app';
         this.modulesService
             .getModuleNomadConfiguration('ai4os-demo-app')
             .subscribe((moduleConf: ModuleConfiguration) => {
@@ -128,6 +145,8 @@ export class NomadTrainComponent implements OnInit {
 
     loadSpecificModule() {
         this.route.parent?.params.subscribe((params) => {
+            this.moduleName = params['id'];
+
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;
 
@@ -181,5 +200,46 @@ export class NomadTrainComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+            storage: this.storageConfFormCmp.getPayload(),
+        };
+
+        if (this.title === 'AI4OS Development Environment') {
+            this.deploymentsService
+                .trainTool('ai4os-dev-env', request)
+                .subscribe({
+                    next: (result) => this.handleSuccess(result),
+                    error: () => (this.showLoader = false),
+                });
+        } else {
+            this.deploymentsService.postTrainModule(request).subscribe({
+                next: (result) => this.handleSuccess(result),
+                error: () => (this.showLoader = false),
+            });
+        }
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/deployments']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the deployment ' + result.error_msg
+            );
+        }
     }
 }

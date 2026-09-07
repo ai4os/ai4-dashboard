@@ -57,9 +57,8 @@
         cdkConnectedOverlay
         [cdkConnectedOverlayOrigin]="trigger"
         [cdkConnectedOverlayOpen]="isOpen()"
-        (overlayOutsideClick)="close()"
-        [cdkConnectedOverlayHasBackdrop]="true"
-        cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        (overlayOutsideClick)="onOutsideClick($event)"
+        [cdkConnectedOverlayHasBackdrop]="false"
         [cdkConnectedOverlayWidth]="
             trigger.elementRef.nativeElement.offsetWidth
         "
@@ -92,7 +91,16 @@
                     (keydown.space)="selectOption(option, $event)"
                     (mouseenter)="activeIndex.set(i)"
                 >
-                    <span>{{ option.viewValue }}</span>
+                    @if (optionTemplate) {
+                        <ng-container
+                            *ngTemplateOutlet="
+                                optionTemplate;
+                                context: { $implicit: option }
+                            "
+                        ></ng-container>
+                    } @else {
+                        <span>{{ option.viewValue }}</span>
+                    }
 
                     @if (option.value === internalValue()) {
                         <mat-icon class="ui-select-panel__check"

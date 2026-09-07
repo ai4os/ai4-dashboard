@@ -9,6 +9,7 @@ import {
 import {
     ConfObjectRange,
     NvflareConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import {
     FormBuilder,
@@ -156,5 +157,22 @@ export class NvflareConfFormComponent implements OnInit {
 
     get maxStartDate() {
         return this.nvflareConfFormGroup.get('endDateInput')?.value ?? null;
+    }
+
+    getPayload(): TrainModuleRequest['nvflare'] {
+        const v = this.nvflareConfFormGroup.getRawValue();
+
+        return {
+            username: v.usernameInput ?? '',
+            password: v.passwordInput ?? '',
+            app_location: v.appLocationInput ?? '',
+            public_project: v.publicProjectSelect === 'true',
+            starting_date: v.startingDateInput
+                ? new Date(v.startingDateInput).toISOString()
+                : '',
+            end_date: v.endDateInput
+                ? new Date(v.endDateInput).toISOString()
+                : '',
+        };
     }
 }

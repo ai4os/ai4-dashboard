@@ -177,6 +177,10 @@
     ::ng-deep button {
         width: 100%;
     }
+
+    ::ng-deep a {
+        width: stretch;
+    }
 }
 
 .download-metadata-button {

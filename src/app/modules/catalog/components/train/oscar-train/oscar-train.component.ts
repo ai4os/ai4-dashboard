@@ -3,6 +3,7 @@ import {
     OnInit,
     ChangeDetectionStrategy,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -16,6 +17,7 @@ import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     ModuleConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -27,6 +29,8 @@ import {
     HardwareConfFormComponent,
 } from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
+import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-oscar-train',
@@ -44,9 +48,16 @@ import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 export class OscarTrainComponent implements OnInit {
     _formBuilder = inject(FormBuilder);
     modulesService = inject(ModulesService);
+    oscarInferenceService = inject(OscarInferenceService);
+    snackbarService = inject(SnackbarService);
     translateService = inject(TranslateService);
     route = inject(ActivatedRoute);
     router = inject(Router);
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
 
     constructor() {
         const navigation = this.router.currentNavigation();
@@ -121,5 +132,40 @@ export class OscarTrainComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+        };
+
+        this.oscarInferenceService.createService(request).subscribe({
+            next: (serviceName: string) => {
+                this.showLoader = false;
+                if (serviceName !== '') {
+                    this.router
+                        .navigate(['/tasks/inference'])
+                        .then((navigated: boolean) => {
+                            if (navigated) {
+                                this.snackbarService.openSuccess(
+                                    'OSCAR service created with uuid ' +
+                                        serviceName
+                                );
+                            } else {
+                                this.snackbarService.openError(
+                                    'Error while creating service with uuid ' +
+                                        serviceName
+                                );
+                            }
+                        });
+                }
+            },
+            error: () => {
+                this.showLoader = false;
+            },
+        });
     }
 }

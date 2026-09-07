@@ -15,7 +15,10 @@ import {
     Validators,
 } from '@angular/forms';
 import { AuthService } from '@app/core/services/auth/auth.service';
-import { CvatConfiguration } from '@app/shared/interfaces/module.interface';
+import {
+    CvatConfiguration,
+    TrainModuleRequest,
+} from '@app/shared/interfaces/module.interface';
 import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -93,5 +96,16 @@ export class CvatConfFormComponent implements OnInit {
                 this.changeDetectorRef.detectChanges();
             }
         });
+    }
+
+    getPayload(): Pick<
+        TrainModuleRequest['general'],
+        'cvat_username' | 'cvat_password'
+    > {
+        const v = this.cvatConfFormGroup.getRawValue();
+        return {
+            cvat_username: v.usernameInput ?? '',
+            cvat_password: v.passwordInput ?? '',
+        };
     }
 }

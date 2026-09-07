@@ -56,6 +56,7 @@ describe('FederatedConfFormComponent', () => {
             roundsInput: '1',
             minFitClientsInput: '2',
             minAvailableClientsInput: '2',
+            strategyOptionsSelect: 'Federated Averaging (FedAvg)',
         });
         expect(component.federatedConfFormGroup.valid).toBe(true);
     });

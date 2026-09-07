@@ -30,6 +30,7 @@ import {
     ConfObjectBoolean,
     ConfObjectRange,
     FederatedServerConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 
 const mockedRange: ConfObjectRange = {
@@ -92,19 +93,19 @@ export class FederatedConfFormComponent implements OnInit {
     parentForm!: FormGroup;
 
     federatedConfFormGroup = this.fb.group({
-        roundsInput: ['', []],
-        metricInput: [['']],
-        minFitClientsInput: ['', []],
-        minAvailableClientsInput: ['', []],
+        roundsInput: [''],
+        metricInput: [[] as string[]],
+        minFitClientsInput: [''],
+        minAvailableClientsInput: [''],
         strategyOptionsSelect: [''],
-        muInput: ['', []],
-        flInput: ['', []],
-        momentumInput: ['', []],
+        muInput: [''],
+        flInput: [''],
+        momentumInput: [''],
         dpInput: [false],
         mpInput: [false],
-        noiseMultInput: ['', []],
-        sampledClientsNumInput: ['', []],
-        clippingNormInput: ['', []],
+        noiseMultInput: [''],
+        sampledClientsNumInput: [''],
+        clippingNormInput: [''],
     });
 
     protected _defaultFormValues: FederatedServerConfiguration = {
@@ -141,25 +142,31 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('roundsInput')
                 ?.setValidators([
+                    Validators.required,
                     Validators.min(defaultFormValues.rounds?.range?.[0]),
                     Validators.max(defaultFormValues.rounds?.range?.[1]),
                 ]);
             this.federatedConfFormGroup
                 .get('roundsInput')
                 ?.setValue(defaultFormValues.rounds?.value);
-            this.federatedConfFormGroup
-                .get('roundsInput')
-                ?.updateValueAndValidity();
 
             // --- Metrics ---
+            const metricVal = defaultFormValues.metric?.value;
             this.federatedConfFormGroup
                 .get('metricInput')
-                ?.setValue(defaultFormValues.metric?.value);
+                ?.setValue(
+                    metricVal
+                        ? Array.isArray(metricVal)
+                            ? metricVal
+                            : [metricVal]
+                        : []
+                );
 
             // --- Min Fit Clients ---
             this.federatedConfFormGroup
                 .get('minFitClientsInput')
                 ?.setValidators([
+                    Validators.required,
                     Validators.min(
                         defaultFormValues.min_fit_clients?.range?.[0]
                     ),
@@ -170,14 +177,12 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('minFitClientsInput')
                 ?.setValue(defaultFormValues.min_fit_clients?.value);
-            this.federatedConfFormGroup
-                .get('minFitClientsInput')
-                ?.updateValueAndValidity();
 
             // --- Min Available Clients ---
             this.federatedConfFormGroup
                 .get('minAvailableClientsInput')
                 ?.setValidators([
+                    Validators.required,
                     Validators.min(
                         defaultFormValues.min_available_clients?.range?.[0]
                     ),
@@ -188,14 +193,16 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('minAvailableClientsInput')
                 ?.setValue(defaultFormValues.min_available_clients?.value);
-            this.federatedConfFormGroup
-                .get('minAvailableClientsInput')
-                ?.updateValueAndValidity();
 
             // --- Strategies ---
             this.federatedConfFormGroup
                 .get('strategyOptionsSelect')
+                ?.setValidators([Validators.required]);
+            this.federatedConfFormGroup
+                .get('strategyOptionsSelect')
                 ?.setValue(defaultFormValues.strategy?.value);
+
+            this.strategyOptions = [];
             defaultFormValues.strategy?.options?.forEach((option: any) => {
                 this.strategyOptions.push({ value: option, viewValue: option });
             });
@@ -210,9 +217,6 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('muInput')
                 ?.setValue(defaultFormValues.mu?.value);
-            this.federatedConfFormGroup
-                .get('muInput')
-                ?.updateValueAndValidity();
 
             // --- FL ---
             this.federatedConfFormGroup
@@ -224,9 +228,6 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('flInput')
                 ?.setValue(defaultFormValues.fl?.value);
-            this.federatedConfFormGroup
-                .get('flInput')
-                ?.updateValueAndValidity();
 
             // --- Momentum ---
             this.federatedConfFormGroup
@@ -238,9 +239,6 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('momentumInput')
                 ?.setValue(defaultFormValues.momentum?.value);
-            this.federatedConfFormGroup
-                .get('momentumInput')
-                ?.updateValueAndValidity();
 
             // --- DP y MP ---
             this.federatedConfFormGroup
@@ -249,6 +247,8 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('mpInput')
                 ?.setValue(defaultFormValues.mp?.value);
+
+            this.mpOptions = [];
             defaultFormValues.mp?.options?.forEach((option: any) => {
                 this.mpOptions.push({ value: option, viewValue: option });
             });
@@ -263,41 +263,34 @@ export class FederatedConfFormComponent implements OnInit {
             this.federatedConfFormGroup
                 .get('noiseMultInput')
                 ?.setValue(defaultFormValues.noise_mult?.value);
-            this.federatedConfFormGroup
-                .get('noiseMultInput')
-                ?.updateValueAndValidity();
 
             // --- Sampled Clients Num ---
             this.federatedConfFormGroup
                 .get('sampledClientsNumInput')
                 ?.setValidators([
                     Validators.min(
-                        defaultFormValues.sampled_clients_num?.range?.[0]
+                        defaultFormValues.sampled_clients?.range?.[0]
                     ),
                     Validators.max(
-                        defaultFormValues.sampled_clients_num?.range?.[1]
+                        defaultFormValues.sampled_clients?.range?.[1]
                     ),
                 ]);
             this.federatedConfFormGroup
                 .get('sampledClientsNumInput')
                 ?.setValue(defaultFormValues.sampled_clients?.value);
-            this.federatedConfFormGroup
-                .get('sampledClientsNumInput')
-                ?.updateValueAndValidity();
 
             // --- Clipping Norm ---
             this.federatedConfFormGroup
                 .get('clippingNormInput')
                 ?.setValidators([
-                    Validators.min(defaultFormValues.clipping_norm?.range?.[0]),
-                    Validators.max(defaultFormValues.clipping_norm?.range?.[1]),
+                    Validators.min(defaultFormValues.clip_norm?.range?.[0]),
+                    Validators.max(defaultFormValues.clip_norm?.range?.[1]),
                 ]);
             this.federatedConfFormGroup
                 .get('clippingNormInput')
                 ?.setValue(defaultFormValues.clip_norm?.value);
-            this.federatedConfFormGroup
-                .get('clippingNormInput')
-                ?.updateValueAndValidity();
+
+            this.federatedConfFormGroup.updateValueAndValidity();
         }
     }
 
@@ -322,6 +315,53 @@ export class FederatedConfFormComponent implements OnInit {
         setTimeout(() => {
             this.parentForm.updateValueAndValidity();
         });
+
+        this.federatedConfFormGroup
+            .get('strategyOptionsSelect')
+            ?.valueChanges.subscribe((strategy) => {
+                const muCtrl = this.federatedConfFormGroup.get('muInput');
+                const flCtrl = this.federatedConfFormGroup.get('flInput');
+                const momentumCtrl =
+                    this.federatedConfFormGroup.get('momentumInput');
+
+                muCtrl?.removeValidators(Validators.required);
+                flCtrl?.removeValidators(Validators.required);
+                momentumCtrl?.removeValidators(Validators.required);
+
+                if (strategy === 'FedProx strategy (FedProx)') {
+                    muCtrl?.addValidators(Validators.required);
+                } else if (
+                    strategy === 'Federated Averaging with Momentum (FedAvgM)'
+                ) {
+                    flCtrl?.addValidators(Validators.required);
+                    momentumCtrl?.addValidators(Validators.required);
+                }
+
+                muCtrl?.updateValueAndValidity();
+                flCtrl?.updateValueAndValidity();
+                momentumCtrl?.updateValueAndValidity();
+            });
+
+        this.federatedConfFormGroup
+            .get('dpInput')
+            ?.valueChanges.subscribe((isDpEnabled) => {
+                const dpFields = [
+                    'mpInput',
+                    'noiseMultInput',
+                    'sampledClientsNumInput',
+                    'clippingNormInput',
+                ];
+
+                dpFields.forEach((field) => {
+                    const ctrl = this.federatedConfFormGroup.get(field);
+                    if (isDpEnabled) {
+                        ctrl?.addValidators(Validators.required);
+                    } else {
+                        ctrl?.removeValidators(Validators.required);
+                    }
+                    ctrl?.updateValueAndValidity();
+                });
+            });
     }
 
     checkStrategy(): void {
@@ -346,9 +386,44 @@ export class FederatedConfFormComponent implements OnInit {
         }
         if (this.showStrategiesInfo) {
             return this.translate.instant(
-                'CATALOG.MODULE-TRAIN.FEDERATED-CONF-FORM.NOTE-AGG-STRAT'
+                'CATALOG.CONF-FORMS.FLOWER.FEDERATED.NOTE-AGG-STRAT'
             );
         }
         return '';
+    }
+
+    getPayload(): TrainModuleRequest['flower'] {
+        const v = this.federatedConfFormGroup.getRawValue();
+        const strategy = v.strategyOptionsSelect;
+        const isDpEnabled = Boolean(v.dpInput);
+
+        return {
+            rounds: Number(v.roundsInput),
+            metric: Array.isArray(v.metricInput) ? v.metricInput : [],
+            min_fit_clients: Number(v.minFitClientsInput),
+            min_available_clients: Number(v.minAvailableClientsInput),
+            strategy: strategy ?? '',
+            dp: isDpEnabled,
+
+            mu:
+                strategy === 'FedProx strategy (FedProx)'
+                    ? Number(v.muInput)
+                    : undefined,
+            fl:
+                strategy === 'Federated Averaging with Momentum (FedAvgM)'
+                    ? Number(v.flInput)
+                    : undefined,
+            momentum:
+                strategy === 'Federated Averaging with Momentum (FedAvgM)'
+                    ? Number(v.momentumInput)
+                    : undefined,
+
+            mp: isDpEnabled ? (v.mpInput as any) : undefined,
+            noise_mult: isDpEnabled ? Number(v.noiseMultInput) : undefined,
+            sampled_clients: isDpEnabled
+                ? Number(v.sampledClientsNumInput)
+                : undefined,
+            clip_norm: isDpEnabled ? Number(v.clippingNormInput) : undefined,
+        };
     }
 }

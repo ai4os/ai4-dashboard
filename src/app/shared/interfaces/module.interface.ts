@@ -210,8 +210,8 @@ export interface TrainModuleRequest {
         title: string;
         desc?: string;
         co2?: boolean;
-        docker_image: string;
-        docker_tag: string;
+        docker_image?: string;
+        docker_tag?: string;
         service?: string;
         jupyter_password?: string;
         // cvat
@@ -242,23 +242,23 @@ export interface TrainModuleRequest {
         min_fit_clients: number;
         min_available_clients: number;
         strategy: string;
-        mu: number;
-        fl: number;
-        momentum: number;
         dp: boolean;
-        mp: boolean;
-        noise_mult: number;
-        sampled_clients: number;
-        clip_norm: number;
+        mu?: number;
+        fl?: number;
+        momentum?: number;
+        mp?: boolean;
+        noise_mult?: number;
+        sampled_clients?: number;
+        clip_norm?: number;
     };
     llm?: {
         type: string;
-        vllm_model_id: string;
-        ui_username: string;
-        ui_password: string;
-        HF_token: string;
-        openai_api_key: string;
-        openai_api_url: string;
+        vllm_model_id?: string;
+        ui_username?: string;
+        ui_password?: string;
+        HF_token?: string;
+        openai_api_key?: string;
+        openai_api_url?: string;
     };
     nvflare?: {
         username: string;

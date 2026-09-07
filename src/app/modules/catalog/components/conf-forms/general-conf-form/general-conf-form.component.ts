@@ -14,7 +14,10 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { ModuleGeneralConfiguration } from '@app/shared/interfaces/module.interface';
+import {
+    ModuleGeneralConfiguration,
+    TrainModuleRequest,
+} from '@app/shared/interfaces/module.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
@@ -25,6 +28,7 @@ import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle
 import { NgClass } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiChipGroupComponent } from '@app/shared/components/ui/ui-chip-group/ui-chip-group.component';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 export interface ShowGeneralFormField {
     descriptionInput: boolean;
@@ -212,5 +216,40 @@ export class GeneralConfFormComponent implements OnInit {
                         ?.disable();
                 }
             });
+    }
+
+    getPayload(): Pick<
+        TrainModuleRequest['general'],
+        | 'title'
+        | 'desc'
+        | 'co2'
+        | 'docker_image'
+        | 'docker_tag'
+        | 'service'
+        | 'jupyter_password'
+    > {
+        const v = this.generalConfFormGroup.getRawValue();
+
+        return {
+            title: v.titleInput?.trim()
+                ? v.titleInput.trim()
+                : uniqueNamesGenerator({ dictionaries: [colors, animals] }),
+            desc: v.descriptionInput || undefined,
+            co2: this._showFields.co2EmissionsInput
+                ? (v.co2EmissionsInput ?? undefined)
+                : undefined,
+            docker_image: this._showFields.dockerImageInput
+                ? (v.dockerImageInput ?? undefined)
+                : undefined,
+            docker_tag: this._showFields.dockerTagSelect
+                ? (v.dockerTagSelect ?? undefined)
+                : undefined,
+            service: this._showFields.serviceToRunChip
+                ? (v.serviceToRunChip ?? undefined)
+                : undefined,
+            jupyter_password: this.isPasswodRequired
+                ? (v.serviceToRunPassInput ?? undefined)
+                : undefined,
+        };
     }
 }

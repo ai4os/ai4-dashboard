@@ -3,12 +3,14 @@ import {
     ChangeDetectionStrategy,
     OnInit,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     NvflareConfiguration,
     NvflareToolConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import {
     ShowGeneralFormField,
@@ -20,7 +22,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     ShowHardwareField,
     HardwareConfFormComponent,
@@ -28,6 +30,9 @@ import {
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { NvflareConfFormComponent } from '../../../conf-forms/nvflare-conf-form/nvflare-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 @Component({
     selector: 'app-nvflare',
@@ -47,6 +52,16 @@ export class NvflareComponent implements OnInit {
     _formBuilder = inject(FormBuilder);
     route = inject(ActivatedRoute);
     toolsService = inject(ToolsService);
+    deploymentsService = inject(DeploymentsService);
+    snackbarService = inject(SnackbarService);
+    router = inject(Router);
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
+    @ViewChild(NvflareConfFormComponent)
+    nvflareConfFormCmp!: NvflareConfFormComponent;
 
     title = '';
     step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
@@ -116,5 +131,36 @@ export class NvflareComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+            nvflare: this.nvflareConfFormCmp.getPayload(),
+        };
+
+        this.deploymentsService.trainTool('ai4os-nvflare', request).subscribe({
+            next: (result) => this.handleSuccess(result),
+            error: () => (this.showLoader = false),
+        });
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/deployments']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the deployment ' + result.error_msg
+            );
+        }
     }
 }

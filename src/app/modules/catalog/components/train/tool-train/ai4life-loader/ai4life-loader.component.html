@@ -10,6 +10,7 @@
     [warningMessage]="warningMessage"
     [isLoading]="showLoader"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
+    (submitted)="onSubmit()"
 >
     <ng-template #step1>
         <form [formGroup]="generalConfForm" class="form">

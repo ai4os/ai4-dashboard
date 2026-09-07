@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     OnInit,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -18,6 +19,7 @@ import {
     Ai4LifeLoaderToolConfiguration,
     Ai4lifeConfiguration,
     ConfObject,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import {
     ShowGeneralFormField,
@@ -30,6 +32,9 @@ import {
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { MatDivider } from '@angular/material/divider';
 import { Ai4lifeConfFormComponent } from '../../../conf-forms/ai4life-conf-form/ai4life-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 const mockedConfObject: ConfObject = {
     name: '',
@@ -57,6 +62,16 @@ export class Ai4lifeLoaderComponent implements OnInit {
     _formBuilder = inject(FormBuilder);
     route = inject(ActivatedRoute);
     router = inject(Router);
+
+    deploymentsService = inject(DeploymentsService);
+    snackbarService = inject(SnackbarService);
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(Ai4lifeConfFormComponent)
+    ai4lifeConfFormCmp!: Ai4lifeConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
 
     constructor() {
         const navigation = this.router.lastSuccessfulNavigation();
@@ -144,5 +159,40 @@ export class Ai4lifeLoaderComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+        const request: TrainModuleRequest = {
+            general: {
+                ...this.generalConfFormCmp.getPayload(),
+                ...this.ai4lifeConfFormCmp.getPayload(),
+            },
+            hardware: this.hardwareConfFormCmp.getPayload(),
+        };
+
+        this.deploymentsService
+            .trainTool('ai4os-ai4life-loader', request)
+            .subscribe({
+                next: (result) => this.handleSuccess(result),
+                error: () => (this.showLoader = false),
+            });
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/deployments']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the deployment ' + result.error_msg
+            );
+        }
     }
 }

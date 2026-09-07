@@ -7,6 +7,8 @@ import {
     ViewChild,
     ChangeDetectionStrategy,
     inject,
+    signal,
+    computed,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -20,8 +22,9 @@ import {
 import {
     ModuleStorageConfiguration,
     File,
-    confObject,
-    confObjectStringBoolean,
+    ConfObject,
+    ConfObjectStringBoolean,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
 import { ProfileService } from '@app/modules/profile/services/profile-service/profile.service';
@@ -35,43 +38,27 @@ import {
     ConfirmationDialogData,
 } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import {
-    MatChipSelectionChange,
-    MatChipListbox,
-    MatChipOption,
-} from '@angular/material/chips';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import { DatasetsListComponent } from '../../train/datasets/datasets-list/datasets-list.component';
-import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
-import {
-    MatFormField,
-    MatLabel,
-    MatSuffix,
-    MatHint,
-} from '@angular/material/input';
-import {
-    MatSelect,
-    MatOption,
-    MatSelectTrigger,
-} from '@angular/material/select';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatIconButton, MatButton } from '@angular/material/button';
 import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 
-const mockedConfObject: confObject = {
+const mockedConfObject: ConfObject = {
     name: '',
     value: '',
     description: '',
 };
-const mockedConfObjectStringBoolean: confObjectStringBoolean = {
+const mockedConfObjectStringBoolean: ConfObjectStringBoolean = {
     name: '',
     value: { stringValue: '', booleanValue: false },
     description: '',
 };
+
+type SortBy = 'name' | 'recent';
 
 @Component({
     selector: 'app-storage-conf-form',
@@ -81,26 +68,14 @@ const mockedConfObjectStringBoolean: confObjectStringBoolean = {
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MatIcon,
         NgClass,
-        MatFormField,
-        MatLabel,
-        MatSelect,
-        MatOption,
-        MatProgressSpinner,
-        MatSuffix,
-        MatHint,
         RouterLink,
-        MatChipListbox,
-        MatChipOption,
-        MatSelectTrigger,
-        MatIconButton,
-        MatButton,
         DatasetsListComponent,
         TranslatePipe,
         UiSelectComponent,
         UiLoaderComponent,
         UiChipComponent,
+        UiButtonComponent,
     ],
 })
 export class StorageConfFormComponent implements OnInit {
@@ -142,7 +117,7 @@ export class StorageConfFormComponent implements OnInit {
     parentForm!: FormGroup;
 
     storageConfFormGroup = this.fb.group({
-        storageServiceDatasetSelect: ['', [Validators.required]],
+        storageServiceDatasetSelect: [''],
         snapshotDatasetSelect: new FormControl({
             value: '',
             disabled: true,
@@ -181,11 +156,28 @@ export class StorageConfFormComponent implements OnInit {
         force_pull: false,
     };
     credentials: StorageCredential[] = [];
-    sortBy = 'recent';
+
+    readonly sortBy = signal<SortBy>('recent');
     snapshots: File[] = [];
 
     private readonly _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
+
+    readonly sortedElements = computed(() => {
+        const sortBy = this.sortBy();
+
+        if (sortBy === 'name') {
+            return this.snapshots.sort((a, b) => {
+                return a.Name.localeCompare(b.Name);
+            });
+        }
+
+        return this.snapshots.sort((a, b) => {
+            return (
+                new Date(b.ModTime).getTime() - new Date(a.ModTime).getTime()
+            );
+        });
+    });
 
     ngOnInit(): void {
         this.parentForm = this.ctrlContainer.form;
@@ -200,8 +192,132 @@ export class StorageConfFormComponent implements OnInit {
 
         this.getSuggestedDatasets();
         this.getLinkedStorageServices();
+
+        this.updateStorageServiceValidator();
     }
 
+    getPayload(): TrainModuleRequest['storage'] | undefined {
+        const v = this.storageConfFormGroup.getRawValue();
+        const serviceUrl = v.storageServiceDatasetSelect;
+
+        if (!serviceUrl) return undefined;
+
+        const creds = this.credentials.find((c) => c.server === serviceUrl);
+
+        return {
+            rclone_conf: creds?.conf ?? '/srv/.rclone/rclone.conf',
+            rclone_url: creds?.vendor ?? '',
+            rclone_vendor: creds?.vendor ?? 'nextcloud',
+            rclone_user: creds?.loginName ?? '',
+            rclone_password: creds?.appPassword ?? '',
+
+            // CVAT Backup is only sent if it is a CVAT and a snapshot has been selected
+            cvat_backup:
+                this.isCvatTool &&
+                v.snapshotDatasetSelect &&
+                v.snapshotDatasetSelect !== '-'
+                    ? v.snapshotDatasetSelect
+                    : undefined,
+
+            // Datasets are sent if it is NOT CVAT and there are items on the list
+            datasets:
+                !this.isCvatTool && v.datasetsList?.length
+                    ? v.datasetsList
+                    : undefined,
+        };
+    }
+
+    /***** STORAGE PROVIDERS *****/
+    getLinkedStorageServices() {
+        this.profileService
+            .getExistingCredentials()
+            .pipe(
+                timeout(20000),
+                catchError(() => {
+                    this.credentialsLoading = false;
+                    return throwError(() =>
+                        this.snackbarService.openError(
+                            'No storage providers available. Please try again later.'
+                        )
+                    );
+                })
+            )
+            .subscribe({
+                next: (credentials) => {
+                    this.credentials = Object.values(credentials);
+
+                    if (!this.isCvatTool) {
+                        // In CVAT it is compulsory to select a storage, so the empty option is not allowed
+                        this.storageServiceOptions = [
+                            { value: '', viewValue: '-' },
+                        ];
+                    }
+
+                    if (this.credentials.length > 0) {
+                        this.credentials.forEach(
+                            (credential: StorageCredential) => {
+                                this.storageServiceOptions.push({
+                                    value: credential.server,
+                                    viewValue: credential.server.replace(
+                                        'https://',
+                                        ''
+                                    ),
+                                });
+                            }
+                        );
+                        this.storageConfFormGroup
+                            .get('storageServiceDatasetSelect')
+                            ?.setValue(this.storageServiceOptions[0].value);
+                        this.storageConfFormGroup
+                            .get('storageServiceDatasetSelect')
+                            ?.enable();
+                        this.credentialsLoading = false;
+                        this.updateStorageConfiguration();
+                    } else {
+                        this.credentialsLoading = false;
+                    }
+                },
+                error: () => {
+                    this.credentialsLoading = false;
+                },
+            });
+    }
+
+    updateStorageConfiguration() {
+        const storageServiceUrl = this.storageConfFormGroup.get(
+            'storageServiceDatasetSelect'
+        )?.value;
+        const storageServiceName = storageServiceUrl?.replace('https://', '');
+        const storageServiceCredentials = this.credentials.find(
+            (c) => c.server === storageServiceUrl
+        );
+
+        if (storageServiceName && storageServiceCredentials) {
+            if (this.isCvatTool) {
+                this.updateSnapshots(storageServiceName);
+            }
+        } else {
+            this.snapshotOptions = [];
+            this.snapshots = [];
+            this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
+        }
+    }
+
+    private updateStorageServiceValidator(): void {
+        const control = this.storageConfFormGroup.get(
+            'storageServiceDatasetSelect'
+        );
+
+        if (this.isCvatTool || this.datasets.length > 0) {
+            control?.setValidators([Validators.required]);
+        } else {
+            control?.clearValidators();
+        }
+
+        control?.updateValueAndValidity();
+    }
+
+    /***** DATASETS *****/
     addDataset(dataset: ZenodoSimpleDataset): void {
         const storageServiceDataset = this.storageConfFormGroup.get(
             'storageServiceDatasetSelect'
@@ -256,85 +372,20 @@ export class StorageConfFormComponent implements OnInit {
         });
     }
 
-    getLinkedStorageServices() {
-        this.profileService
-            .getExistingCredentials()
-            .pipe(
-                timeout(20000),
-                catchError(() => {
-                    this.credentialsLoading = false;
-                    return throwError(() =>
-                        this.snackbarService.openError(
-                            'No storage providers available. Please try again later.'
-                        )
-                    );
-                })
-            )
-            .subscribe({
-                next: (credentials) => {
-                    this.credentials = Object.values(credentials);
-                    this.storageServiceOptions = [
-                        { value: '', viewValue: '-' },
-                    ];
+    suggestedDatasetIsValid(): boolean {
+        const doiPattern = /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
+        const urlPattern =
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
+        const validDOI = doiPattern.test(this.suggestedDataset.title);
+        const validURL = urlPattern.test(this.suggestedDataset.title);
 
-                    if (this.credentials.length > 0) {
-                        this.credentials.forEach(
-                            (credential: StorageCredential) => {
-                                this.storageServiceOptions.push({
-                                    value: credential.server,
-                                    viewValue: credential.server.replace(
-                                        'https://',
-                                        ''
-                                    ),
-                                });
-                            }
-                        );
-                        this.storageConfFormGroup
-                            .get('storageServiceDatasetSelect')
-                            ?.setValue(this.storageServiceOptions[0].value);
-                        this.storageConfFormGroup
-                            .get('storageServiceDatasetSelect')
-                            ?.enable();
-                        this.credentialsLoading = false;
-                        this.updateStorageConfiguration();
-                    } else {
-                        this.credentialsLoading = false;
-                    }
-                },
-                error: () => {
-                    this.credentialsLoading = false;
-                },
-                complete: () => {
-                    const storageServiceDatasetSelect =
-                        this.storageConfFormGroup.get(
-                            'storageServiceDatasetSelect'
-                        );
-                    storageServiceDatasetSelect?.clearValidators();
-                    storageServiceDatasetSelect?.updateValueAndValidity();
-                },
-            });
-    }
-
-    updateStorageConfiguration() {
-        const storageServiceUrl = this.storageConfFormGroup.get(
-            'storageServiceDatasetSelect'
-        )?.value;
-        const storageServiceName = storageServiceUrl?.replace('https://', '');
-        const storageServiceCredentials = this.credentials.find(
-            (c) => c.server === storageServiceUrl
-        );
-
-        if (storageServiceName && storageServiceCredentials) {
-            if (this.isCvatTool) {
-                this.updateSnapshots(storageServiceName);
-            }
-        } else {
-            this.snapshotOptions = [];
-            this.snapshots = [];
-            this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
+        if (this.suggestedDataset.title !== '' && (validDOI || validURL)) {
+            return true;
         }
+        return false;
     }
 
+    /* SNAPSHOTS */
     updateSnapshots(storageName: string) {
         this.snapshotsLoading = true;
         this.storageConfFormGroup.get('snapshotDatasetSelect')?.disable();
@@ -382,7 +433,14 @@ export class StorageConfFormComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: {
-                    title: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-DELETE',
+                    title: 'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.DELETE-TITLE',
+                    subtitlePrefix:
+                        'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.SUBTITLE-PREFIX',
+                    subtitleHighlight: option,
+                    subtitleSuffix:
+                        'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.SUBTITLE-SUFFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.DELETE-OPTION',
                 } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
@@ -429,50 +487,35 @@ export class StorageConfFormComponent implements OnInit {
             });
     }
 
-    selectedSortingChip(event: MatChipSelectionChange) {
-        const selectedChipValue = event.source.value;
+    // Sorting
+    toggleSort(): void {
+        this.sortBy.update((current) =>
+            current === 'name' ? 'recent' : 'name'
+        );
 
-        if (!event.selected && selectedChipValue === this.sortBy) {
-            event.source.select();
-            return;
-        }
-
-        if (event.selected) {
-            this.snapshotOptions = [];
-            if (selectedChipValue === 'name') {
-                this.sortBy = 'name';
-                this.snapshots.sort((a, b) => {
-                    return a.Name.localeCompare(b.Name);
-                });
-            } else if (selectedChipValue === 'recent') {
-                this.sortBy = 'recent';
-                this.snapshots.sort((a, b) => {
-                    return (
-                        new Date(b.ModTime).getTime() -
-                        new Date(a.ModTime).getTime()
-                    );
-                });
-            }
-
-            this.snapshots.forEach((snapshot: File) => {
-                this.snapshotOptions.push({
-                    value: snapshot.Name,
-                    viewValue: snapshot.Name,
-                });
-            });
-        }
+        this.applySortingToOptions();
     }
 
-    suggestedDatasetIsValid(): boolean {
-        const doiPattern = /^10.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
-        const urlPattern =
-            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/i;
-        const validDOI = doiPattern.test(this.suggestedDataset.title);
-        const validURL = urlPattern.test(this.suggestedDataset.title);
+    private applySortingToOptions(): void {
+        // Default option
+        this.snapshotOptions = [{ value: '', viewValue: '-' }];
 
-        if (this.suggestedDataset.title !== '' && (validDOI || validURL)) {
-            return true;
+        const sorted = [...this.snapshots];
+        if (this.sortBy() === 'name') {
+            sorted.sort((a, b) => a.Name.localeCompare(b.Name));
+        } else {
+            sorted.sort(
+                (a, b) =>
+                    new Date(b.ModTime).getTime() -
+                    new Date(a.ModTime).getTime()
+            );
         }
-        return false;
+
+        const mappedOptions = sorted.map((snapshot) => ({
+            value: snapshot.Name,
+            viewValue: snapshot.Name,
+        }));
+
+        this.snapshotOptions = [...this.snapshotOptions, ...mappedOptions];
     }
 }

@@ -13,7 +13,10 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { Ai4lifeConfiguration } from '@app/shared/interfaces/module.interface';
+import {
+    Ai4lifeConfiguration,
+    TrainModuleRequest,
+} from '@app/shared/interfaces/module.interface';
 import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from '@app/core/services/auth/auth.service';
@@ -86,5 +89,12 @@ export class Ai4lifeConfFormComponent implements OnInit {
             'ai4lifeConfFormGroup',
             this.ai4lifeConfFormGroup
         );
+    }
+
+    getPayload(): Pick<TrainModuleRequest['general'], 'model_id'> {
+        return {
+            model_id:
+                this.ai4lifeConfFormGroup.getRawValue().modelIdSelect ?? '',
+        };
     }
 }

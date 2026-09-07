@@ -18,6 +18,7 @@ import {
 import {
     ModuleHardwareConfiguration,
     ConfObjectRange,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { NgClass } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -229,5 +230,24 @@ export class HardwareConfFormComponent implements OnInit {
         });
 
         this.gpuNumberSelectorBehaviourHandler();
+    }
+
+    getPayload(): TrainModuleRequest['hardware'] {
+        const v = this.hardwareConfFormGroup.getRawValue();
+
+        return {
+            cpu_num: Number(v.cpuNumberInput),
+            ram: Number(v.ramMemoryInput),
+
+            disk: this._showFields.disk ? Number(v.diskMemoryInput) : undefined,
+
+            gpu_num: this._showFields.gpu_num
+                ? Number(v.gpuNumberInput)
+                : undefined,
+
+            gpu_type: this._showFields.gpu_type
+                ? (v.gpuModelSelect ?? undefined)
+                : undefined,
+        };
     }
 }

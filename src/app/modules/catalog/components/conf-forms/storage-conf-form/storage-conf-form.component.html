@@ -28,14 +28,14 @@
             ></app-ui-chip>
         }
     </div>
+
     <div
-        class="storage-container"
         [ngClass]="{
             'form-flex': mobileQuery.matches,
             'grid-1-column': !mobileQuery.matches,
         }"
     >
-        <div style="position: relative">
+        <div class="field-with-spinner">
             <app-ui-select
                 formControlName="storageServiceDatasetSelect"
                 label="CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE"
@@ -74,103 +74,89 @@
                 <app-ui-loader></app-ui-loader>
             }
         </div>
-
-        @if (isCvatTool) {
-            <div class="snapshots-row">
-                <h4>
-                    {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOTS-CONF'
-                            | translate
-                    }}
-                </h4>
-
-                <span class="cvat-step-title">
-                    <span class="small-text"> Sort: </span>
-
-                    <mat-chip-listbox>
-                        <mat-chip-option
-                            [selected]="sortBy === 'name'"
-                            value="name"
-                            (selectionChange)="selectedSortingChip($event)"
-                            >{{
-                                'CATALOG.SORTING.NAME' | translate
-                            }}</mat-chip-option
-                        >
-                        <mat-chip-option
-                            [selected]="sortBy === 'recent'"
-                            value="recent"
-                            (selectionChange)="selectedSortingChip($event)"
-                            >{{
-                                'CATALOG.SORTING.MOST-RECENT' | translate
-                            }}</mat-chip-option
-                        >
-                    </mat-chip-listbox>
-                </span>
-            </div>
-
-            <mat-form-field>
-                <mat-label>{{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT' | translate
-                }}</mat-label>
-                <mat-select
-                    formControlName="snapshotDatasetSelect"
-                    panelClass="snapshot-class"
-                >
-                    <mat-select-trigger>
-                        {{
-                            storageConfFormGroup.get('snapshotDatasetSelect')
-                                ?.value
-                        }}
-                    </mat-select-trigger>
-
-                    <mat-option>-</mat-option>
-                    @for (
-                        snapshotOption of snapshotOptions;
-                        track snapshotOption
-                    ) {
-                        <mat-option
-                            [value]="snapshotOption.value"
-                            class="snapshot-option-container"
-                        >
-                            {{ snapshotOption.viewValue }}
-                            <button
-                                mat-icon-button
-                                color="warn"
-                                (click)="
-                                    deleteSnapshot($event, snapshotOption.value)
-                                "
-                            >
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </mat-option>
-                    }
-                </mat-select>
-                @if (snapshotsLoading) {
-                    <mat-spinner
-                        matSuffix
-                        [diameter]="18"
-                        class="input-spinner"
-                    ></mat-spinner>
-                }
-                @if (_showHelp) {
-                    <mat-hint>
-                        {{
-                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-HINT'
-                                | translate
-                        }}
-                    </mat-hint>
-                }
-                @if (!_showHelp && snapshotOptions.length === 0) {
-                    <mat-hint>
-                        {{
-                            'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.SNAPSHOT-UNAVAILABLE'
-                                | translate
-                        }}
-                    </mat-hint>
-                }
-            </mat-form-field>
-        }
     </div>
+
+    @if (isCvatTool) {
+        <div class="title-and-sorting">
+            <h4 [ngClass]="{ 'mt-3': _showHelp }">
+                {{ 'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.TITLE' | translate }}
+            </h4>
+
+            <span class="cvat-step-title">
+                <app-ui-button
+                    variant="accent-outline"
+                    class="ui-select-keep-open"
+                    [icon]="sortBy() === 'name' ? 'sort_by_alpha' : 'history'"
+                    [text]="
+                        sortBy() === 'name'
+                            ? ('CATALOG.SORTING.NAME' | translate)
+                            : ('CATALOG.SORTING.MOST-RECENT' | translate)
+                    "
+                    [tooltip]="'CATALOG.SORTING.TOOLTIP' | translate"
+                    (click)="toggleSort()"
+                >
+                </app-ui-button>
+            </span>
+        </div>
+
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'grid-1-column': !mobileQuery.matches,
+            }"
+        >
+            <div class="field-with-spinner">
+                <app-ui-select
+                    formControlName="snapshotDatasetSelect"
+                    label="CATALOG.CONF-FORMS.DATA.SNAPSHOTS.SUBTITLE"
+                    [placeholder]="
+                        snapshotOptions.length === 0
+                            ? 'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.UNAVAILABLE'
+                            : ''
+                    "
+                    [disabled]="snapshotOptions.length === 0"
+                    [options]="snapshotOptions"
+                    [optionTemplate]="snapshotItemTemplate"
+                >
+                    @if (_showHelp) {
+                        <div ui-hint class="ui-text-field__hint">
+                            {{
+                                'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.HINT'
+                                    | translate
+                            }}
+                        </div>
+                    }
+                </app-ui-select>
+
+                <ng-template #snapshotItemTemplate let-option>
+                    <div
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            width: 100%;
+                        "
+                    >
+                        <span>{{ option.viewValue }}</span>
+
+                        @if (option.value !== '') {
+                            <app-ui-button
+                                variant="danger-solid"
+                                icon="delete"
+                                style="transform: scale(0.85)"
+                                [tooltip]="'GENERAL.DELETE' | translate"
+                                (click)="deleteSnapshot($event, option.value)"
+                            ></app-ui-button>
+                        }
+                    </div>
+                </ng-template>
+
+                @if (snapshotsLoading) {
+                    <app-ui-loader></app-ui-loader>
+                }
+            </div>
+        </div>
+    }
 
     @if (!isCvatTool) {
         <div class="dataset-options-container">
@@ -188,20 +174,17 @@
                     ></app-ui-chip>
                 }
                 @if (suggestedDatasetIsValid()) {
-                    <button
-                        mat-stroked-button
+                    <app-ui-button
+                        variant="primary-outline"
+                        icon="emoji_objects"
+                        [text]="
+                            'CATALOG.CONF-FORMS.DATA.DATASET-SUGGESTION'
+                                | translate
+                        "
                         (click)="
                             datasetsListComponent.addDataset(suggestedDataset)
                         "
-                    >
-                        <span class="aligned-with-icon scale-icon-down">
-                            <mat-icon color="accent">emoji_objects</mat-icon>
-                            {{
-                                'CATALOG.CONF-FORMS.DATA.DATASET-SUGGESTION'
-                                    | translate
-                            }}
-                        </span>
-                    </button>
+                    ></app-ui-button>
                 }
             </span>
 

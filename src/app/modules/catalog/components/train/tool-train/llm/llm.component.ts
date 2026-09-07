@@ -4,6 +4,7 @@ import {
     DestroyRef,
     OnInit,
     inject,
+    ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +14,7 @@ import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.
 import {
     LlmConfiguration,
     ModuleGeneralConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import {
@@ -22,6 +24,8 @@ import {
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { LlmConfFormComponent } from '../../../conf-forms/llm-conf-form/llm-conf-form.component';
 import { MatDivider } from '@angular/material/divider';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 @Component({
     selector: 'app-llm',
@@ -38,6 +42,7 @@ import { MatDivider } from '@angular/material/divider';
 })
 export class LlmComponent implements OnInit {
     private readonly toolsService = inject(ToolsService);
+    private readonly deploymentsService = inject(DeploymentsService);
     private readonly formBuilder = inject(FormBuilder);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -123,5 +128,41 @@ export class LlmComponent implements OnInit {
 
     onLlmLoadingChange(isLoading: boolean): void {
         this.llmFieldsLoading = isLoading;
+    }
+
+    @ViewChild(LlmConfFormComponent) llmConfFormCmp!: LlmConfFormComponent;
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/deployments']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the deployment ' + result.error_msg
+            );
+        }
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            llm: this.llmConfFormCmp.getPayload(),
+        };
+
+        this.deploymentsService.trainTool('ai4os-llm', request).subscribe({
+            next: (result) => this.handleSuccess(result),
+            error: () => (this.showLoader = false),
+        });
     }
 }
