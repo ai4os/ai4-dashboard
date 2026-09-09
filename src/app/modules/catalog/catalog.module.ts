@@ -14,7 +14,7 @@ import { NomadTrainComponent } from './components/train/nomad-train/nomad-train.
 import { StepperFormComponent } from './components/train/stepper-form/stepper-form.component';
 import { StorageConfFormComponent } from './components/conf-forms/storage-conf-form/storage-conf-form.component';
 import { CvatComponent } from './components/train/tool-train/cvat/cvat.component';
-import { FederatedConfFormComponent } from './components/train/tool-train/federated-server/federated-conf-form/federated-conf-form.component';
+import { FederatedConfFormComponent } from './components/conf-forms/federated-conf-form/federated-conf-form.component';
 import { FederatedServerComponent } from './components/train/tool-train/federated-server/federated-server.component';
 import { Ai4eoscModuleCardComponent } from './components/modules-cards/ai4eosc-module-card/ai4eosc-module-card.component';
 import { ModulesListComponent } from './components/lists/modules-list/modules-list.component';

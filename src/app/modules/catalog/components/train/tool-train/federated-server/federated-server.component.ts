@@ -29,7 +29,7 @@ import {
     GeneralConfFormComponent,
 } from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
-import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
+import { FederatedConfFormComponent } from '../../../conf-forms/federated-conf-form/federated-conf-form.component';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { StatusReturn } from '@app/shared/interfaces/deployment.interface';

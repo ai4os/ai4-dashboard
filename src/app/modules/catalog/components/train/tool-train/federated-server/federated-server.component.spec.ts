@@ -3,7 +3,7 @@ import { FederatedServerComponent } from './federated-server.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
+import { FederatedConfFormComponent } from '../../../conf-forms/federated-conf-form/federated-conf-form.component';
 import { HardwareConfFormComponent } from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { GeneralConfFormComponent } from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import { MediaMatcher } from '@angular/cdk/layout';
