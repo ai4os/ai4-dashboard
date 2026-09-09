@@ -13,9 +13,10 @@
     [warningMessage]="warningMessage"
     [isLoading]="showLoader"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
+    (submitted)="onSubmit()"
 >
     <ng-template #step1>
-        <form [formGroup]="generalConfForm">
+        <form [formGroup]="generalConfForm" class="form">
             <app-general-conf-form
                 class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
@@ -25,7 +26,7 @@
         </form>
     </ng-template>
     <ng-template #step2>
-        <form [formGroup]="hardwareConfForm">
+        <form [formGroup]="hardwareConfForm" class="form">
             <app-hardware-conf-form
                 class="child-form-container"
                 [defaultFormValues]="hardwareConfDefaultValues"
@@ -35,7 +36,7 @@
         </form>
     </ng-template>
     <ng-template #step3>
-        <form [formGroup]="federatedConfForm">
+        <form [formGroup]="federatedConfForm" class="form">
             <app-federated-conf-form
                 class="child-form-container"
                 [defaultFormValues]="federatedConfDefaultValues"

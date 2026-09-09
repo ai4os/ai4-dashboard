@@ -58,36 +58,33 @@
                     }"
                 >
                     @if (numberOfSteps === 1) {
-                        <button
-                            mat-raised-button
-                            color="accent"
-                            (click)="submitTrainingRequest()"
+                        <app-ui-button
+                            variant="accent-solid"
+                            text="GENERAL.SUBMIT"
                             [disabled]="!checkFormValidity(step1Form!)"
-                        >
-                            {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
-                        </button>
+                            (buttonClick)="submitTrainingRequest()"
+                        ></app-ui-button>
                     } @else {
-                        <button
-                            mat-raised-button
+                        <app-ui-button
                             class="mr-2"
-                            (click)="submitTrainingRequest()"
+                            variant="accent-outline"
+                            text="GENERAL.QUICK-SUBMIT"
                             [disabled]="
                                 !checkFormValidity(step1Form) ||
                                 !checkFormValidity(step2Form) ||
-                                (step3Form && !checkFormValidity(step3Form))
+                                (step3Form
+                                    ? !checkFormValidity(step3Form)
+                                    : false)
                             "
-                        >
-                            {{ 'GENERAL-BUTTONS.QUICK-SUBMIT' | translate }}
-                        </button>
-                        <button
-                            type="button"
-                            mat-raised-button
-                            matStepperNext
-                            color="accent"
+                            (buttonClick)="submitTrainingRequest()"
+                        ></app-ui-button>
+
+                        <app-ui-button
+                            variant="accent-solid"
+                            text="GENERAL.NEXT"
+                            (buttonClick)="stepper.next()"
                             [disabled]="!step1Form.valid"
-                        >
-                            {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-                        </button>
+                        ></app-ui-button>
                     }
                 </div>
             </mat-step>
@@ -104,37 +101,33 @@
                         }"
                     >
                         @if (numberOfSteps === 2) {
-                            <button
-                                mat-raised-button
-                                matStepperPrevious
+                            <app-ui-button
                                 class="mr-2"
-                            >
-                                {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                            </button>
-                            <button
-                                mat-raised-button
-                                color="accent"
-                                (click)="submitTrainingRequest()"
-                                [disabled]="!checkFormValidity(step2Form!)"
-                            >
-                                {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
-                            </button>
-                        } @else {
-                            <button
-                                mat-raised-button
-                                matStepperPrevious
-                                class="mr-2"
-                            >
-                                {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                            </button>
+                                variant="default-outline"
+                                text="GENERAL.BACK"
+                                (buttonClick)="stepper.previous()"
+                            ></app-ui-button>
 
-                            <button
-                                mat-raised-button
-                                matStepperNext
-                                color="accent"
-                            >
-                                {{ 'GENERAL-BUTTONS.NEXT' | translate }}
-                            </button>
+                            <app-ui-button
+                                variant="accent-solid"
+                                text="GENERAL.SUBMIT"
+                                [disabled]="!checkFormValidity(step2Form!)"
+                                (buttonClick)="submitTrainingRequest()"
+                            ></app-ui-button>
+                        } @else {
+                            <app-ui-button
+                                class="mr-2"
+                                variant="default-outline"
+                                text="GENERAL.BACK"
+                                (buttonClick)="stepper.previous()"
+                            ></app-ui-button>
+
+                            <app-ui-button
+                                variant="accent-solid"
+                                text="GENERAL.NEXT"
+                                [disabled]="!checkFormValidity(step2Form!)"
+                                (buttonClick)="stepper.next()"
+                            ></app-ui-button>
                         }
                     </div>
                 </mat-step>
@@ -151,21 +144,19 @@
                                 'next-back-buttons': !mobileQuery.matches,
                             }"
                         >
-                            <button
-                                mat-raised-button
-                                matStepperPrevious
+                            <app-ui-button
                                 class="mr-2"
-                            >
-                                {{ 'GENERAL-BUTTONS.BACK' | translate }}
-                            </button>
-                            <button
-                                mat-raised-button
-                                color="accent"
-                                (click)="submitTrainingRequest()"
+                                variant="default-outline"
+                                text="GENERAL.BACK"
+                                (buttonClick)="stepper.previous()"
+                            ></app-ui-button>
+
+                            <app-ui-button
+                                variant="accent-solid"
+                                text="GENERAL.SUBMIT"
                                 [disabled]="!checkFormValidity(step3Form!)"
-                            >
-                                {{ 'GENERAL-BUTTONS.SUBMIT' | translate }}
-                            </button>
+                                (buttonClick)="submitTrainingRequest()"
+                            ></app-ui-button>
                         </div>
                     </mat-step>
                 }

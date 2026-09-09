@@ -1,0 +1,144 @@
+<form [formGroup]="generalConfFormGroup" class="conf-form">
+    <span class="title-and-toggles">
+        <h4>
+            {{ 'CATALOG.CONF-FORMS.GENERAL.SUBTITLE' | translate }}
+        </h4>
+
+        @if (_showFields.co2EmissionsInput) {
+            <div class="toggle-and-info">
+                <app-ui-toggle
+                    formControlName="co2EmissionsInput"
+                    label="{{ 'CATALOG.CONF-FORMS.GENERAL.CO2' | translate }}"
+                ></app-ui-toggle>
+                <app-ui-button
+                    variant="icon"
+                    icon="help"
+                    tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                    href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#monitoring-of-training-co2-emissions"
+                ></app-ui-button>
+            </div>
+        }
+    </span>
+
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!-- Title -->
+        <app-ui-text-field
+            id="deployment-title"
+            formControlName="titleInput"
+            maxlength="45"
+            label="{{
+                'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-TITLE' | translate
+            }}"
+            [hint]="_showHelp ? _defaultFormValues.title.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Description -->
+        <app-ui-text-field
+            formControlName="descriptionInput"
+            placeholder="{{
+                'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-DESCRIPTION-PLACEHOLDER'
+                    | translate
+            }}"
+            label="{{
+                'CATALOG.CONF-FORMS.GENERAL.DEPLOYMENT-DESCRIPTION' | translate
+            }}"
+            [hint]="_showHelp ? _defaultFormValues.desc?.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Service to run -->
+        @if (_showFields.serviceToRunChip) {
+            <div [ngClass]="{ 'ui-text-field': _showHelp }">
+                <div
+                    [ngClass]="{
+                        'form-flex': mobileQuery.matches,
+                        'service-to-run-container': !mobileQuery.matches,
+                        'mb-5': _showHelp && isPasswodRequired,
+                    }"
+                >
+                    <div
+                        class="service-to-run-chips"
+                        style="align-items: flex-end"
+                    >
+                        <app-ui-chip-group
+                            formControlName="serviceToRunChip"
+                            label="CATALOG.CONF-FORMS.GENERAL.SERVICE-TO-RUN"
+                            [options]="serviceToRunOptions"
+                        ></app-ui-chip-group>
+
+                        @if (_showFields.infoButton) {
+                            <app-ui-button
+                                class="ml-2"
+                                variant="icon"
+                                icon="help"
+                                tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                                href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html"
+                            ></app-ui-button>
+                        }
+                    </div>
+                </div>
+
+                @if (_showHelp) {
+                    <span class="ui-text-field__hint">
+                        {{ _defaultFormValues.service.description }}
+                    </span>
+                }
+            </div>
+        }
+
+        <!-- Service to run (password) -->
+        @if (isPasswodRequired) {
+            <app-ui-text-field
+                formControlName="serviceToRunPassInput"
+                [maskable]="true"
+                placeholder="At least 9 characters"
+                label="CATALOG.CONF-FORMS.GENERAL.PASSWORD"
+                [errorMessages]="servicePasswordErrors"
+                [hint]="
+                    _showHelp &&
+                    isPasswodRequired &&
+                    _defaultFormValues.jupyter_password?.description
+                        ? _defaultFormValues.jupyter_password.description
+                        : ''
+                "
+            ></app-ui-text-field>
+        }
+    </div>
+
+    <!-- Docker image -->
+    @if (_showFields.dockerImageInput && _showFields.dockerTagSelect) {
+        <h4 [ngClass]="{ 'mt-3': _showHelp }">
+            {{ 'CATALOG.CONF-FORMS.GENERAL.DOCKER-OPTIONS' | translate }}
+        </h4>
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'form-grid': !mobileQuery.matches,
+            }"
+        >
+            <app-ui-text-field
+                formControlName="dockerImageInput"
+                label="{{
+                    'CATALOG.CONF-FORMS.GENERAL.DOCKER-IMAGE' | translate
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.docker_image.description : ''
+                "
+            ></app-ui-text-field>
+            <app-ui-select
+                formControlName="dockerTagSelect"
+                [options]="dockerTagOptions"
+                label="{{
+                    'CATALOG.CONF-FORMS.GENERAL.DOCKER-TAG' | translate
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.docker_tag.description : ''
+                "
+            ></app-ui-select>
+        </div>
+    }
+</form>

@@ -7,18 +7,17 @@
     [isLoading]="showLoader"
     [fieldsLoading]="llmFieldsLoading"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
+    (submitted)="onSubmit()"
 >
     <ng-template #step1>
         <form [formGroup]="generalConfForm" class="form">
             <app-general-conf-form
-                class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
                 [showHelp]="showHelp"
                 [showFields]="showGeneralFields"
             ></app-general-conf-form>
             <mat-divider></mat-divider>
             <app-llm-conf-form
-                class="child-form-container"
                 [defaultFormValues]="llmConfDefaultValues"
                 [showHelp]="showHelp"
                 [modelId]="modelId"

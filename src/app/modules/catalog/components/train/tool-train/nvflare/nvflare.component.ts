@@ -3,36 +3,41 @@ import {
     ChangeDetectionStrategy,
     OnInit,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     NvflareConfiguration,
     NvflareToolConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../../general-conf-form/general-conf-form.component';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+} from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import {
     FormBuilder,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-    showHardwareField,
+    ShowHardwareField,
     HardwareConfFormComponent,
-} from '../../hardware-conf-form/hardware-conf-form.component';
+} from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
-import { NvflareConfFormComponent } from './nvflare-conf-form/nvflare-conf-form.component';
+import { NvflareConfFormComponent } from '../../../conf-forms/nvflare-conf-form/nvflare-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 @Component({
     selector: 'app-nvflare',
     templateUrl: './nvflare.component.html',
+    styleUrl: './nvflare.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         StepperFormComponent,
@@ -47,11 +52,21 @@ export class NvflareComponent implements OnInit {
     _formBuilder = inject(FormBuilder);
     route = inject(ActivatedRoute);
     toolsService = inject(ToolsService);
+    deploymentsService = inject(DeploymentsService);
+    snackbarService = inject(SnackbarService);
+    router = inject(Router);
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
+    @ViewChild(NvflareConfFormComponent)
+    nvflareConfFormCmp!: NvflareConfFormComponent;
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.NVFLARE-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
+    step3Title = 'CATALOG.CONF-FORMS.NVFLARE.TITLE';
 
     showHelp = false;
     showLoader = false;
@@ -78,7 +93,7 @@ export class NvflareComponent implements OnInit {
         batchFields: false,
     };
 
-    showHardwareFields: showHardwareField = {
+    showHardwareFields: ShowHardwareField = {
         cpu_num: true,
         ram: true,
         disk: true,
@@ -116,5 +131,36 @@ export class NvflareComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+            nvflare: this.nvflareConfFormCmp.getPayload(),
+        };
+
+        this.deploymentsService.trainTool('ai4os-nvflare', request).subscribe({
+            next: (result) => this.handleSuccess(result),
+            error: () => (this.showLoader = false),
+        });
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/deployments']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the deployment ' + result.error_msg
+            );
+        }
     }
 }

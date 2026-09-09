@@ -3,6 +3,8 @@ import {
     Input,
     ChangeDetectionStrategy,
     OnInit,
+    EventEmitter,
+    Output,
 } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
@@ -34,6 +36,7 @@ export class UiButtonComponent implements OnInit {
     @Input() disabled = false;
     @Input() tooltip?: string;
     @Input() href?: string;
+    @Output() buttonClick = new EventEmitter<MouseEvent>();
 
     ngOnInit(): void {
         if (!this.icon && !this.text) {
@@ -43,8 +46,8 @@ export class UiButtonComponent implements OnInit {
         }
     }
 
-    onClick(): void {
-        // Action button behaviour
+    onClick(event: MouseEvent): void {
+        this.buttonClick.emit(event);
     }
 
     onLinkClick(event: MouseEvent): void {

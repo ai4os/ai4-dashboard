@@ -5,16 +5,17 @@ import {
     HostListener,
     Input,
     Output,
-    computed,
     inject,
     signal,
     ChangeDetectionStrategy,
+    TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NgTemplateOutlet } from '@angular/common';
 
 export interface SelectOption {
     value: string | number | boolean;
@@ -28,7 +29,13 @@ let nextId = 0;
     templateUrl: './ui-select.component.html',
     styleUrl: './ui-select.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatIcon, TranslatePipe, MatTooltip, OverlayModule],
+    imports: [
+        MatIcon,
+        TranslatePipe,
+        MatTooltip,
+        OverlayModule,
+        NgTemplateOutlet,
+    ],
 })
 export class UiSelectComponent implements ControlValueAccessor {
     ngControl = inject(NgControl, { optional: true, self: true });
@@ -40,6 +47,7 @@ export class UiSelectComponent implements ControlValueAccessor {
     @Input() errorMessages: Record<string, string> = {};
     @Input() prefixIcon?: string;
     @Input() showLabel? = true;
+    @Input() optionTemplate?: TemplateRef<any>;
 
     @Output() valueChange = new EventEmitter<any>();
 
@@ -48,9 +56,11 @@ export class UiSelectComponent implements ControlValueAccessor {
     protected isOpen = signal(false);
     protected activeIndex = signal(-1);
 
-    protected selectedOption = computed(
-        () => this.options.find((o) => o.value === this.internalValue()) ?? null
-    );
+    protected get selectedOption(): SelectOption | null {
+        return (
+            this.options.find((o) => o.value === this.internalValue()) ?? null
+        );
+    }
 
     private readonly instanceId = nextId++;
     protected readonly labelId = `ui-select-label-${this.instanceId}`;
@@ -62,7 +72,7 @@ export class UiSelectComponent implements ControlValueAccessor {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onTouched: () => void = () => {};
 
-    private elementRef = inject(ElementRef);
+    private readonly elementRef = inject(ElementRef);
 
     constructor() {
         if (this.ngControl) {
@@ -111,11 +121,13 @@ export class UiSelectComponent implements ControlValueAccessor {
         this.onTouched();
     }
 
-    @HostListener('document:click', ['$event'])
-    protected onDocumentClick(event: MouseEvent): void {
-        if (!this.elementRef.nativeElement.contains(event.target)) {
-            this.close();
+    public onOutsideClick(event: MouseEvent): void {
+        const target = event.target as HTMLElement;
+        // If the click originates from an element with this special class, the close action is ignored
+        if (target && target.closest('.ui-select-keep-open')) {
+            return;
         }
+        this.close();
     }
 
     protected selectOption(option: SelectOption, event: Event): void {

@@ -18,6 +18,9 @@
             [placeholder]="placeholder ?? ''"
             [disabled]="disabled()"
             [value]="internalValue()"
+            [min]="min ?? null"
+            [max]="max ?? null"
+            [step]="step ?? null"
             (input)="onInput($event)"
             (blur)="onBlur()"
         />
@@ -50,6 +53,8 @@
     }
 
     @if (isInvalid && currentError) {
-        <span class="ui-text-field__error">{{ currentError | translate }}</span>
+        <span class="ui-text-field__error">{{
+            currentError | translate: errorTranslateParams
+        }}</span>
     }
 </div>

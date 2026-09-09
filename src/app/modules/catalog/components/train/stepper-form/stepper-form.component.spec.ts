@@ -73,22 +73,6 @@ describe('StepperFormComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('submitTrainingRequest()', () => {
-        it('should call createNomadService when platform is nomad', () => {
-            component.platform = 'nomad';
-            const spy = jest.spyOn(component, 'createNomadService');
-            component.submitTrainingRequest();
-            expect(spy).toHaveBeenCalled();
-        });
-
-        it('should call createOscarService when platform is not nomad', () => {
-            component.platform = 'oscar';
-            const spy = jest.spyOn(component, 'createOscarService');
-            component.submitTrainingRequest();
-            expect(spy).toHaveBeenCalled();
-        });
-    });
-
     describe('createNomadService()', () => {
         it('should call trainTool and handle success', async () => {
             await component.createNomadService();

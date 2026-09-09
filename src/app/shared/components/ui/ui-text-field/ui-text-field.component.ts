@@ -27,11 +27,17 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     @Input() label?: string;
     @Input() placeholder?: string;
     @Input() hint?: string;
-    @Input() type: 'text' | 'password' | 'email' | 'url' = 'text';
+    @Input() type: 'text' | 'password' | 'email' | 'url' | 'number' = 'text';
     @Input() maskable = false;
     @Input() prefixIcon?: string;
     @Input() errorMessages: Record<string, string> = {};
     @Input() clearable = false;
+
+    // For number input types
+    @Input() min?: number | string;
+    @Input() max?: number | string;
+    @Input() step?: number | string;
+    @Input() errorTranslateParams?: Record<string, any>;
 
     // Standalone mode (without formControlName).
     // When using formControlName, value comes from writeValue().

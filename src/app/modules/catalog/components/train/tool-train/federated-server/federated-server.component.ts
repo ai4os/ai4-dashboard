@@ -3,6 +3,7 @@ import {
     OnInit,
     ChangeDetectionStrategy,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -10,25 +11,28 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
 import {
     FederatedServerConfiguration,
     FederatedServerToolConfiguration,
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import {
-    showHardwareField,
+    ShowHardwareField,
     HardwareConfFormComponent,
-} from '../../hardware-conf-form/hardware-conf-form.component';
+} from '../../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../../general-conf-form/general-conf-form.component';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+} from '../../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../../stepper-form/stepper-form.component';
 import { FederatedConfFormComponent } from './federated-conf-form/federated-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 @Component({
     selector: 'app-federated-server',
@@ -48,11 +52,14 @@ export class FederatedServerComponent implements OnInit {
     _formBuilder = inject(FormBuilder);
     route = inject(ActivatedRoute);
     toolsService = inject(ToolsService);
+    deploymentsService = inject(DeploymentsService);
+    snackbarService = inject(SnackbarService);
+    router = inject(Router);
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.FLOWER-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
+    step3Title = 'CATALOG.CONF-FORMS.FLOWER.TITLE';
 
     showHelp = false;
     showLoader = false;
@@ -65,7 +72,7 @@ export class FederatedServerComponent implements OnInit {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     federatedConfDefaultValues!: FederatedServerConfiguration;
 
-    showHardwareFields: showHardwareField = {
+    showHardwareFields: ShowHardwareField = {
         cpu_num: true,
         ram: true,
         disk: true,
@@ -86,6 +93,13 @@ export class FederatedServerComponent implements OnInit {
         ai4lifeFields: false,
         batchFields: false,
     };
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
+    @ViewChild(FederatedConfFormComponent)
+    federatedConfFormCmp!: FederatedConfFormComponent;
 
     ngOnInit(): void {
         this.loadModule();
@@ -119,5 +133,38 @@ export class FederatedServerComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+            flower: this.federatedConfFormCmp.getPayload(),
+        };
+
+        this.deploymentsService
+            .trainTool('ai4os-federated-server', request)
+            .subscribe({
+                next: (result) => this.handleSuccess(result),
+                error: () => (this.showLoader = false),
+            });
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/deployments']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the deployment ' + result.error_msg
+            );
+        }
     }
 }

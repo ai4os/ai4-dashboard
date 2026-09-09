@@ -1,0 +1,30 @@
+<form [formGroup]="cvatConfFormGroup" class="cvat-conf-form">
+    <h4>{{ 'CATALOG.CONF-FORMS.CVAT.SUBTITLE' | translate }}</h4>
+    <div
+        [class]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!-- CVAT username -->
+        <app-ui-text-field
+            formControlName="usernameInput"
+            label="{{ 'CATALOG.CONF-FORMS.CVAT.USERNAME' | translate }}"
+            [hint]="_showHelp ? _defaultFormValues.username.description : ''"
+            [errorMessages]="usernameErrors"
+        ></app-ui-text-field>
+
+        <!-- CVAT password -->
+        <app-ui-text-field
+            [class]="{
+                'password-input-field-mobile': mobileQuery.matches,
+                'password-input-field': !mobileQuery.matches,
+            }"
+            formControlName="passwordInput"
+            [maskable]="true"
+            label="CATALOG.CONF-FORMS.CVAT.PASSWORD"
+            [errorMessages]="passwordErrors"
+            [hint]="_showHelp ? _defaultFormValues.password.description : ''"
+        ></app-ui-text-field>
+    </div>
+</form>

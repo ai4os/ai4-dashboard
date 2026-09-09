@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
     ChangeDetectorRef,
@@ -7,26 +6,10 @@ import {
     Input,
     OnInit,
     Output,
-    ViewChild,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
-import {
-    MatTableDataSource,
-    MatTable,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatHeaderCell,
-    MatCellDef,
-    MatCell,
-    MatHeaderRowDef,
-    MatHeaderRow,
-    MatRowDef,
-    MatRow,
-    MatNoDataRow,
-} from '@angular/material/table';
 import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
@@ -34,24 +17,17 @@ import {
 import { DatasetCreationDetailComponent } from '../dataset-creation-detail-component/dataset-creation-detail.component';
 import { FormGroup } from '@angular/forms';
 import { ZenodoSimpleDataset } from '@app/shared/interfaces/dataset.interface';
-import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import {
-    MatCard,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
-import { MatTooltip } from '@angular/material/tooltip';
 import { NgClass } from '@angular/common';
-import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
 
-export interface TableColumn {
-    columnDef: string;
-    header: string;
-    hidden?: boolean;
-}
+import {
+    UiTableComponent,
+    UiTableColumn,
+} from '@app/shared/components/ui/ui-table/ui-table.component';
+import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiCheckboxComponent } from '@app/shared/components/ui/ui-checkbox/ui-checkbox.component';
 
 export interface DatasetTableRow {
     doi: string;
@@ -66,118 +42,72 @@ export interface DatasetTableRow {
     styleUrls: ['./datasets-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatCard,
-        MatCardContent,
-        MatTable,
-        MatSort,
-        MatColumnDef,
-        MatHeaderCellDef,
-        MatHeaderCell,
-        MatSortHeader,
-        MatIcon,
-        MatTooltip,
-        MatCellDef,
-        MatCell,
         NgClass,
-        MatCheckbox,
-        MatButton,
-        MatHeaderRowDef,
-        MatHeaderRow,
-        MatRowDef,
-        MatRow,
-        MatNoDataRow,
-        MatCardActions,
         TranslatePipe,
+        UiButtonComponent,
+        UiTableComponent,
+        UiTableCellDirective,
+        UiCheckboxComponent,
     ],
 })
 export class DatasetsListComponent implements OnInit {
     dialog = inject(MatDialog);
     confirmationDialog = inject(MatDialog);
-    private snackbarService = inject(SnackbarService);
-    private _liveAnnouncer = inject(LiveAnnouncer);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    private media = inject(MediaMatcher);
+    private readonly snackbarService = inject(SnackbarService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
+
+    @Input() storageConfFormGroup!: FormGroup;
+    @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
+    @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
+    @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
+
+    columns: UiTableColumn<DatasetTableRow>[] = [
+        { key: 'name', label: 'CATALOG.CONF-FORMS.DATA.TABLE.NAME' },
+        {
+            key: 'source',
+            label: 'CATALOG.CONF-FORMS.DATA.TABLE.SOURCE',
+            width: '100px',
+            align: 'center',
+        },
+        {
+            key: 'forcePull',
+            label: 'CATALOG.CONF-FORMS.DATA.TABLE.FORCE-PULL',
+            width: '150px',
+            align: 'center',
+        },
+        {
+            key: 'actions',
+            label: 'CATALOG.CONF-FORMS.DATA.TABLE.ACTIONS',
+            width: '110px',
+            align: 'center',
+        },
+    ];
+
+    datasets: DatasetTableRow[] = [];
+    mobileQuery: MediaQueryList;
+    private readonly _mobileQueryListener: () => void;
 
     constructor() {
         const changeDetectorRef = this.changeDetectorRef;
-
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    @ViewChild(MatSort) set matSort(sort: MatSort) {
-        this.dataSource.sort = sort;
-    }
-
-    @Input()
-    storageConfFormGroup!: FormGroup;
-
-    @Output() datasetAdded = new EventEmitter<ZenodoSimpleDataset>();
-    @Output() datasetDeleted = new EventEmitter<ZenodoSimpleDataset>();
-    @Output() datasetPullChanged = new EventEmitter<ZenodoSimpleDataset>();
-
-    columns: TableColumn[] = [
-        { columnDef: 'id', header: '', hidden: true },
-        {
-            columnDef: 'name',
-            header: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.TABLE.NAME',
-        },
-        {
-            columnDef: 'source',
-            header: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.TABLE.SOURCE',
-        },
-        {
-            columnDef: 'forcePull',
-            header: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.TABLE.FORCE-PULL',
-        },
-        {
-            columnDef: 'actions',
-            header: 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.TABLE.ACTIONS',
-        },
-    ];
-
-    datasets: DatasetTableRow[] = [];
-    dataSource!: MatTableDataSource<DatasetTableRow>;
-    displayedColumns: string[] = [];
-
-    mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-
     ngOnInit(): void {
         this.datasets = [];
-        this.displayedColumns = this.displayedColumns.concat(
-            this.columns.filter((x) => !x.hidden).map((x) => x.columnDef)
-        );
-        this.dataSource = new MatTableDataSource<DatasetTableRow>(
-            this.datasets
-        );
-    }
-
-    isSticky(columnDef: string): boolean {
-        return columnDef === 'name' ? true : false;
-    }
-
-    announceSortChange(sortState: Sort) {
-        if (sortState.direction) {
-            this._liveAnnouncer.announce(
-                `Sorted ${sortState.direction} ending`
-            );
-        } else {
-            this._liveAnnouncer.announce('Sorting cleared');
-        }
     }
 
     openAddDatasetDialog(): void {
         const width = this.mobileQuery.matches ? '300px' : '800px';
-        const height = this.mobileQuery.matches ? '300px' : '446px';
 
         const dialogRef = this.dialog.open(DatasetCreationDetailComponent, {
             data: { storageConfFormGroup: this.storageConfFormGroup },
             width: width,
-            height: height,
             autoFocus: false,
             restoreFocus: false,
+            panelClass: 'ui-dialog-panel',
         });
 
         const subscribeAddDialog =
@@ -189,25 +119,26 @@ export class DatasetsListComponent implements OnInit {
                 }
             );
 
-        dialogRef.afterClosed().subscribe(() => {
-            subscribeAddDialog.unsubscribe();
-        });
+        dialogRef
+            .afterClosed()
+            .subscribe(() => subscribeAddDialog.unsubscribe());
     }
 
-    changeForcePull(event: MatCheckboxChange, row: DatasetTableRow) {
+    changeForcePull(checked: boolean, row: DatasetTableRow) {
         const dataset = this.datasets.find((d) => d.doi === row.doi);
-        dataset!.forcePull = event.checked;
-        const d: ZenodoSimpleDataset = {
-            doiOrUrl: dataset!.doi,
-            title: dataset!.name,
-            source: dataset!.source,
-            force_pull: dataset!.forcePull,
-        };
-        this.datasetPullChanged.emit(d);
+        if (dataset) {
+            dataset.forcePull = checked;
+            this.datasetPullChanged.emit({
+                doiOrUrl: dataset.doi,
+                title: dataset.name,
+                source: dataset.source,
+                force_pull: dataset.forcePull,
+            });
+        }
     }
 
     addDataset(dataset: ZenodoSimpleDataset) {
-        if (this.datasets.find((d) => d.doi === dataset.doiOrUrl)) {
+        if (this.datasets.some((d) => d.doi === dataset.doiOrUrl)) {
             this.snackbarService.openError(
                 'Dataset with reference ' + dataset.doiOrUrl + ' already exists'
             );
@@ -216,15 +147,15 @@ export class DatasetsListComponent implements OnInit {
                 "Can't add more than 5 datasets in a single deployment"
             );
         } else {
-            this.datasets.push({
-                doi: dataset.doiOrUrl,
-                source: dataset.source,
-                name: dataset.title,
-                forcePull: dataset.force_pull,
-            });
-            this.dataSource = new MatTableDataSource<DatasetTableRow>(
-                this.datasets
-            );
+            this.datasets = [
+                ...this.datasets,
+                {
+                    doi: dataset.doiOrUrl,
+                    source: dataset.source,
+                    name: dataset.title,
+                    forcePull: dataset.force_pull,
+                },
+            ];
             this.datasetAdded.emit(dataset);
             this.snackbarService.openSuccess(
                 'Dataset added with reference ' + dataset.doiOrUrl
@@ -244,24 +175,15 @@ export class DatasetsListComponent implements OnInit {
             .afterClosed()
             .subscribe((confirmed: boolean) => {
                 if (confirmed) {
-                    const doi = row.doi;
-                    this.dataSource = new MatTableDataSource<DatasetTableRow>(
-                        this.datasets
+                    this.datasets = this.datasets.filter(
+                        (obj) => obj.doi !== row.doi
                     );
-                    const itemIndex = this.datasets.findIndex(
-                        (obj) => obj['doi'] === doi
-                    );
-                    const d: ZenodoSimpleDataset = {
+                    this.datasetDeleted.emit({
                         doiOrUrl: row.doi,
                         title: row.name,
                         source: row.source,
                         force_pull: row.forcePull,
-                    };
-                    this.datasetDeleted.emit(d);
-                    this.datasets.splice(itemIndex, 1);
-                    this.dataSource = new MatTableDataSource<DatasetTableRow>(
-                        this.datasets
-                    );
+                    });
                 }
             });
     }

@@ -1,0 +1,39 @@
+.ui-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm, 8px);
+    margin-top: 4px;
+
+    app-ui-chip {
+        cursor: pointer;
+        transition: filter 0.2s ease-in-out;
+
+        &:hover {
+            filter: brightness(0.9);
+        }
+
+        &[disabled='true'] {
+            pointer-events: none;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+}
+
+.ui-text-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    width: 100%;
+
+    &__label {
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-secondary);
+    }
+
+    &__hint {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-tertiary);
+    }
+}

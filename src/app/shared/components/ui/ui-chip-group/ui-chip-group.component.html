@@ -1,0 +1,25 @@
+<div class="ui-text-field" [class.ui-text-field--error]="isInvalid">
+    @if (label) {
+        <span class="ui-text-field__label">{{ label | translate }}</span>
+    }
+
+    <div class="ui-chip-group">
+        @for (option of options; track option.value) {
+            <app-ui-chip
+                [variant]="
+                    internalValue === option.value
+                        ? 'accent-outline'
+                        : 'default-solid'
+                "
+                [text]="option.viewValue | titlecase"
+                [disabled]="isDisabled"
+                (click)="selectOption(option.value)"
+            >
+            </app-ui-chip>
+        }
+    </div>
+
+    @if (hint && !isInvalid) {
+        <span class="ui-text-field__hint">{{ hint | translate }}</span>
+    }
+</div>

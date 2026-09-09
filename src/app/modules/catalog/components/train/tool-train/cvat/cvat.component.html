@@ -9,19 +9,25 @@
     [step2Title]="step2Title"
     [isLoading]="showLoader"
     (showHelpButtonEvent)="showHelpButtonChange($event)"
+    (submitted)="onSubmit()"
 >
     <ng-template #step1>
-        <form [formGroup]="generalConfForm">
+        <form [formGroup]="generalConfForm" class="form">
             <app-general-conf-form
                 class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
                 [showHelp]="showHelp"
                 [showFields]="showGeneralFields"
             ></app-general-conf-form>
+            <mat-divider></mat-divider>
+            <app-cvat-conf-form
+                [defaultFormValues]="cvatConfDefaultValues"
+                [showHelp]="showHelp"
+            ></app-cvat-conf-form>
         </form>
     </ng-template>
     <ng-template #step2>
-        <form [formGroup]="storageConfForm">
+        <form [formGroup]="storageConfForm" class="form">
             <app-storage-conf-form
                 class="child-form-container"
                 [defaultFormValues]="storageConfDefaultValues"

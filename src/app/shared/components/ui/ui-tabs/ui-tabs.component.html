@@ -10,7 +10,7 @@
                 tab.disabled && tab.tooltip ? (tab.tooltip | translate) : ''
             "
             matTooltipClass="ui-tooltip"
-            (click)="!tab.disabled && selectTab(tab.id)"
+            (click)="!tab.disabled && selectTab(tab.id, $event.currentTarget)"
             role="tab"
         >
             @if (tab.icon) {
@@ -19,6 +19,12 @@
             <span class="ui-tabs__label">{{ tab.label | translate }}</span>
         </button>
     }
+
+    <div
+        class="ui-tabs__indicator"
+        [style.left.px]="indicatorLeft"
+        [style.width.px]="indicatorWidth"
+    ></div>
 </nav>
 
 <div class="ui-tabs__divider"></div>

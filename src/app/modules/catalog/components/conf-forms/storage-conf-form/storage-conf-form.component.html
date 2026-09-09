@@ -1,0 +1,200 @@
+<form [formGroup]="storageConfFormGroup" class="conf-form">
+    <div class="title-and-toggles">
+        <h4>
+            {{ 'CATALOG.CONF-FORMS.DATA.SUBTITLE-STORAGE' | translate }}
+        </h4>
+        @if (
+            isCvatTool &&
+            !credentialsLoading &&
+            (storageConfFormGroup.get('storageServiceDatasetSelect')?.value ===
+                '' ||
+                $safeNavigationMigration(
+                    storageConfFormGroup.get('storageServiceDatasetSelect')
+                        ?.value
+                ) === undefined)
+        ) {
+            <app-ui-chip
+                variant="danger-solid"
+                icon="warning"
+                [text]="
+                    'CATALOG.CONF-FORMS.DATA.NO-STORAGE-SELECTED' | translate
+                "
+            ></app-ui-chip>
+        } @else if (rcloneIsRequired) {
+            <app-ui-chip
+                variant="danger-solid"
+                icon="warning"
+                [text]="'CATALOG.CONF-FORMS.DATA.STORAGE-ERROR' | translate"
+            ></app-ui-chip>
+        }
+    </div>
+
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'grid-1-column': !mobileQuery.matches,
+        }"
+    >
+        <div class="field-with-spinner">
+            <app-ui-select
+                formControlName="storageServiceDatasetSelect"
+                label="CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE"
+                [options]="storageServiceOptions"
+                (valueChange)="updateStorageConfiguration()"
+            >
+                @if (_showHelp) {
+                    <div ui-hint class="ui-text-field__hint">
+                        {{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-HINT-1'
+                                | translate
+                        }}
+                        <a [routerLink]="['/profile']" target="_blank">{{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-HINT-2'
+                                | translate
+                        }}</a
+                        >.
+                    </div>
+                }
+                @if (!_showHelp && credentials.length === 0) {
+                    <div ui-hint class="ui-text-field__hint">
+                        {{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-UNAVAILABLE'
+                                | translate
+                        }}
+                        <a [routerLink]="['/profile']" target="_blank">{{
+                            'CATALOG.CONF-FORMS.DATA.STORAGE-SERVICE-TRY-LINK'
+                                | translate
+                        }}</a
+                        >.
+                    </div>
+                }
+            </app-ui-select>
+
+            @if (credentialsLoading) {
+                <app-ui-loader></app-ui-loader>
+            }
+        </div>
+    </div>
+
+    @if (isCvatTool) {
+        <div class="title-and-sorting">
+            <h4 [ngClass]="{ 'mt-3': _showHelp }">
+                {{ 'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.TITLE' | translate }}
+            </h4>
+
+            <span class="cvat-step-title">
+                <app-ui-button
+                    variant="accent-outline"
+                    class="ui-select-keep-open"
+                    [icon]="sortBy() === 'name' ? 'sort_by_alpha' : 'history'"
+                    [text]="
+                        sortBy() === 'name'
+                            ? ('CATALOG.SORTING.NAME' | translate)
+                            : ('CATALOG.SORTING.MOST-RECENT' | translate)
+                    "
+                    [tooltip]="'CATALOG.SORTING.TOOLTIP' | translate"
+                    (click)="toggleSort()"
+                >
+                </app-ui-button>
+            </span>
+        </div>
+
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'grid-1-column': !mobileQuery.matches,
+            }"
+        >
+            <div class="field-with-spinner">
+                <app-ui-select
+                    formControlName="snapshotDatasetSelect"
+                    label="CATALOG.CONF-FORMS.DATA.SNAPSHOTS.SUBTITLE"
+                    [placeholder]="
+                        snapshotOptions.length === 0
+                            ? 'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.UNAVAILABLE'
+                            : ''
+                    "
+                    [disabled]="snapshotOptions.length === 0"
+                    [options]="snapshotOptions"
+                    [optionTemplate]="snapshotItemTemplate"
+                >
+                    @if (_showHelp) {
+                        <div ui-hint class="ui-text-field__hint">
+                            {{
+                                'CATALOG.CONF-FORMS.DATA.SNAPSHOTS.HINT'
+                                    | translate
+                            }}
+                        </div>
+                    }
+                </app-ui-select>
+
+                <ng-template #snapshotItemTemplate let-option>
+                    <div
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            width: 100%;
+                        "
+                    >
+                        <span>{{ option.viewValue }}</span>
+
+                        @if (option.value !== '') {
+                            <app-ui-button
+                                variant="danger-solid"
+                                icon="delete"
+                                style="transform: scale(0.85)"
+                                [tooltip]="'GENERAL.DELETE' | translate"
+                                (click)="deleteSnapshot($event, option.value)"
+                            ></app-ui-button>
+                        }
+                    </div>
+                </ng-template>
+
+                @if (snapshotsLoading) {
+                    <app-ui-loader></app-ui-loader>
+                }
+            </div>
+        </div>
+    }
+
+    @if (!isCvatTool) {
+        <div class="dataset-options-container">
+            <span class="title-with-button">
+                <h4>
+                    {{ 'CATALOG.CONF-FORMS.DATA.SUBTITLE-DATASET' | translate }}
+                </h4>
+                @if (!storageConfFormGroup.valid && datasets.length > 0) {
+                    <app-ui-chip
+                        variant="danger-solid"
+                        icon="warning"
+                        [text]="
+                            'CATALOG.CONF-FORMS.DATA.DATASET-ERROR' | translate
+                        "
+                    ></app-ui-chip>
+                }
+                @if (suggestedDatasetIsValid()) {
+                    <app-ui-button
+                        variant="primary-outline"
+                        icon="emoji_objects"
+                        [text]="
+                            'CATALOG.CONF-FORMS.DATA.DATASET-SUGGESTION'
+                                | translate
+                        "
+                        (click)="
+                            datasetsListComponent.addDataset(suggestedDataset)
+                        "
+                    ></app-ui-button>
+                }
+            </span>
+
+            <app-datasets-list
+                class="full-width"
+                [storageConfFormGroup]="storageConfFormGroup"
+                (datasetAdded)="addDataset($event)"
+                (datasetDeleted)="deleteDataset($event)"
+                (datasetPullChanged)="updateDataset($event)"
+            ></app-datasets-list>
+        </div>
+    }
+</form>
