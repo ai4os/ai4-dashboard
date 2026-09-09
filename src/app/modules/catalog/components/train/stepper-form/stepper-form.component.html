@@ -21,10 +21,11 @@
     </app-ui-banner>
 
     @if (warningMessage !== '') {
-        <mat-chip class="warning-chip">
-            <mat-icon matChipAvatar color="warn">warning</mat-icon>
-            <div [innerHTML]="warningMessage"></div>
-        </mat-chip>
+        <app-ui-chip
+            variant="warning-solid"
+            icon="warning"
+            [html]="warningMessage"
+        ></app-ui-chip>
     }
 </header>
 

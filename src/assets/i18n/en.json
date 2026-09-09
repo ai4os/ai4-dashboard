@@ -24,8 +24,6 @@
         "POWERED-BY": "Powered by",
         "AI4OS": "AI4OS"
     },
-
-    
     "TOP-NAVBAR": {
         "PROFILE": "Profile",
         "LOGOUT": "Log out",
@@ -41,9 +39,17 @@
         "CONFIRM-ACTION": "Confirm action",
         "YES": "Yes",
         "NO": "No",
+        "DELETE": "Delete",
         "REVOKE": "Revoke",
         "CANCEL": "Cancel",
+        "REMOVE": "Click to remove",
+        "ADD": "Add",
         "CLEAR": "Clear",
+        "CLOSE": "Close",
+        "BACK": "Back",
+        "NEXT": "Next",
+        "SUBMIT": "Submit",
+        "QUICK-SUBMIT": "Quick submit",
         "FORMS": {
             "REQUIRED": "This field is required"
         }
@@ -177,6 +183,10 @@
             "DATES": "Dates",
             "CREATED": "Created",
             "UPDATED": "Updated",
+            "GITHUB": "GitHub",
+            "DOCKERHUB": "Docker",
+            "REPORT-ISSUE": "Report issue",
+            "BIOIMAGE": "BioImage.IO",
             "TRY": {
                 "TITLE": "Try",
                 "LOGOUT": "You must have the role 'ap-a' to try a module",
@@ -258,15 +268,96 @@
             "SELF-DEPLOYED-TAB": "Self-deployed",
             "MODEL-UNAVAILABLE": "This model is currently unavailable"
         },
+        "GRADIO": {
+            "INIT-STATUS": "Initializing the environment ... This might take some time",
+            "ACTIVATING-STATUS": "Launching the UI ..."
+        },
         "CONF-FORMS": {
             "TRAIN-TITLE": "Configure training",
+            "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
+            "DEPLOYED-FROM-SNAPSHOT-ID": "Deployed from snapshot with ID ",
             "GENERAL": {
-                "TITLE" : "General configuration",
+                "TITLE": "General configuration",
                 "SUBTITLE": "Deployment options",
                 "DEPLOYMENT-TITLE": "Deployment title",
                 "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
                 "DEPLOYMENT-DESCRIPTION": "Deployment description",
-                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments"
+                "DEPLOYMENT-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active deployments",
+                "DOCKER-OPTIONS": "Docker options",
+                "DOCKER-IMAGE": "Docker image",
+                "DOCKER-TAG": "Docker tag",
+                "SERVICE-TO-RUN": "Service to run",
+                "PASSWORD": "Password",
+                "JUPYTERLAB-PASS-REQUIRED": "A password is required",
+                "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
+                "CO2": "Monitor CO2 emissions"
+            },
+            "HARDWARE": {
+                "TITLE": "Hardware configuration",
+                "SUBTITLE": "Hardware options",
+                "NUMBER-OF-CPUS": "Number of CPUs",
+                "NUMBER-OF-GPUS": "Number of GPUs",
+                "GPU-MODEL": "GPU model",
+                "RAM-MEMORY": "RAM memory (in MB)",
+                "DISK-MEMORY": "Disk memory (in MB)"
+            },
+            "DATA": {
+                "TITLE": "Data configuration",
+                "SUBTITLE-STORAGE": "Storage configuration",
+                "SUBTITLE-DATASET": "Dataset configuration",
+                "STORAGE-SERVICE": "Storage service",
+                "STORAGE-SERVICE-HINT-1": "You can select which storage service to use. Make sure your account is already linked in your",
+                "STORAGE-SERVICE-HINT-2": "profile section",
+                "NO-STORAGE-SELECTED": "You must select one storage provider to be able to deploy a CVAT instance",
+                "STORAGE-ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
+                "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",
+                "STORAGE-SERVICE-TRY-LINK": "link to one of our provided options",
+                "DATASETS": {
+                    "DELETE": "Are you sure you want to delete this dataset?",
+                    "DELETE-PREFIX": "The dataset ",
+                    "DELETE-SUFFIX": " will not be dowloaded.",
+                    "DELETE-OPTION": "Delete dataset",
+                    "ERROR": "To download a dataset, you need to select a storage or use your rclone credentials",
+                    "SUGGESTION": "This module has a suggested dataset. Click here to add it.",
+                    "ADD": "Add dataset",
+                    "NO-DATASETS": "No datasets added yet"
+                },
+                "ZENODO": {
+                    "COMMUNITY": "Zenodo community",
+                    "DATASET": "Zenodo dataset",
+                    "DATASET-EMPTY": "No datasets available",
+                    "VERSION": "Dataset version"
+                },
+                "DOI-URL": {
+                    "TITLE": "DOI / URL",
+                    "ERROR": "Invalid DOI or URL format",
+                    "SUPPORT": "We support DOIs and URLs from these repositories and ",
+                    "MORE": "many more"
+                },
+                "TABLE": {
+                    "NAME": "Name",
+                    "SOURCE": "Source",
+                    "ACTIONS": "Actions",
+                    "FORCE-PULL": "Force pull",
+                    "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files."
+                },
+                "SNAPSHOTS": {
+                    "TITLE": "Snapshots configuration",
+                    "SUBTITLE": "Restore from snapshot",
+                    "HINT": "You can select which snapshot to use. If you select none, a new one will be created.",
+                    "UNAVAILABLE": "No snapshots available.",
+                    "DELETE-TITLE": "Delete snapshot permanently?",
+                    "DELETE-OPTION": "Delete snapshot",
+                    "SUBTITLE-PREFIX": "The snapshot ",
+                    "SUBTITLE-SUFFIX": " will be deleted immediately. This action cannot be undone."
+                }
+            },
+            "BATCH": {
+                "SUBTITLE": "Batch options",
+                "EXPLANATION": "Running a deployment in batch mode means that your job will execute as a one-time process. Here, you can define the specific commands that the process should run. Commands can be provided via a script file or by typing the commands directly in the editor. This type of deployment is temporary and will be cleaned on completion, so please include commands to save any outputs in the storage folder.",
+                "UPLOAD-FILE": "Upload file",
+                "COMMANDS": "Write bash commands",
+                "HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."
             },
             "LLMS": {
                 "SUBTITLE": "LLM options",
@@ -287,6 +378,54 @@
                 "API-URL": "OpenAI API base URL",
                 "API-URL-REQUIRED": "Please add the OpenAI API base URL",
                 "API-URL-FORMAT": "Invalid URL format"
+            },
+            "NVFLARE": {
+                "TITLE": "NVFlare configuration",
+                "SUBTITLE": "NVFlare options",
+                "USERNAME": "Username",
+                "USERNAME-REQUIRED": "Please add a username",
+                "PASSWORD": "Password",
+                "PASSWORD-REQUIRED": "Please add a password",
+                "APP-LOCATION": "Docker image",
+                "PUBLIC-PROJECT": "Make project public",
+                "STARTING-DATE": "Starting date",
+                "END-DATE": "End date",
+                "DATES": "Select start and end date"
+            },
+            "AI4LIFE": {
+                "SUBTITLE": "Model options",
+                "MODEL-ID": "Model ID"
+            },
+            "CVAT": {
+                "SUBTITLE": "CVAT credentials",
+                "USERNAME": "CVAT username",
+                "PASSWORD": "CVAT password",
+                "USERNAME-REQUIRED": "A username is required",
+                "PASSWORD-REQUIRED": "A password is required"
+            },
+            "FLOWER": {
+                "TITLE": "Flower configuration",
+                "FEDERATED": {
+                    "SUBTITLE": "Federated options",
+                    "ROUNDS": "Number of rounds",
+                    "METRIC": "Evaluation metric",
+                    "ADD-METRIC": "Add metric",
+                    "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
+                    "MIN-AVAILABLE-CLIENTS": "Number of minumum clients (available)",
+                    "AGG-STRATEGY": "Federated aggregation strategy",
+                    "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
+                    "MU": "Mu",
+                    "FL": "Server-side learning rate",
+                    "MOMENTUM": "Server-side momentum"
+                },
+                "PRIVACY": {
+                    "SUBTITLE": "Privacy options",
+                    "DP": "Differential privacy",
+                    "MP": "Metric privacy",
+                    "NOISE-MULT": "Noise multiplier",
+                    "SAMPLED-CLIENTS": "Number of sampled clients",
+                    "CLIP-NORM": "Clipping norm"
+                }
             }
         }
     },
@@ -466,209 +605,6 @@
             }
         }
     },
-    "CATALOG-OLD": {
-        "TOOLS-TITLE": "Tools",
-        "NEW-DEPLOYMENT": "New deployment",
-        "NUM-RESULTS": "result(s) found",
-        "MODULE": "AI4 Module",
-        "TOOL": "AI4 Tool",
-        "AI4LIFE": "AI4Life Module",
-        "LLM": "LLM Module",
-
-
-        "MODULE-DETAIL": {
-            "TITLE": "Module",
-            "TOOL-TITLE": "Tool",
-
-
-
-            "ABOUT": "About",
-            "LICENSE": "License",
-            "UNAUTHORIZED": "You must login and be a member of project to use this",
-
-
-
-
-            "ERROR-NOT-IN-VO": "You must be enrolled in the virtual organisation to use this",
-            "INIT-STATUS-GRADIO": "Initializing the environment ... This might take some time",
-            "ACTIVATING-STATUS-GRADIO": "Launching the UI ..."
-        },
-        "MODULE-TRAIN": {
-            "GENERAL-CONF": "General configuration",
-            "HARDWARE-CONF": "Hardware configuration",
-            "DATA-CONF": "Data configuration",
-            "FLOWER-CONF": "Flower configuration",
-            "LLM-CONF": "LLM configuration",
-            "NVFLARE-CONF": "NVFlare configuration",
-            "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
-            "GENERAL-CONF-FORM": {
-                "DEPLOYMENT-TITLE-REQUIRED": "Please add a title for the deployment",
-                "CO2": "Monitor CO2 emissions",
-                "SERVICE-TO-RUN": "Service to run",
-                "PASSWORD": "Password",
-                "JUPYTERLAB-PASS": "JupyterLab password",
-                "JUPYTERLAB-PASS-REQUIRED": "A password is required",
-                "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
-                "DOCKER-OPTIONS": "Docker options",
-                "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG": "Docker tag",
-                "SNAPSHOT-ID": "Deployed from snapshot with ID ",
-                "FEDERATED-SECRET": "Federated secret",
-                "ADD-FEDERATED-SECRET": "Create federated secret",
-                "CVAT-CREDENTIALS": "CVAT credentials",
-                "CVAT-USERNAME": "CVAT username",
-                "CVAT-PASSWORD": "CVAT password",
-                "CVAT-USERNAME-REQUIRED": "A username is required",
-                "CVAT-PASSWORD-REQUIRED": "A password is required",
-                "DEPLOYMENT-TYPE": "Deployment type",
-                "TYPE": "Type",
-                "MODEL-OPTIONS": "Model options",
-                "MODEL-ID": "Model ID",
-                "BATCH-OPTIONS": "Batch options",
-                "BATCH-EXPLANATION": "Running a deployment in batch mode means that your job will execute as a one-time process. Here, you can define the specific commands that the process should run. Commands can be provided via a script file or by typing the commands directly in the editor. This type of deployment is temporary and will be cleaned on completion, so please include commands to save any outputs in the storage folder.",
-                "UPLOAD-FILE": "Upload file",
-                "BATCH-COMMANDS": "Write bash commands",
-                "BATCH-HELP": "Add here the commands to run when your deployment is launched. Remember to save any outputs in your storage folder."
-            },
-            "HARDWARE-CONF-FORM": {
-                "TITLE": "Hardware options",
-                "NUMBER-OF-CPUS": "Number of CPUs",
-                "NUMBER-OF-GPUS": "Number of GPUs",
-                "GPU-MODEL": "GPU model",
-                "RAM-MEMORY": "RAM memory (in MB)",
-                "DISK-MEMORY": "Disk memory (in MB)"
-            },
-            "DATA-CONF-FORM": {
-                "STORAGE-CONF": "Storage configuration",
-                "DATASET-CONF": "Dataset configuration",
-                "SNAPSHOTS-CONF": "Snapshots configuration",
-                "DATASET-LIST": "Datasets list",
-                "NO-DATASETS": "No datasets added yet",
-                "STORAGE-SERVICE": "Storage service",
-                "STORAGE-SERVICE-HINT": "You can select which storage service to use. Make sure your account is already linked in your",
-                "STORAGE-ERROR": "To run a batch deployment, you need to select a storage or use your rclone credentials",
-                "PROFILE-SECTION": "profile section",
-                "NO-STORAGE-SELECTED": "You must select one storage provider to be able to deploy a CVAT instance",
-                "STORAGE-SERVICE-UNAVAILABLE": "No storage providers available. Try to ",
-                "STORAGE-SERVICE-TRY-LINK": "link to one of our provided options",
-                "SNAPSHOT": "Restore from snapshot",
-                "SNAPSHOT-HINT": "You can select which snapshot to use. If you select none, a new one will be created.",
-                "SNAPSHOT-UNAVAILABLE": "No snapshots available.",
-                "SNAPSHOT-DELETE": "Are you sure you want to delete this snapshot?",
-                "ZENODO-TITLE": "Zenodo",
-                "ZENODO-COMMUNITY": "Zenodo community",
-                "ZENODO-DATASET": "Zenodo dataset",
-                "ZENODO-DATASET-EMPTY": "No datasets available",
-                "ZENODO-VERSION": "Dataset version",
-                "ZENODO-RECORD": "Zenodo Record ID",
-                "FORCE-PULL": "Force pull",
-                "FORCE-PULL-INFO": "If the dataset already exists in your storage, it will overwrite the existing files.",
-                "ADD-DATASET": "Add dataset",
-                "DATASET-ERROR": "To download a dataset, you need to select a storage or use your rclone credentials",
-                "DATASETS": "Datasets",
-                "DATASET-SUGGESTION": "This module has a suggested dataset. Click here to add it.",
-                "DOI-URL": {
-                    "TITLE": "DOI / URL",
-                    "ERROR": "Invalid DOI or URL format",
-                    "SUPPORT": "We support DOIs and URLs from these repositories and ",
-                    "MORE": "many more"
-                },
-                "TABLE": {
-                    "NAME": "Name",
-                    "SOURCE": "Source",
-                    "ACTIONS": "Actions",
-                    "FORCE-PULL": "Force pull"
-                }
-            },
-            "FEDERATED-CONF-FORM": {
-                "FED-TITLE": "Federated options",
-                "ROUNDS": "Number of rounds",
-                "METRIC": "Evaluation metric",
-                "MIN-FIT-CLIENTS": "Number of minimum clients (fit)",
-                "MIN-AVAILABLE-CLIENTS": "Number of minumum clients (available)",
-                "AGG-STRATEGY": "Federated aggregation strategy",
-                "MU": "Mu",
-                "FL": "Server-side learning rate",
-                "MOMENTUM": "Server-side momentum",
-                "NOTE-AGG-STRAT": "Note that to use this strategy you must enter some initial global model parameters. You can upload to the deployment the file with the model you want to get the parameters as \"initial_model.keras\" to automate this.",
-                "PRIVACY-TITLE": "Privacy options",
-                "DP": "Differential privacy",
-                "MP": "Metric privacy",
-                "NOISE-MULT": "Noise multiplier",
-                "SAMPLED-CLIENTS": "Number of sampled clients",
-                "CLIP-NORM": "Clipping norm"
-            },
-            "NVFLARE-CONF-FORM": {
-                "TITLE": "NVFlare options",
-                "USERNAME": "Username",
-                "PASSWORD": "Password",
-                "PASSWORD-REQUIRED": "Please add a password",
-                "APP-LOCATION": "Docker image",
-                "PUBLIC-PROJECT": "Make project public",
-                "STARTING-DATE": "Starting date",
-                "END-DATE": "End date",
-                "DATES": "Select start and end date"
-            }
-        },
-        "MODULE-TRY": {
-            "TITLE": "Configure test parameters",
-            "TRYME-FORM": {
-                "CLUSTER-OPTIONS": "Cluster options",
-                "OSCAR-ENDPOINT": "OSCAR Endpoint*",
-                "LAUNCH-OPTIONS": "Launch options",
-                "SERVICE-NAME": "Service name",
-                "INPUT-OPTIONS": "Input options",
-                "INPUT-FILE": "Input file",
-                "INPUT-FILE-LABEL": "Choose file",
-                "INPUT-TEXT": "Input text",
-                "INPUT-TEXT-LABEL": "Input as text",
-                "OUTPUT-OPTIONS": "Output options",
-                "OUTPUT-TYPES": {
-                    "LABEL": "Output types",
-                    "IMAGE": "Image",
-                    "AUDIO": "Audio",
-                    "TEXT": "Text",
-                    "VIDEO": "Video",
-                    "ZIP": "Zip"
-                },
-                "LAUNCH-BUTTON": "Launch service"
-            }
-        },
-        "OSCAR-DEPLOY": {
-            "TITLE": "Deploy OSCAR service",
-            "GENERAL-CONF": "General configuration",
-            "COMPUTE-CONF": "Compute configuration",
-            "CONFIRMATION": "Confirmation",
-            "GENERAL-CONF-FORM": {
-                "CLUSTER-OPTIONS": "Cluster options",
-                "OSCAR-ENDPOINT": "OSCAR Endpoint",
-                "TITLE": "Service options",
-                "SERVICE-TITLE": "Service title",
-                "SERVICE-TITLE-REQUIRED": "Please add a title for the service",
-                "SERVICE-DESCRIPTION": "Service description",
-                "SERVICE-DESCRIPTION-PLACEHOLDER": "Useful when you have lots of different active services",
-                "DOCKER-IMAGE": "Docker image",
-                "DOCKER-TAG": "Docker tag"
-            },
-            "COMPUTE-CONF-FORM": {
-                "TITLE": "Compute options",
-                "CPU-NUMBER": "CPUs",
-                "CPU-NUMBER-REQUIRED": "Please indicate the number of CPUs usage",
-                "CPU-MAX-NUMBER": "Max CPUs",
-                "CPU-MAX-NUMBER-REQUIRED": "Please indicate the maximum number of CPUs usage",
-                "MEMORY-SIZE": "RAM",
-                "MEMORY-SIZE-REQUIRED": "Please indicate the size of memory",
-                "MEMORY-MAX-SIZE": "Max RAM",
-                "MEMORY-MAX-SIZE-REQUIRED": "Please indicate the maximum size of memory",
-                "LOG-LEVEL": "Log level",
-                "LOG-LEVEL-REQUIRED": "Please indicate the log level for the service",
-                "ENABLE-GPU": "Enable GPU"
-            },
-            "CONFIRMATION-FORM": {
-                "TITLE": "Overview"
-            }
-        }
-    },
     "CHATBOT": {
         "TITLE": "AI4EOSC Assistant",
         "GREETING": "Hi, I'm the AI4EOSC Assistant, how can I help you today? 😄",
@@ -677,26 +613,9 @@
         "OPEN_FS": "Open fullscreen",
         "CLOSE_FS": "Minimize"
     },
-    "GENERAL-BUTTONS": {
-        "DELETE": "Delete",
-        "ACCEPT": "Accept",
-        "ACCESS": "Access",
-        "YES": "Yes",
-        "NO": "No",
-        "CLOSE": "Close",
-        "ADD": "Add",
-        "BACK": "Back",
-        "NEXT": "Next",
-        "SUBMIT": "Submit",
-        "QUICK-SUBMIT": "Quick submit",
-        "GITHUB": "GitHub",
-        "DOCKERHUB": "Docker",
-        "REPORT-ISSUE": "Report issue",
-        "OPEN-DOCUMENTATION": "Open documentation",
-        "BIOIMAGE": "BioImage.IO"
-    },
     "FILE-UPLOAD": {
         "SELECT": "Select file",
+        "CHANGE": "Change file",
         "ALLOWED-FILE-TYPE": "Supported formats: .sh, .bash, .command, .run",
         "GENERATE-FILE": "Generate file"
     },

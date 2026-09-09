@@ -105,9 +105,6 @@ export class Ai4lifeLoaderComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
-        cvatFields: false,
-        ai4lifeFields: true,
-        batchFields: false,
     };
 
     showHardwareFields: ShowHardwareField = {

@@ -180,7 +180,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         'user-snapshots'
                     )
                         ? this.translateService.instant(
-                              'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                              'CATALOG.CONF-FORMS.DEPLOYED-FROM-SNAPSHOT-ID'
                           ) + deployment.docker_image.split(':')[1]
                         : deployment.docker_image;
                     const row: DeploymentTableRow = {
