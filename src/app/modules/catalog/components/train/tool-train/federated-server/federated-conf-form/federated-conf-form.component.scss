@@ -1,29 +1,10 @@
-mat-form-field {
-    height: fit-content;
-}
-
-.metric-chip-row {
-    margin-top: 0px;
-    margin-bottom: 0.3em;
-    height: 27px;
-}
-
-:host [id='metric-field'] {
-    ::ng-deep {
-        .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
-            .mat-mdc-form-field-infix {
-            padding-bottom: 0px;
-        }
-    }
-}
-
-.html-tags-div {
+.conf-form {
     display: flex;
-}
+    flex-direction: column;
+    gap: var(--space-sm);
 
-::ng-deep {
-    mat-form-field .mat-mdc-form-field-subscript-wrapper {
-        padding-bottom: 15px;
+    h4 {
+        margin-block: var(--space-md);
     }
 }
 
@@ -36,10 +17,20 @@ mat-form-field {
 .toggle-and-info {
     display: flex;
     align-items: center;
+    gap: var(--space-xs);
+
+    ::ng-deep .ui-toggle {
+        height: 24px;
+    }
 }
 
 .field-with-info {
     display: flex;
     justify-content: space-around;
-    align-items: baseline;
+    align-items: center;
+    gap: var(--space-sm);
+
+    app-ui-select {
+        width: 100%;
+    }
 }

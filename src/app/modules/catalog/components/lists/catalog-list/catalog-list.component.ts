@@ -115,17 +115,6 @@ export class CatalogListComponent implements OnInit {
     readonly selectedDatatypes = signal<string[]>([]);
     readonly selectedTags = signal<string[]>([]);
 
-    readonly sortOptions: SelectOption[] = [
-        {
-            value: 'name',
-            viewValue: this.translate.instant('CATALOG.SORTING.NAME'),
-        },
-        {
-            value: 'recent',
-            viewValue: this.translate.instant('CATALOG.SORTING.MOST-RECENT'),
-        },
-    ];
-
     readonly pageIndex = signal(0);
     readonly pageSize = PAGE_SIZE;
 

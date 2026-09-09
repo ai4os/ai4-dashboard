@@ -1,0 +1,97 @@
+<div
+    class="ui-text-field"
+    [class.ui-text-field--invalid]="isInvalid"
+    [class.ui-text-field--disabled]="disabled()"
+>
+    @if (label) {
+        <span class="ui-text-field__label" [id]="labelId">{{
+            label | translate
+        }}</span>
+    }
+
+    <div
+        class="ui-text-field__wrapper"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-owns]="panelId"
+    >
+        <input
+            type="text"
+            class="ui-text-field__input"
+            [placeholder]="placeholder ? (placeholder | translate) : ''"
+            [disabled]="disabled()"
+            [value]="displayValue()"
+            (input)="onInput($event)"
+            (focus)="open()"
+            (blur)="onBlur()"
+            (keydown)="onKeydown($event)"
+            autocomplete="off"
+            role="combobox"
+            [attr.aria-controls]="panelId"
+            [attr.aria-expanded]="isOpen()"
+        />
+        <mat-icon
+            class="ui-text-field__suffix ui-autocomplete__arrow"
+            [class.ui-autocomplete__arrow--open]="isOpen()"
+            (click)="toggle($event)"
+        >
+            arrow_drop_down
+        </mat-icon>
+    </div>
+
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        (overlayOutsideClick)="close()"
+        (attach)="onOverlayAttach()"
+        [cdkConnectedOverlayHasBackdrop]="false"
+        [cdkConnectedOverlayWidth]="
+            trigger.elementRef.nativeElement.offsetWidth
+        "
+    >
+        <div class="ui-autocomplete-panel" [id]="panelId" role="listbox">
+            @if (!options || options.length === 0) {
+                <div class="ui-autocomplete-panel__empty">
+                    {{ 'GENERAL.NO-OPTIONS' | translate }}
+                </div>
+            } @else {
+                <cdk-virtual-scroll-viewport
+                    itemSize="42"
+                    class="ui-autocomplete-panel__viewport"
+                >
+                    <div
+                        *cdkVirtualFor="let option of options; let i = index"
+                        class="ui-autocomplete-panel__option"
+                        role="option"
+                        [class.ui-autocomplete-panel__option--active]="
+                            i === activeIndex()
+                        "
+                        [class.ui-autocomplete-panel__option--selected]="
+                            option.value === internalValue()
+                        "
+                        [attr.aria-selected]="option.value === internalValue()"
+                        (mousedown)="selectOption(option, $event)"
+                        (mouseenter)="activeIndex.set(i)"
+                    >
+                        <span>{{ option.viewValue }}</span>
+                        @if (option.value === internalValue()) {
+                            <mat-icon class="ui-autocomplete-panel__check"
+                                >check</mat-icon
+                            >
+                        }
+                    </div>
+                </cdk-virtual-scroll-viewport>
+            }
+        </div>
+    </ng-template>
+
+    @if (hint && !isInvalid) {
+        <span class="ui-text-field__hint">{{ hint | translate }}</span>
+    }
+
+    @if (isInvalid && currentError) {
+        <span class="ui-text-field__error">{{ currentError | translate }}</span>
+    }
+</div>

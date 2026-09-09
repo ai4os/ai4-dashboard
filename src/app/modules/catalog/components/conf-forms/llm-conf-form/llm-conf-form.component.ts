@@ -25,6 +25,7 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 import {
     LlmConfiguration,
+    TrainModuleRequest,
     VllmModelConfig,
 } from '@app/shared/interfaces/module.interface';
 import { emailValidator, urlValidator } from '@app/shared/utils/validators';
@@ -90,7 +91,7 @@ export class LlmConfFormComponent implements OnInit, OnChanges {
     modelNeedsToken = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     protected readonly deploymentTypeErrors = {
         required: 'CATALOG.CONF-FORMS.LLMS.TYPE-REQUIRED',
@@ -291,5 +292,34 @@ export class LlmConfFormComponent implements OnInit, OnChanges {
                 this.setLoading(false);
             },
         });
+    }
+
+    getPayload(): TrainModuleRequest['llm'] {
+        const v = this.llmConfFormGroup.getRawValue();
+        const deploymentType = v.deploymentTypeSelect ?? 'vllm';
+
+        const payload: TrainModuleRequest['llm'] = {
+            type: deploymentType,
+        };
+
+        if (deploymentType === 'vllm' || deploymentType === 'both') {
+            payload.vllm_model_id = v.vllmModelSelect ?? '';
+        }
+
+        if (this.modelNeedsToken) {
+            payload.HF_token = v.huggingFaceTokenInput ?? '';
+        }
+
+        if (deploymentType === 'open-webui' || deploymentType === 'both') {
+            payload.ui_username = v.uiUsernameInput ?? '';
+            payload.ui_password = v.uiPasswordInput ?? '';
+        }
+
+        if (deploymentType === 'open-webui') {
+            payload.openai_api_key = v.openaiApiKeyInput ?? '';
+            payload.openai_api_url = v.openaiApiUrlInput ?? '';
+        }
+
+        return payload;
     }
 }

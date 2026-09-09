@@ -1,0 +1,103 @@
+<form [formGroup]="hardwareConfFormGroup" class="conf-form">
+    <span class="title-and-toggles">
+        <h4>{{ 'CATALOG.CONF-FORMS.HARDWARE.SUBTITLE' | translate }}</h4>
+    </span>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!-- CPUs -->
+        @if (_showFields.cpu_num) {
+            <app-ui-text-field
+                formControlName="cpuNumberInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.NUMBER-OF-CPUS"
+                [min]="_defaultFormValues.cpu_num.range[0]"
+                [max]="_defaultFormValues.cpu_num.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    required: 'GENERAL.FORMS.REQUIRED',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.cpu_num.range[0],
+                    max: _defaultFormValues.cpu_num.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+
+        <!-- GPUs -->
+        @if (_showFields.gpu_num) {
+            <app-ui-text-field
+                formControlName="gpuNumberInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.NUMBER-OF-GPUS"
+                [min]="_defaultFormValues.gpu_num.range[0]"
+                [max]="_defaultFormValues.gpu_num.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    required: 'GENERAL.FORMS.REQUIRED',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.gpu_num.range[0],
+                    max: _defaultFormValues.gpu_num.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+        @if (_showFields.gpu_type) {
+            <app-ui-select
+                formControlName="gpuModelSelect"
+                [options]="gpuModelOptions"
+                label="{{
+                    'CATALOG.CONF-FORMS.HARDWARE.GPU-MODEL' | translate
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.gpu_type?.description : ''
+                "
+            ></app-ui-select>
+        }
+
+        <!-- RAM -->
+        @if (_showFields.ram) {
+            <app-ui-text-field
+                formControlName="ramMemoryInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.RAM-MEMORY"
+                [min]="_defaultFormValues.ram.range[0]"
+                [max]="_defaultFormValues.ram.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    required: 'GENERAL.FORMS.REQUIRED',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.ram.range[0],
+                    max: _defaultFormValues.ram.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+
+        <!-- Disk -->
+        @if (_showFields.disk) {
+            <app-ui-text-field
+                formControlName="diskMemoryInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.HARDWARE.DISK-MEMORY"
+                [min]="_defaultFormValues.disk.range[0]"
+                [max]="_defaultFormValues.disk.range[1]"
+                [errorMessages]="{
+                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                    required: 'GENERAL.FORMS.REQUIRED',
+                }"
+                [errorTranslateParams]="{
+                    min: _defaultFormValues.disk.range[0],
+                    max: _defaultFormValues.disk.range[1],
+                }"
+            ></app-ui-text-field>
+        }
+    </div>
+</form>

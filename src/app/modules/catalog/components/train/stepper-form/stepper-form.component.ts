@@ -30,17 +30,11 @@ import { MatChip, MatChipAvatar } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
-import {
-    MatStepper,
-    MatStep,
-    MatStepLabel,
-    MatStepperNext,
-    MatStepperPrevious,
-} from '@angular/material/stepper';
-import { MatButton } from '@angular/material/button';
+import { MatStepper, MatStep, MatStepLabel } from '@angular/material/stepper';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 
 @Component({
     selector: 'app-stepper-form',
@@ -60,12 +54,10 @@ import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner
         MatStep,
         MatStepLabel,
         NgTemplateOutlet,
-        MatButton,
-        MatStepperNext,
-        MatStepperPrevious,
         TranslatePipe,
         UiLoaderComponent,
         UiBannerComponent,
+        UiButtonComponent,
     ],
 })
 export class StepperFormComponent implements OnInit {
@@ -128,7 +120,7 @@ export class StepperFormComponent implements OnInit {
     isFormValid = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     checkFormValidity(form: FormGroup) {
         if (form) {
@@ -143,7 +135,7 @@ export class StepperFormComponent implements OnInit {
 
     submitTrainingRequest() {
         this.isLoading = true;
-        if (this.step1Form.value.generalConfForm.batchFile) {
+        if (this.step1Form.value.batchConfForm?.batchFile) {
             this.createBatchDeployment();
         } else if (this.platform === 'nomad') {
             this.createNomadService();
@@ -471,7 +463,7 @@ export class StepperFormComponent implements OnInit {
                         : this.step3Form!.value.storageConfForm.datasetsList,
             },
         };
-        const batchFile = this.step1Form.value.generalConfForm.batchFile;
+        const batchFile = this.step1Form.value.batchConfForm.batchFile;
 
         this.deploymentsService.postBatchDeployment(data, batchFile).subscribe({
             next: (result: StatusReturn) => {

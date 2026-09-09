@@ -15,28 +15,27 @@
     (showHelpButtonEvent)="showHelpButtonChange($event)"
 >
     <ng-template #step1>
-        <form [formGroup]="generalConfForm">
+        <form [formGroup]="generalConfForm" class="form">
             <app-general-conf-form
-                class="child-form-container"
                 [defaultFormValues]="generalConfDefaultValues"
                 [showFields]="showGeneralFields"
                 [showHelp]="showHelp"
             ></app-general-conf-form>
+            <mat-divider></mat-divider>
+            <app-batch-conf-form [showHelp]="showHelp"></app-batch-conf-form>
         </form>
     </ng-template>
     <ng-template #step2>
-        <form [formGroup]="hardwareConfForm">
+        <form [formGroup]="hardwareConfForm" class="form">
             <app-hardware-conf-form
-                class="child-form-container"
                 [defaultFormValues]="hardwareConfDefaultValues"
                 [showHelp]="showHelp"
             ></app-hardware-conf-form>
         </form>
     </ng-template>
     <ng-template #step3>
-        <form [formGroup]="storageConfForm">
+        <form [formGroup]="storageConfForm" class="form">
             <app-storage-conf-form
-                class="child-form-container"
                 [defaultFormValues]="storageConfDefaultValues"
                 [rcloneIsRequired]="true"
                 [showHelp]="showHelp"

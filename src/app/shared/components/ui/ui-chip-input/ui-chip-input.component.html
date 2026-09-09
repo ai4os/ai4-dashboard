@@ -1,0 +1,92 @@
+<div
+    class="ui-text-field ui-chip-input"
+    [class.ui-text-field--invalid]="isInvalid"
+    [class.ui-text-field--disabled]="disabled()"
+>
+    @if (showLabel && label) {
+        <span class="ui-text-field__label" [id]="labelId">{{
+            label | translate
+        }}</span>
+    }
+
+    <div
+        class="ui-text-field__wrapper ui-chip-input__wrapper"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+        [attr.aria-labelledby]="label ? labelId : null"
+    >
+        @if (prefixIcon) {
+            <mat-icon class="ui-text-field__prefix">{{ prefixIcon }}</mat-icon>
+        }
+
+        <div class="ui-chip-input__chips">
+            @for (chip of internalValue(); track chip) {
+                <app-ui-chip
+                    variant="primary-solid"
+                    [text]="chip"
+                    [tooltip]="chipTooltip()"
+                    [disabled]="disabled()"
+                    (click)="removeChip(chip, $event)"
+                ></app-ui-chip>
+            }
+
+            <input
+                class="ui-text-field__input ui-chip-input__input"
+                [placeholder]="
+                    internalValue().length ? '' : (placeholder | translate)
+                "
+                [disabled]="disabled()"
+                [value]="inputValue()"
+                [attr.aria-controls]="panelId"
+                [attr.aria-expanded]="isOpen()"
+                role="combobox"
+                (input)="onInputChange($event)"
+                (keydown)="onInputKeydown($event)"
+                (focus)="onInputFocus()"
+                (blur)="onBlur()"
+            />
+        </div>
+    </div>
+
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen() && filteredOptions().length > 0"
+        (overlayOutsideClick)="isOpen.set(false)"
+        [cdkConnectedOverlayHasBackdrop]="false"
+        [cdkConnectedOverlayWidth]="
+            trigger.elementRef.nativeElement.offsetWidth
+        "
+    >
+        <ul class="ui-select-panel" role="listbox" [id]="panelId">
+            @for (
+                option of filteredOptions();
+                track option.value;
+                let i = $index
+            ) {
+                <li
+                    class="ui-select-panel__option"
+                    role="option"
+                    [class.ui-select-panel__option--active]="
+                        i === activeIndex()
+                    "
+                    [attr.aria-selected]="i === activeIndex()"
+                    (mousedown)="
+                        $event.preventDefault(); selectSuggestion(option)
+                    "
+                    (mouseenter)="activeIndex.set(i)"
+                >
+                    <span>{{ option.viewValue }}</span>
+                </li>
+            }
+        </ul>
+    </ng-template>
+
+    @if (hint && !isInvalid) {
+        <span class="ui-text-field__hint">{{ hint | translate }}</span>
+    }
+
+    @if (isInvalid && currentError) {
+        <span class="ui-text-field__error">{{ currentError | translate }}</span>
+    }
+</div>
