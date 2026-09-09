@@ -89,9 +89,6 @@ export class FederatedServerComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
-        cvatFields: false,
-        ai4lifeFields: false,
-        batchFields: false,
     };
 
     @ViewChild(GeneralConfFormComponent)
@@ -107,6 +104,7 @@ export class FederatedServerComponent implements OnInit {
 
     loadModule() {
         this.route.parent?.params.subscribe((params) => {
+            this.showLoader = true;
             this.toolsService
                 .getTool(params['id'])
                 .subscribe((federatedServer) => {
@@ -127,6 +125,8 @@ export class FederatedServerComponent implements OnInit {
                         this.warningMessage =
                             this.hardwareConfDefaultValues.warning;
                     }
+
+                    this.showLoader = false;
                 });
         });
     }

@@ -3,7 +3,7 @@
         [columns]="columns"
         [data]="datasets"
         trackByKey="doi"
-        emptyMessage="CATALOG.CONF-FORMS.DATA.NO-DATASETS"
+        emptyMessage="CATALOG.CONF-FORMS.DATA.DATASETS.NO-DATASETS"
     >
         <!-- Source -->
         <ng-template uiTableCell="source" let-row>
@@ -43,7 +43,7 @@
     </app-ui-table>
 
     <app-ui-button
-        text="{{ 'CATALOG.CONF-FORMS.DATA.ADD-DATASET' | translate }}"
+        text="{{ 'CATALOG.CONF-FORMS.DATA.DATASETS.ADD' | translate }}"
         (click)="openAddDatasetDialog()"
     ></app-ui-button>
 </div>

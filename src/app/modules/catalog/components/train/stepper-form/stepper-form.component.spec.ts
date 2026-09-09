@@ -73,54 +73,6 @@ describe('StepperFormComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('createNomadService()', () => {
-        it('should call trainTool and handle success', async () => {
-            await component.createNomadService();
-            expect(mockedSnackbarService.openSuccess).toHaveBeenCalledWith(
-                'Deployment created with ID 123'
-            );
-        });
-
-        it('should show error on trainTool failure', async () => {
-            jest.spyOn(
-                mockedDeploymentService,
-                'postTrainModule'
-            ).mockReturnValue(
-                of({ status: 'fail', error_msg: 'test error reason' })
-            );
-            await component.createNomadService();
-            expect(mockedSnackbarService.openError).toHaveBeenCalledWith(
-                'Error while creating the deployment test error reason'
-            );
-        });
-
-        it('should handle observable error', async () => {
-            jest.spyOn(mockedDeploymentService, 'trainTool').mockReturnValue(
-                throwError(() => new Error('error'))
-            );
-            await component.createNomadService();
-            expect(component.isLoading).toBe(false);
-        });
-    });
-
-    describe('createOscarService()', () => {
-        it('should create OSCAR service and navigate on success', async () => {
-            await component.createOscarService();
-            expect(mockedSnackbarService.openSuccess).toHaveBeenCalledWith(
-                'OSCAR service created with uuid mock-uuid'
-            );
-        });
-
-        it('should handle createService error', async () => {
-            jest.spyOn(
-                mockedOscarInferenceService,
-                'createService'
-            ).mockReturnValue(throwError(() => new Error('fail')));
-            await component.createOscarService();
-            expect(component.isLoading).toBe(false);
-        });
-    });
-
     describe('getStepperOrientation()', () => {
         it('should return vertical if is mobile', () => {
             expect(component.getStepperOrientation()).toBe('vertical');

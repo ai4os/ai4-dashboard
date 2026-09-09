@@ -20,7 +20,16 @@
                     'CATALOG.CONF-FORMS.DATA.NO-STORAGE-SELECTED' | translate
                 "
             ></app-ui-chip>
-        } @else if (rcloneIsRequired) {
+        } @else if (
+            rcloneIsRequired &&
+            !credentialsLoading &&
+            (storageConfFormGroup.get('storageServiceDatasetSelect')?.value ===
+                '' ||
+                $safeNavigationMigration(
+                    storageConfFormGroup.get('storageServiceDatasetSelect')
+                        ?.value
+                ) === undefined)
+        ) {
             <app-ui-chip
                 variant="danger-solid"
                 icon="warning"
@@ -169,7 +178,7 @@
                         variant="danger-solid"
                         icon="warning"
                         [text]="
-                            'CATALOG.CONF-FORMS.DATA.DATASET-ERROR' | translate
+                            'CATALOG.CONF-FORMS.DATA.DATASETS.ERROR' | translate
                         "
                     ></app-ui-chip>
                 }
@@ -178,7 +187,7 @@
                         variant="primary-outline"
                         icon="emoji_objects"
                         [text]="
-                            'CATALOG.CONF-FORMS.DATA.DATASET-SUGGESTION'
+                            'CATALOG.CONF-FORMS.DATA.DATASETS.SUGGESTION'
                                 | translate
                         "
                         (click)="

@@ -168,7 +168,14 @@ export class DatasetsListComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: {
-                    title: 'Are you sure you want to delete this dataset?',
+                    title: 'CATALOG.CONF-FORMS.DATA.DATASETS.DELETE',
+                    subtitlePrefix:
+                        'CATALOG.CONF-FORMS.DATA.DATASETS.DELETE-PREFIX',
+                    subtitleHighlight: row.name,
+                    subtitleSuffix:
+                        'CATALOG.CONF-FORMS.DATA.DATASETS.DELETE-SUFFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'CATALOG.CONF-FORMS.DATA.DATASETS.DELETE-OPTION',
                 } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })

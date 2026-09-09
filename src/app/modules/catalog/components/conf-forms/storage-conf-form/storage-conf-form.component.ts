@@ -206,7 +206,7 @@ export class StorageConfFormComponent implements OnInit {
 
         return {
             rclone_conf: creds?.conf ?? '/srv/.rclone/rclone.conf',
-            rclone_url: creds?.vendor ?? '',
+            rclone_url: creds?.server ?? '',
             rclone_vendor: creds?.vendor ?? 'nextcloud',
             rclone_user: creds?.loginName ?? '',
             rclone_password: creds?.appPassword ?? '',
@@ -246,7 +246,7 @@ export class StorageConfFormComponent implements OnInit {
                 next: (credentials) => {
                     this.credentials = Object.values(credentials);
 
-                    if (!this.isCvatTool) {
+                    if (!this.isCvatTool && !this.rcloneIsRequired) {
                         // In CVAT it is compulsory to select a storage, so the empty option is not allowed
                         this.storageServiceOptions = [
                             { value: '', viewValue: '-' },
@@ -308,7 +308,11 @@ export class StorageConfFormComponent implements OnInit {
             'storageServiceDatasetSelect'
         );
 
-        if (this.isCvatTool || this.datasets.length > 0) {
+        if (
+            this.isCvatTool ||
+            this.rcloneIsRequired ||
+            this.datasets.length > 0
+        ) {
             control?.setValidators([Validators.required]);
         } else {
             control?.clearValidators();
