@@ -134,7 +134,7 @@ export class BatchTrainComponent implements OnInit {
                     const deployment = JSON.parse(deploymentRow);
                     const snapshotText =
                         this.translateService.instant(
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                            'CATALOG.CONF-FORMS.DEPLOYED-FROM-SNAPSHOT-ID'
                         ) + deployment.snapshot_ID;
                     this.generalConfDefaultValues.title.value = deployment.name;
                     this.generalConfDefaultValues.desc!.value = deployment.desc

@@ -23,13 +23,13 @@ import {
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 
 @Component({
     selector: 'app-loading-screen',
     templateUrl: './loading-screen.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatProgressSpinner],
+    imports: [UiLoaderComponent],
 })
 export class LoadingScreenComponent implements OnInit {
     tryMeService = inject(TryMeService);
@@ -39,12 +39,12 @@ export class LoadingScreenComponent implements OnInit {
     module!: Ai4eoscModule;
     loadingText = '';
 
-    private stopPolling$ = timer(180000);
+    private readonly stopPolling$ = timer(180000);
     isLoading = true;
 
     ngOnInit(): void {
         this.translateService
-            .get('CATALOG.MODULE-DETAIL.INIT-STATUS-GRADIO')
+            .get('CATALOG.GRADIO.INIT-STATUS')
             .subscribe((translatedText: string) => {
                 this.loadingText = translatedText;
             });
@@ -132,11 +132,11 @@ export class LoadingScreenComponent implements OnInit {
                     } else {
                         if (response.status === 'starting') {
                             this.loadingText = this.translateService.instant(
-                                'CATALOG.MODULE-DETAIL.INIT-STATUS-GRADIO'
+                                'CATALOG.GRADIO.INIT-STATUS'
                             );
                         } else if (response.status === 'running') {
                             this.loadingText = this.translateService.instant(
-                                'CATALOG.MODULE-DETAIL.ACTIVATING-STATUS-GRADIO'
+                                'CATALOG.GRADIO.ACTIVATING-STATUS'
                             );
                         } else {
                             this.closeWindowDueError(
