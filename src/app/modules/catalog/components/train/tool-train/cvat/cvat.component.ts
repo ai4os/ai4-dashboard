@@ -85,9 +85,6 @@ export class CvatComponent implements OnInit {
         dockerImageInput: false,
         dockerTagSelect: false,
         infoButton: true,
-        cvatFields: true,
-        ai4lifeFields: false,
-        batchFields: false,
     };
 
     ngOnInit(): void {
@@ -99,6 +96,7 @@ export class CvatComponent implements OnInit {
             this.toolsService.getTool(params['id']).subscribe((cvat) => {
                 this.title = cvat.title;
             });
+            this.showLoader = true;
             this.toolsService
                 .getCvatConfiguration(params['id'])
                 .subscribe((toolConf: CvatToolConfiguration) => {
@@ -109,6 +107,7 @@ export class CvatComponent implements OnInit {
                         password: toolConf.general.cvat_password!,
                     };
                     this.storageConfDefaultValues = toolConf.storage;
+                    this.showLoader = false;
                 });
         });
     }

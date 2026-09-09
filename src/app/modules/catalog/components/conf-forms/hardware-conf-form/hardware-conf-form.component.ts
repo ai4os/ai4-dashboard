@@ -77,6 +77,7 @@ export class HardwareConfFormComponent implements OnInit {
 
     @Input() set showFields(showFields: ShowHardwareField) {
         this._showFields = showFields;
+        this.updateValidators();
     }
     parentForm!: FormGroup;
 
@@ -117,73 +118,33 @@ export class HardwareConfFormComponent implements OnInit {
     ) {
         if (defaultFormValues) {
             this._defaultFormValues = defaultFormValues;
+            this.updateValidators();
 
             // --- CPU ---
             this.hardwareConfFormGroup
                 .get('cpuNumberInput')
-                ?.setValidators([
-                    ...(this._showFields.cpu_num ? [Validators.required] : []),
-                    Validators.min(defaultFormValues.cpu_num.range[0]),
-                    Validators.max(defaultFormValues.cpu_num.range[1]),
-                ]);
-            this.hardwareConfFormGroup
-                .get('cpuNumberInput')
                 ?.setValue(defaultFormValues.cpu_num.value as string);
-            this.hardwareConfFormGroup
-                .get('cpuNumberInput')
-                ?.updateValueAndValidity();
 
             // --- GPU ---
             this.hardwareConfFormGroup
                 .get('gpuNumberInput')
-                ?.setValidators([
-                    ...(this._showFields.gpu_num ? [Validators.required] : []),
-                    Validators.min(defaultFormValues.gpu_num?.range[0]),
-                    Validators.max(defaultFormValues.gpu_num?.range[1]),
-                ]);
-            this.hardwareConfFormGroup
-                .get('gpuNumberInput')
                 ?.setValue(defaultFormValues.gpu_num?.value as number);
-            this.hardwareConfFormGroup
-                .get('gpuNumberInput')
-                ?.updateValueAndValidity();
-
-            // --- RAM ---
-            this.hardwareConfFormGroup
-                .get('ramMemoryInput')
-                ?.setValidators([
-                    ...(this._showFields.ram ? [Validators.required] : []),
-                    Validators.min(defaultFormValues.ram?.range[0]),
-                    Validators.max(defaultFormValues.ram?.range[1]),
-                ]);
-            this.hardwareConfFormGroup
-                .get('ramMemoryInput')
-                ?.setValue(defaultFormValues.ram?.value as string);
-            this.hardwareConfFormGroup
-                .get('ramMemoryInput')
-                ?.updateValueAndValidity();
-
-            // --- DISK ---
-            this.hardwareConfFormGroup
-                .get('diskMemoryInput')
-                ?.setValidators([
-                    ...(this._showFields.disk ? [Validators.required] : []),
-                    Validators.min(defaultFormValues.disk?.range[0]),
-                    Validators.max(defaultFormValues.disk?.range[1]),
-                ]);
-            this.hardwareConfFormGroup
-                .get('diskMemoryInput')
-                ?.setValue(defaultFormValues.disk?.value as string);
-            this.hardwareConfFormGroup
-                .get('diskMemoryInput')
-                ?.updateValueAndValidity();
-
             defaultFormValues.gpu_type?.options?.forEach((tag: string) => {
                 this.gpuModelOptions.push({ value: tag, viewValue: tag });
             });
             this.hardwareConfFormGroup
                 .get('gpuModelSelect')
                 ?.setValue(defaultFormValues.gpu_type?.value as string);
+
+            // --- RAM ---
+            this.hardwareConfFormGroup
+                .get('ramMemoryInput')
+                ?.setValue(defaultFormValues.ram?.value as string);
+
+            // --- DISK ---
+            this.hardwareConfFormGroup
+                .get('diskMemoryInput')
+                ?.setValue(defaultFormValues.disk?.value as string);
         }
     }
 
@@ -249,5 +210,41 @@ export class HardwareConfFormComponent implements OnInit {
                 ? (v.gpuModelSelect ?? undefined)
                 : undefined,
         };
+    }
+
+    private updateValidators(): void {
+        const cpu = this.hardwareConfFormGroup.get('cpuNumberInput');
+        const gpu = this.hardwareConfFormGroup.get('gpuNumberInput');
+        const ram = this.hardwareConfFormGroup.get('ramMemoryInput');
+        const disk = this.hardwareConfFormGroup.get('diskMemoryInput');
+
+        cpu?.setValidators([
+            ...(this._showFields.cpu_num ? [Validators.required] : []),
+            Validators.min(this._defaultFormValues.cpu_num.range[0]),
+            Validators.max(this._defaultFormValues.cpu_num.range[1]),
+        ]);
+
+        gpu?.setValidators([
+            ...(this._showFields.gpu_num ? [Validators.required] : []),
+            Validators.min(this._defaultFormValues.gpu_num?.range[0]),
+            Validators.max(this._defaultFormValues.gpu_num?.range[1]),
+        ]);
+
+        ram?.setValidators([
+            ...(this._showFields.ram ? [Validators.required] : []),
+            Validators.min(this._defaultFormValues.ram?.range[0]),
+            Validators.max(this._defaultFormValues.ram?.range[1]),
+        ]);
+
+        disk?.setValidators([
+            ...(this._showFields.disk ? [Validators.required] : []),
+            Validators.min(this._defaultFormValues.disk?.range[0]),
+            Validators.max(this._defaultFormValues.disk?.range[1]),
+        ]);
+
+        cpu?.updateValueAndValidity();
+        gpu?.updateValueAndValidity();
+        ram?.updateValueAndValidity();
+        disk?.updateValueAndValidity();
     }
 }

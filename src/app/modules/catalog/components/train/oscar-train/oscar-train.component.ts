@@ -87,9 +87,6 @@ export class OscarTrainComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
-        cvatFields: false,
-        ai4lifeFields: false,
-        batchFields: false,
     };
 
     showHardwareFields: ShowHardwareField = {

@@ -39,24 +39,6 @@ export interface ShowGeneralFormField {
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
     infoButton: boolean;
-    /**
-     * @deprecated cvatFields
-     */
-    cvatFields: boolean;
-    /**
-     * @deprecated ai4lifeFields
-     */
-    ai4lifeFields: boolean;
-    /**
-     * @deprecated LLM fields moved to app-llm-conf-form. This flag is no
-     * longer read by GeneralConfFormComponent; kept optional so existing
-     * consumers don't need to change until they migrate to the new component.
-     */
-    llmFields?: boolean;
-    /**
-     * @deprecated batch
-     */
-    batchFields: boolean;
 }
 
 @Component({
@@ -118,9 +100,6 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: false,
-        cvatFields: false,
-        ai4lifeFields: false,
-        batchFields: false,
     };
 
     @Input() set showFields(showFields: ShowGeneralFormField) {

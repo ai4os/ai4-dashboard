@@ -96,6 +96,10 @@ export class BatchConfFormComponent implements OnInit {
         this.batchConfFormGroup.get('batchFile')?.setValue(file);
     }
 
+    getBatchFile(): File {
+        return this.batchConfFormGroup.getRawValue().batchFile!;
+    }
+
     clearFileData(): void {
         this.batchConfFormGroup.get('batchFile')?.setValue(null);
         this.textManuallyModified = false;

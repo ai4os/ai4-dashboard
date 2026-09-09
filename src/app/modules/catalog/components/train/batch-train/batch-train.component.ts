@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     OnInit,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -10,7 +11,6 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import {
@@ -18,6 +18,7 @@ import {
     ModuleHardwareConfiguration,
     ModuleStorageConfiguration,
     ModuleConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -29,6 +30,9 @@ import { HardwareConfFormComponent } from '../../conf-forms/hardware-conf-form/h
 import { StorageConfFormComponent } from '../../conf-forms/storage-conf-form/storage-conf-form.component';
 import { MatDivider } from '@angular/material/divider';
 import { BatchConfFormComponent } from '../../conf-forms/batch-conf-form/batch-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 @Component({
     selector: 'app-batch-train',
@@ -50,6 +54,8 @@ export class BatchTrainComponent implements OnInit {
     private readonly _formBuilder = inject(FormBuilder);
     private readonly modulesService = inject(ModulesService);
     translateService = inject(TranslateService);
+    deploymentsService = inject(DeploymentsService);
+    snackbarService = inject(SnackbarService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
@@ -76,6 +82,15 @@ export class BatchTrainComponent implements OnInit {
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
 
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
+    @ViewChild(StorageConfFormComponent)
+    storageConfFormCmp!: StorageConfFormComponent;
+    @ViewChild(BatchConfFormComponent)
+    batchConfFormCmp!: BatchConfFormComponent;
+
     showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
         descriptionInput: true,
@@ -85,9 +100,6 @@ export class BatchTrainComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: false,
-        cvatFields: false,
-        ai4lifeFields: false,
-        batchFields: true,
     };
 
     service: string | undefined;
@@ -105,6 +117,7 @@ export class BatchTrainComponent implements OnInit {
     }
 
     loadGenericModule() {
+        this.showLoader = true;
         this.modulesService
             .getModuleNomadConfiguration('ai4os-demo-app')
             .subscribe((moduleConf: ModuleConfiguration) => {
@@ -144,11 +157,14 @@ export class BatchTrainComponent implements OnInit {
                     this.warningMessage =
                         this.hardwareConfDefaultValues.warning;
                 }
+
+                this.showLoader = false;
             });
     }
 
     loadSpecificModule() {
         this.route.parent?.params.subscribe((params) => {
+            this.showLoader = true;
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;
                 this.modulesService
@@ -170,6 +186,8 @@ export class BatchTrainComponent implements OnInit {
                             this.warningMessage =
                                 this.hardwareConfDefaultValues.warning;
                         }
+
+                        this.showLoader = false;
                     });
             });
         });
@@ -177,5 +195,41 @@ export class BatchTrainComponent implements OnInit {
 
     showHelpButtonChange(checked: boolean) {
         this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+            storage: this.storageConfFormCmp.getPayload(),
+        };
+
+        const batchFile = this.batchConfFormCmp.getBatchFile();
+
+        this.deploymentsService
+            .postBatchDeployment(request, batchFile)
+            .subscribe({
+                next: (result) => this.handleSuccess(result),
+                error: () => (this.showLoader = false),
+            });
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/batch']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Batch deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the batch deployment ' + result.error_msg
+            );
+        }
     }
 }

@@ -78,9 +78,6 @@ export class LlmComponent implements OnInit {
         dockerTagSelect: false,
         infoButton: true,
         co2EmissionsInput: false,
-        cvatFields: false,
-        ai4lifeFields: false,
-        batchFields: false,
     };
 
     ngOnInit(): void {

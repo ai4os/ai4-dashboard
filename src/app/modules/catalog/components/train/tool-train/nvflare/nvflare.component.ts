@@ -88,9 +88,6 @@ export class NvflareComponent implements OnInit {
         dockerTagSelect: false,
         infoButton: true,
         co2EmissionsInput: false,
-        cvatFields: false,
-        ai4lifeFields: false,
-        batchFields: false,
     };
 
     showHardwareFields: ShowHardwareField = {
@@ -110,6 +107,7 @@ export class NvflareComponent implements OnInit {
             this.toolsService.getTool(params['id']).subscribe((tool) => {
                 this.title = tool.title;
             });
+            this.showLoader = true;
             this.toolsService
                 .getNvflareConfiguration(params['id'])
                 .subscribe((toolConf: NvflareToolConfiguration) => {
@@ -125,6 +123,8 @@ export class NvflareComponent implements OnInit {
                         this.warningMessage =
                             this.hardwareConfDefaultValues.warning;
                     }
+
+                    this.showLoader = false;
                 });
         });
     }

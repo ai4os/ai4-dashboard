@@ -42,13 +42,14 @@ export class UiChipComponent implements OnInit {
     @Input() variant: ChipVariant = 'primary-solid';
     @Input() icon?: string;
     @Input() text?: string;
+    @Input() html?: string;
     @Input() tooltip?: string;
     @Input() disabled = false;
 
     ngOnInit(): void {
-        if (!this.icon && !this.text) {
+        if (!this.icon && !this.text && !this.html) {
             throw new Error(
-                'UiChipComponent: you should include either "icon" or "text".'
+                'UiChipComponent: you should include either "icon", "text", or "html".'
             );
         }
     }
