@@ -1,43 +1,41 @@
-<mat-toolbar class="mb-3 marketplace-toolbar">
-    <span class="aligned-with-icon">
-        {{ 'DEPLOYMENTS.TITLE' | translate }}
-        <mat-icon>view_in_ar</mat-icon>
-    </span>
-</mat-toolbar>
+<div class="content">
+    <app-ui-banner variant="primary" decoration="deployments">
+        <h1>
+            {{ 'DEPLOYMENTS.HEADER' | translate }}
+        </h1>
+    </app-ui-banner>
 
-<div class="tables-container">
-    <app-deployments-table
-        cardName="Modules"
-        cardIcon="model_training"
-        [isLoading]="isModulesTableLoading"
-        [dataset]="modulesDataset"
-        [dataSource]="modulesDataSource"
-        [datacentersNotifications]="displayedNotifications"
-        (showElementInfo)="openDeploymentDetailDialog($event, 'module')"
-        (deleteElement)="removeModule($event)"
-    ></app-deployments-table>
+    <div class="tables-container">
+        <!-- Modules -->
+        <app-deployments-table
+            [cardName]="'DEPLOYMENTS.MODULES' | translate"
+            [isLoading]="isModulesTableLoading"
+            [dataset]="modulesDataset"
+            [datacentersNotifications]="displayedNotifications"
+            (showElementInfo)="openDeploymentDetailDialog($event, 'module')"
+            (deleteElement)="removeModule($event)"
+        ></app-deployments-table>
 
-    <app-deployments-table
-        cardName="Tools"
-        cardIcon="handyman"
-        [showCardActions]="true"
-        [isLoading]="isToolsTableLoading"
-        deploymentType="tool"
-        [dataset]="toolsDataset"
-        [dataSource]="toolsDataSource"
-        [datacentersNotifications]="displayedNotifications"
-        (showElementInfo)="openDeploymentDetailDialog($event, 'tool')"
-        (deleteElement)="removeTool($event)"
-    ></app-deployments-table>
+        <!-- Tools -->
+        <app-deployments-table
+            [cardName]="'DEPLOYMENTS.TOOLS' | translate"
+            [showCardActions]="true"
+            [isLoading]="isToolsTableLoading"
+            deploymentType="tool"
+            [dataset]="toolsDataset"
+            [datacentersNotifications]="displayedNotifications"
+            (showElementInfo)="openDeploymentDetailDialog($event, 'tool')"
+            (deleteElement)="removeTool($event)"
+        ></app-deployments-table>
 
-    <app-deployments-table
-        cardName="Snapshots"
-        cardIcon="photo_camera"
-        [isLoading]="isSnapshotsTableLoading"
-        deploymentType="snapshot"
-        [dataset]="snapshotsDataset"
-        [dataSource]="snapshotsDataSource"
-        [columns]="snapshotColumns"
-        (deleteElement)="removeSnapshot($event)"
-    ></app-deployments-table>
+        <!-- Snapshots -->
+        <app-deployments-table
+            [cardName]="'DEPLOYMENTS.SNAPSHOTS' | translate"
+            [isLoading]="isSnapshotsTableLoading"
+            deploymentType="snapshot"
+            [dataset]="snapshotsDataset"
+            [columns]="snapshotColumns"
+            (deleteElement)="removeSnapshot($event)"
+        ></app-deployments-table>
+    </div>
 </div>

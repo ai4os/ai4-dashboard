@@ -329,6 +329,70 @@
             animation-delay: 1.6s;
         }
     }
+
+    /* =========================================
+       DEPLOYMENTS
+       ========================================= */
+    &__deployments {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+
+        --anchor-right: 44px;
+        --anchor-bottom: 26px;
+    }
+
+    &__deploy-bar {
+        position: absolute;
+        right: var(--anchor-right);
+        height: 7px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.3),
+            0 6px 16px rgba(var(--circle-shadow-rgb), 0.25);
+        overflow: hidden;
+
+        &--sm {
+            width: 34px;
+            bottom: calc(var(--anchor-bottom) + 16px);
+        }
+
+        &--md {
+            width: 54px;
+            bottom: calc(var(--anchor-bottom) + 32px);
+        }
+
+        &--lg {
+            width: 78px;
+            bottom: calc(var(--anchor-bottom) + 48px);
+        }
+    }
+
+    &__deploy-bar-fill {
+        display: block;
+        height: 100%;
+        width: 100%;
+        border-radius: inherit;
+        transform-origin: left center;
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 0 12px rgba(var(--circle-shadow-rgb), 0.5);
+        animation: deployBarFill 4s ease-in-out infinite;
+    }
+
+    &__deploy-bar--sm &__deploy-bar-fill {
+        animation-delay: 0s;
+    }
+
+    &__deploy-bar--md &__deploy-bar-fill {
+        animation-delay: 0.5s;
+    }
+
+    &__deploy-bar--lg &__deploy-bar-fill {
+        animation-delay: 1s;
+    }
 }
 
 @keyframes smoothFloat {
@@ -399,11 +463,31 @@
     }
 }
 
+@keyframes deployBarFill {
+    0% {
+        transform: scaleX(0);
+        opacity: 0.9;
+    }
+    60% {
+        transform: scaleX(1);
+        opacity: 0.9;
+    }
+    85% {
+        transform: scaleX(1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scaleX(0);
+        opacity: 0.1;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .ui-banner__circle,
     .ui-banner__modules-item,
     .ui-banner__llm-node,
-    .ui-banner__tool-item {
+    .ui-banner__tool-item,
+    .ui-banner__deploy-bar-fill {
         animation: none;
     }
 }

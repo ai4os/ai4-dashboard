@@ -7,9 +7,7 @@ import {
     inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import {
-    TableColumn,
     DeploymentTableRow,
     Deployment,
     StatusReturn,
@@ -19,17 +17,17 @@ import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { BatchService } from '../../services/batch.service';
 import { DeploymentDetailComponent } from '@app/modules/deployments/components/deployment-detail/deployment-detail.component';
 import { formatDate } from '@app/shared/utils/formatDate';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 
 @Component({
     selector: 'app-batch-list',
     templateUrl: './batch-list.component.html',
     styleUrl: './batch-list.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
+    imports: [DeploymentsTableComponent, TranslatePipe, UiBannerComponent],
 })
 export class BatchListComponent implements OnInit {
     dialog = inject(MatDialog);
@@ -46,16 +44,42 @@ export class BatchListComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: TableColumn[] = [
-        { columnDef: 'uuid', header: '', hidden: true },
-        { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
-        { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
-        { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
-        { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
+    columns: UiTableColumn<DeploymentTableRow>[] = [
+        {
+            key: 'name',
+            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
+            sticky: true,
+            sortable: true,
+            width: '260px',
+        },
+        {
+            key: 'status',
+            label: 'DEPLOYMENTS.STATUS',
+            align: 'center',
+            sortable: true,
+            width: '150px',
+        },
+        {
+            key: 'containerName',
+            label: 'DEPLOYMENTS.CONTAINER-NAME',
+            minWidth: '260px',
+        },
+        {
+            key: 'creationTime',
+            label: 'DEPLOYMENTS.CREATION-TIME',
+            align: 'center',
+            sortable: true,
+            width: '200px',
+        },
+        {
+            key: 'actions',
+            label: 'DEPLOYMENTS.ACTIONS',
+            align: 'right',
+            width: 'auto',
+        },
     ];
+
     dataset: DeploymentTableRow[] = [];
-    dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;
     mobileQuery: MediaQueryList;
@@ -64,9 +88,6 @@ export class BatchListComponent implements OnInit {
 
     ngOnInit(): void {
         this.dataset = [];
-        this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.dataset
-        );
         this.getServicesList();
     }
 
@@ -79,39 +100,40 @@ export class BatchListComponent implements OnInit {
             )
             .subscribe({
                 next: (deploymentsList: Deployment[]) => {
-                    this.dataset = [];
-                    deploymentsList.forEach((deployment: Deployment) => {
-                        const row: DeploymentTableRow = {
-                            uuid: deployment.job_ID,
-                            name: deployment.title,
-                            status: deployment.status,
-                            containerName: deployment.docker_image,
-                            gpus: '-',
-                            creationTime: formatDate(deployment.submit_time),
-                            endpoints: deployment.endpoints,
-                            mainEndpoint: deployment.main_endpoint,
-                            datacenter: deployment.datacenter,
-                        };
-                        if (deployment.error_msg) {
-                            row.error_msg = deployment.error_msg;
+                    this.dataset = deploymentsList.map(
+                        (deployment: Deployment): DeploymentTableRow => {
+                            const row: DeploymentTableRow = {
+                                uuid: deployment.job_ID,
+                                name: deployment.title,
+                                status: deployment.status,
+                                containerName: deployment.docker_image,
+                                gpus: '-',
+                                creationTime: formatDate(
+                                    deployment.submit_time
+                                ),
+                                endpoints: deployment.endpoints,
+                                mainEndpoint: deployment.main_endpoint,
+                                datacenter: deployment.datacenter,
+                            };
+
+                            if (deployment.error_msg) {
+                                row.error_msg = deployment.error_msg;
+                            }
+                            if (
+                                deployment.resources &&
+                                Object.keys(deployment.resources).length !== 0
+                            ) {
+                                row.gpus = deployment.resources.gpu_num;
+                            }
+
+                            return row;
                         }
-                        if (
-                            deployment.resources &&
-                            Object.keys(deployment.resources).length !== 0
-                        ) {
-                            row.gpus = deployment.resources.gpu_num;
-                        }
-                        this.dataset.push(row);
-                    });
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
+                    );
+
                     this.isLoading = false;
                 },
                 error: () => {
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>([]);
+                    this.dataset = [];
                     this.isLoading = false;
                 },
             });
@@ -125,10 +147,9 @@ export class BatchListComponent implements OnInit {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.dataset.splice(itemIndex, 1);
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
+
+                    this.dataset = [...this.dataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted batch deployment with uuid: ' +
                             uuid

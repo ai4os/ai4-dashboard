@@ -21,10 +21,7 @@ import { UiToggleComponent } from '@app/shared/components/ui/ui-toggle/ui-toggle
 import { Router } from '@angular/router';
 import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
 import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
-import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
-import { TrainModuleRequest } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { MatStepper, MatStep, MatStepLabel } from '@angular/material/stepper';

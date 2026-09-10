@@ -1,34 +1,18 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
-    OnDestroy,
     OnInit,
     Output,
-    ViewChild,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
-import {
-    MatTableDataSource,
-    MatTable,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatHeaderCell,
-    MatCellDef,
-    MatCell,
-    MatHeaderRowDef,
-    MatHeaderRow,
-    MatRowDef,
-    MatRow,
-    MatNoDataRow,
-} from '@angular/material/table';
-import { Subject } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatBadge } from '@angular/material/badge';
+import { MatIcon } from '@angular/material/icon';
 import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
@@ -36,7 +20,6 @@ import {
 import {
     DeploymentTableRow,
     Snapshot,
-    TableColumn,
 } from '@app/shared/interfaces/deployment.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { SecretManagementDetailComponent } from '@app/modules/deployments/components/secret-management-detail/secret-management-detail.component';
@@ -48,23 +31,22 @@ import {
     getDeploymentBadge,
     getSnapshotBadge,
 } from '@app/modules/deployments/utils/deployment-badge';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
 import { formatDate } from '@app/shared/utils/formatDate';
+
+import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
+import { UiButtonComponent } from '../ui/ui-button/ui-button.component';
+import { UiCardComponent } from '../ui/ui-card/ui-card.component';
+import { ChipVariant, UiChipComponent } from '../ui/ui-chip/ui-chip.component';
 import {
-    MatCard,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
-import { NgClass } from '@angular/common';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatButton } from '@angular/material/button';
-import { MatBadge } from '@angular/material/badge';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+    UiTableComponent,
+    UiTableColumn,
+    UiTableSortEvent,
+} from '../ui/ui-table/ui-table.component';
 
 @Component({
     selector: 'app-deployments-table',
@@ -72,33 +54,18 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     styleUrl: './deployments-table.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatCard,
+        UiCardComponent,
+        UiTableComponent,
+        UiTableCellDirective,
+        UiButtonComponent,
+        UiChipComponent,
         MatIcon,
-        MatCardContent,
-        MatTable,
-        MatSort,
-        MatColumnDef,
-        MatHeaderCellDef,
-        MatHeaderCell,
-        MatSortHeader,
-        MatCellDef,
-        MatCell,
-        NgClass,
         MatTooltip,
-        MatButton,
         MatBadge,
-        MatHeaderRowDef,
-        MatHeaderRow,
-        MatRowDef,
-        MatRow,
-        MatNoDataRow,
-        MatProgressSpinner,
-        MatCardActions,
-        RouterLink,
         TranslatePipe,
     ],
 })
-export class DeploymentsTableComponent implements OnInit, OnDestroy {
+export class DeploymentsTableComponent implements OnInit {
     dialog = inject(MatDialog);
     private snackbarService = inject(SnackbarService);
     private snapshotService = inject(SnapshotService);
@@ -115,9 +82,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
-    @ViewChild(MatSort) set matSort(sort: MatSort) {
-        this.dataSource.sort = sort;
-    }
+
     @Input() cardName = '';
     @Input() cardIcon?: string;
     @Input() cardImage?: string;
@@ -125,41 +90,97 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     @Input() deploymentType = 'module';
     @Input() isLoading = false;
     @Input() dataset: DeploymentTableRow[] = [];
-    @Input() dataSource!: MatTableDataSource<DeploymentTableRow>;
     @Input() datacentersNotifications: StatusNotification[] = [];
 
     @Output() showElementInfo = new EventEmitter<string>();
     @Output() deleteElement = new EventEmitter<string>();
 
-    @Input() columns: TableColumn[] = [
-        { columnDef: 'uuid', header: '', hidden: true },
-        { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
-        { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
-        { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
-        { columnDef: 'gpus', header: 'DEPLOYMENTS.GPUS' },
-        { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'endpoints', header: '', hidden: true },
-        { columnDef: 'description', header: '', hidden: true },
-        { columnDef: 'datacenter', header: '', hidden: true },
-        { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
-    ];
+    @Input() columns: UiTableColumn<DeploymentTableRow>[] = [
+        {
+            key: 'name',
+            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
+            sticky: true,
+            sortable: true,
+            width: '260px',
+        },
+        {
+            key: 'status',
+            label: 'DEPLOYMENTS.STATUS',
+            align: 'center',
+            sortable: true,
+            width: '150px',
+        },
+        // No `width`: grows to fill the leftover row space, same as the old
+        // `.mat-column-containerName` which only set a min-width.
+        {
+            key: 'containerName',
+            label: 'DEPLOYMENTS.CONTAINER-NAME',
+            minWidth: '260px',
+        },
+        {
+            key: 'gpus',
+            label: 'DEPLOYMENTS.GPUS',
+            align: 'center',
+            width: '120px',
+        },
+        {
+            key: 'creationTime',
+            label: 'DEPLOYMENTS.CREATION-TIME',
+            align: 'center',
+            sortable: true,
+            width: '200px',
+        },
+        // 'auto': sized to whatever icons actually render (count varies by
+        // deploymentType), and ends up flush against the right edge because
+        // containerName grows into all the space before it.
+        {
+            key: 'actions',
+            label: 'DEPLOYMENTS.ACTIONS',
+            align: 'center',
 
-    selection = new SelectionModel<DeploymentTableRow>(true, []);
-    displayedColumns: string[] = [];
-    private unsub = new Subject<void>();
+            width: 'auto',
+        },
+    ];
 
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
-    ngOnInit(): void {
-        this.displayedColumns = this.displayedColumns.concat(
-            this.columns.filter((x) => !x.hidden).map((x) => x.columnDef)
-        );
+    private sortState: UiTableSortEvent<DeploymentTableRow> | null = null;
+
+    ngOnInit(): void {}
+
+    /** Dataset sorted according to the ui-table header the user last clicked. */
+    get sortedDataset(): DeploymentTableRow[] {
+        if (!this.sortState?.direction) {
+            return this.dataset;
+        }
+
+        const { key, direction } = this.sortState;
+        return [...this.dataset].sort((a, b) => {
+            const valueA = a[key as keyof DeploymentTableRow];
+            const valueB = b[key as keyof DeploymentTableRow];
+
+            if (valueA == null) return 1;
+            if (valueB == null) return -1;
+            if (valueA < valueB) return direction === 'asc' ? -1 : 1;
+            if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+            return 0;
+        });
+    }
+
+    onSortChange(event: UiTableSortEvent<DeploymentTableRow>): void {
+        this.sortState = event;
+    }
+
+    trackByUuid = (_: number, row: DeploymentTableRow) => row.uuid;
+
+    goToNewDevEnv(): void {
+        this.router.navigate(['/catalog/tools/ai4os-dev-env/deploy']);
     }
 
     openDeploymentDetailDialog(row: DeploymentTableRow): void {
         if (this.deploymentType === 'snapshot') {
-            const snapshot: Snapshot = {
+            this.openSnapshotDetailDialog({
                 snapshot_ID: row.snapshot_ID!,
                 title: row.name,
                 status: row.status!,
@@ -169,8 +190,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
                 nomad_ID: '',
                 description: row.description,
                 error_msg: row.error_msg,
-            };
-            this.openSnapshotDetailDialog(snapshot);
+            });
         } else {
             this.showElementInfo.emit(row.uuid);
         }
@@ -200,7 +220,7 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(SecretManagementDetailComponent, {
             data: { uuid: row.uuid, name: row.name },
-            width: width,
+            width,
             maxWidth: width,
             minWidth: width,
             autoFocus: false,
@@ -211,8 +231,8 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
     openSnapshotDetailDialog(snapshot: Snapshot): void {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(SnapshotDetailComponent, {
-            data: { snapshot: snapshot },
-            width: width,
+            data: { snapshot },
+            width,
             maxWidth: width,
             minWidth: width,
             autoFocus: false,
@@ -228,69 +248,90 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
         return row.containerName?.includes('ai4os-federated-server');
     }
 
-    getDeploymentEndpoints(row: DeploymentTableRow) {
-        return row.endpoints;
-    }
-
     getMainEndpoint(row: DeploymentTableRow) {
         if (this.deploymentType === 'try-me') {
             return row.endpoints?.ui;
-        } else {
-            const mainEndpoint = row.mainEndpoint;
-            if (mainEndpoint && row.endpoints && row.endpoints[mainEndpoint]) {
-                return row.endpoints[mainEndpoint];
-            } else {
-                return '';
-            }
         }
+        const mainEndpoint = row.mainEndpoint;
+        if (mainEndpoint && row.endpoints?.[mainEndpoint]) {
+            return row.endpoints[mainEndpoint];
+        }
+        return '';
+    }
+
+    showQuickAccess(): boolean {
+        return (
+            this.deploymentType !== 'inference' &&
+            this.deploymentType !== 'snapshot' &&
+            this.deploymentType !== 'batch'
+        );
+    }
+
+    showSnapshotAction(row: DeploymentTableRow): boolean {
+        return (
+            this.deploymentType === 'module' ||
+            !!row.containerName?.includes('ai4os-dev-env')
+        );
     }
 
     hasDeploymentErrors(row: DeploymentTableRow) {
-        return row.error_msg;
+        return !!row.error_msg;
     }
 
     hasDatacenterUnderMaintenance(row: DeploymentTableRow) {
-        return (
-            row.datacenter &&
-            this.datacentersNotifications.find((n) =>
-                n.datacenters?.includes(row.datacenter!)
-            )
-        );
+        return !!this.findMaintenanceNotification(row);
     }
 
     getMaintenanceInfo(row: DeploymentTableRow): string {
-        let info = '';
-        const datacenterNotification = this.datacentersNotifications.find((n) =>
-            n.datacenters?.includes(row.datacenter!)
-        );
-        if (datacenterNotification) {
-            info = this.translateService.instant(
-                'DEPLOYMENTS.DATACENTER-DOWNTIME-NOTIFICATION',
-                {
-                    datacenter: row.datacenter,
-                    startDate:
-                        datacenterNotification.downtimeStart?.toLocaleDateString(
-                            'es-ES'
-                        ),
-                    endDate:
-                        datacenterNotification.downtimeEnd?.toLocaleDateString(
-                            'es-ES'
-                        ),
-                }
-            );
+        const notification = this.findMaintenanceNotification(row);
+        if (!notification) {
+            return '';
         }
-        return info;
+        return this.translateService.instant(
+            'DEPLOYMENTS.DATACENTER-DOWNTIME-NOTIFICATION',
+            {
+                datacenter: row.datacenter,
+                startDate:
+                    notification.downtimeStart?.toLocaleDateString('es-ES'),
+                endDate: notification.downtimeEnd?.toLocaleDateString('es-ES'),
+            }
+        );
     }
 
-    returnDeploymentBadge(status: string) {
-        let badge = getDeploymentBadge(status);
-        if (
+    private findMaintenanceNotification(row: DeploymentTableRow) {
+        return this.datacentersNotifications.find((n) =>
+            n.datacenters?.includes(row.datacenter!)
+        );
+    }
+
+    /**
+     * Semantic color for the status ui-chip. Reuses the existing shields.io
+     * badge logic so the underlying business rules for each status don't
+     * have to be re-implemented here, and just remaps the resulting badge
+     * color name to one of ui-chip's semantic colors.
+     */
+    getStatusChipColor(row: DeploymentTableRow): ChipVariant {
+        const badge =
             this.deploymentType === 'snapshot' ||
             this.deploymentType === 'batch'
-        ) {
-            badge = getSnapshotBadge(status);
-        }
-        return badge;
+                ? getSnapshotBadge(row.status!)
+                : getDeploymentBadge(row.status!);
+
+        const shieldColor = badge.split('-').pop() ?? '';
+        const colorMap: Record<string, ChipVariant> = {
+            green: 'success-solid',
+            brightgreen: 'success-solid',
+            red: 'danger-solid',
+            orange: 'warning-solid',
+            yellow: 'warning-solid',
+            blue: 'primary-solid',
+            grey: 'default-solid',
+            gray: 'default-solid',
+            lightgrey: 'default-solid',
+            lightgray: 'default-solid',
+        };
+
+        return colorMap[shieldColor] ?? 'neutral';
     }
 
     createSnapshot(e: Event, row: DeploymentTableRow) {
@@ -308,26 +349,27 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
             })
             .afterClosed()
             .subscribe((confirmed: boolean) => {
-                if (confirmed) {
-                    this.snapshotService.createSnapshot(row.uuid).subscribe({
-                        next: (response: StatusReturnSnapshot) => {
-                            if (response && response['status'] == 'success') {
-                                this.snackbarService.openSuccess(
-                                    'Successfully created snapshot of deployment with uuid: ' +
-                                        row.uuid
-                                );
-                            } else {
-                                this.snackbarService.openError(
-                                    'Error creating snapshot of deployment with uuid: ' +
-                                        row.uuid
-                                );
-                            }
-                        },
-                        error: (error) => {
-                            this.snackbarService.openError(error);
-                        },
-                    });
+                if (!confirmed) {
+                    return;
                 }
+                this.snapshotService.createSnapshot(row.uuid).subscribe({
+                    next: (response: StatusReturnSnapshot) => {
+                        if (response?.status === 'success') {
+                            this.snackbarService.openSuccess(
+                                'Successfully created snapshot of deployment with uuid: ' +
+                                    row.uuid
+                            );
+                        } else {
+                            this.snackbarService.openError(
+                                'Error creating snapshot of deployment with uuid: ' +
+                                    row.uuid
+                            );
+                        }
+                    },
+                    error: (error) => {
+                        this.snackbarService.openError(error);
+                    },
+                });
             });
     }
 
@@ -359,14 +401,5 @@ export class DeploymentsTableComponent implements OnInit, OnDestroy {
             'https://docs.ai4os.eu/en/latest/howtos/train/batch.html',
             '_blank'
         );
-    }
-
-    isSticky(columnDef: string): boolean {
-        return columnDef === 'name' ? true : false;
-    }
-
-    ngOnDestroy(): void {
-        this.unsub.next();
-        this.unsub.complete();
     }
 }

@@ -7,27 +7,24 @@ import {
     inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { InferenceDetailComponent } from '../inference-detail/inference-detail.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import {
-    TableColumn,
-    DeploymentTableRow,
-} from '@app/shared/interfaces/deployment.interface';
+import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
 import { timer, takeUntil, switchMap, Subject } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
+import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 
 @Component({
     selector: 'app-inferences-list',
     templateUrl: './inferences-list.component.html',
+    styleUrl: './inferences-list.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
+    imports: [TranslatePipe, UiBannerComponent, DeploymentsTableComponent],
 })
 export class InferencesListComponent implements OnInit {
     dialog = inject(MatDialog);
@@ -44,15 +41,35 @@ export class InferencesListComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: TableColumn[] = [
-        { columnDef: 'uuid', header: '', hidden: true },
-        { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
-        { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
-        { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
+    columns: UiTableColumn<DeploymentTableRow>[] = [
+        {
+            key: 'name',
+            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
+            sticky: true,
+            sortable: true,
+            width: '260px',
+        },
+        {
+            key: 'containerName',
+            label: 'DEPLOYMENTS.CONTAINER-NAME',
+            minWidth: '260px',
+        },
+        {
+            key: 'creationTime',
+            label: 'DEPLOYMENTS.CREATION-TIME',
+            align: 'center',
+            sortable: true,
+            width: '200px',
+        },
+        {
+            key: 'actions',
+            label: 'DEPLOYMENTS.ACTIONS',
+            width: 'auto',
+            align: 'right',
+        },
     ];
+
     dataset: DeploymentTableRow[] = [];
-    dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;
     mobileQuery: MediaQueryList;
@@ -61,9 +78,6 @@ export class InferencesListComponent implements OnInit {
 
     ngOnInit(): void {
         this.dataset = [];
-        this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.dataset
-        );
         this.getServicesList();
     }
 
@@ -76,29 +90,20 @@ export class InferencesListComponent implements OnInit {
             )
             .subscribe({
                 next: (servicesList: OscarService[]) => {
-                    this.dataset = [];
-                    servicesList.forEach((service: OscarService) => {
-                        service.title =
-                            service.environment.variables.PAPI_TITLE;
-                        service.submit_time =
-                            service.environment.variables.PAPI_CREATED;
-                        const row: DeploymentTableRow = {
+                    this.dataset = servicesList.map((service: OscarService) => {
+                        return {
                             uuid: service.name,
-                            name: service.title,
+                            name: service.environment.variables.PAPI_TITLE,
                             containerName: service.image,
-                            creationTime: formatDate(service.submit_time),
+                            creationTime: formatDate(
+                                service.environment.variables.PAPI_CREATED
+                            ),
                         };
-                        this.dataset.push(row);
                     });
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
                     this.isLoading = false;
                 },
                 error: () => {
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>([]);
+                    this.dataset = [];
                     this.isLoading = false;
                 },
             });
@@ -112,19 +117,12 @@ export class InferencesListComponent implements OnInit {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.dataset.splice(itemIndex, 1);
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
+                    this.dataset = [...this.dataset];
                     this.isLoading = false;
                     this.snackbarService.openSuccess(
                         'Successfully deleted service with uuid: ' + uuid
                     );
                 } else {
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
                     this.isLoading = false;
                     this.snackbarService.openError(
                         'Error deleting service with uuid: ' + uuid
@@ -132,9 +130,6 @@ export class InferencesListComponent implements OnInit {
                 }
             },
             error: () => {
-                this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-                    this.dataset
-                );
                 this.isLoading = false;
                 this.snackbarService.openError(
                     'Error deleting service with uuid: ' + uuid

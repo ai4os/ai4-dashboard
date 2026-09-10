@@ -7,36 +7,36 @@ import {
     inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { TryMeService } from '../../services/try-me.service';
 import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import {
     DeploymentTableRow,
     StatusReturn,
-    TableColumn,
 } from '@app/shared/interfaces/deployment.interface';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
+
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 
 @Component({
     selector: 'app-try-me-list',
     templateUrl: './try-me-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
+    imports: [DeploymentsTableComponent, TranslatePipe, UiBannerComponent],
 })
 export class TryMeListComponent implements OnInit {
     tryMeService = inject(TryMeService);
     dialog = inject(MatDialog);
     confirmationDialog = inject(MatDialog);
-    private snackbarService = inject(SnackbarService);
-    private media = inject(MediaMatcher);
-    private changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly snackbarService = inject(SnackbarService);
+    private readonly media = inject(MediaMatcher);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
     constructor() {
         const changeDetectorRef = this.changeDetectorRef;
@@ -46,30 +46,51 @@ export class TryMeListComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    columns: TableColumn[] = [
-        { columnDef: 'uuid', header: '', hidden: true },
-        { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
-        { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
-        { columnDef: 'containerName', header: 'DEPLOYMENTS.CONTAINER-NAME' },
-        { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'endpoints', header: '', hidden: true },
-        { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
+    columns: UiTableColumn<DeploymentTableRow>[] = [
+        {
+            key: 'name',
+            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
+            sticky: true,
+            sortable: true,
+            width: '260px',
+        },
+        {
+            key: 'status',
+            label: 'DEPLOYMENTS.STATUS',
+            align: 'center',
+            sortable: true,
+            width: '150px',
+        },
+        {
+            key: 'containerName',
+            label: 'DEPLOYMENTS.CONTAINER-NAME',
+            minWidth: '260px',
+        },
+        {
+            key: 'creationTime',
+            label: 'DEPLOYMENTS.CREATION-TIME',
+            align: 'center',
+            sortable: true,
+            width: '200px',
+        },
+        {
+            key: 'actions',
+            label: 'DEPLOYMENTS.ACTIONS',
+            width: 'auto',
+            align: 'right',
+        },
     ];
 
     dataset: DeploymentTableRow[] = [];
-    dataSource!: MatTableDataSource<DeploymentTableRow>;
 
     isLoading = false;
     mobileQuery: MediaQueryList;
 
-    private _mobileQueryListener: () => void;
-    private unsub = new Subject<void>();
+    private readonly _mobileQueryListener: () => void;
+    private readonly unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.dataset = [];
-        this.dataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.dataset
-        );
         this.getTryMeDeploymentsList();
     }
 
@@ -83,27 +104,20 @@ export class TryMeListComponent implements OnInit {
             )
             .subscribe({
                 next: (deploymentsList: GradioDeployment[]) => {
-                    this.dataset = [];
-                    deploymentsList.forEach((deployment: GradioDeployment) => {
-                        const row: DeploymentTableRow = {
+                    this.dataset = deploymentsList.map(
+                        (deployment: GradioDeployment): DeploymentTableRow => ({
                             uuid: deployment.job_ID,
                             name: deployment.title,
                             status: deployment.status,
                             containerName: deployment.docker_image,
                             creationTime: formatDate(deployment.submit_time),
                             endpoints: deployment.endpoints,
-                        };
-                        this.dataset.push(row);
-                    });
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
+                        })
+                    );
                     this.isLoading = false;
                 },
                 error: () => {
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>([]);
+                    this.dataset = [];
                     this.isLoading = false;
                 },
             });
@@ -117,10 +131,6 @@ export class TryMeListComponent implements OnInit {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.dataset.splice(itemIndex, 1);
-                    this.dataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.dataset
-                        );
                     this.snackbarService.openSuccess(
                         'Successfully deleted deployment with uuid: ' + uuid
                     );

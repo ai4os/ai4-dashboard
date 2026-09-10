@@ -1,19 +1,17 @@
-<mat-toolbar class="mb-3">
-    <span class="aligned-with-icon">
-        {{ 'INFERENCE.TITLE-HEADER' | translate }}
-        <mat-icon> rule_settings </mat-icon>
-    </span>
-</mat-toolbar>
+<div class="content">
+    <app-ui-banner variant="primary" decoration="deployments">
+        <h1>
+            {{ 'INFERENCE.HEADER' | translate }}
+        </h1>
+    </app-ui-banner>
 
-<app-deployments-table
-    cardName="{{ 'INFERENCE.OSCAR' | translate }}"
-    cardImage="oscar-logo.png"
-    deploymentType="inference"
-    [showCardActions]="false"
-    [isLoading]="isLoading"
-    [dataset]="dataset"
-    [dataSource]="dataSource"
-    [columns]="columns"
-    (showElementInfo)="openServiceDetailDialog($event)"
-    (deleteElement)="removeService($event)"
-></app-deployments-table>
+    <app-deployments-table
+        deploymentType="inference"
+        [showCardActions]="false"
+        [isLoading]="isLoading"
+        [dataset]="dataset"
+        [columns]="columns"
+        (showElementInfo)="openServiceDetailDialog($event)"
+        (deleteElement)="removeService($event)"
+    ></app-deployments-table>
+</div>

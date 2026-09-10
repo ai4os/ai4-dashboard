@@ -1,19 +1,17 @@
-<mat-toolbar class="mb-3">
-    <span class="aligned-with-icon">
-        {{ 'TRY-ME.TITLE-HEADER' | translate }}
-        <mat-icon> ads_click </mat-icon>
-    </span>
-</mat-toolbar>
+<div class="content">
+    <app-ui-banner variant="primary" decoration="deployments">
+        <h1>
+            {{ 'TRY-ME.HEADER' | translate }}
+        </h1>
+    </app-ui-banner>
 
-<app-deployments-table
-    cardName="{{ 'TRY-ME.GRADIO' | translate }}"
-    cardImage="gradio-logo.png"
-    deploymentType="try-me"
-    [showCardActions]="false"
-    [isLoading]="isLoading"
-    [dataset]="dataset"
-    [dataSource]="dataSource"
-    [columns]="columns"
-    (showElementInfo)="openTryMeDetailDialog($event)"
-    (deleteElement)="removeTryMe($event)"
-></app-deployments-table>
+    <app-deployments-table
+        deploymentType="try-me"
+        [showCardActions]="false"
+        [isLoading]="isLoading"
+        [dataset]="dataset"
+        [columns]="columns"
+        (showElementInfo)="openTryMeDetailDialog($event)"
+        (deleteElement)="removeTryMe($event)"
+    ></app-deployments-table>
+</div>

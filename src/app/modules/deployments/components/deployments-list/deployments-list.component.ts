@@ -7,14 +7,12 @@ import {
     inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import {
     Deployment,
     DeploymentTableRow,
     Snapshot,
-    TableColumn,
     StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { Subject, switchMap, takeUntil, timer } from 'rxjs';
@@ -32,16 +30,17 @@ import {
 } from '@app/shared/interfaces/platform-status.interface';
 import * as yaml from 'js-yaml';
 import { formatDate } from '@app/shared/utils/formatDate';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+
+import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 
 @Component({
     selector: 'app-deployments-list',
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
+    imports: [DeploymentsTableComponent, TranslatePipe, UiBannerComponent],
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
     deploymentsService = inject(DeploymentsService);
@@ -60,24 +59,45 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    snapshotColumns: TableColumn[] = [
-        { columnDef: 'uuid', header: '', hidden: true },
-        { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
-        { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
+    snapshotColumns: UiTableColumn<DeploymentTableRow>[] = [
         {
-            columnDef: 'containerName',
-            header: 'DEPLOYMENTS.CONTAINER-NAME',
-            hidden: true,
+            key: 'name',
+            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
+            sticky: true,
+            sortable: true,
+            width: '260px',
         },
         {
-            columnDef: 'tagName',
-            header: 'DEPLOYMENTS.TAG-NAME',
+            key: 'status',
+            label: 'DEPLOYMENTS.STATUS',
+            align: 'center',
+            sortable: true,
+            width: '150px',
         },
-        { columnDef: 'size', header: 'DEPLOYMENTS.SIZE' },
-        { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'endpoints', header: '', hidden: true },
-        { columnDef: 'snapshot_ID', header: '', hidden: true },
-        { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
+        {
+            key: 'tagName',
+            label: 'DEPLOYMENTS.TAG-NAME',
+            minWidth: '260px',
+        },
+        {
+            key: 'size',
+            label: 'DEPLOYMENTS.SIZE',
+            align: 'center',
+            width: '120px',
+        },
+        {
+            key: 'creationTime',
+            label: 'DEPLOYMENTS.CREATION-TIME',
+            align: 'center',
+            sortable: true,
+            width: '200px',
+        },
+        {
+            key: 'actions',
+            label: 'DEPLOYMENTS.ACTIONS',
+            align: 'right',
+            width: 'auto',
+        },
     ];
 
     isModulesTableLoading = false;
@@ -92,27 +112,14 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     toolsDataset: DeploymentTableRow[] = [];
     snapshotsDataset: DeploymentTableRow[] = [];
 
-    modulesDataSource!: MatTableDataSource<DeploymentTableRow>;
-    toolsDataSource!: MatTableDataSource<DeploymentTableRow>;
-    snapshotsDataSource!: MatTableDataSource<DeploymentTableRow>;
-
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-    private unsub = new Subject<void>();
+    private readonly _mobileQueryListener: () => void;
+    private readonly unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.modulesDataset = [];
-        this.modulesDataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.modulesDataset
-        );
         this.toolsDataset = [];
-        this.toolsDataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.toolsDataset
-        );
         this.snapshotsDataset = [];
-        this.snapshotsDataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.snapshotsDataset
-        );
 
         this.getModulesList();
         this.getToolsList();
@@ -210,10 +217,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     JSON.stringify(updatedModulesDataset)
                 ) {
                     this.modulesDataset = updatedModulesDataset;
-                    this.modulesDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.modulesDataset
-                        );
                 }
                 this.checkAndUpdateNotifications();
             });
@@ -227,10 +230,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.modulesDataset.splice(itemIndex, 1);
-                    this.modulesDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.modulesDataset
-                        );
+                    this.modulesDataset = [...this.modulesDataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted deployment with uuid: ' + uuid
                     );
@@ -288,10 +289,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     JSON.stringify(updatedToolsDataset)
                 ) {
                     this.toolsDataset = updatedToolsDataset;
-                    this.toolsDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.toolsDataset
-                        );
                 }
                 this.checkAndUpdateNotifications();
             });
@@ -305,10 +302,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.toolsDataset.splice(itemIndex, 1);
-                    this.toolsDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.toolsDataset
-                        );
+                    this.toolsDataset = [...this.toolsDataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted tool with uuid: ' + uuid
                     );
@@ -336,7 +331,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                 switchMap(() => this.snapshotService.getSnapshots())
             )
             .subscribe((snapshots) => {
-                this.snapshotsDataset = [];
+                const updatedSnapshotsDataset: DeploymentTableRow[] = [];
                 this.isSnapshotsTableLoading = false;
                 snapshots.forEach((snapshot: Snapshot) => {
                     const size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
@@ -354,12 +349,9 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                     if (snapshot.error_msg) {
                         row.error_msg = snapshot.error_msg;
                     }
-                    this.snapshotsDataset.push(row);
+                    updatedSnapshotsDataset.push(row);
                 });
-                this.snapshotsDataSource =
-                    new MatTableDataSource<DeploymentTableRow>(
-                        this.snapshotsDataset
-                    );
+                this.snapshotsDataset = updatedSnapshotsDataset;
             });
     }
 
@@ -371,10 +363,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.snapshotsDataset.splice(itemIndex, 1);
-                    this.snapshotsDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.snapshotsDataset
-                        );
+                    this.snapshotsDataset = [...this.snapshotsDataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted snapshot with uuid: ' + uuid
                     );

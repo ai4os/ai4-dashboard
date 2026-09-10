@@ -1,42 +1,72 @@
-<div class="ui-table" role="table">
-    <div class="ui-table__header" role="row">
+<div class="ui-table">
+    <div
+        class="ui-table__scroll"
+        [style.grid-template-columns]="gridTemplateColumns"
+    >
         @for (col of columns; track col.key) {
             <div
                 class="ui-table__header-cell"
                 [class.ui-table__header-cell--center]="col.align === 'center'"
                 [class.ui-table__header-cell--right]="col.align === 'right'"
-                [style.flex]="col.width ? '0 0 ' + col.width : '1'"
+                [class.ui-table__header-cell--sticky]="col.sticky"
+                [class.ui-table__header-cell--sortable]="col.sortable"
                 role="columnheader"
+                (click)="onHeaderClick(col)"
+                (keypress)="onHeaderClick(col)"
             >
                 {{ col.label | translate }}
-            </div>
-        }
-    </div>
-
-    @if (data.length === 0) {
-        <div class="ui-table__empty">{{ emptyMessage | translate }}</div>
-    } @else {
-        @for (row of data; track trackByFn($index, row)) {
-            <div class="ui-table__row" role="row">
-                @for (col of columns; track col.key) {
-                    <div
-                        class="ui-table__cell"
-                        [class.ui-table__cell--center]="col.align === 'center'"
-                        [class.ui-table__cell--right]="col.align === 'right'"
-                        [style.flex]="col.width ? '0 0 ' + col.width : '1'"
-                        role="cell"
+                @if (col.sortable) {
+                    <span
+                        class="ui-table__sort-icon"
+                        [class.ui-table__sort-icon--active]="
+                            sortKey === col.key
+                        "
                     >
-                        @if (getTemplate(col.key.toString()); as tpl) {
-                            <ng-container
-                                [ngTemplateOutlet]="tpl.template"
-                                [ngTemplateOutletContext]="{ $implicit: row }"
-                            ></ng-container>
+                        @if (sortKey === col.key && sortDirection === 'desc') {
+                            ▼
                         } @else {
-                            {{ row[col.key] }}
+                            ▲
                         }
-                    </div>
+                    </span>
                 }
             </div>
         }
-    }
+
+        @if (loading) {
+            <div class="ui-table__loading">
+                <app-ui-loader />
+            </div>
+        } @else if (data.length === 0) {
+            <div class="ui-table__empty">{{ emptyMessage | translate }}</div>
+        } @else {
+            @for (row of data; track trackByFn($index, row)) {
+                <div class="ui-table__row" role="row">
+                    @for (col of columns; track col.key) {
+                        <div
+                            class="ui-table__cell"
+                            [class.ui-table__cell--center]="
+                                col.align === 'center'
+                            "
+                            [class.ui-table__cell--right]="
+                                col.align === 'right'
+                            "
+                            [class.ui-table__cell--sticky]="col.sticky"
+                            role="cell"
+                        >
+                            @if (getTemplate(col.key.toString()); as tpl) {
+                                <ng-container
+                                    [ngTemplateOutlet]="tpl.template"
+                                    [ngTemplateOutletContext]="{
+                                        $implicit: row,
+                                    }"
+                                ></ng-container>
+                            } @else {
+                                {{ row[col.key] }}
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
 </div>
