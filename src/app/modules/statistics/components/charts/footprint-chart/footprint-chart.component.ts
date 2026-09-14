@@ -15,6 +15,14 @@ import { NgxEchartsDirective } from 'ngx-echarts';
 export class FootprintChartComponent {
     @Input() title = '';
     @Input() tooltip?: string = '';
+    @Input() set colors(colors: string[]) {
+        if (colors && colors.length > 0) {
+            this._colors = colors.map((color) =>
+                color.startsWith('--') ? getCssVar(color) : color
+            );
+            this.updateChart();
+        }
+    }
     @Input() set unit(unit: string) {
         this._unit = unit;
         this.updateChart();
@@ -37,14 +45,14 @@ export class FootprintChartComponent {
     protected _timestamps: string[] = [];
     protected _values: number[][] = [];
 
-    protected colours = [
+    protected _colors = [
         getCssVar('--accent'),
         getCssVar('--primary'),
         getCssVar('--secondary'),
     ];
 
     protected echartOptions: EChartsOption = {
-        color: this.colours,
+        color: this._colors,
         grid: {
             top: 12,
             right: 40,
@@ -85,6 +93,7 @@ export class FootprintChartComponent {
 
         this.echartOptions = {
             ...this.echartOptions,
+            color: this._colors,
             legend: {
                 ...(this.echartOptions.legend as object),
                 data: this._legend,

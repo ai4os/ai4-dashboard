@@ -14,6 +14,7 @@ const routes: Routes = [
     {
         path: ':uuid',
         component: DeploymentDetailComponent,
+        data: { type: 'module' },
     },
 ];
 

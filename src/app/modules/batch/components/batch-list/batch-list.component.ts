@@ -21,6 +21,7 @@ import { DeploymentsTableComponent } from '../../../../shared/components/deploym
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-batch-list',
@@ -31,6 +32,9 @@ import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner
 })
 export class BatchListComponent implements OnInit {
     dialog = inject(MatDialog);
+    router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+
     confirmationDialog = inject(MatDialog);
     snackbarService = inject(SnackbarService);
     batchService = inject(BatchService);
@@ -79,12 +83,14 @@ export class BatchListComponent implements OnInit {
         },
     ];
 
+    readonly batchDetailRouteBase = '/tasks/batch';
+
     dataset: DeploymentTableRow[] = [];
 
     isLoading = false;
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-    private unsub = new Subject<void>();
+    private readonly _mobileQueryListener: () => void;
+    private readonly unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.dataset = [];
@@ -114,6 +120,18 @@ export class BatchListComponent implements OnInit {
                                 endpoints: deployment.endpoints,
                                 mainEndpoint: deployment.main_endpoint,
                                 datacenter: deployment.datacenter,
+                                energy: deployment.energy
+                                    ? {
+                                          power_w: (deployment.energy as any)
+                                              .power_w,
+                                          energy_wh: (deployment.energy as any)
+                                              .energy_wh,
+                                          carbon_g: (deployment.energy as any)
+                                              .carbon_g,
+                                          water_l: (deployment.energy as any)
+                                              .water_l,
+                                      }
+                                    : null,
                             };
 
                             if (deployment.error_msg) {
@@ -168,15 +186,7 @@ export class BatchListComponent implements OnInit {
         });
     }
 
-    openDeploymentDetailDialog(uuid: string): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: uuid, type: 'batch' },
-            width: width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
-        });
+    openDeploymentDetail(uuid: string): void {
+        this.router.navigate([uuid], { relativeTo: this.route });
     }
 }

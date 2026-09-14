@@ -12,7 +12,7 @@
             [isLoading]="isModulesTableLoading"
             [dataset]="modulesDataset"
             [datacentersNotifications]="displayedNotifications"
-            (showElementInfo)="openDeploymentDetailDialog($event, 'module')"
+            [detailRouteBase]="detailRouteBase"
             (deleteElement)="removeModule($event)"
         ></app-deployments-table>
 
@@ -24,7 +24,7 @@
             deploymentType="tool"
             [dataset]="toolsDataset"
             [datacentersNotifications]="displayedNotifications"
-            (showElementInfo)="openDeploymentDetailDialog($event, 'tool')"
+            [detailRouteBase]="detailRouteBase"
             (deleteElement)="removeTool($event)"
         ></app-deployments-table>
 

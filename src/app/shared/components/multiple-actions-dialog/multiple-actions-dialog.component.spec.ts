@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MultipleActionsDialogComponent } from './multiple-actions-dialog.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { mockDialogRef } from '@app/shared/mocks/mat-dialog.mock';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { testProviders } from '@testing/test-providers';
 
 describe('MultipleActionsDialogComponent', () => {
     let component: MultipleActionsDialogComponent;
@@ -14,8 +16,13 @@ describe('MultipleActionsDialogComponent', () => {
     };
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MultipleActionsDialogComponent],
+            imports: [
+                MultipleActionsDialogComponent,
+                TranslatePipe,
+                TranslateDirective,
+            ],
             providers: [
+                ...testProviders,
                 { provide: MatDialogRef, useValue: mockDialogRef },
                 { provide: MAT_DIALOG_DATA, useValue: mockedData },
             ],

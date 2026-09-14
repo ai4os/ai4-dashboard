@@ -59,7 +59,6 @@
         border-radius: var(--radius-pill);
     }
 
-    /* Comportamiento responsivo original */
     @media (max-width: 640px) {
         flex-direction: column;
         align-items: flex-start;

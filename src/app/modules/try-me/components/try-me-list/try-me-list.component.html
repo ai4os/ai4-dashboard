@@ -11,7 +11,7 @@
         [isLoading]="isLoading"
         [dataset]="dataset"
         [columns]="columns"
-        (showElementInfo)="openTryMeDetailDialog($event)"
+        [detailRouteBase]="tryDetailRouteBase"
         (deleteElement)="removeTryMe($event)"
     ></app-deployments-table>
 </div>

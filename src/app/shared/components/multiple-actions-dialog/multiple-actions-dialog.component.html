@@ -1,10 +1,48 @@
-<h1 mat-dialog-title>Confirm your action</h1>
-<div mat-dialog-content>
-    <p>{{ data.title }}</p>
-</div>
-<div mat-dialog-actions align="end">
-    <button mat-stroked-button (click)="onActionA()">{{ data.optionA }}</button>
-    <button mat-stroked-button (click)="onActionB()">
-        {{ data.optionB }}
-    </button>
+<div class="multiple-actions-dialog">
+    <div class="multiple-actions-dialog__top-accent"></div>
+
+    @if (showCloseButton) {
+        <button
+            class="multiple-actions-dialog__close"
+            type="button"
+            (click)="close()"
+            [attr.aria-label]="'GENERAL.CLOSE' | translate"
+        >
+            <mat-icon>close</mat-icon>
+        </button>
+    }
+
+    @if (icon) {
+        <div class="multiple-actions-dialog__icon-box">
+            <mat-icon class="multiple-actions-dialog__icon">{{
+                icon
+            }}</mat-icon>
+        </div>
+    }
+
+    <h1 mat-dialog-title class="multiple-actions-dialog__title">
+        {{ data.title | translate }}
+    </h1>
+
+    <div mat-dialog-content class="multiple-actions-dialog__content">
+        <p>
+            {{ data.subtitle | translate }}
+        </p>
+    </div>
+
+    <div mat-dialog-actions class="multiple-actions-dialog__actions">
+        <app-ui-button
+            id="optionA"
+            variant="primary-outline"
+            [text]="data.optionA"
+            (click)="onActionA()"
+        ></app-ui-button>
+
+        <app-ui-button
+            id="optionB"
+            variant="accent-outline"
+            [text]="data.optionB"
+            (click)="onActionB()"
+        ></app-ui-button>
+    </div>
 </div>

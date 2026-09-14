@@ -101,6 +101,7 @@ export class NomadTrainComponent implements OnInit {
 
     loadGenericModule() {
         this.moduleName = 'ai4os-demo-app';
+        this.showLoader = true;
         this.modulesService
             .getModuleNomadConfiguration('ai4os-demo-app')
             .subscribe((moduleConf: ModuleConfiguration) => {
@@ -140,12 +141,16 @@ export class NomadTrainComponent implements OnInit {
                     this.warningMessage =
                         this.hardwareConfDefaultValues.warning;
                 }
+
+                this.showLoader = false;
             });
     }
 
     loadSpecificModule() {
         this.route.parent?.params.subscribe((params) => {
             this.moduleName = params['id'];
+
+            this.showLoader = true;
 
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;
@@ -194,6 +199,8 @@ export class NomadTrainComponent implements OnInit {
                             }
                         });
                 }
+
+                this.showLoader = false;
             });
         });
     }

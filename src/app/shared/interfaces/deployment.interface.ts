@@ -1,3 +1,36 @@
+export interface EnergySeries {
+    ts: string;
+    power_w: number;
+    energy_wh: number;
+    carbon_g: number;
+    water_l: number;
+    live: boolean;
+}
+
+export interface EnergyAccumulated {
+    energy_wh: number;
+    tue_factor: number;
+    carbon_g: number;
+    water_l: number;
+    power_w: number;
+    since: string;
+    as_of: string;
+    live_as_of: string;
+    complete: boolean;
+    coverage_ratio: number;
+    degraded: boolean;
+    datacenters: string[];
+}
+
+export interface DeploymentEnergy {
+    deployment_uuid: string;
+    start: string;
+    end: string;
+    source: string;
+    series: EnergySeries[];
+    accumulated: EnergyAccumulated;
+}
+
 export interface Deployment {
     job_ID: string;
     status: string;
@@ -24,6 +57,7 @@ export interface Deployment {
     templates?: {
         'local/batch.sh': string;
     };
+    energy?: DeploymentEnergy | null;
 }
 
 export interface StatusReturn {
@@ -36,6 +70,13 @@ export interface TableColumn {
     columnDef: string;
     header: string;
     hidden?: boolean;
+}
+
+export interface DeploymentRowEnergy {
+    power_w: number;
+    energy_wh: number;
+    carbon_g: number;
+    water_l: number;
 }
 
 export interface DeploymentTableRow {
@@ -53,6 +94,7 @@ export interface DeploymentTableRow {
     description?: string;
     snapshot_ID?: string;
     datacenter?: string;
+    energy?: DeploymentRowEnergy | null;
 }
 
 export interface Snapshot {

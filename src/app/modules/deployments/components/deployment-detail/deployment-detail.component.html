@@ -1,316 +1,267 @@
-<mat-toolbar class="mb-3 marketplace-toolbar detail-title">
-    <span>
-        @if (data.type === 'module') {
-            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.MODULE-TITLE' | translate }}
-        } @else if (data.type === 'tool') {
-            {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.TOOL-TITLE' | translate }}
-        } @else if (data.type === 'batch') {
-            {{ 'BATCH.DETAIL.TITLE' | translate }}
-        }
+@if (isLoading) {
+    <div class="spinner-loading-overlay">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else {
+    <!-- Header -->
+    <header class="header">
+        <div class="header__top-bar">
+            <xng-breadcrumb class="header__breadcrumb"></xng-breadcrumb>
+        </div>
 
-        <mat-icon>view_in_ar</mat-icon></span
-    >
-</mat-toolbar>
+        <app-ui-banner variant="primary" decoration="none">
+            <div class="banner-layout">
+                <div class="banner-layout__header">
+                    <div class="banner-layout__info">
+                        <h1 class="banner-layout__title">
+                            {{ deployment?.title }}
+                        </h1>
+                        <app-ui-chip
+                            [text]="deployment?.status ?? ''"
+                            [variant]="getStatusChipVariant()"
+                        ></app-ui-chip>
+                    </div>
+                    <p class="header__subtitle">
+                        @if (deployment?.datacenter) {
+                            {{ deployment?.datacenter }} &middot;
+                        }
+                        {{ deployment?.submit_time | date: 'd MMM y, HH:mm' }}
+                    </p>
+                </div>
 
-<mat-card>
-    <mat-card-header>
-        <mat-card-title
-            [ngClass]="{
-                'card-title-mobile': mobileQuery.matches,
-                'card-title': !mobileQuery.matches,
-            }"
-        >
-            <h2>{{ deployment?.title }}</h2>
-            <p>
-                @if (deployment) {
-                    <img
-                        src="https://img.shields.io/badge/status-{{
-                            statusBadge
-                        }}"
-                        width="125"
-                    />
-                }
-            </p>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content
-        [ngClass]="{
-            'card-content-mobile': mobileQuery.matches,
-            'card-content': !mobileQuery.matches,
-        }"
-    >
-        @if (deploymentHasError) {
-            <div>
-                <h4>
-                    <mat-icon style="vertical-align: bottom" color="warn"
-                        >warning</mat-icon
-                    >
-                    <mat-error> Error: {{ deployment?.error_msg }}</mat-error>
-                </h4>
+                <div class="banner-layout__user-id">
+                    <span class="banner-layout__user-id-label">{{
+                        'DEPLOYMENTS.UUID' | translate
+                    }}</span>
+                    <span class="banner-layout__user-id-value">{{
+                        deployment?.job_ID
+                    }}</span>
+                </div>
             </div>
-        }
-        @if (!isLoading) {
+        </app-ui-banner>
+    </header>
+
+    <!-- Tabs -->
+    <app-ui-tabs
+        [tabs]="tabs"
+        [activeTabId]="activeTabId"
+        (tabChange)="onTabChange($event)"
+    ></app-ui-tabs>
+
+    @if (deploymentHasError) {
+        <app-ui-banner class="error-banner">
+            <mat-icon style="vertical-align: bottom">warning</mat-icon>
+            {{ 'GENERAL.ERROR' | translate }}: {{ deployment?.error_msg }}
+        </app-ui-banner>
+    }
+
+    <!-- Overview tab -->
+    @if (activeTabId === 'overview') {
+        <section class="tab-content">
+            <!-- Resources -->
+            <div class="resources-grid">
+                @for (item of resourceItems; track item.label) {
+                    <app-stats-reduced-card
+                        [label]="item.label"
+                        [value]="item.value"
+                        [unit]="item.unit"
+                        [icon]="item.icon"
+                    ></app-stats-reduced-card>
+                } @empty {
+                    <p>-</p>
+                }
+            </div>
+
+            <!-- Basic info y Endpoints -->
             <div
                 [ngClass]="{
-                    'deployment-detail-container-mobile': mobileQuery.matches,
-                    'deployment-detail-container': !mobileQuery.matches,
+                    'grid-1-column': mobileQuery.matches,
+                    'grid-2-columns-content': !mobileQuery.matches,
                 }"
             >
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DEPLOYMENT-ID'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.job_ID }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.description }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.docker_image }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ deployment?.submit_time }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
-                                | translate
-                        }}
-                    </h3>
-                    @if (
-                        ($safeNavigationMigration(deployment?.resources)
-                            | json) !== '{}'
-                    ) {
-                        <mat-list>
-                            @for (
-                                resource of $safeNavigationMigration(
-                                    deployment?.resources
-                                ) | keyvalue;
-                                track resource
-                            ) {
-                                <mat-list-item
-                                    >{{
-                                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' +
-                                            (resource.key | uppercase)
-                                            | translate
-                                    }}:
-                                    {{
-                                        getResourceValue(resource)
-                                    }}</mat-list-item
-                                >
-                            }
-                        </mat-list>
-                    } @else {
-                        -
-                    }
-                </div>
-                <div>
-                    <div class="datacenter-info">
-                        <h3>
-                            {{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DATACENTER'
-                                    | translate
-                            }}
-                        </h3>
-                        <p>{{ deployment?.datacenter }}</p>
+                <div class="sidebar-section">
+                    <div class="list-card-group">
+                        @for (item of deploymentInfoItems; track item.label) {
+                            <app-ui-list-card
+                                [title]="item.label"
+                                [suffixText]="item.value"
+                            ></app-ui-list-card>
+                        }
                     </div>
-                    <h3>
+                </div>
+
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
                         {{
                             'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS'
                                 | translate
                         }}
-                    </h3>
-                    @if (
-                        ($safeNavigationMigration(deployment?.endpoints)
-                            | json) !== '{}'
-                    ) {
-                        <mat-list>
+                    </span>
+                    <app-ui-card>
+                        <div class="grid-resources">
                             @for (
-                                endpoint of $safeNavigationMigration(
-                                    deployment?.endpoints
-                                ) | keyvalue;
-                                track endpoint
+                                endpoint of $any(deployment?.endpoints)
+                                    | keyvalue;
+                                track endpoint.key
                             ) {
-                                <mat-list-item>
-                                    <a
-                                        mat-button
-                                        [href]="endpoint.value"
-                                        target="_blank"
-                                        [disabled]="
-                                            !isActiveEndPoint(endpoint.key)
-                                        "
-                                    >
-                                        {{ $any(endpoint.key) | uppercase }}
-                                        <mat-icon>open_in_new</mat-icon></a
-                                    >
-                                </mat-list-item>
+                                <app-ui-button
+                                    variant="default-outline"
+                                    icon="link"
+                                    [text]="$any(endpoint.key) | uppercase"
+                                    [href]="endpoint.value"
+                                    target="_blank"
+                                    [disabled]="
+                                        !isActiveEndPoint($any(endpoint.key))
+                                    "
+                                ></app-ui-button>
+                            } @empty {
+                                <p>-</p>
                             }
-                        </mat-list>
-                    } @else {
-                        -
-                    }
+                        </div>
+                    </app-ui-card>
                 </div>
             </div>
+
+            <!-- Details ai4os-llm -->
             @if (
-                deployment?.tool_name === 'ai4os-llm' && tokenField.value !== ''
+                type === 'tool' &&
+                deployment?.tool_name === 'ai4os-llm' &&
+                tokenField.value !== ''
             ) {
-                <div>
-                    <h3 class="mb-0">
+                <div class="sidebar-section">
+                    <span class="sidebar-section__label">
                         {{
                             'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.DETAILS'
                                 | translate
                         }}
-                    </h3>
-                    <div>
-                        <h4>
-                            {{
+                    </span>
+                    <app-ui-card>
+                        <div class="vllm-field">
+                            <span class="vllm-field__label">{{
                                 'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.URL'
                                     | translate
-                            }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    disabled="true"
-                                    value="{{ deployment?.endpoints?.vllm }}/v1"
-                                />
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                copy-to-clipboard="{{
-                                    deployment?.endpoints?.vllm
-                                }}/v1"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
+                            }}</span>
+                            <div class="token-container">
+                                <app-ui-credential-row
+                                    class="full-width"
+                                    [value]="
+                                        deployment?.endpoints?.vllm + '/v1'
+                                    "
+                                ></app-ui-credential-row>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <h4>
-                            {{
+
+                        <div class="vllm-field">
+                            <span class="vllm-field__label">{{
                                 'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.TOKEN'
                                     | translate
-                            }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    [type]="
-                                        tokenField.hide ? 'password' : 'text'
-                                    "
-                                    disabled="true"
-                                    value="{{ tokenField.value }}"
-                                />
-                                <button
-                                    mat-icon-button
-                                    matSuffix
-                                    [matTooltip]="
-                                        tokenField.hide ? 'Show' : 'Hide'
-                                    "
-                                    (click)="tokenField.hide = !tokenField.hide"
-                                    [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="tokenField.hide"
-                                >
-                                    <mat-icon color="accent">{{
-                                        tokenField.hide
-                                            ? 'visibility_off'
-                                            : 'visibility'
-                                    }}</mat-icon>
-                                </button>
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="tokenField.value"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
+                            }}</span>
+                            <div class="token-container">
+                                <app-ui-credential-row
+                                    class="full-width"
+                                    [maskable]="true"
+                                    [value]="tokenField.value"
+                                ></app-ui-credential-row>
+                            </div>
                         </div>
-                    </div>
+                    </app-ui-card>
                 </div>
             }
-            @if (data.type === 'batch' && localBatchScript) {
-                <div class="mb-3">
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.DETAILS'
-                                | translate
-                        }}
-                    </h3>
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                {{
-                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND'
-                                        | translate
-                                }}
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <app-text-editor
-                            [readonly]="true"
-                            [disabled]="true"
-                            [value]="localBatchScript"
-                            [height]="'inherit'"
-                        ></app-text-editor>
-                        <button
-                            mat-icon-button
-                            matTooltip="Copy"
-                            matTooltipPosition="above"
-                            class="copy-button"
-                            [copy-to-clipboard]="localBatchScript"
-                        >
-                            <mat-icon matSuffix color="accent">
-                                content_copy</mat-icon
-                            >
-                        </button>
-                    </mat-expansion-panel>
+        </section>
+    }
+
+    <!-- Command tab (batch) -->
+    @if (activeTabId === 'command') {
+        <section class="tab-content">
+            <app-ui-card>
+                <div style="position: relative">
+                    <app-text-editor
+                        [readonly]="true"
+                        [disabled]="true"
+                        [value]="localBatchScript!"
+                        [height]="'inherit'"
+                    ></app-text-editor>
+                    <app-ui-button
+                        variant="icon"
+                        icon="content_copy"
+                        matTooltip="Copy"
+                        class="copy-button"
+                        style="position: absolute; top: 10px; right: 10px"
+                        [copy-to-clipboard]="localBatchScript"
+                    ></app-ui-button>
                 </div>
-            }
-        } @else {
-            <div class="spinner">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
+            </app-ui-card>
+        </section>
+    }
+
+    <!-- Energy tab -->
+    @if (activeTabId === 'energy') {
+        <section class="tab-content">
+            <div class="energy-columns-grid">
+                <div class="energy-column">
+                    <app-stats-reduced-card
+                        [label]="energyItems[0].label | translate"
+                        [value]="energyItems[0].value"
+                        [unit]="energyItems[0].unit"
+                        [icon]="energyItems[0].icon"
+                        [color]="energyItems[0].color"
+                    ></app-stats-reduced-card>
+                    <app-footprint-chart
+                        unit="W"
+                        [timestamps]="energyTimestamps"
+                        [values]="powerSeriesValues"
+                        [colors]="['--color-secondary-1']"
+                    ></app-footprint-chart>
+                </div>
+
+                <div class="energy-column">
+                    <app-stats-reduced-card
+                        [label]="energyItems[1].label | translate"
+                        [value]="energyItems[1].value"
+                        [unit]="energyItems[1].unit"
+                        [icon]="energyItems[1].icon"
+                        [color]="energyItems[1].color"
+                    ></app-stats-reduced-card>
+                    <app-footprint-chart
+                        unit="Wh"
+                        [timestamps]="energyTimestamps"
+                        [values]="energySeriesValues"
+                        [colors]="['--color-secondary-2']"
+                    ></app-footprint-chart>
+                </div>
+
+                <div class="energy-column">
+                    <app-stats-reduced-card
+                        [label]="energyItems[2].label | translate"
+                        [value]="energyItems[2].value"
+                        [unit]="energyItems[2].unit"
+                        [icon]="energyItems[2].icon"
+                        [color]="energyItems[2].color"
+                    ></app-stats-reduced-card>
+                    <app-footprint-chart
+                        unit="g CO₂"
+                        [timestamps]="energyTimestamps"
+                        [values]="carbonSeriesValues"
+                        [colors]="['--color-secondary-5']"
+                    ></app-footprint-chart>
+                </div>
+
+                <div class="energy-column">
+                    <app-stats-reduced-card
+                        [label]="energyItems[3].label | translate"
+                        [value]="energyItems[3].value"
+                        [unit]="energyItems[3].unit"
+                        [icon]="energyItems[3].icon"
+                        [color]="energyItems[3].color"
+                    ></app-stats-reduced-card>
+                    <app-footprint-chart
+                        unit="L"
+                        [timestamps]="energyTimestamps"
+                        [values]="waterSeriesValues"
+                        [colors]="['--color-secondary-3']"
+                    ></app-footprint-chart>
+                </div>
             </div>
-        }
-    </mat-card-content>
-    <mat-card-actions align="end">
-        <button mat-raised-button mat-dialog-close>
-            {{ 'GENERAL.CLOSE' | translate }}
-        </button>
-    </mat-card-actions>
-</mat-card>
+        </section>
+    }
+}

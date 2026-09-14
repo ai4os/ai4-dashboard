@@ -39,6 +39,11 @@ export const routes: Routes = [
             },
             {
                 path: 'tasks',
+                data: {
+                    breadcrumb: {
+                        skip: true,
+                    },
+                },
                 children: [
                     {
                         path: 'deployments',

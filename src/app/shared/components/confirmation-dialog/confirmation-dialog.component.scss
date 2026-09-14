@@ -6,13 +6,21 @@
     text-align: center;
     padding: var(--space-xl) var(--space-lg) var(--space-lg);
 
+    &--danger {
+        --dialog-theme: var(--color-danger);
+    }
+
+    &--accent {
+        --dialog-theme: var(--color-accent);
+    }
+
     &__top-accent {
         position: absolute;
         top: calc(-1 * var(--space-lg));
         left: calc(-1 * var(--space-lg));
         right: calc(-1 * var(--space-lg));
         height: 4px;
-        background: var(--color-danger);
+        background: var(--dialog-theme, var(--color-danger));
         border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
@@ -49,7 +57,7 @@
         width: 56px;
         height: 56px;
         border-radius: var(--radius-md);
-        color: var(--color-danger);
+        color: var(--dialog-theme, var(--color-danger));
         border: solid 1px;
         display: flex;
         align-items: center;
@@ -61,7 +69,7 @@
         font-size: 28px;
         width: 28px;
         height: 28px;
-        color: var(--color-danger);
+        color: var(--dialog-theme, var(--color-danger));
     }
 
     &__title {

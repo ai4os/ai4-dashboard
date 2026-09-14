@@ -60,18 +60,56 @@
             }
         </ng-template>
 
+        <ng-template uiTableCell="power_w" let-row>
+            <span class="deployments-table__metric">{{
+                formatMetric(row.energy?.power_w)
+            }}</span>
+        </ng-template>
+
+        <ng-template uiTableCell="energy_wh" let-row>
+            <span class="deployments-table__metric">{{
+                formatMetric(row.energy?.energy_wh)
+            }}</span>
+        </ng-template>
+
+        <ng-template uiTableCell="carbon_g" let-row>
+            <span class="deployments-table__metric">{{
+                formatMetric(row.energy?.carbon_g)
+            }}</span>
+        </ng-template>
+
+        <ng-template uiTableCell="water_l" let-row>
+            <span class="deployments-table__metric">{{
+                formatMetric(row.energy?.water_l)
+            }}</span>
+        </ng-template>
+
         <ng-template uiTableCell="actions" let-row>
             <div class="deployments-table__actions">
-                <app-ui-button
-                    variant="icon"
-                    icon="info"
-                    tooltip="Info"
-                    matBadgeSize="small"
-                    matBadge="priority_high"
-                    matBadgeColor="warn"
-                    [matBadgeHidden]="!hasDeploymentErrors(row)"
-                    (buttonClick)="openDeploymentDetailDialog(row)"
-                ></app-ui-button>
+                @if (getDetailLink(row); as detailLink) {
+                    <app-ui-button
+                        variant="icon"
+                        icon="info"
+                        tooltip="Info"
+                        matBadgeSize="small"
+                        matBadge="priority_high"
+                        matBadgeColor="warn"
+                        [matBadgeHidden]="!hasDeploymentErrors(row)"
+                        [routerLink]="detailLink"
+                        [queryParams]="{ type: deploymentType }"
+                    ></app-ui-button>
+                } @else {
+                    <app-ui-button
+                        variant="icon"
+                        icon="info"
+                        tooltip="Info"
+                        matBadgeSize="small"
+                        matBadge="priority_high"
+                        matBadgeColor="warn"
+                        [matBadgeHidden]="!hasDeploymentErrors(row)"
+                        (buttonClick)="openDeploymentDetailDialog(row)"
+                    ></app-ui-button>
+                }
 
                 @if (isFederatedServer(row)) {
                     <app-ui-button

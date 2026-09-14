@@ -6,9 +6,7 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import {
     Deployment,
     DeploymentTableRow,
@@ -44,7 +42,6 @@ import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
     deploymentsService = inject(DeploymentsService);
-    dialog = inject(MatDialog);
     translateService = inject(TranslateService);
     snackbarService = inject(SnackbarService);
     snapshotService = inject(SnapshotService);
@@ -99,6 +96,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             width: 'auto',
         },
     ];
+
+    readonly detailRouteBase = '/tasks/deployments';
 
     isModulesTableLoading = false;
     isToolsTableLoading = false;
@@ -200,6 +199,15 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         endpoints: deployment.endpoints,
                         mainEndpoint: deployment.main_endpoint,
                         datacenter: deployment.datacenter,
+                        energy: deployment.energy
+                            ? {
+                                  power_w: (deployment.energy as any).power_w,
+                                  energy_wh: (deployment.energy as any)
+                                      .energy_wh,
+                                  carbon_g: (deployment.energy as any).carbon_g,
+                                  water_l: (deployment.energy as any).water_l,
+                              }
+                            : null,
                     };
                     if (deployment.error_msg) {
                         row.error_msg = deployment.error_msg;
@@ -272,6 +280,14 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         endpoints: tool.endpoints,
                         mainEndpoint: tool.main_endpoint,
                         datacenter: tool.datacenter,
+                        energy: tool.energy
+                            ? {
+                                  power_w: (tool.energy as any).power_w,
+                                  energy_wh: (tool.energy as any).energy_wh,
+                                  carbon_g: (tool.energy as any).carbon_g,
+                                  water_l: (tool.energy as any).water_l,
+                              }
+                            : null,
                     };
                     if (tool.error_msg) {
                         row.error_msg = tool.error_msg;
@@ -383,17 +399,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     /**     SHARED METHODS     **/
-    openDeploymentDetailDialog(uuid: string, type: string): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: uuid, type: type },
-            width: width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
-        });
-    }
 
     ngOnDestroy(): void {
         this.unsub.next();

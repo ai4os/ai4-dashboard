@@ -69,12 +69,14 @@ export class InferencesListComponent implements OnInit {
         },
     ];
 
+    readonly inferenceDetailRouteBase = '/tasks/inference';
+
     dataset: DeploymentTableRow[] = [];
 
     isLoading = false;
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-    private unsub = new Subject<void>();
+    private readonly _mobileQueryListener: () => void;
+    private readonly unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.dataset = [];

@@ -11,7 +11,7 @@
         [isLoading]="isLoading"
         [dataset]="dataset"
         [columns]="columns"
-        (showElementInfo)="openDeploymentDetailDialog($event)"
+        [detailRouteBase]="batchDetailRouteBase"
         (deleteElement)="removeBatchDeployment($event)"
     ></app-deployments-table>
 </div>

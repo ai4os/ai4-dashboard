@@ -11,7 +11,7 @@
         [isLoading]="isLoading"
         [dataset]="dataset"
         [columns]="columns"
-        (showElementInfo)="openServiceDetailDialog($event)"
+        [detailRouteBase]="inferenceDetailRouteBase"
         (deleteElement)="removeService($event)"
     ></app-deployments-table>
 </div>

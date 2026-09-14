@@ -31,13 +31,12 @@ import {
     getDeploymentBadge,
     getSnapshotBadge,
 } from '@app/modules/deployments/utils/deployment-badge';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
 import { formatDate } from '@app/shared/utils/formatDate';
-
 import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
 import { UiButtonComponent } from '../ui/ui-button/ui-button.component';
 import { UiCardComponent } from '../ui/ui-card/ui-card.component';
@@ -63,17 +62,18 @@ import {
         MatTooltip,
         MatBadge,
         TranslatePipe,
+        RouterLink,
     ],
 })
-export class DeploymentsTableComponent implements OnInit {
+export class DeploymentsTableComponent {
     dialog = inject(MatDialog);
-    private snackbarService = inject(SnackbarService);
-    private snapshotService = inject(SnapshotService);
+    private readonly snackbarService = inject(SnackbarService);
+    private readonly snapshotService = inject(SnapshotService);
     translateService = inject(TranslateService);
     confirmationDialog = inject(MatDialog);
-    private media = inject(MediaMatcher);
-    private router = inject(Router);
-    private changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
+    private readonly router = inject(Router);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
     constructor() {
         const changeDetectorRef = this.changeDetectorRef;
@@ -92,7 +92,6 @@ export class DeploymentsTableComponent implements OnInit {
     @Input() dataset: DeploymentTableRow[] = [];
     @Input() datacentersNotifications: StatusNotification[] = [];
 
-    @Output() showElementInfo = new EventEmitter<string>();
     @Output() deleteElement = new EventEmitter<string>();
 
     @Input() columns: UiTableColumn<DeploymentTableRow>[] = [
@@ -110,8 +109,6 @@ export class DeploymentsTableComponent implements OnInit {
             sortable: true,
             width: '150px',
         },
-        // No `width`: grows to fill the leftover row space, same as the old
-        // `.mat-column-containerName` which only set a min-width.
         {
             key: 'containerName',
             label: 'DEPLOYMENTS.CONTAINER-NAME',
@@ -124,32 +121,54 @@ export class DeploymentsTableComponent implements OnInit {
             width: '120px',
         },
         {
+            key: 'power_w',
+            label: 'POWER (W)',
+            align: 'center',
+            sortable: true,
+            width: '120px',
+        },
+        {
+            key: 'energy_wh',
+            label: 'ENERGY (Wh)',
+            align: 'center',
+            sortable: true,
+            width: '120px',
+        },
+        {
+            key: 'carbon_g',
+            label: 'CARBON (g)',
+            align: 'center',
+            sortable: true,
+            width: '120px',
+        },
+        {
+            key: 'water_l',
+            label: 'WATER (L)',
+            align: 'center',
+            sortable: true,
+            width: '120px',
+        },
+
+        {
             key: 'creationTime',
             label: 'DEPLOYMENTS.CREATION-TIME',
             align: 'center',
             sortable: true,
             width: '200px',
         },
-        // 'auto': sized to whatever icons actually render (count varies by
-        // deploymentType), and ends up flush against the right edge because
-        // containerName grows into all the space before it.
         {
             key: 'actions',
             label: 'DEPLOYMENTS.ACTIONS',
-            align: 'center',
-
+            align: 'right',
             width: 'auto',
         },
     ];
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     private sortState: UiTableSortEvent<DeploymentTableRow> | null = null;
 
-    ngOnInit(): void {}
-
-    /** Dataset sorted according to the ui-table header the user last clicked. */
     get sortedDataset(): DeploymentTableRow[] {
         if (!this.sortState?.direction) {
             return this.dataset;
@@ -179,21 +198,30 @@ export class DeploymentsTableComponent implements OnInit {
     }
 
     openDeploymentDetailDialog(row: DeploymentTableRow): void {
-        if (this.deploymentType === 'snapshot') {
-            this.openSnapshotDetailDialog({
-                snapshot_ID: row.snapshot_ID!,
-                title: row.name,
-                status: row.status!,
-                submit_time: formatDate(row.creationTime),
-                docker_image: '',
-                size: +row.size!,
-                nomad_ID: '',
-                description: row.description,
-                error_msg: row.error_msg,
-            });
-        } else {
-            this.showElementInfo.emit(row.uuid);
-        }
+        this.openSnapshotDetailDialog({
+            snapshot_ID: row.snapshot_ID!,
+            title: row.name,
+            status: row.status!,
+            submit_time: formatDate(row.creationTime),
+            docker_image: '',
+            size: +row.size!,
+            nomad_ID: '',
+            description: row.description,
+            error_msg: row.error_msg,
+        });
+    }
+
+    @Input() detailRouteBase: string | null = null;
+
+    getDetailLink(row: DeploymentTableRow): string[] | null {
+        return this.detailRouteBase ? [this.detailRouteBase, row.uuid] : null;
+    }
+
+    formatMetric(val: number | undefined): string {
+        if (val == null) return '-';
+        if (val === 0) return '0';
+        if (val < 0.01) return val.toExponential(2);
+        return val.toFixed(2);
     }
 
     removeDeployment(e: MouseEvent, row: DeploymentTableRow) {
@@ -201,10 +229,12 @@ export class DeploymentsTableComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: {
-                    title:
-                        'Are you sure you want to delete this ' +
-                        this.deploymentType +
-                        '?',
+                    title: 'DEPLOYMENTS.DELETE.TITLE',
+                    subtitlePrefix: 'DEPLOYMENTS.DELETE.SUBTITLE-PREFIX',
+                    subtitleHighlight: row.name,
+                    subtitleSuffix: 'DEPLOYMENTS.DELETE.SUBTITLE-SUFFIX',
+                    optionA: 'GENERAL.CANCEL',
+                    optionB: 'GENERAL.DELETE',
                 } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
@@ -304,12 +334,6 @@ export class DeploymentsTableComponent implements OnInit {
         );
     }
 
-    /**
-     * Semantic color for the status ui-chip. Reuses the existing shields.io
-     * badge logic so the underlying business rules for each status don't
-     * have to be re-implemented here, and just remaps the resulting badge
-     * color name to one of ui-chip's semantic colors.
-     */
     getStatusChipColor(row: DeploymentTableRow): ChipVariant {
         const badge =
             this.deploymentType === 'snapshot' ||
@@ -339,11 +363,11 @@ export class DeploymentsTableComponent implements OnInit {
         this.confirmationDialog
             .open(ConfirmationDialogComponent, {
                 data: {
-                    title: `Are you sure you want to create a snapshot of this deployment?`,
-                    subtitlePrefix:
-                        'PROFILE.SERVICES-TAB.DIALOG.SUBTITLE-PREFIX',
+                    title: `DEPLOYMENTS.SNAPSHOT.TITLE`,
+                    subtitlePrefix: 'DEPLOYMENTS.SNAPSHOT.DESC',
                     optionA: 'GENERAL.CANCEL',
-                    optionB: 'PROFILE.SERVICES-TAB.DIALOG.UNLINK',
+                    optionB: 'DEPLOYMENTS.SNAPSHOT.CREATE',
+                    icon: 'stylus',
                 } as ConfirmationDialogData,
                 panelClass: 'ui-dialog-panel',
             })
@@ -379,18 +403,21 @@ export class DeploymentsTableComponent implements OnInit {
         this.dialog
             .open(MultipleActionsDialogComponent, {
                 data: {
-                    title: 'How do you want to redeploy this snapshot?',
-                    optionA: 'Regular deployment',
-                    optionB: 'Batch deployment',
+                    title: 'DEPLOYMENTS.SNAPSHOT.REDEPLOY.TITLE',
+                    subtitle: 'DEPLOYMENTS.SNAPSHOT.REDEPLOY.DESC',
+                    optionA: 'DEPLOYMENTS.SNAPSHOT.REDEPLOY.REGULAR',
+                    optionB: 'DEPLOYMENTS.SNAPSHOT.REDEPLOY.BATCH',
+                    icon: 'deployed_code_update',
                 },
+                panelClass: 'ui-dialog-panel',
             })
             .afterClosed()
             .subscribe((action: string) => {
                 sessionStorage.setItem('deploymentType', this.deploymentType);
                 sessionStorage.setItem('deploymentRow', JSON.stringify(row));
-                if (action === 'Regular deployment') {
+                if (action === 'DEPLOYMENTS.SNAPSHOT.REDEPLOY.REGULAR') {
                     this.router.navigate(['/catalog/modules/snapshots/deploy']);
-                } else if (action === 'Batch deployment') {
+                } else if (action === 'DEPLOYMENTS.SNAPSHOT.REDEPLOY.BATCH') {
                     this.router.navigate(['/catalog/modules/snapshots/batch']);
                 }
             });

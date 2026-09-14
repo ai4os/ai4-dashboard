@@ -1,10 +1,22 @@
 .env-card {
-    background-color: var(--light-gray);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 10px 12px;
     display: flex;
     flex-direction: column;
     height: -webkit-fill-available;
+    background:
+        radial-gradient(
+            ellipse 60% 80% at 8% 15%,
+            rgba(255, 255, 255, 0.03) 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse 55% 70% at 92% 90%,
+            rgba(var(--color-hero-shadow-rgb), 0.08) 0%,
+            transparent 58%
+        ),
+        linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)),
+        var(--gradient-primary);
 
     &__header {
         display: flex;
@@ -16,9 +28,11 @@
 
     &__label {
         font-size: var(--font-size-xs);
+        font-family: var(--font-family-heading);
+        font-weight: var(--font-weight-semibold);
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--mat-sys-on-surface-variant);
+        color: var(--color-text-secondary);
     }
 
     &__icons {

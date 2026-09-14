@@ -5,96 +5,83 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogClose,
-} from '@angular/material/dialog';
+    Location,
+    NgClass,
+    KeyValue,
+    KeyValuePipe,
+    UpperCasePipe,
+    DatePipe,
+} from '@angular/common';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
-import {
-    KeyValue,
-    NgClass,
-    UpperCasePipe,
-    JsonPipe,
-    KeyValuePipe,
-} from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { SecretField } from '@app/modules/inference/components/inference-detail/inference-detail.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { BatchService } from '@app/modules/batch/services/batch.service';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import {
-    MatError,
-    MatFormField,
-    MatInput,
-    MatSuffix,
-} from '@angular/material/input';
-import { MatList, MatListItem } from '@angular/material/list';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
 import { CopyToClipboardDirective } from '../../../../shared/directives/copy-to-clipboard.directive';
-import {
-    MatExpansionPanel,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
-} from '@angular/material/expansion';
 import { TextEditorComponent } from '../../../../shared/components/text-editor/text-editor.component';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import {
+    ChipVariant,
+    UiChipComponent,
+} from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import {
+    UiTabsComponent,
+    Tab,
+} from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { UiListCardComponent } from '@app/shared/components/ui/ui-list-card/ui-list-card.component';
+import { MatIcon } from '@angular/material/icon';
+import { UiCredentialRowComponent } from '@app/shared/components/ui/ui-credential-row/ui-credential-row.component';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { StatsReducedCardComponent } from '@app/modules/statistics/components/stats/stats-reduced-card/stats-reduced-card.component';
+import { MatDivider } from '@angular/material/divider';
+import { FootprintChartComponent } from '@app/modules/statistics/components/charts/footprint-chart/footprint-chart.component';
+
+interface ListCardItem {
+    label: string;
+    value: string;
+}
 
 @Component({
     selector: 'app-deployment-detail',
+    standalone: true,
     templateUrl: './deployment-detail.component.html',
     styleUrls: ['./deployment-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
-        MatIcon,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
         NgClass,
-        MatCardContent,
-        MatError,
-        MatList,
-        MatListItem,
-        MatButton,
-        MatFormField,
-        MatInput,
-        MatIconButton,
-        MatTooltip,
-        CopyToClipboardDirective,
-        MatSuffix,
-        MatExpansionPanel,
-        MatExpansionPanelHeader,
-        MatExpansionPanelTitle,
-        TextEditorComponent,
-        MatProgressSpinner,
-        MatCardActions,
-        MatDialogClose,
-        UpperCasePipe,
-        JsonPipe,
         KeyValuePipe,
+        UpperCasePipe,
         TranslatePipe,
+        CopyToClipboardDirective,
+        TextEditorComponent,
+        UiLoaderComponent,
+        UiBannerComponent,
+        UiCardComponent,
+        UiButtonComponent,
+        UiChipComponent,
+        UiTabsComponent,
+        UiListCardComponent,
+        MatIcon,
+        UiCredentialRowComponent,
+        BreadcrumbComponent,
+        StatsReducedCardComponent,
+        MatDivider,
+        FootprintChartComponent,
+        DatePipe,
     ],
 })
 export class DeploymentDetailComponent implements OnInit {
-    confirmationDialog = inject(MatDialog);
-    data = inject<{
-        uuid: string;
-        type: string;
-    }>(MAT_DIALOG_DATA);
+    private readonly route = inject(ActivatedRoute);
+    private readonly location = inject(Location);
 
     deploymentsService = inject(DeploymentsService);
     secretsService = inject(SecretsService);
@@ -111,6 +98,9 @@ export class DeploymentDetailComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
+    uuid = '';
+    type: 'module' | 'tool' | 'batch' = 'module';
+
     deployment: Deployment | undefined;
     statusBadge = '';
 
@@ -122,7 +112,118 @@ export class DeploymentDetailComponent implements OnInit {
     };
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
+
+    get tabs(): Tab[] {
+        const dynamicTabs: Tab[] = [
+            { id: 'overview', label: 'DEPLOYMENTS.OVERVIEW.TITLE' },
+        ];
+
+        if (this.deployment?.energy) {
+            dynamicTabs.push({
+                id: 'energy',
+                label: 'DEPLOYMENTS.ENERGY.TITLE',
+            });
+        }
+
+        if (this.type === 'batch' && this.localBatchScript) {
+            dynamicTabs.push({
+                id: 'command',
+                label: 'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND',
+            });
+        }
+
+        return dynamicTabs;
+    }
+
+    activeTabId = 'overview';
+
+    onTabChange(tabId: string): void {
+        this.activeTabId = tabId;
+    }
+
+    get energyItems(): any[] {
+        const acc = this.deployment?.energy?.accumulated;
+        if (!acc) return [];
+
+        const formatMetric = (val: number): string => {
+            if (val === 0) return '0';
+            if (val < 0.01) return val.toExponential(2);
+            return val.toFixed(2);
+        };
+
+        return [
+            {
+                label: 'DEPLOYMENTS.ENERGY.POWER-INSTANT',
+                value: formatMetric(acc.power_w),
+                unit: 'W',
+                icon: 'bolt',
+                color: 'var(--color-secondary-1)',
+            },
+            {
+                label: 'DEPLOYMENTS.ENERGY.ENERGY-CONSUMED',
+                value: formatMetric(acc.energy_wh),
+                unit: 'Wh',
+                icon: 'battery_charging_full',
+                color: 'var(--color-secondary-2)',
+            },
+            {
+                label: 'DEPLOYMENTS.ENERGY.CARBON-FOOTPRINT',
+                value: formatMetric(acc.carbon_g),
+                unit: 'g CO₂',
+                icon: 'factory',
+                color: 'var(--color-secondary-5)',
+            },
+            {
+                label: 'DEPLOYMENTS.ENERGY.WATER-FOOTPRINT',
+                value: formatMetric(acc.water_l),
+                unit: 'L',
+                icon: 'water_drop',
+                color: 'var(--color-secondary-3)',
+            },
+        ];
+    }
+
+    get energyTimestamps(): string[] {
+        const series = this.deployment?.energy?.series;
+        if (!series) return [];
+
+        return series.map((s) => {
+            const date = new Date(s.ts);
+            return date.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+                timeZone: 'UTC',
+            });
+        });
+    }
+
+    get energyChartLegend(): string[] {
+        return [this.deployment?.datacenter ?? 'Datacenter'];
+    }
+
+    get powerSeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.power_w)] : [];
+    }
+
+    get energySeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.energy_wh)] : [];
+    }
+
+    get carbonSeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.carbon_g)] : [];
+    }
+
+    get waterSeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.water_l)] : [];
+    }
 
     isActiveEndPoint(endpoint: string) {
         return (
@@ -132,101 +233,109 @@ export class DeploymentDetailComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.data.uuid) {
-            this.isLoading = true;
-            if (this.data.type === 'tool') {
-                this.deploymentsService
-                    .getToolByUUID(this.data.uuid)
-                    .subscribe((deployment: Deployment) => {
-                        if (
-                            deployment.error_msg &&
-                            deployment.error_msg != ''
-                        ) {
-                            this.deploymentHasError = true;
-                        }
-                        if (deployment.description == '') {
-                            deployment.description = '-';
-                        }
-                        if (deployment.datacenter == null) {
-                            deployment.datacenter = '-';
-                        }
-                        this.statusBadge = getDeploymentBadge(
-                            deployment.status
-                        );
-                        this.deployment = deployment;
+        this.uuid = this.route.snapshot.paramMap.get('uuid') ?? '';
+        this.type =
+            (this.route.snapshot.queryParamMap.get('type') as
+                'module' | 'tool' | 'batch') ?? 'module';
 
-                        if (deployment.tool_name === 'ai4os-llm') {
-                            this.getVllmKey();
-                        } else {
-                            this.isLoading = false;
-                        }
-                    });
-            } else if (this.data.type === 'module') {
-                this.deploymentsService
-                    .getDeploymentByUUID(this.data.uuid)
-                    .subscribe((deployment: Deployment) => {
-                        if (
-                            deployment.error_msg &&
-                            deployment.error_msg != ''
-                        ) {
-                            this.deploymentHasError = true;
-                        }
-                        if (deployment.description == '') {
-                            deployment.description = '-';
-                        }
-                        if (deployment.datacenter == null) {
-                            deployment.datacenter = '-';
-                        }
-                        const conatinerName = deployment.docker_image.includes(
-                            'user-snapshots'
-                        )
-                            ? deployment.docker_image.split(':')[1]
-                            : deployment.docker_image;
-                        deployment.docker_image = conatinerName;
-                        this.statusBadge = getDeploymentBadge(
-                            deployment.status
-                        );
-
-                        this.deployment = deployment;
-
-                        this.isLoading = false;
-                    });
-            } else if (this.data.type === 'batch') {
-                this.batchService
-                    .getBatchDeploymentByUUID(this.data.uuid)
-                    .subscribe((deployment: Deployment) => {
-                        if (
-                            deployment.error_msg &&
-                            deployment.error_msg != ''
-                        ) {
-                            this.deploymentHasError = true;
-                        }
-                        if (deployment.description == '') {
-                            deployment.description = '-';
-                        }
-                        if (deployment.datacenter == null) {
-                            deployment.datacenter = '-';
-                        }
-                        const conatinerName = deployment.docker_image.includes(
-                            'user-snapshots'
-                        )
-                            ? deployment.docker_image.split(':')[1]
-                            : deployment.docker_image;
-                        deployment.docker_image = conatinerName;
-                        this.statusBadge = getDeploymentBadge(
-                            deployment.status
-                        );
-
-                        this.deployment = deployment;
-
-                        this.isLoading = false;
-                    });
-            }
+        if (!this.uuid) {
+            return;
         }
+
+        this.isLoading = true;
+
+        if (this.type === 'tool') {
+            this.deploymentsService
+                .getToolByUUID(this.uuid)
+                .subscribe((deployment: Deployment) => {
+                    this.handleDeploymentLoaded(deployment);
+                    if (deployment.tool_name === 'ai4os-llm') {
+                        this.getVllmKey();
+                    } else {
+                        this.isLoading = false;
+                    }
+                });
+        } else if (this.type === 'module') {
+            this.deploymentsService
+                .getDeploymentByUUID(this.uuid)
+                .subscribe((deployment: Deployment) => {
+                    this.normalizeDockerImage(deployment);
+                    this.handleDeploymentLoaded(deployment);
+                    this.isLoading = false;
+                });
+        } else if (this.type === 'batch') {
+            this.batchService
+                .getBatchDeploymentByUUID(this.uuid)
+                .subscribe((deployment: Deployment) => {
+                    this.normalizeDockerImage(deployment);
+                    this.handleDeploymentLoaded(deployment);
+                    this.isLoading = false;
+                });
+        }
+    }
+
+    private handleDeploymentLoaded(deployment: Deployment): void {
+        if (deployment.error_msg && deployment.error_msg != '') {
+            this.deploymentHasError = true;
+        }
+        if (deployment.description == '') {
+            deployment.description = '-';
+        }
+        deployment.datacenter ??= '-';
+        this.statusBadge = getDeploymentBadge(deployment.status);
+        this.deployment = deployment;
+    }
+
+    private normalizeDockerImage(deployment: Deployment): void {
+        const containerName = deployment.docker_image.includes('user-snapshots')
+            ? deployment.docker_image.split(':')[1]
+            : deployment.docker_image;
+        deployment.docker_image = containerName;
     }
 
     get localBatchScript(): string | undefined {
         return this.deployment?.templates?.['local/batch.sh'];
+    }
+
+    get deploymentInfoItems(): ListCardItem[] {
+        return [
+            {
+                label: this.translateService.instant(
+                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
+                ),
+                value: this.deployment?.description ?? '-',
+            },
+            {
+                label: this.translateService.instant(
+                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                ),
+                value: this.deployment?.docker_image ?? '-',
+            },
+        ];
+    }
+
+    get resourceItems(): any[] {
+        const resources = this.deployment?.resources ?? {};
+        return Object.entries(resources).map(([key, value]) => {
+            const label = this.translateService.instant(
+                'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' + key.toUpperCase()
+            );
+            let unit = '';
+            let icon = 'developer_board';
+
+            const keyLower = key.toLowerCase();
+            if (keyLower.includes('mb')) {
+                unit = 'MB';
+                icon = 'storage';
+            } else if (keyLower.includes('mhz')) {
+                unit = 'MHz';
+                icon = 'speed';
+            } else if (keyLower.includes('gpu')) {
+                icon = 'memory';
+            }
+
+            return { label, value, unit, icon };
+        });
     }
 
     getResourceValue(resource: KeyValue<string, number>): string {
@@ -239,8 +348,22 @@ export class DeploymentDetailComponent implements OnInit {
         return resourceValue;
     }
 
+    getStatusChipVariant(): ChipVariant {
+        switch (this.deployment?.status) {
+            case 'running':
+                return 'success-solid';
+            case 'stopped':
+                return 'default-solid';
+            case 'failed':
+            case 'error':
+                return 'danger-solid';
+            default:
+                return 'secondary-1-solid';
+        }
+    }
+
     getVllmKey() {
-        const subpath = '/deployments/' + this.data.uuid + '/llm';
+        const subpath = '/deployments/' + this.uuid + '/llm';
         this.secretsService.getSecrets(subpath).subscribe({
             next: (tokens) => {
                 this.tokenField.value = Object.values(tokens)[0].token ?? '';

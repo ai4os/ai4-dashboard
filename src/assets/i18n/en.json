@@ -83,6 +83,7 @@
                 "CREATED": "Created",
                 "EXPIRES": "Expires",
                 "EXPIRES-TOOLTIP": "This key expires soon",
+                "EXPIRED-TOOLTIP": "This key has expired",
                 "ACTIONS": "Actions",
                 "NEVER": "Never",
                 "NO-API-KEYS": "No API keys yet. Create your first API key to get started."
@@ -486,9 +487,54 @@
         }
     },
     "DEPLOYMENTS": {
-        "TITLE": "Deployments",
+        "HEADER": "Deployments",
+        "MODULES": "Modules",
         "TOOLS": "Tools",
-        "DEPLOYMENT-DETAIL": {
+        "SNAPSHOTS": "Snapshots",
+        "DEPLOYMENT-NAME": "Name",
+        "STATUS": "Status",
+        "CONTAINER-NAME": "Container name",
+        "CREATION-TIME": "Creation time (UTC)",
+        "ACTIONS": "Actions",
+        "TITLE": "Deployments",
+        "DELETE": {
+            "TITLE": "Delete deployment permanently?",
+            "SUBTITLE-PREFIX": "The deployment ",
+            "SUBTITLE-SUFFIX": " will be deleted permanently. If it's a module, you can create a snapshot to save your progress."
+        },
+        "SNAPSHOT": {
+            "TITLE": "Are you sure you want to create a snapshot of this deployment?",
+            "DESC": "You can redeploy this snapshot at any time by clicking on the 'Redeploy snapshot' button in the 'Snapshots' table.",
+            "CREATE": "Create snapshot",
+            "REDEPLOY": {
+                "TITLE": "How do you want to redeploy this snapshot?",
+                "DESC": "Select the option that best suits your needs.",
+                "REGULAR": "Regular deployment",
+                "BATCH": "Batch deployment"
+            }
+        },
+        "OVERVIEW": {
+            "TITLE":"Overview"
+        },
+        "ENERGY": {
+            "TITLE": "Energy consumption",
+            "POWER-INSTANT": "Instant power",
+            "ENERGY-CONSUMED": "Energy consumed",
+            "CARBON-FOOTPRINT": "Carbon footprint",
+            "WATER-FOOTPRINT": "Water footprint"
+        },
+
+        "BULK-ACTIONS": "Bulk actions",
+        "UUID": "UUID",
+        "TAG-NAME": "Container tag name",
+        "GPUS": "GPUs",
+        "SIZE": "Size (GiB)",
+        "NAMESPACE": "Namespace",
+        "NEW-DEV-ENV": "New DevEnv",
+        "NO-DEPLOYMENTS": "Nothing deployed yet",
+        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
+        "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
+            "DEPLOYMENT-DETAIL": {
             "MODULE-TITLE": "Deployment detail",
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
@@ -530,25 +576,10 @@
             "DELETE": "Are you sure you want to delete this secret?",
             "DELETE-LAST-SECRET": "Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work",
             "NEW-SECRET-NAME": "New secret name"
-        },
-        "DEPLOYMENT-NAME": "Name",
-        "BULK-ACTIONS": "Bulk actions",
-        "UUID": "Deployment uuid",
-        "STATUS": "Status",
-        "CONTAINER-NAME": "Container name",
-        "TAG-NAME": "Container tag name",
-        "GPUS": "GPUs",
-        "SIZE": "Size (GiB)",
-        "CREATION-TIME": "Creation time (UTC)",
-        "ACTIONS": "Actions",
-        "NAMESPACE": "Namespace",
-        "NEW-DEV-ENV": "New DevEnv",
-        "NO-DEPLOYMENTS": "Nothing deployed yet",
-        "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
-        "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data."
+        }
     },
     "INFERENCE": {
-        "TITLE-HEADER": "Inference",
+        "HEADER": "Inference",
         "OSCAR": "Serverless (OSCAR)",
         "TITLE": "Title",
         "IMAGE": "Image",
@@ -573,13 +604,13 @@
         }
     },
     "BATCH": {
-        "TITLE-HEADER": "Batch training",
+        "HEADER": "Batch training",
         "DETAIL": {
             "TITLE": "Batch deployment detail"
         }
     },
     "TRY-ME": {
-        "TITLE-HEADER": "Try me deployments",
+        "HEADER": "Try me",
         "GRADIO": "Gradio",
         "TITLE": "Title",
         "IMAGE": "Image",

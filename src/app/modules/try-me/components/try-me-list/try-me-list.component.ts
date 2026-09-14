@@ -81,6 +81,8 @@ export class TryMeListComponent implements OnInit {
         },
     ];
 
+    readonly tryDetailRouteBase = '/tasks/try-me';
+
     dataset: DeploymentTableRow[] = [];
 
     isLoading = false;

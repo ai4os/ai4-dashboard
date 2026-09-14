@@ -15,4 +15,5 @@ export class StatsReducedCardComponent {
     @Input() icon = '';
     @Input() unit?: string = '';
     @Input() tooltip?: string = '';
+    @Input() color?: string = '';
 }

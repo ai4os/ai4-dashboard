@@ -2,7 +2,10 @@
     <div class="env-card__header">
         <span class="env-card__label">{{ label }}</span>
         <div class="env-card__icons">
-            <mat-icon class="env-card__icon">{{ icon }}</mat-icon>
+            <mat-icon class="env-card__icon" [style.color]="color">{{
+                icon
+            }}</mat-icon>
+
             @if (tooltip) {
                 <mat-icon
                     class="env-card__help"
