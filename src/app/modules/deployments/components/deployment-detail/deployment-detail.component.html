@@ -21,7 +21,7 @@
                             [variant]="getStatusChipVariant()"
                         ></app-ui-chip>
                     </div>
-                    <p class="header__subtitle">
+                    <p class="banner-layout__subtitle">
                         @if (deployment?.datacenter) {
                             {{ deployment?.datacenter }} &middot;
                         }
@@ -58,61 +58,63 @@
     <!-- Overview tab -->
     @if (activeTabId === 'overview') {
         <section class="tab-content">
-            <!-- Resources -->
-            <div class="resources-grid">
-                @for (item of resourceItems; track item.label) {
-                    <app-stats-reduced-card
-                        [label]="item.label"
-                        [value]="item.value"
-                        [unit]="item.unit"
-                        [icon]="item.icon"
-                    ></app-stats-reduced-card>
-                } @empty {
-                    <p>-</p>
-                }
-            </div>
+            <!-- Basic info & Endpoints -->
+            <div class="deployment-info-layout">
+                <div class="details-column">
+                    <span class="section-title">{{
+                        'DEPLOYMENTS.OVERVIEW.DETAILS' | translate
+                    }}</span>
+                    <app-ui-card class="details-card">
+                        <div class="detail-item">
+                            <span class="detail-label">{{
+                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
+                                    | translate
+                            }}</span>
+                            <span class="detail-value italic">
+                                {{
+                                    deployment?.description &&
+                                    deployment?.description !== '-'
+                                        ? deployment?.description
+                                        : '-'
+                                }}
+                            </span>
+                        </div>
 
-            <!-- Basic info y Endpoints -->
-            <div
-                [ngClass]="{
-                    'grid-1-column': mobileQuery.matches,
-                    'grid-2-columns-content': !mobileQuery.matches,
-                }"
-            >
-                <div class="sidebar-section">
-                    <div class="list-card-group">
-                        @for (item of deploymentInfoItems; track item.label) {
-                            <app-ui-list-card
-                                [title]="item.label"
-                                [suffixText]="item.value"
-                            ></app-ui-list-card>
-                        }
-                    </div>
+                        <div class="detail-item">
+                            <span class="detail-label with-icon">
+                                <img
+                                    src="assets/images/module-detail/dockerhub.svg"
+                                    class="docker-icon"
+                                />{{
+                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                                        | translate
+                                }}</span
+                            >
+                            <span class="detail-value code-font">
+                                {{ deployment?.docker_image ?? '-' }}
+                            </span>
+                        </div>
+                    </app-ui-card>
                 </div>
 
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS'
-                                | translate
-                        }}
-                    </span>
-                    <app-ui-card>
-                        <div class="grid-resources">
+                <div class="endpoints-column">
+                    <span class="section-title">{{
+                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS' | translate
+                    }}</span>
+                    <app-ui-card class="endpoints-card">
+                        <div class="grid-endpoints">
                             @for (
-                                endpoint of $any(deployment?.endpoints)
-                                    | keyvalue;
+                                endpoint of endpointsList;
                                 track endpoint.key
                             ) {
                                 <app-ui-button
-                                    variant="default-outline"
-                                    icon="link"
-                                    [text]="$any(endpoint.key) | uppercase"
+                                    variant="primary-outline"
+                                    icon="open_in_new"
+                                    [text]="endpoint.key | uppercase"
                                     [href]="endpoint.value"
+                                    [translateText]="false"
                                     target="_blank"
-                                    [disabled]="
-                                        !isActiveEndPoint($any(endpoint.key))
-                                    "
+                                    [disabled]="!isActiveEndPoint(endpoint.key)"
                                 ></app-ui-button>
                             } @empty {
                                 <p>-</p>
@@ -167,30 +169,43 @@
                     </app-ui-card>
                 </div>
             }
+
+            <!-- Resources -->
+            <div class="resources-grid">
+                @for (item of resourceItems; track item.label) {
+                    <app-stats-reduced-card
+                        [label]="item.label"
+                        [value]="item.value"
+                        [unit]="item.unit"
+                        [icon]="item.icon"
+                    ></app-stats-reduced-card>
+                } @empty {
+                    <p>-</p>
+                }
+            </div>
         </section>
     }
 
     <!-- Command tab (batch) -->
     @if (activeTabId === 'command') {
         <section class="tab-content">
-            <app-ui-card>
-                <div style="position: relative">
-                    <app-text-editor
-                        [readonly]="true"
-                        [disabled]="true"
-                        [value]="localBatchScript!"
-                        [height]="'inherit'"
-                    ></app-text-editor>
+            <span class="text-area">
+                <app-text-editor
+                    [readonly]="true"
+                    [disabled]="true"
+                    [value]="localBatchScript!"
+                    [height]="'inherit'"
+                ></app-text-editor>
+
+                <div class="text-area__button">
                     <app-ui-button
                         variant="icon"
                         icon="content_copy"
-                        matTooltip="Copy"
-                        class="copy-button"
-                        style="position: absolute; top: 10px; right: 10px"
+                        tooltip="Copy"
                         [copy-to-clipboard]="localBatchScript"
                     ></app-ui-button>
                 </div>
-            </app-ui-card>
+            </span>
         </section>
     }
 

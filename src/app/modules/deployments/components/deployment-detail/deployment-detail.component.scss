@@ -17,23 +17,6 @@
         color: var(--warm-grey);
     }
 
-    &__heading {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        min-width: 0;
-    }
-
-    &__title {
-        margin: 0;
-        font-family: var(--font-family-heading);
-        font-size: var(--font-size-lg);
-        font-weight: var(--font-weight-medium);
-        line-height: var(--line-height-base);
-        color: var(--color-text-inverse);
-        overflow-wrap: anywhere;
-    }
-
     &__subtitle {
         margin: 0;
         opacity: 0.9;
@@ -56,15 +39,6 @@
         gap: var(--space-lg);
     }
 
-    &__eyebrow {
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-semibold);
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.65);
-        margin: 0 0 var(--space-xs);
-    }
-
     &__title {
         font-family: var(--font-headings, inherit);
         font-size: var(--font-size-xl);
@@ -78,10 +52,11 @@
         text-overflow: ellipsis;
     }
 
-    &__email {
-        font-size: var(--font-size-md);
-        color: rgba(255, 255, 255, 0.75);
+    &__subtitle {
         margin: 0;
+        opacity: 0.9;
+        font-size: var(--font-size-base);
+        color: var(--color-text-inverse);
     }
 
     &__user-id {
@@ -109,35 +84,7 @@
     @media (max-width: 640px) {
         flex-direction: column;
         align-items: flex-start;
-
-        .profile-layout__user-id {
-            text-align: left;
-        }
-        .profile-layout__title {
-            font-size: var(--font-size-lg);
-        }
     }
-}
-
-.title-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-}
-
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-xl);
-}
-
-.header-row-mobile {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-lg);
 }
 
 .error-banner {
@@ -157,55 +104,9 @@
     gap: var(--space-lg);
 }
 
-.resource-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-md);
-
-    &__label {
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-weight-semibold);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: var(--color-text-tertiary);
-    }
-
-    &__value {
-        font-size: var(--font-size-xl);
-        font-weight: var(--font-weight-semibold);
-        color: var(--color-text-primary);
-
-        small {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-regular);
-            color: var(--color-text-tertiary);
-            margin-left: var(--space-xs);
-        }
-    }
-
-    &__subtitle {
-        font-size: var(--font-size-xs);
-        color: var(--color-text-tertiary);
-    }
-}
-
-.grid-2-columns-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-2xl);
-}
-
-.grid-1-column {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
-}
-
 .sidebar-section {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
 
     &__label {
         font-size: var(--font-size-xs);
@@ -217,19 +118,39 @@
     }
 }
 
-.list-card-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
+/* ──────────────────────────────────────────────
+   Layout Principal: Detalles vs Endpoints
+   ────────────────────────────────────────────── */
+.deployment-info-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: stretch;
+    gap: var(--space-xl);
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 }
 
-.grid-resources {
-    display: flex;
-    flex-direction: column;
+.grid-endpoints {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
     gap: var(--space-sm);
+    flex: 1;
+    height: 100%;
+
+    ::ng-deep app-ui-button {
+        display: flex;
+        height: 100%;
+    }
 
     ::ng-deep a {
         width: stretch;
+        height: stretch;
+        flex-direction: row-reverse;
+        justify-content: space-between;
     }
 }
 
@@ -273,28 +194,83 @@
     gap: var(--space-md);
 }
 
-.chart-title {
-    margin: 0 0 var(--space-md);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+.details-column,
+.endpoints-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.sparkline {
-    width: 100%;
-    height: 140px;
+.section-title {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    padding: 0 var(--space-xs);
+}
 
-    &__line {
-        fill: none;
-        stroke-width: 2;
+.details-card,
+.endpoints-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-lg);
 
-        &--electricity {
-            stroke: #f0ad4e;
+    ::ng-deep .ui-card {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: var(--space-lg);
+    }
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    .detail-label {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-tertiary);
+    }
+
+    .detail-value {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-primary);
+        word-break: break-word;
+
+        &.italic {
+            font-style: italic;
+            color: var(--color-text-secondary);
         }
 
-        &--water {
-            stroke: #5bc0de;
+        &.code-font {
+            font-family: monospace;
         }
+    }
+}
+
+.with-icon {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.docker-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.text-area {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    &__button {
+        display: flex;
+        justify-content: flex-end;
     }
 }
 
@@ -303,18 +279,4 @@
     justify-content: center;
     align-items: center;
     padding: var(--space-2xl) 0;
-}
-
-.action-buttons-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: var(--space-md);
-}
-
-.action-buttons-container-mobile {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: var(--space-md);
 }

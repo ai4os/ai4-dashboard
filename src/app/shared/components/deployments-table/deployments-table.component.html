@@ -49,14 +49,15 @@
                 [variant]="getStatusChipColor(row)"
             ></app-ui-chip>
             @if (row.status === 'queued' && row.gpus > 0) {
-                <mat-icon
-                    class="deployments-table__gpu-warning"
-                    [matTooltip]="
+                <app-ui-button
+                    variant="icon"
+                    icon="error"
+                    color="var(--warning-orange)"
+                    tooltip="{{
                         'DEPLOYMENTS.DEPLOYMENT-DETAIL.GPU-WARNING' | translate
-                    "
-                    (click)="openBatchDocumentation()"
-                    >error</mat-icon
-                >
+                    }}"
+                    [href]="'https://docs.ai4os.eu/en/latest/howtos/train/batch.html'"
+                ></app-ui-button>
             }
         </ng-template>
 

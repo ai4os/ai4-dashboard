@@ -142,6 +142,16 @@ export class DeploymentDetailComponent implements OnInit {
         this.activeTabId = tabId;
     }
 
+    get endpointsList(): { key: string; value: string }[] {
+        if (!this.deployment?.endpoints) return [];
+        return Object.entries(this.deployment.endpoints).map(
+            ([key, value]) => ({
+                key,
+                value,
+            })
+        );
+    }
+
     get energyItems(): any[] {
         const acc = this.deployment?.energy?.accumulated;
         if (!acc) return [];
