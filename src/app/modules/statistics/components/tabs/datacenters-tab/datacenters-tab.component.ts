@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import { transform, transformExtent } from 'ol/proj';
 import { defaults as defaultControls } from 'ol/control';
@@ -20,7 +19,9 @@ import VectorSource from 'ol/source/Vector';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 import { Coordinate } from 'ol/coordinate';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Cluster, XYZ } from 'ol/source';
+import { Cluster } from 'ol/source';
+import { applyStyle } from 'ol-mapbox-style';
+import VectorTileLayer from 'ol/layer/VectorTile';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
 import { createEmpty, extend } from 'ol/extent';
 import { MetricColorService } from '@app/modules/statistics/services/metric-color/metric-color.service';
@@ -56,7 +57,14 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     metricColor = inject(MetricColorService);
 
     constructor() {
-        this.tileLayer.setSource(this.tileSource.source);
+        fetch('https://tiles.openfreemap.org/styles/positron')
+            .then((res) => res.json())
+            .then((style) => {
+                style.layers = style.layers.filter(
+                    (layer: any) => layer.type !== 'symbol'
+                );
+                applyStyle(this.tileLayer, style, { updateSource: true });
+            });
     }
 
     @Input() datacentersStats: DatacenterStats[] = [];
@@ -79,13 +87,9 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     jobsNum = 0;
 
     private map!: Map;
-    private tileLayer = new TileLayer<any>();
-    private tileSource = {
-        name: 'CartoDB',
-        source: new XYZ({
-            url: 'https://{a-c}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
-        }),
-    };
+    private tileLayer = new VectorTileLayer({
+        declutter: true,
+    });
     private vectorLayer: VectorLayer<any> = new VectorLayer<any>();
     private europeExtent = transformExtent(
         [-31, 27, 50, 72],
