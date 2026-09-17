@@ -52,14 +52,14 @@ export class InferencesListComponent implements OnInit {
         {
             key: 'containerName',
             label: 'DEPLOYMENTS.CONTAINER-NAME',
-            minWidth: '240px',
+            minWidth: '230px',
         },
         {
             key: 'creationTime',
             label: 'DEPLOYMENTS.CREATION-TIME',
             align: 'center',
             sortable: true,
-            width: '200px',
+            width: '190px',
         },
         {
             key: 'actions',

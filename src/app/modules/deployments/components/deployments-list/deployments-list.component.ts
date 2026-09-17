@@ -69,12 +69,12 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             label: 'DEPLOYMENTS.STATUS',
             align: 'center',
             sortable: true,
-            width: '110px',
+            width: '130px',
         },
         {
             key: 'tagName',
             label: 'DEPLOYMENTS.TAG-NAME',
-            minWidth: '240px',
+            minWidth: '230px',
         },
         {
             key: 'size',
@@ -87,7 +87,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             label: 'DEPLOYMENTS.CREATION-TIME',
             align: 'center',
             sortable: true,
-            width: '200px',
+            width: '190px',
         },
         {
             key: 'actions',

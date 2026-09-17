@@ -107,12 +107,12 @@ export class DeploymentsTableComponent {
             label: 'DEPLOYMENTS.STATUS',
             align: 'center',
             sortable: true,
-            width: '110px',
+            width: '130px',
         },
         {
             key: 'containerName',
             label: 'DEPLOYMENTS.CONTAINER-NAME',
-            minWidth: '240px',
+            minWidth: '230px',
         },
         {
             key: 'gpus',
@@ -153,7 +153,7 @@ export class DeploymentsTableComponent {
             label: 'DEPLOYMENTS.CREATION-TIME',
             align: 'center',
             sortable: true,
-            width: '200px',
+            width: '190px',
         },
         {
             key: 'actions',
@@ -420,12 +420,5 @@ export class DeploymentsTableComponent {
                     this.router.navigate(['/catalog/modules/snapshots/batch']);
                 }
             });
-    }
-
-    openBatchDocumentation(): void {
-        window.open(
-            'https://docs.ai4os.eu/en/latest/howtos/train/batch.html',
-            '_blank'
-        );
     }
 }
