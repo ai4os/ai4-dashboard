@@ -61,7 +61,13 @@
                                     }"
                                 ></ng-container>
                             } @else {
-                                {{ row[col.key] }}
+                                <span
+                                    class="ui-table__cell-text"
+                                    [appConditionalTooltip]="row[col.key]"
+                                    matTooltipClass="ui-tooltip"
+                                >
+                                    {{ row[col.key] }}
+                                </span>
                             }
                         </div>
                     }

@@ -54,19 +54,19 @@ export class BatchListComponent implements OnInit {
             label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
             sticky: true,
             sortable: true,
-            width: '260px',
+            width: '200px',
         },
         {
             key: 'status',
             label: 'DEPLOYMENTS.STATUS',
             align: 'center',
             sortable: true,
-            width: '150px',
+            width: '110px',
         },
         {
             key: 'containerName',
             label: 'DEPLOYMENTS.CONTAINER-NAME',
-            minWidth: '260px',
+            minWidth: '240px',
         },
         {
             key: 'creationTime',

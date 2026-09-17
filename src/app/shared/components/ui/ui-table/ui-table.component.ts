@@ -12,6 +12,7 @@ import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.direc
 import { NgTemplateOutlet } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { ConditionalTooltipDirective } from '@app/shared/directives/conditional-tooltip.directive';
 
 export type UiTableSortDirection = 'asc' | 'desc' | null;
 
@@ -35,7 +36,12 @@ export interface UiTableColumn<T> {
     templateUrl: './ui-table.component.html',
     styleUrl: './ui-table.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [NgTemplateOutlet, TranslatePipe, UiLoaderComponent],
+    imports: [
+        NgTemplateOutlet,
+        TranslatePipe,
+        UiLoaderComponent,
+        ConditionalTooltipDirective,
+    ],
 })
 export class UiTableComponent<
     T extends Record<string, any>,
@@ -50,7 +56,7 @@ export class UiTableComponent<
 
     @ContentChildren(UiTableCellDirective)
     cellTemplates!: QueryList<UiTableCellDirective>;
-    private templateMap = new Map<string, UiTableCellDirective>();
+    private readonly templateMap = new Map<string, UiTableCellDirective>();
 
     sortKey: keyof T | string | null = null;
     sortDirection: UiTableSortDirection = null;
