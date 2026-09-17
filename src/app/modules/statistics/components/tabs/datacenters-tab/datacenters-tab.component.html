@@ -74,10 +74,12 @@
 
         <div class="env-grid">
             <app-stats-reduced-card
-                [label]="'DASHBOARD.STATS-TITLES.GREEN-SCORE' | translate"
+                [label]="
+                    'DASHBOARD.STATS-TITLES.ENVIRONMENTAL-SCORE' | translate
+                "
                 icon="eco"
                 [value]="selectedDatacenter?.green_score ?? '—'"
-                [tooltip]="'DASHBOARD.GREEN-SCORE-INFO' | translate"
+                [tooltip]="'DASHBOARD.ENVIRONMENTAL-SCORE-INFO' | translate"
             />
 
             <app-stats-reduced-card

@@ -35,7 +35,7 @@ const TIERS: Record<MapMetric, LegendTier[]> = {
         { label: '7 – 45 l/kWh', color: 'var(--neutral-value)', max: 45 },
         { label: '> 200 l/kWh', color: 'var(--bad-value)', max: Infinity },
     ],
-    'green-score': [
+    'environmental-score': [
         { label: '< 30', color: 'var(--bad-value)', max: 30 },
         { label: '30 – 60', color: 'var(--neutral-value)', max: 60 },
         { label: '> 60', color: 'var(--good-value)', max: 100 },

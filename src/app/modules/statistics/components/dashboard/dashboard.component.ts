@@ -232,7 +232,7 @@ export class DashboardComponent implements OnInit {
 
                         const greenScoreArray =
                             statsResponse['datacenters'][dc]['footprints'][
-                                'green-score'
+                                'environmental-score'
                             ];
 
                         const datacenter: DatacenterStats = {

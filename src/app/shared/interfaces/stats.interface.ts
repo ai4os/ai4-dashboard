@@ -54,7 +54,7 @@ export interface DatacenterStats {
     footprints: {
         carbon: any[];
         water: any[];
-        'green-score': any[];
+        'environmental-score': any[];
     };
     nodes: NodeStats[];
 }

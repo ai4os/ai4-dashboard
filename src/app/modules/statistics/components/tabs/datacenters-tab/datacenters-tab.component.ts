@@ -346,7 +346,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
                 dc.energy_water_usage != null
                     ? Number(dc.energy_water_usage)
                     : null,
-            'green-score':
+            'environmental-score':
                 dc.green_score != null ? Number(dc.green_score) : null,
         };
         return map[metric];
@@ -388,7 +388,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
             footprints: {
                 carbon: [],
                 water: [],
-                'green-score': [],
+                'environmental-score': [],
             },
         };
 
@@ -448,7 +448,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
         jobs: { label: 'Jobs', unit: 'running' },
         co2: { label: 'CO₂', unit: 'g/kWh' },
         water: { label: 'Water', unit: 'l/kWh' },
-        'green-score': { label: 'Green Score', unit: '' },
+        'environmental-score': { label: 'Green Score', unit: '' },
     };
 
     private updatePopupContent(dc: DatacenterStats): void {

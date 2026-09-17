@@ -164,7 +164,7 @@ export const mockedClusterStats: ClusterStats = {
             footprints: {
                 carbon: [],
                 water: [],
-                'green-score': [],
+                'environmental-score': [],
             },
         },
     ],

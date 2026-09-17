@@ -71,20 +71,22 @@ export class FootprintTabComponent implements OnInit {
         );
 
         this.greenScoreTimestamps =
-            this.datacentersStats[0]?.footprints['green-score'].map((f) => {
-                const date = new Date(f[0]);
-                return date.toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                    timeZone: 'UTC',
-                });
-            }) || [];
+            this.datacentersStats[0]?.footprints['environmental-score'].map(
+                (f) => {
+                    const date = new Date(f[0]);
+                    return date.toLocaleString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false,
+                        timeZone: 'UTC',
+                    });
+                }
+            ) || [];
 
         this.greenScoreValues = this.datacentersStats.map((dc) =>
-            dc.footprints['green-score'].map((f) => f[1])
+            dc.footprints['environmental-score'].map((f) => f[1])
         );
     }
 }

@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
-export type MapMetric = 'pue' | 'jobs' | 'co2' | 'water' | 'green-score';
+export type MapMetric =
+    'pue' | 'jobs' | 'co2' | 'water' | 'environmental-score';
 
 export interface MetricOption {
     key: MapMetric;
@@ -31,7 +32,11 @@ export class MapMetricSelectorComponent {
         { key: 'jobs', label: 'Jobs', icon: 'task' },
         { key: 'co2', label: 'CO₂', icon: 'factory' },
         { key: 'water', label: 'Water', icon: 'water_drop' },
-        { key: 'green-score', label: 'Green Score', icon: 'eco' },
+        {
+            key: 'environmental-score',
+            label: 'Environmental score',
+            icon: 'eco',
+        },
     ];
 
     select(key: MapMetric): void {
