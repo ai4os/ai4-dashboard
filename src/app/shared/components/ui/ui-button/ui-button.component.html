@@ -3,13 +3,17 @@
         [class]="'ui-btn ui-btn--' + variant"
         [class.ui-btn--icon-only]="icon && !text"
         [class.ui-btn--icon-right]="icon && iconPosition === 'right'"
-        [href]="href"
+        [class.ui-btn--disabled]="disabled"
+        [style.--ui-btn-color]="variant === 'icon' ? color : null"
+        [href]="disabled ? null : href"
+        [attr.aria-disabled]="disabled"
+        [attr.tabindex]="disabled ? -1 : null"
         target="_blank"
         rel="noopener noreferrer"
         [matTooltip]="tooltip ?? ''"
         [matTooltipDisabled]="!tooltip"
         matTooltipClass="ui-tooltip"
-        (click)="onLinkClick($event)"
+        (click)="disabled ? $event.preventDefault() : onLinkClick($event)"
     >
         @if (icon) {
             <mat-icon>{{ icon }}</mat-icon>
@@ -18,7 +22,7 @@
             <img [src]="image" />
         }
         @if (text) {
-            <span>{{ text | translate }}</span>
+            <span>{{ translateText ? (text | translate) : text }}</span>
         }
     </a>
 } @else {
@@ -27,6 +31,7 @@
         [class]="'ui-btn ui-btn--' + variant"
         [class.ui-btn--icon-only]="icon && !text"
         [class.ui-btn--icon-right]="icon && iconPosition === 'right'"
+        [style.--ui-btn-color]="variant === 'icon' ? color : null"
         [disabled]="disabled"
         [matTooltip]="tooltip ?? ''"
         [matTooltipDisabled]="!tooltip"
@@ -40,7 +45,7 @@
             <img [src]="image" />
         }
         @if (text) {
-            <span>{{ text | translate }}</span>
+            <span>{{ translateText ? (text | translate) : text }}</span>
         }
     </button>
 }

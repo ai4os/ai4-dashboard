@@ -38,17 +38,19 @@
         height: var(--font-size-md);
     }
 
-    &:disabled {
+    &:disabled,
+    &--disabled {
         cursor: not-allowed;
         opacity: 0.5;
         transform: none !important;
+        pointer-events: none;
     }
 
     &--primary-solid {
         background: var(--color-primary);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-primary-dark);
             transform: translateY(-1px);
         }
@@ -59,7 +61,7 @@
         color: var(--color-primary);
         border-color: var(--color-primary);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-primary-light);
             border-color: var(--color-primary-dark);
             transform: translateY(-1px);
@@ -70,7 +72,7 @@
         background: var(--color-accent);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-accent-dark);
             transform: translateY(-1px);
         }
@@ -81,7 +83,7 @@
         color: var(--color-accent);
         border-color: var(--color-accent);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-accent-light);
             border-color: var(--color-accent-dark);
             transform: translateY(-1px);
@@ -92,7 +94,7 @@
         background: var(--color-danger);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-danger-dark);
             transform: translateY(-1px);
         }
@@ -103,7 +105,7 @@
         color: var(--color-default-dark);
         border-color: var(--color-border-default);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-default-light);
             border-color: var(--color-default);
             transform: translateY(-1px);
@@ -114,7 +116,7 @@
         background: var(--color-text-secondary);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-text-primary);
             transform: translateY(-1px);
         }
@@ -125,7 +127,7 @@
         color: var(--color-danger);
         border-color: var(--color-danger);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-danger-light);
             border-color: var(--color-danger-dark);
             transform: translateY(-1px);
@@ -134,10 +136,14 @@
 
     &--icon {
         background: transparent;
-        color: var(--color-primary);
+        color: var(--ui-btn-color, var(--color-primary));
 
-        &:hover:not(:disabled) {
-            background: var(--color-primary-light);
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
+            background: color-mix(
+                in srgb,
+                var(--ui-btn-color, var(--color-primary)) 15%,
+                transparent
+            );
             transform: translateY(-1px);
         }
     }

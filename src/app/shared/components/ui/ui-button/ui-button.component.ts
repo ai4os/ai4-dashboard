@@ -36,6 +36,8 @@ export class UiButtonComponent implements OnInit {
     @Input() disabled = false;
     @Input() tooltip?: string;
     @Input() href?: string;
+    @Input() color?: string;
+    @Input() translateText = true;
     @Output() buttonClick = new EventEmitter<MouseEvent>();
 
     ngOnInit(): void {
