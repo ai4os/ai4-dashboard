@@ -87,8 +87,16 @@
     }
 }
 
-.error-banner {
-    margin: 0 var(--space-lg);
+.status-alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+    align-items: center;
+
+    ::ng-deep app-ui-chip > div {
+        width: fit-content;
+    }
 }
 
 .tab-content {
@@ -118,9 +126,6 @@
     }
 }
 
-/* ──────────────────────────────────────────────
-   Layout Principal: Detalles vs Endpoints
-   ────────────────────────────────────────────── */
 .deployment-info-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -279,4 +284,27 @@
     justify-content: center;
     align-items: center;
     padding: var(--space-2xl) 0;
+}
+
+.warning-chip {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-base);
+    border: solid 2px var(--color-warning);
+    background-color: color-mix(
+        in srgb,
+        var(--color-warning) 15%,
+        transparent
+    ) !important;
+    height: fit-content;
+    padding: var(--space-sm);
+    align-self: flex-start;
+    color: var(--color-warning-dark);
+    max-width: 100%;
+    width: auto;
+    border-radius: var(--radius-sm);
+
+    mat-icon {
+        color: var(--color-warning);
+        transform: scale(1.5);
+    }
 }

@@ -4,7 +4,6 @@ import {
     MAT_DIALOG_DATA,
     MatDialogClose,
 } from '@angular/material/dialog';
-import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
 import { UiExpansionPanelComponent } from '@app/shared/components/ui/ui-expansion-panel/ui-expansion-panel.component';
 import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
 import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
@@ -17,7 +16,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrls: ['./filters-configuration-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        UiCardComponent,
         UiExpansionPanelComponent,
         UiChipComponent,
         UiButtonComponent,

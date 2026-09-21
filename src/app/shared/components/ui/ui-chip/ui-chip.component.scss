@@ -28,12 +28,13 @@
         white-space: normal;
         width: 100%;
         padding-inline: var(--space-md);
+        gap: var(--space-md);
 
         .ui-chip__text {
             line-height: 1.4;
             overflow-wrap: break-word;
             word-break: word-break;
-            margin-block-start: 1em;
+            margin-block: 1em;
 
             > *:first-child {
                 margin-top: 0;
@@ -78,10 +79,10 @@
         }
 
         .ui-chip__icon {
-            font-size: var(--font-size-2xl);
-            width: var(--font-size-2xl);
-            height: var(--font-size-2xl);
-            line-height: var(--font-size-2xl);
+            font-size: var(--font-size-lg);
+            width: var(--font-size-lg);
+            height: var(--font-size-lg);
+            line-height: var(--font-size-lg);
         }
     }
 

@@ -3,14 +3,12 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnInit,
     Output,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTooltip } from '@angular/material/tooltip';
 import { MatBadge } from '@angular/material/badge';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -34,7 +32,11 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import {
+    TranslateService,
+    TranslatePipe,
+    TranslateDirective,
+} from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
 import { formatDate } from '@app/shared/utils/formatDate';
 import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
@@ -59,10 +61,10 @@ import {
         UiButtonComponent,
         UiChipComponent,
         MatIcon,
-        MatTooltip,
         MatBadge,
         TranslatePipe,
         RouterLink,
+        TranslateDirective,
     ],
 })
 export class DeploymentsTableComponent {
@@ -196,20 +198,6 @@ export class DeploymentsTableComponent {
         this.router.navigate(['/catalog/tools/ai4os-dev-env/deploy']);
     }
 
-    openDeploymentDetailDialog(row: DeploymentTableRow): void {
-        this.openSnapshotDetailDialog({
-            snapshot_ID: row.snapshot_ID!,
-            title: row.name,
-            status: row.status!,
-            submit_time: formatDate(row.creationTime),
-            docker_image: '',
-            size: +row.size!,
-            nomad_ID: '',
-            description: row.description,
-            error_msg: row.error_msg,
-        });
-    }
-
     @Input() detailRouteBase: string | null = null;
 
     getDetailLink(row: DeploymentTableRow): string[] | null {
@@ -249,18 +237,6 @@ export class DeploymentsTableComponent {
         const width = this.mobileQuery.matches ? '300px' : '650px';
         this.dialog.open(SecretManagementDetailComponent, {
             data: { uuid: row.uuid, name: row.name },
-            width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
-        });
-    }
-
-    openSnapshotDetailDialog(snapshot: Snapshot): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(SnapshotDetailComponent, {
-            data: { snapshot },
             width,
             maxWidth: width,
             minWidth: width,
@@ -313,9 +289,11 @@ export class DeploymentsTableComponent {
 
     getMaintenanceInfo(row: DeploymentTableRow): string {
         const notification = this.findMaintenanceNotification(row);
+
         if (!notification) {
             return '';
         }
+
         return this.translateService.instant(
             'DEPLOYMENTS.DATACENTER-DOWNTIME-NOTIFICATION',
             {

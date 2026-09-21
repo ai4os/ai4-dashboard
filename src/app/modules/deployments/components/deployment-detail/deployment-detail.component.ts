@@ -6,14 +6,7 @@ import {
     inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-    Location,
-    NgClass,
-    KeyValue,
-    KeyValuePipe,
-    UpperCasePipe,
-    DatePipe,
-} from '@angular/common';
+import { Location, KeyValue, UpperCasePipe, DatePipe } from '@angular/common';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
@@ -37,13 +30,15 @@ import {
     UiTabsComponent,
     Tab,
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
-import { UiListCardComponent } from '@app/shared/components/ui/ui-list-card/ui-list-card.component';
 import { MatIcon } from '@angular/material/icon';
 import { UiCredentialRowComponent } from '@app/shared/components/ui/ui-credential-row/ui-credential-row.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { StatsReducedCardComponent } from '@app/modules/statistics/components/stats/stats-reduced-card/stats-reduced-card.component';
-import { MatDivider } from '@angular/material/divider';
 import { FootprintChartComponent } from '@app/modules/statistics/components/charts/footprint-chart/footprint-chart.component';
+import { GradioDeployment } from '@app/shared/interfaces/module.interface';
+import { TryMeService } from '@app/modules/try-me/services/try-me.service';
+import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
+import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 
 interface ListCardItem {
     label: string;
@@ -57,8 +52,6 @@ interface ListCardItem {
     styleUrls: ['./deployment-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        NgClass,
-        KeyValuePipe,
         UpperCasePipe,
         TranslatePipe,
         CopyToClipboardDirective,
@@ -69,12 +62,11 @@ interface ListCardItem {
         UiButtonComponent,
         UiChipComponent,
         UiTabsComponent,
-        UiListCardComponent,
         MatIcon,
         UiCredentialRowComponent,
         BreadcrumbComponent,
         StatsReducedCardComponent,
-        MatDivider,
+
         FootprintChartComponent,
         DatePipe,
     ],
@@ -82,8 +74,10 @@ interface ListCardItem {
 export class DeploymentDetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly location = inject(Location);
+    private readonly platformStatusService = inject(PlatformStatusService);
 
     deploymentsService = inject(DeploymentsService);
+    tryMeService = inject(TryMeService);
     secretsService = inject(SecretsService);
     translateService = inject(TranslateService);
     snackbarService = inject(SnackbarService);
@@ -99,10 +93,11 @@ export class DeploymentDetailComponent implements OnInit {
     }
 
     uuid = '';
-    type: 'module' | 'tool' | 'batch' = 'module';
+    type: 'module' | 'tool' | 'try-me' | 'batch' = 'module';
 
     deployment: Deployment | undefined;
     statusBadge = '';
+    datacentersNotifications: StatusNotification[] = [];
 
     isLoading = false;
     protected deploymentHasError = false;
@@ -129,7 +124,7 @@ export class DeploymentDetailComponent implements OnInit {
         if (this.type === 'batch' && this.localBatchScript) {
             dynamicTabs.push({
                 id: 'command',
-                label: 'DEPLOYMENTS.DEPLOYMENT-DETAIL.BATCH.COMMAND',
+                label: 'DEPLOYMENTS.DETAIL.BATCH.COMMAND',
             });
         }
 
@@ -242,17 +237,72 @@ export class DeploymentDetailComponent implements OnInit {
         );
     }
 
+    hasDatacenterUnderMaintenance(): boolean {
+        return !!this.findMaintenanceNotification();
+    }
+
+    getMaintenanceInfo(): string {
+        const notification = this.findMaintenanceNotification();
+
+        if (!notification) {
+            return '';
+        }
+        return this.translateService.instant(
+            'DEPLOYMENTS.DATACENTER-DOWNTIME-NOTIFICATION',
+            {
+                datacenter: this.deployment?.datacenter,
+                startDate:
+                    notification.downtimeStart?.toLocaleDateString('es-ES'),
+                endDate: notification.downtimeEnd?.toLocaleDateString('es-ES'),
+            }
+        );
+    }
+
+    private findMaintenanceNotification() {
+        return this.datacentersNotifications.find((n) =>
+            n.datacenters?.includes(this.deployment?.datacenter ?? '')
+        );
+    }
+
+    getGpuWarningInfo(): string {
+        const message = this.translateService.instant(
+            'DEPLOYMENTS.DETAIL.GPU-WARNING-1'
+        );
+        const linkText = this.translateService.instant(
+            'DEPLOYMENTS.DETAIL.GPU-WARNING-2'
+        );
+        return `${message} <a href="https://docs.ai4os.eu/en/latest/howtos/train/batch.html" target="_blank" rel="noopener">${linkText}</a>.`;
+    }
+
+    get showGpuQueuedWarning(): boolean {
+        return (
+            this.deployment?.status === 'queued' &&
+            (this.deployment?.resources?.gpu_num ?? 0) > 0
+        );
+    }
+
     ngOnInit(): void {
         this.uuid = this.route.snapshot.paramMap.get('uuid') ?? '';
         this.type =
             (this.route.snapshot.queryParamMap.get('type') as
-                'module' | 'tool' | 'batch') ?? 'module';
+                'module' | 'tool' | 'try-me' | 'batch') ?? 'module';
 
         if (!this.uuid) {
             return;
         }
 
         this.isLoading = true;
+
+        this.platformStatusService
+            .getActiveDatacenterNotifications()
+            .subscribe({
+                next: (notifications) => {
+                    this.datacentersNotifications = notifications;
+                },
+                error: () => {
+                    this.datacentersNotifications = [];
+                },
+            });
 
         if (this.type === 'tool') {
             this.deploymentsService
@@ -269,6 +319,14 @@ export class DeploymentDetailComponent implements OnInit {
             this.deploymentsService
                 .getDeploymentByUUID(this.uuid)
                 .subscribe((deployment: Deployment) => {
+                    this.normalizeDockerImage(deployment);
+                    this.handleDeploymentLoaded(deployment);
+                    this.isLoading = false;
+                });
+        } else if (this.type === 'try-me') {
+            this.tryMeService
+                .getDeploymentGradioByUUID(this.uuid)
+                .subscribe((deployment: GradioDeployment) => {
                     this.normalizeDockerImage(deployment);
                     this.handleDeploymentLoaded(deployment);
                     this.isLoading = false;
@@ -311,13 +369,13 @@ export class DeploymentDetailComponent implements OnInit {
         return [
             {
                 label: this.translateService.instant(
-                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
+                    'DEPLOYMENTS.DETAIL.DESCRIPTION'
                 ),
                 value: this.deployment?.description ?? '-',
             },
             {
                 label: this.translateService.instant(
-                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                    'DEPLOYMENTS.DETAIL.DOCKER-IMAGE'
                 ),
                 value: this.deployment?.docker_image ?? '-',
             },
@@ -328,7 +386,7 @@ export class DeploymentDetailComponent implements OnInit {
         const resources = this.deployment?.resources ?? {};
         return Object.entries(resources).map(([key, value]) => {
             const label = this.translateService.instant(
-                'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES.' + key.toUpperCase()
+                'DEPLOYMENTS.DETAIL.RESOURCES.' + key.toUpperCase()
             );
             let unit = '';
             let icon = 'developer_board';

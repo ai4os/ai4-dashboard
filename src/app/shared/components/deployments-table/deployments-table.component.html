@@ -28,18 +28,18 @@
         (sortChange)="onSortChange($event)"
     >
         <ng-template uiTableCell="name" let-row>
-            <span
-                class="deployments-table__name"
-                matBadgeSize="small"
-                matBadge="priority_high"
-                matBadgeColor="warn"
-                matBadgeOverlap="false"
-                [matBadgeHidden]="!hasDatacenterUnderMaintenance(row)"
-                [matTooltip]="getMaintenanceInfo(row)"
-                matTooltipPosition="right"
-                [matTooltipDisabled]="!hasDatacenterUnderMaintenance(row)"
-            >
+            <span class="deployments-table__name">
                 {{ row.name }}
+
+                @if (hasDatacenterUnderMaintenance(row)) {
+                    <app-ui-button
+                        variant="icon"
+                        icon="error"
+                        color="var(--warning-orange)"
+                        [tooltip]="getMaintenanceInfo(row)"
+                        translate="false"
+                    ></app-ui-button>
+                }
             </span>
         </ng-template>
 
@@ -53,9 +53,7 @@
                     variant="icon"
                     icon="error"
                     color="var(--warning-orange)"
-                    tooltip="{{
-                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.GPU-WARNING' | translate
-                    }}"
+                    tooltip="{{ 'DEPLOYMENTS.DETAIL.GPU-WARNING' | translate }}"
                     [href]="'https://docs.ai4os.eu/en/latest/howtos/train/batch.html'"
                 ></app-ui-button>
             }
@@ -87,30 +85,16 @@
 
         <ng-template uiTableCell="actions" let-row>
             <div class="deployments-table__actions">
-                @if (getDetailLink(row); as detailLink) {
-                    <app-ui-button
-                        variant="icon"
-                        icon="info"
-                        tooltip="Info"
-                        matBadgeSize="small"
-                        matBadge="priority_high"
-                        matBadgeColor="warn"
-                        [matBadgeHidden]="!hasDeploymentErrors(row)"
-                        [routerLink]="detailLink"
-                        [queryParams]="{ type: deploymentType }"
-                    ></app-ui-button>
-                } @else {
-                    <app-ui-button
-                        variant="icon"
-                        icon="info"
-                        tooltip="Info"
-                        matBadgeSize="small"
-                        matBadge="priority_high"
-                        matBadgeColor="warn"
-                        [matBadgeHidden]="!hasDeploymentErrors(row)"
-                        (buttonClick)="openDeploymentDetailDialog(row)"
-                    ></app-ui-button>
-                }
+                <app-ui-button
+                    variant="icon"
+                    icon="info"
+                    tooltip="Info"
+                    [color]="
+                        hasDeploymentErrors(row) ? 'var(--warning-orange)' : ''
+                    "
+                    [routerLink]="getDetailLink(row)"
+                    [queryParams]="{ type: deploymentType }"
+                ></app-ui-button>
 
                 @if (isFederatedServer(row)) {
                     <app-ui-button

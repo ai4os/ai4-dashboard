@@ -48,11 +48,40 @@
         (tabChange)="onTabChange($event)"
     ></app-ui-tabs>
 
-    @if (deploymentHasError) {
-        <app-ui-banner class="error-banner">
-            <mat-icon style="vertical-align: bottom">warning</mat-icon>
-            {{ 'GENERAL.ERROR' | translate }}: {{ deployment?.error_msg }}
-        </app-ui-banner>
+    @if (
+        deploymentHasError ||
+        hasDatacenterUnderMaintenance() ||
+        showGpuQueuedWarning
+    ) {
+        <div class="status-alerts">
+            @if (deploymentHasError) {
+                <app-ui-chip
+                    variant="danger-solid"
+                    icon="warning"
+                    [text]="
+                        ('GENERAL.ERROR' | translate) +
+                        ': ' +
+                        (deployment?.error_msg ?? '')
+                    "
+                ></app-ui-chip>
+            }
+
+            @if (hasDatacenterUnderMaintenance()) {
+                <app-ui-chip
+                    variant="warning-solid"
+                    icon="warning"
+                    [html]="getMaintenanceInfo()"
+                ></app-ui-chip>
+            }
+
+            @if (showGpuQueuedWarning) {
+                <app-ui-chip
+                    variant="warning-solid"
+                    icon="warning"
+                    [html]="getGpuWarningInfo()"
+                ></app-ui-chip>
+            }
+        </div>
     }
 
     <!-- Overview tab -->
@@ -67,8 +96,7 @@
                     <app-ui-card class="details-card">
                         <div class="detail-item">
                             <span class="detail-label">{{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
-                                    | translate
+                                'DEPLOYMENTS.DETAIL.DESCRIPTION' | translate
                             }}</span>
                             <span class="detail-value italic">
                                 {{
@@ -86,7 +114,7 @@
                                     src="assets/images/module-detail/dockerhub.svg"
                                     class="docker-icon"
                                 />{{
-                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DOCKER-IMAGE'
+                                    'DEPLOYMENTS.DETAIL.DOCKER-IMAGE'
                                         | translate
                                 }}</span
                             >
@@ -99,7 +127,7 @@
 
                 <div class="endpoints-column">
                     <span class="section-title">{{
-                        'DEPLOYMENTS.DEPLOYMENT-DETAIL.ENDPOINTS' | translate
+                        'DEPLOYMENTS.DETAIL.ENDPOINTS' | translate
                     }}</span>
                     <app-ui-card class="endpoints-card">
                         <div class="grid-endpoints">
@@ -115,6 +143,12 @@
                                     [translateText]="false"
                                     target="_blank"
                                     [disabled]="!isActiveEndPoint(endpoint.key)"
+                                    [tooltip]="
+                                        !isActiveEndPoint(endpoint.key)
+                                            ? ('DEPLOYMENTS.DETAIL.ENDPOINT-UNAVAILABLE'
+                                              | translate)
+                                            : ''
+                                    "
                                 ></app-ui-button>
                             } @empty {
                                 <p>-</p>
@@ -132,16 +166,12 @@
             ) {
                 <div class="sidebar-section">
                     <span class="sidebar-section__label">
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.DETAILS'
-                                | translate
-                        }}
+                        {{ 'DEPLOYMENTS.DETAIL.VLLM.DETAILS' | translate }}
                     </span>
                     <app-ui-card>
                         <div class="vllm-field">
                             <span class="vllm-field__label">{{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.URL'
-                                    | translate
+                                'DEPLOYMENTS.DETAIL.VLLM.URL' | translate
                             }}</span>
                             <div class="token-container">
                                 <app-ui-credential-row
@@ -155,8 +185,7 @@
 
                         <div class="vllm-field">
                             <span class="vllm-field__label">{{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.VLLM.TOKEN'
-                                    | translate
+                                'DEPLOYMENTS.DETAIL.VLLM.TOKEN' | translate
                             }}</span>
                             <div class="token-container">
                                 <app-ui-credential-row

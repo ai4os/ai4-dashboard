@@ -520,7 +520,7 @@
             }
         },
         "OVERVIEW": {
-            "TITLE":"Overview",
+            "TITLE": "Overview",
             "DETAILS": "Details"
         },
         "ENERGY": {
@@ -541,12 +541,13 @@
         "NO-DEPLOYMENTS": "Nothing deployed yet",
         "DATACENTER-DOWNTIME-NOTIFICATION": "This deployment is located at the {{datacenter}} datacenter which will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
         "DATACENTER-DOWNTIME-DESC": "Datacenter(s) {{datacenters}} will be on downtime from {{startDate}} to  {{endDate}}. Please backup your data.",
-            "DEPLOYMENT-DETAIL": {
+        "DETAIL": {
             "MODULE-TITLE": "Deployment detail",
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
-            "GPU-WARNING": "Remember that GPU trainings can also be launched in batch mode, where there is a higher availability of powerful GPUs. For more information on how to relaunch this deployment in batch mode, check the documentation.",
+            "GPU-WARNING-1": "Remember that GPU trainings can also be launched in batch mode, where there is a higher availability of powerful GPUs. For more information on how to relaunch this deployment in batch mode, check the ",
+            "GPU-WARNING-2": "documentation",
             "DOCKER-IMAGE": "Docker image",
             "DESCRIPTION": "Description",
             "CREATION-TIME": "Creation time (UTC)",
@@ -556,6 +557,7 @@
             "SIZE": "Size",
             "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
+            "ENDPOINT-UNAVAILABLE": "This endpoint is currently unavailable",
             "RESOURCES": {
                 "CPU_NUM": "Number of CPUs",
                 "GPU_NUM": "Number of GPUs",

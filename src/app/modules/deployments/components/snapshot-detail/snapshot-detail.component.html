@@ -1,99 +1,91 @@
-<mat-toolbar class="mb-3 marketplace-toolbar detail-title">
-    <span>
-        {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.SNAPSHOT-TITLE' | translate }}
+@if (isLoading) {
+    <div class="spinner-loading-overlay">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else {
+    <!-- Header -->
+    <header class="header">
+        <div class="header__top-bar">
+            <xng-breadcrumb class="header__breadcrumb"></xng-breadcrumb>
+        </div>
 
-        <mat-icon>view_in_ar</mat-icon></span
-    >
-</mat-toolbar>
+        <app-ui-banner variant="primary" decoration="none">
+            <div class="banner-layout">
+                <div class="banner-layout__header">
+                    <div class="banner-layout__info">
+                        <h1 class="banner-layout__title">
+                            {{ snapshot?.title }}
+                        </h1>
+                        <app-ui-chip
+                            [text]="snapshot?.status ?? '' | translate"
+                            [variant]="getStatusChipVariant()"
+                        ></app-ui-chip>
+                    </div>
+                    <p class="banner-layout__subtitle">
+                        {{ snapshot?.submit_time | date: 'd MMM y, HH:mm' }}
+                    </p>
+                </div>
 
-<mat-card>
-    <mat-card-header>
-        <mat-card-title
-            [ngClass]="{
-                'card-title-mobile': mobileQuery.matches,
-                'card-title': !mobileQuery.matches,
-            }"
-        >
-            <h2>{{ snapshot.title }}</h2>
-            <p>
-                @if (data.snapshot) {
-                    <img
-                        src="https://img.shields.io/badge/status-{{
-                            statusBadge
-                        }}"
-                        width="125"
-                    />
-                }
-            </p>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content
-        [ngClass]="{
-            'card-content-mobile': mobileQuery.matches,
-        }"
-    >
-        @if (snapshotHasError) {
-            <div>
-                <h4>
-                    <mat-icon style="vertical-align: bottom" color="warn"
-                        >warning</mat-icon
-                    >
-                    <mat-error> Error: {{ snapshot.error_msg }}</mat-error>
-                </h4>
-            </div>
-        }
-        @if (!isLoading) {
-            <div
-                [ngClass]="{
-                    'deployment-detail-container-mobile': mobileQuery.matches,
-                    'deployment-detail-container': !mobileQuery.matches,
-                }"
-            >
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.SNAPSHOT-ID'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ snapshot.snapshot_ID }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ snapshot.description }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{
-                            'DEPLOYMENTS.DEPLOYMENT-DETAIL.CREATION-TIME'
-                                | translate
-                        }}
-                    </h3>
-                    <p>{{ snapshot.submit_time }}</p>
-                </div>
-                <div>
-                    <h3>
-                        {{ 'DEPLOYMENTS.DEPLOYMENT-DETAIL.SIZE' | translate }}
-                    </h3>
-                    <p>{{ snapshot.size }} GiB</p>
+                <div class="banner-layout__user-id">
+                    <span class="banner-layout__user-id-label">{{
+                        'DEPLOYMENTS.DETAIL.SNAPSHOT-ID' | translate
+                    }}</span>
+                    <span class="banner-layout__user-id-value">{{
+                        snapshot?.snapshot_ID
+                    }}</span>
                 </div>
             </div>
-            <ng-template #noResources> - </ng-template>
-        } @else {
-            <div class="spinner">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
+        </app-ui-banner>
+    </header>
+
+    @if (snapshotHasError) {
+        <app-ui-banner class="error-banner">
+            <mat-icon style="vertical-align: bottom">warning</mat-icon>
+            {{ 'GENERAL.ERROR' | translate }}: {{ snapshot?.error_msg }}
+        </app-ui-banner>
+    }
+
+    <!-- Details -->
+    <section class="tab-content">
+        <div class="snapshot-info-layout">
+            <div class="details-column">
+                <span class="section-title">{{
+                    'DEPLOYMENTS.OVERVIEW.DETAILS' | translate
+                }}</span>
+                <app-ui-card class="details-card">
+                    <div class="detail-item">
+                        <span class="detail-label">{{
+                            'DEPLOYMENTS.DETAIL.DESCRIPTION' | translate
+                        }}</span>
+                        <span class="detail-value italic">
+                            {{ snapshot?.description }}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label with-icon">
+                            <img
+                                src="assets/images/module-detail/dockerhub.svg"
+                                class="docker-icon"
+                            />{{
+                                'DEPLOYMENTS.DETAIL.DOCKER-IMAGE' | translate
+                            }}</span
+                        >
+                        <span class="detail-value code-font">
+                            {{ snapshot?.docker_image || '-' }}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">{{
+                            'DEPLOYMENTS.DETAIL.SIZE' | translate
+                        }}</span>
+                        <span class="detail-value">
+                            {{ snapshot?.size }} GiB
+                        </span>
+                    </div>
+                </app-ui-card>
             </div>
-        }
-    </mat-card-content>
-    <mat-card-actions align="end">
-        <button mat-raised-button mat-dialog-close>
-            {{ 'GENERAL.CLOSE' | translate }}
-        </button>
-    </mat-card-actions>
-</mat-card>
+        </div>
+    </section>
+}

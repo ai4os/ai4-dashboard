@@ -35,6 +35,7 @@
             deploymentType="snapshot"
             [dataset]="snapshotsDataset"
             [columns]="snapshotColumns"
+            [detailRouteBase]="snapshotDetailRouteBase"
             (deleteElement)="removeSnapshot($event)"
         ></app-deployments-table>
     </div>

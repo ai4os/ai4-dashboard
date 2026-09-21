@@ -49,7 +49,7 @@ export interface Deployment {
         disk_MB: number;
     };
     endpoints?: Record<string, string>;
-    active_endpoints?: [string];
+    active_endpoints?: string[];
     main_endpoint: string;
     alloc_ID?: string;
     error_msg?: string;

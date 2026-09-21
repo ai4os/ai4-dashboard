@@ -22,11 +22,7 @@ import {
 } from '../../services/snapshots-service/snapshot.service';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
-import {
-    PlatformStatus,
-    StatusNotification,
-} from '@app/shared/interfaces/platform-status.interface';
-import * as yaml from 'js-yaml';
+import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { formatDate } from '@app/shared/utils/formatDate';
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 
@@ -55,6 +51,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             this.changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
+
+    readonly snapshotDetailRouteBase = '/tasks/deployments/snapshots';
 
     snapshotColumns: UiTableColumn<DeploymentTableRow>[] = [
         {
@@ -104,7 +102,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     isSnapshotsTableLoading = false;
 
     notificationsUpdated = false;
-    notifications: StatusNotification[] = [];
     displayedNotifications: StatusNotification[] = [];
 
     modulesDataset: DeploymentTableRow[] = [];
@@ -133,34 +130,14 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             !this.isToolsTableLoading
         ) {
             this.platformStatusService
-                .getNomadClusterNotifications()
+                .getActiveDatacenterNotifications()
+
                 .subscribe({
-                    next: (filteredPlatformStatus: PlatformStatus[]) => {
-                        if (filteredPlatformStatus.length > 0) {
-                            filteredPlatformStatus.forEach((status) => {
-                                if (status.body != null) {
-                                    const yamlBody = status.body
-                                        .replace(/```yaml/g, '')
-                                        .replace(/```[\s\S]*/, '');
-                                    const notification: StatusNotification =
-                                        yaml.load(
-                                            yamlBody
-                                        ) as StatusNotification;
-                                    this.notifications.push(notification);
-                                }
-                            });
-                            this.displayedNotifications =
-                                this.platformStatusService.filterByDateAndVo(
-                                    this.notifications
-                                );
-                        } else {
-                            this.notifications = [];
-                            this.displayedNotifications = [];
-                        }
+                    next: (displayedNotifications: StatusNotification[]) => {
+                        this.displayedNotifications = displayedNotifications;
                         this.notificationsUpdated = true;
                     },
                     error: () => {
-                        this.notifications = [];
                         this.displayedNotifications = [];
                         this.snackbarService.openError(
                             'Error retrieving the platform notifications'

@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input, HostListener } from '@angular/core';
+import {
+    Directive,
+    ElementRef,
+    Input,
+    HostListener,
+    inject,
+} from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
@@ -12,14 +18,12 @@ export class ConditionalTooltipDirective {
         this.matTooltip.message = value || '';
     }
 
-    @Input('matTooltipClass') set tooltipClass(value: string) {
+    @Input() set tooltipClass(value: string) {
         this.matTooltip.tooltipClass = value;
     }
 
-    constructor(
-        private readonly elementRef: ElementRef<HTMLElement>,
-        private readonly matTooltip: MatTooltip
-    ) {}
+    elementRef = inject(ElementRef<HTMLElement>);
+    matTooltip = inject(MatTooltip);
 
     @HostListener('mouseenter')
     onMouseEnter(): void {
