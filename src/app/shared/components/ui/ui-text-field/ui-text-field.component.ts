@@ -43,9 +43,16 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     // When using formControlName, value comes from writeValue().
     @Input() value?: string;
     @Output() valueChange = new EventEmitter<string>();
+    @Input()
+    set disabled(value: boolean) {
+        this.disabledSignal.set(value);
+    }
+    get disabled(): boolean {
+        return this.disabledSignal();
+    }
 
     protected internalValue = signal('');
-    protected disabled = signal(false);
+    protected disabledSignal = signal(false);
     protected hidden = signal(true);
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -81,7 +88,7 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     }
 
     setDisabledState(isDisabled: boolean): void {
-        this.disabled.set(isDisabled);
+        this.disabledSignal.set(isDisabled);
     }
 
     protected onInput(event: Event): void {
@@ -100,7 +107,7 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     }
 
     protected clear(): void {
-        if (this.disabled()) return;
+        if (this.disabledSignal()) return;
         this.internalValue.set('');
         this.onChange('');
         this.valueChange.emit('');

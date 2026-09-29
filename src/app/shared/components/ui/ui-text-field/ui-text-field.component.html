@@ -1,7 +1,7 @@
 <div
     class="ui-text-field"
     [class.ui-text-field--invalid]="isInvalid"
-    [class.ui-text-field--disabled]="disabled()"
+    [class.ui-text-field--disabled]="disabledSignal()"
 >
     @if (label) {
         <span class="ui-text-field__label">{{ label | translate }}</span>
@@ -16,7 +16,7 @@
             class="ui-text-field__input"
             [type]="inputType"
             [placeholder]="placeholder ?? ''"
-            [disabled]="disabled()"
+            [disabled]="disabledSignal()"
             [value]="internalValue()"
             [min]="min ?? null"
             [max]="max ?? null"
@@ -25,7 +25,7 @@
             (blur)="onBlur()"
         />
 
-        @if (clearable && internalValue() && !disabled()) {
+        @if (clearable && internalValue() && !disabledSignal()) {
             <mat-icon
                 class="ui-text-field__suffix"
                 [matTooltip]="'GENERAL.CLEAR' | translate"

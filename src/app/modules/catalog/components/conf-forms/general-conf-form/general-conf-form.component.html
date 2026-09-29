@@ -90,6 +90,16 @@
             </div>
         }
 
+        @if (
+            generalConfFormGroup.get('serviceToRunChip')?.value === 'opencode'
+        ) {
+            <app-ui-text-field
+                value="opencode"
+                [disabled]="true"
+                label="{{ 'CATALOG.CONF-FORMS.GENERAL.USERNAME' | translate }}"
+            ></app-ui-text-field>
+        }
+
         <!-- Service to run (password) -->
         @if (isPasswodRequired) {
             <app-ui-text-field

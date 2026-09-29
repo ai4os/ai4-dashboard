@@ -180,7 +180,11 @@ export class GeneralConfFormComponent implements OnInit {
         this.generalConfFormGroup
             .get('serviceToRunChip')
             ?.valueChanges.subscribe((val) => {
-                if (val === 'jupyter' || val === 'vscode') {
+                if (
+                    val === 'jupyter' ||
+                    val === 'vscode' ||
+                    val === 'opencode'
+                ) {
                     this.isPasswodRequired = true;
                 } else {
                     this.isPasswodRequired = false;

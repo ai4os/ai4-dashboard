@@ -365,6 +365,23 @@
                                             }}</b
                                         >
                                     </button>
+                                    <button
+                                        mat-menu-item
+                                        (click)="
+                                            trainModuleCodespaces('opencode')
+                                        "
+                                    >
+                                        <img
+                                            class="menu-item-icon"
+                                            src="../../../../../assets/images/module-detail/opencode.svg"
+                                        />
+                                        <b>
+                                            {{
+                                                'CATALOG.DETAIL.CODESPACES.OPENCODE'
+                                                    | translate
+                                            }}</b
+                                        >
+                                    </button>
                                 </mat-menu>
                             } @else {
                                 <app-ui-button

@@ -213,7 +213,8 @@
             "CODESPACES": {
                 "TITLE": "Codespaces",
                 "JUPYTERLAB": "Open in JupyterLab",
-                "VSCODE": "Open in VScode"
+                "VSCODE": "Open in VScode",
+                "OPENCODE": "Open in OpenCode"
             },
             "ADDITIONAL-RESOURCES": {
                 "TITLE": "Additional Resources",
@@ -288,6 +289,7 @@
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
                 "SERVICE-TO-RUN": "Service to run",
+                "USERNAME": "Username",
                 "PASSWORD": "Password",
                 "JUPYTERLAB-PASS-REQUIRED": "A password is required",
                 "JUPYTERLAB-PASS-LENGTH-ERROR": "The password must be at least 9 characters long",
