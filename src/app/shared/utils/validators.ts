@@ -30,3 +30,17 @@ export function emailValidator(): ValidatorFn {
         return validEmail ? null : { invalidEmail: true };
     };
 }
+
+export function filePathValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value?.trim();
+
+        if (!value) {
+            return null;
+        }
+
+        const pathPattern = /^\/(?:[^/\0]+\/)*[^/\0]+\.[a-zA-Z0-9]+$/;
+
+        return pathPattern.test(value) ? null : { invalidPath: true };
+    };
+}

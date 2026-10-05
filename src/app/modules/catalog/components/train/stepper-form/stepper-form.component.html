@@ -47,6 +47,7 @@
             class="mb-4"
             [ngClass]="{ 'stepper--single': numberOfSteps === 1 }"
         >
+            <!-- STEP 1 -->
             <mat-step [stepControl]="step1Form">
                 <ng-template matStepLabel>{{
                     step1Title | translate
@@ -75,6 +76,9 @@
                                 !checkFormValidity(step2Form) ||
                                 (step3Form
                                     ? !checkFormValidity(step3Form)
+                                    : false) ||
+                                (step4Form
+                                    ? !checkFormValidity(step4Form)
                                     : false)
                             "
                             (buttonClick)="submitTrainingRequest()"
@@ -89,6 +93,8 @@
                     }
                 </div>
             </mat-step>
+
+            <!-- STEP 2 -->
             @if (numberOfSteps > 1) {
                 <mat-step [stepControl]="step2Form">
                     <ng-template matStepLabel>{{
@@ -133,8 +139,9 @@
                     </div>
                 </mat-step>
 
-                @if (numberOfSteps === 3) {
-                    <mat-step>
+                <!-- STEP 3 -->
+                @if (numberOfSteps > 2) {
+                    <mat-step [stepControl]="step3Form!">
                         <ng-template matStepLabel>{{
                             step3Title! | translate
                         }}</ng-template>
@@ -152,14 +159,56 @@
                                 (buttonClick)="stepper.previous()"
                             ></app-ui-button>
 
-                            <app-ui-button
-                                variant="accent-solid"
-                                text="GENERAL.SUBMIT"
-                                [disabled]="!checkFormValidity(step3Form!)"
-                                (buttonClick)="submitTrainingRequest()"
-                            ></app-ui-button>
+                            @if (numberOfSteps === 3) {
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    text="GENERAL.SUBMIT"
+                                    [disabled]="!checkFormValidity(step3Form!)"
+                                    (buttonClick)="submitTrainingRequest()"
+                                ></app-ui-button>
+                            } @else {
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    text="GENERAL.NEXT"
+                                    [disabled]="!checkFormValidity(step3Form!)"
+                                    (buttonClick)="stepper.next()"
+                                ></app-ui-button>
+                            }
                         </div>
                     </mat-step>
+
+                    <!-- STEP 4 -->
+                    @if (numberOfSteps === 4) {
+                        <mat-step [stepControl]="step4Form!">
+                            <ng-template matStepLabel>{{
+                                step4Title! | translate
+                            }}</ng-template>
+                            <ng-container
+                                [ngTemplateOutlet]="step4"
+                            ></ng-container>
+                            <div
+                                [ngClass]="{
+                                    'next-back-buttons-mobile':
+                                        mobileQuery.matches,
+                                    'next-back-buttons': !mobileQuery.matches,
+                                }"
+                            >
+                                <app-ui-button
+                                    class="mr-2"
+                                    variant="default-outline"
+                                    text="GENERAL.BACK"
+                                    (buttonClick)="stepper.previous()"
+                                ></app-ui-button>
+
+                                <app-ui-button
+                                    variant="accent-solid"
+                                    text="GENERAL.SUBMIT"
+                                    [disabled]="!checkFormValidity(step4Form!)"
+                                    (buttonClick)="submitTrainingRequest()"
+                                ></app-ui-button>
+                            </div>
+                        </mat-step>
+                    }
                 }
             }
         </mat-stepper>

@@ -173,6 +173,18 @@
                 <h4>
                     {{ 'CATALOG.CONF-FORMS.DATA.SUBTITLE-DATASET' | translate }}
                 </h4>
+
+                @if (datasetIsRequired && datasets.length === 0) {
+                    <app-ui-chip
+                        variant="danger-solid"
+                        icon="warning"
+                        [text]="
+                            'CATALOG.CONF-FORMS.DATA.DATASETS.REQUIRED'
+                                | translate
+                        "
+                    ></app-ui-chip>
+                }
+
                 @if (!storageConfFormGroup.valid && datasets.length > 0) {
                     <app-ui-chip
                         variant="danger-solid"
@@ -182,6 +194,7 @@
                         "
                     ></app-ui-chip>
                 }
+
                 @if (suggestedDatasetIsValid()) {
                     <app-ui-button
                         variant="primary-outline"

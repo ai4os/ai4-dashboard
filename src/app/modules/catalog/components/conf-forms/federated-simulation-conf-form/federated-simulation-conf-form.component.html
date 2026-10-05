@@ -1,0 +1,103 @@
+<form [formGroup]="federatedLlmConfFormGroup" class="conf-form">
+    <span class="title-and-toggles">
+        <h4>
+            {{ 'CATALOG.CONF-FORMS.FED-LLM.SUBTITLE' | translate }}
+        </h4>
+    </span>
+
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!-- Data file name -->
+        <app-ui-text-field
+            formControlName="dataFileNameInput"
+            label="{{
+                'CATALOG.CONF-FORMS.FED-LLM.DATA-FILE-NAME' | translate
+            }}"
+            placeholder="/storage/ai4os-storage/datasets/10.5281/zenodo.123456/train.csv"
+            [hint]="
+                _showHelp ? _defaultFormValues.data_file_name.description : ''
+            "
+            [errorMessages]="{
+                required: 'GENERAL.FORMS.REQUIRED',
+                invalidPath: 'GENERAL.FORMS.INVALID-FILE-PATH',
+            }"
+        ></app-ui-text-field>
+
+        <!-- Model name -->
+        <app-ui-text-field
+            formControlName="modelNameInput"
+            label="{{ 'CATALOG.CONF-FORMS.FED-LLM.MODEL-NAME' | translate }}"
+            [hint]="_showHelp ? _defaultFormValues.model_name.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Model quantization -->
+        <app-ui-select
+            formControlName="modelQuantizationSelect"
+            [options]="modelQuantizationOptions"
+            label="{{
+                'CATALOG.CONF-FORMS.FED-LLM.MODEL-QUANTIZATION' | translate
+            }}"
+        ></app-ui-select>
+
+        <!-- Federated strategy -->
+        <app-ui-select
+            formControlName="strategyOptionsSelect"
+            [options]="strategyOptions"
+            label="{{
+                'CATALOG.CONF-FORMS.FLOWER.FEDERATED.AGG-STRATEGY' | translate
+            }}"
+            [hint]="_showHelp ? _defaultFormValues.strategy.description : ''"
+        ></app-ui-select>
+
+        <!-- Number of rounds -->
+        <app-ui-text-field
+            formControlName="roundsInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FED-LLM.ROUNDS"
+            [min]="_defaultFormValues.num_rounds.range[0]"
+            [max]="_defaultFormValues.num_rounds.range[1]"
+            [hint]="_showHelp ? _defaultFormValues?.num_rounds.description : ''"
+            [errorMessages]="{
+                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                required: 'GENERAL.FORMS.REQUIRED',
+            }"
+            [errorTranslateParams]="{
+                min: _defaultFormValues.num_rounds.range[0],
+                max: _defaultFormValues.num_rounds.range[1],
+            }"
+        ></app-ui-text-field>
+
+        <!-- HF token -->
+        <div class="field-with-info">
+            <app-ui-text-field
+                class="full-width"
+                formControlName="huggingFaceTokenInput"
+                [maskable]="true"
+                label="{{
+                    'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN' | translate
+                }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.hf_token.description : ''
+                "
+                [errorMessages]="hfTokenErrors"
+            ></app-ui-text-field>
+            <app-ui-button
+                variant="icon"
+                icon="help"
+                tooltip="{{
+                    'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN-TERMS'
+                        | translate
+                }}"
+                [href]="
+                    'https://huggingface.co/' +
+                    federatedLlmConfFormGroup.get('modelNameInput')?.value
+                "
+            ></app-ui-button>
+        </div>
+    </div>
+</form>

@@ -51,7 +51,8 @@
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
         "FORMS": {
-            "REQUIRED": "This field is required"
+            "REQUIRED": "This field is required",
+            "INVALID-FILE-PATH":"Invalid file path"
         }
     },
     "PROFILE": {
@@ -321,6 +322,7 @@
                     "DELETE-SUFFIX": " will not be dowloaded.",
                     "DELETE-OPTION": "Delete dataset",
                     "ERROR": "To download a dataset, you need to select a storage or use your rclone credentials",
+                    "REQUIRED": "You need to add a dataset",
                     "SUGGESTION": "This module has a suggested dataset. Click here to add it.",
                     "ADD": "Add dataset",
                     "NO-DATASETS": "No datasets added yet"
@@ -438,7 +440,8 @@
                 "MODEL-QUANTIZATION": "Model quantization",
                 "NUM-EPOCHS": "Number of local training epochs",
                 "FRACTION-TRAIN": "Fraction of clients used for training",
-                "FRACTION-EVALUATE": "Fraction of clients used for evaluation"
+                "FRACTION-EVALUATE": "Fraction of clients used for evaluation",
+                "DATA-FILE-NAME": "Training CSV path"
             }
         }
     },
@@ -558,6 +561,7 @@
             "TOOL-TITLE": "Tool deployment detail",
             "SNAPSHOT-TITLE": "Snapshot detail",
             "STATUS": "Status",
+            "GPU-WARNING": "Remember that GPU trainings can also be launched in batch mode, where there is a higher availability of powerful GPUs",
             "GPU-WARNING-1": "Remember that GPU trainings can also be launched in batch mode, where there is a higher availability of powerful GPUs. For more information on how to relaunch this deployment in batch mode, check the ",
             "GPU-WARNING-2": "documentation",
             "DOCKER-IMAGE": "Docker image",

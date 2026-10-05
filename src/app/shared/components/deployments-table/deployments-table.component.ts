@@ -9,16 +9,12 @@ import {
 } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
-import { MatBadge } from '@angular/material/badge';
 import { MatIcon } from '@angular/material/icon';
 import {
     ConfirmationDialogComponent,
     ConfirmationDialogData,
 } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import {
-    DeploymentTableRow,
-    Snapshot,
-} from '@app/shared/interfaces/deployment.interface';
+import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { SecretManagementDetailComponent } from '@app/modules/deployments/components/secret-management-detail/secret-management-detail.component';
 import {
@@ -30,7 +26,6 @@ import {
     getSnapshotBadge,
 } from '@app/modules/deployments/utils/deployment-badge';
 import { Router, RouterLink } from '@angular/router';
-import { SnapshotDetailComponent } from '@app/modules/deployments/components/snapshot-detail/snapshot-detail.component';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import {
     TranslateService,
@@ -38,7 +33,6 @@ import {
     TranslateDirective,
 } from '@ngx-translate/core';
 import { MultipleActionsDialogComponent } from '../multiple-actions-dialog/multiple-actions-dialog.component';
-import { formatDate } from '@app/shared/utils/formatDate';
 import { UiTableCellDirective } from '@app/shared/directives/ui-table-cell.directive';
 import { UiButtonComponent } from '../ui/ui-button/ui-button.component';
 import { UiCardComponent } from '../ui/ui-card/ui-card.component';
@@ -61,7 +55,6 @@ import {
         UiButtonComponent,
         UiChipComponent,
         MatIcon,
-        MatBadge,
         TranslatePipe,
         RouterLink,
         TranslateDirective,

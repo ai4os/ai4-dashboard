@@ -102,6 +102,8 @@ export class StorageConfFormComponent implements OnInit {
 
     @Input() isCvatTool = false;
     @Input() rcloneIsRequired = false;
+    @Input() datasetIsRequired = false;
+
     @Input() set showHelp(showHelp: boolean) {
         this._showHelp = showHelp;
     }
@@ -126,7 +128,7 @@ export class StorageConfFormComponent implements OnInit {
         zenodoDatasetSelect: new FormControl({ value: '', disabled: true }),
         zenodoVersionSelect: new FormControl({ value: '', disabled: true }),
         doiUrlInput: [''],
-        datasetsList: [[{ doi: '', force_pull: false }]],
+        datasetsList: [[] as { doi: string; force_pull: boolean }[]],
     });
 
     protected _defaultFormValues: ModuleStorageConfiguration = {
@@ -186,14 +188,15 @@ export class StorageConfFormComponent implements OnInit {
             this.storageConfFormGroup
         );
 
-        setTimeout(() => {
-            this.parentForm.updateValueAndValidity();
-        });
-
         this.getSuggestedDatasets();
         this.getLinkedStorageServices();
 
         this.updateStorageServiceValidator();
+        this.updateDatasetValidators();
+
+        setTimeout(() => {
+            this.parentForm.updateValueAndValidity();
+        });
     }
 
     getPayload(): TrainModuleRequest['storage'] | undefined {
@@ -321,6 +324,21 @@ export class StorageConfFormComponent implements OnInit {
         control?.updateValueAndValidity();
     }
 
+    private updateDatasetValidators(): void {
+        const control = this.storageConfFormGroup.get('datasetsList');
+        if (!this.isCvatTool && this.datasetIsRequired) {
+            control?.setValidators([
+                (c) =>
+                    c.value && c.value.length > 0
+                        ? null
+                        : { requiredDataset: true },
+            ]);
+        } else {
+            control?.clearValidators();
+        }
+        control?.updateValueAndValidity();
+    }
+
     /***** DATASETS *****/
     addDataset(dataset: ZenodoSimpleDataset): void {
         const storageServiceDataset = this.storageConfFormGroup.get(
@@ -334,12 +352,18 @@ export class StorageConfFormComponent implements OnInit {
             doi: String(dataset.doiOrUrl),
             force_pull: false,
         });
-        this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
+        this.storageConfFormGroup
+            .get('datasetsList')
+            ?.setValue([...this.datasets]);
+        this.storageConfFormGroup.get('datasetsList')?.updateValueAndValidity(); // <-- Notificar cambio
     }
 
     deleteDataset(dataset: ZenodoSimpleDataset): void {
         this.datasets = this.datasets.filter((d) => d.doi !== dataset.doiOrUrl);
-        this.storageConfFormGroup.get('datasetsList')?.setValue(this.datasets);
+        this.storageConfFormGroup
+            .get('datasetsList')
+            ?.setValue([...this.datasets]);
+        this.storageConfFormGroup.get('datasetsList')?.updateValueAndValidity(); // <-- Notificar cambio
 
         if (this.datasets.length == 0) {
             const storageServiceDataset = this.storageConfFormGroup.get(

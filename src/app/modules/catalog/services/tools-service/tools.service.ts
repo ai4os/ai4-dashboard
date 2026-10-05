@@ -13,6 +13,7 @@ import {
     NvflareToolConfiguration,
     ModuleConfiguration,
     FederatedLlmServerToolConfiguration,
+    FederatedLlmSimulationToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { map, Observable } from 'rxjs';
@@ -83,6 +84,19 @@ export class ToolsService {
             toolName
         )}`;
         return this.http.get<FederatedLlmServerToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    // arena-simulation-fedllm
+    getFederatedSimulationConfiguration(
+        toolName: string
+    ): Observable<FederatedLlmSimulationToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<FederatedLlmSimulationToolConfiguration>(url, {
             params: this.voParam,
         });
     }

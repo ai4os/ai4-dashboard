@@ -152,6 +152,14 @@ export class GeneralConfFormComponent implements OnInit {
                     viewValue: service,
                 });
             });
+
+            this.generalConfFormGroup
+                .get('serviceToRunChip')
+                ?.setValue(defaultFormValues.service?.value as string);
+
+            this.checkIfPasswordIsNeeded(
+                this.generalConfFormGroup.get('serviceToRunChip')?.value!
+            );
         }
     }
 
@@ -180,25 +188,25 @@ export class GeneralConfFormComponent implements OnInit {
         this.generalConfFormGroup
             .get('serviceToRunChip')
             ?.valueChanges.subscribe((val) => {
-                if (
-                    val === 'jupyter' ||
-                    val === 'vscode' ||
-                    val === 'opencode'
-                ) {
-                    this.isPasswodRequired = true;
-                } else {
-                    this.isPasswodRequired = false;
-                }
-                if (this.isPasswodRequired) {
-                    this.generalConfFormGroup
-                        .get('serviceToRunPassInput')
-                        ?.enable();
-                } else {
-                    this.generalConfFormGroup
-                        .get('serviceToRunPassInput')
-                        ?.disable();
-                }
+                this.checkIfPasswordIsNeeded(val!);
             });
+    }
+
+    private checkIfPasswordIsNeeded(newServiceValue: string) {
+        if (
+            newServiceValue === 'jupyter' ||
+            newServiceValue === 'vscode' ||
+            newServiceValue === 'opencode'
+        ) {
+            this.isPasswodRequired = true;
+        } else {
+            this.isPasswodRequired = false;
+        }
+        if (this.isPasswodRequired) {
+            this.generalConfFormGroup.get('serviceToRunPassInput')?.enable();
+        } else {
+            this.generalConfFormGroup.get('serviceToRunPassInput')?.disable();
+        }
     }
 
     getPayload(): Pick<

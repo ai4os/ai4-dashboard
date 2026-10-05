@@ -152,6 +152,15 @@ export interface FederatedServerLlmConfiguration {
     fraction_evaluate: ConfObjectRange;
 }
 
+export interface FederatedSimulationLlmConfiguration {
+    data_file_name: ConfObject;
+    model_name: ConfObject;
+    hf_token: ConfObject;
+    strategy: ConfObject;
+    num_rounds: ConfObjectRange;
+    model_quantization: ConfObject;
+}
+
 export interface LlmConfiguration {
     type: ConfObject;
     vllm_model_id: ConfObjectRange;
@@ -196,6 +205,13 @@ export interface FederatedLlmServerToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
     fedllm: FederatedServerLlmConfiguration;
+}
+
+export interface FederatedLlmSimulationToolConfiguration {
+    general: ModuleGeneralConfiguration;
+    hardware: ModuleHardwareConfiguration;
+    storage: ModuleStorageConfiguration;
+    fed_llm_simulation: FederatedSimulationLlmConfiguration;
 }
 
 export interface CvatToolConfiguration {
@@ -290,6 +306,14 @@ export interface TrainModuleRequest {
         num_epochs: number;
         fraction_train: number;
         fraction_evaluate: number;
+    };
+    fed_llm_simulation?: {
+        data_file_name: string;
+        model_name: string;
+        hf_token: string;
+        strategy: string;
+        num_rounds: number;
+        model_quantization: number;
     };
 }
 
