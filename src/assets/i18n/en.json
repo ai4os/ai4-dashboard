@@ -429,6 +429,16 @@
                     "SAMPLED-CLIENTS": "Number of sampled clients",
                     "CLIP-NORM": "Clipping norm"
                 }
+            },
+            "FED-LLM": {
+                "TITLE": "LLM server configuration",
+                "SUBTITLE": "Federated options",
+                "ROUNDS": "Number of federated rounds",
+                "MODEL-NAME": "Base model",
+                "MODEL-QUANTIZATION": "Model quantization",
+                "NUM-EPOCHS": "Number of local training epochs",
+                "FRACTION-TRAIN": "Fraction of clients used for training",
+                "FRACTION-EVALUATE": "Fraction of clients used for evaluation"
             }
         }
     },

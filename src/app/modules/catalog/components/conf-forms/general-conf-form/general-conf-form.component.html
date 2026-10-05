@@ -120,7 +120,7 @@
     </div>
 
     <!-- Docker image -->
-    @if (_showFields.dockerImageInput && _showFields.dockerTagSelect) {
+    @if (_showFields.dockerImageInput || _showFields.dockerTagSelect) {
         <h4 [ngClass]="{ 'mt-3': _showHelp }">
             {{ 'CATALOG.CONF-FORMS.GENERAL.DOCKER-OPTIONS' | translate }}
         </h4>
@@ -130,25 +130,36 @@
                 'form-grid': !mobileQuery.matches,
             }"
         >
-            <app-ui-text-field
-                formControlName="dockerImageInput"
-                label="{{
-                    'CATALOG.CONF-FORMS.GENERAL.DOCKER-IMAGE' | translate
-                }}"
-                [hint]="
-                    _showHelp ? _defaultFormValues.docker_image.description : ''
-                "
-            ></app-ui-text-field>
-            <app-ui-select
-                formControlName="dockerTagSelect"
-                [options]="dockerTagOptions"
-                label="{{
-                    'CATALOG.CONF-FORMS.GENERAL.DOCKER-TAG' | translate
-                }}"
-                [hint]="
-                    _showHelp ? _defaultFormValues.docker_tag.description : ''
-                "
-            ></app-ui-select>
+            <!-- Docker image -->
+            @if (_showFields.dockerImageInput) {
+                <app-ui-text-field
+                    formControlName="dockerImageInput"
+                    label="{{
+                        'CATALOG.CONF-FORMS.GENERAL.DOCKER-IMAGE' | translate
+                    }}"
+                    [hint]="
+                        _showHelp
+                            ? _defaultFormValues.docker_image.description
+                            : ''
+                    "
+                ></app-ui-text-field>
+            }
+
+            <!-- Docker tag -->
+            @if (_showFields.dockerTagSelect) {
+                <app-ui-select
+                    formControlName="dockerTagSelect"
+                    [options]="dockerTagOptions"
+                    label="{{
+                        'CATALOG.CONF-FORMS.GENERAL.DOCKER-TAG' | translate
+                    }}"
+                    [hint]="
+                        _showHelp
+                            ? _defaultFormValues.docker_tag.description
+                            : ''
+                    "
+                ></app-ui-select>
+            }
         </div>
     }
 </form>

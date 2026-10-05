@@ -12,6 +12,7 @@ import {
     VllmModelConfig,
     NvflareToolConfiguration,
     ModuleConfiguration,
+    FederatedLlmServerToolConfiguration,
 } from '@app/shared/interfaces/module.interface';
 import { environment } from '@environments/environment';
 import { map, Observable } from 'rxjs';
@@ -60,6 +61,7 @@ export class ToolsService {
         });
     }
 
+    // ai4os-federated-server
     getFederatedServerConfiguration(
         toolName: string
     ): Observable<FederatedServerToolConfiguration> {
@@ -68,6 +70,19 @@ export class ToolsService {
             toolName
         )}`;
         return this.http.get<FederatedServerToolConfiguration>(url, {
+            params: this.voParam,
+        });
+    }
+
+    // arena-fl-server-llm
+    getFederatedLlmServerConfiguration(
+        toolName: string
+    ): Observable<FederatedLlmServerToolConfiguration> {
+        const url = `${base}${endpoints.toolConfiguration.replace(
+            ':name',
+            toolName
+        )}`;
+        return this.http.get<FederatedLlmServerToolConfiguration>(url, {
             params: this.voParam,
         });
     }

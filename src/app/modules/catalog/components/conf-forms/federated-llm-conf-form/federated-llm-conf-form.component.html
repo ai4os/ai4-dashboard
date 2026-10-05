@@ -1,0 +1,112 @@
+<form [formGroup]="federatedLlmConfFormGroup" class="conf-form">
+    <span class="title-and-toggles">
+        <h4>
+            {{ 'CATALOG.CONF-FORMS.FED-LLM.SUBTITLE' | translate }}
+        </h4>
+    </span>
+
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!-- Model name -->
+        <app-ui-text-field
+            formControlName="modelNameInput"
+            label="{{ 'CATALOG.CONF-FORMS.FED-LLM.MODEL-NAME' | translate }}"
+            [hint]="_showHelp ? _defaultFormValues.model_name.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Model quantization -->
+        <app-ui-select
+            formControlName="modelQuantizationSelect"
+            [options]="modelQuantizationOptions"
+            label="{{
+                'CATALOG.CONF-FORMS.FED-LLM.MODEL-QUANTIZATION' | translate
+            }}"
+        ></app-ui-select>
+
+        <!-- Number of rounds -->
+        <app-ui-text-field
+            formControlName="roundsInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FED-LLM.ROUNDS"
+            [min]="_defaultFormValues.num_rounds.range[0]"
+            [max]="_defaultFormValues.num_rounds.range[1]"
+            [hint]="_showHelp ? _defaultFormValues?.num_rounds.description : ''"
+            [errorMessages]="{
+                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                required: 'GENERAL.FORMS.REQUIRED',
+            }"
+            [errorTranslateParams]="{
+                min: _defaultFormValues.num_rounds.range[0],
+                max: _defaultFormValues.num_rounds.range[1],
+            }"
+        ></app-ui-text-field>
+
+        <!-- Number of epochs -->
+        <app-ui-text-field
+            formControlName="numEpochsInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FED-LLM.NUM-EPOCHS"
+            [min]="_defaultFormValues.num_epochs.range[0]"
+            [max]="_defaultFormValues.num_epochs.range[1]"
+            [hint]="_showHelp ? _defaultFormValues?.num_epochs.description : ''"
+            [errorMessages]="{
+                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                required: 'GENERAL.FORMS.REQUIRED',
+            }"
+            [errorTranslateParams]="{
+                min: _defaultFormValues.num_epochs.range[0],
+                max: _defaultFormValues.num_epochs.range[1],
+            }"
+        ></app-ui-text-field>
+
+        <!-- Fraction train -->
+        <app-ui-text-field
+            formControlName="fractionTrainInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FED-LLM.FRACTION-TRAIN"
+            [min]="_defaultFormValues.fraction_train.range[0]"
+            [max]="_defaultFormValues.fraction_train.range[1]"
+            [hint]="
+                _showHelp ? _defaultFormValues?.fraction_train.description : ''
+            "
+            [errorMessages]="{
+                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                required: 'GENERAL.FORMS.REQUIRED',
+            }"
+            [errorTranslateParams]="{
+                min: _defaultFormValues.fraction_train.range[0],
+                max: _defaultFormValues.fraction_train.range[1],
+            }"
+        ></app-ui-text-field>
+
+        <!-- Fraction evaluate -->
+        <app-ui-text-field
+            formControlName="fractionEvaluateInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FED-LLM.FRACTION-EVALUATE"
+            [min]="_defaultFormValues.fraction_evaluate.range[0]"
+            [max]="_defaultFormValues.fraction_evaluate.range[1]"
+            [hint]="
+                _showHelp
+                    ? _defaultFormValues?.fraction_evaluate.description
+                    : ''
+            "
+            [errorMessages]="{
+                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
+                required: 'GENERAL.FORMS.REQUIRED',
+            }"
+            [errorTranslateParams]="{
+                min: _defaultFormValues.fraction_evaluate.range[0],
+                max: _defaultFormValues.fraction_evaluate.range[1],
+            }"
+        ></app-ui-text-field>
+    </div>
+</form>

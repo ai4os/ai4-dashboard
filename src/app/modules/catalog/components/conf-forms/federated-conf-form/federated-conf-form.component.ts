@@ -26,38 +26,15 @@ import {
 } from '@app/shared/components/ui/ui-select/ui-select.component';
 import { UiChipInputComponent } from '@app/shared/components/ui/ui-chip-input/ui-chip-input.component';
 import {
-    ConfObject,
-    ConfObjectBoolean,
-    ConfObjectRange,
     FederatedServerConfiguration,
     TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
-
-const mockedRange: ConfObjectRange = {
-    range: [],
-    name: '',
-    value: '',
-    description: '',
-};
-
-const mockedString: ConfObject = {
-    name: '',
-    value: '',
-    description: '',
-};
-
-const mockedOptions: ConfObject = {
-    name: '',
-    value: '',
-    options: [],
-    description: '',
-};
-
-const mockedBoolean: ConfObjectBoolean = {
-    name: '',
-    value: false,
-    description: '',
-};
+import {
+    mockedRange,
+    mockedString,
+    mockedOptions,
+    mockedBoolean,
+} from '@app/shared/mocks/conf-objects.mock';
 
 @Component({
     selector: 'app-federated-conf-form',
