@@ -113,7 +113,7 @@ export class ArenaFlServerLlmComponent implements OnInit {
                 .subscribe((toolConf: FederatedLlmServerToolConfiguration) => {
                     this.generalConfDefaultValues = toolConf.general;
                     this.hardwareConfDefaultValues = toolConf.hardware;
-                    this.federatedConfDefaultValues = toolConf.fedllm;
+                    this.federatedConfDefaultValues = toolConf.fed_llm_server;
 
                     // Check if config has a warning
                     if (
@@ -138,7 +138,7 @@ export class ArenaFlServerLlmComponent implements OnInit {
         const request: TrainModuleRequest = {
             general: this.generalConfFormCmp.getPayload(),
             hardware: this.hardwareConfFormCmp.getPayload(),
-            fedllm: this.federatedConfFormCmp.getPayload(),
+            fed_llm_server: this.federatedConfFormCmp.getPayload(),
         };
 
         this.deploymentsService

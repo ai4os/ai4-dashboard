@@ -184,7 +184,7 @@ export class FederatedLlmConfFormComponent implements OnInit {
         });
     }
 
-    getPayload(): TrainModuleRequest['fedllm'] {
+    getPayload(): TrainModuleRequest['fed_llm_server'] {
         const v = this.federatedLlmConfFormGroup.getRawValue();
 
         return {

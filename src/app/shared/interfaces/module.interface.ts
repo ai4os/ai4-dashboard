@@ -204,7 +204,7 @@ export interface FederatedServerToolConfiguration {
 export interface FederatedLlmServerToolConfiguration {
     general: ModuleGeneralConfiguration;
     hardware: ModuleHardwareConfiguration;
-    fedllm: FederatedServerLlmConfiguration;
+    fed_llm_server: FederatedServerLlmConfiguration;
 }
 
 export interface FederatedLlmSimulationToolConfiguration {
@@ -299,7 +299,7 @@ export interface TrainModuleRequest {
         starting_date: string;
         end_date: string;
     };
-    fedllm?: {
+    fed_llm_server?: {
         num_rounds: number;
         model_name: string;
         model_quantization: number;
