@@ -81,6 +81,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
+    hasLinks = false;
 
     dataIconDict: Record<string, string> = {
         Image: 'image',
@@ -129,6 +130,9 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                     this.module.description = this.cleanMarkdown(
                         this.module.description
                     );
+                    this.hasLinks = Object.values(this.module.links).some(
+                        (value) => value?.trim() !== ''
+                    );
                     this.breadcrumbService.set('@moduleName', tool.title);
                     this.isLoading = false;
                 });
@@ -139,6 +143,9 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                         this.module = module;
                         this.module.description = this.cleanMarkdown(
                             this.module.description
+                        );
+                        this.hasLinks = Object.values(this.module.links).some(
+                            (value) => value?.trim() !== ''
                         );
                         this.breadcrumbService.set('@moduleName', module.title);
                         this.isLoading = false;

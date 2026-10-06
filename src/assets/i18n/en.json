@@ -52,7 +52,11 @@
         "QUICK-SUBMIT": "Quick submit",
         "FORMS": {
             "REQUIRED": "This field is required",
-            "INVALID-FILE-PATH":"Invalid file path"
+            "INVALID-FILE-PATH":"Invalid file path",
+            "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
+            "MIN-ERROR": "Should be greater than or equal to {{min}}",
+            "MAX-ERROR": "Should be less than or equal to {{max}}",
+            "EXACT-ERROR": "Should be exactly {{value}}"
         }
     },
     "PROFILE": {
@@ -277,7 +281,6 @@
         },
         "CONF-FORMS": {
             "TRAIN-TITLE": "Configure training",
-            "OUT-OF-RANGE-ERROR": "Should be between {{min}} and {{max}}",
             "DEPLOYED-FROM-SNAPSHOT-ID": "Deployed from snapshot with ID ",
             "GENERAL": {
                 "TITLE": "General configuration",

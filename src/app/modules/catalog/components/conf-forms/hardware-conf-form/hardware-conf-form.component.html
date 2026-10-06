@@ -16,15 +16,6 @@
                 label="CATALOG.CONF-FORMS.HARDWARE.NUMBER-OF-CPUS"
                 [min]="_defaultFormValues.cpu_num.range[0]"
                 [max]="_defaultFormValues.cpu_num.range[1]"
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.cpu_num.range[0],
-                    max: _defaultFormValues.cpu_num.range[1],
-                }"
             ></app-ui-text-field>
         }
 
@@ -36,15 +27,6 @@
                 label="CATALOG.CONF-FORMS.HARDWARE.NUMBER-OF-GPUS"
                 [min]="_defaultFormValues.gpu_num.range[0]"
                 [max]="_defaultFormValues.gpu_num.range[1]"
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.gpu_num.range[0],
-                    max: _defaultFormValues.gpu_num.range[1],
-                }"
             ></app-ui-text-field>
         }
         @if (_showFields.gpu_type) {
@@ -68,15 +50,6 @@
                 label="CATALOG.CONF-FORMS.HARDWARE.RAM-MEMORY"
                 [min]="_defaultFormValues.ram.range[0]"
                 [max]="_defaultFormValues.ram.range[1]"
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.ram.range[0],
-                    max: _defaultFormValues.ram.range[1],
-                }"
             ></app-ui-text-field>
         }
 
@@ -88,15 +61,6 @@
                 label="CATALOG.CONF-FORMS.HARDWARE.DISK-MEMORY"
                 [min]="_defaultFormValues.disk.range[0]"
                 [max]="_defaultFormValues.disk.range[1]"
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.disk.range[0],
-                    max: _defaultFormValues.disk.range[1],
-                }"
             ></app-ui-text-field>
         }
     </div>

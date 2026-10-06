@@ -18,15 +18,6 @@
             [min]="_defaultFormValues.rounds.range[0]"
             [max]="_defaultFormValues.rounds.range[1]"
             [hint]="_showHelp ? _defaultFormValues?.rounds.description : ''"
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.rounds.range[0],
-                max: _defaultFormValues.rounds.range[1],
-            }"
         ></app-ui-text-field>
 
         <!-- Evaluation metrics-->
@@ -48,15 +39,6 @@
             [hint]="
                 _showHelp ? _defaultFormValues.min_fit_clients.description : ''
             "
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.min_fit_clients.range[0],
-                max: _defaultFormValues.min_fit_clients.range[1],
-            }"
         ></app-ui-text-field>
 
         <!-- Number of minimum clients (available) -->
@@ -71,15 +53,6 @@
                     ? _defaultFormValues.min_available_clients.description
                     : ''
             "
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.min_available_clients.range[0],
-                max: _defaultFormValues.min_available_clients.range[1],
-            }"
         ></app-ui-text-field>
 
         <!-- Federated aggregation strategy -->
@@ -106,15 +79,6 @@
                 [max]="_defaultFormValues.mu.range[1]"
                 [step]="0.1"
                 [hint]="_showHelp ? _defaultFormValues.mu.description : ''"
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.mu.range[0],
-                    max: _defaultFormValues.mu.range[1],
-                }"
             ></app-ui-text-field>
         }
 
@@ -131,15 +95,6 @@
                 [max]="_defaultFormValues.fl.range[1]"
                 [step]="0.1"
                 [hint]="_showHelp ? _defaultFormValues.fl.description : ''"
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.fl.range[0],
-                    max: _defaultFormValues.fl.range[1],
-                }"
             ></app-ui-text-field>
 
             <!-- Server-side momentum -->
@@ -153,15 +108,6 @@
                 [hint]="
                     _showHelp ? _defaultFormValues.momentum.description : ''
                 "
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.momentum.range[0],
-                    max: _defaultFormValues.momentum.range[1],
-                }"
             ></app-ui-text-field>
         }
     </div>
@@ -221,15 +167,6 @@
                 [hint]="
                     _showHelp ? _defaultFormValues?.noise_mult.description : ''
                 "
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.noise_mult.range[0],
-                    max: _defaultFormValues.noise_mult.range[1],
-                }"
             ></app-ui-text-field>
 
             <!-- Number of sampled clients -->
@@ -244,15 +181,6 @@
                         ? _defaultFormValues?.sampled_clients.description
                         : ''
                 "
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.sampled_clients.range[0],
-                    max: _defaultFormValues.sampled_clients.range[1],
-                }"
             ></app-ui-text-field>
 
             <!-- Clipping norm -->
@@ -266,15 +194,6 @@
                 [hint]="
                     _showHelp ? _defaultFormValues?.clip_norm.description : ''
                 "
-                [errorMessages]="{
-                    min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                    required: 'GENERAL.FORMS.REQUIRED',
-                }"
-                [errorTranslateParams]="{
-                    min: _defaultFormValues.clip_norm.range[0],
-                    max: _defaultFormValues.clip_norm.range[1],
-                }"
             ></app-ui-text-field>
         </div>
     }

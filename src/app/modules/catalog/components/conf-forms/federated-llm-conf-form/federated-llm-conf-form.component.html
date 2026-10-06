@@ -35,15 +35,6 @@
             [min]="_defaultFormValues.num_rounds.range[0]"
             [max]="_defaultFormValues.num_rounds.range[1]"
             [hint]="_showHelp ? _defaultFormValues?.num_rounds.description : ''"
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.num_rounds.range[0],
-                max: _defaultFormValues.num_rounds.range[1],
-            }"
         ></app-ui-text-field>
 
         <!-- Number of epochs -->
@@ -54,15 +45,6 @@
             [min]="_defaultFormValues.num_epochs.range[0]"
             [max]="_defaultFormValues.num_epochs.range[1]"
             [hint]="_showHelp ? _defaultFormValues?.num_epochs.description : ''"
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.num_epochs.range[0],
-                max: _defaultFormValues.num_epochs.range[1],
-            }"
         ></app-ui-text-field>
 
         <!-- Fraction train -->
@@ -72,18 +54,10 @@
             label="CATALOG.CONF-FORMS.FED-LLM.FRACTION-TRAIN"
             [min]="_defaultFormValues.fraction_train.range[0]"
             [max]="_defaultFormValues.fraction_train.range[1]"
+            [step]="0.1"
             [hint]="
                 _showHelp ? _defaultFormValues?.fraction_train.description : ''
             "
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.fraction_train.range[0],
-                max: _defaultFormValues.fraction_train.range[1],
-            }"
         ></app-ui-text-field>
 
         <!-- Fraction evaluate -->
@@ -93,20 +67,12 @@
             label="CATALOG.CONF-FORMS.FED-LLM.FRACTION-EVALUATE"
             [min]="_defaultFormValues.fraction_evaluate.range[0]"
             [max]="_defaultFormValues.fraction_evaluate.range[1]"
+            [step]="0.1"
             [hint]="
                 _showHelp
                     ? _defaultFormValues?.fraction_evaluate.description
                     : ''
             "
-            [errorMessages]="{
-                min: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                max: 'CATALOG.CONF-FORMS.OUT-OF-RANGE-ERROR',
-                required: 'GENERAL.FORMS.REQUIRED',
-            }"
-            [errorTranslateParams]="{
-                min: _defaultFormValues.fraction_evaluate.range[0],
-                max: _defaultFormValues.fraction_evaluate.range[1],
-            }"
         ></app-ui-text-field>
     </div>
 </form>

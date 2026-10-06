@@ -54,7 +54,7 @@
 
     @if (isInvalid && currentError) {
         <span class="ui-text-field__error">{{
-            currentError | translate: errorTranslateParams
+            currentError | translate: resolvedErrorParams
         }}</span>
     }
 </div>

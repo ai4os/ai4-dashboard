@@ -55,6 +55,14 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     protected disabledSignal = signal(false);
     protected hidden = signal(true);
 
+    private readonly defaultErrorKeys: Record<string, string> = {
+        required: 'GENERAL.FORMS.REQUIRED',
+        email: 'GENERAL.FORMS.INVALID-FILE-PATH',
+        invalidDomain: 'PROFILE.STORAGE-TAB.FORM.INVALID-DOMAIN',
+        invalidURL: 'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL-ERROR',
+        invalidPath: 'GENERAL.FORMS.INVALID-FILE-PATH',
+    };
+
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onChange: (value: string) => void = () => {};
 
@@ -122,8 +130,73 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     get currentError(): string | null {
         const errors = this.ngControl?.control?.errors;
         if (!errors || !this.ngControl?.control?.touched) return null;
+
         const firstKey = Object.keys(errors)[0];
-        return this.errorMessages[firstKey] ?? null;
+
+        // 1. Priority: explicit message passed by the parent through [errorMessages]
+        if (this.errorMessages?.[firstKey]) {
+            return this.errorMessages[firstKey];
+        }
+
+        // 2. Dynamic range / numeric limit errors
+        if (['min', 'max', 'range', 'outOfRange'].includes(firstKey)) {
+            return this.resolveRangeErrorKey(firstKey);
+        }
+
+        // 3. Default standard errors (such as required)
+        if (this.defaultErrorKeys[firstKey]) {
+            return this.defaultErrorKeys[firstKey];
+        }
+
+        return null;
+    }
+
+    private resolveRangeErrorKey(errorKey: string): string {
+        const hasMin = this.isValidBound(this.min);
+        const hasMax = this.isValidBound(this.max);
+
+        if (errorKey === 'min' && !hasMax) {
+            return 'GENERAL.FORMS.MIN-ERROR';
+        }
+
+        if (errorKey === 'max' && !hasMin) {
+            return 'GENERAL.FORMS.MAX-ERROR';
+        }
+
+        if (hasMin && hasMax) {
+            if (Number(this.min) === Number(this.max)) {
+                return 'GENERAL.FORMS.EXACT-ERROR';
+            }
+            return 'GENERAL.FORMS.OUT-OF-RANGE-ERROR';
+        }
+
+        if (hasMin) {
+            return 'GENERAL.FORMS.MIN-ERROR';
+        }
+
+        if (hasMax) {
+            return 'GENERAL.FORMS.MAX-ERROR';
+        }
+
+        return 'GENERAL.FORMS.OUT-OF-RANGE-ERROR';
+    }
+
+    get resolvedErrorParams(): Record<string, any> {
+        return {
+            min: this.min,
+            max: this.max,
+            value: this.min ?? this.max,
+            ...this.errorTranslateParams,
+        };
+    }
+
+    private isValidBound(val: any): boolean {
+        return (
+            val !== null &&
+            val !== undefined &&
+            val !== '' &&
+            !isNaN(Number(val))
+        );
     }
 
     get inputType(): string {

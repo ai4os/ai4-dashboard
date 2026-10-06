@@ -422,103 +422,121 @@
 
             <div class="info-container">
                 <!-- About -->
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{ 'CATALOG.DETAIL.ABOUT' | translate }}
-                    </span>
+                @if (module.license || module.doi !== '' || hasLinks) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.ABOUT' | translate }}
+                        </span>
 
-                    <app-ui-card>
-                        <div class="sidebar-section__content">
-                            <div class="badges-row">
-                                @if (module.license !== '') {
-                                    <app-ui-chip
-                                        icon="license"
-                                        [text]="module.license"
-                                        [tooltip]="
-                                            'CATALOG.DETAIL.LICENSE' | translate
-                                        "
-                                        variant="primary-outline"
-                                        class="license-chip"
-                                        (click)="
-                                            openLicenseVocab(module.license)
-                                        "
-                                    ></app-ui-chip>
-                                }
+                        <app-ui-card>
+                            <div class="sidebar-section__content">
+                                <div class="badges-row">
+                                    @if (module.license) {
+                                        <app-ui-chip
+                                            icon="license"
+                                            [text]="module.license"
+                                            [tooltip]="
+                                                'CATALOG.DETAIL.LICENSE'
+                                                    | translate
+                                            "
+                                            variant="primary-outline"
+                                            class="license-chip"
+                                            (click)="
+                                                openLicenseVocab(module.license)
+                                            "
+                                        ></app-ui-chip>
+                                    }
 
-                                <span>
-                                    @if (module.doi) {
-                                        @if (module.links.zenodo_doi) {
-                                            <a
-                                                href="{{
-                                                    module.links.zenodo_doi
-                                                }}"
-                                                target="_blank"
-                                                class="badge-link"
-                                                ><img
+                                    <span>
+                                        @if (module.doi) {
+                                            @if (module.links.zenodo_doi) {
+                                                <a
+                                                    href="{{
+                                                        module.links.zenodo_doi
+                                                    }}"
+                                                    target="_blank"
+                                                    class="badge-link"
+                                                    ><img
+                                                        alt="DOI Badge"
+                                                        src="{{
+                                                            getDOIBadgeUrl(
+                                                                module.doi
+                                                            )
+                                                        }}"
+                                                /></a>
+                                            } @else {
+                                                <img
                                                     alt="DOI Badge"
+                                                    class="badge-link"
                                                     src="{{
                                                         getDOIBadgeUrl(
                                                             module.doi
                                                         )
                                                     }}"
-                                            /></a>
-                                        } @else {
-                                            <img
-                                                alt="DOI Badge"
-                                                class="badge-link"
-                                                src="{{
-                                                    getDOIBadgeUrl(module.doi)
-                                                }}"
-                                            />
+                                                />
+                                            }
                                         }
-                                    }
-                                    <a
-                                        href="{{ module.links.cicd_url }}"
-                                        target="_blank"
-                                        class="badge-link"
-                                        ><img
-                                            alt="Build Status"
-                                            src="{{ module.links.cicd_badge }}"
-                                    /></a>
-                                </span>
+                                        @if (module.links.cicd_badge) {
+                                            <a
+                                                href="{{
+                                                    module.links.cicd_url
+                                                }}"
+                                                target="_blank"
+                                                class="badge-link"
+                                                ><img
+                                                    alt="Build Status"
+                                                    src="{{
+                                                        module.links.cicd_badge
+                                                    }}"
+                                            /></a>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </app-ui-card>
-                </div>
+                        </app-ui-card>
+                    </div>
+                }
 
                 <!-- Tasks -->
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{ 'CATALOG.DETAIL.TASKS' | translate }}
-                    </span>
-                    <app-ui-card>
-                        <div class="sidebar-section__content">
-                            @for (task of module.tasks; track task) {
-                                <app-ui-chip
-                                    [text]="task"
-                                    variant="secondary-1-solid"
-                                ></app-ui-chip>
-                            }
-                        </div>
-                    </app-ui-card>
-                </div>
+                @if (module.tasks.length > 0) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.TASKS' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="sidebar-section__content">
+                                @for (task of module.tasks; track task) {
+                                    <app-ui-chip
+                                        [text]="task"
+                                        variant="secondary-1-solid"
+                                    ></app-ui-chip>
+                                }
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
 
                 <!-- Libraries -->
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{ 'CATALOG.DETAIL.LIBRARIES' | translate }}
-                    </span>
-                    <app-ui-card>
-                        <div class="sidebar-section__content">
-                            @for (library of module.libraries; track library) {
-                                <app-ui-chip
-                                    [text]="library"
-                                    variant="secondary-2-solid"
-                                ></app-ui-chip>
-                            }
-                        </div>
-                    </app-ui-card>
-                </div>
+                @if (module.libraries.length > 0) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.LIBRARIES' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="sidebar-section__content">
+                                @for (
+                                    library of module.libraries;
+                                    track library
+                                ) {
+                                    <app-ui-chip
+                                        [text]="library"
+                                        variant="secondary-2-solid"
+                                    ></app-ui-chip>
+                                }
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
 
                 <!-- Data types -->
                 @if (module['data-type'] && module['data-type'].length > 0) {
@@ -541,42 +559,46 @@
                 }
 
                 <!-- Tags -->
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{ 'CATALOG.DETAIL.TAGS' | translate }}
-                    </span>
-                    <app-ui-card>
-                        <div class="sidebar-section__content">
-                            @for (tag of module.tags; track tag) {
-                                <app-ui-chip
-                                    [text]="tag"
-                                    icon="sell"
-                                    variant="secondary-4-solid"
-                                ></app-ui-chip>
-                            }
-                        </div>
-                    </app-ui-card>
-                </div>
+                @if (module.tags.length > 0) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.TAGS' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="sidebar-section__content">
+                                @for (tag of module.tags; track tag) {
+                                    <app-ui-chip
+                                        [text]="tag"
+                                        icon="sell"
+                                        variant="secondary-4-solid"
+                                    ></app-ui-chip>
+                                }
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
 
                 <!-- Categories -->
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{ 'CATALOG.DETAIL.CATEGORIES' | translate }}
-                    </span>
-                    <app-ui-card>
-                        <div class="sidebar-section__content">
-                            @for (
-                                category of module.categories;
-                                track category
-                            ) {
-                                <app-ui-chip
-                                    [text]="category"
-                                    variant="secondary-5-solid"
-                                ></app-ui-chip>
-                            }
-                        </div>
-                    </app-ui-card>
-                </div>
+                @if (module.categories.length > 0) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.CATEGORIES' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="sidebar-section__content">
+                                @for (
+                                    category of module.categories;
+                                    track category
+                                ) {
+                                    <app-ui-chip
+                                        [text]="category"
+                                        variant="secondary-5-solid"
+                                    ></app-ui-chip>
+                                }
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
 
                 <!-- Provenance -->
                 @if (
@@ -674,102 +696,112 @@
                 }
 
                 <!-- Additional resources -->
-                <div class="sidebar-section">
-                    <span class="sidebar-section__label">
-                        {{
-                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.TITLE'
-                                | translate
-                        }}
-                    </span>
-                    <app-ui-card>
-                        <div class="grid-resources">
-                            <app-ui-button
-                                variant="default-outline"
-                                image="../../../../../assets/images/module-detail/github.svg"
-                                [text]="'CATALOG.DETAIL.GITHUB' | translate"
-                                [href]="module.links.source_code"
-                            ></app-ui-button>
+                @if (hasLinks) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{
+                                'CATALOG.DETAIL.ADDITIONAL-RESOURCES.TITLE'
+                                    | translate
+                            }}
+                        </span>
+                        <app-ui-card>
+                            <div class="grid-resources">
+                                @if (module.links.source_code) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        image="../../../../../assets/images/module-detail/github.svg"
+                                        [text]="
+                                            'CATALOG.DETAIL.GITHUB' | translate
+                                        "
+                                        [href]="module.links.source_code"
+                                    ></app-ui-button>
 
-                            <app-ui-button
-                                variant="default-outline"
-                                icon="bug_report"
-                                [text]="
-                                    'CATALOG.DETAIL.REPORT-ISSUE' | translate
-                                "
-                                [href]="module.links.source_code + '/issues'"
-                            ></app-ui-button>
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        icon="bug_report"
+                                        [text]="
+                                            'CATALOG.DETAIL.REPORT-ISSUE'
+                                                | translate
+                                        "
+                                        [href]="
+                                            module.links.source_code + '/issues'
+                                        "
+                                    ></app-ui-button>
+                                }
 
-                            @if (module.links.dataset) {
-                                <app-ui-button
-                                    variant="default-outline"
-                                    icon="database"
-                                    [text]="
-                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.DATASET'
-                                            | translate
-                                    "
-                                    [href]="module.links.dataset"
-                                ></app-ui-button>
-                            }
-                            @if (module.links.docker_image) {
-                                <app-ui-button
-                                    variant="default-outline"
-                                    image="../../../../../assets/images/module-detail/dockerhub.svg"
-                                    [text]="
-                                        'CATALOG.DETAIL.DOCKERHUB' | translate
-                                    "
-                                    [href]="
-                                        'https://hub.docker.com/r/' +
-                                        module.links.docker_image
-                                    "
-                                ></app-ui-button>
-                            }
-                            @if (module.links.documentation) {
-                                <app-ui-button
-                                    variant="default-outline"
-                                    icon="description"
-                                    [text]="
-                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.DOCUMENTATION'
-                                            | translate
-                                    "
-                                    [href]="module.links.documentation"
-                                ></app-ui-button>
-                            }
-                            @if (module.links.weights) {
-                                <app-ui-button
-                                    variant="default-outline"
-                                    icon="weight"
-                                    [text]="
-                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.WEIGHTS'
-                                            | translate
-                                    "
-                                    [href]="module.links.weights"
-                                ></app-ui-button>
-                            }
-                            @if (module.links.citation) {
-                                <app-ui-button
-                                    variant="default-outline"
-                                    icon="format_quote"
-                                    [text]="
-                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.CITATION'
-                                            | translate
-                                    "
-                                    [href]="module.links.citation"
-                                ></app-ui-button>
-                            }
-                            @if (module.links.base_model) {
-                                <app-ui-button
-                                    variant="default-outline"
-                                    icon="model_training"
-                                    [text]="
-                                        'CATALOG.DETAIL.ADDITIONAL-RESOURCES.BASE-MODEL'
-                                            | translate
-                                    "
-                                    [href]="module.links.base_model"
-                                ></app-ui-button>
-                            }
-                        </div>
-                    </app-ui-card>
-                </div>
+                                @if (module.links.dataset) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        icon="database"
+                                        [text]="
+                                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.DATASET'
+                                                | translate
+                                        "
+                                        [href]="module.links.dataset"
+                                    ></app-ui-button>
+                                }
+                                @if (module.links.docker_image) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        image="../../../../../assets/images/module-detail/dockerhub.svg"
+                                        [text]="
+                                            'CATALOG.DETAIL.DOCKERHUB'
+                                                | translate
+                                        "
+                                        [href]="
+                                            'https://hub.docker.com/r/' +
+                                            module.links.docker_image
+                                        "
+                                    ></app-ui-button>
+                                }
+                                @if (module.links.documentation) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        icon="description"
+                                        [text]="
+                                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.DOCUMENTATION'
+                                                | translate
+                                        "
+                                        [href]="module.links.documentation"
+                                    ></app-ui-button>
+                                }
+                                @if (module.links.weights) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        icon="weight"
+                                        [text]="
+                                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.WEIGHTS'
+                                                | translate
+                                        "
+                                        [href]="module.links.weights"
+                                    ></app-ui-button>
+                                }
+                                @if (module.links.citation) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        icon="format_quote"
+                                        [text]="
+                                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.CITATION'
+                                                | translate
+                                        "
+                                        [href]="module.links.citation"
+                                    ></app-ui-button>
+                                }
+                                @if (module.links.base_model) {
+                                    <app-ui-button
+                                        variant="default-outline"
+                                        icon="model_training"
+                                        [text]="
+                                            'CATALOG.DETAIL.ADDITIONAL-RESOURCES.BASE-MODEL'
+                                                | translate
+                                        "
+                                        [href]="module.links.base_model"
+                                    ></app-ui-button>
+                                }
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
 
                 <!-- Dates -->
                 @if (
