@@ -87,7 +87,8 @@ export class LlmCardComponent implements OnInit {
 
         // platform-wide
         if (this.type === 'platform-wide') {
-            const url = `https://genai.cloud.ai4eosc.eu/chat?model=${encodeURIComponent(this.llm.id)}`;
+            // TODO: change to cloud
+            const url = `https://genai.dev.ai4eosc.eu/chat?model=${encodeURIComponent(this.llm.id)}`;
             window.open(url);
         } else {
             // self-deployed
