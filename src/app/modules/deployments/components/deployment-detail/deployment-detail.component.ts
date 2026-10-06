@@ -1,11 +1,22 @@
 import {
     ChangeDetectorRef,
     Component,
+    OnDestroy,
     OnInit,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {
+    EMPTY,
+    Observable,
+    Subject,
+    catchError,
+    switchMap,
+    takeUntil,
+    takeWhile,
+    timer,
+} from 'rxjs';
 import { Location, KeyValue, UpperCasePipe, DatePipe } from '@angular/common';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
@@ -30,12 +41,10 @@ import {
     UiTabsComponent,
     Tab,
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
-import { MatIcon } from '@angular/material/icon';
 import { UiCredentialRowComponent } from '@app/shared/components/ui/ui-credential-row/ui-credential-row.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { StatsReducedCardComponent } from '@app/modules/statistics/components/stats/stats-reduced-card/stats-reduced-card.component';
 import { FootprintChartComponent } from '@app/modules/statistics/components/charts/footprint-chart/footprint-chart.component';
-import { GradioDeployment } from '@app/shared/interfaces/module.interface';
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
@@ -62,16 +71,14 @@ interface ListCardItem {
         UiButtonComponent,
         UiChipComponent,
         UiTabsComponent,
-        MatIcon,
         UiCredentialRowComponent,
         BreadcrumbComponent,
         StatsReducedCardComponent,
-
         FootprintChartComponent,
         DatePipe,
     ],
 })
-export class DeploymentDetailComponent implements OnInit {
+export class DeploymentDetailComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly location = inject(Location);
     private readonly platformStatusService = inject(PlatformStatusService);
@@ -108,6 +115,11 @@ export class DeploymentDetailComponent implements OnInit {
 
     mobileQuery: MediaQueryList;
     private readonly _mobileQueryListener: () => void;
+
+    private readonly POLLING_INTERVAL_MS = 5000;
+    // Terminal states: neither the status nor the energy changes anymore
+    private readonly TERMINAL_STATUSES = ['stopped', 'failed', 'error'];
+    private readonly unsub = new Subject<void>();
 
     get tabs(): Tab[] {
         const dynamicTabs: Tab[] = [
@@ -304,52 +316,75 @@ export class DeploymentDetailComponent implements OnInit {
                 },
             });
 
-        if (this.type === 'tool') {
-            this.deploymentsService
-                .getToolByUUID(this.uuid)
-                .subscribe((deployment: Deployment) => {
-                    this.handleDeploymentLoaded(deployment);
-                    if (deployment.tool_name === 'ai4os-llm') {
+        timer(0, this.POLLING_INTERVAL_MS)
+            .pipe(
+                switchMap(() =>
+                    this.fetchDeployment().pipe(
+                        catchError(() => {
+                            if (!this.deployment) {
+                                this.isLoading = false;
+                            }
+                            return EMPTY;
+                        })
+                    )
+                ),
+                takeWhile(
+                    (deployment) =>
+                        !this.TERMINAL_STATUSES.includes(deployment.status),
+                    true
+                ),
+                takeUntil(this.unsub)
+            )
+            .subscribe((deployment: Deployment) => {
+                const isFirstLoad = !this.deployment;
+
+                if (this.type !== 'tool') {
+                    this.normalizeDockerImage(deployment);
+                }
+                this.handleDeploymentLoaded(deployment);
+
+                if (isFirstLoad) {
+                    if (
+                        this.type === 'tool' &&
+                        deployment.tool_name === 'ai4os-llm'
+                    ) {
                         this.getVllmKey();
                     } else {
                         this.isLoading = false;
                     }
-                });
-        } else if (this.type === 'module') {
-            this.deploymentsService
-                .getDeploymentByUUID(this.uuid)
-                .subscribe((deployment: Deployment) => {
-                    this.normalizeDockerImage(deployment);
-                    this.handleDeploymentLoaded(deployment);
-                    this.isLoading = false;
-                });
-        } else if (this.type === 'try-me') {
-            this.tryMeService
-                .getDeploymentGradioByUUID(this.uuid)
-                .subscribe((deployment: GradioDeployment) => {
-                    this.normalizeDockerImage(deployment);
-                    this.handleDeploymentLoaded(deployment);
-                    this.isLoading = false;
-                });
-        } else if (this.type === 'batch') {
-            this.batchService
-                .getBatchDeploymentByUUID(this.uuid)
-                .subscribe((deployment: Deployment) => {
-                    this.normalizeDockerImage(deployment);
-                    this.handleDeploymentLoaded(deployment);
-                    this.isLoading = false;
-                });
+                }
+            });
+    }
+
+    private fetchDeployment(): Observable<Deployment> {
+        switch (this.type) {
+            case 'tool':
+                return this.deploymentsService.getToolByUUID(this.uuid);
+            case 'try-me':
+                return this.tryMeService.getDeploymentGradioByUUID(this.uuid);
+            case 'batch':
+                return this.batchService.getBatchDeploymentByUUID(this.uuid);
+            case 'module':
+            default:
+                return this.deploymentsService.getDeploymentByUUID(this.uuid);
         }
     }
 
     private handleDeploymentLoaded(deployment: Deployment): void {
-        if (deployment.error_msg && deployment.error_msg != '') {
-            this.deploymentHasError = true;
-        }
+        this.deploymentHasError = !!deployment.error_msg;
         if (deployment.description == '') {
             deployment.description = '-';
         }
         deployment.datacenter ??= '-';
+
+        // Do not re-render if there are no changes
+        if (
+            this.deployment &&
+            JSON.stringify(this.deployment) === JSON.stringify(deployment)
+        ) {
+            return;
+        }
+
         this.statusBadge = getDeploymentBadge(deployment.status);
         this.deployment = deployment;
     }
@@ -445,5 +480,14 @@ export class DeploymentDetailComponent implements OnInit {
                 this.isLoading = false;
             },
         });
+    }
+
+    ngOnDestroy(): void {
+        this.unsub.next();
+        this.unsub.complete();
+        this.mobileQuery.removeEventListener(
+            'change',
+            this._mobileQueryListener
+        );
     }
 }
