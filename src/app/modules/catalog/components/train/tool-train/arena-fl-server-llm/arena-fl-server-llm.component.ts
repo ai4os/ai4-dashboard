@@ -84,7 +84,7 @@ export class ArenaFlServerLlmComponent implements OnInit {
         titleInput: true,
         descriptionInput: true,
         serviceToRunChip: true,
-        co2EmissionsInput: true,
+        co2EmissionsInput: false,
         serviceToRunPassInput: true,
         dockerImageInput: true,
         dockerTagSelect: false,
