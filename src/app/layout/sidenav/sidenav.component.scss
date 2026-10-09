@@ -12,9 +12,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    width: 232px;
     min-height: 655px;
-    background: var(--white-three);
+    background: var(--color-surface-card);
+    border-right: 1px solid var(--color-border);
 }
 
 .main-info {
@@ -24,63 +25,102 @@
 
 .corner-ribbon {
     position: absolute;
-    top: 15px;
-    left: -65px;
-    width: 200px;
+    top: 12px;
+    left: -30px;
+    width: 110px;
+    line-height: 20px;
+    font-size: 11px;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.04em;
+    text-align: center;
     background-color: var(--color-danger);
     color: var(--color-text-inverse);
-    text-align: center;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-bold);
-    line-height: 40px;
-    letter-spacing: 1px;
     transform: rotate(-45deg);
     z-index: 1000;
     pointer-events: none;
-    box-shadow: var(--shadow-sm);
 }
 
 .dashboard-logo-container {
     display: flex;
     box-sizing: border-box;
-    padding: 0 16px;
     width: 100%;
+    height: 80px;
+    padding: 0 16px 0 30px; // deja sitio al ribbon "Dev"
     flex-direction: row;
     align-items: center;
-    white-space: nowrap;
-    height: 80px;
     justify-content: center;
+    white-space: nowrap;
 
     & img {
-        max-width: 200px;
+        max-width: 160px;
     }
+}
+
+#sidebarMenu {
+    display: flex;
+    flex-direction: column;
+    padding: 0 12px;
 }
 
 .sidenav-title {
-    display: flex;
-    align-items: center;
-    color: var(--warm-grey);
-    margin-bottom: 0.5em;
-    margin-left: 1rem;
-    gap: 0.5em;
-    & .mat-icon {
-        transform: scale(0.8);
-    }
-}
-
-.sidenav-item {
-    padding: 0 25px;
+    margin: 0;
+    padding: 14px 12px 4px;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
 }
 
 .sidenav-link {
-    border-radius: 3px;
-    color: var(--greyish-brown);
-    font-size: 15px;
-    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 34px;
+    padding: 0 12px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
 
-    & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text {
-        white-space: break-spaces;
+    & mat-icon {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
     }
+
+    &--emphasis {
+        font-weight: var(--font-weight-semibold);
+    }
+
+    &:hover:not(.disabled):not(.active) {
+        background: rgba(var(--color-accent-rgb), 0.08);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 1px;
+    }
+
+    &.active {
+        background: var(--color-accent-600);
+        color: var(--color-text-inverse);
+    }
+
+    &.disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+}
+
+.sidenav-divider {
+    height: 1px;
+    margin: 14px 12px 10px;
+    background: var(--color-border);
 }
 
 .bottom-content {
@@ -155,23 +195,5 @@
 @media (max-width: 1250px) {
     ::ng-deep .sidenav .mat-drawer-inner-container {
         overflow: scroll !important;
-    }
-}
-
-.sidenav-item:hover .mdc-list-item {
-    background-color: var(--accent);
-    color: var(--white);
-}
-
-.sidenav-link:hover {
-    & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text {
-        color: var(--white);
-    }
-}
-
-.active {
-    background-color: var(--accent);
-    & ::ng-deep .mdc-list-item__content .mdc-list-item__primary-text {
-        color: var(--white);
     }
 }
