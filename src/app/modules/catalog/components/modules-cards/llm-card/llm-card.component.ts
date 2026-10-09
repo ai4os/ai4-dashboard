@@ -19,6 +19,7 @@ import {
     SelfLllmSummary,
     PlatformLlmSummary,
 } from '@app/shared/interfaces/llms.interface';
+import { environment } from '@environments/environment';
 
 @Component({
     selector: 'app-llm-card',
@@ -56,7 +57,10 @@ export class LlmCardComponent implements OnInit {
     }
 
     get isDisabled(): boolean {
-        return !this.isAuthorized || !this.isHealthy;
+        return (
+            (this.type === 'self-deployed' && !this.isAuthorized) ||
+            !this.isHealthy
+        );
     }
 
     get tooltipText(): string {
@@ -88,8 +92,12 @@ export class LlmCardComponent implements OnInit {
 
         // platform-wide
         if (this.type === 'platform-wide') {
-            // TODO: change to cloud
-            const url = `https://genai.dev.ai4eosc.eu/chat?model=${encodeURIComponent(this.llm.id)}`;
+            const baseUrl =
+                environment.name === 'prod'
+                    ? 'https://genai.cloud.ai4eosc.eu' // TODO: check if this url is ready when uploading to production
+                    : 'https://genai.dev.ai4eosc.eu';
+
+            const url = `${baseUrl}/chat?model=${encodeURIComponent(this.llm.id)}`;
             window.open(url);
         } else {
             // self-deployed
