@@ -46,6 +46,7 @@ export class LlmCardComponent implements OnInit {
 
     get logoSrc(): string {
         const familyName = this.llm.family.toLowerCase();
+
         // TODO: review images when metadata is ready
         return `../../../assets/images/llm-families/${familyName}.svg`;
     }
