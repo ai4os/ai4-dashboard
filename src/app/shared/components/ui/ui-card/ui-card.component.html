@@ -2,6 +2,9 @@
     [class]="'ui-card'"
     [style.--card-accent]="accentColor"
     [class.ui-card--disabled]="disabled"
+    [matTooltip]="tooltip ?? ''"
+    [matTooltipDisabled]="!tooltip"
+    matTooltipClass="ui-tooltip"
 >
     @if (accentColor) {
         <div class="ui-card__accent"></div>
