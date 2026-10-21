@@ -19,19 +19,21 @@ import { AuthService, UserProfile } from '@app/core/services/auth/auth.service';
 import { SidenavService } from '@app/shared/services/sidenav/sidenav.service';
 import { environment } from '@environments/environment';
 import { gitInfo } from '@environments/version';
-import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { MatNavList, MatListItem } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
-import { NgClass } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { TopNavbarComponent } from '../top-navbar/top-navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 
 export interface ProjectLink {
     name: string;
     url: string;
+    icon?: string;
+    id?: string;
+    emphasis?: boolean;
     isRestricted?: boolean;
     isDisabled?: boolean;
     tooltip?: string;
@@ -45,28 +47,27 @@ export interface ProjectLink {
     imports: [
         MatSidenavContainer,
         MatSidenav,
-        MatIconButton,
         MatIcon,
         RouterLink,
-        MatNavList,
-        MatListItem,
         MatTooltip,
         RouterLinkActive,
         MatSidenavContent,
         NgClass,
+        NgTemplateOutlet,
         TopNavbarComponent,
         RouterOutlet,
         FooterComponent,
         TranslatePipe,
+        UiButtonComponent,
     ],
 })
 export class SidenavComponent implements OnInit, AfterViewInit {
-    private _formBuilder = inject(FormBuilder);
+    private readonly _formBuilder = inject(FormBuilder);
     protected authService = inject(AuthService);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    private media = inject(MediaMatcher);
-    private sidenavService = inject(SidenavService);
-    private appConfigService = inject(AppConfigService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
+    private readonly sidenavService = inject(SidenavService);
+    private readonly appConfigService = inject(AppConfigService);
 
     constructor() {
         const changeDetectorRef = this.changeDetectorRef;
@@ -92,25 +93,29 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     });
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     dashboardLink: ProjectLink = {
         name: 'SIDENAV.STATS',
         url: '/statistics',
+        icon: 'bar_chart',
     };
 
     catalogLinks: ProjectLink[] = [
         {
             name: 'SIDENAV.MODULES',
             url: '/catalog/modules',
+            icon: 'inventory_2',
         },
         {
             name: 'SIDENAV.TOOLS',
             url: '/catalog/tools',
+            icon: 'build',
         },
         {
             name: 'SIDENAV.LLMS',
             url: '/catalog/llms',
+            icon: 'forum',
         },
     ];
 
@@ -118,6 +123,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         {
             name: 'SIDENAV.TRY-ME',
             url: '/tasks/try-me',
+            icon: 'play_circle',
             isRestricted: true,
             isDisabled: !this.isAuthorized,
             tooltip: 'ERRORS.NO-DEMO-ROLE',
@@ -125,24 +131,33 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         {
             name: 'SIDENAV.DEPLOYMENTS',
             url: '/tasks/deployments',
+            icon: 'upload',
+            id: 'step2',
             isRestricted: true,
             isDisabled: !this.isProjectMember,
         },
         {
             name: 'SIDENAV.BATCH',
             url: '/tasks/batch',
+            icon: 'layers',
+            id: 'step3',
             isRestricted: true,
             isDisabled: !this.isProjectMember,
         },
         {
             name: 'SIDENAV.INFERENCE',
             url: '/tasks/inference',
+            icon: 'bolt',
             isRestricted: true,
             isDisabled: !this.isProjectMember,
         },
     ];
 
-    otherLinks: ProjectLink[] = [];
+    platformServicesLink: ProjectLink = {
+        name: 'SIDENAV.PLATFORM-SERVICES',
+        url: '/platform-services',
+        icon: 'dns',
+    };
 
     acknowledgments = '';
     projectName = '';
@@ -152,7 +167,6 @@ export class SidenavComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         // save config and check vo
-        this.otherLinks = this.appConfigService.sidenavMenu;
         this.acknowledgments = this.appConfigService.acknowledgments;
         this.projectName = this.appConfigService.projectName;
         this.projectUrl = this.appConfigService.projectUrl;

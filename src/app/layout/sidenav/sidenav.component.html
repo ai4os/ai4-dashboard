@@ -15,150 +15,89 @@
 
             <div class="dashboard-logo-container">
                 @if (mobileQuery.matches) {
-                    <button
-                        mat-icon-button
+                    <app-ui-button
+                        variant="icon"
+                        icon="menu"
                         (click)="toggleSidenav()"
-                        style="z-index: 99"
-                    >
-                        <mat-icon>menu</mat-icon>
-                    </button>
+                    ></app-ui-button>
                 }
 
-                <a routerLink="">
-                    <img src="../../../assets/images/dashboard-logo.png" />
+                <a class="dashboard-logo-link" routerLink="">
+                    <img
+                        alt="Dashboard logo"
+                        src="../../../assets/images/dashboard-logo.png"
+                    />
                 </a>
             </div>
 
-            <nav id="sidebarMenu">
-                <mat-nav-list>
-                    <h4 class="sidenav-title">
-                        {{ 'SIDENAV.DASHBOARD' | translate }}
-                        <mat-icon>dashboard</mat-icon>
-                    </h4>
-                    <mat-list-item
-                        class="sidenav-item"
-                        matTooltip=" {{ 'ERRORS.UNAUTHORIZED' | translate }}"
-                        [matTooltipPosition]="'right'"
-                        [matTooltipDisabled]="!dashboardLink.isDisabled"
-                        [disabled]="dashboardLink.isDisabled"
-                    >
-                        <a
-                            mat-list-item
-                            class="sidenav-link"
-                            routerLinkActive="active"
-                            [routerLink]="
-                                !dashboardLink.isDisabled
-                                    ? dashboardLink.url
-                                    : null
+            <ng-template #navLink let-link>
+                <a
+                    class="sidenav-link"
+                    routerLinkActive="active"
+                    [class.sidenav-link--emphasis]="link.emphasis"
+                    [class.disabled]="link.isDisabled"
+                    [attr.id]="link.id || null"
+                    [attr.aria-disabled]="link.isDisabled || null"
+                    [routerLink]="link.isDisabled ? null : link.url"
+                    [routerLinkActiveOptions]="{ exact: link.url === '/' }"
+                    [matTooltip]="
+                        link.tooltip || 'ERRORS.UNAUTHORIZED' | translate
+                    "
+                    [matTooltipPosition]="'right'"
+                    [matTooltipDisabled]="!link.isDisabled"
+                >
+                    <mat-icon>{{ link.icon }}</mat-icon>
+                    <span>{{ link.name | translate }}</span>
+                </a>
+            </ng-template>
+
+            <nav id="sidebarMenu" aria-label="Main">
+                <h4 class="sidenav-title">
+                    {{ 'SIDENAV.DASHBOARD' | translate }}
+                </h4>
+                <ng-container
+                    *ngTemplateOutlet="
+                        navLink;
+                        context: { $implicit: dashboardLink }
+                    "
+                />
+
+                <h4 class="sidenav-title">
+                    {{ 'SIDENAV.CATALOG' | translate }}
+                </h4>
+                @for (link of catalogLinks; track link.url) {
+                    @if (!link.isRestricted || isLoggedIn()) {
+                        <ng-container
+                            *ngTemplateOutlet="
+                                navLink;
+                                context: { $implicit: link }
                             "
-                            [routerLinkActiveOptions]="
-                                dashboardLink.url === '/'
-                                    ? { exact: true }
-                                    : { exact: false }
+                        />
+                    }
+                }
+
+                @if (isLoggedIn()) {
+                    <h4 class="sidenav-title">
+                        {{ 'SIDENAV.TASKS' | translate }}
+                    </h4>
+                    @for (link of runtimeLinks; track link.url) {
+                        <ng-container
+                            *ngTemplateOutlet="
+                                navLink;
+                                context: { $implicit: link }
                             "
-                            >{{ dashboardLink.name | translate }}</a
-                        >
-                    </mat-list-item>
-
-                    <h4 class="sidenav-title">
-                        {{ 'SIDENAV.CATALOG' | translate }}
-                        <mat-icon>menu_book</mat-icon>
-                    </h4>
-                    @for (link of catalogLinks; track link) {
-                        @if (
-                            !link.isRestricted ||
-                            (link.isRestricted && isLoggedIn())
-                        ) {
-                            <mat-list-item
-                                class="sidenav-item"
-                                matTooltip=" {{
-                                    'ERRORS.UNAUTHORIZED' | translate
-                                }}"
-                                [matTooltipPosition]="'right'"
-                                [matTooltipDisabled]="!link.isDisabled"
-                                [disabled]="link.isDisabled"
-                            >
-                                <a
-                                    mat-list-item
-                                    class="sidenav-link"
-                                    routerLinkActive="active"
-                                    [routerLink]="
-                                        !link.isDisabled ? link.url : null
-                                    "
-                                    [routerLinkActiveOptions]="
-                                        link.url === '/'
-                                            ? { exact: true }
-                                            : { exact: false }
-                                    "
-                                    >{{ link.name | translate }}</a
-                                >
-                            </mat-list-item>
-                        }
+                        />
                     }
+                }
 
-                    @if (isLoggedIn()) {
-                        <h4 class="sidenav-title">
-                            {{ 'SIDENAV.TASKS' | translate }}
-                            <mat-icon>avg_pace</mat-icon>
-                        </h4>
-                        @for (link of runtimeLinks; track link) {
-                            @if (
-                                !link.isRestricted ||
-                                (link.isRestricted && isLoggedIn())
-                            ) {
-                                <mat-list-item
-                                    [attr.id]="
-                                        link.name === 'SIDENAV.DEPLOYMENTS'
-                                            ? 'step2'
-                                            : link.name === 'SIDENAV.BATCH'
-                                              ? 'step3'
-                                              : null
-                                    "
-                                    class="sidenav-item"
-                                    [matTooltip]="
-                                        link.tooltip || 'ERRORS.UNAUTHORIZED'
-                                            | translate
-                                    "
-                                    [matTooltipPosition]="'right'"
-                                    [matTooltipDisabled]="!link.isDisabled"
-                                    [disabled]="link.isDisabled"
-                                >
-                                    <a
-                                        class="sidenav-link"
-                                        mat-list-item
-                                        routerLinkActive="active"
-                                        [routerLink]="
-                                            !link.isDisabled ? link.url : null
-                                        "
-                                        [routerLinkActiveOptions]="
-                                            link.url === '/'
-                                                ? { exact: true }
-                                                : { exact: false }
-                                        "
-                                        >{{ link.name | translate }}</a
-                                    >
-                                </mat-list-item>
-                            }
-                        }
-                    }
+                <div class="sidenav-divider"></div>
 
-                    <h4 class="sidenav-title">
-                        {{ 'SIDENAV.PLATFORM-SERVICES' | translate }}
-                        <mat-icon>open_in_new</mat-icon>
-                    </h4>
-                    @for (link of otherLinks; track link) {
-                        <mat-list-item class="sidenav-item">
-                            <a
-                                mat-list-item
-                                href="{{ link.url }}"
-                                routerLinkActive="active"
-                                class="sidenav-link"
-                                target="_blank"
-                                >{{ link.name | translate }}</a
-                            >
-                        </mat-list-item>
-                    }
-                </mat-nav-list>
+                <ng-container
+                    *ngTemplateOutlet="
+                        navLink;
+                        context: { $implicit: platformServicesLink }
+                    "
+                />
             </nav>
         </span>
 

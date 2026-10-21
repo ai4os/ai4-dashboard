@@ -1,0 +1,33 @@
+<app-ui-card
+    [accentColor]="accentColorVar"
+    [tooltip]="'GENERAL.LINK-TO-SERVICE' | translate"
+    role="link"
+    tabindex="0"
+    (keydown.enter)="visitLink()"
+    (keydown.space)="visitLink(); $event.preventDefault()"
+    (click)="visitLink()"
+>
+    <header class="service-card__header">
+        <span class="service-card__title">
+            <mat-icon
+                class="service-card__logo"
+                [style.color]="accentColorVar"
+                >{{ service.id || 'apps' }}</mat-icon
+            >
+            <h3 class="service-card__title">{{ service.name | translate }}</h3>
+        </span>
+        <mat-icon class="service-card__external" aria-hidden="true"
+            >open_in_new</mat-icon
+        >
+    </header>
+
+    <div class="service-card__body">
+        @if (service.desc) {
+            <markdown
+                [data]="service.desc"
+                ngPreserveWhitespaces
+                [disableSanitizer]="true"
+            ></markdown>
+        }
+    </div>
+</app-ui-card>

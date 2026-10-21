@@ -1,0 +1,10 @@
+<app-ui-banner variant="primary">
+    <h1>{{ 'SIDENAV.PLATFORM-SERVICES' | translate }}</h1>
+</app-ui-banner>
+
+<div class="services-cards-container">
+    @for (service of services; track service.url; let i = $index) {
+        <app-platform-service-card [service]="service" [colorIndex]="i">
+        </app-platform-service-card>
+    }
+</div>

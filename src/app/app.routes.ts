@@ -80,6 +80,13 @@ export const routes: Routes = [
                 ],
             },
             {
+                path: 'platform-services',
+                loadChildren: () =>
+                    import('@modules/platform-services/platform-services.module').then(
+                        (m) => m.PlatformServicesModule
+                    ),
+            },
+            {
                 path: 'forbidden',
                 loadChildren: () =>
                     import('@modules/forbidden/forbidden.module').then(

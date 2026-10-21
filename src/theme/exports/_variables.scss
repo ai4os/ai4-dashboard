@@ -175,4 +175,8 @@ $grid-breakpoints: (
     --transition-fast: 0.25s ease;
     --transition-base: 0.4s ease;
     --transition-slow: 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Top nav bar */
+    --nav-header-height: 64px;
+    --nav-gutter: var(--space-md);
 }

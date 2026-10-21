@@ -9,20 +9,28 @@
     },
     "sidenavMenu": [
         {
+            "id": "storage",
             "name": "SIDENAV.STORAGE",
-            "url": "https://share.cloud.ai4eosc.eu/"
+            "url": "https://share.cloud.ai4eosc.eu/",
+            "desc": "Provides secure, persistent storage for datasets, training data and project files. Users can connect their storage to AI4EOSC deployments, access data directly from their working environments, and share files with collaborators."
         },
         {
+            "id": "experiment",
             "name": "SIDENAV.EXPERIMENT-TRACKING",
-            "url": "https://mlflow.cloud.imagine-ai.eu"
+            "url": "https://mlflow.cloud.imagine-ai.eu",
+            "desc": "Enables users to track and monitor machine learning experiments using MLflow. It helps record training metrics and results, compare different runs, and improve the reproducibility and management of model development."
         },
         {
+            "id": "workflow",
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
-            "url": "https://inference.cloud.ai4eosc.eu/"
+            "url": "https://inference.cloud.ai4eosc.eu/",
+            "desc": "Allows users to build and orchestrate AI inference pipelines by connecting multiple processing steps and AI services. Using visual tools such as Elyra and Node-RED, users can create, execute and deploy workflows that automate data processing and model inference."
         },
         {
+            "id": "chat",
             "name": "SIDENAV.LLM-CHAT",
-            "url": "https://chat.cloud.ai4eosc.eu/"
+            "url": "https://chat.cloud.ai4eosc.eu/",
+            "desc": "Provides an interactive chat interface powered by Large Language Models (LLMs) to answer questions, summarize documents, generate code suggestions and assist with research tasks. Users can also interact with the AI4EOSC documentation through a dedicated assistant that provides context-aware answers."
         }
     ],
     "footerLinks": [
