@@ -1,63 +1,63 @@
-<mat-toolbar
-    [ngClass]="{
-        'mb-3': !mobileQuery.matches,
-    }"
->
-    <span id="title" class="aligned-with-icon">
-        {{ 'DASHBOARD.TITLE' | translate }}
-        <mat-icon>dashboard</mat-icon>
-    </span>
-</mat-toolbar>
+<app-ui-banner variant="primary">
+    <h1>{{ 'DASHBOARD.TITLE' | translate }}</h1>
+</app-ui-banner>
 
-@if (!clusterStatsLoading) {
-    @if (clusterDataAvailable) {
-        <mat-tab-group
-            mat-stretch-tabs="false"
-            class="main-tabs"
-            [ngClass]="{
-                'main-tabs-mobile': mobileQuery.matches,
-                'main-tabs': !mobileQuery.matches,
-            }"
-        >
-            <mat-tab label="{{ 'DASHBOARD.OVERVIEW-TAB' | translate }}">
-                <app-overview-tab
-                    [clusterGlobalStats]="clusterGlobalStats"
-                    [gpuPerModelCluster]="gpuPerModelCluster"
-                ></app-overview-tab>
-            </mat-tab>
-            <mat-tab label="{{ 'DASHBOARD.DATACENTERS-TAB' | translate }}">
-                <ng-template matTabContent>
-                    <app-datacenters-tab
-                        [datacentersStats]="datacentersStats"
-                    ></app-datacenters-tab>
-                </ng-template>
-            </mat-tab>
-            <mat-tab label="{{ 'DASHBOARD.FOOTPRINT-TAB' | translate }}">
-                <ng-template matTabContent>
-                    <app-footprint-tab
-                        [datacentersStats]="datacentersStats"
-                    ></app-footprint-tab>
-                </ng-template>
-            </mat-tab>
-            @if (
-                isLoggedIn() && !userStatsLoading && userProfile !== undefined
-            ) {
-                <mat-tab label="{{ 'DASHBOARD.USAGE-TAB' | translate }}">
-                    <app-usage-tab
-                        [userProfile]="userProfile"
-                        [dates]="dates"
-                        [cpuMhzData]="cpuMhzData"
-                        [cpuNumData]="cpuNumData"
-                        [memoryMBData]="memoryMBData"
-                        [diskMBData]="diskMBData"
-                        [gpuNumData]="gpuNumData"
-                        [queuedData]="queuedData"
-                        [runningData]="runningData"
-                        [userGlobalStats]="userGlobalStats"
-                    ></app-usage-tab>
-                </mat-tab>
+@if (!cluster.loading) {
+    @if (cluster.data; as clusterData) {
+        <app-ui-tabs
+            [tabs]="tabs"
+            [activeTabId]="activeTabId"
+            (tabChange)="onTabChange($event)"
+        ></app-ui-tabs>
+
+        @switch (activeTabId) {
+            @case ('overview') {
+                <section class="tab-content">
+                    <app-overview-tab
+                        [cluster]="clusterData"
+                        [userPowerW]="user.data?.energy?.powerW ?? null"
+                    ></app-overview-tab>
+                </section>
             }
-        </mat-tab-group>
+            @case ('usage') {
+                @if (showUserTabs() && user.data; as userData) {
+                    <section class="tab-content">
+                        <app-usage-tab
+                            [usage]="userData.usage"
+                            [timeseries]="userData.timeseries"
+                        ></app-usage-tab>
+                    </section>
+                }
+            }
+            @case ('datacenters') {
+                <section class="tab-content">
+                    <app-datacenters-tab
+                        [datacentersStats]="clusterData.datacenters"
+                    ></app-datacenters-tab>
+                </section>
+            }
+            @case ('footprint') {
+                <section class="tab-content">
+                    <app-footprint-tab
+                        [datacentersStats]="clusterData.datacenters"
+                    ></app-footprint-tab>
+                </section>
+            }
+            @case ('grid') {
+                <section class="tab-content">
+                    <app-zone-grid-tab
+                        [datacentersStats]="clusterData.datacenters"
+                    ></app-zone-grid-tab>
+                </section>
+            }
+            @default {
+                <section class="tab-content">
+                    <p class="no-data-text">
+                        {{ 'DASHBOARD.COMING-SOON' | translate }}
+                    </p>
+                </section>
+            }
+        }
     } @else {
         <p id="error" class="no-data-text">
             {{ 'DASHBOARD.NO-DATA' | translate }}
@@ -65,7 +65,6 @@
     }
 } @else {
     <div class="spinner">
-        <mat-progress-spinner color="primary" mode="indeterminate">
-        </mat-progress-spinner>
+        <app-ui-loader></app-ui-loader>
     </div>
 }

@@ -1,10 +1,63 @@
-.title {
+:host {
     display: flex;
-    align-items: center;
-    gap: 0.5em;
+    flex-direction: column;
+    height: 100%;
 }
 
-.card-content-mobile {
-    overflow: scroll;
-    max-height: 450px;
+::ng-deep .ui-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+    max-width: 80%;
+}
+
+.confirmation-dialog {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-lg);
+
+    &__top-accent {
+        position: absolute;
+        top: calc(-1 * var(--space-lg));
+        left: calc(-1 * var(--space-lg));
+        right: calc(-1 * var(--space-lg));
+        height: 4px;
+        background: var(--color-primary);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        flex-shrink: 0;
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-primary);
+        margin: 0 0 var(--space-md);
+    }
+
+    &__title-icon {
+        color: var(--color-primary);
+    }
+
+    &__content {
+        width: 100%;
+        padding: 0;
+        max-height: 60vh;
+        overflow-y: auto;
+        margin-bottom: var(--space-lg);
+    }
+
+    &__actions {
+        display: flex;
+        gap: var(--space-sm);
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: var(--space-md);
+        padding-bottom: 0;
+    }
+}
+
+.chart {
+    width: 100%;
 }

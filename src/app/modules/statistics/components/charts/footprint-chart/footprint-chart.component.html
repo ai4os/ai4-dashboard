@@ -1,17 +1,24 @@
 <div class="footprint-chart">
     <div class="footprint-chart__header">
-        <span class="footprint-chart__title">{{ title }}</span>
-        @if (tooltip !== '') {
-            <mat-icon
-                class="footprint-chart__help"
-                color="accent"
-                [matTooltip]="tooltip"
-                matTooltipPosition="right"
-                >help_outline</mat-icon
-            >
+        <span class="footprint-chart__title"
+            >{{ title }}
+            @if (_unit) {
+                ({{ _unit }})
+            }
+        </span>
+        @if (tooltip) {
+            <app-ui-button
+                variant="icon"
+                icon="help_outline"
+                [tooltip]="tooltip"
+            ></app-ui-button>
         }
     </div>
     <div class="footprint-chart__body">
-        <div id="chart" echarts [options]="echartOptions"></div>
+        <div
+            class="footprint-chart__canvas"
+            echarts
+            [options]="echartOptions"
+        ></div>
     </div>
 </div>

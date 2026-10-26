@@ -1,135 +1,162 @@
 <div class="main-container">
-    <div id="map" class="map"></div>
-
-    <div id="popup" class="dc-popup">
-        <div class="dc-popup__header">
-            <span class="dc-popup__name" id="popup-name"></span>
-            <span class="dc-popup__country">
-                <span id="popup-flag"></span>
-            </span>
-        </div>
-        <div class="dc-popup__divider"></div>
-        <div class="dc-popup__metric">
-            <div class="dc-popup__metric-label">
-                <span class="dc-popup__metric-dot" id="popup-metric-dot"></span>
-                <span id="popup-metric-label"></span>
-            </div>
-            <div class="dc-popup__metric-right">
-                <span
-                    class="dc-popup__metric-value"
-                    id="popup-metric-value"
-                ></span>
-                <span
-                    class="dc-popup__metric-unit"
-                    id="popup-metric-unit"
-                ></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Legend -->
-    <div class="map-overlay map-overlay--bottom-left">
-        <app-map-metric-legend [metric]="activeMetric" />
-    </div>
-
-    <!-- Metric selector -->
-    <div class="map-overlay map-overlay--bottom-center">
-        <app-map-metric-selector
-            [(active)]="activeMetric"
-            (activeChange)="onMetricChange($event)"
-        />
-    </div>
-
-    <mat-drawer #drawer class="drawer" mode="side" position="end">
-        <!-- Header -->
-        <div class="drawer-header">
-            <span class="drawer-header__title">
-                {{ selectedDatacenter?.name }}
-            </span>
-            <span class="drawer-dc-info__loc">
-                <span class="drawer-dc-info__flag">
-                    {{
-                        $safeNavigationMigration(selectedDatacenter?.country)
-                            | countryFlag
-                    }}
-                </span>
-            </span>
-        </div>
-
-        <!-- Env metrics grid -->
-        <div class="metrics-grid">
-            <app-stats-reduced-card
-                [label]="'DASHBOARD.STATS-TITLES.PUE' | translate"
-                icon="bolt"
-                [value]="selectedDatacenter?.PUE ?? '—'"
-                [tooltip]="'DASHBOARD.PUE-INFO' | translate"
-            />
-            <app-stats-reduced-card
-                [label]="'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate"
-                icon="task"
-                [value]="jobsNum"
-                unit="running"
-            />
-        </div>
-
-        <div class="env-grid">
-            <app-stats-reduced-card
-                [label]="
-                    'DASHBOARD.STATS-TITLES.ENVIRONMENTAL-SCORE' | translate
-                "
-                icon="eco"
-                [value]="selectedDatacenter?.green_score ?? '—'"
-                [tooltip]="'DASHBOARD.ENVIRONMENTAL-SCORE-INFO' | translate"
-            />
-
-            <app-stats-reduced-card
-                [label]="'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate"
-                icon="factory"
-                [value]="selectedDatacenter?.energy_quality ?? '—'"
-                unit="g CO₂/kWh"
-                [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"
-            />
-            <app-stats-reduced-card
-                [label]="
-                    'DASHBOARD.STATS-TITLES.ENERGY-WATER-USAGE' | translate
-                "
-                icon="water_drop"
-                [value]="selectedDatacenter?.energy_water_usage ?? '—'"
-                unit="l/kWh"
-                [tooltip]="'DASHBOARD.ENERGY-WATER-INFO' | translate"
-            />
-        </div>
-
-        <!-- Resource bars -->
-        <app-resources-card
-            [usedCpu]="usedCpuNum"
-            [totalCpu]="totalCpuNum"
-            [usedMem]="Math.trunc(usedMemory)"
-            [totalMem]="Math.trunc(totalMemory)"
-            [memUnit]="ramUnit"
-            [usedDisk]="Math.trunc(usedDisk)"
-            [totalDisk]="Math.trunc(totalDisk)"
-            [diskUnit]="diskUnit"
-            [usedGpu]="usedGpuNum"
-            [totalGpu]="totalGpuNum"
-        />
-
-        <!-- Footer -->
-        <div class="drawer-footer">
-            <p class="drawer-footer__text">
-                {{ 'DASHBOARD.WATTNET-INFO' | translate }}
-                <a
-                    class="drawer-footer__link"
-                    href="https://wattnet.eu/"
-                    target="_blank"
+    <mat-drawer-container class="map-container" [hasBackdrop]="false">
+        <!-- Detail panel -->
+        <mat-drawer
+            #drawer
+            class="drawer"
+            mode="over"
+            position="end"
+            [autoFocus]="false"
+        >
+            <!-- Header -->
+            <div class="drawer-header">
+                <div class="drawer-header__info">
+                    <span class="drawer-header__title">
+                        {{ selectedDatacenter?.name }}
+                    </span>
+                    <span class="drawer-header__flag">
+                        {{
+                            $safeNavigationMigration(
+                                selectedDatacenter?.country
+                            ) | countryFlag
+                        }}
+                    </span>
+                </div>
+                <button
+                    type="button"
+                    class="drawer-header__close"
+                    aria-label="Close"
+                    (click)="closeDrawer()"
                 >
-                    Wattnet
-                    <mat-icon class="drawer-footer__link-icon"
-                        >open_in_new</mat-icon
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+
+            <!-- Env metrics grid -->
+            <div class="metrics-grid">
+                <app-stats-reduced-card
+                    [label]="'DASHBOARD.STATS-TITLES.PUE' | translate"
+                    icon="bolt"
+                    color="var(--color-secondary-1)"
+                    [value]="selectedDatacenter?.PUE ?? '—'"
+                    [tooltip]="'DASHBOARD.PUE-INFO' | translate"
+                />
+                <app-stats-reduced-card
+                    [label]="'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate"
+                    icon="task"
+                    [value]="jobsNum"
+                    unit="running"
+                />
+            </div>
+
+            <div class="env-grid">
+                <app-stats-reduced-card
+                    [label]="'DASHBOARD.STATS-TITLES.GREEN-SCORE' | translate"
+                    icon="eco"
+                    color="var(--color-secondary-4)"
+                    [value]="selectedDatacenter?.green_score ?? '—'"
+                    [tooltip]="'DASHBOARD.GREEN-SCORE-INFO' | translate"
+                />
+                <app-stats-reduced-card
+                    [label]="
+                        'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate
+                    "
+                    icon="factory"
+                    color="var(--color-secondary-5)"
+                    [value]="selectedDatacenter?.energy_quality ?? '—'"
+                    unit="g CO₂/kWh"
+                    [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"
+                />
+                <app-stats-reduced-card
+                    [label]="
+                        'DASHBOARD.STATS-TITLES.ENERGY-WATER-USAGE' | translate
+                    "
+                    icon="water_drop"
+                    color="var(--color-secondary-3)"
+                    [value]="selectedDatacenter?.energy_water_usage ?? '—'"
+                    unit="l/kWh"
+                    [tooltip]="'DASHBOARD.ENERGY-WATER-INFO' | translate"
+                />
+            </div>
+
+            <!-- Resource bars -->
+            <app-resources-card
+                [usedCpu]="usedCpuNum"
+                [totalCpu]="totalCpuNum"
+                [usedMem]="Math.trunc(usedMemory)"
+                [totalMem]="Math.trunc(totalMemory)"
+                [memUnit]="ramUnit"
+                [usedDisk]="Math.trunc(usedDisk)"
+                [totalDisk]="Math.trunc(totalDisk)"
+                [diskUnit]="diskUnit"
+                [usedGpu]="usedGpuNum"
+                [totalGpu]="totalGpuNum"
+            />
+
+            <!-- Footer -->
+            <div class="drawer-footer">
+                <p class="drawer-footer__text">
+                    {{ 'DASHBOARD.WATTNET-INFO' | translate }}
+                    <a
+                        class="drawer-footer__link"
+                        href="https://wattnet.eu/"
+                        target="_blank"
+                        rel="noopener"
                     >
-                </a>
-                .
-            </p>
-        </div>
-    </mat-drawer>
+                        Wattnet
+                        <mat-icon class="drawer-footer__link-icon"
+                            >open_in_new</mat-icon
+                        >
+                    </a>
+                    .
+                </p>
+            </div>
+        </mat-drawer>
+
+        <mat-drawer-content class="map-content">
+            <div id="map" class="map"></div>
+
+            <div id="popup" class="dc-popup">
+                <div class="dc-popup__header">
+                    <span class="dc-popup__name" id="popup-name"></span>
+                    <span class="dc-popup__country">
+                        <span id="popup-flag"></span>
+                    </span>
+                </div>
+                <div class="dc-popup__divider"></div>
+                <div class="dc-popup__metric">
+                    <div class="dc-popup__metric-label">
+                        <span
+                            class="dc-popup__metric-dot"
+                            id="popup-metric-dot"
+                        ></span>
+                        <span id="popup-metric-label"></span>
+                    </div>
+                    <div class="dc-popup__metric-right">
+                        <span
+                            class="dc-popup__metric-value"
+                            id="popup-metric-value"
+                        ></span>
+                        <span
+                            class="dc-popup__metric-unit"
+                            id="popup-metric-unit"
+                        ></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="map-overlay map-overlay--bottom-left">
+                <app-map-metric-legend [metric]="activeMetric" />
+            </div>
+
+            <!-- Metric selector -->
+            <div class="map-overlay map-overlay--bottom-center">
+                <app-map-metric-selector
+                    [(active)]="activeMetric"
+                    (activeChange)="onMetricChange($event)"
+                />
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
 </div>

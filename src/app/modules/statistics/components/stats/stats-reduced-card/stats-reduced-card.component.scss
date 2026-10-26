@@ -39,6 +39,10 @@
         display: flex;
         align-items: center;
         gap: 2px;
+
+        ::ng-deep app-ui-button > button {
+            cursor: default;
+        }
     }
 
     &__icon,
@@ -58,7 +62,7 @@
 
     &__unit {
         font-size: var(--font-size-sm);
+        font-weight: 400;
         color: var(--mat-sys-on-surface-variant);
-        margin-top: 3px;
     }
 }

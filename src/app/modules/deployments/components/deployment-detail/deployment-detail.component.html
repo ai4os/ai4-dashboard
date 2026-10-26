@@ -207,6 +207,7 @@
                         [value]="item.value"
                         [unit]="item.unit"
                         [icon]="item.icon"
+                        [color]="item.color"
                     ></app-stats-reduced-card>
                 } @empty {
                     <p>-</p>
@@ -306,6 +307,15 @@
                     ></app-footprint-chart>
                 </div>
             </div>
+        </section>
+    }
+
+    <!-- Secrets tab (federated server) -->
+    @if (activeTabId === 'secrets' && isFederatedServer) {
+        <section class="tab-content">
+            <app-ui-card>
+                <app-deployment-secrets [uuid]="uuid"></app-deployment-secrets>
+            </app-ui-card>
         </section>
     }
 }

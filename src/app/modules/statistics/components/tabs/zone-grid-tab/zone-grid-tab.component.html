@@ -1,0 +1,81 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <p class="section-header__subtitle">
+            {{
+                'DASHBOARD.POWER-GRID.SUBTITLE'
+                    | translate
+                        : {
+                              projectName: projectName,
+                          }
+            }}
+        </p>
+    </div>
+
+    <div class="chart-controls">
+        <app-ui-chip-group
+            [options]="rangeOptions"
+            [ngModel]="selectedRange"
+            (ngModelChange)="onRangeChange($event)"
+        ></app-ui-chip-group>
+    </div>
+</div>
+
+<div class="metrics">
+    <div class="metric">
+        <app-stats-bar-card
+            icon="eco"
+            color="var(--color-secondary-4)"
+            [label]="'DASHBOARD.POWER-GRID.GREEN-SCORE' | translate"
+            [used]="greenScore.average"
+        ></app-stats-bar-card>
+
+        <app-footprint-chart
+            [title]="'DASHBOARD.POWER-GRID.GREEN-SCORE' | translate"
+            [tooltip]="'DASHBOARD.GREEN-SCORE-INFO' | translate"
+            color="--color-secondary-4"
+            [legend]="legend"
+            [timestamps]="greenScore.timestamps"
+            [values]="greenScore.values"
+        ></app-footprint-chart>
+    </div>
+
+    <div class="metric">
+        <app-stats-bar-card
+            icon="factory"
+            color="var(--color-secondary-5)"
+            [label]="'DASHBOARD.POWER-GRID.CARBON' | translate"
+            [used]="carbon.average"
+            unit="gCO₂e/kWh"
+        ></app-stats-bar-card>
+
+        <app-footprint-chart
+            [title]="'DASHBOARD.POWER-GRID.CARBON' | translate"
+            [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"
+            unit="gCO₂e/kWh"
+            color="--color-secondary-5"
+            [legend]="legend"
+            [timestamps]="carbon.timestamps"
+            [values]="carbon.values"
+        ></app-footprint-chart>
+    </div>
+
+    <div class="metric">
+        <app-stats-bar-card
+            icon="water_drop"
+            color="var(--color-secondary-3)"
+            [label]="'DASHBOARD.POWER-GRID.WATER' | translate"
+            [used]="water.average"
+            unit="l/kWh"
+        ></app-stats-bar-card>
+
+        <app-footprint-chart
+            [title]="'DASHBOARD.POWER-GRID.WATER' | translate"
+            [tooltip]="'DASHBOARD.ENERGY-WATER-INFO' | translate"
+            unit="l/kWh"
+            color="--color-secondary-3"
+            [legend]="legend"
+            [timestamps]="water.timestamps"
+            [values]="water.values"
+        ></app-footprint-chart>
+    </div>
+</div>

@@ -1,13 +1,13 @@
-.main-tabs {
-    margin-bottom: 20px;
+.banner-title {
+    margin: 0;
+    color: var(--color-text-on-primary, #fff);
+}
+
+.tab-content {
+    padding-top: 1rem;
 }
 
 .no-data-text {
     text-align: center;
     padding-top: 15em;
-}
-
-::ng-deep .mat-mdc-tab-header {
-    width: inherit !important;
-    margin: 0.5em;
 }

@@ -7,18 +7,18 @@
             }}</mat-icon>
 
             @if (tooltip) {
-                <mat-icon
-                    class="env-card__help"
-                    color="accent"
-                    [matTooltip]="tooltip"
-                    matTooltipPosition="above"
-                    >help</mat-icon
-                >
+                <app-ui-button
+                    variant="icon"
+                    icon="help_outline"
+                    [tooltip]="tooltip"
+                ></app-ui-button>
             }
         </div>
     </div>
-    <div class="env-card__value">{{ value }}</div>
-    @if (unit) {
-        <div class="env-card__unit">{{ unit }}</div>
-    }
+    <div class="env-card__value">
+        {{ value }}
+        @if (unit) {
+            <span class="env-card__unit">{{ unit }}</span>
+        }
+    </div>
 </div>

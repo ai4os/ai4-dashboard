@@ -1,89 +1,110 @@
-<mat-toolbar class="title-toolbar">
-    <span id="title">
-        {{ 'DASHBOARD.USAGE' | translate }}
-    </span>
-</mat-toolbar>
-<mat-tab-group mat-stretch-tabs="true">
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RUNNING-DATA' | translate }}">
-        <app-time-series-chart
-            id="runningDataChart"
-            [datesInput]="dates"
-            [dataInput]="runningData"
-            nameInput="runningData"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.QUEUED-DATA' | translate }}">
-        <app-time-series-chart
-            id="queuedDataChart"
-            [datesInput]="dates"
-            [dataInput]="queuedData"
-            nameInput="queuedData"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.CPU' | translate }}">
-        <app-time-series-chart
-            id="cpuNumDataChart"
-            [datesInput]="dates"
-            [dataInput]="cpuNumData"
-            nameInput="cpuNumData"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.CPU-FREQ' | translate }}">
-        <app-time-series-chart
-            id="cpuMhzDataChart"
-            [datesInput]="dates"
-            [dataInput]="cpuMhzData"
-            nameInput="cpuMhzData"
-        ></app-time-series-chart
-    ></mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.RAM-MB' | translate }}">
-        <app-time-series-chart
-            id="memoryMBDataChart"
-            [datesInput]="dates"
-            [dataInput]="memoryMBData"
-            nameInput="memoryMBData"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-VALUES.DISK-MB' | translate }}">
-        <app-time-series-chart
-            id="diskMBDataChart"
-            [datesInput]="dates"
-            [dataInput]="diskMBData"
-            nameInput="diskMBData"
-        ></app-time-series-chart>
-    </mat-tab>
-    <mat-tab label="{{ 'DASHBOARD.STATS-TITLES.GPU' | translate }}">
-        <app-time-series-chart
-            id="gpuNumDataChart"
-            [datesInput]="dates"
-            [dataInput]="gpuNumData"
-            nameInput="gpuNumData"
-        ></app-time-series-chart>
-    </mat-tab>
-</mat-tab-group>
-<mat-toolbar>
-    <span id="title-aggregate">
-        {{ 'DASHBOARD.USERS-OVER-TIME' | translate }}
-    </span>
-    <mat-icon
-        id="help-users"
-        class="ml-2"
-        color="accent"
-        matTooltip="{{ 'DASHBOARD.USERS-INFO' | translate }}"
-        [matTooltipPosition]="'right'"
-        >help</mat-icon
-    >
-</mat-toolbar>
-<app-stats-container
-    id="user-stats"
-    [usedCpuNum]="userGlobalStats.cpuNumAgg"
-    [totalCpuNum]="userGlobalStats.cpuNumTotal"
-    [usedMemory]="userGlobalStats.memoryMBAgg"
-    [totalMemory]="userGlobalStats.memoryMBTotal"
-    [usedDisk]="userGlobalStats.diskMBAgg"
-    [totalDisk]="userGlobalStats.diskMBTotal"
-    [usedGpuNum]="userGlobalStats.gpuNumAgg"
-    [totalGpuNum]="userGlobalStats.gpuNumTotal"
-    [usedLabel]="getUsername()"
-    [freeLabel]="getVO()"
-></app-stats-container>
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'DASHBOARD.USAGE.USER' | translate }}
+        </h3>
+        <p class="section-header__subtitle">
+            {{ 'DASHBOARD.USAGE.USER-INFO' | translate }}
+        </p>
+    </div>
+</div>
+
+<div class="resources-grid">
+    <app-stats-bar-card
+        [label]="'DASHBOARD.STATS-TITLES.CPU' | translate"
+        icon="memory"
+        [used]="usage.cpu.used"
+        [total]="usage.cpu.total"
+        color="var(--color-accent)"
+    ></app-stats-bar-card>
+
+    <app-stats-bar-card
+        [label]="'DASHBOARD.STATS-TITLES.RAM' | translate"
+        icon="memory_alt"
+        [used]="usage.memory.used"
+        [total]="usage.memory.total"
+        [unit]="usage.memory.unit"
+        color="var(--color-secondary-4)"
+    ></app-stats-bar-card>
+
+    <app-stats-bar-card
+        [label]="'DASHBOARD.STATS-TITLES.DISK' | translate"
+        icon="album"
+        [used]="usage.disk.used"
+        [total]="usage.disk.total"
+        [unit]="usage.disk.unit"
+        color="var(--color-primary-dark)"
+    ></app-stats-bar-card>
+
+    @if (usage.gpu.total > 0) {
+        <app-stats-bar-card
+            [label]="'DASHBOARD.STATS-TITLES.GPU' | translate"
+            icon="developer_board"
+            [used]="usage.gpu.used"
+            [total]="usage.gpu.total"
+            color="var(--primary)"
+        ></app-stats-bar-card>
+    }
+</div>
+
+<div class="section-header" style="margin-bottom: 0">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'DASHBOARD.USAGE.PLATFORM' | translate }}
+        </h3>
+        <p class="section-header__subtitle">
+            {{ 'DASHBOARD.USAGE.PLATFORM-INFO' | translate }}
+        </p>
+    </div>
+
+    <div class="chart-controls">
+        <app-ui-chip-group
+            [options]="rangeOptions"
+            [ngModel]="selectedRange"
+            (ngModelChange)="onRangeChange($event)"
+        ></app-ui-chip-group>
+    </div>
+</div>
+
+<app-ui-tabs
+    [tabs]="tabs"
+    [activeTabId]="activeId"
+    (tabChange)="onTabChange($event)"
+></app-ui-tabs>
+
+@if (timeseries.dates.length) {
+    @let m = active;
+    @let s = summaries[m.id];
+
+    <div class="summary-grid">
+        <app-stats-reduced-card
+            [label]="'DASHBOARD.USAGE-CHARTS.CURRENT' | translate"
+            [value]="round(s.current, m.decimals)"
+            [unit]="m.unit"
+            [icon]="m.icon"
+        ></app-stats-reduced-card>
+        <app-stats-reduced-card
+            [label]="'DASHBOARD.USAGE-CHARTS.AVERAGE' | translate"
+            [value]="round(s.average, m.decimals + 1)"
+            [unit]="m.unit"
+            icon="functions"
+        ></app-stats-reduced-card>
+        <app-stats-reduced-card
+            [label]="'DASHBOARD.USAGE-CHARTS.PEAK' | translate"
+            [value]="round(s.peak, m.decimals)"
+            [unit]="m.unit"
+            icon="trending_up"
+        ></app-stats-reduced-card>
+    </div>
+
+    <app-time-series-chart
+        [dates]="filteredDates"
+        [values]="filteredSeries[m.id]"
+        [name]="m.id"
+        [unit]="m.unit"
+        [color]="m.color"
+        [decimals]="m.decimals"
+    ></app-time-series-chart>
+} @else {
+    <p class="no-data-text">{{ 'DASHBOARD.NO-DATA' | translate }}</p>
+}

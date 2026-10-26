@@ -6,7 +6,7 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     EMPTY,
     Observable,
@@ -48,6 +48,7 @@ import { FootprintChartComponent } from '@app/modules/statistics/components/char
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
+import { DeploymentSecretsComponent } from '../deployment-secrets/deployment-secrets.component';
 
 interface ListCardItem {
     label: string;
@@ -75,11 +76,13 @@ interface ListCardItem {
         BreadcrumbComponent,
         StatsReducedCardComponent,
         FootprintChartComponent,
+        DeploymentSecretsComponent,
         DatePipe,
     ],
 })
 export class DeploymentDetailComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly location = inject(Location);
     private readonly platformStatusService = inject(PlatformStatusService);
 
@@ -140,13 +143,47 @@ export class DeploymentDetailComponent implements OnInit, OnDestroy {
             });
         }
 
+        if (this.isFederatedServer) {
+            dynamicTabs.push({
+                id: 'secrets',
+                label: 'DEPLOYMENTS.SECRETS.TITLE',
+            });
+        }
+
         return dynamicTabs;
     }
 
     activeTabId = 'overview';
 
+    // Tab requested through the ?tab= query param (deep link). It is applied
+    // once the deployment is loaded, since the available tabs depend on it.
+    private requestedTabId: string | null = null;
+
+    get isFederatedServer(): boolean {
+        return (
+            this.type === 'tool' &&
+            this.deployment?.tool_name === 'ai4os-federated-server'
+        );
+    }
+
     onTabChange(tabId: string): void {
         this.activeTabId = tabId;
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { tab: tabId === 'overview' ? null : tabId },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+        });
+    }
+
+    private applyRequestedTab(): void {
+        if (
+            this.requestedTabId &&
+            this.tabs.some((t) => t.id === this.requestedTabId)
+        ) {
+            this.activeTabId = this.requestedTabId;
+        }
+        this.requestedTabId = null;
     }
 
     get endpointsList(): { key: string; value: string }[] {
@@ -299,6 +336,8 @@ export class DeploymentDetailComponent implements OnInit, OnDestroy {
             (this.route.snapshot.queryParamMap.get('type') as
                 'module' | 'tool' | 'try-me' | 'batch') ?? 'module';
 
+        this.requestedTabId = this.route.snapshot.queryParamMap.get('tab');
+
         if (!this.uuid) {
             return;
         }
@@ -387,6 +426,7 @@ export class DeploymentDetailComponent implements OnInit, OnDestroy {
 
         this.statusBadge = getDeploymentBadge(deployment.status);
         this.deployment = deployment;
+        this.applyRequestedTab();
     }
 
     private normalizeDockerImage(deployment: Deployment): void {
@@ -424,20 +464,37 @@ export class DeploymentDetailComponent implements OnInit, OnDestroy {
                 'DEPLOYMENTS.DETAIL.RESOURCES.' + key.toUpperCase()
             );
             let unit = '';
-            let icon = 'developer_board';
+            let icon = '';
+            let color = '';
 
             const keyLower = key.toLowerCase();
-            if (keyLower.includes('mb')) {
-                unit = 'MB';
-                icon = 'storage';
-            } else if (keyLower.includes('mhz')) {
-                unit = 'MHz';
-                icon = 'speed';
-            } else if (keyLower.includes('gpu')) {
-                icon = 'memory';
+            switch (keyLower) {
+                case 'cpu_num':
+                    icon = 'memory';
+                    color = 'var(--color-accent)';
+                    break;
+                case 'cpu_mhz':
+                    unit = 'MHz';
+                    icon = 'graphic_eq';
+                    color = 'var(--color-accent-dark)';
+                    break;
+                case 'gpu_num':
+                    icon = 'developer_board';
+                    color = 'var(--primary)';
+                    break;
+                case 'memory_mb':
+                    unit = 'MB';
+                    icon = 'memory_alt';
+                    color = 'var(--color-secondary-4)';
+                    break;
+                case 'disk_mb':
+                    unit = 'MB';
+                    icon = 'album';
+                    color = 'var(--color-primary-dark)';
+                    break;
             }
 
-            return { label, value, unit, icon };
+            return { label, value, unit, icon, color };
         });
     }
 

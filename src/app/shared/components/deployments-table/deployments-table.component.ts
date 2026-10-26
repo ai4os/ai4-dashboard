@@ -1,5 +1,4 @@
 import {
-    ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -7,7 +6,6 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -16,7 +14,6 @@ import {
 } from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { SecretManagementDetailComponent } from '@app/modules/deployments/components/secret-management-detail/secret-management-detail.component';
 import {
     SnapshotService,
     StatusReturnSnapshot,
@@ -66,17 +63,7 @@ export class DeploymentsTableComponent {
     private readonly snapshotService = inject(SnapshotService);
     translateService = inject(TranslateService);
     confirmationDialog = inject(MatDialog);
-    private readonly media = inject(MediaMatcher);
     private readonly router = inject(Router);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
-
-    constructor() {
-        const changeDetectorRef = this.changeDetectorRef;
-
-        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
 
     @Input() cardName = '';
     @Input() cardIcon?: string;
@@ -158,9 +145,6 @@ export class DeploymentsTableComponent {
         },
     ];
 
-    mobileQuery: MediaQueryList;
-    private readonly _mobileQueryListener: () => void;
-
     private sortState: UiTableSortEvent<DeploymentTableRow> | null = null;
 
     get sortedDataset(): DeploymentTableRow[] {
@@ -224,18 +208,6 @@ export class DeploymentsTableComponent {
                     this.deleteElement.emit(row.uuid);
                 }
             });
-    }
-
-    openToolSecretsDialog(row: DeploymentTableRow): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(SecretManagementDetailComponent, {
-            data: { uuid: row.uuid, name: row.name },
-            width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
-        });
     }
 
     isDeploymentRunning(row: DeploymentTableRow) {

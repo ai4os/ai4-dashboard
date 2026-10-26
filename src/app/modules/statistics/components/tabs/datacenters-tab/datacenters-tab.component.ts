@@ -5,6 +5,8 @@ import {
     OnInit,
     ViewChild,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    NgZone,
     inject,
 } from '@angular/core';
 import Map from 'ol/Map';
@@ -14,11 +16,15 @@ import { transform, transformExtent } from 'ol/proj';
 import { defaults as defaultControls } from 'ol/control';
 import { defaults as defaultInteractions, PinchZoom } from 'ol/interaction';
 import { Feature, Overlay } from 'ol';
-import { Point, SimpleGeometry } from 'ol/geom';
+import { Point } from 'ol/geom';
 import VectorSource from 'ol/source/Vector';
 import { DatacenterStats } from '@app/shared/interfaces/stats.interface';
 import { Coordinate } from 'ol/coordinate';
-import { MatDrawer } from '@angular/material/sidenav';
+import {
+    MatDrawer,
+    MatDrawerContainer,
+    MatDrawerContent,
+} from '@angular/material/sidenav';
 import { Cluster } from 'ol/source';
 import { applyStyle } from 'ol-mapbox-style';
 import VectorTileLayer from 'ol/layer/VectorTile';
@@ -46,6 +52,8 @@ import { CountryFlagPipe as CountryFlagPipe_1 } from '../../../pipes/country-fla
         MapMetricLegendComponent,
         MapMetricSelectorComponent,
         MatDrawer,
+        MatDrawerContainer,
+        MatDrawerContent,
         StatsReducedCardComponent,
         ResourcesCardComponent,
         MatIcon,
@@ -54,19 +62,89 @@ import { CountryFlagPipe as CountryFlagPipe_1 } from '../../../pipes/country-fla
     ],
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {
-    metricColor = inject(MetricColorService);
+    private readonly metricColor = inject(MetricColorService);
+    private readonly zone = inject(NgZone);
+    private readonly cdr = inject(ChangeDetectorRef);
 
     constructor() {
         fetch('https://tiles.openfreemap.org/styles/positron')
             .then((res) => res.json())
             .then((style) => {
-                style.layers = style.layers.filter(
-                    (layer: any) => layer.type !== 'symbol'
-                );
+                style.layers = style.layers.filter((layer: any) => {
+                    const id = layer.id || '';
+                    const sourceLayer = layer['source-layer'] || '';
+
+                    // Remove labels and text
+                    if (layer.type === 'symbol') {
+                        return false;
+                    }
+
+                    // Remove roads, bridges, tunnels, and transit
+                    if (
+                        id.includes('road') ||
+                        id.includes('bridge') ||
+                        id.includes('tunnel') ||
+                        id.includes('railway') ||
+                        id.includes('transit') ||
+                        sourceLayer === 'transportation' ||
+                        sourceLayer === 'transportation_name'
+                    ) {
+                        return false;
+                    }
+
+                    // Remove rivers, canals, and water labels
+                    if (
+                        id.includes('waterway') ||
+                        sourceLayer === 'waterway' ||
+                        sourceLayer === 'water_name'
+                    ) {
+                        return false;
+                    }
+
+                    // Keep only oceans and open seas in the water layer, excluding lakes and reservoirs
+                    if (sourceLayer === 'water' || id.includes('water')) {
+                        if (layer.filter) {
+                            layer.filter = [
+                                'all',
+                                layer.filter,
+                                [
+                                    'in',
+                                    ['get', 'class'],
+                                    ['literal', ['ocean', 'sea']],
+                                ],
+                            ];
+                        } else {
+                            layer.filter = [
+                                'in',
+                                ['get', 'class'],
+                                ['literal', ['ocean', 'sea']],
+                            ];
+                        }
+                        return true;
+                    }
+
+                    // Remove mountains, terrain shading, forests, parks, and land cover
+                    if (
+                        id.includes('hillshade') ||
+                        id.includes('contour') ||
+                        id.includes('landuse') ||
+                        id.includes('landcover') ||
+                        id.includes('park') ||
+                        id.includes('wood') ||
+                        sourceLayer === 'landuse' ||
+                        sourceLayer === 'landcover' ||
+                        sourceLayer === 'park' ||
+                        sourceLayer === 'natural' ||
+                        layer.type === 'hillshade'
+                    ) {
+                        return false;
+                    }
+
+                    return true;
+                });
                 applyStyle(this.tileLayer, style, { updateSource: true });
             });
     }
-
     @Input() datacentersStats: DatacenterStats[] = [];
     @ViewChild('drawer')
     drawer!: MatDrawer;
@@ -87,20 +165,19 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     jobsNum = 0;
 
     private map!: Map;
-    private tileLayer = new VectorTileLayer({
+    private readonly tileLayer = new VectorTileLayer({
         declutter: true,
     });
     private vectorLayer: VectorLayer<any> = new VectorLayer<any>();
-    private europeExtent = transformExtent(
+    private readonly europeExtent = transformExtent(
         [-31, 27, 50, 72],
         'EPSG:4326',
         'EPSG:3857'
     );
-    private countryFlagPipe = new CountryFlagPipe();
+    private readonly countryFlagPipe = new CountryFlagPipe();
 
     ngOnInit(): void {
         const r = document.querySelector(':root');
-        const rs = getComputedStyle(r!);
 
         // markers
         const markers = this.getMarkers();
@@ -120,18 +197,22 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
         const container = document.getElementById('popup');
         const overlay = new Overlay({
             element: container!,
-            autoPan: {
-                animation: {
-                    duration: 250,
-                },
-            },
+            positioning: 'bottom-center',
+            offset: [0, -18],
+            stopEvent: false,
         });
+        const overlayWrapper = container!.parentElement;
+        if (overlayWrapper) {
+            overlayWrapper.style.pointerEvents = 'none';
+            overlayWrapper.style.userSelect = 'none';
+        }
 
         // map
         this.map = new Map({
             interactions: defaultInteractions().extend([new PinchZoom()]),
             layers: [this.tileLayer, this.vectorLayer],
             overlays: [overlay],
+            moveTolerance: 6,
             view: new View({
                 constrainResolution: true,
                 extent: this.europeExtent,
@@ -144,56 +225,54 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
 
         // hover — show popup
         this.map.on('pointermove', (evt) => {
-            const type = this.map.hasFeatureAtPixel(evt.pixel)
+            if (evt.dragging) return;
+
+            const members = this.getMembersAtPixel(evt.pixel);
+            this.map.getViewport().style.cursor = members.length
                 ? 'pointer'
-                : 'inherit';
-            this.map.getViewport().style.cursor = type;
+                : '';
 
-            const feature = this.map.getFeaturesAtPixel(evt.pixel)[0];
-
-            if (feature && feature.getProperties().features.length == 1) {
-                const geometry = feature.getGeometry();
-                if (geometry instanceof SimpleGeometry) {
-                    const coordinate = geometry.getCoordinates();
-                    if (coordinate) {
-                        this.selectedDatacenter =
-                            this.getDatacenter(coordinate);
-                        if (this.selectedDatacenter?.name != 'Unknown') {
-                            this.updatePopupContent(this.selectedDatacenter);
-                            overlay.setPosition(coordinate);
-                        }
+            if (members.length === 1) {
+                const dc: DatacenterStats | undefined =
+                    members[0].get('datacenter');
+                const coordinate = (
+                    members[0].getGeometry() as Point
+                ).getCoordinates();
+                if (dc) {
+                    this.updatePopupContent(dc);
+                    const current = overlay.getPosition();
+                    if (
+                        !current ||
+                        current[0] !== coordinate[0] ||
+                        current[1] !== coordinate[1]
+                    ) {
+                        overlay.setPosition(coordinate);
                     }
+                    return;
                 }
-            } else {
-                overlay.setPosition(undefined);
             }
+            overlay.setPosition(undefined);
         });
 
         // click — open drawer or zoom in cluster
         this.map.on('click', (evt) => {
-            const feature = this.map.getFeaturesAtPixel(evt.pixel)[0];
-            if (feature && feature.getProperties().features.length == 1) {
-                const geometry = feature.getGeometry();
-                if (geometry instanceof SimpleGeometry) {
-                    const coordinate = geometry.getCoordinates();
-                    if (coordinate) {
-                        this.selectedDatacenter =
-                            this.getDatacenter(coordinate);
-                        if (this.selectedDatacenter?.name != 'Unknown') {
-                            overlay.setPosition(coordinate);
-                            this.drawer.open();
-                        }
-                    }
+            const members = this.getMembersAtPixel(evt.pixel);
+
+            if (members.length === 1) {
+                const dc: DatacenterStats | undefined =
+                    members[0].get('datacenter');
+                if (dc) {
+                    this.selectedDatacenter = dc;
+                    this.loadDatacenterStats(dc);
+                    overlay.setPosition(undefined);
+                    this.drawer.open();
                 }
-            } else if (feature && feature.getProperties().features.length > 1) {
-                const view = this.map.getView();
+            } else if (members.length > 1) {
                 const extent = createEmpty();
-                feature
-                    .getProperties()
-                    .features.forEach((feature: any) =>
-                        extend(extent, feature.getGeometry().getExtent())
-                    );
-                view.fit(extent, {
+                members.forEach((member) =>
+                    extend(extent, member.getGeometry()!.getExtent())
+                );
+                this.map.getView().fit(extent, {
                     duration: 500,
                     maxZoom: 20,
                 });
@@ -201,6 +280,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
                 overlay.setPosition(undefined);
                 this.drawer.close();
             }
+            this.cdr.markForCheck();
         });
 
         this.updateSize();
@@ -212,18 +292,39 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     private animationFrame?: number;
 
     private startPulseAnimation(): void {
+        let tick = 0;
         const animate = () => {
-            if (this.pulseGrowing) {
-                this.pulseRadius += 0.2;
-                if (this.pulseRadius >= 30) this.pulseGrowing = false;
-            } else {
-                this.pulseRadius -= 0.2;
-                if (this.pulseRadius <= 10) this.pulseGrowing = true;
+            if (tick++ % 2 === 0) {
+                if (this.pulseGrowing) {
+                    this.pulseRadius += 0.4;
+                    if (this.pulseRadius >= 30) this.pulseGrowing = false;
+                } else {
+                    this.pulseRadius -= 0.4;
+                    if (this.pulseRadius <= 10) this.pulseGrowing = true;
+                }
+                this.vectorLayer.changed();
             }
-            this.vectorLayer.getSource()?.changed();
             this.animationFrame = requestAnimationFrame(animate);
         };
-        this.animationFrame = requestAnimationFrame(animate);
+        this.zone.runOutsideAngular(() => {
+            this.animationFrame = requestAnimationFrame(animate);
+        });
+    }
+
+    private getMembersAtPixel(pixel: number[]): Feature[] {
+        const cluster = this.map.forEachFeatureAtPixel(
+            pixel,
+            (feature) => feature as any,
+            {
+                layerFilter: (layer) => layer === this.vectorLayer,
+                hitTolerance: 4,
+            }
+        );
+        return cluster?.get('features') ?? [];
+    }
+
+    closeDrawer(): void {
+        this.drawer.close();
     }
 
     private hexToRgba(hex: string, alpha: number): string {
@@ -324,7 +425,9 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
                     'EPSG:3857'
                 )
             );
-            features.push(new Feature(point));
+            const feature = new Feature(point);
+            feature.set('datacenter', this.datacentersStats[dc]);
+            features.push(feature);
         }
         return features;
     }
@@ -355,22 +458,7 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
     private getDatacenterFromFeature(
         clusterFeature: any
     ): DatacenterStats | undefined {
-        const innerFeature = clusterFeature.get('features')?.[0];
-        if (!innerFeature) return undefined;
-
-        const coords = (
-            innerFeature.getGeometry() as SimpleGeometry
-        ).getCoordinates();
-        return this.datacentersStats.find((dc) => {
-            const dcCoords = transform(
-                [dc.lon, dc.lat],
-                'EPSG:4326',
-                'EPSG:3857'
-            );
-            return (
-                coords && dcCoords[0] === coords[0] && dcCoords[1] === coords[1]
-            );
-        });
+        return clusterFeature.get('features')?.[0]?.get('datacenter');
     }
 
     getDatacenter(coords: Coordinate): DatacenterStats {
@@ -402,8 +490,6 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
                 datacenter = this.datacentersStats[dc];
             }
         }
-
-        this.loadDatacenterStats(datacenter);
 
         return datacenter;
     }
@@ -477,5 +563,6 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
         if (this.animationFrame) {
             cancelAnimationFrame(this.animationFrame);
         }
+        this.map?.setTarget(undefined);
     }
 }

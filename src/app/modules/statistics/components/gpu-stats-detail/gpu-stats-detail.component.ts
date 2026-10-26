@@ -1,6 +1,4 @@
-import { MediaMatcher } from '@angular/cdk/layout';
 import {
-    ChangeDetectorRef,
     Component,
     OnInit,
     ChangeDetectionStrategy,
@@ -8,23 +6,15 @@ import {
 } from '@angular/core';
 import {
     MAT_DIALOG_DATA,
-    MatDialog,
     MatDialogClose,
+    MatDialogContent,
+    MatDialogActions,
 } from '@angular/material/dialog';
-import { GpuStats } from '@app/shared/interfaces/stats.interface';
-import { EChartsOption } from 'echarts';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import { NgClass } from '@angular/common';
 import { NgxEchartsDirective } from 'ngx-echarts';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
+import { EChartsOption } from 'echarts';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { GpuModelUsage } from '@app/shared/models/stats.view-models';
 
 @Component({
     selector: 'app-gpu-stats-detail',
@@ -32,124 +22,129 @@ import { TranslatePipe } from '@ngx-translate/core';
     styleUrls: ['./gpu-stats-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
-        MatIcon,
-        MatCard,
-        MatCardContent,
-        NgClass,
-        NgxEchartsDirective,
-        MatProgressSpinner,
-        MatCardActions,
-        MatButton,
         MatDialogClose,
+        MatDialogContent,
+        MatDialogActions,
+        NgxEchartsDirective,
         TranslatePipe,
+        UiButtonComponent,
     ],
 })
 export class GpuStatsDetailComponent implements OnInit {
-    data = inject<{
-        gpuStats: GpuStats[];
-    }>(MAT_DIALOG_DATA);
+    data = inject<{ gpuStats: GpuModelUsage[] }>(MAT_DIALOG_DATA);
+    mappedStats: GpuModelUsage[] = [];
 
-    confirmationDialog = inject(MatDialog);
-    changeDetectorRef = inject(ChangeDetectorRef);
-    media = inject(MediaMatcher);
+    chartOptions: EChartsOption = {};
+    chartHeight = 200;
 
-    constructor() {
-        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () =>
-            this.changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
-
-    isLoading = false;
-
-    mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-
-    mappedStats: { type: string; value: GpuStats }[] = [];
-    chartOptionsCommon: EChartsOption = {};
-    colorPalette: string[] = [];
+    private readonly rowHeight = 48;
+    private readonly chromeHeight = 70;
 
     ngOnInit(): void {
-        this.setColours();
-
-        this.mappedStats = Object.entries(this.data.gpuStats).map(
-            ([type, value]) => ({ type, value })
+        this.mappedStats = this.data.gpuStats;
+        this.chartHeight = Math.max(
+            180,
+            this.mappedStats.length * this.rowHeight + this.chromeHeight
         );
+        this.chartOptions = this.buildOptions();
+    }
 
-        this.chartOptionsCommon = {
+    private css(name: string, fallback: string): string {
+        const v = getComputedStyle(document.documentElement)
+            .getPropertyValue(name)
+            .trim();
+        return v || fallback;
+    }
+
+    private buildOptions(): EChartsOption {
+        const usedColor = this.css('--primary', '#e07b27');
+        const freeColor = this.css('--color-border', '#e5e7eb');
+        const textColor = this.css('--color-text-secondary', '#6e6a60');
+        const gridLine = 'rgba(0, 0, 0, 0.06)';
+        const fontFamily = getComputedStyle(document.body).fontFamily;
+
+        const hideZero = (p: any) => (p.value > 0 ? p.value : '');
+
+        return {
+            textStyle: { fontFamily, color: textColor },
+            color: [usedColor, freeColor],
+            animationDuration: 500,
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
                     type: 'shadow',
+                    shadowStyle: { color: 'rgba(0,0,0,0.04)' },
                 },
+                backgroundColor: '#fff',
+                borderColor: this.css('--color-border', '#e5e7eb'),
+                borderWidth: 1,
+                padding: [8, 12],
+                textStyle: {
+                    color: this.css('--mat-sys-on-surface', '#242320'),
+                    fontSize: 12,
+                },
+                extraCssText:
+                    'border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);',
             },
-            legend: {},
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true,
+            legend: {
+                top: 0,
+                right: 0,
+                icon: 'circle',
+                itemWidth: 8,
+                itemHeight: 8,
+                itemGap: 16,
+                textStyle: { color: textColor, fontSize: 12 },
             },
+            grid: { left: 0, right: 8, top: 32, bottom: 0, containLabel: true },
             xAxis: {
                 type: 'value',
+                minInterval: 1,
+                axisLine: { show: false },
+                axisTick: { show: false },
+                axisLabel: { color: textColor, fontSize: 11 },
+                splitLine: { lineStyle: { color: gridLine, type: 'dashed' } },
             },
             yAxis: {
                 type: 'category',
-                data: this.getGpuNames(),
+                inverse: true,
+                data: this.mappedStats.map((s) => s.model),
+                axisLine: { show: false },
+                axisTick: { show: false },
+                axisLabel: { color: textColor, fontSize: 12, margin: 12 },
             },
             series: [
                 {
                     name: 'Used',
                     type: 'bar',
                     stack: 'total',
+                    barWidth: 18,
+                    itemStyle: { borderRadius: [6, 0, 0, 6] },
                     label: {
                         show: true,
+                        color: '#fff',
+                        fontSize: 11,
+                        fontWeight: 600,
+                        formatter: hideZero,
                     },
-                    emphasis: {
-                        focus: 'series',
-                    },
-                    data: this.getUsedGpus(),
+                    emphasis: { focus: 'series' },
+                    data: this.mappedStats.map((s) => s.used),
                 },
                 {
                     name: 'Free',
                     type: 'bar',
                     stack: 'total',
+                    barWidth: 18,
+                    itemStyle: { borderRadius: [0, 6, 6, 0] },
                     label: {
                         show: true,
+                        color: textColor,
+                        fontSize: 11,
+                        formatter: hideZero,
                     },
-                    emphasis: {
-                        focus: 'series',
-                    },
-                    data: this.getFreeGpus(),
+                    emphasis: { focus: 'series' },
+                    data: this.mappedStats.map((s) => s.total - s.used),
                 },
             ],
-            color: this.colorPalette,
         };
-    }
-
-    setColours(): void {
-        const r = document.querySelector(':root');
-        const rs = getComputedStyle(r!);
-        this.colorPalette = [rs.getPropertyValue('--accent'), '#d9d9d9'];
-    }
-
-    getGpuNames(): string[] {
-        return this.mappedStats.map((s) => {
-            return s.type;
-        });
-    }
-
-    getUsedGpus(): number[] {
-        return this.mappedStats.map((s) => {
-            return s.value.gpu_used;
-        });
-    }
-
-    getFreeGpus(): any[] {
-        return this.mappedStats.map((s) => {
-            const free = s.value.gpu_total - s.value.gpu_used;
-            return free != 0 ? free : '-';
-        });
     }
 }

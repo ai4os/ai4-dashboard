@@ -27,7 +27,7 @@
 
     &__item {
         display: inline-flex;
-        align-items: center;
+        align-items: flex-end;
         gap: var(--space-sm);
         padding: var(--space-sm) var(--space-lg);
         border-radius: var(--radius-md);

@@ -4,7 +4,6 @@ import { DeploymentsListComponent } from './components/deployments-list/deployme
 import { DeploymentsRoutingModule } from './deployments-routing.module';
 
 import { DeploymentDetailComponent } from './components/deployment-detail/deployment-detail.component';
-import { SecretManagementDetailComponent } from './components/secret-management-detail/secret-management-detail.component';
 import { SnapshotDetailComponent } from './components/snapshot-detail/snapshot-detail.component';
 
 @NgModule({
@@ -13,7 +12,6 @@ import { SnapshotDetailComponent } from './components/snapshot-detail/snapshot-d
         DeploymentsRoutingModule,
         DeploymentsListComponent,
         DeploymentDetailComponent,
-        SecretManagementDetailComponent,
         SnapshotDetailComponent,
     ],
 })

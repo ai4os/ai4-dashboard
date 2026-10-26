@@ -1,0 +1,49 @@
+<div class="bar-card">
+    <div class="bar-card__header">
+        <span class="bar-card__label">{{ label }}</span>
+        <div class="bar-card__icons">
+            @if (icon) {
+                <mat-icon class="bar-card__icon" [style.color]="color">{{
+                    icon
+                }}</mat-icon>
+            }
+            @if (tooltip) {
+                <app-ui-button
+                    variant="icon"
+                    icon="help_outline"
+                    [tooltip]="tooltip"
+                ></app-ui-button>
+            }
+        </div>
+    </div>
+
+    <div class="bar-card__value">
+        {{ used }}
+        @if (hasTotal) {
+            <span class="bar-card__total">/ {{ total }}</span>
+        }
+        @if (unit) {
+            <span class="bar-card__unit"> {{ unit }}</span>
+        }
+    </div>
+
+    @if (hasTotal) {
+        <div
+            class="bar-card__track"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-valuenow]="pct"
+        >
+            <div
+                class="bar-card__fill"
+                [style.background-color]="color"
+                [style.width.%]="pct"
+            ></div>
+        </div>
+    }
+
+    @if (subtext) {
+        <div class="bar-card__sub">{{ subtext }}</div>
+    }
+</div>

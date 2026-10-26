@@ -147,7 +147,7 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         {
             name: 'SIDENAV.INFERENCE',
             url: '/tasks/inference',
-            icon: 'bolt',
+            icon: 'emoji_objects',
             isRestricted: true,
             isDisabled: !this.isProjectMember,
         },

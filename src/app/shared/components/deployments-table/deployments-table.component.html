@@ -101,7 +101,11 @@
                         variant="icon"
                         icon="vpn_key"
                         tooltip="Manage secrets"
-                        (buttonClick)="openToolSecretsDialog(row)"
+                        [routerLink]="getDetailLink(row)"
+                        [queryParams]="{
+                            type: deploymentType,
+                            tab: 'secrets',
+                        }"
                     ></app-ui-button>
                 }
 
