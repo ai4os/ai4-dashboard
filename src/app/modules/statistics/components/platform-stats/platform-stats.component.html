@@ -1,0 +1,45 @@
+<app-ui-banner variant="primary">
+    <h1>{{ 'STATS.PLATFORM.TITLE' | translate }}</h1>
+</app-ui-banner>
+
+<app-ui-tabs
+    [tabs]="tabs"
+    [activeTabId]="activeTabId"
+    (tabChange)="onTabChange($event)"
+></app-ui-tabs>
+
+@if (cluster().loading) {
+    <div class="spinner">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else if (cluster().data; as clusterData) {
+    @switch (activeTabId) {
+        @case ('usage') {
+            <section class="tab-content">
+                <app-platform-usage-tab
+                    [cluster]="clusterData"
+                    [timeseries]="timeseries()"
+                ></app-platform-usage-tab>
+            </section>
+        }
+        @case ('footprint') {
+            <section class="tab-content">
+                <app-platform-footprint-tab
+                    [datacentersStats]="clusterData.datacenters"
+                    [datacenterEnergy]="clusterData.datacenterEnergy"
+                ></app-platform-footprint-tab>
+            </section>
+        }
+        @case ('datacenters') {
+            <section class="tab-content">
+                <app-datacenters-tab
+                    [datacentersStats]="clusterData.datacenters"
+                ></app-datacenters-tab>
+            </section>
+        }
+    }
+} @else {
+    <p id="error" class="no-data-text">
+        {{ 'DASHBOARD.NO-DATA' | translate }}
+    </p>
+}

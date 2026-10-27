@@ -1,0 +1,139 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'STATS.COMMON.MODES.REAL-TIME' | translate }}
+        </h3>
+    </div>
+
+    @if (cluster.gpuModels.length) {
+        <app-ui-button
+            variant="primary-outline"
+            icon="search_insights"
+            text="STATS.METRICS.RESOURCES.GPU-PER-MODEL"
+            (click)="openGpuDetail()"
+        ></app-ui-button>
+    }
+</div>
+
+<div class="resources-grid">
+    <app-stats-card
+        [label]="'STATS.METRICS.RESOURCES.CPU' | translate"
+        icon="memory"
+        [value]="cluster.resources.cpu.used"
+        [total]="cluster.resources.cpu.total"
+        color="var(--color-accent)"
+    ></app-stats-card>
+
+    <app-stats-card
+        [label]="'STATS.METRICS.RESOURCES.RAM' | translate"
+        icon="memory_alt"
+        [value]="cluster.resources.memory.used"
+        [total]="cluster.resources.memory.total"
+        [unit]="cluster.resources.memory.unit"
+        color="var(--color-secondary-4)"
+    ></app-stats-card>
+
+    <app-stats-card
+        [label]="'STATS.METRICS.RESOURCES.DISK' | translate"
+        icon="album"
+        [value]="cluster.resources.disk.used"
+        [total]="cluster.resources.disk.total"
+        [unit]="cluster.resources.disk.unit"
+        color="var(--color-primary-dark)"
+    ></app-stats-card>
+
+    @if (cluster.resources.gpu.total > 0) {
+        <app-stats-card
+            [label]="'STATS.METRICS.RESOURCES.GPU' | translate"
+            icon="developer_board"
+            [value]="cluster.resources.gpu.used"
+            [total]="cluster.resources.gpu.total"
+            color="var(--primary)"
+        ></app-stats-card>
+    }
+
+    @if (cluster.power.current; as power) {
+        <app-stats-card
+            [label]="'STATS.METRICS.SUSTAINABILITY.POWER' | translate"
+            icon="bolt"
+            [value]="power.value"
+            [unit]="power.unit"
+            [subtext]="
+                'STATS.PLATFORM.USAGE.POWER-COVERAGE'
+                    | translate
+                        : {
+                              reporting: cluster.power.reporting,
+                              total: cluster.power.total,
+                          }
+            "
+            color="var(--color-secondary-1)"
+        ></app-stats-card>
+    }
+</div>
+
+@if (timeseries; as ts) {
+    <div class="section-header" style="margin-bottom: 0">
+        <div class="section-header__text">
+            <h3 class="section-header__title">
+                {{ 'STATS.COMMON.MODES.OVER-TIME' | translate }}
+            </h3>
+        </div>
+
+        <div class="chart-controls">
+            <app-ui-chip-group
+                [options]="rangeOptions"
+                [ngModel]="selectedRange"
+                (ngModelChange)="onRangeChange($event)"
+            ></app-ui-chip-group>
+        </div>
+    </div>
+
+    <app-ui-tabs
+        [tabs]="tabs"
+        [activeTabId]="activeId"
+        (tabChange)="onTabChange($event)"
+    ></app-ui-tabs>
+
+    @if (ts.dates.length) {
+        @let m = active;
+        @let s = summaries[m.id];
+
+        <div class="summary-grid">
+            <app-stats-card
+                [label]="'STATS.CHARTS.AGGREGATION.CURRENT' | translate"
+                [value]="round(s.current, m.decimals)"
+                [unit]="m.unit"
+                [icon]="m.icon"
+            ></app-stats-card>
+            <app-stats-card
+                [label]="'STATS.CHARTS.AGGREGATION.AVERAGE' | translate"
+                [value]="round(s.average, m.decimals + 1)"
+                [unit]="m.unit"
+                icon="functions"
+            ></app-stats-card>
+            <app-stats-card
+                [label]="'STATS.CHARTS.AGGREGATION.PEAK' | translate"
+                [value]="round(s.peak, m.decimals)"
+                [unit]="m.unit"
+                icon="trending_up"
+            ></app-stats-card>
+            <app-stats-card
+                [label]="'STATS.CHARTS.AGGREGATION.TOTAL' | translate"
+                [value]="round(s.total, m.decimals)"
+                [unit]="m.unit"
+                icon="numbers"
+            ></app-stats-card>
+        </div>
+
+        <app-time-series-chart
+            [dates]="filteredDates"
+            [values]="filteredSeries[m.id]"
+            [name]="m.id"
+            [unit]="m.unit"
+            [color]="m.color"
+            [decimals]="m.decimals"
+        ></app-time-series-chart>
+    } @else {
+        <p class="no-data-text">{{ 'STATS.COMMON.NO-DATA' | translate }}</p>
+    }
+}

@@ -10,7 +10,7 @@ import {
     SeriesPoint,
 } from '@app/shared/interfaces/stats.interface';
 import { FootprintChartComponent } from '../../charts/footprint-chart/footprint-chart.component';
-import { StatsBarCardComponent } from '../../stats/stats-bar-card/stats-bar-card.component';
+import { StatsCardComponent } from '../../stats/stats-card/stats-card.component';
 
 type FootprintMetric = 'carbon' | 'water' | 'environmental-score';
 
@@ -40,7 +40,7 @@ const formatTimestamp = (ms: number): string =>
     templateUrl: './footprint-tab.component.html',
     styleUrl: './footprint-tab.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FootprintChartComponent, TranslatePipe, StatsBarCardComponent],
+    imports: [FootprintChartComponent, TranslatePipe, StatsCardComponent],
 })
 export class FootprintTabComponent implements OnChanges {
     @Input() datacentersStats: DatacenterStats[] = [];

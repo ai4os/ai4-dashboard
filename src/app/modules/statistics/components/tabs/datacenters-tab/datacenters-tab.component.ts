@@ -37,11 +37,11 @@ import {
 } from '../../stats/map-metric-selector/map-metric-selector.component';
 import { CountryFlagPipe } from '@app/modules/statistics/pipes/country-flag.pipe';
 import { MapMetricLegendComponent } from '../../stats/map-metric-legend/map-metric-legend.component';
-import { StatsReducedCardComponent } from '../../stats/stats-reduced-card/stats-reduced-card.component';
 import { ResourcesCardComponent } from '../../stats/resources-card/resources-card.component';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CountryFlagPipe as CountryFlagPipe_1 } from '../../../pipes/country-flag.pipe';
+import { StatsCardComponent } from '../../stats/stats-card/stats-card.component';
 
 @Component({
     selector: 'app-datacenters-tab',
@@ -54,11 +54,11 @@ import { CountryFlagPipe as CountryFlagPipe_1 } from '../../../pipes/country-fla
         MatDrawer,
         MatDrawerContainer,
         MatDrawerContent,
-        StatsReducedCardComponent,
         ResourcesCardComponent,
         MatIcon,
         TranslatePipe,
         CountryFlagPipe_1,
+        StatsCardComponent,
     ],
 })
 export class DatacentersTabComponent implements OnInit, OnDestroy {

@@ -43,12 +43,12 @@ import {
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
 import { UiCredentialRowComponent } from '@app/shared/components/ui/ui-credential-row/ui-credential-row.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
-import { StatsReducedCardComponent } from '@app/modules/statistics/components/stats/stats-reduced-card/stats-reduced-card.component';
 import { FootprintChartComponent } from '@app/modules/statistics/components/charts/footprint-chart/footprint-chart.component';
 import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { DeploymentSecretsComponent } from '../deployment-secrets/deployment-secrets.component';
+import { StatsCardComponent } from '@app/modules/statistics/components/stats/stats-card/stats-card.component';
 
 interface ListCardItem {
     label: string;
@@ -74,10 +74,10 @@ interface ListCardItem {
         UiTabsComponent,
         UiCredentialRowComponent,
         BreadcrumbComponent,
-        StatsReducedCardComponent,
         FootprintChartComponent,
         DeploymentSecretsComponent,
         DatePipe,
+        StatsCardComponent,
     ],
 })
 export class DeploymentDetailComponent implements OnInit, OnDestroy {

@@ -1,0 +1,12 @@
+@if (energy; as e) {
+    <app-energy-footprint
+        [groups]="groups"
+        [since]="e.since"
+        [until]="e.dataUntil"
+        titleKey="STATS.PLATFORM.FOOTPRINT.MEASURED.TITLE"
+        subtitleKey="STATS.USER.FOOTPRINT.SUBTITLE"
+        energyLabelKey="STATS.METRICS.SUSTAINABILITY.ENERGY"
+    ></app-energy-footprint>
+} @else {
+    <p class="no-data-text">{{ 'DASHBOARD.NO-DATA' | translate }}</p>
+}

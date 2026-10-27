@@ -1,11 +1,78 @@
-export interface UserStats {
-    'full-agg': {
-        cpu_num: number;
-        cpu_MHz: number;
-        memory_MB: number;
-        disk_MB: number;
-        gpu_num: number;
+export type SeriesPoint = [string, number];
+
+export interface EnergySeriesPoint {
+    ts: string;
+    power_w: number;
+    energy_wh: number;
+    carbon_g: number;
+    water_l: number;
+    live: boolean;
+}
+
+export interface EnergyStats {
+    energy_wh: number;
+    carbon_g: number;
+    water_l: number;
+    tue_factor: number;
+    power_w: number | null;
+    since: string;
+    as_of: string;
+    live_as_of: string | null;
+    complete: boolean;
+    degraded: boolean;
+    coverage_ratio: number | null;
+    datacenters: string[] | null;
+    deployments: number | null;
+    series: EnergySeriesPoint[] | null;
+}
+
+export interface DatacenterApi {
+    lat: number;
+    lon: number;
+    PUE: number;
+    nodes: Record<string, NodeStats>;
+    footprints: {
+        carbon: SeriesPoint[];
+        water: SeriesPoint[];
+        'environmental-score': SeriesPoint[];
     };
+    energy: EnergyStats | null;
+    country?: DatacenterStats['country'];
+    affinity?: DatacenterStats['affinity'];
+}
+
+export interface ClusterTotalsApi {
+    jobs_num: number;
+    reallocations: number;
+    cpu_total: number;
+    cpu_used: number;
+    gpu_total: number;
+    gpu_used: number;
+    ram_total: number;
+    ram_used: number;
+    disk_total: number;
+    disk_used: number;
+    gpu_models: Record<string, GpuStats>;
+}
+
+export interface ClusterStats {
+    datacenters: Record<string, DatacenterApi>;
+    cluster: ClusterTotalsApi;
+    updated_at: string;
+}
+
+export interface UserAggregateApi {
+    owner?: string;
+    cpu_num: number;
+    cpu_MHz: number;
+    memory_MB: number;
+    disk_MB: number;
+    gpu_num: number;
+}
+
+export interface UserStats {
+    'full-agg': UserAggregateApi;
+    'users-agg': UserAggregateApi;
     timeseries: {
         date: string[];
         cpu_num: number[];
@@ -16,29 +83,7 @@ export interface UserStats {
         queued: number[];
         running: number[];
     };
-    'users-agg': {
-        owner: string;
-        cpu_num: number;
-        cpu_MHz: number;
-        memory_MB: number;
-        disk_MB: number;
-        gpu_num: number;
-    };
-}
-
-export interface ClusterStats {
-    cluster: {
-        cpu_total: number;
-        cpu_used: number;
-        disk_total: number;
-        disk_used: number;
-        gpu_total: number;
-        gpu_used: number;
-        gpu_models: GpuStats[];
-        ram_total: number;
-        ram_used: number;
-    };
-    datacenters: DatacenterStats[];
+    energy: EnergyStats | null;
 }
 
 export interface DatacenterStats {

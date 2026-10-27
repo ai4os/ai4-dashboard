@@ -9,13 +9,12 @@ import {
     UiTabsComponent,
     Tab,
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
-import { StatsReducedCardComponent } from '../../stats/stats-reduced-card/stats-reduced-card.component';
 import {
     ResourceSet,
     UserTimeseries,
 } from '@app/shared/models/stats.view-models';
 import { TimeSeriesChartComponent } from '../../charts/time-series-chart/time-series-chart.component';
-import { StatsBarCardComponent } from '../../stats/stats-bar-card/stats-bar-card.component';
+import { StatsCardComponent } from '../../stats/stats-card/stats-card.component';
 import { UiChipGroupComponent } from '@app/shared/components/ui/ui-chip-group/ui-chip-group.component';
 import { FormsModule } from '@angular/forms';
 
@@ -118,10 +117,9 @@ interface Summary {
         FormsModule,
         UiChipGroupComponent,
         TranslatePipe,
-        StatsReducedCardComponent,
         TimeSeriesChartComponent,
         UiTabsComponent,
-        StatsBarCardComponent,
+        StatsCardComponent,
     ],
 })
 export class UsageTabComponent implements OnChanges {

@@ -79,6 +79,17 @@ export class FootprintChartComponent {
     @Input() set unit(unit: string) {
         this._unit = unit;
     }
+    @Input() set type(type: 'line' | 'bar') {
+        this._type = type;
+        this.updateChart();
+    }
+    @Input() set stacked(stacked: boolean) {
+        this._stacked = stacked;
+        this.updateChart();
+    }
+    @Input() set decimals(decimals: number) {
+        this._decimals = decimals;
+    }
     @Input() set legend(legend: string[]) {
         this._legend = legend;
         this.updateChart();
@@ -93,6 +104,9 @@ export class FootprintChartComponent {
     }
 
     protected _unit = '';
+    protected _type: 'line' | 'bar' = 'line';
+    protected _stacked = false;
+    protected _decimals = 1;
     protected _legend: string[] = [];
     protected _timestamps: string[] = [];
     protected _values: (number | null)[][] = [];
@@ -118,7 +132,9 @@ export class FootprintChartComponent {
             borderColor: getCssVar('--mat-sys-outline-variant'),
             borderWidth: 0.5,
             valueFormatter: (value) =>
-                typeof value === 'number' ? value.toFixed(1) : '–',
+                typeof value === 'number'
+                    ? `${value.toFixed(this._decimals)} ${this._unit}`.trim()
+                    : '–',
         },
         legend: {
             type: 'scroll',
@@ -142,26 +158,51 @@ export class FootprintChartComponent {
     private updateChart(): void {
         if (!this._timestamps.length || !this._values.length) return;
 
-        const series = this._values.map((values, index) => ({
-            name: this._legend[index],
-            type: 'line' as const,
-            data: values,
-            showSymbol: false,
-            connectNulls: true,
-            lineStyle: { width: 2 },
-            emphasis: { focus: 'series' as const },
-        })) as EChartsOption['series'];
+        const isBar = this._type === 'bar';
+        const stack = this._stacked ? 'total' : undefined;
+
+        const series = this._values.map((values, index) =>
+            isBar
+                ? {
+                      name: this._legend[index],
+                      type: 'bar' as const,
+                      stack,
+                      data: values,
+                      barMaxWidth: 28,
+                      emphasis: { focus: 'series' as const },
+                  }
+                : {
+                      name: this._legend[index],
+                      type: 'line' as const,
+                      stack,
+                      data: values,
+                      showSymbol: false,
+                      connectNulls: true,
+                      lineStyle: { width: 2 },
+                      areaStyle: this._stacked ? { opacity: 0.35 } : undefined,
+                      emphasis: { focus: 'series' as const },
+                  }
+        ) as EChartsOption['series'];
 
         this.echartOptions = {
             ...this.echartOptions,
             color: this._colors,
+            tooltip: {
+                ...(this.echartOptions.tooltip as object),
+                axisPointer: { type: isBar ? 'shadow' : 'line' },
+            },
             legend: {
                 ...(this.echartOptions.legend as object),
                 data: this._legend,
             },
             xAxis: {
                 ...(this.echartOptions.xAxis as object),
+                boundaryGap: isBar,
                 data: this._timestamps,
+            },
+            yAxis: {
+                ...(this.echartOptions.yAxis as object),
+                scale: !isBar && !this._stacked,
             },
             series,
         };

@@ -1,0 +1,71 @@
+<div class="section-header">
+    <span class="section-header__with-chips">
+        <div class="section-header__text">
+            <h3 class="section-header__title">
+                {{ titleKey | translate }}
+            </h3>
+
+            @if (sinceLabel && untilLabel) {
+                <p class="section-header__meta">
+                    {{
+                        'STATS.COMMON.TIME.DATA-RANGE'
+                            | translate
+                                : { since: sinceLabel, until: untilLabel }
+                    }}
+                </p>
+            }
+        </div>
+
+        <div class="chart-controls">
+            <app-ui-chip-group
+                [options]="viewOptions"
+                [ngModel]="selectedView"
+                (ngModelChange)="onViewChange($event)"
+            ></app-ui-chip-group>
+
+            <mat-divider [vertical]="true"></mat-divider>
+
+            <app-ui-chip-group
+                [options]="rangeOptions"
+                [ngModel]="selectedRange"
+                (ngModelChange)="onRangeChange($event)"
+            ></app-ui-chip-group>
+        </div>
+    </span>
+
+    <p class="section-header__subtitle">
+        {{ subtitleKey | translate }}
+    </p>
+</div>
+
+@if (hasData) {
+    <div class="metrics">
+        @for (col of columns; track col.id) {
+            <div class="metric">
+                <app-stats-card
+                    [icon]="col.icon"
+                    [color]="col.cardColor"
+                    [label]="col.labelKey | translate"
+                    [value]="col.total"
+                    [unit]="col.unit"
+                ></app-stats-card>
+                <app-footprint-chart
+                    [type]="
+                        selectedView === 'period' && col.id !== 'powerW'
+                            ? 'bar'
+                            : 'line'
+                    "
+                    [stacked]="true"
+                    [decimals]="col.decimals"
+                    [unit]="col.unit"
+                    [color]="col.color"
+                    [legend]="legend"
+                    [timestamps]="labels"
+                    [values]="col.values"
+                ></app-footprint-chart>
+            </div>
+        }
+    </div>
+} @else {
+    <p class="no-data-text">{{ 'DASHBOARD.NO-DATA' | translate }}</p>
+}

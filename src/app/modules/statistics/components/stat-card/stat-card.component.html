@@ -1,32 +1,34 @@
 <mat-card class="card">
-  <div class="header">
-    <p class="title-text">{{ title }}</p>
-    <mat-icon class="icon">{{ iconName }}</mat-icon>
-  </div>
+    <div class="header">
+        <p class="title-text">{{ title }}</p>
+        <mat-icon class="icon">{{ iconName }}</mat-icon>
+    </div>
 
-  @if (gpuPerModelCluster) {
-    <button
-      id="detail-button"
-      mat-icon-button
-      matTooltip="{{ 'DASHBOARD.GPU-PER-MODEL' | translate }}"
-      [matTooltipPosition]="'above'"
-      (click)="openDetailGpuStats()"
-      >
-      <mat-icon color="accent"
-        ><span class="material-symbols-outlined">
-        <span class="material-symbols-outlined">
-          <span class="material-symbols-outlined">
-            search_insights
-          </span></span
-          >
-        </span></mat-icon
+    @if (gpuPerModelCluster) {
+        <button
+            id="detail-button"
+            mat-icon-button
+            matTooltip="{{
+                'STATS.METRICS.RESOURCES.GPU-PER-MODEL' | translate
+            }}"
+            [matTooltipPosition]="'above'"
+            (click)="openDetailGpuStats()"
         >
-      </button>
+            <mat-icon color="accent"
+                ><span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined">
+                        <span class="material-symbols-outlined">
+                            search_insights
+                        </span></span
+                    >
+                </span></mat-icon
+            >
+        </button>
     }
     <div
-      id="canvas"
-      echarts
-      [options]="chartOptionsCommon"
-      class="pie-graph"
+        id="canvas"
+        echarts
+        [options]="chartOptionsCommon"
+        class="pie-graph"
     ></div>
-  </mat-card>
+</mat-card>

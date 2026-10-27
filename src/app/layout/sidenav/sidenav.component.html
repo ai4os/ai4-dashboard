@@ -53,12 +53,20 @@
 
             <nav id="sidebarMenu" aria-label="Main">
                 <h4 class="sidenav-title">
-                    {{ 'SIDENAV.DASHBOARD' | translate }}
+                    {{ 'SIDENAV.STATS' | translate }}
                 </h4>
+                @if (isLoggedIn()) {
+                    <ng-container
+                        *ngTemplateOutlet="
+                            navLink;
+                            context: { $implicit: userStatsLink }
+                        "
+                    />
+                }
                 <ng-container
                     *ngTemplateOutlet="
                         navLink;
-                        context: { $implicit: dashboardLink }
+                        context: { $implicit: platformStatsLink }
                     "
                 />
 

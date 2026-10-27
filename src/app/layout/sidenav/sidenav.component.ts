@@ -95,10 +95,16 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     mobileQuery: MediaQueryList;
     private readonly _mobileQueryListener: () => void;
 
-    dashboardLink: ProjectLink = {
-        name: 'SIDENAV.STATS',
-        url: '/statistics',
-        icon: 'bar_chart',
+    userStatsLink: ProjectLink = {
+        name: 'SIDENAV.USER',
+        url: '/statistics/user',
+        icon: 'account_circle',
+    };
+
+    platformStatsLink: ProjectLink = {
+        name: 'SIDENAV.PLATFORM',
+        url: '/statistics/platform',
+        icon: 'public',
     };
 
     catalogLinks: ProjectLink[] = [

@@ -28,14 +28,6 @@
     --raleway-medium: 500;
     --raleway-light: 300;
 
-    /** Font Sizes **/
-    --font-xs: 12px;
-    --font-sm: 14px;
-    --font-md: 16px;
-    --font-lg: 18px;
-    --font-xl: 20px;
-    --font-2xl: 24px;
-
     .mat-button,
     .mat-button-focus-overlay,
     .mat-icon-button {
@@ -83,13 +75,13 @@
 $color-primary: #2f4858;
 $color-primary-light: #dcf2ff;
 $color-primary-dark: #233038;
-$color-primary-rgb: rgb(47, 72, 88);
+$color-primary-rgb: 47, 72, 88;
 
 $color-accent: #4bac5c;
-$color-accent-light: rgb(238, 255, 241);
+$color-accent-light: 238, 255, 241;
 $color-accent-dark: #357a42;
-$color-accent-rgb: rgb(75, 172, 92);
-$color-accent-dark-rgb: rgb(53, 122, 66);
+$color-accent-rgb: 75, 172, 92;
+$color-accent-dark-rgb: 53, 122, 66;
 
 $color-default: #8e8c8c;
 $color-default-light: #f7f6f6;
@@ -99,7 +91,7 @@ $color-surface: #faf7f4;
 $color-surface-card: #ffffff;
 $color-border: rgba(0, 0, 0, 0.08);
 
-$color-hero-shadow-rgb: 80, 10, 30;
+$color-hero-shadow-rgb: 6, 10, 12;
 
 $font-family-heading: 'Clash Display', 'Roboto', 'Helvetica Neue', sans-serif;
 $font-family-body: 'Clash Grotesk', 'Roboto', 'Helvetica Neue', sans-serif;

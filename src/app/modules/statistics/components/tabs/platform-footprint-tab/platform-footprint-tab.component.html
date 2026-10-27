@@ -1,0 +1,95 @@
+<app-energy-footprint
+    [groups]="energyGroups"
+    [since]="energySince"
+    [until]="energyUntil"
+    titleKey="STATS.PLATFORM.FOOTPRINT.MEASURED.TITLE"
+    subtitleKey="STATS.PLATFORM.FOOTPRINT.MEASURED.SUBTITLE"
+    energyLabelKey="STATS.METRICS.SUSTAINABILITY.ENERGY"
+></app-energy-footprint>
+
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'STATS.PLATFORM.FOOTPRINT.GRID.TITLE' | translate }}
+        </h3>
+
+        <p class="section-header__subtitle">
+            {{
+                'STATS.PLATFORM.FOOTPRINT.GRID.SUBTITLE'
+                    | translate
+                        : {
+                              projectName: projectName,
+                          }
+            }}
+        </p>
+    </div>
+
+    <div class="chart-controls">
+        <app-ui-chip-group
+            [options]="rangeOptions"
+            [ngModel]="selectedRange"
+            (ngModelChange)="onRangeChange($event)"
+        ></app-ui-chip-group>
+    </div>
+</div>
+
+<div class="metrics">
+    <div class="metric">
+        <app-stats-card
+            icon="eco"
+            color="var(--color-secondary-4)"
+            [tooltip]="
+                'STATS.METRICS.SUSTAINABILITY.GREEN-SCORE.INFO' | translate
+            "
+            [label]="
+                'STATS.METRICS.SUSTAINABILITY.GREEN-SCORE.TITLE' | translate
+            "
+            [value]="greenScore.average"
+        ></app-stats-card>
+
+        <app-footprint-chart
+            color="--color-secondary-4"
+            [legend]="legend"
+            [timestamps]="greenScore.timestamps"
+            [values]="greenScore.values"
+        ></app-footprint-chart>
+    </div>
+
+    <div class="metric">
+        <app-stats-card
+            icon="factory"
+            color="var(--color-secondary-5)"
+            [tooltip]="'STATS.METRICS.SUSTAINABILITY.CARBON.INFO' | translate"
+            [label]="'STATS.METRICS.SUSTAINABILITY.CARBON.TITLE' | translate"
+            [value]="carbon.average"
+            unit="gCO₂e/kWh"
+        ></app-stats-card>
+
+        <app-footprint-chart
+            unit="gCO₂e/kWh"
+            color="--color-secondary-5"
+            [legend]="legend"
+            [timestamps]="carbon.timestamps"
+            [values]="carbon.values"
+        ></app-footprint-chart>
+    </div>
+
+    <div class="metric">
+        <app-stats-card
+            icon="water_drop"
+            color="var(--color-secondary-3)"
+            [tooltip]="'STATS.METRICS.SUSTAINABILITY.WATER.INFO' | translate"
+            [label]="'STATS.METRICS.SUSTAINABILITY.WATER.TITLE' | translate"
+            [value]="water.average"
+            unit="l/kWh"
+        ></app-stats-card>
+
+        <app-footprint-chart
+            unit="l/kWh"
+            color="--color-secondary-3"
+            [legend]="legend"
+            [timestamps]="water.timestamps"
+            [values]="water.values"
+        ></app-footprint-chart>
+    </div>
+</div>

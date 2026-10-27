@@ -17,19 +17,23 @@ export class StatsService {
     http = inject(HttpClient);
     appConfigService = inject(AppConfigService);
 
-    readonly voParam = new HttpParams().set('vo', this.appConfigService.voName);
-
     getUserStats(): Observable<UserStats> {
         const url = `${base}${endpoints.userStats}`;
+        const params = new HttpParams()
+            .set('vo', this.appConfigService.voName)
+            .set('full_info', true);
         return this.http.get<UserStats>(url, {
-            params: this.voParam,
+            params,
         });
     }
 
     getClusterStats(): Observable<ClusterStats> {
         const url = `${base}${endpoints.clusterStats}`;
+        const params = new HttpParams()
+            .set('vo', this.appConfigService.voName)
+            .set('full_info', true);
         return this.http.get<ClusterStats>(url, {
-            params: this.voParam,
+            params,
         });
     }
 }

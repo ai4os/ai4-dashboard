@@ -34,15 +34,19 @@
 
             <!-- Env metrics grid -->
             <div class="metrics-grid">
-                <app-stats-reduced-card
-                    [label]="'DASHBOARD.STATS-TITLES.PUE' | translate"
+                <app-stats-card
+                    [label]="
+                        'STATS.METRICS.SUSTAINABILITY.PUE.LABEL' | translate
+                    "
                     icon="bolt"
                     color="var(--color-secondary-1)"
                     [value]="selectedDatacenter?.PUE ?? '—'"
-                    [tooltip]="'DASHBOARD.PUE-INFO' | translate"
+                    [tooltip]="
+                        'STATS.METRICS.SUSTAINABILITY.PUE.INFO' | translate
+                    "
                 />
-                <app-stats-reduced-card
-                    [label]="'DASHBOARD.STATS-TITLES.JOBS-NUM' | translate"
+                <app-stats-card
+                    [label]="'STATS.METRICS.RESOURCES.JOBS-NUM' | translate"
                     icon="task"
                     [value]="jobsNum"
                     unit="running"
@@ -50,32 +54,42 @@
             </div>
 
             <div class="env-grid">
-                <app-stats-reduced-card
-                    [label]="'DASHBOARD.STATS-TITLES.GREEN-SCORE' | translate"
+                <app-stats-card
+                    [label]="
+                        'STATS.METRICS.SUSTAINABILITY.GREEN-SCORE.ZONE'
+                            | translate
+                    "
                     icon="eco"
                     color="var(--color-secondary-4)"
                     [value]="selectedDatacenter?.green_score ?? '—'"
-                    [tooltip]="'DASHBOARD.GREEN-SCORE-INFO' | translate"
+                    [tooltip]="
+                        'STATS.METRICS.SUSTAINABILITY.GREEN-SCORE.INFO'
+                            | translate
+                    "
                 />
-                <app-stats-reduced-card
+                <app-stats-card
                     [label]="
-                        'DASHBOARD.STATS-TITLES.ENERGY-QUALITY' | translate
+                        'STATS.METRICS.SUSTAINABILITY.CARBON.ZONE' | translate
                     "
                     icon="factory"
                     color="var(--color-secondary-5)"
                     [value]="selectedDatacenter?.energy_quality ?? '—'"
                     unit="g CO₂/kWh"
-                    [tooltip]="'DASHBOARD.ENERGY-INFO' | translate"
+                    [tooltip]="
+                        'STATS.METRICS.SUSTAINABILITY.CARBON.INFO' | translate
+                    "
                 />
-                <app-stats-reduced-card
+                <app-stats-card
                     [label]="
-                        'DASHBOARD.STATS-TITLES.ENERGY-WATER-USAGE' | translate
+                        'STATS.METRICS.SUSTAINABILITY.WATER.ZONE' | translate
                     "
                     icon="water_drop"
                     color="var(--color-secondary-3)"
                     [value]="selectedDatacenter?.energy_water_usage ?? '—'"
                     unit="l/kWh"
-                    [tooltip]="'DASHBOARD.ENERGY-WATER-INFO' | translate"
+                    [tooltip]="
+                        'STATS.METRICS.SUSTAINABILITY.WATER.INFO' | translate
+                    "
                 />
             </div>
 
@@ -96,7 +110,10 @@
             <!-- Footer -->
             <div class="drawer-footer">
                 <p class="drawer-footer__text">
-                    {{ 'DASHBOARD.WATTNET-INFO' | translate }}
+                    {{
+                        'STATS.PLATFORM.DATACENTERS.WATTNET-ATTRIBUTION'
+                            | translate
+                    }}
                     <a
                         class="drawer-footer__link"
                         href="https://wattnet.eu/"

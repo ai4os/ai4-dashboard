@@ -98,9 +98,7 @@ describe('try me section', function () {
         cy.contains('Number of GPUs: 0', { timeout: 50000 }).should(
             'be.visible'
         );
-        cy.contains('RAM memory: 2000 MB', { timeout: 50000 }).should(
-            'be.visible'
-        );
+        cy.contains('RAM: 2000 MB', { timeout: 50000 }).should('be.visible');
         cy.contains('Datacenter', { timeout: 50000 }).should('be.visible');
         cy.contains('ifca-ai4eosc', { timeout: 50000 }).should('be.visible');
         cy.contains('Endpoints', { timeout: 50000 }).should('be.visible');

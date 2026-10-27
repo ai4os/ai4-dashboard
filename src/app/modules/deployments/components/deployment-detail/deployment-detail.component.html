@@ -202,13 +202,13 @@
             <!-- Resources -->
             <div class="resources-grid">
                 @for (item of resourceItems; track item.label) {
-                    <app-stats-reduced-card
+                    <app-stats-card
                         [label]="item.label"
                         [value]="item.value"
                         [unit]="item.unit"
                         [icon]="item.icon"
                         [color]="item.color"
-                    ></app-stats-reduced-card>
+                    ></app-stats-card>
                 } @empty {
                     <p>-</p>
                 }
@@ -244,13 +244,13 @@
         <section class="tab-content">
             <div class="energy-columns-grid">
                 <div class="energy-column">
-                    <app-stats-reduced-card
+                    <app-stats-card
                         [label]="energyItems[0].label | translate"
                         [value]="energyItems[0].value"
                         [unit]="energyItems[0].unit"
                         [icon]="energyItems[0].icon"
                         [color]="energyItems[0].color"
-                    ></app-stats-reduced-card>
+                    ></app-stats-card>
                     <app-footprint-chart
                         unit="W"
                         [timestamps]="energyTimestamps"
@@ -260,13 +260,13 @@
                 </div>
 
                 <div class="energy-column">
-                    <app-stats-reduced-card
+                    <app-stats-card
                         [label]="energyItems[1].label | translate"
                         [value]="energyItems[1].value"
                         [unit]="energyItems[1].unit"
                         [icon]="energyItems[1].icon"
                         [color]="energyItems[1].color"
-                    ></app-stats-reduced-card>
+                    ></app-stats-card>
                     <app-footprint-chart
                         unit="Wh"
                         [timestamps]="energyTimestamps"
@@ -276,13 +276,13 @@
                 </div>
 
                 <div class="energy-column">
-                    <app-stats-reduced-card
+                    <app-stats-card
                         [label]="energyItems[2].label | translate"
                         [value]="energyItems[2].value"
                         [unit]="energyItems[2].unit"
                         [icon]="energyItems[2].icon"
                         [color]="energyItems[2].color"
-                    ></app-stats-reduced-card>
+                    ></app-stats-card>
                     <app-footprint-chart
                         unit="g CO₂"
                         [timestamps]="energyTimestamps"
@@ -292,13 +292,13 @@
                 </div>
 
                 <div class="energy-column">
-                    <app-stats-reduced-card
+                    <app-stats-card
                         [label]="energyItems[3].label | translate"
                         [value]="energyItems[3].value"
                         [unit]="energyItems[3].unit"
                         [icon]="energyItems[3].icon"
                         [color]="energyItems[3].color"
-                    ></app-stats-reduced-card>
+                    ></app-stats-card>
                     <app-footprint-chart
                         unit="L"
                         [timestamps]="energyTimestamps"

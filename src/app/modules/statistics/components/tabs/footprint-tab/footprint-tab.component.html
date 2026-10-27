@@ -11,12 +11,12 @@
 
 <div class="metrics">
     <div class="metric">
-        <app-stats-bar-card
+        <app-stats-card
             icon="eco"
             color="var(--color-secondary-4)"
             [label]="'DASHBOARD.POWER-GRID.GREEN-SCORE' | translate"
-            [used]="greenScore.average"
-        ></app-stats-bar-card>
+            [value]="greenScore.average"
+        ></app-stats-card>
 
         <app-footprint-chart
             [title]="'DASHBOARD.POWER-GRID.GREEN-SCORE' | translate"
@@ -29,13 +29,13 @@
     </div>
 
     <div class="metric">
-        <app-stats-bar-card
+        <app-stats-card
             icon="factory"
             color="var(--color-secondary-5)"
             [label]="'DASHBOARD.POWER-GRID.CARBON' | translate"
-            [used]="carbon.average"
+            [value]="carbon.average"
             unit="gCO₂e/kWh"
-        ></app-stats-bar-card>
+        ></app-stats-card>
 
         <app-footprint-chart
             [title]="'DASHBOARD.POWER-GRID.CARBON' | translate"
@@ -49,13 +49,13 @@
     </div>
 
     <div class="metric">
-        <app-stats-bar-card
+        <app-stats-card
             icon="water_drop"
             color="var(--color-secondary-3)"
             [label]="'DASHBOARD.POWER-GRID.WATER' | translate"
-            [used]="water.average"
+            [value]="water.average"
             unit="l/kWh"
-        ></app-stats-bar-card>
+        ></app-stats-card>
 
         <app-footprint-chart
             [title]="'DASHBOARD.POWER-GRID.WATER' | translate"
