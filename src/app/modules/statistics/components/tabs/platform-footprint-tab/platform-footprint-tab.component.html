@@ -60,7 +60,9 @@
             icon="factory"
             color="var(--color-secondary-5)"
             [tooltip]="'STATS.METRICS.SUSTAINABILITY.CARBON.INFO' | translate"
-            [label]="'STATS.METRICS.SUSTAINABILITY.CARBON.TITLE' | translate"
+            [label]="
+                'STATS.METRICS.SUSTAINABILITY.CARBON.INTENSITY' | translate
+            "
             [value]="carbon.average"
             unit="gCO₂e/kWh"
         ></app-stats-card>
@@ -79,7 +81,7 @@
             icon="water_drop"
             color="var(--color-secondary-3)"
             [tooltip]="'STATS.METRICS.SUSTAINABILITY.WATER.INFO' | translate"
-            [label]="'STATS.METRICS.SUSTAINABILITY.WATER.TITLE' | translate"
+            [label]="'STATS.METRICS.SUSTAINABILITY.WATER.INTENSITY' | translate"
             [value]="water.average"
             unit="l/kWh"
         ></app-stats-card>

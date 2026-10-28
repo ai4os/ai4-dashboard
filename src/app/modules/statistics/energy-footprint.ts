@@ -132,6 +132,20 @@ export function buildFootprintView(
         );
     }
 
+    totals.powerW = groups.reduce((sum, g) => {
+        let last: EnergyPoint | undefined;
+        for (const p of g.points) {
+            if (
+                p.powerW != null &&
+                inWindow(p.ts) &&
+                (!last || p.ts > last.ts)
+            ) {
+                last = p;
+            }
+        }
+        return sum + (last?.powerW ?? 0);
+    }, 0);
+
     return {
         grouping: def.grouping,
         timestamps,

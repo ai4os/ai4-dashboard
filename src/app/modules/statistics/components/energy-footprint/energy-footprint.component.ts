@@ -50,6 +50,7 @@ interface MetricColumn {
     /** CSS variable name */
     color: string;
     unit: string;
+    chartUnit: string;
     total: string;
     decimals: number;
     values: (number | null)[][];
@@ -151,8 +152,6 @@ export class EnergyFootprintComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(): void {
-        this.sinceLabel = this.since ? formatDateLabel(this.since) : '';
-        this.untilLabel = this.until ? formatDateLabel(this.until) : '';
         this.legend =
             this.groups.length > 1 ? this.groups.map((g) => g.name) : [];
         this.rebuild();
@@ -174,6 +173,11 @@ export class EnergyFootprintComponent implements OnInit, OnChanges {
         this.labels = this.view.timestamps.map((t) =>
             formatBucketLabel(t, this.view.grouping)
         );
+
+        const ts = this.view.timestamps;
+        this.sinceLabel = ts.length ? formatDateLabel(ts[0]) : '';
+        this.untilLabel = ts.length ? formatDateLabel(ts[ts.length - 1]) : '';
+
         this.rebuildColumns();
     }
 
@@ -183,12 +187,19 @@ export class EnergyFootprintComponent implements OnInit, OnChanges {
         this.columns = (Object.keys(METRIC_DEFS) as FootprintMetric[]).map(
             (id) => {
                 const def = METRIC_DEFS[id];
-                const matrix: MetricMatrix = cumulative
+
+                // Power values must be always displayed per period
+                const useCumulative = cumulative && id !== 'powerW';
+
+                const matrix: MetricMatrix = useCumulative
                     ? this.view.cumulative[id]
                     : this.view.perPeriod[id];
+
                 const max = maxStacked(matrix);
-                const step = pickUnit(max, def.units);
-                const total = this.view.totals[id] / step.factor;
+                const chartStep = pickUnit(max, def.units);
+
+                const totalStep = pickUnit(this.view.totals[id], def.units);
+                const total = this.view.totals[id] / totalStep.factor;
 
                 return {
                     id,
@@ -197,13 +208,14 @@ export class EnergyFootprintComponent implements OnInit, OnChanges {
                     icon: def.icon,
                     cardColor: `var(${def.color})`,
                     color: def.color,
-                    unit: step.unit,
+                    unit: totalStep.unit, // card unit
                     total: total.toLocaleString('en-GB', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: decimalsFor(total),
                     }),
-                    decimals: decimalsFor(max / step.factor),
-                    values: scaleMatrix(matrix, step.factor),
+                    chartUnit: chartStep.unit, // chart unit
+                    decimals: decimalsFor(max / chartStep.factor),
+                    values: scaleMatrix(matrix, chartStep.factor),
                 };
             }
         );

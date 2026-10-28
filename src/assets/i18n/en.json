@@ -493,25 +493,27 @@
             },
             "SUSTAINABILITY": {
                 "ENERGY": "Energy",
-                "POWER": "Power",
+                "POWER": "Current power",
                 "PUE": {
                     "LABEL": "PUE",
                     "INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)"
                 },
                 "GREEN-SCORE": {
-                    "TITLE": "Green Score",
+                    "TITLE": "Environmental Score",
                     "ZONE": "Zone Green Score",
                     "AVERAGE": "Average Green Score",
                     "INFO": "Overall environmental performance score that takes into account the datacenter's carbon and water impact (the higher the better)"
                 },
                 "CARBON": {
                     "TITLE": "Carbon",
+                    "INTENSITY": "Carbon Intensity",
                     "ZONE": "Zone Carbon Footprint",
                     "AVERAGE": "Average Carbon Footprint",
                     "INFO": "How carbon-intensive (in g CO2/kWh) is the grid the data center is plugged to (the lower the better). This metric corresponds to Scope 2 of the Greenhouse Gas (GHG) Protocol"
                 },
                 "WATER": {
                     "TITLE": "Water",
+                    "INTENSITY": "Water Usage Intensity",
                     "ZONE": "Zone Water Footprint",
                     "AVERAGE": "Average Water Footprint",
                     "INFO": "Water usage (in liters per kWh) of the datacenter's energy source (the lower the better)"
