@@ -44,7 +44,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 const startOfUtcDay = (ms: number): number => Math.floor(ms / DAY_MS) * DAY_MS;
 
-type Bucket = Record<FootprintMetric, number>;
+type Bucket = Record<FootprintMetric, number> & { powerCount: number };
 
 const emptyRecord = <T>(make: () => T): Record<FootprintMetric, T> => ({
     powerW: make(),
@@ -95,13 +95,34 @@ export function buildFootprintView(
             const key = keyOf(p.ts);
             const b =
                 buckets.get(key) ??
-                ({ powerW: 0, energyWh: 0, carbonG: 0, waterL: 0 } as Bucket);
-            b.powerW += p.powerW ?? 0;
+                ({
+                    powerW: 0,
+                    energyWh: 0,
+                    carbonG: 0,
+                    waterL: 0,
+                    powerCount: 0,
+                } as Bucket);
+
+            if (p.powerW != null) {
+                b.powerW += p.powerW;
+                b.powerCount++;
+            }
+
             b.energyWh += p.energyWh;
             b.carbonG += p.carbonG;
             b.waterL += p.waterL;
             buckets.set(key, b);
         }
+
+        // Calculate the average powerW when grouping by day
+        if (def.grouping === 'day') {
+            for (const b of buckets.values()) {
+                if (b.powerCount > 0) {
+                    b.powerW = b.powerW / b.powerCount;
+                }
+            }
+        }
+
         return buckets;
     });
 
