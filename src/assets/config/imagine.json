@@ -9,6 +9,12 @@
     },
     "sidenavMenu": [
         {
+            "id": "chat",
+            "name": "SIDENAV.LLM-CHAT",
+            "url": "https://genai.dev.ai4eosc.eu/",
+            "desc": "Provides an interactive chat interface powered by Large Language Models (LLMs) to answer questions, summarize documents, generate code suggestions and assist with research tasks. Users can also interact with the AI4EOSC documentation through a dedicated assistant that provides context-aware answers."
+        },
+        {
             "id": "storage",
             "name": "SIDENAV.STORAGE",
             "url": "https://share.cloud.ai4eosc.eu/",
@@ -25,12 +31,6 @@
             "name": "SIDENAV.INFERENCE-WORKFLOWS",
             "url": "https://inference.cloud.ai4eosc.eu/",
             "desc": "Allows users to build and orchestrate AI inference pipelines by connecting multiple processing steps and AI services. Using visual tools such as Elyra and Node-RED, users can create, execute and deploy workflows that automate data processing and model inference."
-        },
-        {
-            "id": "chat",
-            "name": "SIDENAV.LLM-CHAT",
-            "url": "https://chat.cloud.ai4eosc.eu/",
-            "desc": "Provides an interactive chat interface powered by Large Language Models (LLMs) to answer questions, summarize documents, generate code suggestions and assist with research tasks. Users can also interact with the AI4EOSC documentation through a dedicated assistant that provides context-aware answers."
         }
     ],
     "footerLinks": [
