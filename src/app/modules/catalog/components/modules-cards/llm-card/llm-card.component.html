@@ -39,23 +39,6 @@
     </div>
 
     <footer class="llm-card__footer">
-        @if ('status' in llm && llm.status) {
-            <app-ui-chip
-                variant="default-solid"
-                [icon]="
-                    llm.status === 'healthy'
-                        ? 'check_circle'
-                        : llm.status === 'unhealthy'
-                          ? 'error'
-                          : 'help'
-                "
-                [text]="llm.status"
-                [tooltip]="'CATALOG.DETAIL.STATUS' | translate"
-                [class.status-healthy]="llm.status === 'healthy'"
-                [class.status-unhealthy]="llm.status === 'unhealthy'"
-            ></app-ui-chip>
-        }
-
         @if ('context' in llm && llm.context) {
             <app-ui-chip
                 variant="default-solid"
@@ -71,6 +54,64 @@
                 icon="license"
                 [text]="llm.license"
                 [tooltip]="'CATALOG.DETAIL.LICENSE' | translate"
+            ></app-ui-chip>
+        }
+
+        @if (
+            'supports_function_calling' in llm && llm.supports_function_calling
+        ) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="build"
+                iconColor="var(--color-secondary-5)"
+                [text]="'CATALOG.DETAIL.FUNCTION-CALLS' | translate"
+                [tooltip]="'CATALOG.DETAIL.SUPPORTS-FUNCTION-CALLS' | translate"
+            ></app-ui-chip>
+        }
+
+        @if ('supports_reasoning' in llm && llm.supports_reasoning) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="neurology"
+                iconColor="var(--color-secondary-2)"
+                [text]="'CATALOG.DETAIL.REASONING' | translate"
+                [tooltip]="'CATALOG.DETAIL.SUPPORTS-REASONING' | translate"
+            ></app-ui-chip>
+        }
+
+        @if ('supports_vision' in llm && llm.supports_reasoning) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="visibility"
+                iconColor="var(--color-secondary-3)"
+                [text]="'CATALOG.DETAIL.VISION' | translate"
+                [tooltip]="'CATALOG.DETAIL.SUPPORTS-VISION' | translate"
+            ></app-ui-chip>
+        }
+
+        @if ('max_input_tokens' in llm && llm.max_input_tokens) {
+            <app-ui-chip
+                variant="default-solid"
+                icon="speed"
+                [text]="formattedMaxTokens"
+                [tooltip]="'CATALOG.DETAIL.MAX-INPUT-TOKENS' | translate"
+            ></app-ui-chip>
+        }
+
+        @if ('status' in llm && llm.status !== 'healthy') {
+            <app-ui-chip
+                variant="default-solid"
+                [icon]="
+                    llm.status === 'healthy'
+                        ? 'check_circle'
+                        : llm.status === 'unhealthy'
+                          ? 'error'
+                          : 'help'
+                "
+                [text]="llm.status"
+                [tooltip]="'CATALOG.DETAIL.STATUS' | translate"
+                [class.status-healthy]="llm.status === 'healthy'"
+                [class.status-unhealthy]="llm.status === 'unhealthy'"
             ></app-ui-chip>
         }
     </footer>

@@ -15,6 +15,8 @@ export interface PlatformLlmSummary {
     name: string;
     description: string;
     family: string;
-    license: string;
-    context: string;
+    max_input_tokens: string;
+    supports_function_calling: boolean;
+    supports_reasoning: boolean;
+    supports_vision: boolean;
 }

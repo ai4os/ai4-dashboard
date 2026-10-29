@@ -81,6 +81,7 @@
     flex-wrap: wrap;
     gap: var(--space-sm);
     align-items: center;
+    justify-content: flex-end;
 
     ::ng-deep app-ui-chip {
         cursor: default;

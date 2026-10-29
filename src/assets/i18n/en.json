@@ -196,6 +196,14 @@
             "DOCKERHUB": "Docker",
             "REPORT-ISSUE": "Report issue",
             "BIOIMAGE": "BioImage.IO",
+            "MAX-INPUT-TOKENS": "Max input tokens",
+            "FUNCTION-CALLS": "Tools",
+            "SUPPORTS-FUNCTION-CALLS": "Supports function calls",
+            "REASONING": "Reasoning",
+            "SUPPORTS-REASONING": "Supports reasoning",
+            "VISION": "Vision",
+            "SUPPORTS-VISION": "Supports vision",
+
             "TRY": {
                 "TITLE": "Try",
                 "LOGOUT": "To try this, you must be logged in and have the role 'ap-a'",
@@ -275,6 +283,7 @@
             "FILTER-FAMILY": "Filter by family",
             "ALL": "All",
             "PLATFORM-WIDE-TAB": "Platform wide",
+            "PLATFORM-WIDE-DESC": "Platform-wide LLM served via AI4EOSC GenAI router.",
             "SELF-DEPLOYED-TAB": "Self-deployed",
             "MODEL-UNAVAILABLE": "This model is currently unavailable"
         },

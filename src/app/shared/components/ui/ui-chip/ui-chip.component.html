@@ -7,7 +7,9 @@
     matTooltipClass="ui-tooltip"
 >
     @if (icon) {
-        <mat-icon class="ui-chip__icon">{{ icon }}</mat-icon>
+        <mat-icon class="ui-chip__icon" [style.color]="iconColor">{{
+            icon
+        }}</mat-icon>
     }
     @if (text) {
         <span class="ui-chip__text">{{ text }}</span>

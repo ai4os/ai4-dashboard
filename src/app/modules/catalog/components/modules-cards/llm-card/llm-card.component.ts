@@ -36,9 +36,9 @@ import { environment } from '@environments/environment';
     ],
 })
 export class LlmCardComponent implements OnInit {
-    private authService = inject(AuthService);
-    private router = inject(Router);
-    private destroyRef = inject(DestroyRef);
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
+    private readonly destroyRef = inject(DestroyRef);
 
     @Input({ required: true }) type!: string;
     @Input({ required: true }) llm!: SelfLllmSummary | PlatformLlmSummary;
@@ -47,8 +47,6 @@ export class LlmCardComponent implements OnInit {
 
     get logoSrc(): string {
         const familyName = this.llm.family.toLowerCase();
-
-        // TODO: review images when metadata is ready
         return `../../../assets/images/llm-families/${familyName}.svg`;
     }
 
@@ -71,6 +69,19 @@ export class LlmCardComponent implements OnInit {
             return 'CATALOG.LLMS.MODEL-UNAVAILABLE';
         }
         return '';
+    }
+
+    get formattedMaxTokens(): string {
+        if (!('max_input_tokens' in this.llm) || !this.llm.max_input_tokens) {
+            return '';
+        }
+
+        const tokens = Number(this.llm.max_input_tokens);
+        if (!isNaN(tokens) && tokens >= 1000) {
+            return Math.floor(tokens / 1000) + 'K';
+        }
+
+        return String(this.llm.max_input_tokens);
     }
 
     ngOnInit(): void {

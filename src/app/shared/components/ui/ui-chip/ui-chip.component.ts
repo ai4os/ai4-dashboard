@@ -41,6 +41,7 @@ export type ChipVariant =
 export class UiChipComponent implements OnInit {
     @Input() variant: ChipVariant = 'primary-solid';
     @Input() icon?: string;
+    @Input() iconColor?: string;
     @Input() text?: string;
     @Input() html?: string;
     @Input() tooltip?: string;

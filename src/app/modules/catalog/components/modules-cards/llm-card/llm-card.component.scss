@@ -76,9 +76,10 @@
 
 .llm-card__footer {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     gap: var(--space-sm);
     align-items: center;
+    justify-content: flex-end;
 
     ::ng-deep app-ui-chip {
         cursor: default;
