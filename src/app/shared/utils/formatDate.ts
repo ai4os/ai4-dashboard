@@ -37,3 +37,13 @@ export function parseDateStringLiteral(input: string): number {
 
     return Date.UTC(yyyy, MM - 1, dd, hh, mm, ss);
 }
+
+export function normalizeDate(value: string | null | undefined): string {
+    if (!value) return '';
+    const m = /^(\d{1,2})-(\d{1,2})-(\d{4})(.*)$/.exec(value.trim());
+    if (m) {
+        const [, day, month, year, rest] = m;
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}${rest}`;
+    }
+    return value;
+}

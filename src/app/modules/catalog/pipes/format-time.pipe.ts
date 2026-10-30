@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
+import { normalizeDate } from '@app/shared/utils/formatDate';
 import { TranslateService } from '@ngx-translate/core';
 
 const MINUTE = 60_000;
@@ -55,7 +56,9 @@ export class RelativeTimePipe implements PipeTransform {
             return '';
         }
 
-        const time = new Date(value).getTime();
+        const time = new Date(
+            typeof value === 'string' ? normalizeDate(value) : value
+        ).getTime();
         if (Number.isNaN(time)) {
             return '';
         }

@@ -29,6 +29,7 @@ import {
 import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 import { RelativeTimePipe } from '../../../pipes/format-time.pipe';
+import { normalizeDate } from '@app/shared/utils/formatDate';
 
 interface ModuleTag {
     text: string;
@@ -142,6 +143,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             if (this.isTool) {
                 this.toolsService.getTool(params['id']).subscribe((tool) => {
                     this.module = tool;
+                    this.normalizeDates(this.module);
                     this.module.description = this.cleanMarkdown(
                         this.module.description
                     );
@@ -157,6 +159,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                     .getModule(params['id'])
                     .subscribe((module) => {
                         this.module = module;
+                        this.normalizeDates(this.module);
                         this.module.description = this.cleanMarkdown(
                             this.module.description
                         );
@@ -198,6 +201,12 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             '-' +
             this.doiBadgeColor.replace('#', '')
         );
+    }
+
+    private normalizeDates(module: Ai4eoscModule): void {
+        if (!module.dates) return;
+        module.dates.created = normalizeDate(module.dates.created);
+        module.dates.updated = normalizeDate(module.dates.updated);
     }
 
     createGradioDeployment() {
