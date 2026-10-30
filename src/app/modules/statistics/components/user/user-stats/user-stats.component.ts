@@ -14,10 +14,10 @@ import {
     Tab,
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
-import { QueryTabsPage } from '../../query-tabs.page';
-import { UserFootprintTabComponent } from '../tabs/user-footprint-tab/user-footprint-tab.component';
-import { UserUsageTabComponent } from '../tabs/user-usage-tab/user-usage-tab.component';
-import { StatsStore } from '../../store/stats.store';
+import { QueryTabsPage } from '@app/modules/statistics/query-tabs.page';
+import { StatsStore } from '@app/modules/statistics/store/stats.store';
+import { UserFootprintTabComponent } from '../user-footprint-tab/user-footprint-tab.component';
+import { UserUsageTabComponent } from '../user-usage-tab/user-usage-tab.component';
 
 @Component({
     selector: 'app-user-stats',
