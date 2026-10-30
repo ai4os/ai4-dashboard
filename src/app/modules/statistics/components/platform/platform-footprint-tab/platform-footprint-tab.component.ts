@@ -78,15 +78,13 @@ export class PlatformFootprintTabComponent implements OnInit, OnChanges {
     readonly timeRanges: TimeRange[] = [
         { id: '24h', label: '24h', days: 1 },
         { id: '7d', label: '7d', days: 7 },
-        { id: '30d', label: '30d', days: 30 },
-        { id: 'total', label: 'Total', days: Infinity },
     ];
     readonly rangeOptions = this.timeRanges.map((r) => ({
         value: r.id,
         viewValue: r.label,
     }));
 
-    selectedRange = 'total';
+    selectedRange = '7d';
 
     protected projectName = '';
     protected legend: string[] = [];
