@@ -15,7 +15,6 @@ import {
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Subject, timer, takeUntil, switchMap } from 'rxjs';
 import { BatchService } from '../../services/batch.service';
-import { DeploymentDetailComponent } from '@app/modules/deployments/components/deployment-detail/deployment-detail.component';
 import { formatDate } from '@app/shared/utils/formatDate';
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 import { TranslatePipe } from '@ngx-translate/core';

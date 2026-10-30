@@ -13,7 +13,7 @@ import { Ai4lifeModule } from '@app/shared/interfaces/module.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
 import { MatIcon } from '@angular/material/icon';
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MarkdownComponent } from 'ngx-markdown';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -22,6 +22,7 @@ import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button
 import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { RelativeTimePipe } from '../../../pipes/format-time.pipe';
 
 @Component({
     selector: 'app-ai4life-module-detail',
@@ -35,11 +36,13 @@ import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader
         MatTooltip,
         MarkdownComponent,
         TranslatePipe,
+        DatePipe,
         UiCardComponent,
         UiButtonComponent,
         UiChipComponent,
         UiBannerComponent,
         UiLoaderComponent,
+        RelativeTimePipe,
     ],
 })
 export class Ai4lifeModuleDetailComponent implements OnInit {
@@ -119,6 +122,16 @@ export class Ai4lifeModuleDetailComponent implements OnInit {
 
                     if (ai4lifeModule.id !== '') {
                         this.module = ai4lifeModule;
+                        if (
+                            this.module.created &&
+                            this.module.created.split('-').length === 3
+                        ) {
+                            const [day, month, year] =
+                                this.module.created.split('-');
+                            if (year.length === 4) {
+                                this.module.created = `${year}-${month}-${day}`;
+                            }
+                        }
                         this.breadcrumbService.set(
                             '@moduleName',
                             this.module.name

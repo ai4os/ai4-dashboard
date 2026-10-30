@@ -190,8 +190,8 @@
             "DOWNLOADS": "Downloads",
             "DOWNLOAD-COUNT": "Download Count",
             "DATES": "Dates",
-            "CREATED": "Created",
-            "UPDATED": "Updated",
+            "CREATED": "Created {{time}}",
+            "UPDATED": "Updated {{time}}",
             "GITHUB": "GitHub",
             "DOCKERHUB": "Docker",
             "REPORT-ISSUE": "Report issue",
@@ -502,7 +502,7 @@
             },
             "SUSTAINABILITY": {
                 "ENERGY": "Energy",
-                "POWER": "Current power",
+                "POWER": "Power",
                 "PUE": {
                     "LABEL": "PUE",
                     "INFO": "Power Usage Effectiveness of the datacenter (the closer to 1 the better)"
@@ -570,7 +570,7 @@
                 "TITLE": "Footprint",
                 "MEASURED": {
                     "TITLE": "Measured consumption",
-                    "SUBTITLE": "Real measured power, energy and footprint by datacenter. Summed across datacenters, this is the platform's total consumption."
+                    "SUBTITLE": "Real measured power, energy and footprint by datacenter. Summed across datacenters, this is the platform's total consumption (keep in mind that not all platform datacenters currently support footprint monitoring)."
                 },
                 "GRID": {
                     "TITLE": "Datacenter grid signal",

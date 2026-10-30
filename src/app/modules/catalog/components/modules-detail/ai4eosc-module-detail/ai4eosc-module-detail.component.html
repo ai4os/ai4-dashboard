@@ -497,102 +497,97 @@
                     </div>
                 }
 
-                <!-- Tasks -->
-                @if (module.tasks.length > 0) {
+                <!-- Dates -->
+                @if (
+                    module.dates &&
+                    (module.dates.created || module.dates.updated)
+                ) {
                     <div class="sidebar-section">
                         <span class="sidebar-section__label">
-                            {{ 'CATALOG.DETAIL.TASKS' | translate }}
+                            {{ 'CATALOG.DETAIL.DATES' | translate }}
                         </span>
                         <app-ui-card>
-                            <div class="sidebar-section__content">
-                                @for (task of module.tasks; track task) {
-                                    <app-ui-chip
-                                        [text]="task"
-                                        variant="secondary-1-solid"
-                                    ></app-ui-chip>
+                            <div class="dates-content">
+                                @if (module.dates.updated) {
+                                    <div class="date-row">
+                                        <span
+                                            class="date-row__icon date-row__icon--primary"
+                                        >
+                                            <mat-icon>update</mat-icon>
+                                        </span>
+                                        <div class="date-row__text">
+                                            <span class="date-row__primary">
+                                                {{
+                                                    'CATALOG.DETAIL.UPDATED'
+                                                        | translate
+                                                            : {
+                                                                  time:
+                                                                      module
+                                                                          .dates
+                                                                          .updated
+                                                                      | relativeTime,
+                                                              }
+                                                }}
+                                            </span>
+                                            <span class="date-row__secondary">
+                                                {{
+                                                    module.dates.updated
+                                                        | date: 'd MMMM y'
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+                                @if (module.dates.created) {
+                                    <div class="date-row">
+                                        <span class="date-row__icon">
+                                            <mat-icon>calendar_month</mat-icon>
+                                        </span>
+                                        <div class="date-row__text">
+                                            <span class="date-row__primary">
+                                                {{
+                                                    'CATALOG.DETAIL.CREATED'
+                                                        | translate
+                                                            : {
+                                                                  time:
+                                                                      module
+                                                                          .dates
+                                                                          .created
+                                                                      | relativeTime,
+                                                              }
+                                                }}
+                                            </span>
+                                            <span class="date-row__secondary">
+                                                {{
+                                                    module.dates.created
+                                                        | date: 'd MMMM y'
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </app-ui-card>
                     </div>
                 }
 
-                <!-- Libraries -->
-                @if (module.libraries.length > 0) {
-                    <div class="sidebar-section">
-                        <span class="sidebar-section__label">
-                            {{ 'CATALOG.DETAIL.LIBRARIES' | translate }}
-                        </span>
-                        <app-ui-card>
-                            <div class="sidebar-section__content">
-                                @for (
-                                    library of module.libraries;
-                                    track library
-                                ) {
-                                    <app-ui-chip
-                                        [text]="library"
-                                        variant="secondary-2-solid"
-                                    ></app-ui-chip>
-                                }
-                            </div>
-                        </app-ui-card>
-                    </div>
-                }
-
-                <!-- Data types -->
-                @if (module['data-type'] && module['data-type'].length > 0) {
-                    <div class="sidebar-section">
-                        <span class="sidebar-section__label">
-                            {{ 'CATALOG.DETAIL.DATA-TYPES' | translate }}
-                        </span>
-                        <app-ui-card>
-                            <div class="sidebar-section__content">
-                                @for (type of module['data-type']; track type) {
-                                    <app-ui-chip
-                                        [text]="type"
-                                        [icon]="convertTypeToIcon(type)"
-                                        variant="secondary-3-solid"
-                                    ></app-ui-chip>
-                                }
-                            </div>
-                        </app-ui-card>
-                    </div>
-                }
-
-                <!-- Tags -->
-                @if (module.tags.length > 0) {
+                <!-- Tags (tasks, libraries, data types, tags, categories) -->
+                @if (allTags.length > 0) {
                     <div class="sidebar-section">
                         <span class="sidebar-section__label">
                             {{ 'CATALOG.DETAIL.TAGS' | translate }}
                         </span>
                         <app-ui-card>
                             <div class="sidebar-section__content">
-                                @for (tag of module.tags; track tag) {
-                                    <app-ui-chip
-                                        [text]="tag"
-                                        icon="sell"
-                                        variant="secondary-4-solid"
-                                    ></app-ui-chip>
-                                }
-                            </div>
-                        </app-ui-card>
-                    </div>
-                }
-
-                <!-- Categories -->
-                @if (module.categories.length > 0) {
-                    <div class="sidebar-section">
-                        <span class="sidebar-section__label">
-                            {{ 'CATALOG.DETAIL.CATEGORIES' | translate }}
-                        </span>
-                        <app-ui-card>
-                            <div class="sidebar-section__content">
                                 @for (
-                                    category of module.categories;
-                                    track category
+                                    item of allTags;
+                                    track item.type + item.text
                                 ) {
                                     <app-ui-chip
-                                        [text]="category"
-                                        variant="secondary-5-solid"
+                                        [text]="item.text"
+                                        [icon]="item.icon"
+                                        [tooltip]="item.tooltipKey | translate"
+                                        [variant]="item.variant"
                                     ></app-ui-chip>
                                 }
                             </div>
@@ -797,50 +792,6 @@
                                         "
                                         [href]="module.links.base_model"
                                     ></app-ui-button>
-                                }
-                            </div>
-                        </app-ui-card>
-                    </div>
-                }
-
-                <!-- Dates -->
-                @if (
-                    module.dates &&
-                    (module.dates.created || module.dates.updated)
-                ) {
-                    <div class="sidebar-section">
-                        <span class="sidebar-section__label">
-                            {{ 'CATALOG.DETAIL.DATES' | translate }}
-                        </span>
-                        <app-ui-card>
-                            <div class="dates-content">
-                                @if (module.dates.created) {
-                                    <div class="date-row">
-                                        <mat-icon>calendar_month</mat-icon>
-                                        <span class="date-row__label">
-                                            {{
-                                                'CATALOG.DETAIL.CREATED'
-                                                    | translate
-                                            }}
-                                        </span>
-                                        <span class="date-row__value">
-                                            {{ module.dates.created }}
-                                        </span>
-                                    </div>
-                                }
-                                @if (module.dates.updated) {
-                                    <div class="date-row">
-                                        <mat-icon>update</mat-icon>
-                                        <span class="date-row__label">
-                                            {{
-                                                'CATALOG.DETAIL.UPDATED'
-                                                    | translate
-                                            }}
-                                        </span>
-                                        <span class="date-row__value">
-                                            {{ module.dates.updated }}
-                                        </span>
-                                    </div>
                                 }
                             </div>
                         </app-ui-card>

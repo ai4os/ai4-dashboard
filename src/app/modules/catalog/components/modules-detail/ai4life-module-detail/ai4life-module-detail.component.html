@@ -114,6 +114,43 @@
                     </app-ui-card>
                 </div>
 
+                <!-- Date -->
+                @if (module.created) {
+                    <div class="sidebar-section">
+                        <span class="sidebar-section__label">
+                            {{ 'CATALOG.DETAIL.DATES' | translate }}
+                        </span>
+                        <app-ui-card>
+                            <div class="dates-content">
+                                <div class="date-row">
+                                    <span class="date-row__icon">
+                                        <mat-icon>calendar_month</mat-icon>
+                                    </span>
+                                    <div class="date-row__text">
+                                        <span class="date-row__primary">
+                                            {{
+                                                'CATALOG.DETAIL.CREATED'
+                                                    | translate
+                                                        : {
+                                                              time:
+                                                                  module.created
+                                                                  | relativeTime,
+                                                          }
+                                            }}
+                                        </span>
+                                        <span class="date-row__secondary">
+                                            {{
+                                                module.created
+                                                    | date: 'd MMMM y'
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </app-ui-card>
+                    </div>
+                }
+
                 <!-- Tags -->
                 <div class="sidebar-section">
                     <span class="sidebar-section__label">
@@ -202,30 +239,6 @@
                         ></app-ui-button>
                     </app-ui-card>
                 </div>
-
-                <!-- Date -->
-                @if (module.created) {
-                    <div class="sidebar-section">
-                        <span class="sidebar-section__label">
-                            {{ 'CATALOG.DETAIL.DATES' | translate }}
-                        </span>
-                        <app-ui-card>
-                            <div class="dates-content">
-                                <div class="date-row">
-                                    <mat-icon>calendar_month</mat-icon>
-                                    <span class="date-row__label">
-                                        {{
-                                            'CATALOG.DETAIL.CREATED' | translate
-                                        }}
-                                    </span>
-                                    <span class="date-row__value">
-                                        {{ module.created }}
-                                    </span>
-                                </div>
-                            </div>
-                        </app-ui-card>
-                    </div>
-                }
             </div>
         </div>
     </app-ui-card>

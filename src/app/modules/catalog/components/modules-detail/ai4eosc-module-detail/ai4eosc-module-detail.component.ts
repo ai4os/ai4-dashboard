@@ -11,7 +11,7 @@ import { ModulesService } from '../../../services/modules-service/modules.servic
 import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
 import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../../services/tools-service/tools.service';
-import { Location, NgClass } from '@angular/common';
+import { DatePipe, Location, NgClass } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IframeDialogComponent } from '@app/shared/components/iframe-dialog/iframe-dialog.component';
@@ -22,9 +22,21 @@ import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MarkdownComponent } from 'ngx-markdown';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
-import { UiChipComponent } from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import {
+    ChipVariant,
+    UiChipComponent,
+} from '@app/shared/components/ui/ui-chip/ui-chip.component';
 import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { RelativeTimePipe } from '../../../pipes/format-time.pipe';
+
+interface ModuleTag {
+    text: string;
+    type: 'task' | 'library' | 'data-type' | 'tag' | 'category';
+    variant: ChipVariant;
+    tooltipKey: string;
+    icon?: string;
+}
 
 @Component({
     selector: 'app-module-detail',
@@ -42,25 +54,27 @@ import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader
         RouterLink,
         MarkdownComponent,
         TranslatePipe,
+        DatePipe,
         UiBannerComponent,
         UiCardComponent,
         UiChipComponent,
         UiButtonComponent,
         UiLoaderComponent,
+        RelativeTimePipe,
     ],
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
-    private modulesService = inject(ModulesService);
-    private toolsService = inject(ToolsService);
-    private authService = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private breadcrumbService = inject(BreadcrumbService);
+    private readonly modulesService = inject(ModulesService);
+    private readonly toolsService = inject(ToolsService);
+    private readonly authService = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly breadcrumbService = inject(BreadcrumbService);
     translateService = inject(TranslateService);
     dialog = inject(MatDialog);
     location = inject(Location);
-    private router = inject(Router);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    private media = inject(MediaMatcher);
+    private readonly router = inject(Router);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
 
     constructor() {
         const authService = this.authService;
@@ -82,6 +96,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
     hasLinks = false;
+    allTags: ModuleTag[] = [];
 
     dataIconDict: Record<string, string> = {
         Image: 'image',
@@ -98,7 +113,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     isTool = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     ngOnInit(): void {
         // scroll to top
@@ -133,6 +148,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                     this.hasLinks = Object.values(this.module.links).some(
                         (value) => value?.trim() !== ''
                     );
+                    this.allTags = this.buildTags(this.module);
                     this.breadcrumbService.set('@moduleName', tool.title);
                     this.isLoading = false;
                 });
@@ -147,6 +163,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                         this.hasLinks = Object.values(this.module.links).some(
                             (value) => value?.trim() !== ''
                         );
+                        this.allTags = this.buildTags(this.module);
                         this.breadcrumbService.set('@moduleName', module.title);
                         this.isLoading = false;
                     });
@@ -227,6 +244,53 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     openLicenseVocab(license: string) {
         const url = `https://op.europa.eu/en/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/licence/${license}`;
         window.open(url);
+    }
+
+    private buildTags(module: Ai4eoscModule): ModuleTag[] {
+        const tags: ModuleTag[] = [];
+        for (const task of module.tasks ?? []) {
+            tags.push({
+                text: task,
+                type: 'task',
+                variant: 'secondary-1-solid',
+                tooltipKey: 'CATALOG.DETAIL.TASKS',
+            });
+        }
+        for (const library of module.libraries ?? []) {
+            tags.push({
+                text: library,
+                type: 'library',
+                variant: 'secondary-2-solid',
+                tooltipKey: 'CATALOG.DETAIL.LIBRARIES',
+            });
+        }
+        for (const dataType of module['data-type'] ?? []) {
+            tags.push({
+                text: dataType,
+                type: 'data-type',
+                variant: 'secondary-3-solid',
+                tooltipKey: 'CATALOG.DETAIL.DATA-TYPES',
+                icon: this.convertTypeToIcon(dataType),
+            });
+        }
+        for (const tag of module.tags ?? []) {
+            tags.push({
+                text: tag,
+                type: 'tag',
+                variant: 'secondary-4-solid',
+                tooltipKey: 'CATALOG.DETAIL.TAGS',
+                icon: 'sell',
+            });
+        }
+        for (const category of module.categories ?? []) {
+            tags.push({
+                text: category,
+                type: 'category',
+                variant: 'secondary-5-solid',
+                tooltipKey: 'CATALOG.DETAIL.CATEGORIES',
+            });
+        }
+        return tags;
     }
 
     private cleanMarkdown(text: string): string {

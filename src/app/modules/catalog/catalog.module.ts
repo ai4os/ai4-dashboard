@@ -23,7 +23,7 @@ import {
     SearchAi4eoscPipe,
     SearchAi4lifePipe,
     SearchLlmsPipe,
-} from './pipes/search-card-pipe';
+} from './pipes/search-card.pipe';
 import { ModuleDetailViewComponent } from './views/module-detail-view/module-detail-view.component';
 import { ToolTrainComponent } from './views/tool-train-view/tool-train.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';

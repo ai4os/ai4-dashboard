@@ -57,7 +57,7 @@
    ────────────────────────────── */
 .grid-2-columns-content {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr minmax(0, 300px);
     gap: var(--space-2xl);
 }
 
@@ -149,23 +149,47 @@
 .date-row {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
-    font-size: var(--font-size-sm);
+    gap: var(--space-md);
 
-    mat-icon {
-        color: var(--color-text-tertiary);
-        font-size: var(--font-size-md);
-        width: var(--font-size-md);
-        height: var(--font-size-md);
-    }
-
-    &__label {
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 34px;
+        height: 34px;
+        border-radius: var(--radius-pill);
+        background: var(--color-border-subtle);
         color: var(--color-text-secondary);
-        flex: 1;
+
+        mat-icon {
+            font-size: var(--font-size-lg);
+            width: var(--font-size-lg);
+            height: var(--font-size-lg);
+        }
+
+        &--primary {
+            background: rgba(var(--color-primary-rgb), 0.1);
+            color: var(--color-primary);
+        }
     }
 
-    &__value {
+    &__text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    &__primary {
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-medium);
         color: var(--color-text-primary);
+    }
+
+    &__secondary {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-secondary);
     }
 }
 

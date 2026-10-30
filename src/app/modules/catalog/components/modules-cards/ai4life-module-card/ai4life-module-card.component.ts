@@ -30,4 +30,12 @@ export class Ai4lifeModuleCardComponent {
             relativeTo: this.route,
         });
     }
+
+    onBodyClick(event: MouseEvent): void {
+        const target = event.target as HTMLElement;
+
+        if (target.tagName.toLowerCase() === 'a' || target.closest('a')) {
+            event.stopPropagation();
+        }
+    }
 }

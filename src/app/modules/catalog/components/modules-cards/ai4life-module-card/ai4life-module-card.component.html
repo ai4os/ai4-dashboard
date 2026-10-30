@@ -6,7 +6,7 @@
         </span>
     </header>
 
-    <div class="module-card__body">
+    <div class="module-card__body" (click)="onBodyClick($event)">
         @if (module.description) {
             <markdown
                 [data]="module.description"
