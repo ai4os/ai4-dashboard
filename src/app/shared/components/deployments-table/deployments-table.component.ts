@@ -300,6 +300,15 @@ export class DeploymentsTableComponent {
         return colorMap[shieldColor] ?? 'neutral';
     }
 
+    onRowClick(row: DeploymentTableRow): void {
+        const link = this.getDetailLink(row);
+        if (link) {
+            this.router.navigate(link, {
+                queryParams: { type: this.deploymentType },
+            });
+        }
+    }
+
     createSnapshot(e: Event, row: DeploymentTableRow) {
         e.stopPropagation();
         this.confirmationDialog

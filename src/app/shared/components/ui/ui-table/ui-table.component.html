@@ -40,7 +40,12 @@
             <div class="ui-table__empty">{{ emptyMessage | translate }}</div>
         } @else {
             @for (row of data; track trackByFn($index, row)) {
-                <div class="ui-table__row" role="row">
+                <div
+                    class="ui-table__row"
+                    role="row"
+                    [class.ui-table__row--clickable]="rowClick.observed"
+                    (click)="rowClick.observed && rowClick.emit(row)"
+                >
                     @for (col of columns; track col.key) {
                         <div
                             class="ui-table__cell"
@@ -63,6 +68,7 @@
                             } @else {
                                 <span
                                     class="ui-table__cell-text"
+                                    [matTooltip]="row[col.key]"
                                     [appConditionalTooltip]="row[col.key]"
                                     matTooltipClass="ui-tooltip"
                                 >

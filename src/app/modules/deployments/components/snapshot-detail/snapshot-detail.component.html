@@ -14,7 +14,7 @@
                 <div class="banner-layout__header">
                     <div class="banner-layout__info">
                         <h1 class="banner-layout__title">
-                            {{ snapshot?.title }}
+                            {{ snapshot?.title ?? '-' }}
                         </h1>
                         <app-ui-chip
                             [text]="snapshot?.status ?? '' | translate"
@@ -39,10 +39,17 @@
     </header>
 
     @if (snapshotHasError) {
-        <app-ui-banner class="error-banner">
-            <mat-icon style="vertical-align: bottom">warning</mat-icon>
-            {{ 'GENERAL.ERROR' | translate }}: {{ snapshot?.error_msg }}
-        </app-ui-banner>
+        <div class="status-alerts">
+            <app-ui-chip
+                variant="danger-solid"
+                icon="warning"
+                [text]="
+                    ('GENERAL.ERROR' | translate) +
+                    ': ' +
+                    (snapshot?.error_msg ?? '')
+                "
+            ></app-ui-chip>
+        </div>
     }
 
     <!-- Details -->

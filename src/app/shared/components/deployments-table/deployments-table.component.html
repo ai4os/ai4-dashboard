@@ -26,6 +26,7 @@
         [trackByKey]="'uuid'"
         emptyMessage="DEPLOYMENTS.NO-DEPLOYMENTS"
         (sortChange)="onSortChange($event)"
+        (rowClick)="onRowClick($any($event))"
     >
         <ng-template uiTableCell="name" let-row>
             <span class="deployments-table__name">
@@ -84,7 +85,10 @@
         </ng-template>
 
         <ng-template uiTableCell="actions" let-row>
-            <div class="deployments-table__actions">
+            <div
+                class="deployments-table__actions"
+                (click)="$event.stopPropagation()"
+            >
                 <app-ui-button
                     variant="icon"
                     icon="info"

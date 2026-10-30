@@ -53,6 +53,7 @@
         "SUBMIT": "Submit",
         "QUICK-SUBMIT": "Quick submit",
         "LINK-TO-SERVICE": "Link to service",
+        "ERROR": "ERROR",
         "FORMS": {
             "REQUIRED": "This field is required",
             "INVALID-FILE-PATH": "Invalid file path",

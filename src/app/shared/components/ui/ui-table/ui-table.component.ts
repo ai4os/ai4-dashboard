@@ -13,6 +13,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 import { ConditionalTooltipDirective } from '@app/shared/directives/conditional-tooltip.directive';
+import { MatTooltip } from '@angular/material/tooltip';
 
 export type UiTableSortDirection = 'asc' | 'desc' | null;
 
@@ -40,6 +41,7 @@ export interface UiTableColumn<T> {
         NgTemplateOutlet,
         TranslatePipe,
         UiLoaderComponent,
+        MatTooltip,
         ConditionalTooltipDirective,
     ],
 })
@@ -53,6 +55,7 @@ export class UiTableComponent<
     @Input() loading = false;
 
     @Output() sortChange = new EventEmitter<UiTableSortEvent<T>>();
+    @Output() rowClick = new EventEmitter<T>();
 
     @ContentChildren(UiTableCellDirective)
     cellTemplates!: QueryList<UiTableCellDirective>;

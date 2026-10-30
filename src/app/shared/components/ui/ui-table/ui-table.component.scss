@@ -60,6 +60,10 @@
     &__row {
         display: contents;
 
+        &--clickable .ui-table__cell {
+            cursor: pointer;
+        }
+
         &:hover .ui-table__cell {
             background: var(--color-surface);
         }

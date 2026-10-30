@@ -37,6 +37,7 @@
         display: flex;
         align-items: center;
         gap: var(--space-lg);
+        margin: 0 0 var(--space-xs);
     }
 
     &__title {
@@ -45,7 +46,7 @@
         font-weight: var(--font-weight-medium);
         letter-spacing: -0.02em;
         line-height: 1.1;
-        margin: 0 0 var(--space-xs);
+        margin: 0;
         color: var(--color-text-inverse);
         white-space: nowrap;
         overflow: hidden;
