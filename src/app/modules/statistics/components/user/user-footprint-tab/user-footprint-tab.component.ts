@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { EnergyViewModel } from '@app/shared/models/stats.view-models';
-import { EnergyFootprintComponent } from '../../energy-footprint/energy-footprint.component';
+import { EnergyFootprintComponent } from '../../common/energy-footprint/energy-footprint.component';
 import { EnergyGroup } from '@app/modules/statistics/energy-footprint';
 
 @Component({

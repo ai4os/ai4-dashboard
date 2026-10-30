@@ -21,8 +21,8 @@ import {
     decimalsFor,
     pickUnit,
 } from '@app/shared/utils/stats.formatters';
-import { FootprintChartComponent } from '../charts/footprint-chart/footprint-chart.component';
-import { StatsCardComponent } from '../stats/stats-card/stats-card.component';
+import { FootprintChartComponent } from '../../charts/footprint-chart/footprint-chart.component';
+import { StatsCardComponent } from '../stats-card/stats-card.component';
 import {
     FootprintMetric,
     EnergyGroup,
@@ -36,7 +36,7 @@ import {
     MetricMatrix,
     maxStacked,
     scaleMatrix,
-} from '../../energy-footprint';
+} from '../../../energy-footprint';
 import { MatDivider } from '@angular/material/divider';
 
 type ChartView = 'period' | 'cumulative';

@@ -14,7 +14,7 @@ import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { ResourceSet } from '@app/shared/models/stats.view-models';
 import { formatPower, scaleMiB } from '@app/shared/utils/stats.formatters';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
-import { StatsCardComponent } from '../../stats/stats-card/stats-card.component';
+import { StatsCardComponent } from '../../common/stats-card/stats-card.component';
 
 interface ReducedItem {
     label: string;

@@ -14,11 +14,11 @@ import {
 } from '@app/shared/interfaces/stats.interface';
 import { EnergyViewModel } from '@app/shared/models/stats.view-models';
 import { FootprintChartComponent } from '../../charts/footprint-chart/footprint-chart.component';
-import { StatsCardComponent } from '../../stats/stats-card/stats-card.component';
+import { StatsCardComponent } from '../../common/stats-card/stats-card.component';
 import { UiChipGroupComponent } from '@app/shared/components/ui/ui-chip-group/ui-chip-group.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { EnergyGroup } from '@app/modules/statistics/energy-footprint';
-import { EnergyFootprintComponent } from '../../energy-footprint/energy-footprint.component';
+import { EnergyFootprintComponent } from '../../common/energy-footprint/energy-footprint.component';
 
 type FootprintMetric = 'carbon' | 'water' | 'environmental-score';
 

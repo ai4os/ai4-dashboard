@@ -18,8 +18,8 @@ import {
     ClusterViewModel,
     UserTimeseries,
 } from '@app/shared/models/stats.view-models';
-import { GpuStatsDetailComponent } from '../../gpu-stats-detail/gpu-stats-detail.component';
-import { StatsCardComponent } from '../../stats/stats-card/stats-card.component';
+import { GpuStatsDetailComponent } from '../gpu-stats-detail/gpu-stats-detail.component';
+import { StatsCardComponent } from '../../common/stats-card/stats-card.component';
 import { TimeSeriesChartComponent } from '../../charts/time-series-chart/time-series-chart.component';
 
 interface MetricDef {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MapMetric } from '../../components/stats/map-metric-selector/map-metric-selector.component';
+import { MapMetric } from '../../components/common/map-metric-selector/map-metric-selector.component';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 
 export interface LegendTier {

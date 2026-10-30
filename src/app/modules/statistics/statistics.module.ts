@@ -4,15 +4,15 @@ import { CommonModule } from '@angular/common';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { TimeSeriesChartComponent } from './components/charts/time-series-chart/time-series-chart.component';
-import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
-import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datacenters-tab.component';
+import { GpuStatsDetailComponent } from './components/platform/gpu-stats-detail/gpu-stats-detail.component';
+import { DatacentersTabComponent } from './components/platform/datacenters-tab/datacenters-tab.component';
 import { FormsModule } from '@angular/forms';
 import { FootprintChartComponent } from './components/charts/footprint-chart/footprint-chart.component';
-import { ResourceBarComponent } from './components/stats/resource-bar/resource-bar.component';
-import { ResourcesCardComponent } from './components/stats/resources-card/resources-card.component';
+import { ResourceBarComponent } from './components/common/resource-bar/resource-bar.component';
+import { ResourcesCardComponent } from './components/common/resources-card/resources-card.component';
 import { CountryFlagPipe } from './pipes/country-flag.pipe';
-import { MapMetricSelectorComponent } from './components/stats/map-metric-selector/map-metric-selector.component';
-import { MapMetricLegendComponent } from './components/stats/map-metric-legend/map-metric-legend.component';
+import { MapMetricSelectorComponent } from './components/common/map-metric-selector/map-metric-selector.component';
+import { MapMetricLegendComponent } from './components/common/map-metric-legend/map-metric-legend.component';
 
 @NgModule({
     imports: [

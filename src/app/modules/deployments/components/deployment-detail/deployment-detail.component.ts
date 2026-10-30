@@ -48,7 +48,7 @@ import { TryMeService } from '@app/modules/try-me/services/try-me.service';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
 import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { DeploymentSecretsComponent } from '../deployment-secrets/deployment-secrets.component';
-import { StatsCardComponent } from '@app/modules/statistics/components/stats/stats-card/stats-card.component';
+import { StatsCardComponent } from '@app/modules/statistics/components/common/stats-card/stats-card.component';
 
 interface ListCardItem {
     label: string;

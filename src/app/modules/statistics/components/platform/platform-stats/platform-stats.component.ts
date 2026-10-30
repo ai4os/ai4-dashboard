@@ -14,10 +14,10 @@ import {
     Tab,
 } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
-import { PlatformUsageTabComponent } from '../tabs/platform-usage-tab/platform-usage-tab.component';
-import { PlatformFootprintTabComponent } from '../tabs/platform-footprint-tab/platform-footprint-tab.component';
-import { DatacentersTabComponent } from '../tabs/datacenters-tab/datacenters-tab.component';
-import { QueryTabsPage } from '../../query-tabs.page';
+import { PlatformUsageTabComponent } from '../platform-usage-tab/platform-usage-tab.component';
+import { PlatformFootprintTabComponent } from '../platform-footprint-tab/platform-footprint-tab.component';
+import { DatacentersTabComponent } from '../datacenters-tab/datacenters-tab.component';
+import { QueryTabsPage } from '../../../query-tabs.page';
 
 @Component({
     selector: 'app-platform-stats',
