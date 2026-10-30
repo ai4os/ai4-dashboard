@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModulesListComponent } from './modules-list.component';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SearchAi4eoscPipe } from '../../../pipes/search-card-pipe';
+import { SearchAi4eoscPipe } from '../../../pipes/search-card.pipe';
 import { AuthService } from '@app/core/services/auth/auth.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OAuthStorage } from 'angular-oauth2-oidc';

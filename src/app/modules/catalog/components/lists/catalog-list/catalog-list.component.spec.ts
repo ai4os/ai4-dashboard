@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CatalogListComponent } from './catalog-list.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { SearchAi4eoscPipe } from '@app/modules/catalog/pipes/search-card-pipe';
+import { SearchAi4eoscPipe } from '@app/modules/catalog/pipes/search-card.pipe';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';

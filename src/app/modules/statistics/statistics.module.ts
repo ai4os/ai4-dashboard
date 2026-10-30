@@ -4,14 +4,9 @@ import { CommonModule } from '@angular/common';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { TimeSeriesChartComponent } from './components/charts/time-series-chart/time-series-chart.component';
-import { StatCardComponent } from './components/stat-card/stat-card.component';
-import { StatsContainerComponent } from './components/stats-container/stats-container.component';
-import { UsageTabComponent } from './components/tabs/usage-tab/usage-tab.component';
 import { GpuStatsDetailComponent } from './components/gpu-stats-detail/gpu-stats-detail.component';
 import { DatacentersTabComponent } from './components/tabs/datacenters-tab/datacenters-tab.component';
 import { FormsModule } from '@angular/forms';
-import { FootprintTabComponent } from './components/tabs/footprint-tab/footprint-tab.component';
-import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { FootprintChartComponent } from './components/charts/footprint-chart/footprint-chart.component';
 import { ResourceBarComponent } from './components/stats/resource-bar/resource-bar.component';
 import { ResourcesCardComponent } from './components/stats/resources-card/resources-card.component';
@@ -27,11 +22,6 @@ import { MapMetricLegendComponent } from './components/stats/map-metric-legend/m
         FormsModule,
         CountryFlagPipe,
         TimeSeriesChartComponent,
-        BarChartComponent,
-        StatCardComponent,
-        StatsContainerComponent,
-        UsageTabComponent,
-        FootprintTabComponent,
         GpuStatsDetailComponent,
         DatacentersTabComponent,
         FootprintChartComponent,

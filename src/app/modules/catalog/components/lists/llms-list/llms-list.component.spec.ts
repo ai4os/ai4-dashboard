@@ -17,7 +17,7 @@ import {
     mockedToolsServiceWithError,
     mockedVllmsConfig,
 } from '@app/modules/catalog/services/tools-service/tools-service.mock';
-import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card-pipe';
+import { SearchLlmsPipe } from '@app/modules/catalog/pipes/search-card.pipe';
 import { testProviders } from '@testing/test-providers';
 import { mockedAuthService } from '@app/core/services/auth/auth-service.mock';
 import { mockedOAuthModuleConfig } from '@app/shared/mocks/oauth.module.config.mock';

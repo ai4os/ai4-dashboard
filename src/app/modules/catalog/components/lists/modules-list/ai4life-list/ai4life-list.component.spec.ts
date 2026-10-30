@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Ai4lifeListComponent } from './ai4life-list.component';
-import { SearchAi4lifePipe } from '@app/modules/catalog/pipes/search-card-pipe';
+import { SearchAi4lifePipe } from '@app/modules/catalog/pipes/search-card.pipe';
 import { mockAi4lifeModules } from '@app/modules/catalog/services/modules-service/modules-service.mock';
 import { testProviders } from '@app/shared/testing/test-providers';
 import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
