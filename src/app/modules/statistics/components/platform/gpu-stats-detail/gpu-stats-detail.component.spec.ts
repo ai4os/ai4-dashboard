@@ -41,10 +41,11 @@ describe('GpuStatsDetailComponent', () => {
     });
 
     it('should show canvas and ok button', () => {
-        const canvas = fixture.debugElement.query(By.css('#canvas'));
-        expect(canvas).toBeTruthy();
+        const chart = fixture.debugElement.query(By.css('.chart'));
+        expect(chart).not.toBeNull();
 
-        const button = fixture.debugElement.query(By.css('#ok-button'));
-        expect(button).toBeTruthy();
+        const button = fixture.debugElement.query(By.css('app-ui-button'));
+        expect(button).not.toBeNull();
+        expect(component.chartOptions).toBeDefined();
     });
 });

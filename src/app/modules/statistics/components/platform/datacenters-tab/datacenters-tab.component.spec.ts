@@ -1,3 +1,5 @@
+jest.mock('ol-mapbox-style', () => ({ applyStyle: jest.fn() }));
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DatacentersTabComponent } from './datacenters-tab.component';
@@ -11,8 +13,18 @@ import { testProviders } from '@testing/test-providers';
 describe('DatacentersTabComponent', () => {
     let component: DatacentersTabComponent;
     let fixture: ComponentFixture<DatacentersTabComponent>;
+    let originalFetch: typeof fetch | undefined;
+    const fetchMock = jest.fn().mockResolvedValue({
+        json: async () => ({ layers: [] }),
+    });
 
     beforeEach(async () => {
+        originalFetch = globalThis.fetch;
+        Object.defineProperty(globalThis, 'fetch', {
+            configurable: true,
+            value: fetchMock,
+        });
+
         await TestBed.configureTestingModule({
             imports: [
                 DatacentersTabComponent,
@@ -27,6 +39,14 @@ describe('DatacentersTabComponent', () => {
         fixture = TestBed.createComponent(DatacentersTabComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+    });
+
+    afterEach(() => {
+        Object.defineProperty(globalThis, 'fetch', {
+            configurable: true,
+            value: originalFetch,
+        });
+        fetchMock.mockClear();
     });
 
     it('should create', () => {

@@ -92,10 +92,13 @@ export const mockedUserStats: UserStats = {
         disk_MB: 95617,
         gpu_num: 31,
     },
+    energy: null,
 };
 
 export const mockedClusterStats: ClusterStats = {
     cluster: {
+        jobs_num: 0,
+        reallocations: 0,
         cpu_total: 694,
         cpu_used: 374,
         gpu_total: 33,
@@ -104,26 +107,25 @@ export const mockedClusterStats: ClusterStats = {
         ram_used: 840000,
         disk_total: 1529910.94140625,
         disk_used: 796640.69140625,
-        gpu_models: [
-            {
+        gpu_models: {
+            tesla: {
                 gpu_total: 24,
                 gpu_used: 20,
             },
-            {
+            other: {
                 gpu_total: 9,
                 gpu_used: 9,
             },
-        ],
+        },
     },
-    datacenters: [
-        {
-            name: 'ai-ifca',
+    datacenters: {
+        'ai-ifca': {
             lat: 43.47159782340522,
             lon: -3.8022381778169154,
             PUE: 1.2,
-            energy_quality: 3.0,
-            nodes: [
-                {
+            energy: null,
+            nodes: {
+                '02d865f1-9bb1-0273-5d9a-1c6f42516bc1': {
                     name: '02d865f1-9bb1-0273-5d9a-1c6f42516bc1',
                     cpu_total: 4,
                     cpu_used: 0,
@@ -137,7 +139,7 @@ export const mockedClusterStats: ClusterStats = {
                     gpu_models: [],
                     status: '',
                 },
-                {
+                '15843b50-187c-ee3f-374d-d22f93ae2a78': {
                     name: '15843b50-187c-ee3f-374d-d22f93ae2a78',
                     cpu_total: 86,
                     cpu_used: 43,
@@ -156,18 +158,15 @@ export const mockedClusterStats: ClusterStats = {
                     ],
                     status: '',
                 },
-            ],
-            affinity: 0,
-            country: '',
-            energy_water_usage: 0,
-            green_score: 0,
+            },
             footprints: {
                 carbon: [],
                 water: [],
                 'environmental-score': [],
             },
         },
-    ],
+    },
+    updated_at: '2024-01-01T00:00:00Z',
 };
 
 export const mockedGlobalStats: GlobalStats = {

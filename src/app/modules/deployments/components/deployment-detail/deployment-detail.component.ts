@@ -532,6 +532,7 @@ export class DeploymentDetailComponent implements OnInit, OnDestroy {
                 this.snackbarService.openError(
                     "Couldn't retrieve VLLM Token. Please try again later."
                 );
+                this.isLoading = false;
             },
             complete: () => {
                 this.isLoading = false;

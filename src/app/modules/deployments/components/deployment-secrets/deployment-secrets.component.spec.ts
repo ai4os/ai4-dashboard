@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DeploymentSecretsComponent } from './deployment-secrets.component';
+import { testProviders } from '@testing/test-providers';
 
 describe('DeploymentSecretsComponent', () => {
     let component: DeploymentSecretsComponent;
@@ -9,6 +9,7 @@ describe('DeploymentSecretsComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [DeploymentSecretsComponent],
+            providers: [...testProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(DeploymentSecretsComponent);
