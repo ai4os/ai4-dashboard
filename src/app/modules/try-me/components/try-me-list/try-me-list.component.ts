@@ -15,7 +15,7 @@ import {
     StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
-import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { exhaustMap, Subject, takeUntil, timer } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
 
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
@@ -102,7 +102,7 @@ export class TryMeListComponent implements OnInit {
         timer(0, 5000)
             .pipe(
                 takeUntil(this.unsub),
-                switchMap(() => this.tryMeService.getDeploymentsGradio())
+                exhaustMap(() => this.tryMeService.getDeploymentsGradio())
             )
             .subscribe({
                 next: (deploymentsList: GradioDeployment[]) => {

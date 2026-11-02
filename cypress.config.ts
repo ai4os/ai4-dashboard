@@ -6,7 +6,9 @@ export default defineConfig({
     viewportWidth: 1380,
     viewportHeight: 800,
     chromeWebSecurity: false,
+    allowCypressEnv: false,
     e2e: {
+        baseUrl: 'http://localhost:8080',
         testIsolation: false,
         experimentalModifyObstructiveThirdPartyCode: true,
         setupNodeEvents(on, config) {

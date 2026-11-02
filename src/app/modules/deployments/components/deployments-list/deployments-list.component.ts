@@ -13,7 +13,7 @@ import {
     Snapshot,
     StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
-import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { exhaustMap, Subject, takeUntil, timer } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import {
@@ -153,7 +153,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         timer(0, 5000)
             .pipe(
                 takeUntil(this.unsub),
-                switchMap(() => this.deploymentsService.getDeployments())
+                exhaustMap(() => this.deploymentsService.getDeployments())
             )
             .subscribe((deploymentsList: Deployment[]) => {
                 const updatedModulesDataset: DeploymentTableRow[] = [];
@@ -241,7 +241,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         timer(0, 5000)
             .pipe(
                 takeUntil(this.unsub),
-                switchMap(() => this.deploymentsService.getTools())
+                exhaustMap(() => this.deploymentsService.getTools())
             )
             .subscribe((tools) => {
                 const updatedToolsDataset: DeploymentTableRow[] = [];
@@ -321,7 +321,7 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         timer(0, 5000)
             .pipe(
                 takeUntil(this.unsub),
-                switchMap(() => this.snapshotService.getSnapshots())
+                exhaustMap(() => this.snapshotService.getSnapshots())
             )
             .subscribe((snapshots) => {
                 const updatedSnapshotsDataset: DeploymentTableRow[] = [];
