@@ -108,4 +108,23 @@ export class UiTableComponent<
 
         this.sortChange.emit({ key: col.key, direction: this.sortDirection });
     }
+
+    onRowClick(event: MouseEvent, row: T): void {
+        const target = event.target;
+
+        if (
+            this.rowClick.observed &&
+            (!(target instanceof Element) ||
+                !target.closest('a, button, input, select, textarea'))
+        ) {
+            this.rowClick.emit(row);
+        }
+    }
+
+    onRowKeydown(event: KeyboardEvent, row: T): void {
+        if (event.target === event.currentTarget && this.rowClick.observed) {
+            event.preventDefault();
+            this.rowClick.emit(row);
+        }
+    }
 }

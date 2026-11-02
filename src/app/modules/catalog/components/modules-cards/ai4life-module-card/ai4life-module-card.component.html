@@ -1,4 +1,10 @@
-<app-ui-card [accentColor]="'var(--color-primary)'" (click)="openModule()">
+<app-ui-card
+    [accentColor]="'var(--color-primary)'"
+    role="link"
+    tabindex="0"
+    (click)="openModule()"
+    (keydown.enter)="onCardKeydown($event)"
+>
     <header class="module-card__header">
         <span class="module-card__title">
             <mat-icon class="module-card__icon">biotech</mat-icon>
@@ -6,7 +12,11 @@
         </span>
     </header>
 
-    <div class="module-card__body" (click)="onBodyClick($event)">
+    <div
+        class="module-card__body"
+        (click)="onBodyClick($event)"
+        (keydown)="onBodyKeydown($event)"
+    >
         @if (module.description) {
             <markdown
                 [data]="module.description"

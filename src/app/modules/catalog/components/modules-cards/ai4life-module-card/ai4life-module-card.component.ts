@@ -32,9 +32,26 @@ export class Ai4lifeModuleCardComponent {
     }
 
     onBodyClick(event: MouseEvent): void {
-        const target = event.target as HTMLElement;
+        const target = event.target;
 
-        if (target.tagName.toLowerCase() === 'a' || target.closest('a')) {
+        if (target instanceof Element && target.closest('a')) {
+            event.stopPropagation();
+        }
+    }
+
+    onCardKeydown(event: KeyboardEvent): void {
+        const target = event.target;
+
+        if (!(target instanceof Element) || !target.closest('a')) {
+            event.preventDefault();
+            this.openModule();
+        }
+    }
+
+    onBodyKeydown(event: KeyboardEvent): void {
+        const target = event.target;
+
+        if (target instanceof Element && target.closest('a')) {
             event.stopPropagation();
         }
     }

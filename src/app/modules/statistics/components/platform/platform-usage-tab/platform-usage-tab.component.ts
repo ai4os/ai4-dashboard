@@ -143,7 +143,7 @@ export class PlatformUsageTabComponent implements OnChanges {
 
     activeId = METRICS[0].id;
 
-    selectedRange: string = 'total';
+    selectedRange = 'total';
     readonly timeRanges = [
         { id: '7d', label: '7d', limit: 7 },
         { id: '30d', label: '30d', limit: 30 },

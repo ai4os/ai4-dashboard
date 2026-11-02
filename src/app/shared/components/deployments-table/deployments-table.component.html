@@ -87,7 +87,8 @@
         <ng-template uiTableCell="actions" let-row>
             <div
                 class="deployments-table__actions"
-                (click)="$event.stopPropagation()"
+                role="group"
+                aria-label="Deployment actions"
             >
                 <app-ui-button
                     variant="icon"

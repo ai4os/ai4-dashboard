@@ -13,7 +13,7 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class PlatformServiceCardComponent {
     @Input({ required: true }) service!: PlatformService;
-    @Input() colorIndex: number = 0;
+    @Input() colorIndex = 0;
 
     get accentColorVar(): string {
         const colors = [

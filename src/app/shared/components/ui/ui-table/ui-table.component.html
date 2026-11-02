@@ -44,7 +44,10 @@
                     class="ui-table__row"
                     role="row"
                     [class.ui-table__row--clickable]="rowClick.observed"
-                    (click)="rowClick.observed && rowClick.emit(row)"
+                    [attr.tabindex]="rowClick.observed ? 0 : null"
+                    (click)="onRowClick($event, row)"
+                    (keydown.enter)="onRowKeydown($event, row)"
+                    (keydown.space)="onRowKeydown($event, row)"
                 >
                     @for (col of columns; track col.key) {
                         <div

@@ -157,9 +157,9 @@ export class GeneralConfFormComponent implements OnInit {
                 .get('serviceToRunChip')
                 ?.setValue(defaultFormValues.service?.value as string);
 
-            this.checkIfPasswordIsNeeded(
-                this.generalConfFormGroup.get('serviceToRunChip')?.value!
-            );
+            const selectedService =
+                this.generalConfFormGroup.get('serviceToRunChip')?.value ?? '';
+            this.checkIfPasswordIsNeeded(selectedService);
         }
     }
 
