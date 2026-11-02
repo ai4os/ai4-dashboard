@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/ai4os/ai4-dashboard/compare/v3.26.5...v4.0.0) (2026-11-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor deployments list and detail ([#536](https://github.com/ai4os/ai4-dashboard/issues/536))
+
+### Features
+
+* refactor deployments list and detail ([#536](https://github.com/ai4os/ai4-dashboard/issues/536)) ([9e83587](https://github.com/ai4os/ai4-dashboard/commit/9e835875252b24266455106aa971c4fc63ce1bf7))
+
 ## [3.26.0](https://github.com/ai4os/ai4-dashboard/compare/v3.25.0...v3.26.0) (2026-08-06)
 
 
