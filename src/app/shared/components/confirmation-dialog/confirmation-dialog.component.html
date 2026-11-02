@@ -1,4 +1,8 @@
-<div class="confirmation-dialog">
+<div
+    class="confirmation-dialog"
+    [class.confirmation-dialog--accent]="icon === 'stylus'"
+    [class.confirmation-dialog--danger]="icon !== 'stylus'"
+>
     <div class="confirmation-dialog__top-accent"></div>
 
     @if (showCloseButton) {
@@ -45,9 +49,10 @@
             [text]="optionA | translate"
             (click)="closeDialog()"
         ></app-ui-button>
+
         <app-ui-button
             id="optionB"
-            variant="danger-solid"
+            [variant]="icon === 'stylus' ? 'accent-solid' : 'danger-solid'"
             [text]="optionB | translate"
             (click)="confirm()"
         ></app-ui-button>

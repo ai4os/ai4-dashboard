@@ -1,0 +1,36 @@
+<span
+    [class]="'ui-checkbox ui-checkbox--' + variant"
+    [class.ui-checkbox--checked]="checked"
+    [class.ui-checkbox--indeterminate]="indeterminate"
+    [class.ui-checkbox--disabled]="disabled"
+    [matTooltip]="tooltip ?? ''"
+    [matTooltipDisabled]="!tooltip"
+    matTooltipClass="ui-tooltip"
+>
+    <span
+        class="ui-checkbox__box"
+        role="checkbox"
+        [tabindex]="disabled ? -1 : 0"
+        [attr.aria-checked]="indeterminate ? 'mixed' : checked"
+        [attr.aria-disabled]="disabled"
+        (click)="toggle()"
+        (keydown)="onKeydown($event)"
+    >
+        @if (indeterminate) {
+            <span class="ui-checkbox__indeterminate"></span>
+        } @else if (checked) {
+            <svg class="ui-checkbox__check" viewBox="0 0 16 16" fill="none">
+                <path
+                    d="M3 8.5L6.5 12L13 4.5"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        }
+    </span>
+    @if (label) {
+        <span class="ui-checkbox__label">{{ label | translate }}</span>
+    }
+</span>

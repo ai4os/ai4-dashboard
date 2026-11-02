@@ -4,8 +4,8 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    height: 64px;
-    padding: 0 var(--space-md);
+    height: var(--nav-header-height);
+    padding: 0 var(--nav-gutter);
     margin-bottom: var(--space-md);
     box-shadow: var(--shadow-sm);
     border-bottom: 1px solid var(--color-border-light);
@@ -22,6 +22,20 @@
         align-items: center;
         position: relative;
         gap: var(--space-sm);
+
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 120ms ease,
+            visibility 0s linear 120ms;
+
+        &.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transition:
+                opacity 220ms ease 120ms,
+                visibility 0s;
+        }
 
         ::ng-deep button {
             color: var(--color-text-tertiary);
@@ -70,10 +84,18 @@
     &__logo-link {
         display: flex;
         align-items: center;
+        transform: translateX(-8px);
+        transition: transform 220ms ease;
+    }
+
+    &__logo-wrapper.is-visible &__logo-link {
+        transform: none;
+        transition-delay: 120ms;
     }
 
     &__logo-img {
-        max-height: 40px;
+        max-width: 190px;
+        max-height: 48px;
         object-fit: contain;
     }
 
@@ -131,6 +153,13 @@
     &__login-text {
         @media (max-width: 600px) {
             display: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &__logo-wrapper,
+        &__logo-link {
+            transition: none !important;
         }
     }
 }

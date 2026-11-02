@@ -1,0 +1,90 @@
+.bar-card {
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: -webkit-fill-available;
+    background:
+        radial-gradient(
+            ellipse 60% 80% at 8% 15%,
+            rgba(255, 255, 255, 0.03) 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse 55% 70% at 92% 90%,
+            rgba(var(--color-hero-shadow-rgb), 0.08) 0%,
+            transparent 58%
+        ),
+        linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)),
+        var(--gradient-primary);
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        gap: 10px;
+    }
+
+    &__label {
+        font-size: var(--font-size-xs);
+        font-family: var(--font-family-heading);
+        font-weight: var(--font-weight-semibold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+    }
+
+    &__icons {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+
+        ::ng-deep app-ui-button > button {
+            cursor: default;
+        }
+    }
+
+    &__icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        opacity: 0.5;
+    }
+
+    &__value {
+        font-size: var(--font-size-xl);
+        font-weight: 500;
+        line-height: 1;
+        color: var(--mat-sys-on-surface);
+    }
+
+    &__total,
+    &__unit {
+        font-size: var(--font-size-sm);
+        font-weight: 400;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__track {
+        height: 4px;
+        margin-top: 10px;
+        background: rgba(0, 0, 0, 0.08);
+        border-radius: 99px;
+        overflow: hidden;
+    }
+
+    &__fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.5s ease;
+        background: var(--primary);
+    }
+
+    &__sub {
+        font-size: var(--font-size-xs);
+        color: var(--mat-sys-on-surface-variant);
+        margin-top: 6px;
+    }
+}

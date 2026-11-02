@@ -12,13 +12,14 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-ui-text-field',
     templateUrl: './ui-text-field.component.html',
     styleUrl: './ui-text-field.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatIcon, TranslatePipe],
+    imports: [MatIcon, TranslatePipe, MatTooltip],
 })
 export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     ngControl = inject(NgControl, { optional: true, self: true });
@@ -26,19 +27,41 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     @Input() label?: string;
     @Input() placeholder?: string;
     @Input() hint?: string;
-    @Input() type: 'text' | 'password' | 'email' | 'url' = 'text';
+    @Input() type: 'text' | 'password' | 'email' | 'url' | 'number' = 'text';
     @Input() maskable = false;
     @Input() prefixIcon?: string;
     @Input() errorMessages: Record<string, string> = {};
+    @Input() clearable = false;
+
+    // For number input types
+    @Input() min?: number | string;
+    @Input() max?: number | string;
+    @Input() step?: number | string;
+    @Input() errorTranslateParams?: Record<string, any>;
 
     // Standalone mode (without formControlName).
     // When using formControlName, value comes from writeValue().
     @Input() value?: string;
     @Output() valueChange = new EventEmitter<string>();
+    @Input()
+    set disabled(value: boolean) {
+        this.disabledSignal.set(value);
+    }
+    get disabled(): boolean {
+        return this.disabledSignal();
+    }
 
     protected internalValue = signal('');
-    protected disabled = signal(false);
+    protected disabledSignal = signal(false);
     protected hidden = signal(true);
+
+    private readonly defaultErrorKeys: Record<string, string> = {
+        required: 'GENERAL.FORMS.REQUIRED',
+        email: 'GENERAL.FORMS.INVALID-FILE-PATH',
+        invalidDomain: 'PROFILE.STORAGE-TAB.FORM.INVALID-DOMAIN',
+        invalidURL: 'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL-ERROR',
+        invalidPath: 'GENERAL.FORMS.INVALID-FILE-PATH',
+    };
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onChange: (value: string) => void = () => {};
@@ -73,7 +96,7 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     }
 
     setDisabledState(isDisabled: boolean): void {
-        this.disabled.set(isDisabled);
+        this.disabledSignal.set(isDisabled);
     }
 
     protected onInput(event: Event): void {
@@ -91,6 +114,14 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
         this.hidden.set(!this.hidden());
     }
 
+    protected clear(): void {
+        if (this.disabledSignal()) return;
+        this.internalValue.set('');
+        this.onChange('');
+        this.valueChange.emit('');
+        this.onTouched();
+    }
+
     get isInvalid(): boolean {
         const c = this.ngControl?.control;
         return !!(c?.invalid && c?.touched);
@@ -99,8 +130,73 @@ export class UiTextFieldComponent implements ControlValueAccessor, OnChanges {
     get currentError(): string | null {
         const errors = this.ngControl?.control?.errors;
         if (!errors || !this.ngControl?.control?.touched) return null;
+
         const firstKey = Object.keys(errors)[0];
-        return this.errorMessages[firstKey] ?? null;
+
+        // 1. Priority: explicit message passed by the parent through [errorMessages]
+        if (this.errorMessages?.[firstKey]) {
+            return this.errorMessages[firstKey];
+        }
+
+        // 2. Dynamic range / numeric limit errors
+        if (['min', 'max', 'range', 'outOfRange'].includes(firstKey)) {
+            return this.resolveRangeErrorKey(firstKey);
+        }
+
+        // 3. Default standard errors (such as required)
+        if (this.defaultErrorKeys[firstKey]) {
+            return this.defaultErrorKeys[firstKey];
+        }
+
+        return null;
+    }
+
+    private resolveRangeErrorKey(errorKey: string): string {
+        const hasMin = this.isValidBound(this.min);
+        const hasMax = this.isValidBound(this.max);
+
+        if (errorKey === 'min' && !hasMax) {
+            return 'GENERAL.FORMS.MIN-ERROR';
+        }
+
+        if (errorKey === 'max' && !hasMin) {
+            return 'GENERAL.FORMS.MAX-ERROR';
+        }
+
+        if (hasMin && hasMax) {
+            if (Number(this.min) === Number(this.max)) {
+                return 'GENERAL.FORMS.EXACT-ERROR';
+            }
+            return 'GENERAL.FORMS.OUT-OF-RANGE-ERROR';
+        }
+
+        if (hasMin) {
+            return 'GENERAL.FORMS.MIN-ERROR';
+        }
+
+        if (hasMax) {
+            return 'GENERAL.FORMS.MAX-ERROR';
+        }
+
+        return 'GENERAL.FORMS.OUT-OF-RANGE-ERROR';
+    }
+
+    get resolvedErrorParams(): Record<string, any> {
+        return {
+            min: this.min,
+            max: this.max,
+            value: this.min ?? this.max,
+            ...this.errorTranslateParams,
+        };
+    }
+
+    private isValidBound(val: any): boolean {
+        return (
+            val !== null &&
+            val !== undefined &&
+            val !== '' &&
+            !isNaN(Number(val))
+        );
     }
 
     get inputType(): string {

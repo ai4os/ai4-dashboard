@@ -1,7 +1,7 @@
 <div
     class="ui-text-field"
     [class.ui-text-field--invalid]="isInvalid"
-    [class.ui-text-field--disabled]="disabled()"
+    [class.ui-text-field--disabled]="disabledSignal()"
 >
     @if (label) {
         <span class="ui-text-field__label">{{ label | translate }}</span>
@@ -16,16 +16,32 @@
             class="ui-text-field__input"
             [type]="inputType"
             [placeholder]="placeholder ?? ''"
-            [disabled]="disabled()"
+            [disabled]="disabledSignal()"
             [value]="internalValue()"
+            [min]="min ?? null"
+            [max]="max ?? null"
+            [step]="step ?? null"
             (input)="onInput($event)"
             (blur)="onBlur()"
         />
+
+        @if (clearable && internalValue() && !disabledSignal()) {
+            <mat-icon
+                class="ui-text-field__suffix"
+                [matTooltip]="'GENERAL.CLEAR' | translate"
+                matTooltipClass="ui-tooltip"
+                (click)="clear()"
+            >
+                close
+            </mat-icon>
+        }
 
         @if (maskable) {
             <mat-icon
                 class="ui-text-field__suffix"
                 (click)="toggleVisibility()"
+                (keydown.enter)="toggleVisibility()"
+                (keydown.space)="toggleVisibility()"
             >
                 {{ hidden() ? 'visibility_off' : 'visibility' }}
             </mat-icon>
@@ -37,6 +53,8 @@
     }
 
     @if (isInvalid && currentError) {
-        <span class="ui-text-field__error">{{ currentError | translate }}</span>
+        <span class="ui-text-field__error">{{
+            currentError | translate: resolvedErrorParams
+        }}</span>
     }
 </div>

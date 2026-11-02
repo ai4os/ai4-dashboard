@@ -3,7 +3,7 @@
     [class.ui-text-field--invalid]="isInvalid"
     [class.ui-text-field--disabled]="disabled()"
 >
-    @if (label) {
+    @if (showLabel) {
         <span class="ui-text-field__label" [id]="labelId">{{
             label | translate
         }}</span>
@@ -11,6 +11,8 @@
 
     <div
         class="ui-text-field__wrapper ui-select__trigger"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
         tabindex="0"
         role="combobox"
         aria-haspopup="listbox"
@@ -21,13 +23,22 @@
         (click)="toggle()"
         (keydown)="onTriggerKeydown($event)"
     >
+        @if (prefixIcon) {
+            <mat-icon
+                class="ui-text-field__prefix"
+                [matTooltip]="label | translate"
+                matTooltipClass="ui-tooltip"
+                >{{ prefixIcon }}</mat-icon
+            >
+        }
+
         <span
             class="ui-text-field__input ui-select__value"
-            [class.ui-select__value--placeholder]="!selectedOption()"
+            [class.ui-select__value--placeholder]="!selectedOption"
         >
             {{
-                selectedOption()
-                    ? selectedOption()!.viewValue
+                selectedOption
+                    ? selectedOption.viewValue
                     : placeholder
                       ? (placeholder | translate)
                       : ''
@@ -42,7 +53,16 @@
         </mat-icon>
     </div>
 
-    @if (isOpen()) {
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        (overlayOutsideClick)="onOutsideClick($event)"
+        [cdkConnectedOverlayHasBackdrop]="false"
+        [cdkConnectedOverlayWidth]="
+            trigger.elementRef.nativeElement.offsetWidth
+        "
+    >
         <ul
             class="ui-select-panel"
             role="listbox"
@@ -71,7 +91,16 @@
                     (keydown.space)="selectOption(option, $event)"
                     (mouseenter)="activeIndex.set(i)"
                 >
-                    <span>{{ option.viewValue }}</span>
+                    @if (optionTemplate) {
+                        <ng-container
+                            *ngTemplateOutlet="
+                                optionTemplate;
+                                context: { $implicit: option }
+                            "
+                        ></ng-container>
+                    } @else {
+                        <span>{{ option.viewValue }}</span>
+                    }
 
                     @if (option.value === internalValue()) {
                         <mat-icon class="ui-select-panel__check"
@@ -81,11 +110,14 @@
                 </li>
             }
         </ul>
-    }
+    </ng-template>
 
     @if (hint && !isInvalid) {
         <span class="ui-text-field__hint">{{ hint | translate }}</span>
     }
+
+    <!-- Hint loader (suffix) -->
+    <ng-content select="[ui-hint]"></ng-content>
 
     @if (isInvalid && currentError) {
         <span class="ui-text-field__error">{{ currentError | translate }}</span>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MapMetric } from '../../components/stats/map-metric-selector/map-metric-selector.component';
+import { MapMetric } from '../../components/common/map-metric-selector/map-metric-selector.component';
 import { getCssVar } from '@app/shared/utils/css-var.helper';
 
 export interface LegendTier {
@@ -35,7 +35,7 @@ const TIERS: Record<MapMetric, LegendTier[]> = {
         { label: '7 – 45 l/kWh', color: 'var(--neutral-value)', max: 45 },
         { label: '> 200 l/kWh', color: 'var(--bad-value)', max: Infinity },
     ],
-    'green-score': [
+    'environmental-score': [
         { label: '< 30', color: 'var(--bad-value)', max: 30 },
         { label: '30 – 60', color: 'var(--neutral-value)', max: 60 },
         { label: '> 60', color: 'var(--good-value)', max: 100 },

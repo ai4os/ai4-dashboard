@@ -11,9 +11,7 @@
     <app-ui-button
         variant="icon"
         icon="info"
-        [href]="
-            'https://docs.ai4eosc.eu/en/latest/reference/llm.html#integrate-it-with-your-own-services'
-        "
+        [href]="'https://docs.ai4eosc.eu/en/latest/reference/llm.html#integrate-it-with-your-own-services'"
         [tooltip]="'GENERAL.OPEN-DOCS' | translate"
     ></app-ui-button>
 </div>
@@ -85,25 +83,31 @@
                 @if (row.expires) {
                     <app-ui-chip
                         matTooltipClass="ui-tooltip"
-                        matTooltip="{{
-                            'PROFILE.API-KEYS-TAB.TABLE.EXPIRES-TOOLTIP'
-                                | translate
-                        }}"
-                        [matTooltipDisabled]="!isExpiringSoon(row.expires)"
+                        [matTooltip]="
+                            isExpired(row.expires)
+                                ? ('PROFILE.API-KEYS-TAB.TABLE.EXPIRED-TOOLTIP'
+                                  | translate)
+                                : ('PROFILE.API-KEYS-TAB.TABLE.EXPIRES-TOOLTIP'
+                                  | translate)
+                        "
+                        [matTooltipDisabled]="
+                            !isExpiringSoon(row.expires) &&
+                            !isExpired(row.expires)
+                        "
                         [text]="row.expires.toUTCString()"
                         [variant]="
-                            isExpiringSoon(row.expires)
-                                ? 'warning-solid'
-                                : 'default-solid'
+                            isExpired(row.expires)
+                                ? 'danger-solid'
+                                : isExpiringSoon(row.expires)
+                                  ? 'warning-solid'
+                                  : 'default-solid'
                         "
-                    >
-                    </app-ui-chip>
+                    ></app-ui-chip>
                 } @else {
                     <app-ui-chip
                         variant="default-solid"
                         [text]="'PROFILE.API-KEYS-TAB.TABLE.NEVER' | translate"
-                    >
-                    </app-ui-chip>
+                    ></app-ui-chip>
                 }
             </ng-template>
 

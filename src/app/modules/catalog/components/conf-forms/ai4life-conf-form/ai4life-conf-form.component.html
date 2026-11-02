@@ -1,0 +1,17 @@
+<form [formGroup]="ai4lifeConfFormGroup" class="ai4life-conf-form">
+    <h4>{{ 'CATALOG.CONF-FORMS.AI4LIFE.SUBTITLE' | translate }}</h4>
+    <div
+        [class]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!-- Model id -->
+        <app-ui-select
+            formControlName="modelIdSelect"
+            [options]="modelIdOptions"
+            label="{{ 'CATALOG.CONF-FORMS.AI4LIFE.MODEL-ID' | translate }}"
+            [hint]="_showHelp ? _defaultFormValues.model_id.description : ''"
+        ></app-ui-select>
+    </div>
+</form>

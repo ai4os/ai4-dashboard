@@ -11,27 +11,33 @@ import { ModulesService } from '../../../services/modules-service/modules.servic
 import { BreadcrumbService, BreadcrumbComponent } from 'xng-breadcrumb';
 import { Ai4eoscModule } from '@app/shared/interfaces/module.interface';
 import { ToolsService } from '../../../services/tools-service/tools.service';
-import { Location, NgClass } from '@angular/common';
+import { DatePipe, Location, NgClass } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IframeDialogComponent } from '@app/shared/components/iframe-dialog/iframe-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-} from '@angular/material/card';
 import { MatTooltip } from '@angular/material/tooltip';
-import { MatButton } from '@angular/material/button';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
-import { MatDivider } from '@angular/material/list';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MarkdownComponent } from 'ngx-markdown';
-import { ChipWithIconComponent } from '../../../../../shared/components/chip-with-icon/chip-with-icon.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import {
+    ChipVariant,
+    UiChipComponent,
+} from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { RelativeTimePipe } from '../../../pipes/format-time.pipe';
+import { normalizeDate } from '@app/shared/utils/formatDate';
+
+interface ModuleTag {
+    text: string;
+    type: 'task' | 'library' | 'data-type' | 'tag' | 'category';
+    variant: ChipVariant;
+    tooltipKey: string;
+    icon?: string;
+}
 
 @Component({
     selector: 'app-module-detail',
@@ -39,40 +45,37 @@ import { ChipWithIconComponent } from '../../../../../shared/components/chip-wit
     styleUrls: ['./ai4eosc-module-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
         MatIcon,
         BreadcrumbComponent,
-        MatCard,
-        MatCardHeader,
         NgClass,
-        MatCardTitle,
-        MatCardSubtitle,
         MatTooltip,
-        MatButton,
         MatMenuTrigger,
         MatMenu,
         MatMenuItem,
         RouterLink,
-        MatDivider,
-        MatCardContent,
-        MatProgressSpinner,
         MarkdownComponent,
-        ChipWithIconComponent,
         TranslatePipe,
+        DatePipe,
+        UiBannerComponent,
+        UiCardComponent,
+        UiChipComponent,
+        UiButtonComponent,
+        UiLoaderComponent,
+        RelativeTimePipe,
     ],
 })
 export class Ai4eoscModuleDetailComponent implements OnInit {
-    private modulesService = inject(ModulesService);
-    private toolsService = inject(ToolsService);
-    private authService = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private breadcrumbService = inject(BreadcrumbService);
+    private readonly modulesService = inject(ModulesService);
+    private readonly toolsService = inject(ToolsService);
+    private readonly authService = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly breadcrumbService = inject(BreadcrumbService);
     translateService = inject(TranslateService);
     dialog = inject(MatDialog);
     location = inject(Location);
-    private router = inject(Router);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    private media = inject(MediaMatcher);
+    private readonly router = inject(Router);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
 
     constructor() {
         const authService = this.authService;
@@ -93,6 +96,8 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     userProfile?: UserProfile;
     popupWindow: Window | undefined | null;
     doiBadgeColor = '';
+    hasLinks = false;
+    allTags: ModuleTag[] = [];
 
     dataIconDict: Record<string, string> = {
         Image: 'image',
@@ -109,7 +114,7 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     isTool = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     ngOnInit(): void {
         // scroll to top
@@ -138,6 +143,14 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             if (this.isTool) {
                 this.toolsService.getTool(params['id']).subscribe((tool) => {
                     this.module = tool;
+                    this.normalizeDates(this.module);
+                    this.module.description = this.cleanMarkdown(
+                        this.module.description
+                    );
+                    this.hasLinks = Object.values(this.module.links).some(
+                        (value) => value?.trim() !== ''
+                    );
+                    this.allTags = this.buildTags(this.module);
                     this.breadcrumbService.set('@moduleName', tool.title);
                     this.isLoading = false;
                 });
@@ -146,6 +159,14 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
                     .getModule(params['id'])
                     .subscribe((module) => {
                         this.module = module;
+                        this.normalizeDates(this.module);
+                        this.module.description = this.cleanMarkdown(
+                            this.module.description
+                        );
+                        this.hasLinks = Object.values(this.module.links).some(
+                            (value) => value?.trim() !== ''
+                        );
+                        this.allTags = this.buildTags(this.module);
                         this.breadcrumbService.set('@moduleName', module.title);
                         this.isLoading = false;
                     });
@@ -180,6 +201,12 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
             '-' +
             this.doiBadgeColor.replace('#', '')
         );
+    }
+
+    private normalizeDates(module: Ai4eoscModule): void {
+        if (!module.dates) return;
+        module.dates.created = normalizeDate(module.dates.created);
+        module.dates.updated = normalizeDate(module.dates.updated);
     }
 
     createGradioDeployment() {
@@ -226,5 +253,59 @@ export class Ai4eoscModuleDetailComponent implements OnInit {
     openLicenseVocab(license: string) {
         const url = `https://op.europa.eu/en/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/licence/${license}`;
         window.open(url);
+    }
+
+    private buildTags(module: Ai4eoscModule): ModuleTag[] {
+        const tags: ModuleTag[] = [];
+        for (const task of module.tasks ?? []) {
+            tags.push({
+                text: task,
+                type: 'task',
+                variant: 'secondary-1-solid',
+                tooltipKey: 'CATALOG.DETAIL.TASKS',
+            });
+        }
+        for (const library of module.libraries ?? []) {
+            tags.push({
+                text: library,
+                type: 'library',
+                variant: 'secondary-2-solid',
+                tooltipKey: 'CATALOG.DETAIL.LIBRARIES',
+            });
+        }
+        for (const dataType of module['data-type'] ?? []) {
+            tags.push({
+                text: dataType,
+                type: 'data-type',
+                variant: 'secondary-3-solid',
+                tooltipKey: 'CATALOG.DETAIL.DATA-TYPES',
+                icon: this.convertTypeToIcon(dataType),
+            });
+        }
+        for (const tag of module.tags ?? []) {
+            tags.push({
+                text: tag,
+                type: 'tag',
+                variant: 'secondary-4-solid',
+                tooltipKey: 'CATALOG.DETAIL.TAGS',
+                icon: 'sell',
+            });
+        }
+        for (const category of module.categories ?? []) {
+            tags.push({
+                text: category,
+                type: 'category',
+                variant: 'secondary-5-solid',
+                tooltipKey: 'CATALOG.DETAIL.CATEGORIES',
+            });
+        }
+        return tags;
+    }
+
+    private cleanMarkdown(text: string): string {
+        if (!text) return '';
+        // Searches for '<img... src="" and removes the comma so that it becomes valid HTML
+        // (the API returns invalid HTML)
+        return text.replace(/<img([^>]+?),\s*src=/gi, '<img$1 src=');
     }
 }

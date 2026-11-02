@@ -4,9 +4,9 @@ import {
     Ai4lifeModule,
     ModuleSummary,
 } from '../../../../shared/interfaces/module.interface';
-import { hardwareDefaultFormValues } from '@app/modules/catalog/components/train/hardware-conf-form/hardware-conf-form.component.mock';
-import { generalDefaultFormValues } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component.mock';
-import { storageDefaultFormValues } from '@app/modules/catalog/components/train/storage-conf-form/storage-conf-form.component.mock';
+import { hardwareDefaultFormValues } from '@app/modules/catalog/components/conf-forms/hardware-conf-form/hardware-conf-form.component.mock';
+import { generalDefaultFormValues } from '@app/modules/catalog/components/conf-forms/general-conf-form/general-conf-form.component.mock';
+import { storageDefaultFormValues } from '@app/modules/catalog/components/conf-forms/storage-conf-form/storage-conf-form.component.mock';
 
 export const mockModuleSummaryList: ModuleSummary[] = [
     {

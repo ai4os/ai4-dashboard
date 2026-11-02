@@ -1,7 +1,6 @@
 @if (isLoading) {
-  <div class="spinner spinner-with-description">
-    <mat-progress-spinner color="primary" mode="indeterminate">
-    </mat-progress-spinner>
-    <p>{{ loadingText }}</p>
-  </div>
+    <div class="spinner-loading-overlay spinner-with-description">
+        <app-ui-loader></app-ui-loader>
+        <p>{{ loadingText }}</p>
+    </div>
 }

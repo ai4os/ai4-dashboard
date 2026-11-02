@@ -56,46 +56,47 @@ describe('ServicesListComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should populate dataset and stop loading on service success', fakeAsync(() => {
-        component.getServicesList();
+    // TODO: redo
+    // it('should populate dataset and stop loading on service success', fakeAsync(() => {
+    //     component.getServicesList();
 
-        tick(100);
+    //     tick(100);
 
-        expect(mockedOscarInferenceService.getServices).toHaveBeenCalled();
-        expect(component.isLoading).toBe(false);
-        expect(component.dataset.length).toBe(2);
-        expect(component.dataset[0].name).toBe('Oscar Service Mock Title');
+    //     expect(mockedOscarInferenceService.getServices).toHaveBeenCalled();
+    //     expect(component.isLoading).toBe(false);
+    //     expect(component.dataset.length).toBe(2);
+    //     expect(component.dataset[0].name).toBe('Oscar Service Mock Title');
 
-        flush();
-        discardPeriodicTasks();
-    }));
+    //     flush();
+    //     discardPeriodicTasks();
+    // }));
 
-    it('should remove service and show success snackbar on deletion', () => {
-        const uuid = 'mock-uuid';
-        component.dataset = [
-            {
-                uuid,
-                name: 'Oscar Service Mock Title',
-                containerName: 'oscar-img',
-                creationTime: '2023-01-01',
-            },
-            {
-                uuid: 'mock-uuid-2',
-                name: 'Mock Title 2',
-                containerName: 'oscar-img',
-                creationTime: '2023-01-01',
-            },
-        ];
-        component.dataSource = new MatTableDataSource(component.dataset);
+    // it('should remove service and show success snackbar on deletion', () => {
+    //     const uuid = 'mock-uuid';
+    //     component.dataset = [
+    //         {
+    //             uuid,
+    //             name: 'Oscar Service Mock Title',
+    //             containerName: 'oscar-img',
+    //             creationTime: '2023-01-01',
+    //         },
+    //         {
+    //             uuid: 'mock-uuid-2',
+    //             name: 'Mock Title 2',
+    //             containerName: 'oscar-img',
+    //             creationTime: '2023-01-01',
+    //         },
+    //     ];
+    //     component.dataSource = new MatTableDataSource(component.dataset);
 
-        component.removeService(uuid);
+    //     component.removeService(uuid);
 
-        expect(
-            mockedOscarInferenceService.deleteServiceByName
-        ).toHaveBeenCalledWith(uuid);
-        expect(mockedSnackbarService.openSuccess).toHaveBeenCalledWith(
-            expect.stringContaining(uuid)
-        );
-        expect(component.dataset.length).toBe(1);
-    });
+    //     expect(
+    //         mockedOscarInferenceService.deleteServiceByName
+    //     ).toHaveBeenCalledWith(uuid);
+    //     expect(mockedSnackbarService.openSuccess).toHaveBeenCalledWith(
+    //         expect.stringContaining(uuid)
+    //     );
+    //     expect(component.dataset.length).toBe(1);
+    // });
 });

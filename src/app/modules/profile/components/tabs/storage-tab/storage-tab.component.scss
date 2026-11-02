@@ -72,6 +72,18 @@
 
         ::ng-deep button {
             color: var(--color-text-tertiary);
+            transition: color 0.15s;
+            padding: 0 !important;
+
+            .mat-icon {
+                font-size: var(--font-size-md);
+                width: var(--font-size-md);
+                height: var(--font-size-md);
+            }
+
+            &:hover {
+                color: var(--color-text-secondary);
+            }
         }
     }
 }

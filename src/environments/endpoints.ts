@@ -1,26 +1,45 @@
 export const endpoints = {
+    // Catalog (modules)
     modulesSummary: '/catalog/modules/detail',
     module: '/catalog/modules/:name/metadata',
     moduleNomadConfiguration: '/catalog/modules/:name/config',
-    moduleOscarConfiguration: '/inference/oscar/conf',
-    trainModule: '/deployments/modules',
-    trainTool: '/deployments/tools',
-    deploymentByUUID: '/deployments/modules/:deploymentUUID',
-    toolByUUID: '/deployments/tools/:deploymentUUID',
-    deployments: '/deployments/modules',
-    tools: '/deployments/tools',
+
+    // Catalog (tools)
     toolsSummary: '/catalog/tools/detail',
     tool: '/catalog/tools/:name/metadata',
     toolConfiguration: '/catalog/tools/:name/config',
+
+    // Catalog (LLMs)
+    llmsSelfSummary: '/catalog/llms/self/detail',
+    llmsPlatformSummary: '/catalog/llms/platform/detail',
+
+    // Deployments (modules)
+    deployments: '/deployments/modules',
+
+    deploymentByUUID: '/deployments/modules/:deploymentUUID',
+
+    // Deployments (tools)
+    toolByUUID: '/deployments/tools/:deploymentUUID',
+    tools: '/deployments/tools',
+
+    // Deployments (try me)
+    nomadTryMeDeployments: '/try_me/nomad',
+    nomadTryMeDeployment: '/try_me/nomad/:deployment_uuid',
+
+    // Deployments (snapshots)
+    deploymentSnapshots: '/snapshots',
+
+    moduleOscarConfiguration: '/inference/oscar/conf',
+    trainModule: '/deployments/modules',
+    trainTool: '/deployments/tools',
+
     secrets: '/secrets',
     userStats: '/deployments/stats/user',
     clusterStats: '/deployments/stats/cluster',
     zenodo: '/proxies/zenodo',
     oscarServices: '/inference/oscar/services',
     oscarServiceByName: '/inference/oscar/services/:serviceName',
-    nomadTryMeDeployments: '/try_me/nomad',
-    nomadTryMeDeployment: '/try_me/nomad/:deployment_uuid',
-    deploymentSnapshots: '/snapshots',
+
     snapshots: '/storage/:storage_name',
     batchDeployments: '/batch',
     batchDeploymentsByUUID: '/batch/:deploymentUUID',

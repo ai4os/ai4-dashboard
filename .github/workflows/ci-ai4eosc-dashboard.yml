@@ -29,24 +29,40 @@ jobs:
             - name: Inject Keycloak Client Secret
               run: |
                   sed -i "s/dummyClientSecret: '.*'/dummyClientSecret: '${{ secrets.KEYCLOAK_SECRET }}'/" src/app/core/services/auth/auth.config.ts
-            
+
             - name: Build Angular app
               run: npm run build-ai4eosc-prod
             - run: npm run lint
-            
+
+            - name: Start app
+              run: npm start -- --host 127.0.0.1 > app.log 2>&1 &
+              env:
+                  NG_CLI_ANALYTICS: 'false'
+                  NODE_OPTIONS: --max-old-space-size=4096
+
+            - name: Wait for app
+              run: |
+                  npx wait-on http://127.0.0.1:8080 --timeout 300000 || { echo "---- app.log ----"; cat app.log; exit 1; }
+
             - name: Cypress
               uses: cypress-io/github-action@v6
               with:
-                  start: npm start
-                  wait-on: 'http://localhost:8080'
-                  wait-on-timeout: 300
-                #   browser: chrome
+                  install: false
+                  #   browser: chrome
               env:
+                  CYPRESS_BASE_URL: http://127.0.0.1:8080
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
                   CYPRESS_RCLONE_USER: ${{secrets.CYPRESS_RCLONE_USER}}
                   CYPRESS_RCLONE_PASSWORD: ${{secrets.CYPRESS_RCLONE_PASSWORD}}
-            
+
+            - name: Upload app log
+              uses: actions/upload-artifact@v4
+              if: failure()
+              with:
+                  name: app-log
+                  path: app.log
+
             - name: Upload Cypress screenshots
               uses: actions/upload-artifact@v4
               if: failure()
@@ -59,7 +75,7 @@ jobs:
               if: failure()
               with:
                   name: cypress-videos
-                  path: cypress/videos/  
+                  path: cypress/videos/
 
             - run: npm run test
 

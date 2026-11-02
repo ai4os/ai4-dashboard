@@ -1,66 +1,86 @@
-import { MediaMatcher } from '@angular/cdk/layout';
 import {
-    ChangeDetectorRef,
+    ChangeDetectionStrategy,
     Component,
     OnInit,
-    ChangeDetectionStrategy,
+    computed,
     inject,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ToolsService } from '@app/modules/catalog/services/tools-service/tools.service';
-import { ModuleSummary } from '@app/shared/interfaces/module.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { CatalogListComponent } from '../catalog-list/catalog-list.component';
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { ToolsStore } from '@app/modules/catalog/store/tools.store';
+import { CatalogListComponent } from '../catalog-list/catalog-list.component';
+import { FilterGroup } from '@app/shared/interfaces/module.interface';
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+
+const MOBILE_BREAKPOINT = '(max-width: 600px)';
+const TOOLS_FILTERS_STORAGE_KEY = 'selectedFiltersTools';
+const IMAGINE_VO = 'vo.imagine-ai.eu';
 
 @Component({
     selector: 'app-tools-list',
     templateUrl: './tools-list.component.html',
     styleUrl: './tools-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatToolbar,
         MatIcon,
-        MatProgressSpinner,
         CatalogListComponent,
         TranslatePipe,
+        UiBannerComponent,
     ],
 })
 export class ToolsListComponent implements OnInit {
-    media = inject(MediaMatcher);
-    changeDetectorRef = inject(ChangeDetectorRef);
-    dialog = inject(ToolsService);
-    toolsService = inject(ToolsService);
+    readonly store = inject(ToolsStore);
+    private readonly breakpointObserver = inject(BreakpointObserver);
+    private readonly appConfigService = inject(AppConfigService);
 
-    constructor() {
-        this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () =>
-            this.changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
-    searchFormGroup!: FormGroup;
+    readonly isMobile = toSignal(
+        this.breakpointObserver
+            .observe(MOBILE_BREAKPOINT)
+            .pipe(map((state) => state.matches)),
+        { initialValue: this.breakpointObserver.isMatched(MOBILE_BREAKPOINT) }
+    );
 
-    tools: ModuleSummary[] = [];
-    toolsLoading = false;
+    readonly toolsLoading = this.store.loading;
+    readonly toolsError = this.store.error;
+
+    readonly catalogStorageKey = TOOLS_FILTERS_STORAGE_KEY;
+
+    readonly ai4eoscInitialFilters = computed<FilterGroup[]>(() => {
+        if (this.appConfigService.voName !== IMAGINE_VO) return [];
+
+        return [
+            {
+                libraries: [],
+                tasks: [],
+                categories: ['AI4 tools'],
+                datatypes: [],
+                tags: [],
+            },
+            {
+                libraries: [],
+                tasks: [],
+                categories: [],
+                datatypes: [],
+                tags: [IMAGINE_VO],
+            },
+            {
+                libraries: [],
+                tasks: [],
+                categories: [],
+                datatypes: ['Image'],
+                tags: ['general purpose'],
+            },
+        ];
+    });
 
     ngOnInit(): void {
-        this.toolsLoading = true;
-        this.getTools();
-    }
-
-    getTools() {
-        this.toolsService.getToolsSummary().subscribe({
-            next: (tools) => {
-                this.tools = tools;
-                this.toolsLoading = false;
-            },
-            error: () => {
-                setTimeout(() => (this.toolsLoading = false), 3000);
-            },
-        });
+        this.store.ensureLoaded();
     }
 }

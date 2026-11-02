@@ -1,102 +1,93 @@
 import {
     ChangeDetectorRef,
     Component,
+    OnDestroy,
     OnInit,
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogClose,
-} from '@angular/material/dialog';
+    EMPTY,
+    Observable,
+    Subject,
+    catchError,
+    switchMap,
+    takeUntil,
+    takeWhile,
+    timer,
+} from 'rxjs';
+import { Location, KeyValue, UpperCasePipe, DatePipe } from '@angular/common';
 import { Deployment } from '@app/shared/interfaces/deployment.interface';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
 import { getDeploymentBadge } from '../../utils/deployment-badge';
-import {
-    KeyValue,
-    NgClass,
-    UpperCasePipe,
-    JsonPipe,
-    KeyValuePipe,
-} from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { SecretsService } from '../../services/secrets-service/secrets.service';
 import { SecretField } from '@app/modules/inference/components/inference-detail/inference-detail.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { BatchService } from '@app/modules/batch/services/batch.service';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import {
-    MatError,
-    MatFormField,
-    MatInput,
-    MatSuffix,
-} from '@angular/material/input';
-import { MatList, MatListItem } from '@angular/material/list';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
 import { CopyToClipboardDirective } from '../../../../shared/directives/copy-to-clipboard.directive';
-import {
-    MatExpansionPanel,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
-} from '@angular/material/expansion';
 import { TextEditorComponent } from '../../../../shared/components/text-editor/text-editor.component';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import {
+    ChipVariant,
+    UiChipComponent,
+} from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import {
+    UiTabsComponent,
+    Tab,
+} from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { UiCredentialRowComponent } from '@app/shared/components/ui/ui-credential-row/ui-credential-row.component';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { FootprintChartComponent } from '@app/modules/statistics/components/charts/footprint-chart/footprint-chart.component';
+import { TryMeService } from '@app/modules/try-me/services/try-me.service';
+import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
+import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
+import { DeploymentSecretsComponent } from '../deployment-secrets/deployment-secrets.component';
+import { StatsCardComponent } from '@app/modules/statistics/components/common/stats-card/stats-card.component';
+
+interface ListCardItem {
+    label: string;
+    value: string;
+}
 
 @Component({
     selector: 'app-deployment-detail',
+    standalone: true,
     templateUrl: './deployment-detail.component.html',
     styleUrls: ['./deployment-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
-        MatIcon,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        NgClass,
-        MatCardContent,
-        MatError,
-        MatList,
-        MatListItem,
-        MatButton,
-        MatFormField,
-        MatInput,
-        MatIconButton,
-        MatTooltip,
-        CopyToClipboardDirective,
-        MatSuffix,
-        MatExpansionPanel,
-        MatExpansionPanelHeader,
-        MatExpansionPanelTitle,
-        TextEditorComponent,
-        MatProgressSpinner,
-        MatCardActions,
-        MatDialogClose,
         UpperCasePipe,
-        JsonPipe,
-        KeyValuePipe,
         TranslatePipe,
+        CopyToClipboardDirective,
+        TextEditorComponent,
+        UiLoaderComponent,
+        UiBannerComponent,
+        UiCardComponent,
+        UiButtonComponent,
+        UiChipComponent,
+        UiTabsComponent,
+        UiCredentialRowComponent,
+        BreadcrumbComponent,
+        FootprintChartComponent,
+        DeploymentSecretsComponent,
+        DatePipe,
+        StatsCardComponent,
     ],
 })
-export class DeploymentDetailComponent implements OnInit {
-    confirmationDialog = inject(MatDialog);
-    data = inject<{
-        uuid: string;
-        type: string;
-    }>(MAT_DIALOG_DATA);
+export class DeploymentDetailComponent implements OnInit, OnDestroy {
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly location = inject(Location);
+    private readonly platformStatusService = inject(PlatformStatusService);
 
     deploymentsService = inject(DeploymentsService);
+    tryMeService = inject(TryMeService);
     secretsService = inject(SecretsService);
     translateService = inject(TranslateService);
     snackbarService = inject(SnackbarService);
@@ -111,8 +102,12 @@ export class DeploymentDetailComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
+    uuid = '';
+    type: 'module' | 'tool' | 'try-me' | 'batch' = 'module';
+
     deployment: Deployment | undefined;
     statusBadge = '';
+    datacentersNotifications: StatusNotification[] = [];
 
     isLoading = false;
     protected deploymentHasError = false;
@@ -122,7 +117,167 @@ export class DeploymentDetailComponent implements OnInit {
     };
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
+
+    private readonly POLLING_INTERVAL_MS = 5000;
+    // Terminal states: neither the status nor the energy changes anymore
+    private readonly TERMINAL_STATUSES = ['stopped', 'failed', 'error'];
+    private readonly unsub = new Subject<void>();
+
+    get tabs(): Tab[] {
+        const dynamicTabs: Tab[] = [
+            { id: 'overview', label: 'DEPLOYMENTS.OVERVIEW.TITLE' },
+        ];
+
+        if (this.deployment?.energy) {
+            dynamicTabs.push({
+                id: 'energy',
+                label: 'DEPLOYMENTS.ENERGY.TITLE',
+            });
+        }
+
+        if (this.type === 'batch' && this.localBatchScript) {
+            dynamicTabs.push({
+                id: 'command',
+                label: 'DEPLOYMENTS.DETAIL.BATCH.COMMAND',
+            });
+        }
+
+        if (this.isFederatedServer) {
+            dynamicTabs.push({
+                id: 'secrets',
+                label: 'DEPLOYMENTS.SECRETS.TITLE',
+            });
+        }
+
+        return dynamicTabs;
+    }
+
+    activeTabId = 'overview';
+
+    // Tab requested through the ?tab= query param (deep link). It is applied
+    // once the deployment is loaded, since the available tabs depend on it.
+    private requestedTabId: string | null = null;
+
+    get isFederatedServer(): boolean {
+        return (
+            this.type === 'tool' &&
+            this.deployment?.tool_name === 'ai4os-federated-server'
+        );
+    }
+
+    onTabChange(tabId: string): void {
+        this.activeTabId = tabId;
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { tab: tabId === 'overview' ? null : tabId },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+        });
+    }
+
+    private applyRequestedTab(): void {
+        if (
+            this.requestedTabId &&
+            this.tabs.some((t) => t.id === this.requestedTabId)
+        ) {
+            this.activeTabId = this.requestedTabId;
+        }
+        this.requestedTabId = null;
+    }
+
+    get endpointsList(): { key: string; value: string }[] {
+        if (!this.deployment?.endpoints) return [];
+        return Object.entries(this.deployment.endpoints).map(
+            ([key, value]) => ({
+                key,
+                value,
+            })
+        );
+    }
+
+    get energyItems(): any[] {
+        const acc = this.deployment?.energy?.accumulated;
+        if (!acc) return [];
+
+        const formatMetric = (val: number): string => {
+            if (val === 0) return '0';
+            if (val < 0.01) return val.toExponential(2);
+            return val.toFixed(2);
+        };
+
+        return [
+            {
+                label: 'DEPLOYMENTS.ENERGY.POWER-INSTANT',
+                value: formatMetric(acc.power_w),
+                unit: 'W',
+                icon: 'bolt',
+                color: 'var(--color-secondary-1)',
+            },
+            {
+                label: 'DEPLOYMENTS.ENERGY.ENERGY-CONSUMED',
+                value: formatMetric(acc.energy_wh),
+                unit: 'Wh',
+                icon: 'battery_charging_full',
+                color: 'var(--color-secondary-2)',
+            },
+            {
+                label: 'DEPLOYMENTS.ENERGY.CARBON-FOOTPRINT',
+                value: formatMetric(acc.carbon_g),
+                unit: 'g CO₂',
+                icon: 'factory',
+                color: 'var(--color-secondary-5)',
+            },
+            {
+                label: 'DEPLOYMENTS.ENERGY.WATER-FOOTPRINT',
+                value: formatMetric(acc.water_l),
+                unit: 'L',
+                icon: 'water_drop',
+                color: 'var(--color-secondary-3)',
+            },
+        ];
+    }
+
+    get energyTimestamps(): string[] {
+        const series = this.deployment?.energy?.series;
+        if (!series) return [];
+
+        return series.map((s) => {
+            const date = new Date(s.ts);
+            return date.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+                timeZone: 'UTC',
+            });
+        });
+    }
+
+    get energyChartLegend(): string[] {
+        return [this.deployment?.datacenter ?? 'Datacenter'];
+    }
+
+    get powerSeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.power_w)] : [];
+    }
+
+    get energySeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.energy_wh)] : [];
+    }
+
+    get carbonSeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.carbon_g)] : [];
+    }
+
+    get waterSeriesValues(): number[][] {
+        const series = this.deployment?.energy?.series;
+        return series ? [series.map((s) => s.water_l)] : [];
+    }
 
     isActiveEndPoint(endpoint: string) {
         return (
@@ -131,102 +286,216 @@ export class DeploymentDetailComponent implements OnInit {
         );
     }
 
-    ngOnInit(): void {
-        if (this.data.uuid) {
-            this.isLoading = true;
-            if (this.data.type === 'tool') {
-                this.deploymentsService
-                    .getToolByUUID(this.data.uuid)
-                    .subscribe((deployment: Deployment) => {
-                        if (
-                            deployment.error_msg &&
-                            deployment.error_msg != ''
-                        ) {
-                            this.deploymentHasError = true;
-                        }
-                        if (deployment.description == '') {
-                            deployment.description = '-';
-                        }
-                        if (deployment.datacenter == null) {
-                            deployment.datacenter = '-';
-                        }
-                        this.statusBadge = getDeploymentBadge(
-                            deployment.status
-                        );
-                        this.deployment = deployment;
+    hasDatacenterUnderMaintenance(): boolean {
+        return !!this.findMaintenanceNotification();
+    }
 
-                        if (deployment.tool_name === 'ai4os-llm') {
-                            this.getVllmKey();
-                        } else {
-                            this.isLoading = false;
-                        }
-                    });
-            } else if (this.data.type === 'module') {
-                this.deploymentsService
-                    .getDeploymentByUUID(this.data.uuid)
-                    .subscribe((deployment: Deployment) => {
-                        if (
-                            deployment.error_msg &&
-                            deployment.error_msg != ''
-                        ) {
-                            this.deploymentHasError = true;
-                        }
-                        if (deployment.description == '') {
-                            deployment.description = '-';
-                        }
-                        if (deployment.datacenter == null) {
-                            deployment.datacenter = '-';
-                        }
-                        const conatinerName = deployment.docker_image.includes(
-                            'user-snapshots'
-                        )
-                            ? deployment.docker_image.split(':')[1]
-                            : deployment.docker_image;
-                        deployment.docker_image = conatinerName;
-                        this.statusBadge = getDeploymentBadge(
-                            deployment.status
-                        );
+    getMaintenanceInfo(): string {
+        const notification = this.findMaintenanceNotification();
 
-                        this.deployment = deployment;
-
-                        this.isLoading = false;
-                    });
-            } else if (this.data.type === 'batch') {
-                this.batchService
-                    .getBatchDeploymentByUUID(this.data.uuid)
-                    .subscribe((deployment: Deployment) => {
-                        if (
-                            deployment.error_msg &&
-                            deployment.error_msg != ''
-                        ) {
-                            this.deploymentHasError = true;
-                        }
-                        if (deployment.description == '') {
-                            deployment.description = '-';
-                        }
-                        if (deployment.datacenter == null) {
-                            deployment.datacenter = '-';
-                        }
-                        const conatinerName = deployment.docker_image.includes(
-                            'user-snapshots'
-                        )
-                            ? deployment.docker_image.split(':')[1]
-                            : deployment.docker_image;
-                        deployment.docker_image = conatinerName;
-                        this.statusBadge = getDeploymentBadge(
-                            deployment.status
-                        );
-
-                        this.deployment = deployment;
-
-                        this.isLoading = false;
-                    });
-            }
+        if (!notification) {
+            return '';
         }
+        return this.translateService.instant(
+            'DEPLOYMENTS.DATACENTER-DOWNTIME-NOTIFICATION',
+            {
+                datacenter: this.deployment?.datacenter,
+                startDate:
+                    notification.downtimeStart?.toLocaleDateString('es-ES'),
+                endDate: notification.downtimeEnd?.toLocaleDateString('es-ES'),
+            }
+        );
+    }
+
+    private findMaintenanceNotification() {
+        return this.datacentersNotifications.find((n) =>
+            n.datacenters?.includes(this.deployment?.datacenter ?? '')
+        );
+    }
+
+    getGpuWarningInfo(): string {
+        const message = this.translateService.instant(
+            'DEPLOYMENTS.DETAIL.GPU-WARNING-1'
+        );
+        const linkText = this.translateService.instant(
+            'DEPLOYMENTS.DETAIL.GPU-WARNING-2'
+        );
+        return `${message} <a href="https://docs.ai4os.eu/en/latest/howtos/train/batch.html" target="_blank" rel="noopener">${linkText}</a>.`;
+    }
+
+    get showGpuQueuedWarning(): boolean {
+        return (
+            this.deployment?.status === 'queued' &&
+            (this.deployment?.resources?.gpu_num ?? 0) > 0
+        );
+    }
+
+    ngOnInit(): void {
+        this.uuid = this.route.snapshot.paramMap.get('uuid') ?? '';
+        this.type =
+            (this.route.snapshot.queryParamMap.get('type') as
+                'module' | 'tool' | 'try-me' | 'batch') ?? 'module';
+
+        this.requestedTabId = this.route.snapshot.queryParamMap.get('tab');
+
+        if (!this.uuid) {
+            return;
+        }
+
+        this.isLoading = true;
+
+        this.platformStatusService
+            .getActiveDatacenterNotifications()
+            .subscribe({
+                next: (notifications) => {
+                    this.datacentersNotifications = notifications;
+                },
+                error: () => {
+                    this.datacentersNotifications = [];
+                },
+            });
+
+        timer(0, this.POLLING_INTERVAL_MS)
+            .pipe(
+                switchMap(() =>
+                    this.fetchDeployment().pipe(
+                        catchError(() => {
+                            if (!this.deployment) {
+                                this.isLoading = false;
+                            }
+                            return EMPTY;
+                        })
+                    )
+                ),
+                takeWhile(
+                    (deployment) =>
+                        !this.TERMINAL_STATUSES.includes(deployment.status),
+                    true
+                ),
+                takeUntil(this.unsub)
+            )
+            .subscribe((deployment: Deployment) => {
+                const isFirstLoad = !this.deployment;
+
+                if (this.type !== 'tool') {
+                    this.normalizeDockerImage(deployment);
+                }
+                this.handleDeploymentLoaded(deployment);
+
+                if (isFirstLoad) {
+                    if (
+                        this.type === 'tool' &&
+                        deployment.tool_name === 'ai4os-llm'
+                    ) {
+                        this.getVllmKey();
+                    } else {
+                        this.isLoading = false;
+                    }
+                }
+            });
+    }
+
+    private fetchDeployment(): Observable<Deployment> {
+        switch (this.type) {
+            case 'tool':
+                return this.deploymentsService.getToolByUUID(this.uuid);
+            case 'try-me':
+                return this.tryMeService.getDeploymentGradioByUUID(this.uuid);
+            case 'batch':
+                return this.batchService.getBatchDeploymentByUUID(this.uuid);
+            case 'module':
+            default:
+                return this.deploymentsService.getDeploymentByUUID(this.uuid);
+        }
+    }
+
+    private handleDeploymentLoaded(deployment: Deployment): void {
+        this.deploymentHasError = !!deployment.error_msg;
+        if (deployment.description == '') {
+            deployment.description = '-';
+        }
+        deployment.datacenter ??= '-';
+
+        // Do not re-render if there are no changes
+        if (
+            this.deployment &&
+            JSON.stringify(this.deployment) === JSON.stringify(deployment)
+        ) {
+            return;
+        }
+
+        this.statusBadge = getDeploymentBadge(deployment.status);
+        this.deployment = deployment;
+        this.applyRequestedTab();
+    }
+
+    private normalizeDockerImage(deployment: Deployment): void {
+        const containerName = deployment.docker_image.includes('user-snapshots')
+            ? deployment.docker_image.split(':')[1]
+            : deployment.docker_image;
+        deployment.docker_image = containerName;
     }
 
     get localBatchScript(): string | undefined {
         return this.deployment?.templates?.['local/batch.sh'];
+    }
+
+    get deploymentInfoItems(): ListCardItem[] {
+        return [
+            {
+                label: this.translateService.instant(
+                    'DEPLOYMENTS.DETAIL.DESCRIPTION'
+                ),
+                value: this.deployment?.description ?? '-',
+            },
+            {
+                label: this.translateService.instant(
+                    'DEPLOYMENTS.DETAIL.DOCKER-IMAGE'
+                ),
+                value: this.deployment?.docker_image ?? '-',
+            },
+        ];
+    }
+
+    get resourceItems(): any[] {
+        const resources = this.deployment?.resources ?? {};
+        return Object.entries(resources).map(([key, value]) => {
+            const label = this.translateService.instant(
+                'DEPLOYMENTS.DETAIL.RESOURCES.' + key.toUpperCase()
+            );
+            let unit = '';
+            let icon = '';
+            let color = '';
+
+            const keyLower = key.toLowerCase();
+            switch (keyLower) {
+                case 'cpu_num':
+                    icon = 'memory';
+                    color = 'var(--color-accent)';
+                    break;
+                case 'cpu_mhz':
+                    unit = 'MHz';
+                    icon = 'graphic_eq';
+                    color = 'var(--color-accent-dark)';
+                    break;
+                case 'gpu_num':
+                    icon = 'developer_board';
+                    color = 'var(--primary)';
+                    break;
+                case 'memory_mb':
+                    unit = 'MB';
+                    icon = 'memory_alt';
+                    color = 'var(--color-secondary-4)';
+                    break;
+                case 'disk_mb':
+                    unit = 'MB';
+                    icon = 'album';
+                    color = 'var(--color-primary-dark)';
+                    break;
+            }
+
+            return { label, value, unit, icon, color };
+        });
     }
 
     getResourceValue(resource: KeyValue<string, number>): string {
@@ -239,8 +508,22 @@ export class DeploymentDetailComponent implements OnInit {
         return resourceValue;
     }
 
+    getStatusChipVariant(): ChipVariant {
+        switch (this.deployment?.status) {
+            case 'running':
+                return 'success-solid';
+            case 'stopped':
+                return 'default-solid';
+            case 'failed':
+            case 'error':
+                return 'danger-solid';
+            default:
+                return 'secondary-1-solid';
+        }
+    }
+
     getVllmKey() {
-        const subpath = '/deployments/' + this.data.uuid + '/llm';
+        const subpath = '/deployments/' + this.uuid + '/llm';
         this.secretsService.getSecrets(subpath).subscribe({
             next: (tokens) => {
                 this.tokenField.value = Object.values(tokens)[0].token ?? '';
@@ -249,10 +532,20 @@ export class DeploymentDetailComponent implements OnInit {
                 this.snackbarService.openError(
                     "Couldn't retrieve VLLM Token. Please try again later."
                 );
+                this.isLoading = false;
             },
             complete: () => {
                 this.isLoading = false;
             },
         });
+    }
+
+    ngOnDestroy(): void {
+        this.unsub.next();
+        this.unsub.complete();
+        this.mobileQuery.removeEventListener(
+            'change',
+            this._mobileQueryListener
+        );
     }
 }

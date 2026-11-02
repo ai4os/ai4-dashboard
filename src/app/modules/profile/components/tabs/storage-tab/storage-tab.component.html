@@ -185,11 +185,6 @@
                             class="add-provider__field"
                             placeholder="share.example.eu"
                             formControlName="domain"
-                            [errorMessages]="{
-                                required: 'GENERAL.FORMS.REQUIRED',
-                                invalidDomain:
-                                    'PROFILE.STORAGE-TAB.FORM.INVALID-DOMAIN',
-                            }"
                         />
                         <app-ui-button
                             variant="accent-solid"
@@ -229,9 +224,6 @@
                                             | translate
                                     "
                                     formControlName="rcloneUser"
-                                    [errorMessages]="{
-                                        required: 'GENERAL.FORMS.REQUIRED',
-                                    }"
                                 />
 
                                 <app-ui-text-field
@@ -242,9 +234,6 @@
                                     "
                                     [maskable]="true"
                                     formControlName="rclonePassword"
-                                    [errorMessages]="{
-                                        required: 'GENERAL.FORMS.REQUIRED',
-                                    }"
                                 />
 
                                 <app-ui-text-field
@@ -272,10 +261,6 @@
                                             | translate
                                     "
                                     formControlName="storageUrl"
-                                    [errorMessages]="{
-                                        invalidURL:
-                                            'PROFILE.STORAGE-TAB.RCLONE.STORAGE-URL-ERROR',
-                                    }"
                                 />
 
                                 <app-ui-select

@@ -24,3 +24,15 @@
         margin: 8px;
     }
 }
+
+.chip.active {
+    padding: 0px 8px;
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    color: #fff;
+    border-radius: 16px;
+
+    p {
+        margin: 8px;
+    }
+}

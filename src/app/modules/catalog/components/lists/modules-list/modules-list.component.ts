@@ -1,161 +1,140 @@
 import {
-    AfterViewInit,
-    ChangeDetectorRef,
+    ChangeDetectionStrategy,
     Component,
     OnInit,
-    ViewChild,
-    ChangeDetectionStrategy,
+    computed,
     inject,
+    signal,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material/dialog';
-import { ModulesService } from '../../../services/modules-service/modules.service';
-import {
-    Ai4lifeModule,
-    ModuleSummary,
-} from '@app/shared/interfaces/module.interface';
-import { filter } from 'rxjs';
-import { MatTabChangeEvent, MatTabGroup, MatTab } from '@angular/material/tabs';
-import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
+
+import { AppConfigService } from '@app/core/services/app-config/app-config.service';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import {
+    Tab,
+    UiTabsComponent,
+} from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { FilterGroup } from '@app/shared/interfaces/module.interface';
+import { ModulesStore } from '@app/modules/catalog/store/modules.store';
 import { CatalogListComponent } from '../catalog-list/catalog-list.component';
 import { Ai4lifeListComponent } from './ai4life-list/ai4life-list.component';
-import { TranslatePipe } from '@ngx-translate/core';
+
+const MOBILE_BREAKPOINT = '(max-width: 600px)';
+const MARKETPLACE_STORAGE_KEY = 'selectedMarketplace';
+const MODULES_FILTERS_STORAGE_KEY = 'selectedFilters';
+const IMAGINE_VO = 'vo.imagine-ai.eu';
+
+type MarketplaceTab = 'ai4eosc' | 'ai4life';
 
 @Component({
     selector: 'app-modules-list',
     templateUrl: './modules-list.component.html',
-    styleUrls: ['./modules-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './modules-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatToolbar,
         MatIcon,
-        MatProgressSpinner,
-        MatTabGroup,
-        MatTab,
         CatalogListComponent,
         Ai4lifeListComponent,
         TranslatePipe,
+        UiBannerComponent,
+        UiLoaderComponent,
+        UiTabsComponent,
     ],
 })
-export class ModulesListComponent implements OnInit, AfterViewInit {
-    media = inject(MediaMatcher);
-    changeDetectorRef = inject(ChangeDetectorRef);
-    dialog = inject(MatDialog);
-    router = inject(Router);
-    modulesService = inject(ModulesService);
-    snackbarService = inject(SnackbarService);
+export class ModulesListComponent implements OnInit {
+    readonly store = inject(ModulesStore);
+    private readonly breakpointObserver = inject(BreakpointObserver);
+    private readonly appConfigService = inject(AppConfigService);
 
-    constructor() {
-        this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
-        this._mobileQueryListener = () =>
-            this.changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
+    readonly isMobile = toSignal(
+        this.breakpointObserver
+            .observe(MOBILE_BREAKPOINT)
+            .pipe(map((state) => state.matches)),
+        { initialValue: this.breakpointObserver.isMatched(MOBILE_BREAKPOINT) }
+    );
 
-        // scroll to last scrollY position
-        this.router.events
-            .pipe(filter((event) => event instanceof NavigationEnd))
-            .subscribe(() => {
-                const scrollTop = sessionStorage.getItem('scrollTop');
-                if (scrollTop) {
-                    setTimeout(() => {
-                        const content = document.querySelector(
-                            '.sidenav-content'
-                        ) as HTMLElement;
-                        if (content) {
-                            content.scrollTop = +scrollTop;
-                        }
-                    }, 100);
-                }
-            });
-    }
+    readonly modulesLoading = this.store.loading;
+    readonly modulesError = this.store.error;
 
-    @ViewChild('tabGroup', { static: false }) tabGroup!: MatTabGroup;
+    readonly catalogStorageKey = MODULES_FILTERS_STORAGE_KEY;
 
-    private _mobileQueryListener: () => void;
-    mobileQuery: MediaQueryList;
-    searchFormGroup!: FormGroup;
+    readonly ai4eoscElements = computed(() => {
+        const modules = this.store.ai4eoscModules();
+        if (this.appConfigService.voName !== IMAGINE_VO) return modules;
+        return modules.filter((m) => m.id !== 'ai4os-llm');
+    });
 
-    selectedTabIndex = 0;
-    marketplaceName = 'ai4eosc';
+    readonly ai4eoscInitialFilters = computed<FilterGroup[]>(() => {
+        if (this.appConfigService.voName !== IMAGINE_VO) return [];
 
-    ai4eoscModules: ModuleSummary[] = [];
-    ai4lifeModules: Ai4lifeModule[] = [];
+        return [
+            {
+                libraries: [],
+                tasks: [],
+                categories: ['AI4 tools'],
+                datatypes: [],
+                tags: [],
+            },
+            {
+                libraries: [],
+                tasks: [],
+                categories: [],
+                datatypes: [],
+                tags: [IMAGINE_VO],
+            },
+            {
+                libraries: [],
+                tasks: [],
+                categories: [],
+                datatypes: ['Image'],
+                tags: ['general purpose'],
+            },
+        ];
+    });
 
-    ai4eoscModulesLoading = false;
-    ai4lifeModulesLoading = false;
+    readonly activeTab = signal<MarketplaceTab>(
+        this.getStoredMarketplace() ?? 'ai4eosc'
+    );
+
+    readonly tabs: Tab[] = [
+        {
+            id: 'ai4eosc',
+            label: 'CATALOG.MODULES.AI4EOSC-TAB',
+            icon: 'model_training',
+        },
+        {
+            id: 'ai4life',
+            label: 'CATALOG.MODULES.AI4LIFE-TAB',
+            icon: 'biotech',
+        },
+    ];
 
     ngOnInit(): void {
-        this.ai4eoscModulesLoading = true;
-        this.ai4lifeModulesLoading = true;
+        this.store.ensureLoaded();
+    }
 
-        const marketplace = sessionStorage.getItem('selectedMarketplace');
-        if (marketplace) {
-            try {
-                this.marketplaceName = JSON.parse(marketplace);
-            } catch (e) {
-                this.snackbarService.openError(
-                    'Marketplace could not be loaded. Please try again later.'
-                );
-            }
+    onTabSelected(tabId: string): void {
+        const tab = tabId as MarketplaceTab;
+        this.activeTab.set(tab);
+        sessionStorage.setItem(MARKETPLACE_STORAGE_KEY, JSON.stringify(tab));
+    }
+
+    private getStoredMarketplace(): MarketplaceTab | null {
+        const stored = sessionStorage.getItem(MARKETPLACE_STORAGE_KEY);
+        if (!stored) return null;
+
+        try {
+            const parsed = JSON.parse(stored);
+            return parsed === 'ai4eosc' || parsed === 'ai4life' ? parsed : null;
+        } catch {
+            return null;
         }
-
-        this.getAi4eoscModules();
-        this.getAi4lifeModules();
-
-        if (this.marketplaceName === 'ai4eosc') {
-            this.selectTab(0);
-        } else {
-            this.selectTab(2);
-        }
-    }
-
-    ngAfterViewInit(): void {
-        const interval = setInterval(() => {
-            if (!this.ai4eoscModulesLoading) {
-                clearInterval(interval);
-                // this.introService.batchDeployments();
-            }
-        }, 200);
-    }
-
-    getAi4eoscModules() {
-        this.modulesService.getModulesSummary().subscribe({
-            next: (modules) => {
-                this.ai4eoscModules = modules;
-                this.ai4eoscModulesLoading = false;
-            },
-            error: () => {
-                setTimeout(() => (this.ai4eoscModulesLoading = false), 3000);
-            },
-        });
-    }
-
-    getAi4lifeModules() {
-        this.modulesService.getAi4lifeModules().subscribe({
-            next: (modules: Ai4lifeModule[]) => {
-                this.ai4lifeModules = modules;
-                this.ai4lifeModulesLoading = false;
-            },
-            error: () => {
-                setTimeout(() => (this.ai4lifeModulesLoading = false), 3000);
-            },
-        });
-    }
-
-    selectMarketplace(tabChangeEvent: MatTabChangeEvent): void {
-        this.marketplaceName = tabChangeEvent.tab.textLabel.toLowerCase();
-        sessionStorage.setItem(
-            'selectedMarketplace',
-            JSON.stringify(this.marketplaceName)
-        );
-    }
-
-    selectTab(index: number): void {
-        this.selectedTabIndex = index;
     }
 }

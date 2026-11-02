@@ -38,7 +38,26 @@ export class ModulesService {
         const headers = new HttpHeaders({
             Accept: 'application/json',
         });
-        return this.http.get<Ai4eoscModule>(url, { headers });
+
+        return this.http.get<Ai4eoscModule>(url, { headers }).pipe(
+            map((module: Ai4eoscModule) => {
+                if (module.dates) {
+                    if (module.dates.created) {
+                        module.dates.created = module.dates.created
+                            .split('-')
+                            .reverse()
+                            .join('-');
+                    }
+                    if (module.dates.updated) {
+                        module.dates.updated = module.dates.updated
+                            .split('-')
+                            .reverse()
+                            .join('-');
+                    }
+                }
+                return module;
+            })
+        );
     }
 
     getModuleNomadConfiguration(
@@ -74,7 +93,11 @@ export class ModulesService {
                     name: item.name,
                     description: item.description,
                     doi: item.id,
-                    created: item.created.slice(0, 10),
+                    created: item.created
+                        .slice(0, 10)
+                        .split('-')
+                        .reverse()
+                        .join('-'),
                     covers: item.covers,
                     downloadCount: item.download_count,
                     tags: item.tags,

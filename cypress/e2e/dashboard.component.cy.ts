@@ -1,123 +1,54 @@
-describe('dashboard section', function () {
+describe('platform statistics', function () {
     before(function () {
-        cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.env(['EMAIL', 'PASSWORD']).then(({ EMAIL, PASSWORD }) => {
+            cy.login(EMAIL, PASSWORD);
+        });
         cy.closeAccessLevelPopup();
-        cy.contains('Statistics', { timeout: 10000 }).click({ force: true });
     });
 
-    it('shows datacenter section', function () {
-        cy.contains('Overview', { timeout: 40000 }).should('be.visible');
-        cy.contains('Datacenters').should('be.visible');
-        cy.contains('Usage').should('be.visible');
+    beforeEach(function () {
+        cy.visit('/statistics/platform');
     });
 
-    it('shows dashboard tab', function () {
-        cy.get('#title-cluster', { timeout: 30000 }).contains(
-            'Cluster Usage Overview'
+    it('shows the platform statistics page and tabs', function () {
+        cy.get('h1').should('contain.text', 'Platform statistics');
+        cy.get('#usage-tab').should('be.visible');
+        cy.get('#footprint-tab').should('be.visible');
+        cy.get('#datacenters-tab').should('be.visible');
+    });
+
+    it('shows platform usage when the tab is selected', function () {
+        cy.get('#usage-tab').click();
+        cy.get('#usage-tab').should('have.class', 'ui-tabs__item--active');
+        cy.get('app-platform-usage-tab, #error').should('exist');
+    });
+
+    it('shows datacenters when the tab is selected', function () {
+        cy.get('#datacenters-tab').click();
+        cy.get('#datacenters-tab').should(
+            'have.class',
+            'ui-tabs__item--active'
         );
-        cy.get('app-stat-card')
-            .find('.header p:contains("CPUs")')
-            .should('have.length', 1);
-        cy.get('app-stat-card')
-            .find('.header p:contains("Memory")')
-            .should('have.length', 1);
-        cy.get('app-stat-card')
-            .find('.header p:contains("Disk")')
-            .should('have.length', 1);
-        cy.get('app-stat-card')
-            .find('.header p:contains("GPUs")')
-            .should('have.length', 1);
-
-        cy.get('#title-user').contains('Your Usage');
-        cy.get('mat-card')
-            .find('.stat-text:contains("Number of Jobs")')
-            .should('have.length', 1);
-        cy.get('mat-card')
-            .find('.stat-text:contains("CPUs")')
-            .should('have.length', 1);
-        cy.get('mat-card')
-            .find('.stat-text:contains("CPU Frequency")')
-            .should('have.length', 1);
-        cy.get('mat-card')
-            .find('.stat-text:contains("Memory")')
-            .should('have.length', 1);
-        cy.get('mat-card')
-            .find('.stat-text:contains("Disk")')
-            .should('have.length', 1);
-        cy.get('mat-card')
-            .find('.stat-text:contains("GPUs")')
-            .should('have.length', 1);
+        cy.get('app-datacenters-tab, #error').should('exist');
     });
 
-    it('shows datacenters tab', function () {
-        cy.contains('Datacenters', { timeout: 8000 }).click();
-        cy.get('canvas').should('be.visible');
+    it('shows the footprint tab', function () {
+        cy.get('#footprint-tab').click();
+        cy.get('#footprint-tab').should('have.class', 'ui-tabs__item--active');
+        cy.get('app-platform-footprint-tab, #error').should('exist');
     });
 
-    it('shows usage tab', function () {
-        cy.contains('Usage', { timeout: 10000 }).click();
-        cy.contains('AI4EOSC Usage Over Time').should('be.visible');
+    it('shows a message when platform statistics are unavailable', function () {
+        cy.intercept('GET', '**/deployments/stats/cluster*', {
+            statusCode: 503,
+            body: {},
+        }).as('clusterStatsUnavailable');
 
-        cy.contains('Running deployments').should('be.visible');
-        cy.get('canvas').should('be.visible');
+        cy.visit('/statistics/platform');
+        cy.wait('@clusterStatsUnavailable');
 
-        cy.contains('Queued deployments').should('be.visible');
-        cy.contains('Queued deployments').click();
-        cy.get('canvas').should('be.visible');
-
-        cy.get('[role="tab"]').contains('CPUs').should('be.visible');
-        cy.get('[role="tab"]').contains('CPUs').click();
-        cy.get('canvas').should('be.visible');
-
-        cy.contains('CPU Mhz').should('be.visible');
-        cy.contains('CPU Mhz').click();
-        cy.get('canvas').should('be.visible');
-
-        cy.contains('Memory MB').should('be.visible');
-        cy.contains('Memory MB').click();
-        cy.get('canvas').should('be.visible');
-
-        cy.contains('Disk MB').should('be.visible');
-        cy.contains('Disk MB').click();
-        cy.get('canvas').should('be.visible');
-
-        cy.get('[role="tab"]').contains('GPUs').should('be.visible');
-        cy.get('[role="tab"]').contains('GPUs').click();
-        cy.get('canvas').should('be.visible');
-
-        cy.get('#title-aggregate').contains('Historical Aggregate Usage');
-        cy.get('app-stat-card')
-            .find('.header p:contains("CPUs")')
-            .should('be.visible');
-        cy.get('app-stat-card')
-            .find('.header p:contains("Memory")')
-            .should('be.visible');
-        cy.get('app-stat-card')
-            .find('.header p:contains("Disk")')
-            .should('be.visible');
-        cy.get('.stats-container')
-            .eq(1)
-            .scrollIntoView()
-            .find('app-stat-card .header p')
-            .contains('CPUs')
-            .should('be.visible');
-    });
-
-    it('shows message when stats are not available', function () {
-        cy.intercept('/v1/deployments/stats/cluster?vo=vo.ai4eosc.eu');
-        cy.intercept('GET', '/v1/deployments/stats/cluster?vo=vo.ai4eosc.eu', {
-            fixture: null,
-        });
-        cy.intercept('/v1/deployments/stats/user?vo=vo.ai4eosc.eu');
-        cy.intercept('GET', '/v1/deployments/stats/user?vo=vo.ai4eosc.eu', {
-            fixture: null,
-        });
-
-        cy.visit('http://localhost:8080/statistics');
-        cy.reload();
-
-        cy.contains('Statistics are not available at the moment', {
-            timeout: 10000,
-        }).should('be.visible');
+        cy.get('#error')
+            .should('be.visible')
+            .and('contain.text', 'Statistics are not available at the moment');
     });
 });

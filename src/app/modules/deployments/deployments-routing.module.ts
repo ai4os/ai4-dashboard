@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DeploymentDetailComponent } from './components/deployment-detail/deployment-detail.component';
 import { DeploymentsListComponent } from './components/deployments-list/deployments-list.component';
+import { SnapshotDetailComponent } from './components/snapshot-detail/snapshot-detail.component';
 
 const routes: Routes = [
     {
@@ -14,6 +15,12 @@ const routes: Routes = [
     {
         path: ':uuid',
         component: DeploymentDetailComponent,
+        data: { type: 'module' },
+    },
+    {
+        path: 'snapshots/:uuid',
+        component: SnapshotDetailComponent,
+        data: { breadcrumb: 'Snapshot' },
     },
 ];
 

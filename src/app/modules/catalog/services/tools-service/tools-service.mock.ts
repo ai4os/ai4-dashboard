@@ -10,15 +10,17 @@ import {
     mockAi4eoscModules,
     mockedModuleConfiguration,
 } from '../modules-service/modules-service.mock';
-import { generalDefaultFormValues } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component.mock';
-import { hardwareDefaultFormValues } from '@app/modules/catalog/components/train/hardware-conf-form/hardware-conf-form.component.mock';
-import { storageDefaultFormValues } from '@app/modules/catalog/components/train/storage-conf-form/storage-conf-form.component.mock';
-import { flowerDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/federated-server/federated-conf-form/federated-conf-form.component.mock';
+import { generalDefaultFormValues } from '@app/modules/catalog/components/conf-forms/general-conf-form/general-conf-form.component.mock';
+import { hardwareDefaultFormValues } from '@app/modules/catalog/components/conf-forms/hardware-conf-form/hardware-conf-form.component.mock';
+import { storageDefaultFormValues } from '@app/modules/catalog/components/conf-forms/storage-conf-form/storage-conf-form.component.mock';
+import { flowerDefaultFormValues } from '@app/modules/catalog/components/conf-forms/federated-conf-form/federated-conf-form.component.mock';
 import { llmDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/llm/llm.component.mock';
-import { nvflareDefaultFormValues } from '@app/modules/catalog/components/train/tool-train/nvflare/nvflare-conf-form/nvflare-conf-form.component.mock';
+import { nvflareDefaultFormValues } from '@app/modules/catalog/components/conf-forms/nvflare-conf-form/nvflare-conf-form.component.mock';
+import { ai4lifeDefaultFormValues } from '../../components/conf-forms/ai4life-conf-form/ai4life-conf-form.component.mock';
 
 export const mockedVllmsConfig: VllmModelConfig[] = [
     {
+        id: 'meta-llama/Llama-3.2-3B-Instruct',
         name: 'Llama-3.2-3B-Instruct',
         description: 'A mock LLM model',
         family: 'meta-llama',
@@ -28,6 +30,7 @@ export const mockedVllmsConfig: VllmModelConfig[] = [
         args: [],
     },
     {
+        id: 'Qwen/Qwen2.5-7B-Instruct-AWQ',
         name: 'Qwen2.5-7B-Instruct-AWQ',
         description: 'Another mock LLM model',
         family: 'Qwen',
@@ -40,14 +43,16 @@ export const mockedVllmsConfig: VllmModelConfig[] = [
 
 export const mockedYamlVllmsConfig = `
 models:
-  Llama-3.2-3B-Instruct:
+  meta-llama/Llama-3.2-3B-Instruct:
+    name: Llama-3.2-3B-Instruct
     description: A mock LLM model
     family: meta-llama
     needs_HF_token: true
     license: ''
     context: ''
     args: []
-  Qwen2.5-7B-Instruct-AWQ:
+  Qwen/Qwen2.5-7B-Instruct-AWQ:
+    name: Qwen2.5-7B-Instruct-AWQ
     description: Another mock LLM model
     family: Qwen
     needs_HF_token: false
@@ -186,6 +191,7 @@ export const mockAi4LifeLoaderToolConfiguration: Ai4LifeLoaderToolConfiguration 
     {
         general: generalDefaultFormValues,
         hardware: hardwareDefaultFormValues,
+        ai4life: ai4lifeDefaultFormValues,
     };
 
 export const mockLlmToolConfiguration: LlmToolConfiguration = {

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16.428 -16.428 143.856 143.856">
+  <defs>
+    <linearGradient id="libertaiPurple" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8366FA"/>
+      <stop offset="100%" stop-color="#E4B7FE"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#libertaiPurple)" d="M 109 80 L 73 80 L 43 111 L 81 111 L 109 82 Z M 31 2 L 29 2 L 0 30 L 0 111 L 30 111 L 58 82 L 58 80 L 31 79 Z M 42 0 L 42 31 L 79 32 L 79 69 L 111 69 L 111 0 Z"/>
+</svg>

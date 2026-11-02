@@ -14,7 +14,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     cy.session(
         `auth-${username}`,
         () => {
-            cy.visit('http://localhost:8080/');
+            cy.visit('/');
 
             cy.contains('Login', { timeout: 20000 }).click({ force: true });
 
@@ -31,7 +31,10 @@ Cypress.Commands.add('login', (username: string, password: string) => {
                 }
             );
 
-            cy.url().should('equal', 'http://localhost:8080/catalog/modules');
+            cy.url().should(
+                'equal',
+                `${Cypress.config('baseUrl')}/catalog/modules`
+            );
 
             cy.get('body').then(($body) => {
                 if ($body.find(':contains("Close")').length > 0) {
@@ -50,26 +53,31 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     log.snapshot('after');
 });
 
-Cypress.Commands.add('initializeTrainModuleForm', () => {
-    cy.visit('http://localhost:8080/');
-    cy.contains('Dogs breed detector', { timeout: 20000 }).click({
-        force: true,
-    });
-    cy.get('.action-button').contains('Deploy', { timeout: 10000 }).click();
-    cy.contains('Inference API + UI (dedicated)', { timeout: 10000 }).click();
-    cy.get('#deployment-title', { timeout: 10000 }).type('test');
-    cy.wait(500);
-    cy.contains('Next', { timeout: 10000 })
-        .scrollIntoView()
-        .click({ force: true });
-    cy.wait(500);
-    cy.contains('Next', { timeout: 10000 })
-        .scrollIntoView()
-        .click({ force: true });
-});
+Cypress.Commands.add(
+    'initializeTrainModuleForm',
+    (deploymentTitle = 'test') => {
+        cy.visit('/');
+        cy.contains('Dogs breed detector', { timeout: 20000 }).click({
+            force: true,
+        });
+        cy.get('app-ui-button').contains('Deploy', { timeout: 10000 }).click();
+        cy.contains('Inference API + UI (dedicated)', {
+            timeout: 10000,
+        }).click();
+        cy.get('#deployment-title', { timeout: 10000 }).type(deploymentTitle);
+        cy.wait(500);
+        cy.contains('Next', { timeout: 10000 })
+            .scrollIntoView()
+            .click({ force: true });
+        cy.wait(500);
+        cy.contains('Next', { timeout: 10000 })
+            .scrollIntoView()
+            .click({ force: true });
+    }
+);
 
 Cypress.Commands.add('addNextcloudStorageCredentials', () => {
-    cy.visit('http://localhost:8080/');
+    cy.visit('/');
     cy.contains('TestAI4EOSC Cypress', { timeout: 10000 }).click();
     cy.contains('Profile').click();
     cy.get('#storage-tab').click();
@@ -93,7 +101,7 @@ Cypress.Commands.add('addNextcloudStorageCredentials', () => {
 });
 
 Cypress.Commands.add('deleteNextcloudStorageCredentials', () => {
-    cy.visit('http://localhost:8080/');
+    cy.visit('/');
     cy.contains('TestAI4EOSC Cypress', { timeout: 10000 }).click();
     cy.contains('Profile').click();
     cy.get('#storage-tab').click();

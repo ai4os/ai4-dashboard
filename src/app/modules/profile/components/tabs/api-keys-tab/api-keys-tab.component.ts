@@ -194,10 +194,17 @@ export class ApiKeysTabComponent implements OnInit {
             });
     }
 
-    isExpiringSoon(expires: Date | null): boolean {
+    isExpired(expires: Date | null): boolean {
         if (!expires) return false;
+        return expires.getTime() < Date.now();
+    }
+
+    isExpiringSoon(expires: Date | null): boolean {
+        if (!expires || this.isExpired(expires)) return false;
+
         const diffMs = expires.getTime() - Date.now();
         const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
         return diffDays <= 7;
     }
 

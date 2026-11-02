@@ -1,31 +1,60 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { SnapshotDetailComponent } from './snapshot-detail.component';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
+import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { mockedSnapshots } from '@app/modules/deployments/services/snapshots-service/snapshots.service.mock';
 import { testProviders } from '@testing/test-providers';
+import { of } from 'rxjs';
 
 describe('SnapshotDetailComponent', () => {
     let component: SnapshotDetailComponent;
     let fixture: ComponentFixture<SnapshotDetailComponent>;
+    let snapshotUuid: string;
+    let getSnapshotByUUID: jest.Mock;
+    let snackbarService: { openError: jest.Mock };
 
     beforeEach(async () => {
+        TestBed.overrideComponent(SnapshotDetailComponent, {
+            set: { template: '' },
+        });
+
+        snapshotUuid = '';
+        snackbarService = { openError: jest.fn() };
+        getSnapshotByUUID = jest
+            .fn()
+            .mockReturnValue(of({ ...mockedSnapshots[0] }));
+
         await TestBed.configureTestingModule({
-            imports: [
-                SnapshotDetailComponent,
-                TranslatePipe,
-                TranslateDirective,
-            ],
+            imports: [SnapshotDetailComponent],
             providers: [
                 ...testProviders,
-
                 {
-                    provide: MAT_DIALOG_DATA,
-                    useValue: { snapshot: mockedSnapshots[0] },
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: {
+                            data: {},
+                            routeConfig: { path: 'snapshots/:uuid' },
+                            paramMap: {
+                                get: (name: string) =>
+                                    name === 'uuid' ? snapshotUuid : null,
+                            },
+                        },
+                        params: of({}),
+                        data: of({}),
+                        url: of([]),
+                        queryParams: of({}),
+                        children: [],
+                    },
                 },
-                { provide: MediaMatcher, useValue: mockedMediaMatcher },
+                {
+                    provide: SnapshotService,
+                    useValue: { getSnapshotByUUID },
+                },
+                {
+                    provide: SnackbarService,
+                    useValue: snackbarService,
+                },
             ],
         }).compileComponents();
 
@@ -34,21 +63,48 @@ describe('SnapshotDetailComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+    it('does not request a snapshot when the route has no UUID', () => {
+        expect(getSnapshotByUUID).not.toHaveBeenCalled();
+        expect(component.snapshot).toBeUndefined();
     });
 
-    it('should initialize snapshot from data and set statusBadge', () => {
-        expect(component.snapshot).toEqual(
-            expect.objectContaining(mockedSnapshots[0])
-        );
-        expect(component.statusBadge).toBeDefined();
-        expect(typeof component.statusBadge).toBe('string');
-    });
-
-    it('should detect error if error_msg is present', () => {
-        component.data.snapshot.error_msg = 'Error message';
+    it('loads the snapshot from the route and formats its displayed fields', () => {
+        snapshotUuid = mockedSnapshots[0].snapshot_ID;
         component.ngOnInit();
-        expect(component['snapshotHasError']).toBe(true);
+
+        expect(getSnapshotByUUID).toHaveBeenCalledWith(snapshotUuid);
+        expect(component.snapshot).toEqual(
+            expect.objectContaining({
+                ...mockedSnapshots[0],
+                size: 1.92,
+                description: '-',
+            })
+        );
+        expect(component.statusBadge).not.toBe('');
+        expect(component.isLoading).toBe(false);
+    });
+
+    it('marks a loaded snapshot with an error message as failed', () => {
+        getSnapshotByUUID.mockReturnValue(
+            of({ ...mockedSnapshots[0], error_msg: 'Snapshot failed' })
+        );
+        snapshotUuid = mockedSnapshots[0].snapshot_ID;
+
+        component.ngOnInit();
+
+        expect(component.snapshotHasError).toBe(true);
+        expect(component.snapshot?.error_msg).toBe('Snapshot failed');
+    });
+
+    it('reports a missing snapshot and stops loading', () => {
+        getSnapshotByUUID.mockReturnValue(of(undefined));
+        snapshotUuid = 'missing-snapshot';
+
+        component.ngOnInit();
+
+        expect(snackbarService.openError).toHaveBeenCalledWith(
+            "Couldn't find the requested snapshot."
+        );
+        expect(component.isLoading).toBe(false);
     });
 });

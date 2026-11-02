@@ -45,11 +45,11 @@ describe('StatsServiceService', () => {
     });
 
     it('getUserStats should return the stats of the logged user', (done) => {
-        const url = `${base}/deployments/stats/user?vo=vo.ai4eosc.eu`;
+        const url = `${base}/deployments/stats/user?vo=vo.ai4eosc.eu&full_info=true`;
 
         service.getUserStats().subscribe((stats) => {
             try {
-                expect(stats).toBe(mockedUserStats);
+                expect(stats).toEqual(mockedUserStats);
                 done();
             } catch (error) {
                 done(error);
@@ -63,11 +63,11 @@ describe('StatsServiceService', () => {
     });
 
     it('getClusterStats should return the stats of the cluster', (done) => {
-        const url = `${base}/deployments/stats/cluster?vo=vo.ai4eosc.eu`;
+        const url = `${base}/deployments/stats/cluster?vo=vo.ai4eosc.eu&full_info=true`;
 
         service.getClusterStats().subscribe((stats) => {
             try {
-                expect(stats).toBe(mockedClusterStats);
+                expect(stats).toEqual(mockedClusterStats);
                 done();
             } catch (error) {
                 done(error);

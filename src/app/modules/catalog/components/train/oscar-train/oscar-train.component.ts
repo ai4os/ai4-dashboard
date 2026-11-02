@@ -3,6 +3,7 @@ import {
     OnInit,
     ChangeDetectionStrategy,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -10,24 +11,26 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import {
     ModuleGeneralConfiguration,
     ModuleHardwareConfiguration,
     ModuleConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../general-conf-form/general-conf-form.component';
+} from '../../conf-forms/general-conf-form/general-conf-form.component';
 import {
-    showHardwareField,
+    ShowHardwareField,
     HardwareConfFormComponent,
-} from '../hardware-conf-form/hardware-conf-form.component';
+} from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
+import { OscarInferenceService } from '@app/modules/inference/services/oscar-inference.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 
 @Component({
     selector: 'app-oscar-train',
@@ -45,9 +48,16 @@ import { StepperFormComponent } from '../stepper-form/stepper-form.component';
 export class OscarTrainComponent implements OnInit {
     _formBuilder = inject(FormBuilder);
     modulesService = inject(ModulesService);
+    oscarInferenceService = inject(OscarInferenceService);
+    snackbarService = inject(SnackbarService);
     translateService = inject(TranslateService);
     route = inject(ActivatedRoute);
     router = inject(Router);
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
 
     constructor() {
         const navigation = this.router.currentNavigation();
@@ -57,8 +67,8 @@ export class OscarTrainComponent implements OnInit {
     }
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
 
     showHelp = false;
     showLoader = false;
@@ -77,13 +87,9 @@ export class OscarTrainComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
-        cvatFields: false,
-        ai4lifeFields: false,
-        llmFields: false,
-        batchFields: false,
     };
 
-    showHardwareFields: showHardwareField = {
+    showHardwareFields: ShowHardwareField = {
         cpu_num: true,
         ram: true,
         disk: false,
@@ -121,7 +127,42 @@ export class OscarTrainComponent implements OnInit {
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+        };
+
+        this.oscarInferenceService.createService(request).subscribe({
+            next: (serviceName: string) => {
+                this.showLoader = false;
+                if (serviceName !== '') {
+                    this.router
+                        .navigate(['/tasks/inference'])
+                        .then((navigated: boolean) => {
+                            if (navigated) {
+                                this.snackbarService.openSuccess(
+                                    'OSCAR service created with uuid ' +
+                                        serviceName
+                                );
+                            } else {
+                                this.snackbarService.openError(
+                                    'Error while creating service with uuid ' +
+                                        serviceName
+                                );
+                            }
+                        });
+                }
+            },
+            error: () => {
+                this.showLoader = false;
+            },
+        });
     }
 }

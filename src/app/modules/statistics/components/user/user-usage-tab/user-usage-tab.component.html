@@ -1,0 +1,74 @@
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'STATS.COMMON.MODES.REAL-TIME' | translate }}
+        </h3>
+    </div>
+</div>
+
+@if (isLoading) {
+    <div class="spinner">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else if (userItems.length) {
+    <div class="resources-grid">
+        @for (item of userItems; track item.label) {
+            <app-stats-card
+                [label]="item.label | translate"
+                [value]="item.value"
+                [unit]="item.unit"
+                [icon]="item.icon"
+                [color]="item.color"
+            ></app-stats-card>
+        }
+    </div>
+}
+
+<div class="section-header">
+    <div class="section-header__text">
+        <h3 class="section-header__title">
+            {{ 'STATS.COMMON.MODES.OVER-TIME' | translate }}
+        </h3>
+        <p class="section-header__subtitle">
+            {{ 'STATS.USER.USAGE.VO-SHARE-INFO' | translate }}
+        </p>
+    </div>
+</div>
+
+<div class="resources-grid">
+    <app-stats-card
+        [label]="'STATS.METRICS.RESOURCES.CPU' | translate"
+        icon="memory"
+        [value]="usage.cpu.used"
+        [total]="usage.cpu.total"
+        color="var(--color-accent)"
+    ></app-stats-card>
+
+    <app-stats-card
+        [label]="'STATS.METRICS.RESOURCES.RAM' | translate"
+        icon="memory_alt"
+        [value]="usage.memory.used"
+        [total]="usage.memory.total"
+        [unit]="usage.memory.unit"
+        color="var(--color-secondary-4)"
+    ></app-stats-card>
+
+    <app-stats-card
+        [label]="'STATS.METRICS.RESOURCES.DISK' | translate"
+        icon="album"
+        [value]="usage.disk.used"
+        [total]="usage.disk.total"
+        [unit]="usage.disk.unit"
+        color="var(--color-primary-dark)"
+    ></app-stats-card>
+
+    @if (usage.gpu.total > 0) {
+        <app-stats-card
+            [label]="'STATS.METRICS.RESOURCES.GPU' | translate"
+            icon="developer_board"
+            [value]="usage.gpu.used"
+            [total]="usage.gpu.total"
+            color="var(--primary)"
+        ></app-stats-card>
+    }
+</div>

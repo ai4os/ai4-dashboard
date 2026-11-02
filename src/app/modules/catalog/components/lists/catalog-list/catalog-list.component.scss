@@ -1,86 +1,154 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: var(--space-md);
 }
 
-.marketplace-toolbar {
-    margin-top: 16px;
-    gap: 2em;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: baseline;
-    height: min-content;
-    background-color: var(--white);
-    & span {
-        display: flex;
-        align-items: center;
-        align-self: baseline;
-    }
+.spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
 }
 
-.mobile {
+.tab-content-container {
     display: flex;
     flex-direction: column;
-    padding: 0 16px;
-    margin-bottom: 0px !important;
+    gap: 1.5em;
+    margin-top: var(--space-lg);
 }
 
-.search-form-mobile {
-    width: 100%;
-}
-
-.search-field-mobile {
-    width: 100%;
-}
-
-::ng-deep .filter-selector .mat-mdc-text-field-wrapper {
-    border-radius: 50px;
-}
-
-::ng-deep .filter-selector .mdc-line-ripple {
-    display: none;
-}
-
-.search-and-results-container {
+.catalog-filters {
     display: flex;
+    align-items: flex-start;
     flex-direction: row;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1em;
-    & span {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: transparent;
+    height: auto;
+    padding-top: 1rem;
+
+    &.mobile {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    &__form {
         display: flex;
+        flex: 1;
+        min-width: 0;
+        flex-wrap: wrap;
+        gap: var(--space-lg);
         align-items: center;
-        align-self: center;
+        justify-content: start;
+
+        &--mobile {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        span {
+            display: flex;
+            flex-direction: row;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        mat-divider {
+            height: 30px;
+            width: 1px;
+        }
+    }
+
+    &__search {
+        width: 200px;
+    }
+
+    &__results {
+        margin: 0;
+        white-space: nowrap;
+        font-size: var(--font-size-xs);
+        font-style: italic;
+        color: var(--color-text-secondary);
+        text-align: end;
+
+        &--mobile {
+            margin: 0.25rem 0 0;
+        }
     }
 }
 
-.search-filter-order-container {
+.sorting-chips {
     display: flex;
-    width: 100%;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1em;
+    gap: 8px;
 
-    mat-divider {
-        height: 30px;
-        width: 1px;
+    app-ui-chip {
+        cursor: pointer;
     }
 }
 
 .small-text {
-    font-size: 17px;
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
 }
 
-.results-text {
-    font-style: italic;
-    font-size: small;
-    align-self: flex-end !important;
+::ng-deep .catalog-filters mat-chip {
+    cursor: pointer;
 }
 
 .modules-cards-container {
     display: grid;
-    grid-gap: 0.5rem;
+    grid-gap: 1.5rem;
     grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+
+    ::ng-deep app-ui-card {
+        width: 100%;
+    }
+}
+
+.catalog-empty-state,
+.catalog-error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 3rem 1rem;
+    color: var(--color-text-secondary, rgba(0, 0, 0, 0.6));
+
+    mat-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 2.5rem;
+    }
+}
+
+.catalog-error-state {
+    color: var(--color-danger);
+}
+
+::ng-deep .catalog-paginator.mat-mdc-paginator {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+
+    .mat-mdc-paginator-container {
+        justify-content: center;
+        gap: 0.25rem;
+    }
+
+    .mat-mdc-icon-button {
+        border-radius: var(--radius-xs, 8px);
+        color: var(--color-text-primary);
+
+        &:hover:not(:disabled) {
+            background-color: var(--color-primary-light, rgba(0, 0, 0, 0.06));
+        }
+    }
+
+    .mat-mdc-paginator-range-label {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+    }
 }

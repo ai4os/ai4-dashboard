@@ -1,0 +1,110 @@
+.conf-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    h4 {
+        margin-block: var(--space-md);
+    }
+}
+
+.title-and-toggles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-and-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+
+    ::ng-deep .ui-toggle {
+        height: 24px;
+    }
+}
+
+.service-to-run-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.password-input-field {
+    width: 50%;
+}
+
+.password-input-field-mobile {
+    width: 100%;
+}
+
+.display-inline {
+    display: inline;
+}
+
+.service-to-run-chips {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.field-with-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.tab-content {
+    margin-top: 1em;
+}
+
+.form-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-uploaded-button {
+    background-color: var(--white);
+    color: var(--accent);
+    border: solid;
+    width: fit-content;
+    align-self: end;
+    padding: 0px 50px;
+}
+
+.no-file-uploaded-button {
+    color: var(--white);
+    width: fit-content;
+    align-self: end;
+    padding: 0px 50px;
+}
+
+.textarea-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    gap: 0.5em;
+}
+
+.ui-text-field {
+    display: flex;
+    gap: var(--space-xs);
+    flex-direction: column;
+
+    &__label {
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-secondary);
+    }
+
+    &__hint {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-tertiary);
+    }
+}

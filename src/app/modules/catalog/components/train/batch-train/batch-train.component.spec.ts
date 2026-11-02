@@ -79,11 +79,10 @@ describe('BatchTrainComponent', () => {
     });
 
     it('should toggle help flag on slide toggle change', () => {
-        const event = { checked: true } as any;
-        component.showHelpButtonChange(event);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
 
-        component.showHelpButtonChange({ checked: false } as any);
+        component.showHelpButtonChange(false);
         expect(component.showHelp).toBe(false);
     });
 });

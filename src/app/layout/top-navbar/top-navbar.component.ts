@@ -35,10 +35,10 @@ import { TranslatePipe } from '@ngx-translate/core';
     ],
 })
 export class TopNavbarComponent implements OnInit {
-    private authService = inject(AuthService);
-    private sidenavService = inject(SidenavService);
+    private readonly authService = inject(AuthService);
+    private readonly sidenavService = inject(SidenavService);
     protected appConfigService = inject(AppConfigService);
-    private breakpointObserver = inject(BreakpointObserver);
+    private readonly breakpointObserver = inject(BreakpointObserver);
 
     protected environment = environment;
     voName = '';

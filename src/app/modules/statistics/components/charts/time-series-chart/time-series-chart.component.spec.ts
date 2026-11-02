@@ -29,7 +29,8 @@ describe('TimeSeriesChartComponent', () => {
     });
 
     it('shows chart', () => {
-        const chart = fixture.debugElement.query(By.css('#chart'));
-        expect(chart).toBeTruthy();
+        const chart = fixture.debugElement.query(By.css('[echarts]'));
+        expect(chart).not.toBeNull();
+        expect(chart.nativeElement.style.height).toBe(`${component.height}px`);
     });
 });

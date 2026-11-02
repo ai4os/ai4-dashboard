@@ -1,0 +1,65 @@
+<div class="ui-banner" [class]="'ui-banner--' + variant">
+    <div class="ui-banner__content">
+        <ng-content></ng-content>
+    </div>
+
+    @switch (decoration) {
+        @case ('circles') {
+            <div class="ui-banner__circles" aria-hidden="true">
+                <span class="ui-banner__circle ui-banner__circle--lg"></span>
+                <span class="ui-banner__circle ui-banner__circle--md"></span>
+                <span class="ui-banner__circle ui-banner__circle--sm"></span>
+            </div>
+        }
+
+        @case ('modules') {
+            <div class="ui-banner__modules" aria-hidden="true">
+                <span
+                    class="ui-banner__modules-item ui-banner__modules-item--1"
+                ></span>
+                <span
+                    class="ui-banner__modules-item ui-banner__modules-item--2"
+                ></span>
+                <span
+                    class="ui-banner__modules-item ui-banner__modules-item--3"
+                ></span>
+            </div>
+        }
+
+        @case ('llms') {
+            <div class="ui-banner__llms" aria-hidden="true">
+                <span class="ui-banner__llm-node ui-banner__llm-node--1"></span>
+                <span class="ui-banner__llm-node ui-banner__llm-node--2"></span>
+                <span class="ui-banner__llm-node ui-banner__llm-node--3"></span>
+            </div>
+        }
+
+        @case ('tools') {
+            <div class="ui-banner__tools" aria-hidden="true">
+                <span
+                    class="ui-banner__tool-item ui-banner__tool-item--1"
+                ></span>
+                <span
+                    class="ui-banner__tool-item ui-banner__tool-item--2"
+                ></span>
+                <span
+                    class="ui-banner__tool-item ui-banner__tool-item--3"
+                ></span>
+            </div>
+        }
+
+        @case ('deployments') {
+            <div class="ui-banner__deployments" aria-hidden="true">
+                <span class="ui-banner__deploy-bar ui-banner__deploy-bar--sm">
+                    <span class="ui-banner__deploy-bar-fill"></span>
+                </span>
+                <span class="ui-banner__deploy-bar ui-banner__deploy-bar--md">
+                    <span class="ui-banner__deploy-bar-fill"></span>
+                </span>
+                <span class="ui-banner__deploy-bar ui-banner__deploy-bar--lg">
+                    <span class="ui-banner__deploy-bar-fill"></span>
+                </span>
+            </div>
+        }
+    }
+</div>

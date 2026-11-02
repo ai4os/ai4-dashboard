@@ -22,12 +22,6 @@ import {
     MatDialogRef,
     MatDialogClose,
 } from '@angular/material/dialog';
-import {
-    MatTabChangeEvent,
-    MatTabGroup,
-    MatTab,
-    MatTabLabel,
-} from '@angular/material/tabs';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { ZenodoService } from '@app/modules/catalog/services/zenodo-service/zenodo.service';
 import {
@@ -38,35 +32,17 @@ import {
 } from '@app/shared/interfaces/dataset.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { Observable, map, startWith } from 'rxjs';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
-import {
-    MatCard,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
-import {
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatSuffix,
-    MatError,
-} from '@angular/material/input';
-import {
-    MatAutocompleteTrigger,
-    MatAutocomplete,
-} from '@angular/material/autocomplete';
-import {
-    CdkVirtualScrollViewport,
-    CdkFixedSizeVirtualScroll,
-    CdkVirtualForOf,
-} from '@angular/cdk/scrolling';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatDivider } from '@angular/material/list';
-import { MatButton } from '@angular/material/button';
+import { NgClass, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import {
+    UiTabsComponent,
+    Tab,
+} from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { UiSelectComponent } from '@app/shared/components/ui/ui-select/ui-select.component';
+import { UiTextFieldComponent } from '@app/shared/components/ui/ui-text-field/ui-text-field.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
+import { UiAutocompleteComponent } from '@app/shared/components/ui/ui-autocomplete/ui-autocomplete.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
 
 export function doiOrUrlValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -89,48 +65,30 @@ export function doiOrUrlValidator(): ValidatorFn {
     styleUrls: ['./dataset-creation-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
-        MatIcon,
-        MatCard,
-        MatCardContent,
         NgClass,
-        MatTabGroup,
-        MatTab,
-        MatTabLabel,
         FormsModule,
         ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatAutocompleteTrigger,
-        MatAutocomplete,
-        CdkVirtualScrollViewport,
-        CdkFixedSizeVirtualScroll,
-        NgStyle,
-        CdkVirtualForOf,
-        MatOption,
-        MatSelect,
-        MatProgressSpinner,
-        MatSuffix,
-        MatError,
-        MatDivider,
-        MatCardActions,
-        MatButton,
         MatDialogClose,
         AsyncPipe,
         TranslatePipe,
+        UiTabsComponent,
+        UiSelectComponent,
+        UiTextFieldComponent,
+        UiButtonComponent,
+        UiAutocompleteComponent,
+        UiLoaderComponent,
     ],
 })
 export class DatasetCreationDetailComponent implements OnInit {
-    private zenodoService = inject(ZenodoService);
+    private readonly zenodoService = inject(ZenodoService);
     dialogRef =
         inject<MatDialogRef<DatasetCreationDetailComponent>>(MatDialogRef);
     confirmationDialog = inject(MatDialog);
-    private appConfigService = inject(AppConfigService);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    private media = inject(MediaMatcher);
-    private fb = inject(FormBuilder);
-    private snackbarService = inject(SnackbarService);
+    private readonly appConfigService = inject(AppConfigService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly media = inject(MediaMatcher);
+    private readonly fb = inject(FormBuilder);
+    private readonly snackbarService = inject(SnackbarService);
     data = inject<ZenodoSimpleDataset>(MAT_DIALOG_DATA, { optional: true });
 
     constructor() {
@@ -144,6 +102,16 @@ export class DatasetCreationDetailComponent implements OnInit {
                 ? 'iMagine project'
                 : 'Artificial Intelligence for the European Open Science Cloud (AI4EOSC)';
     }
+
+    dialogTabs: Tab[] = [
+        { id: 'zenodo', label: 'Zenodo' },
+        { id: 'doi', label: 'DOI / URL' },
+    ];
+    activeTabId = 'zenodo';
+
+    doiUrlErrorMessages = {
+        invalidDOIOrURL: 'CATALOG.CONF-FORMS.DATA.DOI-URL.ERROR',
+    };
 
     zenodoFormGroup = this.fb.group({
         zenodoCommunitySelect: new FormControl({ value: '', disabled: true }),
@@ -164,7 +132,7 @@ export class DatasetCreationDetailComponent implements OnInit {
     private datasets: ZenodoDataset[] = [];
     private versions: ZenodoDatasetVersion[] = [];
     private communities: ZenodoCommunity[] = [];
-    private community = '';
+    private readonly community: string = '';
 
     zenodoCommunitiesOptions: { value: string; viewValue: string }[] = [];
     protected filteredCommunityOptions!: Observable<
@@ -175,7 +143,7 @@ export class DatasetCreationDetailComponent implements OnInit {
         [];
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
     onSubmitDataset = new EventEmitter<ZenodoSimpleDataset>();
 
     ngOnInit(): void {
@@ -190,10 +158,15 @@ export class DatasetCreationDetailComponent implements OnInit {
     }
 
     private _filter(value: string): { value: string; viewValue: string }[] {
-        const filterValue = value.toLowerCase();
+        const filterValue = (value ?? '').toLowerCase();
         return this.zenodoCommunitiesOptions.filter((option) =>
-            option.viewValue.toLowerCase().includes(filterValue)
+            (option.viewValue ?? '').toLowerCase().includes(filterValue)
         );
+    }
+
+    tabChanged(tabId: string): void {
+        this.activeTabId = tabId;
+        this.selectedTab = tabId === 'zenodo' ? 0 : 1;
     }
 
     setZenodoCommunities() {
@@ -208,6 +181,7 @@ export class DatasetCreationDetailComponent implements OnInit {
                     });
                 });
                 this.zenodoFormGroup.get('zenodoCommunitySelect')?.enable();
+
                 const selectedOption = this.zenodoCommunitiesOptions.find(
                     (option) => option.viewValue === this.community
                 );
@@ -435,10 +409,6 @@ export class DatasetCreationDetailComponent implements OnInit {
         this.zenodoFormGroup.get('zenodoVersionSelect')?.setValue('');
         this.zenodoFormGroup.get('zenodoVersionSelect')?.disable();
         this.zenodoFormGroup.get('zenodoDatasetSelect')?.disable();
-    }
-
-    tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-        this.selectedTab = tabChangeEvent.index;
     }
 
     formsAreValid(): boolean {

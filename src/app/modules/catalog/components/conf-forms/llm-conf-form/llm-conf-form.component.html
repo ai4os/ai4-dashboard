@@ -1,0 +1,120 @@
+<form [formGroup]="llmConfFormGroup" class="llm-conf-form">
+    <h4>
+        {{ 'CATALOG.CONF-FORMS.LLMS.SUBTITLE' | translate }}
+    </h4>
+    <div
+        [class]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <app-ui-select
+            formControlName="deploymentTypeSelect"
+            label="{{ 'CATALOG.CONF-FORMS.LLMS.TYPE' | translate }}"
+            [options]="deploymentTypeOptions"
+            [hint]="_showHelp ? _defaultFormValues.type.description : ''"
+            [errorMessages]="deploymentTypeErrors"
+        ></app-ui-select>
+
+        @if (
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'both' ||
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'vllm'
+        ) {
+            <app-ui-select
+                formControlName="vllmModelSelect"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.VLLM-MODEL' | translate }}"
+                [options]="vllmModelOptions"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues.vllm_model_id.description
+                        : ''
+                "
+                [errorMessages]="vllmModelErrors"
+                (valueChange)="modelChanged()"
+            ></app-ui-select>
+        }
+
+        @if (
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'both' ||
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'open-webui'
+        ) {
+            <app-ui-text-field
+                formControlName="uiUsernameInput"
+                type="email"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.USERNAME' | translate }}"
+                [errorMessages]="uiUsernameErrors"
+            ></app-ui-text-field>
+
+            <app-ui-text-field
+                formControlName="uiPasswordInput"
+                [maskable]="true"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.PASSWORD' | translate }}"
+                [hint]="
+                    _showHelp ? _defaultFormValues.ui_password.description : ''
+                "
+                [errorMessages]="uiPasswordErrors"
+            ></app-ui-text-field>
+        }
+
+        @if (
+            llmConfFormGroup.get('deploymentTypeSelect')?.value === 'open-webui'
+        ) {
+            <app-ui-text-field
+                formControlName="openaiApiUrlInput"
+                type="url"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.API-URL' | translate }}"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues.openai_api_url.description
+                        : ''
+                "
+                [errorMessages]="openaiApiUrlErrors"
+            ></app-ui-text-field>
+
+            <app-ui-text-field
+                formControlName="openaiApiKeyInput"
+                [maskable]="true"
+                label="{{ 'CATALOG.CONF-FORMS.LLMS.API-KEY' | translate }}"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues.openai_api_key.description
+                        : ''
+                "
+                [errorMessages]="openaiApiKeyErrors"
+            ></app-ui-text-field>
+        }
+
+        @if (
+            modelNeedsToken &&
+            (llmConfFormGroup.get('deploymentTypeSelect')?.value === 'both' ||
+                llmConfFormGroup.get('deploymentTypeSelect')?.value === 'vllm')
+        ) {
+            <div class="field-with-info">
+                <app-ui-text-field
+                    class="full-width"
+                    formControlName="huggingFaceTokenInput"
+                    [maskable]="true"
+                    label="{{
+                        'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN' | translate
+                    }}"
+                    [hint]="
+                        _showHelp ? _defaultFormValues.HF_token.description : ''
+                    "
+                    [errorMessages]="hfTokenErrors"
+                ></app-ui-text-field>
+                <app-ui-button
+                    variant="icon"
+                    icon="help"
+                    tooltip="{{
+                        'CATALOG.CONF-FORMS.LLMS.HUGGING-FACE-TOKEN-TERMS'
+                            | translate
+                    }}"
+                    [href]="
+                        'https://huggingface.co/' +
+                        llmConfFormGroup.get('vllmModelSelect')?.value
+                    "
+                ></app-ui-button>
+            </div>
+        }
+    </div>
+</form>

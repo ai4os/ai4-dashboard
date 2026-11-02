@@ -1,0 +1,25 @@
+<div class="confirmation-dialog">
+    <div class="confirmation-dialog__top-accent"></div>
+
+    <h2 class="confirmation-dialog__title">
+        {{ 'STATS.METRICS.RESOURCES.GPU-PER-MODEL' | translate }}
+    </h2>
+
+    <div mat-dialog-content class="confirmation-dialog__content">
+        <div
+            class="chart"
+            echarts
+            [options]="chartOptions"
+            [autoResize]="true"
+            [style.height.px]="chartHeight"
+        ></div>
+    </div>
+
+    <div mat-dialog-actions class="confirmation-dialog__actions">
+        <app-ui-button
+            mat-dialog-close
+            variant="default-outline"
+            text="GENERAL.CLOSE"
+        ></app-ui-button>
+    </div>
+</div>

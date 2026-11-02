@@ -1,0 +1,200 @@
+<form [formGroup]="federatedConfFormGroup" class="conf-form">
+    <span class="title-and-toggles">
+        <h4>
+            {{ 'CATALOG.CONF-FORMS.FLOWER.FEDERATED.SUBTITLE' | translate }}
+        </h4>
+    </span>
+
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <app-ui-text-field
+            formControlName="roundsInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.ROUNDS"
+            [min]="_defaultFormValues.rounds.range[0]"
+            [max]="_defaultFormValues.rounds.range[1]"
+            [hint]="_showHelp ? _defaultFormValues?.rounds.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Evaluation metrics-->
+        <app-ui-chip-input
+            formControlName="metricInput"
+            label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.METRIC"
+            placeholder="CATALOG.CONF-FORMS.FLOWER.FEDERATED.ADD-METRIC"
+            [options]="defaultMetricOptions"
+            [hint]="_showHelp ? _defaultFormValues.metric.description : ''"
+        ></app-ui-chip-input>
+
+        <!-- Number of minimum clients (fit) -->
+        <app-ui-text-field
+            formControlName="minFitClientsInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.MIN-FIT-CLIENTS"
+            [min]="_defaultFormValues.min_fit_clients.range[0]"
+            [max]="_defaultFormValues.min_fit_clients.range[1]"
+            [hint]="
+                _showHelp ? _defaultFormValues.min_fit_clients.description : ''
+            "
+        ></app-ui-text-field>
+
+        <!-- Number of minimum clients (available) -->
+        <app-ui-text-field
+            formControlName="minAvailableClientsInput"
+            type="number"
+            label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.MIN-AVAILABLE-CLIENTS"
+            [min]="_defaultFormValues.min_available_clients.range[0]"
+            [max]="_defaultFormValues.min_available_clients.range[1]"
+            [hint]="
+                _showHelp
+                    ? _defaultFormValues.min_available_clients.description
+                    : ''
+            "
+        ></app-ui-text-field>
+
+        <!-- Federated aggregation strategy -->
+        <app-ui-select
+            formControlName="strategyOptionsSelect"
+            [options]="strategyOptions"
+            label="{{
+                'CATALOG.CONF-FORMS.FLOWER.FEDERATED.AGG-STRATEGY' | translate
+            }}"
+            [hint]="strategyHint"
+            (valueChange)="checkStrategy()"
+        ></app-ui-select>
+
+        @if (
+            federatedConfFormGroup.get('strategyOptionsSelect')?.value ===
+            'FedProx strategy (FedProx)'
+        ) {
+            <!-- Mu -->
+            <app-ui-text-field
+                formControlName="muInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.MU"
+                [min]="_defaultFormValues.mu.range[0]"
+                [max]="_defaultFormValues.mu.range[1]"
+                [step]="0.1"
+                [hint]="_showHelp ? _defaultFormValues.mu.description : ''"
+            ></app-ui-text-field>
+        }
+
+        @if (
+            federatedConfFormGroup.get('strategyOptionsSelect')?.value ===
+            'Federated Averaging with Momentum (FedAvgM)'
+        ) {
+            <!-- Server-side learning rate -->
+            <app-ui-text-field
+                formControlName="flInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.FL"
+                [min]="_defaultFormValues.fl.range[0]"
+                [max]="_defaultFormValues.fl.range[1]"
+                [step]="0.1"
+                [hint]="_showHelp ? _defaultFormValues.fl.description : ''"
+            ></app-ui-text-field>
+
+            <!-- Server-side momentum -->
+            <app-ui-text-field
+                formControlName="momentumInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.FLOWER.FEDERATED.MOMENTUM"
+                [min]="_defaultFormValues.momentum.range[0]"
+                [max]="_defaultFormValues.momentum.range[1]"
+                [step]="0.1"
+                [hint]="
+                    _showHelp ? _defaultFormValues.momentum.description : ''
+                "
+            ></app-ui-text-field>
+        }
+    </div>
+
+    <span class="title-and-toggles">
+        <h4>{{ 'CATALOG.CONF-FORMS.FLOWER.PRIVACY.SUBTITLE' | translate }}</h4>
+
+        <div class="toggle-and-info">
+            <app-ui-toggle
+                formControlName="dpInput"
+                label="{{ 'CATALOG.CONF-FORMS.FLOWER.PRIVACY.DP' | translate }}"
+            ></app-ui-toggle>
+            <app-ui-button
+                variant="icon"
+                icon="help"
+                tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-differential-privacy"
+            ></app-ui-button>
+        </div>
+    </span>
+
+    @if (federatedConfFormGroup.value.dpInput) {
+        <div
+            [ngClass]="{
+                'form-flex': mobileQuery.matches,
+                'form-grid': !mobileQuery.matches,
+            }"
+        >
+            <!-- Metric privacy -->
+            <div class="field-with-info">
+                <app-ui-select
+                    formControlName="mpInput"
+                    [options]="mpOptions"
+                    label="{{
+                        'CATALOG.CONF-FORMS.FLOWER.PRIVACY.MP' | translate
+                    }}"
+                    [hint]="_showHelp ? _defaultFormValues.mp.description : ''"
+                    (valueChange)="checkStrategy()"
+                ></app-ui-select>
+
+                <app-ui-button
+                    variant="icon"
+                    icon="help"
+                    tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                    href="https://docs.ai4os.eu/en/latest/howtos/train/federated-flower.html#server-side-metric-privacy"
+                ></app-ui-button>
+            </div>
+
+            <!-- Noise multiplier -->
+            <app-ui-text-field
+                formControlName="noiseMultInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.FLOWER.PRIVACY.NOISE-MULT"
+                [min]="_defaultFormValues.noise_mult.range[0]"
+                [max]="_defaultFormValues.noise_mult.range[1]"
+                [step]="0.00001"
+                [hint]="
+                    _showHelp ? _defaultFormValues?.noise_mult.description : ''
+                "
+            ></app-ui-text-field>
+
+            <!-- Number of sampled clients -->
+            <app-ui-text-field
+                formControlName="sampledClientsNumInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.FLOWER.PRIVACY.SAMPLED-CLIENTS"
+                [min]="_defaultFormValues.sampled_clients.range[0]"
+                [max]="_defaultFormValues.sampled_clients.range[1]"
+                [hint]="
+                    _showHelp
+                        ? _defaultFormValues?.sampled_clients.description
+                        : ''
+                "
+            ></app-ui-text-field>
+
+            <!-- Clipping norm -->
+            <app-ui-text-field
+                formControlName="clippingNormInput"
+                type="number"
+                label="CATALOG.CONF-FORMS.FLOWER.PRIVACY.CLIP-NORM"
+                [min]="_defaultFormValues.clip_norm.range[0]"
+                [max]="_defaultFormValues.clip_norm.range[1]"
+                [step]="0.1"
+                [hint]="
+                    _showHelp ? _defaultFormValues?.clip_norm.description : ''
+                "
+            ></app-ui-text-field>
+        </div>
+    }
+</form>

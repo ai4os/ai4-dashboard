@@ -48,8 +48,7 @@
                         <div>
                             <h3>
                                 {{
-                                    'DEPLOYMENTS.DEPLOYMENT-DETAIL.DESCRIPTION'
-                                        | translate
+                                    'DEPLOYMENTS.DETAIL.DESCRIPTION' | translate
                                 }}
                             </h3>
                             <p>{{ service?.description }}</p>
@@ -76,7 +75,7 @@
                     <div>
                         <h3>
                             {{
-                                'DEPLOYMENTS.DEPLOYMENT-DETAIL.RESOURCES-ASSIGNED'
+                                'DEPLOYMENTS.DETAIL.RESOURCES-ASSIGNED'
                                     | translate
                             }}
                         </h3>
@@ -112,9 +111,7 @@
                         </h4>
                         <button
                             mat-icon-button
-                            matTooltip="{{
-                                'GENERAL-BUTTONS.OPEN-DOCUMENTATION' | translate
-                            }}"
+                            matTooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
                             [matTooltipPosition]="'above'"
                             (click)="openDocumentationWeb()"
                         >
@@ -360,7 +357,7 @@
 
     <mat-card-actions align="end">
         <button mat-raised-button mat-dialog-close>
-            {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
+            {{ 'GENERAL.CLOSE' | translate }}
         </button>
     </mat-card-actions>
 </mat-card>

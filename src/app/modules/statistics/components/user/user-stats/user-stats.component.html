@@ -1,0 +1,35 @@
+<app-ui-banner variant="primary">
+    <h1>{{ 'STATS.USER.TITLE' | translate }}</h1>
+</app-ui-banner>
+
+<app-ui-tabs
+    [tabs]="tabs"
+    [activeTabId]="activeTabId"
+    (tabChange)="onTabChange($event)"
+></app-ui-tabs>
+
+<section class="tab-content">
+    @if (user().loading) {
+        <div class="spinner">
+            <app-ui-loader></app-ui-loader>
+        </div>
+    } @else if (user().data; as userData) {
+        @switch (activeTabId) {
+            @case ('usage') {
+                <app-user-usage-tab
+                    [usage]="userData.usage"
+                    [userPowerW]="userData.energy?.powerW ?? null"
+                ></app-user-usage-tab>
+            }
+            @case ('footprint') {
+                <app-user-footprint-tab
+                    [energy]="userData.energy"
+                ></app-user-footprint-tab>
+            }
+        }
+    } @else {
+        <p id="error" class="no-data-text">
+            {{ 'STATS.COMMON.NO-DATA' | translate }}
+        </p>
+    }
+</section>

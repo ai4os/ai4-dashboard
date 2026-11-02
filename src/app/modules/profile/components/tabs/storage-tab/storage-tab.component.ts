@@ -34,7 +34,6 @@ import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service'
 import { ProfileService } from '@app/modules/profile/services/profile-service/profile.service';
 import { SecretsService } from '@app/modules/deployments/services/secrets-service/secrets.service';
 import { StorageService } from '@app/modules/catalog/services/storage-service/storage.service';
-import { urlValidator } from '@app/modules/catalog/components/train/general-conf-form/general-conf-form.component';
 import {
     RequestLoginResponse,
     StorageCredential,
@@ -50,6 +49,7 @@ import { UiExpansionPanelComponent } from '../../../../../shared/components/ui/u
 import { MatIcon } from '@angular/material/icon';
 import { UiSelectComponent } from '../../../../../shared/components/ui/ui-select/ui-select.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { urlValidator } from '@app/shared/utils/validators';
 
 export function domainValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

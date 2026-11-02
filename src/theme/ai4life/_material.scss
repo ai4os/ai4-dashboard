@@ -87,9 +87,8 @@ $ai4eosc-app-theme: mat.m2-define-light-theme(
             accent: $ai4eosc-app-accent,
             warning: $ai4eosc-app-warn,
         ),
-        typography:
-            mat.m2-define-typography-config(
-                $font-family: "'Raleway', Arial, Helvetica, sans-serif",
+        typography: mat.m2-define-typography-config(
+                $font-family: 'var(--font-family-body)',
             ),
         density: 0,
     )

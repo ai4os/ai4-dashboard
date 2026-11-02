@@ -11,11 +11,11 @@ $grid-breakpoints: (
 }
 
 :root {
-    /* ── Components: colours ── */
+    /* ── Components: colours (compat layer — mismo nombre de siempre) ── */
     --color-primary: #{$color-primary};
     --color-primary-light: #{$color-primary-light};
     --color-primary-dark: #{$color-primary-dark};
-    --color-primary-rgb: #{$color-accent-rgb};
+    --color-primary-rgb: #{$color-primary-rgb};
 
     --color-accent: #{$color-accent};
     --color-accent-light: #{$color-accent-light};
@@ -43,6 +43,29 @@ $grid-breakpoints: (
     --color-warning: #f88d13;
     --color-warning-light: #fef3c7;
     --color-warning-dark: #92400e;
+
+    --color-secondary-1: #d1a930;
+    --color-secondary-1-light: #fff9e8;
+    --color-secondary-2: #7b61a8;
+    --color-secondary-2-light: #f1ecf7;
+    --color-secondary-3: #3f7cac;
+    --color-secondary-3-light: #ecf3f8;
+    --color-secondary-4: #52a675;
+    --color-secondary-4-light: #ecf6f0;
+    --color-secondary-5: #e58f65;
+    --color-secondary-5-light: #fdf0ea;
+
+    /* ── Components: colours ── */
+    @each $step, $value in $color-primary-scale {
+        --color-primary-#{$step}: #{$value};
+    }
+    @each $step, $value in $color-accent-scale {
+        --color-accent-#{$step}: #{$value};
+    }
+
+    /* ── Typography: font families ── */
+    --font-family-heading: #{$font-family-heading};
+    --font-family-body: #{$font-family-body};
 
     /* ── Typography: sizes ── */
     --font-size-xs: 13px;
@@ -77,28 +100,83 @@ $grid-breakpoints: (
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
+    --radius-xl: 32px;
     --radius-pill: 999px;
 
     /* ── Text: colours ── */
     --color-text-primary: #1a1a1a;
     --color-text-secondary: #5f5e5a;
     --color-text-tertiary: #8a8884;
+    --color-text-light: #c7c5c5;
     --color-text-inverse: #ffffff;
 
     /* ── Borders ── */
     --color-border-subtle: rgba(0, 0, 0, 0.08);
     --color-border-default: rgba(0, 0, 0, 0.12);
 
-    /* ── Shadows ── */
+    /* ── Shadows: neutras (compat) ── */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
 
-    /* ── Gradients ── */
+    /* ── Shadows: nuevas, estilo "soft elevation" ── */
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-2:
+        0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.08),
+        0 20px 48px rgba(0, 0, 0, 0.06);
+    --shadow-3:
+        0 4px 8px rgba(0, 0, 0, 0.05), 0 16px 40px rgba(0, 0, 0, 0.1),
+        0 40px 80px rgba(0, 0, 0, 0.07);
+
+    /* ── Shadows: coloreadas con el color de marca ── */
+    --shadow-primary: 0 8px 24px rgba(var(--color-primary-rgb), 0.25);
+    --shadow-accent: 0 8px 24px rgba(var(--color-accent-rgb), 0.25);
+    --glow-primary-sm: 0 0 20px rgba(var(--color-primary-rgb), 0.3);
+    --glow-primary-md:
+        0 0 40px rgba(var(--color-primary-rgb), 0.35),
+        0 0 80px rgba(var(--color-primary-rgb), 0.15);
+
+    /* ── Surfaces de página (estilo "landing") ── */
+    --page-bg: #f0f0ed;
+    --card-bg: var(--color-surface-card);
+    --card-border: var(--color-border-subtle);
+
+    /* ── Gradientes ── */
     --gradient-brand: linear-gradient(
         135deg,
         var(--color-primary-dark) 0%,
         var(--color-accent-dark) 55%,
         var(--color-accent) 100%
     );
+    --gradient-primary: linear-gradient(
+        140deg,
+        var(--color-primary-900) 0%,
+        var(--color-primary-700) 45%,
+        var(--color-primary-600) 100%
+    );
+    --gradient-accent: linear-gradient(
+        140deg,
+        var(--color-accent-900) 0%,
+        var(--color-accent-700) 45%,
+        var(--color-accent-600) 100%
+    );
+    --gradient-primary-soft: linear-gradient(
+        135deg,
+        rgba(var(--color-primary-rgb), 0.1),
+        rgba(var(--color-primary-rgb), 0.04)
+    );
+    --gradient-accent-soft: linear-gradient(
+        135deg,
+        rgba(var(--color-accent-rgb), 0.1),
+        rgba(var(--color-accent-rgb), 0.04)
+    );
+
+    /* ── Transiciones ── */
+    --transition-fast: 0.25s ease;
+    --transition-base: 0.4s ease;
+    --transition-slow: 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Top nav bar */
+    --nav-header-height: 64px;
+    --nav-gutter: var(--space-md);
 }

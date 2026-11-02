@@ -1,26 +1,28 @@
 <header class="top-navbar">
     <div class="top-navbar__left">
-        @if (isSidebarHidden()) {
-            <div class="top-navbar__logo-wrapper">
-                @if (environment.develop) {
-                    <div class="top-navbar__dev-ribbon">Dev</div>
-                }
+        <div
+            class="top-navbar__logo-wrapper"
+            [class.is-visible]="isSidebarHidden()"
+            [attr.inert]="isSidebarHidden() ? null : ''"
+        >
+            @if (environment.develop) {
+                <div class="top-navbar__dev-ribbon">Dev</div>
+            }
 
-                <app-ui-button
-                    variant="icon"
-                    icon="menu"
-                    (click)="toggleSidenav()"
-                ></app-ui-button>
+            <app-ui-button
+                variant="icon"
+                icon="menu"
+                (click)="toggleSidenav()"
+            ></app-ui-button>
 
-                <a class="top-navbar__logo-link">
-                    <img
-                        alt="Dashboard logo"
-                        src="../../../assets/images/dashboard-logo.png"
-                        class="top-navbar__logo-img"
-                    />
-                </a>
-            </div>
-        }
+            <a class="top-navbar__logo-link" routerLink="">
+                <img
+                    alt="Dashboard logo"
+                    src="../../../assets/images/dashboard-logo.png"
+                    class="top-navbar__logo-img"
+                />
+            </a>
+        </div>
     </div>
 
     <span class="top-navbar__spacer"></span>

@@ -39,6 +39,11 @@ export const routes: Routes = [
             },
             {
                 path: 'tasks',
+                data: {
+                    breadcrumb: {
+                        skip: true,
+                    },
+                },
                 children: [
                     {
                         path: 'deployments',
@@ -73,6 +78,13 @@ export const routes: Routes = [
                             ),
                     },
                 ],
+            },
+            {
+                path: 'platform-services',
+                loadChildren: () =>
+                    import('@modules/platform-services/platform-services.module').then(
+                        (m) => m.PlatformServicesModule
+                    ),
             },
             {
                 path: 'forbidden',

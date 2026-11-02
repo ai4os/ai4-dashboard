@@ -4,53 +4,47 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
-    inject as inject_1,
     inject,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { getSnapshotBadge } from '../../utils/deployment-badge';
-import { MatToolbar } from '@angular/material/toolbar';
+import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
 import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import { NgClass } from '@angular/common';
-import { MatError } from '@angular/material/input';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatButton } from '@angular/material/button';
-import { TranslatePipe } from '@ngx-translate/core';
+    ChipVariant,
+    UiChipComponent,
+} from '@app/shared/components/ui/ui-chip/ui-chip.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-snapshot-detail',
+    standalone: true,
     templateUrl: './snapshot-detail.component.html',
     styleUrl: './snapshot-detail.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
         MatIcon,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        NgClass,
-        MatCardContent,
-        MatError,
-        MatProgressSpinner,
-        MatCardActions,
-        MatButton,
-        MatDialogClose,
         TranslatePipe,
+        BreadcrumbComponent,
+        UiLoaderComponent,
+        UiBannerComponent,
+        UiCardComponent,
+        UiChipComponent,
+        DatePipe,
     ],
 })
 export class SnapshotDetailComponent implements OnInit {
-    data = inject_1<{
-        snapshot: Snapshot;
-    }>(MAT_DIALOG_DATA);
-
+    private readonly route = inject(ActivatedRoute);
+    private readonly snapshotService = inject(SnapshotService);
+    private readonly snackbarService = inject(SnackbarService);
+    translateService = inject(TranslateService);
     changeDetectorRef = inject(ChangeDetectorRef);
     media = inject(MediaMatcher);
 
@@ -61,24 +55,72 @@ export class SnapshotDetailComponent implements OnInit {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    snapshot!: Snapshot;
+    uuid = '';
+    snapshot: Snapshot | undefined;
     statusBadge = '';
-    protected snapshotHasError = false;
+    snapshotHasError = false;
     isLoading = false;
 
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    private readonly _mobileQueryListener: () => void;
 
     ngOnInit(): void {
-        this.snapshot = this.data.snapshot;
+        this.uuid = this.route.snapshot.paramMap.get('uuid') ?? '';
 
-        if (this.snapshot.error_msg && this.snapshot.error_msg != '') {
+        if (!this.uuid) {
+            return;
+        }
+
+        this.isLoading = true;
+        this.snapshotService.getSnapshotByUUID(this.uuid).subscribe({
+            next: (snapshot) => {
+                if (!snapshot) {
+                    this.snackbarService.openError(
+                        "Couldn't find the requested snapshot."
+                    );
+                    this.isLoading = false;
+                    return;
+                }
+                this.handleSnapshotLoaded(snapshot);
+                this.isLoading = false;
+            },
+            error: () => {
+                this.snackbarService.openError(
+                    'Error retrieving the snapshot.'
+                );
+                this.isLoading = false;
+            },
+        });
+    }
+
+    private handleSnapshotLoaded(snapshot: Snapshot): void {
+        snapshot.size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
+        snapshot.size = Number(snapshot.size.toFixed(2));
+
+        if (snapshot.error_msg && snapshot.error_msg != '') {
             this.snapshotHasError = true;
         }
-        if (this.snapshot.description == '') {
-            this.snapshot.description = '-';
+        if (snapshot.description == '') {
+            snapshot.description = '-';
         }
+        this.statusBadge = getSnapshotBadge(snapshot.status);
+        this.snapshot = snapshot;
+    }
 
-        this.statusBadge = getSnapshotBadge(this.snapshot.status);
+    getStatusChipVariant(): ChipVariant {
+        const shieldColor = this.statusBadge.split('-').pop() ?? '';
+        const colorMap: Record<string, ChipVariant> = {
+            green: 'success-solid',
+            brightgreen: 'success-solid',
+            red: 'danger-solid',
+            orange: 'warning-solid',
+            yellow: 'warning-solid',
+            blue: 'primary-solid',
+            grey: 'default-solid',
+            gray: 'default-solid',
+            lightgrey: 'default-solid',
+            lightgray: 'default-solid',
+        };
+        return colorMap[shieldColor] ?? 'neutral';
     }
 }

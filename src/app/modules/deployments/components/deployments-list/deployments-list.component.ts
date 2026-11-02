@@ -6,18 +6,14 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { DeploymentsService } from '../../services/deployments-service/deployments.service';
-import { DeploymentDetailComponent } from '../deployment-detail/deployment-detail.component';
 import {
     Deployment,
     DeploymentTableRow,
     Snapshot,
-    TableColumn,
     StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
-import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import {
@@ -26,26 +22,30 @@ import {
 } from '../../services/snapshots-service/snapshot.service';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformStatusService } from '@app/shared/services/platform-status/platform-status.service';
-import {
-    PlatformStatus,
-    StatusNotification,
-} from '@app/shared/interfaces/platform-status.interface';
-import * as yaml from 'js-yaml';
+import { StatusNotification } from '@app/shared/interfaces/platform-status.interface';
 import { formatDate } from '@app/shared/utils/formatDate';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
+
+import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import {
+    deploymentActionsColumn,
+    deploymentContainerColumn,
+    deploymentCreationTimeColumn,
+    deploymentNameColumn,
+    deploymentStatusColumn,
+} from '@app/shared/components/deployments-table/deployment-table-columns';
+import { pollWhileActive } from '@app/shared/utils/pollWhileActive';
 
 @Component({
     selector: 'app-deployments-list',
     templateUrl: './deployments-list.component.html',
     styleUrls: ['./deployments-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatToolbar, MatIcon, DeploymentsTableComponent, TranslatePipe],
+    imports: [DeploymentsTableComponent, TranslatePipe, UiBannerComponent],
 })
 export class DeploymentsListComponent implements OnInit, OnDestroy {
     deploymentsService = inject(DeploymentsService);
-    dialog = inject(MatDialog);
     translateService = inject(TranslateService);
     snackbarService = inject(SnackbarService);
     snapshotService = inject(SnapshotService);
@@ -60,59 +60,47 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
-    snapshotColumns: TableColumn[] = [
-        { columnDef: 'uuid', header: '', hidden: true },
-        { columnDef: 'name', header: 'DEPLOYMENTS.DEPLOYMENT-NAME' },
-        { columnDef: 'status', header: 'DEPLOYMENTS.STATUS' },
+    readonly snapshotDetailRouteBase = '/tasks/deployments/snapshots';
+
+    snapshotColumns: UiTableColumn<DeploymentTableRow>[] = [
+        deploymentNameColumn,
+        deploymentStatusColumn,
         {
-            columnDef: 'containerName',
-            header: 'DEPLOYMENTS.CONTAINER-NAME',
-            hidden: true,
+            key: 'tagName',
+            label: 'DEPLOYMENTS.TAG-NAME',
+            minWidth: '230px',
         },
         {
-            columnDef: 'tagName',
-            header: 'DEPLOYMENTS.TAG-NAME',
+            key: 'size',
+            label: 'DEPLOYMENTS.SIZE',
+            align: 'center',
+            width: '120px',
         },
-        { columnDef: 'size', header: 'DEPLOYMENTS.SIZE' },
-        { columnDef: 'creationTime', header: 'DEPLOYMENTS.CREATION-TIME' },
-        { columnDef: 'endpoints', header: '', hidden: true },
-        { columnDef: 'snapshot_ID', header: '', hidden: true },
-        { columnDef: 'actions', header: 'DEPLOYMENTS.ACTIONS' },
+        deploymentCreationTimeColumn,
+        deploymentActionsColumn,
     ];
+
+    readonly detailRouteBase = '/tasks/deployments';
 
     isModulesTableLoading = false;
     isToolsTableLoading = false;
     isSnapshotsTableLoading = false;
 
     notificationsUpdated = false;
-    notifications: StatusNotification[] = [];
     displayedNotifications: StatusNotification[] = [];
 
     modulesDataset: DeploymentTableRow[] = [];
     toolsDataset: DeploymentTableRow[] = [];
     snapshotsDataset: DeploymentTableRow[] = [];
 
-    modulesDataSource!: MatTableDataSource<DeploymentTableRow>;
-    toolsDataSource!: MatTableDataSource<DeploymentTableRow>;
-    snapshotsDataSource!: MatTableDataSource<DeploymentTableRow>;
-
     mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-    private unsub = new Subject<void>();
+    private readonly _mobileQueryListener: () => void;
+    private readonly unsub = new Subject<void>();
 
     ngOnInit(): void {
         this.modulesDataset = [];
-        this.modulesDataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.modulesDataset
-        );
         this.toolsDataset = [];
-        this.toolsDataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.toolsDataset
-        );
         this.snapshotsDataset = [];
-        this.snapshotsDataSource = new MatTableDataSource<DeploymentTableRow>(
-            this.snapshotsDataset
-        );
 
         this.getModulesList();
         this.getToolsList();
@@ -127,34 +115,14 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
             !this.isToolsTableLoading
         ) {
             this.platformStatusService
-                .getNomadClusterNotifications()
+                .getActiveDatacenterNotifications()
+
                 .subscribe({
-                    next: (filteredPlatformStatus: PlatformStatus[]) => {
-                        if (filteredPlatformStatus.length > 0) {
-                            filteredPlatformStatus.forEach((status) => {
-                                if (status.body != null) {
-                                    const yamlBody = status.body
-                                        .replace(/```yaml/g, '')
-                                        .replace(/```[\s\S]*/, '');
-                                    const notification: StatusNotification =
-                                        yaml.load(
-                                            yamlBody
-                                        ) as StatusNotification;
-                                    this.notifications.push(notification);
-                                }
-                            });
-                            this.displayedNotifications =
-                                this.platformStatusService.filterByDateAndVo(
-                                    this.notifications
-                                );
-                        } else {
-                            this.notifications = [];
-                            this.displayedNotifications = [];
-                        }
+                    next: (displayedNotifications: StatusNotification[]) => {
+                        this.displayedNotifications = displayedNotifications;
                         this.notificationsUpdated = true;
                     },
                     error: () => {
-                        this.notifications = [];
                         this.displayedNotifications = [];
                         this.snackbarService.openError(
                             'Error retrieving the platform notifications'
@@ -167,56 +135,58 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     /**     MODULES METHODS     **/
     getModulesList() {
         this.isModulesTableLoading = true;
-        timer(0, 5000)
-            .pipe(
-                takeUntil(this.unsub),
-                switchMap(() => this.deploymentsService.getDeployments())
-            )
-            .subscribe((deploymentsList: Deployment[]) => {
-                const updatedModulesDataset: DeploymentTableRow[] = [];
-                this.isModulesTableLoading = false;
-                deploymentsList.forEach((deployment: Deployment) => {
-                    const containerName = deployment.docker_image.includes(
-                        'user-snapshots'
-                    )
-                        ? this.translateService.instant(
-                              'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
-                          ) + deployment.docker_image.split(':')[1]
-                        : deployment.docker_image;
-                    const row: DeploymentTableRow = {
-                        uuid: deployment.job_ID,
-                        name: deployment.title,
-                        status: deployment.status,
-                        containerName: containerName,
-                        gpus: '-',
-                        creationTime: formatDate(deployment.submit_time),
-                        endpoints: deployment.endpoints,
-                        mainEndpoint: deployment.main_endpoint,
-                        datacenter: deployment.datacenter,
-                    };
-                    if (deployment.error_msg) {
-                        row.error_msg = deployment.error_msg;
-                    }
-                    if (
-                        deployment.resources &&
-                        Object.keys(deployment.resources).length !== 0
-                    ) {
-                        row.gpus = deployment.resources.gpu_num;
-                    }
-                    updatedModulesDataset.push(row);
-                });
-                if (
-                    JSON.stringify(this.modulesDataset) !==
-                    JSON.stringify(updatedModulesDataset)
-                ) {
-                    this.modulesDataset = updatedModulesDataset;
-                    this.modulesDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.modulesDataset
-                        );
+        pollWhileActive(
+            () => this.deploymentsService.getDeployments(),
+            this.unsub
+        ).subscribe((deploymentsList: Deployment[]) => {
+            const updatedModulesDataset: DeploymentTableRow[] = [];
+            this.isModulesTableLoading = false;
+            deploymentsList.forEach((deployment: Deployment) => {
+                const containerName = deployment.docker_image.includes(
+                    'user-snapshots'
+                )
+                    ? this.translateService.instant(
+                          'CATALOG.CONF-FORMS.DEPLOYED-FROM-SNAPSHOT-ID'
+                      ) + deployment.docker_image.split(':')[1]
+                    : deployment.docker_image;
+                const row: DeploymentTableRow = {
+                    uuid: deployment.job_ID,
+                    name: deployment.title,
+                    status: deployment.status,
+                    containerName: containerName,
+                    gpus: '-',
+                    creationTime: formatDate(deployment.submit_time),
+                    endpoints: deployment.endpoints,
+                    mainEndpoint: deployment.main_endpoint,
+                    datacenter: deployment.datacenter,
+                    energy: deployment.energy
+                        ? {
+                              power_w: (deployment.energy as any).power_w,
+                              energy_wh: (deployment.energy as any).energy_wh,
+                              carbon_g: (deployment.energy as any).carbon_g,
+                              water_l: (deployment.energy as any).water_l,
+                          }
+                        : null,
+                };
+                if (deployment.error_msg) {
+                    row.error_msg = deployment.error_msg;
                 }
-                this.checkAndUpdateNotifications();
+                if (
+                    deployment.resources &&
+                    Object.keys(deployment.resources).length !== 0
+                ) {
+                    row.gpus = deployment.resources.gpu_num;
+                }
+                updatedModulesDataset.push(row);
             });
+            if (
+                JSON.stringify(this.modulesDataset) !==
+                JSON.stringify(updatedModulesDataset)
+            ) {
+                this.modulesDataset = updatedModulesDataset;
+            }
+            this.checkAndUpdateNotifications();
+        });
     }
 
     removeModule(uuid: string) {
@@ -227,10 +197,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.modulesDataset.splice(itemIndex, 1);
-                    this.modulesDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.modulesDataset
-                        );
+                    this.modulesDataset = [...this.modulesDataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted deployment with uuid: ' + uuid
                     );
@@ -252,49 +220,51 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     getToolsList() {
         this.isToolsTableLoading = true;
 
-        timer(0, 5000)
-            .pipe(
-                takeUntil(this.unsub),
-                switchMap(() => this.deploymentsService.getTools())
-            )
-            .subscribe((tools) => {
-                const updatedToolsDataset: DeploymentTableRow[] = [];
-                this.isToolsTableLoading = false;
-                tools.forEach((tool: Deployment) => {
-                    const row: DeploymentTableRow = {
-                        uuid: tool.job_ID,
-                        name: tool.title,
-                        status: tool.status,
-                        containerName: tool.docker_image,
-                        gpus: '-',
-                        creationTime: formatDate(tool.submit_time),
-                        endpoints: tool.endpoints,
-                        mainEndpoint: tool.main_endpoint,
-                        datacenter: tool.datacenter,
-                    };
-                    if (tool.error_msg) {
-                        row.error_msg = tool.error_msg;
-                    }
-                    if (
-                        tool.resources &&
-                        Object.keys(tool.resources).length !== 0
-                    ) {
-                        row.gpus = tool.resources.gpu_num;
-                    }
-                    updatedToolsDataset.push(row);
-                });
-                if (
-                    JSON.stringify(this.toolsDataset) !==
-                    JSON.stringify(updatedToolsDataset)
-                ) {
-                    this.toolsDataset = updatedToolsDataset;
-                    this.toolsDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.toolsDataset
-                        );
+        pollWhileActive(
+            () => this.deploymentsService.getTools(),
+            this.unsub
+        ).subscribe((tools) => {
+            const updatedToolsDataset: DeploymentTableRow[] = [];
+            this.isToolsTableLoading = false;
+            tools.forEach((tool: Deployment) => {
+                const row: DeploymentTableRow = {
+                    uuid: tool.job_ID,
+                    name: tool.title,
+                    status: tool.status,
+                    containerName: tool.docker_image,
+                    gpus: '-',
+                    creationTime: formatDate(tool.submit_time),
+                    endpoints: tool.endpoints,
+                    mainEndpoint: tool.main_endpoint,
+                    datacenter: tool.datacenter,
+                    energy: tool.energy
+                        ? {
+                              power_w: (tool.energy as any).power_w,
+                              energy_wh: (tool.energy as any).energy_wh,
+                              carbon_g: (tool.energy as any).carbon_g,
+                              water_l: (tool.energy as any).water_l,
+                          }
+                        : null,
+                };
+                if (tool.error_msg) {
+                    row.error_msg = tool.error_msg;
                 }
-                this.checkAndUpdateNotifications();
+                if (
+                    tool.resources &&
+                    Object.keys(tool.resources).length !== 0
+                ) {
+                    row.gpus = tool.resources.gpu_num;
+                }
+                updatedToolsDataset.push(row);
             });
+            if (
+                JSON.stringify(this.toolsDataset) !==
+                JSON.stringify(updatedToolsDataset)
+            ) {
+                this.toolsDataset = updatedToolsDataset;
+            }
+            this.checkAndUpdateNotifications();
+        });
     }
 
     removeTool(uuid: string) {
@@ -305,10 +275,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.toolsDataset.splice(itemIndex, 1);
-                    this.toolsDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.toolsDataset
-                        );
+                    this.toolsDataset = [...this.toolsDataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted tool with uuid: ' + uuid
                     );
@@ -330,37 +298,32 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     getSnapshotsList() {
         this.isSnapshotsTableLoading = true;
 
-        timer(0, 5000)
-            .pipe(
-                takeUntil(this.unsub),
-                switchMap(() => this.snapshotService.getSnapshots())
-            )
-            .subscribe((snapshots) => {
-                this.snapshotsDataset = [];
-                this.isSnapshotsTableLoading = false;
-                snapshots.forEach((snapshot: Snapshot) => {
-                    const size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
-                    const row: DeploymentTableRow = {
-                        uuid: snapshot.snapshot_ID,
-                        name: snapshot.title,
-                        description: snapshot.description,
-                        status: snapshot.status,
-                        containerName: snapshot.docker_image,
-                        tagName: snapshot.snapshot_ID,
-                        size: size.toFixed(2),
-                        creationTime: formatDate(snapshot.submit_time),
-                        snapshot_ID: snapshot.snapshot_ID,
-                    };
-                    if (snapshot.error_msg) {
-                        row.error_msg = snapshot.error_msg;
-                    }
-                    this.snapshotsDataset.push(row);
-                });
-                this.snapshotsDataSource =
-                    new MatTableDataSource<DeploymentTableRow>(
-                        this.snapshotsDataset
-                    );
+        pollWhileActive(
+            () => this.snapshotService.getSnapshots(),
+            this.unsub
+        ).subscribe((snapshots) => {
+            const updatedSnapshotsDataset: DeploymentTableRow[] = [];
+            this.isSnapshotsTableLoading = false;
+            snapshots.forEach((snapshot: Snapshot) => {
+                const size = Math.trunc(snapshot.size) / Math.pow(1024, 3);
+                const row: DeploymentTableRow = {
+                    uuid: snapshot.snapshot_ID,
+                    name: snapshot.title,
+                    description: snapshot.description,
+                    status: snapshot.status,
+                    containerName: snapshot.docker_image,
+                    tagName: snapshot.snapshot_ID,
+                    size: size.toFixed(2),
+                    creationTime: formatDate(snapshot.submit_time),
+                    snapshot_ID: snapshot.snapshot_ID,
+                };
+                if (snapshot.error_msg) {
+                    row.error_msg = snapshot.error_msg;
+                }
+                updatedSnapshotsDataset.push(row);
             });
+            this.snapshotsDataset = updatedSnapshotsDataset;
+        });
     }
 
     removeSnapshot(uuid: string) {
@@ -371,10 +334,8 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
                         (obj) => obj['uuid'] === uuid
                     );
                     this.snapshotsDataset.splice(itemIndex, 1);
-                    this.snapshotsDataSource =
-                        new MatTableDataSource<DeploymentTableRow>(
-                            this.snapshotsDataset
-                        );
+                    this.snapshotsDataset = [...this.snapshotsDataset];
+
                     this.snackbarService.openSuccess(
                         'Successfully deleted snapshot with uuid: ' + uuid
                     );
@@ -393,17 +354,6 @@ export class DeploymentsListComponent implements OnInit, OnDestroy {
     }
 
     /**     SHARED METHODS     **/
-    openDeploymentDetailDialog(uuid: string, type: string): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(DeploymentDetailComponent, {
-            data: { uuid: uuid, type: type },
-            width: width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
-        });
-    }
 
     ngOnDestroy(): void {
         this.unsub.next();

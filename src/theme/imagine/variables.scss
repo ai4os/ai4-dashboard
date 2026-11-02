@@ -10,18 +10,18 @@
     --white-three: #f8f8f8;
     --warm-grey: #7b7b7b;
     --greyish-brown: #4a4a49;
-    --neon-red: #ff0000;
-    --success-green: #41bc13;
+    --neon-red: #dc3545;
+    --success-green: #28a745;
     --warning-orange: #ff5f15;
     --good-value: #1d9e75;
     --neutral-value: #ef9f27;
     --bad-value: #e03355;
 
-    --primary: #1961ac;
+    --primary: var(--color-primary);
     --primary-text: #1961ac;
-    --accent: #ef7d17;
+    --accent: var(--color-accent);
     --secondary: #113e6e;
-    --accent-dark: #e44d07;
+    --accent-dark: var(--color-accent-dark);
 
     /** Font-Weight Vars **/
     --raleway-bold: 700;
@@ -83,13 +83,13 @@
 $color-primary: #1961ac;
 $color-primary-light: #c0deff;
 $color-primary-dark: #113e6e;
-$color-primary-rgb: rgb(25, 97, 172);
+$color-primary-rgb: 25, 97, 172;
 
 $color-accent: #ef7d17;
 $color-accent-light: #fdebdb;
 $color-accent-dark: #e44d07;
-$color-accent-rgb: rgb(239, 125, 23);
-$color-accent-dark-rgb: rgb(228, 77, 7);
+$color-accent-rgb: 239, 125, 23;
+$color-accent-dark-rgb: 228, 77, 7;
 
 $color-default: #8e8c8c;
 $color-default-light: #f7f6f6;
@@ -99,6 +99,37 @@ $color-surface: #faf7f4;
 $color-surface-card: #ffffff;
 $color-border: rgba(0, 0, 0, 0.08);
 
-$color-hero-shadow-rgb: 80, 10, 30;
+$color-hero-shadow-rgb: 4, 28, 73;
+
+$font-family-heading: 'Clash Display', 'Roboto', 'Helvetica Neue', sans-serif;
+$font-family-body: 'Clash Grotesk', 'Roboto', 'Helvetica Neue', sans-serif;
+
+$color-primary-scale: (
+    50: #e3ecf5,
+    100: #bad0e6,
+    200: #8cb0d6,
+    300: #5e90c5,
+    400: #3c79b8,
+    500: #1961ac,
+    600: #1659a5,
+    700: #124f9b,
+    800: #0e4592,
+    900: #083382,
+    950: #041c49,
+);
+
+$color-accent-scale: (
+    50: #fdefe3,
+    100: #fad8b9,
+    200: #f7be8b,
+    300: #f4a45d,
+    400: #f1913a,
+    500: #ef7d17,
+    600: #ed7514,
+    700: #eb6a11,
+    800: #e8600d,
+    900: #e44d07,
+    950: #9b3202,
+);
 
 @import '../exports/variables';

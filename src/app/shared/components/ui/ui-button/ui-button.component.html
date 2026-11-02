@@ -1,16 +1,51 @@
-<button
-    [class]="'ui-btn ui-btn--' + variant"
-    [class.ui-btn--icon-only]="icon && !text"
-    [disabled]="disabled"
-    [matTooltip]="tooltip ?? ''"
-    [matTooltipDisabled]="!tooltip"
-    matTooltipClass="ui-tooltip"
-    (click)="onClick()"
->
-    @if (icon) {
-        <mat-icon>{{ icon }}</mat-icon>
-    }
-    @if (text) {
-        <span>{{ text | translate }}</span>
-    }
-</button>
+@if (href) {
+    <a
+        [class]="'ui-btn ui-btn--' + variant"
+        [class.ui-btn--icon-only]="icon && !text"
+        [class.ui-btn--icon-right]="icon && iconPosition === 'right'"
+        [class.ui-btn--disabled]="disabled"
+        [style.--ui-btn-color]="variant === 'icon' ? color : null"
+        [href]="disabled ? null : href"
+        [attr.aria-disabled]="disabled"
+        [attr.tabindex]="disabled ? -1 : null"
+        target="_blank"
+        rel="noopener noreferrer"
+        [matTooltip]="tooltip ?? ''"
+        [matTooltipDisabled]="!tooltip"
+        matTooltipClass="ui-tooltip"
+        (click)="disabled ? $event.preventDefault() : onLinkClick($event)"
+    >
+        @if (icon) {
+            <mat-icon>{{ icon }}</mat-icon>
+        }
+        @if (image) {
+            <img [src]="image" />
+        }
+        @if (text) {
+            <span>{{ translateText ? (text | translate) : text }}</span>
+        }
+    </a>
+} @else {
+    <button
+        type="button"
+        [class]="'ui-btn ui-btn--' + variant"
+        [class.ui-btn--icon-only]="icon && !text"
+        [class.ui-btn--icon-right]="icon && iconPosition === 'right'"
+        [style.--ui-btn-color]="variant === 'icon' ? color : null"
+        [disabled]="disabled"
+        [matTooltip]="tooltip ?? ''"
+        [matTooltipDisabled]="!tooltip"
+        matTooltipClass="ui-tooltip"
+        (click)="onClick($event)"
+    >
+        @if (icon) {
+            <mat-icon>{{ icon }}</mat-icon>
+        }
+        @if (image) {
+            <img [src]="image" />
+        }
+        @if (text) {
+            <span>{{ translateText ? (text | translate) : text }}</span>
+        }
+    </button>
+}

@@ -1,41 +1,66 @@
-<div class="container">
+<div class="ui-file-upload">
     <input
+        #fileUpload
         type="file"
         accept=".sh,.bash,.command,.run"
-        type="file"
-        class="file-input"
+        class="ui-file-upload__input"
         (change)="onChange($event)"
-        #fileUpload
         hidden
     />
 
-    <div class="select-file-area">
-        <button
-            mat-fab
-            extended
-            [ngClass]="{
-                'file-uploaded-button': file,
-                'no-file-uploaded-button': !file,
-            }"
+    @if (!file) {
+        <div
+            class="ui-file-upload__dropzone"
+            role="button"
+            tabindex="0"
             (click)="fileUpload.click()"
+            (keydown.enter)="fileUpload.click()"
+            (keydown.space)="fileUpload.click()"
         >
-            <mat-icon>attach_file</mat-icon>
-            {{ 'FILE-UPLOAD.SELECT' | translate }}*
-        </button>
-        <span>
-            <p class="subtitle">
+            <mat-icon class="ui-file-upload__icon">upload_file</mat-icon>
+
+            <app-ui-button
+                variant="primary-solid"
+                icon="attach_file"
+                [text]="('FILE-UPLOAD.SELECT' | translate) + '*'"
+                (click)="fileUpload.click()"
+            ></app-ui-button>
+
+            <p class="ui-file-upload__hint">
                 {{ 'FILE-UPLOAD.ALLOWED-FILE-TYPE' | translate }}
             </p>
-        </span>
-    </div>
+        </div>
+    } @else {
+        <div class="ui-file-upload__row">
+            <div class="ui-file-upload__file">
+                <mat-icon class="ui-file-upload__file-icon"
+                    >description</mat-icon
+                >
+                <div class="ui-file-upload__file-info">
+                    <span class="ui-file-upload__file-name">{{
+                        file.name
+                    }}</span>
+                    <span class="ui-file-upload__file-meta">{{
+                        getFileSize(file.size)
+                    }}</span>
+                </div>
+            </div>
 
-    @if (file) {
-        <div class="file-details">
-            <div class="file-info">
-                <span>
-                    {{ file.name }}
-                </span>
-                <span class="metadata">{{ getFileSize(file.size) }}</span>
+            <div class="ui-file-upload__actions">
+                @if (showReplaceAction) {
+                    <app-ui-button
+                        variant="default-outline"
+                        icon="sync"
+                        [tooltip]="'FILE-UPLOAD.SELECT' | translate"
+                        (click)="fileUpload.click()"
+                    ></app-ui-button>
+                }
+                <app-ui-button
+                    variant="danger-solid"
+                    icon="delete"
+                    [tooltip]="'GENERAL.DELETE' | translate"
+                    (click)="removeFile($event)"
+                ></app-ui-button>
             </div>
         </div>
     }

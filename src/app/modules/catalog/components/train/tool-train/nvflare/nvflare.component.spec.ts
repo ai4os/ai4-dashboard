@@ -90,8 +90,7 @@ describe('NvflareComponent', () => {
     });
 
     it('should update showHelp on slide toggle change', () => {
-        const event = { checked: true } as MatSlideToggleChange;
-        component.showHelpButtonChange(event);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
     });
 });

@@ -80,13 +80,10 @@ describe('Ai4lifeLoaderComponent', () => {
     });
 
     it('should update showHelp on toggle', () => {
-        const event = { checked: true } as MatSlideToggleChange;
-        component.showHelpButtonChange(event);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
 
-        component.showHelpButtonChange({
-            checked: false,
-        } as MatSlideToggleChange);
+        component.showHelpButtonChange(false);
         expect(component.showHelp).toBe(false);
     });
 });

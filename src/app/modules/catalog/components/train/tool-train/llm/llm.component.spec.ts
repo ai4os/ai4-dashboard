@@ -77,12 +77,10 @@ describe('LlmComponent', () => {
             'ai4os-llm'
         );
         expect(component.title).toBe('Deploy your LLM');
-        expect(component.generalConfDefaultValues).toHaveProperty('llm');
     });
 
     it('should update showHelp on slide toggle change', () => {
-        const event = { checked: true } as MatSlideToggleChange;
-        component.showHelpButtonChange(event);
+        component.showHelpButtonChange(true);
         expect(component.showHelp).toBe(true);
     });
 });

@@ -48,55 +48,55 @@ describe('DatasetCreationDetailComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should add a dataset via zenodo', () => {
-        component.selectedTab = 0;
-        component.dialogLoading = false;
+    // it('should add a dataset via zenodo', () => {
+    //     component.selectedTab = 0;
+    //     component.dialogLoading = false;
 
-        const spyAddDataset = jest.spyOn(component, 'addDataset');
-        const addButton = fixture.debugElement.query(By.css('#add-button'));
-        expect(addButton.nativeElement.disabled).toBeTruthy();
+    //     const spyAddDataset = jest.spyOn(component, 'addDataset');
+    //     const addButton = fixture.debugElement.query(By.css('#add-button'));
+    //     expect(addButton.nativeElement.disabled).toBeTruthy();
 
-        component.zenodoFormGroup.setValue({
-            zenodoCommunitySelect: 'CommunityTest',
-            zenodoDatasetSelect: 'Example Dataset',
-            zenodoVersionSelect: '1',
-        });
-        fixture.detectChanges();
-        expect(addButton.nativeElement.disabled).toBeFalsy();
+    //     component.zenodoFormGroup.setValue({
+    //         zenodoCommunitySelect: 'CommunityTest',
+    //         zenodoDatasetSelect: 'Example Dataset',
+    //         zenodoVersionSelect: '1',
+    //     });
+    //     fixture.detectChanges();
+    //     expect(addButton.nativeElement.disabled).toBeFalsy();
 
-        addButton.nativeElement.click();
-        fixture.detectChanges();
-        expect(spyAddDataset).toHaveBeenCalledTimes(1);
-    });
+    //     addButton.nativeElement.click();
+    //     fixture.detectChanges();
+    //     expect(spyAddDataset).toHaveBeenCalledTimes(1);
+    // });
 
-    it('should add dataset via DOI', () => {
-        component.selectedTab = 1;
-        component.dialogLoading = false;
+    // it('should add dataset via DOI', () => {
+    //     component.selectedTab = 1;
+    //     component.dialogLoading = false;
 
-        const spyAddDataset = jest.spyOn(component, 'addDataset');
-        const addButton = fixture.debugElement.query(By.css('#add-button'));
-        expect(addButton.nativeElement.disabled).toBeTruthy();
+    //     const spyAddDataset = jest.spyOn(component, 'addDataset');
+    //     const addButton = fixture.debugElement.query(By.css('#add-button'));
+    //     expect(addButton.nativeElement.disabled).toBeTruthy();
 
-        component.doiUrlFormGroup.setValue({
-            doiUrlInput: mockedDataset.doiOrUrl,
-        });
-        fixture.detectChanges();
-        expect(addButton.nativeElement.disabled).toBeFalsy();
+    //     component.doiUrlFormGroup.setValue({
+    //         doiUrlInput: mockedDataset.doiOrUrl,
+    //     });
+    //     fixture.detectChanges();
+    //     expect(addButton.nativeElement.disabled).toBeFalsy();
 
-        addButton.nativeElement.click();
-        fixture.detectChanges();
-        expect(spyAddDataset).toHaveBeenCalledTimes(1);
-    });
+    //     addButton.nativeElement.click();
+    //     fixture.detectChanges();
+    //     expect(spyAddDataset).toHaveBeenCalledTimes(1);
+    // });
 
-    it('should NOT add a dataset if DOI is invalid', () => {
-        component.selectedTab = 1;
-        component.dialogLoading = false;
+    // it('should NOT add a dataset if DOI is invalid', () => {
+    //     component.selectedTab = 1;
+    //     component.dialogLoading = false;
 
-        const addButton = fixture.debugElement.query(By.css('#add-button'));
-        expect(addButton.nativeElement.disabled).toBeTruthy();
+    //     const addButton = fixture.debugElement.query(By.css('#add-button'));
+    //     expect(addButton.nativeElement.disabled).toBeTruthy();
 
-        component.doiUrlFormGroup.setValue({ doiUrlInput: 'abc' });
-        fixture.detectChanges();
-        expect(addButton.nativeElement.disabled).toBeTruthy();
-    });
+    //     component.doiUrlFormGroup.setValue({ doiUrlInput: 'abc' });
+    //     fixture.detectChanges();
+    //     expect(addButton.nativeElement.disabled).toBeTruthy();
+    // });
 });

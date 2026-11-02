@@ -38,6 +38,7 @@
         color: var(--color-text-primary);
         font-family: inherit;
         min-width: 0;
+        line-height: var(--line-height-base);
 
         &::placeholder {
             color: var(--color-text-tertiary);
@@ -139,6 +140,24 @@
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-lg);
 
+    // Scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: var(--radius-sm);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-primary);
+        border-radius: var(--radius-sm);
+    }
+
     &__empty {
         padding: var(--space-sm) var(--space-md);
         font-size: var(--font-size-sm);
@@ -152,6 +171,7 @@
         justify-content: space-between;
         gap: var(--space-sm);
         padding: var(--space-sm) var(--space-md);
+        min-height: var(--space-lg);
         border-radius: var(--radius-sm);
         font-size: var(--font-size-sm);
         color: var(--color-text-primary);

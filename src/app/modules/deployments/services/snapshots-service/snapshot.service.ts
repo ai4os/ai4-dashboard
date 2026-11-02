@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 const { base, endpoints } = environment.api;
 
@@ -42,6 +42,12 @@ export class SnapshotService {
         return this.http.get<Snapshot[]>(url, {
             params: this.vosArrayParam,
         });
+    }
+
+    getSnapshotByUUID(uuid: string): Observable<Snapshot | undefined> {
+        return this.getSnapshots().pipe(
+            map((snapshots) => snapshots.find((s) => s.snapshot_ID === uuid))
+        );
     }
 
     deleteSnapshotByUUID(

@@ -1,0 +1,82 @@
+<form [formGroup]="batchConfFormGroup" class="batch-conf-form">
+    <span class="title-and-toggles">
+        <h4>
+            {{ 'CATALOG.CONF-FORMS.BATCH.SUBTITLE' | translate }}
+        </h4>
+        <app-ui-button
+            variant="icon"
+            icon="help"
+            tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+            [href]="docsUrl"
+        ></app-ui-button>
+    </span>
+
+    <p>
+        {{ 'CATALOG.CONF-FORMS.BATCH.EXPLANATION' | translate }}
+    </p>
+
+    <app-ui-tabs
+        [tabs]="tabs"
+        [activeTabId]="activeMode()"
+        (tabChange)="onModeSelected($event)"
+    ></app-ui-tabs>
+
+    <div class="batch-conf-form__content">
+        @switch (activeMode()) {
+            @case ('upload') {
+                <div class="form-flex tab-content">
+                    <app-single-file-upload
+                        [file]="
+                            batchConfFormGroup.get('batchFile')?.value ?? null
+                        "
+                        (fileUploaded)="updateBatchFile($event)"
+                        (fileRemoved)="clearFileData()"
+                    ></app-single-file-upload>
+                </div>
+            }
+            @case ('write') {
+                @if (batchConfFormGroup.get('batchFile')?.value; as batchFile) {
+                    <div class="form-flex tab-content">
+                        <app-single-file-upload
+                            [file]="batchFile"
+                            [showReplaceAction]="false"
+                            (fileRemoved)="clearFileData()"
+                        ></app-single-file-upload>
+                    </div>
+                } @else {
+                    <div
+                        class="form-flex-column tab-content limited-width-container"
+                    >
+                        <app-text-editor
+                            [value]="commandText"
+                            [placeholder]="textEditorPlaceholder"
+                            (textChange)="onCommandTextChange($event)"
+                        ></app-text-editor>
+
+                        <div class="textarea-buttons">
+                            <app-ui-button
+                                variant="icon"
+                                icon="content_copy"
+                                tooltip="Copy"
+                                [copy-to-clipboard]="commandText"
+                            ></app-ui-button>
+                            <app-ui-button
+                                variant="accent-solid"
+                                icon="attach_file"
+                                [text]="'FILE-UPLOAD.GENERATE-FILE' | translate"
+                                [disabled]="commandText === ''"
+                                (click)="createFileFromText()"
+                            ></app-ui-button>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+
+    @if (_showHelp) {
+        <span class="mat-hint-text">
+            {{ 'CATALOG.CONF-FORMS.BATCH.HELP' | translate }}
+        </span>
+    }
+</form>

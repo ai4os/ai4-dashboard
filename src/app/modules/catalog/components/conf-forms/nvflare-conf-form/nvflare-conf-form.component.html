@@ -1,0 +1,101 @@
+<form [formGroup]="nvflareConfFormGroup">
+    <h4>{{ 'CATALOG.CONF-FORMS.NVFLARE.SUBTITLE' | translate }}</h4>
+    <div
+        [ngClass]="{
+            'form-flex': mobileQuery.matches,
+            'form-grid': !mobileQuery.matches,
+        }"
+    >
+        <!--Username -->
+        <app-ui-text-field
+            formControlName="usernameInput"
+            maxlength="45"
+            label="{{ 'CATALOG.CONF-FORMS.NVFLARE.USERNAME' | translate }}"
+            [errorMessages]="usernameErrors"
+            [hint]="_showHelp ? _defaultFormValues.username.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Password -->
+        <app-ui-text-field
+            [ngClass]="{
+                'password-input-field-mobile': mobileQuery.matches,
+                'password-input-field': !mobileQuery.matches,
+                'mt-2': _showHelp,
+            }"
+            formControlName="passwordInput"
+            [maskable]="true"
+            label="{{ 'CATALOG.CONF-FORMS.NVFLARE.PASSWORD' | translate }}"
+            [errorMessages]="passwordErrors"
+            [hint]="_showHelp ? _defaultFormValues.password.description : ''"
+        ></app-ui-text-field>
+
+        <!-- Project public -->
+        <app-ui-select
+            formControlName="publicProjectSelect"
+            [options]="publicProjectOptions"
+            label="{{
+                'CATALOG.CONF-FORMS.NVFLARE.PUBLIC-PROJECT' | translate
+            }}"
+            [hint]="
+                _showHelp ? _defaultFormValues.public_project.description : ''
+            "
+        ></app-ui-select>
+
+        <!-- App location -->
+        <app-ui-text-field
+            formControlName="appLocationInput"
+            label="{{ 'CATALOG.CONF-FORMS.NVFLARE.APP-LOCATION' | translate }}"
+            [hint]="
+                _showHelp ? _defaultFormValues.app_location.description : ''
+            "
+        ></app-ui-text-field>
+
+        <!-- Starting date -->
+        <div class="date-picker-wrapper">
+            <span class="ui-text-field__label">{{
+                'CATALOG.CONF-FORMS.NVFLARE.STARTING-DATE' | translate
+            }}</span>
+            <app-ui-date-picker
+                [value]="
+                    nvflareConfFormGroup.get('startingDateInput')?.value ?? null
+                "
+                (valueChange)="
+                    nvflareConfFormGroup
+                        .get('startingDateInput')
+                        ?.setValue($event)
+                "
+                [max]="maxStartDate"
+                [tooltip]="'CATALOG.CONF-FORMS.NVFLARE.STARTING-DATE'"
+            ></app-ui-date-picker>
+
+            @if (_showHelp) {
+                <span class="ui-text-field__hint">{{
+                    _defaultFormValues.starting_date.description
+                }}</span>
+            }
+        </div>
+
+        <!-- End date -->
+        <div class="date-picker-wrapper">
+            <span class="ui-text-field__label">{{
+                'CATALOG.CONF-FORMS.NVFLARE.END-DATE' | translate
+            }}</span>
+            <app-ui-date-picker
+                [value]="
+                    nvflareConfFormGroup.get('endDateInput')?.value ?? null
+                "
+                (valueChange)="
+                    nvflareConfFormGroup.get('endDateInput')?.setValue($event)
+                "
+                [min]="minEndDate"
+                [tooltip]="'CATALOG.CONF-FORMS.NVFLARE.END-DATE'"
+            ></app-ui-date-picker>
+
+            @if (_showHelp) {
+                <span class="ui-text-field__hint">{{
+                    _defaultFormValues.end_date.description
+                }}</span>
+            }
+        </div>
+    </div>
+</form>

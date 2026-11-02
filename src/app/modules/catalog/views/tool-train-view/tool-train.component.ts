@@ -11,6 +11,8 @@ import { Ai4lifeLoaderComponent } from '../../components/train/tool-train/ai4lif
 import { LlmComponent } from '../../components/train/tool-train/llm/llm.component';
 import { NvflareComponent } from '../../components/train/tool-train/nvflare/nvflare.component';
 import { NomadTrainComponent } from '../../components/train/nomad-train/nomad-train.component';
+import { ArenaSimulationFedllmComponent } from '../../components/train/tool-train/arena-simulation-fedllm/arena-simulation-fedllm.component';
+import { ArenaFlServerLlmComponent } from '../../components/train/tool-train/arena-fl-server-llm/arena-fl-server-llm.component';
 
 @Component({
     selector: 'app-tool-train',
@@ -23,6 +25,8 @@ import { NomadTrainComponent } from '../../components/train/nomad-train/nomad-tr
         LlmComponent,
         NvflareComponent,
         NomadTrainComponent,
+        ArenaSimulationFedllmComponent,
+        ArenaFlServerLlmComponent,
     ],
 })
 export class ToolTrainComponent implements OnInit {

@@ -7,6 +7,7 @@ import {
 } from '@app/shared/interfaces/platform-status.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
+import * as yaml from 'js-yaml';
 
 @Injectable({
     providedIn: 'root',
@@ -58,6 +59,26 @@ export class PlatformStatusService {
         const url =
             'https://api.github.com/repos/AI4EOSC/status/issues?state=open&filter=all&sort=created&direction=desc&labels=nomad-maintenance';
         return this.http.get<PlatformStatus[]>(url);
+    }
+
+    getActiveDatacenterNotifications(): Observable<StatusNotification[]> {
+        return this.getNomadClusterNotifications().pipe(
+            map((platformStatusList) => {
+                const notifications: StatusNotification[] = [];
+                platformStatusList.forEach((status) => {
+                    if (status.body != null) {
+                        const yamlBody = status.body
+                            .replace(/```yaml/g, '')
+                            .replace(/```[\s\S]*/, '');
+                        const notification = yaml.load(
+                            yamlBody
+                        ) as StatusNotification;
+                        notifications.push(notification);
+                    }
+                });
+                return this.filterByDateAndVo(notifications);
+            })
+        );
     }
 
     /**       UTILS       **/

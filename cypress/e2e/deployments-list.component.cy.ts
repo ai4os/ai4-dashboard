@@ -1,104 +1,123 @@
 describe('deployments section', function () {
+    const deploymentTitle = `fl-test-${Date.now()}`;
+
     before(function () {
-        cy.login(Cypress.env('EMAIL'), Cypress.env('PASSWORD'));
+        cy.env(['EMAIL', 'PASSWORD']).then(({ EMAIL, PASSWORD }) => {
+            cy.login(EMAIL, PASSWORD);
+        });
         cy.closeAccessLevelPopup();
 
-        // create tool
-        cy.contains('Tools', { timeout: 20000 }).click({
-            force: true,
-        });
-        cy.contains('Federated learning with Flower', { timeout: 20000 }).click(
-            {
-                force: true,
-            }
-        );
+        cy.contains('Tools', { timeout: 20000 }).click({ force: true });
+        cy.contains('Federated learning with Flower', {
+            timeout: 20000,
+        }).click({ force: true });
         cy.get('#deploy-tool-button', { timeout: 10000 }).click();
-        cy.get('#deployment-title', { timeout: 10000 }).type('fl-test');
-        cy.wait(5000);
-        cy.contains('Quick submit').click();
+        cy.get('#deployment-title', { timeout: 10000 }).type(deploymentTitle);
+        cy.contains('Quick submit', { timeout: 20000 }).click();
     });
 
-    it('shows deployments section', function () {
+    after(function () {
+        cy.visit('/tasks/deployments');
+        cy.contains('.deployments-table__name', deploymentTitle, {
+            timeout: 30000,
+        })
+            .closest('[role="row"]')
+            .within(() => {
+                cy.get('.deployments-table__actions app-ui-button')
+                    .last()
+                    .click();
+            });
+        cy.get('#optionB').click();
+        cy.contains('.deployments-table__name', deploymentTitle).should(
+            'not.exist'
+        );
+    });
+
+    it('shows the deployment after creation', function () {
         cy.contains('Deployments', { timeout: 20000 }).should('be.visible');
         cy.contains('Modules', { timeout: 50000 }).should('be.visible');
         cy.contains('Tools').should('be.visible');
         cy.contains('Deployment created with ID', { timeout: 20000 }).should(
             'be.visible'
         );
-        cy.contains('ai4oshub/ai4os-federated-server:latest').should(
-            'be.visible'
-        );
+        cy.contains('ai4oshub/ai4os-federated-server:latest', {
+            timeout: 50000,
+        }).should('be.visible');
+        cy.contains('.deployments-table__name', deploymentTitle, {
+            timeout: 50000,
+        }).should('be.visible');
     });
 
-    it('shows secrets management dialog', function () {
-        cy.get('#secrets-button').click();
-        cy.get('#card-title').contains('Manage secrets').should('be.visible');
-        cy.get('.tool-title').should('be.visible');
-        cy.contains('List of secrets').should('be.visible');
-        cy.contains('default').should('be.visible');
-        cy.get('#add-button').contains('Add').should('be.visible');
-        cy.contains('Close').should('be.visible');
+    it('opens the deployment secrets tab', function () {
+        cy.contains('.deployments-table__name', deploymentTitle)
+            .closest('[role="row"]')
+            .find(
+                '.deployments-table__actions app-ui-button[tooltip="Manage secrets"]'
+            )
+            .click();
+        cy.get('#secrets-tab', { timeout: 20000 }).should('be.visible');
+        cy.get('.deployment-secrets').should('be.visible');
+        cy.contains('.secret-item', 'default').should('be.visible');
     });
 
-    it('show and copy buttons', function () {
-        cy.get('#secret')
-            .should('have.prop', 'nodeName', 'INPUT')
-            .and('have.attr', 'type', 'password');
-        cy.get('#show-button').click();
-        cy.get('#secret')
-            .should('have.prop', 'nodeName', 'INPUT')
-            .and('have.attr', 'type', 'text');
+    it('shows and copies a secret', function () {
+        cy.get('.secret-item')
+            .first()
+            .find('.ui-credential-row__icon')
+            .first()
+            .click();
+        cy.get('.secret-item')
+            .first()
+            .find('.ui-credential-row__value')
+            .should(($value) => {
+                expect($value.text().trim()).not.to.match(/^•+$/);
+            });
 
-        cy.get('#copy-button').click();
+        cy.get('.secret-item')
+            .first()
+            .find('.ui-credential-row__icon')
+            .last()
+            .click();
         cy.contains('Copied to clipboard!').should('be.visible');
     });
 
-    it('create secret', function () {
-        cy.get('#input').type('client1');
-        cy.get('#add-button').click();
+    it('creates a secret', function () {
+        cy.get('.new-secret input').type('client1');
+        cy.get('.new-secret app-ui-button button').click();
         cy.contains('Successfully created secret with name: client1', {
             timeout: 20000,
         }).should('be.visible');
-        cy.contains('client1', { timeout: 20000 }).should('be.visible');
+        cy.contains('.secret-item', 'client1').should('be.visible');
     });
 
-    it('create duplicated secret', function () {
-        cy.get('#input').type('client1');
+    it('rejects a duplicated secret name', function () {
+        cy.get('.new-secret input').type('client1').blur();
         cy.contains('Secret names must be unique').should('be.visible');
-        cy.get('#add-button').should('be.disabled');
-        cy.contains('client1', { timeout: 10000 }).should('be.visible');
-        cy.get('#input').clear();
+        cy.get('.new-secret app-ui-button button').should('be.disabled');
     });
 
-    it('create whitespaces secret', function () {
-        cy.get('#input').type('    ');
-        cy.get(
-            '.new-secret-item > .mat-mdc-form-field > .mat-mdc-form-field-subscript-wrapper'
-        ).click();
+    it('rejects a whitespace-only secret name', function () {
+        cy.get('.new-secret input').clear().type('    ').blur();
         cy.contains('Secret names cannot be whitespaces').should('be.visible');
-        cy.get('#add-button').should('be.disabled');
-        cy.get('#input').clear();
+        cy.get('.new-secret app-ui-button button').should('be.disabled');
     });
 
-    it('delete secret', function () {
-        cy.get('#delete-button').click();
-        cy.contains('Are you sure you want to delete this secret?').should(
-            'be.visible'
-        );
-        cy.contains('Yes').click();
-        cy.contains('client1', { timeout: 10000 }).should('not.be.visible');
+    it('deletes a secret', function () {
+        cy.contains('.secret-item', 'client1').find('app-ui-button').click();
+        cy.get('.confirmation-dialog').should('be.visible');
+        cy.get('#optionB').click();
+        cy.contains('.secret-item', 'client1').should('not.exist');
     });
 
-    it('delete last secret', function () {
-        cy.get('#delete-button', { timeout: 25000 }).click();
-        cy.contains(
-            'Are you sure you want to delete this secret? Be careful! Some tools need at least one secret to work'
-        ).should('be.visible');
-        cy.get('#optionA').click();
-        cy.contains('default', { timeout: 10000 }).should('be.visible');
-
-        cy.get('#delete-button').click();
-        cy.contains('Yes').click();
+    it('deletes the last secret with a warning', function () {
+        cy.contains('.secret-item', 'default').find('app-ui-button').click();
+        cy.get('.confirmation-dialog')
+            .should('be.visible')
+            .and(
+                'contain.text',
+                'Be careful! Some tools need at least one secret to work'
+            );
+        cy.get('#optionB').click();
         cy.contains('No secrets found.', { timeout: 10000 }).should(
             'be.visible'
         );

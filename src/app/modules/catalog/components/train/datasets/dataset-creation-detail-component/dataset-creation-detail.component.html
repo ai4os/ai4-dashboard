@@ -1,292 +1,174 @@
-<mat-toolbar>
-  <span class="title">
-    {{ 'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DATASETS' | translate }}
+<div class="confirmation-dialog">
+    <div class="confirmation-dialog__top-accent"></div>
 
-    <mat-icon>dataset</mat-icon></span
+    <div
+        mat-dialog-content
+        class="confirmation-dialog__content confirmation-dialog__content--left"
     >
-  </mat-toolbar>
-
-  <mat-card class="card-container">
-
-    <mat-card-content
-        [ngClass]="{
-            'card-content-mobile': mobileQuery.matches,
-        }"
-      >
-      @if (!dialogLoading) {
         <div
-                [ngClass]="{
-                    'deployment-detail-container-mobile': mobileQuery.matches,
-                    'deployment-detail-container': !mobileQuery.matches,
-                }"
-          >
-          <mat-tab-group
-            disablePagination="true"
-            mat-stretch-tabs="false"
-            mat-align-tabs="start"
-            #tabGroup
-            (selectedTabChange)="tabChanged($event)"
-            >
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <img
-                  class="fit-image"
-                  src="../../../../../assets/images/data-repositories/zenodo-logo.png"
-                  />
-              </ng-template>
-              <form
-                [formGroup]="zenodoFormGroup"
-                class="tab-content"
-                            [ngClass]="{
-                                'form-flex': mobileQuery.matches,
-                                'grid-1-column': !mobileQuery.matches,
-                            }"
-                >
-                <mat-form-field subscriptSizing="dynamic">
-                  <mat-label>{{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-COMMUNITY'
-                    | translate
-                  }}</mat-label>
-                  <input
-                    id="community"
-                    type="text"
-                    placeholder="Pick one"
-                    aria-label="Number"
-                    matInput
-                    formControlName="zenodoCommunitySelect"
-                    [matAutocomplete]="auto"
-                    />
-                  <mat-autocomplete
-                    autoActiveFirstOption
-                    #auto="matAutocomplete"
-                    (optionSelected)="communitySelectChange()"
-                    >
-                    <cdk-virtual-scroll-viewport
-                                        [ngStyle]="{
-                                            height: '192px',
-                                        }"
-                      itemSize="48"
-                      >
-                      <mat-option
-                                            *cdkVirtualFor="
-                                                let option of filteredCommunityOptions
-                                                    | async
-                                            "
-                        [value]="option.viewValue"
-                        >
-                        {{ option.viewValue }}
-                      </mat-option>
-                    </cdk-virtual-scroll-viewport>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field subscriptSizing="dynamic">
-                  @if (
-                    zenodoFormGroup.get(
-                    'zenodoCommunitySelect'
-                    )?.value === '' || datasetsLength !== 0) {
-                    <mat-label
-                      >{{
-                      'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-DATASET'
-                      | translate
-                      }}</mat-label
-                      >
-                    } @else {
-                      <mat-label>{{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-DATASET-EMPTY'
-                        | translate
-                      }}</mat-label>
-                    }
-                    <mat-select
-                      id="dataset"
-                      formControlName="zenodoDatasetSelect"
-                      (selectionChange)="datasetSelectChange()"
-                      >
-                      @for (
-                        zenodoDatasetOption of zenodoDatasetOptions
-                        ; track
-                        zenodoDatasetOption) {
-                        <mat-option
-                          [value]="zenodoDatasetOption.value"
-                          >
-                          {{ zenodoDatasetOption.viewValue }}
-                        </mat-option>
-                      }
-                    </mat-select>
-                    @if (datasetsLoading) {
-                      <mat-spinner
-                        matSuffix
-                        [diameter]="18"
-                        class="input-spinner"
-                      ></mat-spinner>
-                    }
-                  </mat-form-field>
-                  <mat-form-field subscriptSizing="dynamic">
-                    <mat-label>{{
-                      'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.ZENODO-VERSION'
-                      | translate
-                    }}</mat-label>
-                    <mat-select
-                      id="version"
-                      formControlName="zenodoVersionSelect"
-                      >
-                      @for (
-                        zenodoDatasetVersion of zenodoDatasetVersions
-                        ; track
-                        zenodoDatasetVersion) {
-                        <mat-option
-                          [value]="zenodoDatasetVersion.value"
-                          >
-                          {{ zenodoDatasetVersion.viewValue }}
-                        </mat-option>
-                      }
-                    </mat-select>
-                    @if (versionsLoading) {
-                      <mat-spinner
-                        matSuffix
-                        [diameter]="18"
-                        class="input-spinner"
-                      ></mat-spinner>
-                    }
-                  </mat-form-field>
-                </form>
-              </mat-tab>
-              <mat-tab>
-                <ng-template mat-tab-label>
-                  <img
-                    class="fit-image mr-2"
-                    src="../../../../../assets/images/data-repositories/doi-logo.png"
-                    />
-                  +
-                  <img
-                    class="fit-image ml-2"
-                    src="../../../../../assets/images/data-repositories/http-logo.png"
-                    />
-                </ng-template>
-                <form [formGroup]="doiUrlFormGroup" class="tab-content">
-                  <mat-form-field>
-                    <mat-label>{{
-                      'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.TITLE'
-                      | translate
-                    }}</mat-label>
-                    <input
-                      id="doi"
-                      matInput
-                      placeholder=""
-                      value=""
-                      formControlName="doiUrlInput"
-                      />
-                    @if (
-                      doiUrlFormGroup
-                      .get('doiUrlInput')
-                      ?.hasError('invalidDOIOrURL')
-                      ) {
-                      <mat-error
-                        >
-                        {{
-                        'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.ERROR'
-                        | translate
-                        }}
-                      </mat-error>
-                    }
-                  </mat-form-field>
-                </form>
-                <div class="footer">
-                  <mat-divider></mat-divider>
-                  <p>
-                    {{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.SUPPORT'
-                    | translate
-                    }}<a
-                    href="https://j535d165.github.io/datahugger/repositories/"
-                    target="_blank"
-                    >
-                    {{
-                    'CATALOG.MODULE-TRAIN.DATA-CONF-FORM.DOI-URL.MORE'
-                    | translate
-                    }}</a
-                    >!
-                  </p>
-                  <div class="logos-container">
-                    <a href="https://zenodo.org/" target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/zenodo-logo.svg"
-                    /></a>
-                    <a href="https://figshare.com/" target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/figshare-logo.png"
-                    /></a>
-                    <a href="https://github.com/" target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/github-logo.png"
-                    /></a>
-                    <a href="https://datadryad.org/" target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/dryad-logo.png"
-                    /></a>
-                    <a
-                      href="https://huggingface.co/"
-                      target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/hf-logo.png"
-                    /></a>
-                    <a href="https://osf.io/" target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/osf-logo.png"
-                    /></a>
-                    <a
-                      href="https://data.mendeley.com/"
-                      target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/mendeley-logo.png"
-                    /></a>
-                    <a
-                      href="https://www.seanoe.org/"
-                      target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/seanoe-logo.png"
-                    /></a>
-                    <a
-                      href="https://data.europa.eu/"
-                      target="_blank"
-                      ><img
-                      class="small-logo"
-                      src="../../../../../assets/images/data-repositories/data-europa-logo.png"
-                    /></a>
-                  </div>
-                </div>
-              </mat-tab>
-            </mat-tab-group>
-          </div>
-        } @else {
-          <div class="spinner">
-            <mat-progress-spinner color="primary" mode="indeterminate">
-            </mat-progress-spinner>
-          </div>
-        }
-      </mat-card-content>
+            class="tabs-wrapper"
+            [ngClass]="{ 'tabs-mobile': mobileQuery.matches }"
+        >
+            <app-ui-tabs
+                [tabs]="dialogTabs"
+                [activeTabId]="activeTabId"
+                (tabChange)="tabChanged($event)"
+            ></app-ui-tabs>
 
-      <mat-card-actions align="end">
-        <button
-          id="add-button"
-          mat-raised-button
-          color="accent"
-          class="mr-2 ml-2"
-          (click)="addDataset()"
-          [disabled]="!formsAreValid() || dialogLoading"
-          >
-          <mat-icon iconPositionEnd>add_circle</mat-icon>
-          {{ 'GENERAL-BUTTONS.ADD' | translate }}
-        </button>
-        <button mat-raised-button mat-dialog-close>
-          {{ 'GENERAL-BUTTONS.CLOSE' | translate }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
+            <div class="tab-content">
+                <!-- Zenodo -->
+                @if (activeTabId === 'zenodo') {
+                    <form
+                        [formGroup]="zenodoFormGroup"
+                        [ngClass]="{
+                            'form-flex': mobileQuery.matches,
+                            'form-grid': !mobileQuery.matches,
+                        }"
+                    >
+                        <!-- Zenodo community -->
+                        <app-ui-autocomplete
+                            formControlName="zenodoCommunitySelect"
+                            label="CATALOG.CONF-FORMS.DATA.ZENODO.COMMUNITY"
+                            placeholder="Pick one"
+                            [options]="filteredCommunityOptions | async"
+                            (optionSelected)="communitySelectChange()"
+                        ></app-ui-autocomplete>
+
+                        <!-- Zenodo dataset -->
+                        <div class="field-with-spinner">
+                            <app-ui-select
+                                formControlName="zenodoDatasetSelect"
+                                [label]="'CATALOG.CONF-FORMS.DATA.ZENODO.DATASET'"
+                                [options]="zenodoDatasetOptions"
+                                [placeholder]="
+                                    zenodoFormGroup.get('zenodoCommunitySelect')
+                                        ?.value === '' || datasetsLength !== 0
+                                        ? ''
+                                        : 'CATALOG.CONF-FORMS.DATA.ZENODO.DATASET-EMPTY'
+                                "
+                                (valueChange)="datasetSelectChange()"
+                            ></app-ui-select>
+                            @if (datasetsLoading) {
+                                <div>
+                                    <app-ui-loader></app-ui-loader>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Zenodo version -->
+                        <div class="field-with-spinner">
+                            <app-ui-select
+                                formControlName="zenodoVersionSelect"
+                                label="CATALOG.CONF-FORMS.DATA.ZENODO.VERSION"
+                                [options]="zenodoDatasetVersions"
+                            ></app-ui-select>
+                            @if (versionsLoading) {
+                                <div>
+                                    <app-ui-loader></app-ui-loader>
+                                </div>
+                            }
+                        </div>
+                    </form>
+                }
+
+                <!-- DOI / URL -->
+                @if (activeTabId === 'doi') {
+                    <form [formGroup]="doiUrlFormGroup" class="form-flex">
+                        <app-ui-text-field
+                            formControlName="doiUrlInput"
+                            label="CATALOG.CONF-FORMS.DATA.DOI-URL.TITLE"
+                            [errorMessages]="doiUrlErrorMessages"
+                        ></app-ui-text-field>
+                    </form>
+
+                    <div class="footer">
+                        <p class="mt-3">
+                            {{
+                                'CATALOG.CONF-FORMS.DATA.DOI-URL.SUPPORT'
+                                    | translate
+                            }}
+                            <a
+                                href="https://j535d165.github.io/datahugger/repositories/"
+                                target="_blank"
+                            >
+                                {{
+                                    'CATALOG.CONF-FORMS.DATA.DOI-URL.MORE'
+                                        | translate
+                                }}</a
+                            >!
+                        </p>
+                        <div class="logos-container mt-2">
+                            <a href="https://zenodo.org/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/zenodo_logo.svg"
+                            /></a>
+                            <a href="https://figshare.com/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/figshare_logo.svg"
+                            /></a>
+                            <a href="https://github.com/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/github_logo.svg"
+                            /></a>
+                            <a href="https://datadryad.org/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/dryad_logo.png"
+                            /></a>
+                            <a href="https://huggingface.co/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/hf_logo.svg"
+                            /></a>
+                            <a href="https://osf.io/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/osf_logo.svg"
+                            /></a>
+                            <a href="https://data.mendeley.com/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/mendeley_logo.svg"
+                            /></a>
+                            <a href="https://www.seanoe.org/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/seanoe_logo.png"
+                            /></a>
+                            <a href="https://data.europa.eu/" target="_blank"
+                                ><img
+                                    class="small-logo"
+                                    src="../../../../../assets/images/data-repositories/data_europa_logo.png"
+                            /></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (dialogLoading) {
+            <div class="spinner-loading-overlay">
+                <app-ui-loader></app-ui-loader>
+            </div>
+        }
+    </div>
+
+    <!-- Acciones -->
+    <div mat-dialog-actions class="confirmation-dialog__actions">
+        <app-ui-button
+            mat-dialog-close
+            variant="default-outline"
+            text="GENERAL.CLOSE"
+        ></app-ui-button>
+        <app-ui-button
+            variant="accent-solid"
+            icon="add_circle"
+            text="GENERAL.ADD"
+            [disabled]="!formsAreValid() || dialogLoading"
+            (buttonClick)="addDataset()"
+        ></app-ui-button>
+    </div>
+</div>

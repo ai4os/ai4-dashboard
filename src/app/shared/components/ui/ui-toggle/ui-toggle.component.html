@@ -1,0 +1,21 @@
+<div class="ui-toggle" [class.ui-toggle--disabled]="disabled()">
+    <button
+        type="button"
+        role="switch"
+        class="ui-toggle__track"
+        [class.ui-toggle__track--on]="internalValue()"
+        [attr.aria-checked]="internalValue()"
+        [disabled]="disabled()"
+        (click)="toggle()"
+    >
+        <span class="ui-toggle__thumb"></span>
+    </button>
+
+    @if (label) {
+        <span class="ui-toggle__label">{{ label | translate }}</span>
+    }
+
+    @if (hint) {
+        <span class="ui-toggle__hint">{{ hint | translate }}</span>
+    }
+</div>

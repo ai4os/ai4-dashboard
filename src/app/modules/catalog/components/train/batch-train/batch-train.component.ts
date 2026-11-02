@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     OnInit,
     inject,
+    ViewChild,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -10,7 +11,6 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesService } from '@app/modules/catalog/services/modules-service/modules.service';
 import {
@@ -18,15 +18,21 @@ import {
     ModuleHardwareConfiguration,
     ModuleStorageConfiguration,
     ModuleConfiguration,
+    TrainModuleRequest,
 } from '@app/shared/interfaces/module.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {
     ShowGeneralFormField,
     GeneralConfFormComponent,
-} from '../general-conf-form/general-conf-form.component';
+} from '../../conf-forms/general-conf-form/general-conf-form.component';
 import { StepperFormComponent } from '../stepper-form/stepper-form.component';
-import { HardwareConfFormComponent } from '../hardware-conf-form/hardware-conf-form.component';
-import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form.component';
+import { HardwareConfFormComponent } from '../../conf-forms/hardware-conf-form/hardware-conf-form.component';
+import { StorageConfFormComponent } from '../../conf-forms/storage-conf-form/storage-conf-form.component';
+import { MatDivider } from '@angular/material/divider';
+import { BatchConfFormComponent } from '../../conf-forms/batch-conf-form/batch-conf-form.component';
+import { DeploymentsService } from '@app/modules/deployments/services/deployments-service/deployments.service';
+import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
+import { StatusReturn } from '@app/shared/interfaces/deployment.interface';
 
 @Component({
     selector: 'app-batch-train',
@@ -40,14 +46,18 @@ import { StorageConfFormComponent } from '../storage-conf-form/storage-conf-form
         GeneralConfFormComponent,
         HardwareConfFormComponent,
         StorageConfFormComponent,
+        MatDivider,
+        BatchConfFormComponent,
     ],
 })
 export class BatchTrainComponent implements OnInit {
-    private _formBuilder = inject(FormBuilder);
-    private modulesService = inject(ModulesService);
+    private readonly _formBuilder = inject(FormBuilder);
+    private readonly modulesService = inject(ModulesService);
     translateService = inject(TranslateService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    deploymentsService = inject(DeploymentsService);
+    snackbarService = inject(SnackbarService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
     constructor() {
         const navigation = this.router.currentNavigation();
@@ -57,19 +67,29 @@ export class BatchTrainComponent implements OnInit {
     }
 
     title = '';
-    step1Title = 'CATALOG.MODULE-TRAIN.GENERAL-CONF';
-    step2Title = 'CATALOG.MODULE-TRAIN.HARDWARE-CONF';
-    step3Title = 'CATALOG.MODULE-TRAIN.DATA-CONF';
+    step1Title = 'CATALOG.CONF-FORMS.GENERAL.TITLE';
+    step2Title = 'CATALOG.CONF-FORMS.HARDWARE.TITLE';
+    step3Title = 'CATALOG.CONF-FORMS.DATA.TITLE';
 
     showHelp = false;
     showLoader = false;
 
     generalConfForm: FormGroup = this._formBuilder.group({});
+    batchConfForm: FormGroup = this._formBuilder.group({});
     hardwareConfForm: FormGroup = this._formBuilder.group({});
     storageConfForm: FormGroup = this._formBuilder.group({});
     generalConfDefaultValues!: ModuleGeneralConfiguration;
     hardwareConfDefaultValues!: ModuleHardwareConfiguration;
     storageConfDefaultValues!: ModuleStorageConfiguration;
+
+    @ViewChild(GeneralConfFormComponent)
+    generalConfFormCmp!: GeneralConfFormComponent;
+    @ViewChild(HardwareConfFormComponent)
+    hardwareConfFormCmp!: HardwareConfFormComponent;
+    @ViewChild(StorageConfFormComponent)
+    storageConfFormCmp!: StorageConfFormComponent;
+    @ViewChild(BatchConfFormComponent)
+    batchConfFormCmp!: BatchConfFormComponent;
 
     showGeneralFields: ShowGeneralFormField = {
         titleInput: true,
@@ -80,10 +100,6 @@ export class BatchTrainComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: false,
-        cvatFields: false,
-        ai4lifeFields: false,
-        llmFields: false,
-        batchFields: true,
     };
 
     service: string | undefined;
@@ -101,6 +117,7 @@ export class BatchTrainComponent implements OnInit {
     }
 
     loadGenericModule() {
+        this.showLoader = true;
         this.modulesService
             .getModuleNomadConfiguration('ai4os-demo-app')
             .subscribe((moduleConf: ModuleConfiguration) => {
@@ -117,7 +134,7 @@ export class BatchTrainComponent implements OnInit {
                     const deployment = JSON.parse(deploymentRow);
                     const snapshotText =
                         this.translateService.instant(
-                            'CATALOG.MODULE-TRAIN.GENERAL-CONF-FORM.SNAPSHOT-ID'
+                            'CATALOG.CONF-FORMS.DEPLOYED-FROM-SNAPSHOT-ID'
                         ) + deployment.snapshot_ID;
                     this.generalConfDefaultValues.title.value = deployment.name;
                     this.generalConfDefaultValues.desc!.value = deployment.desc
@@ -140,11 +157,14 @@ export class BatchTrainComponent implements OnInit {
                     this.warningMessage =
                         this.hardwareConfDefaultValues.warning;
                 }
+
+                this.showLoader = false;
             });
     }
 
     loadSpecificModule() {
         this.route.parent?.params.subscribe((params) => {
+            this.showLoader = true;
             this.modulesService.getModule(params['id']).subscribe((module) => {
                 this.title = module.title;
                 this.modulesService
@@ -166,12 +186,50 @@ export class BatchTrainComponent implements OnInit {
                             this.warningMessage =
                                 this.hardwareConfDefaultValues.warning;
                         }
+
+                        this.showLoader = false;
                     });
             });
         });
     }
 
-    showHelpButtonChange(event: MatSlideToggleChange) {
-        this.showHelp = event.checked;
+    showHelpButtonChange(checked: boolean) {
+        this.showHelp = checked;
+    }
+
+    onSubmit(): void {
+        this.showLoader = true;
+
+        const request: TrainModuleRequest = {
+            general: this.generalConfFormCmp.getPayload(),
+            hardware: this.hardwareConfFormCmp.getPayload(),
+            storage: this.storageConfFormCmp.getPayload(),
+        };
+
+        const batchFile = this.batchConfFormCmp.getBatchFile();
+
+        this.deploymentsService
+            .postBatchDeployment(request, batchFile)
+            .subscribe({
+                next: (result) => this.handleSuccess(result),
+                error: () => (this.showLoader = false),
+            });
+    }
+
+    private handleSuccess(result: StatusReturn): void {
+        this.showLoader = false;
+        if (result?.status === 'success') {
+            this.router.navigate(['/tasks/batch']).then((navigated) => {
+                if (navigated) {
+                    this.snackbarService.openSuccess(
+                        'Batch deployment created with ID ' + result.job_ID
+                    );
+                }
+            });
+        } else if (result?.status === 'fail') {
+            this.snackbarService.openError(
+                'Error while creating the batch deployment ' + result.error_msg
+            );
+        }
     }
 }

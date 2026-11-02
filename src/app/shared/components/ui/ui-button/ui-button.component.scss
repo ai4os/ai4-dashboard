@@ -6,8 +6,9 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     letter-spacing: -0.01em;
+    text-decoration: none;
     cursor: pointer;
     border: 1px solid transparent;
     white-space: nowrap;
@@ -21,13 +22,24 @@
         padding: var(--space-sm);
     }
 
+    &--icon-right {
+        flex-direction: row-reverse;
+    }
+
+    img {
+        font-size: var(--font-size-md);
+        width: var(--font-size-md);
+        height: var(--font-size-md);
+    }
+
     mat-icon {
         font-size: var(--font-size-md);
         width: var(--font-size-md);
         height: var(--font-size-md);
     }
 
-    &:disabled {
+    &:disabled,
+    &--disabled {
         cursor: not-allowed;
         opacity: 0.5;
         transform: none !important;
@@ -37,7 +49,7 @@
         background: var(--color-primary);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-primary-dark);
             transform: translateY(-1px);
         }
@@ -48,7 +60,7 @@
         color: var(--color-primary);
         border-color: var(--color-primary);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-primary-light);
             border-color: var(--color-primary-dark);
             transform: translateY(-1px);
@@ -59,7 +71,7 @@
         background: var(--color-accent);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-accent-dark);
             transform: translateY(-1px);
         }
@@ -70,7 +82,7 @@
         color: var(--color-accent);
         border-color: var(--color-accent);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-accent-light);
             border-color: var(--color-accent-dark);
             transform: translateY(-1px);
@@ -81,8 +93,30 @@
         background: var(--color-danger);
         color: var(--white);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-danger-dark);
+            transform: translateY(-1px);
+        }
+    }
+
+    &--default-outline {
+        background: transparent;
+        color: var(--color-default-dark);
+        border-color: var(--color-border-default);
+
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
+            background: var(--color-default-light);
+            border-color: var(--color-default);
+            transform: translateY(-1px);
+        }
+    }
+
+    &--default-solid {
+        background: var(--color-text-secondary);
+        color: var(--white);
+
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
+            background: var(--color-text-primary);
             transform: translateY(-1px);
         }
     }
@@ -92,7 +126,7 @@
         color: var(--color-danger);
         border-color: var(--color-danger);
 
-        &:hover:not(:disabled) {
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
             background: var(--color-danger-light);
             border-color: var(--color-danger-dark);
             transform: translateY(-1px);
@@ -101,10 +135,14 @@
 
     &--icon {
         background: transparent;
-        color: var(--color-primary);
+        color: var(--ui-btn-color, var(--color-primary));
 
-        &:hover:not(:disabled) {
-            background: var(--color-primary-light);
+        &:hover:not(:disabled):not(.ui-btn--disabled) {
+            background: color-mix(
+                in srgb,
+                var(--ui-btn-color, var(--color-primary)) 15%,
+                transparent
+            );
             transform: translateY(-1px);
         }
     }
