@@ -4,9 +4,9 @@
     [class.ui-text-field--disabled]="disabled()"
 >
     @if (label) {
-        <span class="ui-text-field__label" [id]="labelId">{{
+        <label class="ui-text-field__label" [id]="labelId" [for]="inputId">{{
             label | translate
-        }}</span>
+        }}</label>
     }
 
     <div
@@ -17,6 +17,7 @@
         [attr.aria-owns]="panelId"
     >
         <input
+            [id]="inputId"
             type="text"
             class="ui-text-field__input"
             [placeholder]="placeholder ? (placeholder | translate) : ''"

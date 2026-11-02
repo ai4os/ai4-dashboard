@@ -74,7 +74,14 @@
             @if (searchable) {
                 <div class="ui-select-panel__search">
                     <mat-icon class="search-icon">search</mat-icon>
+                    <label
+                        class="ui-select-panel__search-label"
+                        [for]="searchInputId"
+                    >
+                        {{ 'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate }}
+                    </label>
                     <input
+                        [id]="searchInputId"
                         type="text"
                         [placeholder]="
                             'CATALOG.COMMON.SEARCH-PLACEHOLDER' | translate

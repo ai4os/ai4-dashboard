@@ -3,17 +3,21 @@
     [class.ui-text-field--invalid]="isInvalid"
     [class.ui-text-field--disabled]="disabled()"
 >
-    @if (showLabel && label) {
-        <span class="ui-text-field__label" [id]="labelId">{{
-            label | translate
-        }}</span>
+    @if (label) {
+        <label
+            class="ui-text-field__label"
+            [class.ui-text-field__label--visually-hidden]="!showLabel"
+            [id]="labelId"
+            [for]="inputId"
+        >
+            {{ label | translate }}
+        </label>
     }
 
     <div
         class="ui-text-field__wrapper ui-chip-input__wrapper"
         cdkOverlayOrigin
         #trigger="cdkOverlayOrigin"
-        [attr.aria-labelledby]="label ? labelId : null"
     >
         @if (prefixIcon) {
             <mat-icon class="ui-text-field__prefix">{{ prefixIcon }}</mat-icon>
@@ -31,6 +35,7 @@
             }
 
             <input
+                [id]="inputId"
                 class="ui-text-field__input ui-chip-input__input"
                 [placeholder]="
                     internalValue().length ? '' : (placeholder | translate)

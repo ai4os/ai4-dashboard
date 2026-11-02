@@ -13,7 +13,7 @@ import {
     StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { Subject, timer, takeUntil, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { BatchService } from '../../services/batch.service';
 import { formatDate } from '@app/shared/utils/formatDate';
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
@@ -21,6 +21,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+    deploymentActionsColumn,
+    deploymentContainerColumn,
+    deploymentCreationTimeColumn,
+    deploymentNameColumn,
+    deploymentStatusColumn,
+} from '@app/shared/components/deployments-table/deployment-table-columns';
+import { pollWhileActive } from '@app/shared/utils/pollWhileActive';
 
 @Component({
     selector: 'app-batch-list',
@@ -48,38 +56,11 @@ export class BatchListComponent implements OnInit {
     }
 
     columns: UiTableColumn<DeploymentTableRow>[] = [
-        {
-            key: 'name',
-            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
-            sticky: true,
-            sortable: true,
-            width: '200px',
-        },
-        {
-            key: 'status',
-            label: 'DEPLOYMENTS.STATUS',
-            align: 'center',
-            sortable: true,
-            width: '130px',
-        },
-        {
-            key: 'containerName',
-            label: 'DEPLOYMENTS.CONTAINER-NAME',
-            minWidth: '230px',
-        },
-        {
-            key: 'creationTime',
-            label: 'DEPLOYMENTS.CREATION-TIME',
-            align: 'center',
-            sortable: true,
-            width: '190px',
-        },
-        {
-            key: 'actions',
-            label: 'DEPLOYMENTS.ACTIONS',
-            align: 'right',
-            width: 'auto',
-        },
+        deploymentNameColumn,
+        deploymentStatusColumn,
+        deploymentContainerColumn,
+        deploymentCreationTimeColumn,
+        deploymentActionsColumn,
     ];
 
     readonly batchDetailRouteBase = '/tasks/batch';
@@ -98,62 +79,58 @@ export class BatchListComponent implements OnInit {
 
     getServicesList() {
         this.isLoading = true;
-        timer(0, 5000)
-            .pipe(
-                takeUntil(this.unsub),
-                switchMap(() => this.batchService.getBatchDeployments())
-            )
-            .subscribe({
-                next: (deploymentsList: Deployment[]) => {
-                    this.dataset = deploymentsList.map(
-                        (deployment: Deployment): DeploymentTableRow => {
-                            const row: DeploymentTableRow = {
-                                uuid: deployment.job_ID,
-                                name: deployment.title,
-                                status: deployment.status,
-                                containerName: deployment.docker_image,
-                                gpus: '-',
-                                creationTime: formatDate(
-                                    deployment.submit_time
-                                ),
-                                endpoints: deployment.endpoints,
-                                mainEndpoint: deployment.main_endpoint,
-                                datacenter: deployment.datacenter,
-                                energy: deployment.energy
-                                    ? {
-                                          power_w: (deployment.energy as any)
-                                              .power_w,
-                                          energy_wh: (deployment.energy as any)
-                                              .energy_wh,
-                                          carbon_g: (deployment.energy as any)
-                                              .carbon_g,
-                                          water_l: (deployment.energy as any)
-                                              .water_l,
-                                      }
-                                    : null,
-                            };
+        pollWhileActive(
+            () => this.batchService.getBatchDeployments(),
+            this.unsub
+        ).subscribe({
+            next: (deploymentsList: Deployment[]) => {
+                this.dataset = deploymentsList.map(
+                    (deployment: Deployment): DeploymentTableRow => {
+                        const row: DeploymentTableRow = {
+                            uuid: deployment.job_ID,
+                            name: deployment.title,
+                            status: deployment.status,
+                            containerName: deployment.docker_image,
+                            gpus: '-',
+                            creationTime: formatDate(deployment.submit_time),
+                            endpoints: deployment.endpoints,
+                            mainEndpoint: deployment.main_endpoint,
+                            datacenter: deployment.datacenter,
+                            energy: deployment.energy
+                                ? {
+                                      power_w: (deployment.energy as any)
+                                          .power_w,
+                                      energy_wh: (deployment.energy as any)
+                                          .energy_wh,
+                                      carbon_g: (deployment.energy as any)
+                                          .carbon_g,
+                                      water_l: (deployment.energy as any)
+                                          .water_l,
+                                  }
+                                : null,
+                        };
 
-                            if (deployment.error_msg) {
-                                row.error_msg = deployment.error_msg;
-                            }
-                            if (
-                                deployment.resources &&
-                                Object.keys(deployment.resources).length !== 0
-                            ) {
-                                row.gpus = deployment.resources.gpu_num;
-                            }
-
-                            return row;
+                        if (deployment.error_msg) {
+                            row.error_msg = deployment.error_msg;
                         }
-                    );
+                        if (
+                            deployment.resources &&
+                            Object.keys(deployment.resources).length !== 0
+                        ) {
+                            row.gpus = deployment.resources.gpu_num;
+                        }
 
-                    this.isLoading = false;
-                },
-                error: () => {
-                    this.dataset = [];
-                    this.isLoading = false;
-                },
-            });
+                        return row;
+                    }
+                );
+
+                this.isLoading = false;
+            },
+            error: () => {
+                this.dataset = [];
+                this.isLoading = false;
+            },
+        });
     }
 
     removeBatchDeployment(uuid: string) {

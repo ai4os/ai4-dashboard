@@ -50,6 +50,7 @@ export class UiChipInputComponent implements ControlValueAccessor {
     protected activeIndex = signal(-1);
 
     private readonly instanceId = nextId++;
+    protected readonly inputId = `ui-chip-input-input-${this.instanceId}`;
     protected readonly labelId = `ui-chip-input-label-${this.instanceId}`;
     protected readonly panelId = `ui-chip-input-panel-${this.instanceId}`;
 

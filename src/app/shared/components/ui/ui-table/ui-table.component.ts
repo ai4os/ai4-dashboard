@@ -121,8 +121,12 @@ export class UiTableComponent<
         }
     }
 
-    onRowKeydown(event: KeyboardEvent, row: T): void {
-        if (event.target === event.currentTarget && this.rowClick.observed) {
+    onRowKeydown(event: Event, row: T): void {
+        if (
+            event instanceof KeyboardEvent &&
+            event.target === event.currentTarget &&
+            this.rowClick.observed
+        ) {
             event.preventDefault();
             this.rowClick.emit(row);
         }

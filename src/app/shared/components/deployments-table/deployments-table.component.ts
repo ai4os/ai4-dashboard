@@ -39,6 +39,13 @@ import {
     UiTableColumn,
     UiTableSortEvent,
 } from '../ui/ui-table/ui-table.component';
+import {
+    deploymentActionsColumn,
+    deploymentContainerColumn,
+    deploymentCreationTimeColumn,
+    deploymentNameColumn,
+    deploymentStatusColumn,
+} from './deployment-table-columns';
 
 @Component({
     selector: 'app-deployments-table',
@@ -77,25 +84,9 @@ export class DeploymentsTableComponent {
     @Output() deleteElement = new EventEmitter<string>();
 
     @Input() columns: UiTableColumn<DeploymentTableRow>[] = [
-        {
-            key: 'name',
-            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
-            sticky: true,
-            sortable: true,
-            width: '200px',
-        },
-        {
-            key: 'status',
-            label: 'DEPLOYMENTS.STATUS',
-            align: 'center',
-            sortable: true,
-            width: '130px',
-        },
-        {
-            key: 'containerName',
-            label: 'DEPLOYMENTS.CONTAINER-NAME',
-            minWidth: '230px',
-        },
+        deploymentNameColumn,
+        deploymentStatusColumn,
+        deploymentContainerColumn,
         {
             key: 'gpus',
             label: 'DEPLOYMENTS.GPUS',
@@ -130,19 +121,8 @@ export class DeploymentsTableComponent {
             sortable: true,
             width: '120px',
         },
-        {
-            key: 'creationTime',
-            label: 'DEPLOYMENTS.CREATION-TIME',
-            align: 'center',
-            sortable: true,
-            width: '190px',
-        },
-        {
-            key: 'actions',
-            label: 'DEPLOYMENTS.ACTIONS',
-            align: 'right',
-            width: 'auto',
-        },
+        deploymentCreationTimeColumn,
+        deploymentActionsColumn,
     ];
 
     private sortState: UiTableSortEvent<DeploymentTableRow> | null = null;

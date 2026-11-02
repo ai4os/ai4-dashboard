@@ -39,10 +39,13 @@ export class Ai4lifeModuleCardComponent {
         }
     }
 
-    onCardKeydown(event: KeyboardEvent): void {
+    onCardKeydown(event: Event): void {
         const target = event.target;
 
-        if (!(target instanceof Element) || !target.closest('a')) {
+        if (
+            event instanceof KeyboardEvent &&
+            (!(target instanceof Element) || !target.closest('a'))
+        ) {
             event.preventDefault();
             this.openModule();
         }

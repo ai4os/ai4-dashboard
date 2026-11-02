@@ -19,6 +19,7 @@
     >
         @if (module.description) {
             <markdown
+                class="module-card__markdown"
                 [data]="module.description"
                 ngPreserveWhitespaces
                 [disableSanitizer]="true"

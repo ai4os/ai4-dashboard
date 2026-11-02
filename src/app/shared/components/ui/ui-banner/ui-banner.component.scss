@@ -5,39 +5,22 @@
     padding: var(--space-xl) 28px;
     color: var(--color-text-inverse);
 
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        pointer-events: none;
-        opacity: 0.035;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-        background-size: 200px 200px;
-        z-index: 1;
-    }
-
     /* Variantes de color */
     --circle-shadow-rgb: var(--color-accent-rgb);
+    --anchor-right: 44px;
+    --anchor-bottom: 26px;
 
     &--brand {
-        background:
-            radial-gradient(
-                ellipse 60% 80% at 8% 15%,
-                rgba(255, 255, 255, 0.14) 0%,
-                transparent 55%
-            ),
-            radial-gradient(
-                ellipse 55% 70% at 92% 90%,
-                rgba(var(--color-hero-shadow-rgb), 0.4) 0%,
-                transparent 58%
-            ),
-            var(--gradient-brand);
+        --banner-gradient: var(--gradient-brand);
     }
 
     &--primary {
         --circle-shadow-rgb: var(--color-primary-rgb);
+        --banner-gradient: var(--gradient-primary);
+    }
 
+    &--brand,
+    &--primary {
         background:
             radial-gradient(
                 ellipse 60% 80% at 8% 15%,
@@ -49,7 +32,7 @@
                 rgba(var(--color-hero-shadow-rgb), 0.4) 0%,
                 transparent 58%
             ),
-            var(--gradient-primary);
+            var(--banner-gradient);
     }
 
     &--default {
@@ -84,12 +67,15 @@
     /* =========================================
        CIRCLES 
        ========================================= */
-    &__circles {
+    &__circles,
+    &__modules,
+    &__llms,
+    &__tools,
+    &__deployments {
         position: absolute;
         inset: 0;
         pointer-events: none;
         z-index: 2;
-        overflow: visible;
     }
 
     &__circle {
@@ -108,15 +94,18 @@
 
         &--sm {
             width: 20%;
-            animation: circlePulseSm 7s ease-in-out infinite 0s;
+            --pulse-scale: 1.1;
+            animation: circlePulse 7s ease-in-out infinite 0s;
         }
         &--md {
             width: 34%;
-            animation: circlePulseMd 7s ease-in-out infinite 0.9s;
+            --pulse-scale: 1.08;
+            animation: circlePulse 7s ease-in-out infinite 0.9s;
         }
         &--lg {
             width: 50%;
-            animation: circlePulseLg 7s ease-in-out infinite 1.8s;
+            --pulse-scale: 1.06;
+            animation: circlePulse 7s ease-in-out infinite 1.8s;
         }
     }
 
@@ -124,34 +113,28 @@
        MODULES
        ========================================= */
     &__modules {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 2;
-        overflow: visible;
-
         --card-size: clamp(46px, 3.5vw, 60px);
-
-        --anchor-right: 44px;
-        --anchor-bottom: 26px;
     }
 
-    &__modules-item {
+    &__modules-item,
+    &__llm-node,
+    &__tool-item {
         position: absolute;
         right: var(--anchor-right);
         bottom: var(--anchor-bottom);
-        width: var(--card-size);
-        aspect-ratio: 1;
-        border-radius: var(--radius-md, 10px);
         background: rgba(255, 255, 255, 0.06);
         box-shadow:
             0 0 0 1px rgba(255, 255, 255, 0.3),
             0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
             inset 0 0 14px rgba(255, 255, 255, 0.08);
+    }
 
+    &__modules-item {
+        width: var(--card-size);
+        aspect-ratio: 1;
+        border-radius: var(--radius-md, 10px);
         transform: translate(var(--tx), var(--ty)) rotate(var(--r));
-
-        animation: modulesFloat 6s ease-in-out infinite;
+        animation: bannerFloat 6s ease-in-out infinite;
 
         &--1 {
             --tx: 0px;
@@ -182,28 +165,11 @@
        LLMS
        ========================================= */
     &__llms {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 2;
-        overflow: visible;
-
-        --anchor-right: 44px;
-        --anchor-bottom: 26px;
     }
 
     &__llm-node {
-        position: absolute;
-        right: var(--anchor-right);
-        bottom: var(--anchor-bottom);
-        background: rgba(255, 255, 255, 0.06);
-        box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.3),
-            0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
-            inset 0 0 14px rgba(255, 255, 255, 0.08);
-
         transform: translate(var(--tx), var(--ty));
-        animation: smoothFloat 6s ease-in-out infinite;
+        animation: bannerFloat 6s ease-in-out infinite;
 
         &--1 {
             width: 55px;
@@ -237,29 +203,14 @@
        TOOLS
        ========================================= */
     &__tools {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 2;
-        overflow: visible;
-
-        --anchor-right: 44px;
         --anchor-bottom: 30px;
     }
 
     &__tool-item {
-        position: absolute;
-        right: var(--anchor-right);
-        bottom: var(--anchor-bottom);
+        --float-rotation: 8deg;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.06);
-        box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.3),
-            0 10px 26px rgba(var(--circle-shadow-rgb), 0.3),
-            inset 0 0 14px rgba(255, 255, 255, 0.08);
-
         transform: translate(var(--tx), var(--ty)) rotate(var(--r));
-        animation: gearFloat 6s ease-in-out infinite;
+        animation: bannerFloat 6s ease-in-out infinite;
 
         &::before {
             content: '';
@@ -333,12 +284,6 @@
        DEPLOYMENTS
        ========================================= */
     &__deployments {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 2;
-        overflow: visible;
-
         --anchor-right: 44px;
         --anchor-bottom: 26px;
     }
@@ -357,16 +302,19 @@
         &--sm {
             width: 34px;
             bottom: calc(var(--anchor-bottom) + 16px);
+            --fill-delay: 0s;
         }
 
         &--md {
             width: 54px;
             bottom: calc(var(--anchor-bottom) + 32px);
+            --fill-delay: 0.5s;
         }
 
         &--lg {
             width: 78px;
             bottom: calc(var(--anchor-bottom) + 48px);
+            --fill-delay: 1s;
         }
     }
 
@@ -379,86 +327,28 @@
         background: rgba(255, 255, 255, 0.85);
         box-shadow: 0 0 12px rgba(var(--circle-shadow-rgb), 0.5);
         animation: deployBarFill 4s ease-in-out infinite;
-    }
-
-    &__deploy-bar--sm &__deploy-bar-fill {
-        animation-delay: 0s;
-    }
-
-    &__deploy-bar--md &__deploy-bar-fill {
-        animation-delay: 0.5s;
-    }
-
-    &__deploy-bar--lg &__deploy-bar-fill {
-        animation-delay: 1s;
+        animation-delay: var(--fill-delay, 0s);
     }
 }
 
-@keyframes smoothFloat {
+@keyframes bannerFloat {
     0%,
     100% {
-        transform: translate(var(--tx), var(--ty));
-    }
-    50% {
-        transform: translate(var(--tx), calc(var(--ty) - 8px));
-    }
-}
-
-@keyframes gearFloat {
-    0%,
-    100% {
-        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+        transform: translate(var(--tx), var(--ty)) rotate(var(--r, 0deg));
     }
     50% {
         transform: translate(var(--tx), calc(var(--ty) - 8px))
-            rotate(calc(var(--r) + 8deg));
+            rotate(calc(var(--r, 0deg) + var(--float-rotation, 0deg)));
     }
 }
 
-@keyframes circlePulseSm {
+@keyframes circlePulse {
     0%,
     100% {
         transform: translate(35%, 45%) scale(1);
     }
     50% {
-        transform: translate(35%, 45%) scale(1.1);
-    }
-}
-
-@keyframes circlePulseMd {
-    0%,
-    100% {
-        transform: translate(35%, 45%) scale(1);
-    }
-    50% {
-        transform: translate(35%, 45%) scale(1.08);
-    }
-}
-
-@keyframes circlePulseLg {
-    0%,
-    100% {
-        transform: translate(35%, 45%) scale(1);
-    }
-    50% {
-        transform: translate(35%, 45%) scale(1.06);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .ui-banner__circle {
-        animation: none;
-    }
-}
-
-@keyframes modulesFloat {
-    0%,
-    100% {
-        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
-    }
-
-    50% {
-        transform: translate(var(--tx), calc(var(--ty) - 8px)) rotate(var(--r));
+        transform: translate(35%, 45%) scale(var(--pulse-scale));
     }
 }
 

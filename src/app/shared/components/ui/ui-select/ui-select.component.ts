@@ -16,6 +16,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
+import { handleSelectKeydown } from './ui-select-keyboard';
 
 export interface SelectOption {
     value: string | number | boolean;
@@ -142,53 +143,19 @@ export class UiSelectComponent implements ControlValueAccessor {
 
     protected onTriggerKeydown(event: KeyboardEvent): void {
         if (this.disabled()) return;
-
-        switch (event.key) {
-            case 'ArrowDown':
-                event.preventDefault();
-                if (!this.isOpen()) {
-                    this.open();
-                } else {
-                    this.activeIndex.set(
-                        Math.min(
-                            this.activeIndex() + 1,
-                            this.options.length - 1
-                        )
-                    );
-                }
-                break;
-
-            case 'ArrowUp':
-                event.preventDefault();
-                if (!this.isOpen()) {
-                    this.open();
-                } else {
-                    this.activeIndex.set(Math.max(this.activeIndex() - 1, 0));
-                }
-                break;
-
-            case 'Enter':
-            case ' ':
-                event.preventDefault();
-                if (!this.isOpen()) {
-                    this.open();
-                } else if (this.activeIndex() >= 0) {
-                    const option = this.options[this.activeIndex()];
-                    if (option) this.selectOption(option, event);
-                }
-                break;
-
-            case 'Escape':
-                if (this.isOpen()) {
-                    event.preventDefault();
-                    this.close();
-                }
-                break;
-
-            case 'Tab':
-                this.close();
-                break;
-        }
+        handleSelectKeydown({
+            event,
+            isOpen: this.isOpen(),
+            activeIndex: this.activeIndex(),
+            optionCount: this.options.length,
+            open: () => this.open(),
+            close: () => this.close(),
+            setActiveIndex: (index) => this.activeIndex.set(index),
+            selectActiveOption: () => {
+                const option = this.options[this.activeIndex()];
+                if (option) this.selectOption(option, event);
+            },
+        });
     }
 
     get isInvalid(): boolean {

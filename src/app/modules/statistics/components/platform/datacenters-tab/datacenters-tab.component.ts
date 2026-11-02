@@ -143,6 +143,9 @@ export class DatacentersTabComponent implements OnInit, OnDestroy {
                     return true;
                 });
                 applyStyle(this.tileLayer, style, { updateSource: true });
+            })
+            .catch((error: unknown) => {
+                console.error('Failed to load the datacenter map style', error);
             });
     }
     @Input() datacentersStats: DatacenterStats[] = [];

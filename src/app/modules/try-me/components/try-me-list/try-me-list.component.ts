@@ -15,14 +15,22 @@ import {
     StatusReturn,
 } from '@app/shared/interfaces/deployment.interface';
 import { TryMeDetailComponent } from '../try-me-detail/try-me-detail.component';
-import { exhaustMap, Subject, takeUntil, timer } from 'rxjs';
+import { Subject } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
+import { pollWhileActive } from '@app/shared/utils/pollWhileActive';
 
 import { DeploymentsTableComponent } from '../../../../shared/components/deployments-table/deployments-table.component';
 
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiTableColumn } from '@app/shared/components/ui/ui-table/ui-table.component';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import {
+    deploymentActionsColumn,
+    deploymentContainerColumn,
+    deploymentCreationTimeColumn,
+    deploymentNameColumn,
+    deploymentStatusColumn,
+} from '@app/shared/components/deployments-table/deployment-table-columns';
 
 @Component({
     selector: 'app-try-me-list',
@@ -47,38 +55,11 @@ export class TryMeListComponent implements OnInit {
     }
 
     columns: UiTableColumn<DeploymentTableRow>[] = [
-        {
-            key: 'name',
-            label: 'DEPLOYMENTS.DEPLOYMENT-NAME',
-            sticky: true,
-            sortable: true,
-            width: '200px',
-        },
-        {
-            key: 'status',
-            label: 'DEPLOYMENTS.STATUS',
-            align: 'center',
-            sortable: true,
-            width: '130px',
-        },
-        {
-            key: 'containerName',
-            label: 'DEPLOYMENTS.CONTAINER-NAME',
-            minWidth: '230px',
-        },
-        {
-            key: 'creationTime',
-            label: 'DEPLOYMENTS.CREATION-TIME',
-            align: 'center',
-            sortable: true,
-            width: '190px',
-        },
-        {
-            key: 'actions',
-            label: 'DEPLOYMENTS.ACTIONS',
-            width: 'auto',
-            align: 'right',
-        },
+        deploymentNameColumn,
+        deploymentStatusColumn,
+        deploymentContainerColumn,
+        deploymentCreationTimeColumn,
+        deploymentActionsColumn,
     ];
 
     readonly tryDetailRouteBase = '/tasks/try-me';
@@ -99,30 +80,28 @@ export class TryMeListComponent implements OnInit {
     getTryMeDeploymentsList() {
         this.isLoading = true;
 
-        timer(0, 5000)
-            .pipe(
-                takeUntil(this.unsub),
-                exhaustMap(() => this.tryMeService.getDeploymentsGradio())
-            )
-            .subscribe({
-                next: (deploymentsList: GradioDeployment[]) => {
-                    this.dataset = deploymentsList.map(
-                        (deployment: GradioDeployment): DeploymentTableRow => ({
-                            uuid: deployment.job_ID,
-                            name: deployment.title,
-                            status: deployment.status,
-                            containerName: deployment.docker_image,
-                            creationTime: formatDate(deployment.submit_time),
-                            endpoints: deployment.endpoints,
-                        })
-                    );
-                    this.isLoading = false;
-                },
-                error: () => {
-                    this.dataset = [];
-                    this.isLoading = false;
-                },
-            });
+        pollWhileActive(
+            () => this.tryMeService.getDeploymentsGradio(),
+            this.unsub
+        ).subscribe({
+            next: (deploymentsList: GradioDeployment[]) => {
+                this.dataset = deploymentsList.map(
+                    (deployment: GradioDeployment): DeploymentTableRow => ({
+                        uuid: deployment.job_ID,
+                        name: deployment.title,
+                        status: deployment.status,
+                        containerName: deployment.docker_image,
+                        creationTime: formatDate(deployment.submit_time),
+                        endpoints: deployment.endpoints,
+                    })
+                );
+                this.isLoading = false;
+            },
+            error: () => {
+                this.dataset = [];
+                this.isLoading = false;
+            },
+        });
     }
 
     removeTryMe(uuid: string) {

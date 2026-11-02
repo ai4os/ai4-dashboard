@@ -150,14 +150,16 @@ export class PlatformFootprintTabComponent implements OnInit, OnChanges {
 
         const earliest = (dates: string[]) =>
             dates.length
-                ? dates.reduce((a, b) =>
-                      Date.parse(a) <= Date.parse(b) ? a : b
+                ? dates.reduce(
+                      (a, b) => (Date.parse(a) <= Date.parse(b) ? a : b),
+                      dates[0] ?? ''
                   )
                 : null;
         const latest = (dates: string[]) =>
             dates.length
-                ? dates.reduce((a, b) =>
-                      Date.parse(a) >= Date.parse(b) ? a : b
+                ? dates.reduce(
+                      (a, b) => (Date.parse(a) >= Date.parse(b) ? a : b),
+                      dates[0] ?? ''
                   )
                 : null;
         this.energySince = earliest(entries.map(([, e]) => e.since));

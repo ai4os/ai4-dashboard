@@ -80,8 +80,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    ::ng-deep markdown,
-    ::ng-deep markdown p {
+    ::ng-deep .module-card__markdown,
+    ::ng-deep .module-card__markdown p {
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;

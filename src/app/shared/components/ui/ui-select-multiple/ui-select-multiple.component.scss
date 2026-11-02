@@ -166,6 +166,18 @@ span.ui-text-field__input.ui-select__value--placeholder {
     background-color: var(--color-surface-card);
     flex-shrink: 0;
 
+    .ui-select-panel__search-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
     .search-icon {
         font-size: var(--font-size-md);
         width: var(--font-size-md);

@@ -16,6 +16,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { SelectOption } from '../ui-select/ui-select.component';
+import { handleSelectKeydown } from '../ui-select/ui-select-keyboard';
 
 let nextId = 0;
 
@@ -48,6 +49,7 @@ export class UiSelectMultipleComponent implements ControlValueAccessor {
     protected searchQuery = signal('');
 
     private readonly instanceId = nextId++;
+    protected readonly searchInputId = `ui-select-multi-search-${this.instanceId}`;
     protected readonly labelId = `ui-select-multi-label-${this.instanceId}`;
     protected readonly panelId = `ui-select-multi-panel-${this.instanceId}`;
 
@@ -163,53 +165,19 @@ export class UiSelectMultipleComponent implements ControlValueAccessor {
 
     protected onTriggerKeydown(event: KeyboardEvent): void {
         if (this.disabled()) return;
-
-        switch (event.key) {
-            case 'ArrowDown':
-                event.preventDefault();
-                if (!this.isOpen()) {
-                    this.open();
-                } else {
-                    this.activeIndex.set(
-                        Math.min(
-                            this.activeIndex() + 1,
-                            this.options.length - 1
-                        )
-                    );
-                }
-                break;
-
-            case 'ArrowUp':
-                event.preventDefault();
-                if (!this.isOpen()) {
-                    this.open();
-                } else {
-                    this.activeIndex.set(Math.max(this.activeIndex() - 1, 0));
-                }
-                break;
-
-            case 'Enter':
-            case ' ':
-                event.preventDefault();
-                if (!this.isOpen()) {
-                    this.open();
-                } else if (this.activeIndex() >= 0) {
-                    const option = this.options[this.activeIndex()];
-                    if (option) this.toggleOption(option, event);
-                }
-                break;
-
-            case 'Escape':
-                if (this.isOpen()) {
-                    event.preventDefault();
-                    this.close();
-                }
-                break;
-
-            case 'Tab':
-                this.close();
-                break;
-        }
+        handleSelectKeydown({
+            event,
+            isOpen: this.isOpen(),
+            activeIndex: this.activeIndex(),
+            optionCount: this.options.length,
+            open: () => this.open(),
+            close: () => this.close(),
+            setActiveIndex: (index) => this.activeIndex.set(index),
+            selectActiveOption: () => {
+                const option = this.options[this.activeIndex()];
+                if (option) this.toggleOption(option, event);
+            },
+        });
     }
 
     get isInvalid(): boolean {

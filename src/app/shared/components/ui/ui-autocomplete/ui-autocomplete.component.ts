@@ -51,6 +51,7 @@ export class UiAutocompleteComponent implements ControlValueAccessor {
     @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
 
     private readonly instanceId = nextId++;
+    protected readonly inputId = `ui-autocomplete-input-${this.instanceId}`;
     protected readonly labelId = `ui-autocomplete-label-${this.instanceId}`;
     protected readonly panelId = `ui-autocomplete-panel-${this.instanceId}`;
 
