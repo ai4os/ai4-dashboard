@@ -37,11 +37,12 @@ jobs:
             - name: Cypress
               uses: cypress-io/github-action@v6
               with:
-                  start: npm start
-                  wait-on: 'http://localhost:8080'
+                  start: npm start -- --host 127.0.0.1
+                  wait-on: 'http://127.0.0.1:8080'
                   wait-on-timeout: 300
                 #   browser: chrome
               env:
+                  CYPRESS_BASE_URL: http://127.0.0.1:8080
                   CYPRESS_EMAIL: ${{secrets.CYPRESS_EMAIL}}
                   CYPRESS_PASSWORD: ${{secrets.CYPRESS_PASSWORD}}
                   CYPRESS_RCLONE_USER: ${{secrets.CYPRESS_RCLONE_USER}}
