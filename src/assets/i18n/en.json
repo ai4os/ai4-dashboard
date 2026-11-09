@@ -305,6 +305,8 @@
                 "DOCKER-OPTIONS": "Docker options",
                 "DOCKER-IMAGE": "Docker image",
                 "DOCKER-TAG": "Docker tag",
+                "ADVANCED-OPTIONS": "Advanced options",
+                "DATACENTER": "Datacenter",
                 "SERVICE-TO-RUN": "Service to run",
                 "USERNAME": "Username",
                 "PASSWORD": "Password",
@@ -675,6 +677,7 @@
             "RESOURCES-ASSIGNED": "Resources",
             "ENDPOINTS": "Endpoints",
             "ENDPOINT-UNAVAILABLE": "This endpoint is currently unavailable",
+            "ALLOC-ERROR":"The platform cannot currently satisfy simultaneously all your requirements. Try relaxing them in order to facilitate deployment. This could mean not enforcing a particular datacenter, not enforcing a particular GPU model, lower your hardware requirements, etc.",
             "RESOURCES": {
                 "CPU_NUM": "Number of CPUs",
                 "GPU_NUM": "Number of GPUs",

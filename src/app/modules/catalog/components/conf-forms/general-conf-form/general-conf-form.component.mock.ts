@@ -38,4 +38,17 @@ export const generalDefaultFormValues: ModuleGeneralConfiguration = {
         description:
             'Select a password for your IDE (JupyterLab or VS Code). It should have at least 9 characters. ',
     },
+    datacenter: {
+        name: 'Datacenter',
+        value: '',
+        options: [
+            '',
+            'ifca-ai4eosc',
+            'ifca-imagine',
+            'iisas-ai4eosc',
+            'psnc-ai4eosc',
+        ],
+        description:
+            'Sometimes, due to ISO or privacy compliance, you are required to deploy on a particular datacenter. This option allows to force your deployment to land on a specific datacenter.',
+    },
 };

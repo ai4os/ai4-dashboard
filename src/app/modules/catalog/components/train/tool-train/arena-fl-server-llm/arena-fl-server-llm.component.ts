@@ -89,6 +89,7 @@ export class ArenaFlServerLlmComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: false,
         infoButton: true,
+        datacenterSelect: true,
     };
 
     @ViewChild(GeneralConfFormComponent)

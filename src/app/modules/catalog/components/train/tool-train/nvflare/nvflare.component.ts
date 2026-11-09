@@ -88,6 +88,7 @@ export class NvflareComponent implements OnInit {
         dockerTagSelect: false,
         infoButton: true,
         co2EmissionsInput: false,
+        datacenterSelect: true,
     };
 
     showHardwareFields: ShowHardwareField = {

@@ -89,6 +89,7 @@ export class FederatedServerComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
+        datacenterSelect: true,
     };
 
     @ViewChild(GeneralConfFormComponent)

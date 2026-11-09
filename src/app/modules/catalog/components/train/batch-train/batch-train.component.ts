@@ -100,6 +100,7 @@ export class BatchTrainComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: false,
+        datacenterSelect: true,
     };
 
     service: string | undefined;

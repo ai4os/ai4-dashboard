@@ -95,6 +95,7 @@ export class ArenaSimulationFedllmComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: false,
         infoButton: false,
+        datacenterSelect: true,
     };
 
     @ViewChild(GeneralConfFormComponent)
