@@ -100,6 +100,7 @@ export interface ModuleGeneralConfiguration {
     docker_tag: ConfObject;
     service: ConfObject;
     jupyter_password?: ConfObject;
+    datacenter?: ConfObject;
     // CVAT
     cvat_username?: ConfObject;
     cvat_password?: ConfObject;
@@ -245,6 +246,7 @@ export interface TrainModuleRequest {
         docker_tag?: string;
         service?: string;
         jupyter_password?: string;
+        datacenter?: string;
         // cvat
         cvat_username?: string;
         cvat_password?: string;

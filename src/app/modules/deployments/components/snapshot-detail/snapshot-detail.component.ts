@@ -11,7 +11,6 @@ import { Snapshot } from '@app/shared/interfaces/deployment.interface';
 import { getSnapshotBadge } from '../../utils/deployment-badge';
 import { SnapshotService } from '../../services/snapshots-service/snapshot.service';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
-import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
@@ -30,7 +29,6 @@ import { DatePipe } from '@angular/common';
     styleUrl: './snapshot-detail.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatIcon,
         TranslatePipe,
         BreadcrumbComponent,
         UiLoaderComponent,

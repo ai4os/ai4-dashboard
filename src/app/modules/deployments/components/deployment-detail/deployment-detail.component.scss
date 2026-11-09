@@ -95,8 +95,14 @@
     margin: 16px 0;
     align-items: center;
 
-    ::ng-deep app-ui-chip > div {
-        width: fit-content;
+    ::ng-deep app-ui-chip {
+        div {
+            width: fit-content;
+        }
+        span {
+            text-wrap: pretty;
+            line-height: 1.2;
+        }
     }
 }
 
