@@ -106,6 +106,13 @@
                         context: { $implicit: platformServicesLink }
                     "
                 />
+
+                <ng-container
+                    *ngTemplateOutlet="
+                        navLink;
+                        context: { $implicit: supportLink }
+                    "
+                />
             </nav>
         </span>
 
