@@ -44,17 +44,6 @@ describe('ProfileComponent', () => {
     });
 
     it('should load user profile on init', () => {
-        const userProfile = {
-            name: 'AI4EOSC Dashboard Test',
-            email: 'test@ifca.unican.es',
-            sub: '123456789-1234-1234-1234-123456789012',
-            roles: ['/Platform Access/vo.ai4eosc.eu'],
-            isAuthorized: true,
-            isProjectMember: true,
-        };
-
-        mockedAuthService.userProfileSubject.next(userProfile);
-
         expect(component.name).toBe('AI4EOSC Dashboard Test');
         expect(component.email).toBe('test@ifca.unican.es');
         expect(component.isAuthorized).toBe(true);
@@ -62,15 +51,9 @@ describe('ProfileComponent', () => {
     });
 
     it('should parse VoInfo correctly', () => {
-        const roles = [
-            'access:vo.ai4eosc.eu:ap-u',
-            'inference_access:vo.imagine-ai.eu',
-        ];
-
-        component.getVoInfo(roles);
-
         expect(component['vos']).toEqual([
-            { name: 'vo.ai4eosc.eu', roles: ['ap-u'] },
+            { name: 'vo.ai4eosc.eu', roles: ['ap-d', 'ap-u', 'ap-a'] },
+            { name: 'vo.imagine-ai.eu', roles: ['ap-d'] },
         ]);
     });
 

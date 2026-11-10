@@ -7,11 +7,17 @@ import { AppConfigService } from '../app-config/app-config.service';
 import { jwtDecode } from 'jwt-decode';
 import { KeycloakToken } from '@app/shared/interfaces/keycloak-token.interface';
 
+export interface VoAccess {
+    name: string; // "vo.ai4eosc.eu"
+    roles: string[]; // ["ap-d", "ap-u", ...] sorted by level
+}
+
 export interface UserProfile {
     name: string;
     email: string;
     sub: string;
-    roles: string[];
+    roles: string[]; // roles for the current vo
+    vos: VoAccess[]; // roles for all the vos
     isAuthenticated: boolean; // ap-0
     isAuthorized: boolean; // ap-a, ap-a1, ap-b
     isProjectMember: boolean; // ap-u
@@ -20,10 +26,10 @@ export interface UserProfile {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private oauthService = inject(OAuthService);
-    private injector = inject(Injector);
-    private appConfigService = inject(AppConfigService);
-    private oauthConfig = inject(OAuthModuleConfig);
+    private readonly oauthService = inject(OAuthService);
+    private readonly injector = inject(Injector);
+    private readonly appConfigService = inject(AppConfigService);
+    private readonly oauthConfig = inject(OAuthModuleConfig);
 
     constructor() {
         window.addEventListener('storage', (event) => {
@@ -72,10 +78,14 @@ export class AuthService {
         }
     }
 
-    private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
+    private readonly isAuthenticatedSubject$ = new BehaviorSubject<boolean>(
+        false
+    );
     public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
-    private isDoneLoadingSubject$ = new BehaviorSubject<boolean>(false);
+    private readonly isDoneLoadingSubject$ = new BehaviorSubject<boolean>(
+        false
+    );
     public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
 
     public canActivateProtectedRoutes$: Observable<boolean> = combineLatest([
@@ -185,18 +195,6 @@ export class AuthService {
                         this.oauthService.state !== 'undefined' &&
                         this.oauthService.state !== 'null'
                     ) {
-                        this.loadUserProfile();
-                        if (
-                            this.oauthService.state &&
-                            this.oauthService.state !== 'undefined' &&
-                            this.oauthService.state !== 'null'
-                        ) {
-                            let stateUrl = this.oauthService.state;
-                            if (stateUrl.startsWith('/') === false) {
-                                stateUrl = decodeURIComponent(stateUrl);
-                            }
-                            this.router.navigateByUrl(stateUrl);
-                        }
                         let stateUrl = this.oauthService.state;
                         if (stateUrl.startsWith('/') === false) {
                             stateUrl = decodeURIComponent(stateUrl);
@@ -210,55 +208,111 @@ export class AuthService {
         );
     }
 
+    private static readonly ACCESS_GROUP = 'Platform Access';
+    private static readonly ACCESS_ORDER = [
+        'ap-d',
+        'ap-u',
+        'ap-b',
+        'ap-a1',
+        'ap-a',
+        'ap-0',
+    ];
+
+    // Not all Keycloak VOs have their corresponding PAPI/Dashboard VO.
+    // Keep in sync with `vo_mappings` in the API (ai4papi main conf).
+    private static readonly VO_MAPPINGS: Record<string, string> = {
+        'vo.fluid.ai4eosc.eu': 'vo.ai4eosc.eu',
+        'vo.arena.ai4eosc.eu': 'vo.ai4eosc.eu',
+    };
+
+    private buildVos(entitlements: string[]): VoAccess[] {
+        const byVo = new Map<string, Set<string>>();
+
+        for (const raw of entitlements) {
+            const e = this.parseEntitlement(raw);
+            if (!e || e.group !== AuthService.ACCESS_GROUP) continue;
+
+            const role = e.role.toLowerCase().replace(/^access-/, '');
+            if (!AuthService.ACCESS_ORDER.includes(role)) continue;
+
+            // Map Keycloak VO to the Dashboard/PAPI VO if needed
+            const vo = AuthService.VO_MAPPINGS[e.vo] ?? e.vo;
+
+            if (!byVo.has(vo)) byVo.set(vo, new Set());
+            byVo.get(vo)!.add(role);
+        }
+
+        const order = AuthService.ACCESS_ORDER;
+        const currentVo = this.appConfigService.voName;
+
+        return (
+            [...byVo.entries()]
+                .map(([name, roles]) => ({
+                    name,
+                    roles: [...roles].sort(
+                        (a, b) => order.indexOf(a) - order.indexOf(b)
+                    ),
+                }))
+                // current VO first
+                .sort((a, b) =>
+                    a.name === currentVo ? -1 : b.name === currentVo ? 1 : 0
+                )
+        );
+    }
+
+    private parseEntitlement(
+        raw: string
+    ): { group: string; vo: string; role: string } | null {
+        let decoded: string;
+        try {
+            decoded = decodeURIComponent(raw);
+        } catch {
+            return null;
+        }
+        decoded = decoded.split('#')[0];
+
+        const match =
+            /^urn:geant:eosc-portal\.eu:group:([^:]+):([^:]+):role=(.+)$/.exec(
+                decoded
+            );
+        if (!match) return null;
+        return { group: match[1], vo: match[2], role: match[3] };
+    }
+
     loadUserProfile() {
         const token = this.oauthService.getAccessToken();
         const parsedToken = jwtDecode(token) as KeycloakToken;
 
+        const rawEntitlements = parsedToken.eduperson_entitlement ?? [];
+        const entitlements = Array.isArray(rawEntitlements)
+            ? rawEntitlements
+            : [rawEntitlements];
+
+        // Access levels for every VO, and for the current VO only
+        const vos = this.buildVos(entitlements);
+        const roles =
+            vos.find((v) => v.name === this.appConfigService.voName)?.roles ??
+            [];
+
+        const has = (r: string) => roles.includes(r);
+
+        const isDeveloper = has('ap-d');
+        const isProjectMember = isDeveloper || has('ap-u');
+        const isAuthorized =
+            isProjectMember || ['ap-a', 'ap-a1', 'ap-b'].some(has);
+        const isAuthenticated = isAuthorized || has('ap-0');
+
         const userProfile: UserProfile = {
             name: parsedToken.name,
             sub: parsedToken.sub,
-            isAuthenticated: false,
-            isAuthorized: false,
-            isProjectMember: false,
-            isDeveloper: false,
             email: parsedToken.email,
-            roles: parsedToken.realm_access.roles,
+            roles,
+            vos,
+            isAuthenticated,
+            isAuthorized,
+            isProjectMember,
+            isDeveloper,
         };
-
-        if (userProfile.roles && userProfile.roles.length > 0) {
-            userProfile.roles.forEach((role) => {
-                if (
-                    role ===
-                    'access:' + this.appConfigService.voName + ':ap-d'
-                ) {
-                    userProfile.isAuthenticated = true;
-                    userProfile.isAuthorized = true;
-                    userProfile.isProjectMember = true;
-                    userProfile.isDeveloper = true;
-                } else if (
-                    role ===
-                    'access:' + this.appConfigService.voName + ':ap-u'
-                ) {
-                    userProfile.isAuthenticated = true;
-                    userProfile.isAuthorized = true;
-                    userProfile.isProjectMember = true;
-                } else if (
-                    role ===
-                        'access:' + this.appConfigService.voName + ':ap-a' ||
-                    role ===
-                        'access:' + this.appConfigService.voName + ':ap-a1' ||
-                    role === 'access:' + this.appConfigService.voName + ':ap-b'
-                ) {
-                    userProfile.isAuthenticated = true;
-                    userProfile.isAuthorized = true;
-                } else if (
-                    role ===
-                    'access:' + this.appConfigService.voName + ':ap-0'
-                ) {
-                    userProfile.isAuthenticated = true;
-                }
-            });
-        }
 
         this.oauthService.loadUserProfile().then(() => {
             this.userProfileSubject.next(userProfile);
