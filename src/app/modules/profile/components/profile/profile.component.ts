@@ -6,9 +6,8 @@ import {
     OnInit,
     ChangeDetectionStrategy,
 } from '@angular/core';
-import { AuthService } from '@app/core/services/auth/auth.service';
+import { AuthService, VoAccess } from '@app/core/services/auth/auth.service';
 import { distinctUntilChanged } from 'rxjs';
-import { VoInfo } from '@app/shared/interfaces/profile.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
 import { Tab } from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
@@ -88,13 +87,12 @@ export class ProfileComponent implements OnInit {
     private _mobileQueryListener: () => void;
 
     protected sub = '';
-    protected roles: string[] = [];
     name = '';
     email = '';
 
     isProjectMember = false;
 
-    protected vos: VoInfo[] = [];
+    protected vos: VoAccess[] = [];
 
     ngOnInit(): void {
         this.authService.isDoneLoading$.subscribe((done) => {
@@ -117,54 +115,8 @@ export class ProfileComponent implements OnInit {
                     this.sub = profile.sub;
                     this.isAuthorized = profile.isAuthorized;
                     this.isProjectMember = profile.isProjectMember;
-
-                    if (profile.roles) {
-                        this.getVoInfo(profile.roles);
-                    }
+                    this.vos = profile.vos ?? [];
                 }
             });
-    }
-
-    getVoInfo(roles: string[]) {
-        roles.forEach((role) => {
-            const match = role.match(
-                /^access:([^:]+):(ap-a|ap-a1|ap-b|ap-u|ap-d)$/
-            );
-
-            if (match) {
-                const voName = match[1]; // e.g. "vo.ai4eosc.eu"
-                const accessType = match[2]; // "ap-u", "ap-b", "ap-a", etc
-                const index = this.vos.findIndex((v) => v.name === voName);
-                if (index === -1) {
-                    this.vos.push({ name: voName, roles: [accessType] });
-                } else {
-                    if (!this.vos[index].roles.includes(accessType)) {
-                        this.vos[index].roles.push(accessType);
-                    }
-                }
-            }
-
-            // sort vos by current vo first
-            this.vos.sort((a, b) => {
-                if (a.name === this.appConfigService.voName) return -1;
-                if (b.name === this.appConfigService.voName) return 1;
-                return 0;
-            });
-
-            // sort roles by access level
-            this.vos.forEach((vo) => {
-                vo.roles.sort((a, b) => {
-                    const order = [
-                        'ap-d',
-                        'ap-u',
-                        'ap-b',
-                        'ap-a1',
-                        'ap-a',
-                        'ap-0',
-                    ];
-                    return order.indexOf(a) - order.indexOf(b);
-                });
-            });
-        });
     }
 }
