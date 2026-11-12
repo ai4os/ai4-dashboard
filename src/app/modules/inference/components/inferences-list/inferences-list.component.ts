@@ -115,6 +115,8 @@ export class InferencesListComponent implements OnInit {
     }
 
     removeService(uuid: string) {
+        this.isLoading = true;
+
         this.oscarInferenceService.deleteServiceByName(uuid).subscribe({
             next: (serviceName: string) => {
                 if (serviceName && serviceName == uuid) {
