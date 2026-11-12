@@ -1,82 +1,116 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { InferenceDetailComponent } from './inference-detail.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import { AppConfigService } from '@app/core/services/app-config/app-config.service';
-import { mockedMediaMatcher } from '@app/shared/mocks/media-matcher.mock';
-import { mockedConfigService } from '@app/core/services/app-config/app-config.mock';
-import { OscarInferenceService } from '../../services/oscar-inference.service';
-import { mockedOscarInferenceService } from '@app/modules/inference/services/oscar-inference.service.mock';
-import { throwError } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { testProviders } from '@testing/test-providers';
+import { of, throwError } from 'rxjs';
+import { OscarInferenceService } from '../../services/oscar-inference.service';
+import {
+    mockedOscarInferenceService,
+    mockedOscarServices,
+} from '../../services/oscar-inference.service.mock';
+import { InferenceDetailComponent } from './inference-detail.component';
 
 describe('InferenceDetailComponent', () => {
     let component: InferenceDetailComponent;
     let fixture: ComponentFixture<InferenceDetailComponent>;
+    let uuid: string;
+    let router: { navigate: jest.Mock };
 
     beforeEach(async () => {
+        uuid = 'test-service';
+        mockedOscarInferenceService.getServiceByName
+            .mockReset()
+            .mockReturnValue(of({ ...mockedOscarServices[0] }));
+        router = { navigate: jest.fn() };
+
+        TestBed.overrideComponent(InferenceDetailComponent, {
+            set: { template: '' },
+        });
+
         await TestBed.configureTestingModule({
-            imports: [
-                InferenceDetailComponent,
-                TranslatePipe,
-                TranslateDirective,
-            ],
+            imports: [InferenceDetailComponent],
             providers: [
                 ...testProviders,
-
-                { provide: AppConfigService, useValue: mockedConfigService },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: {
+                            paramMap: {
+                                get: (name: string) =>
+                                    name === 'uuid' ? uuid : null,
+                            },
+                        },
+                    },
+                },
+                { provide: Router, useValue: router },
                 {
                     provide: OscarInferenceService,
                     useValue: mockedOscarInferenceService,
                 },
-                { provide: MatDialogRef, useValue: {} },
-                { provide: MAT_DIALOG_DATA, useValue: {} },
-                { provide: MediaMatcher, useValue: mockedMediaMatcher },
             ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(InferenceDetailComponent);
         component = fixture.componentInstance;
-        component.data = { name: 'test-service' };
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('should create and load the service identified by the route', () => {
         expect(component).toBeTruthy();
-    });
-
-    it('should load service on init and assign values', () => {
         expect(
             mockedOscarInferenceService.getServiceByName
         ).toHaveBeenCalledWith('test-service');
+        expect(component.uuid).toBe('test-service');
         expect(component.service?.title).toBe('Oscar Service Mock Title');
-        expect(component.tokenField.value).toBe('mock-token');
-        expect(component.accessKeyField.value).toBe('mock-access-key');
-        expect(component.minioSecretField.value).toBe('mock-secret-key');
+        expect(component.service?.description).toBe('Mock Description');
+        expect(component.service?.submit_time).toBe('2023-01-01T00:00:00Z');
+        expect(component.endpointField).toBe('https://minio.example.test');
+        expect(component.accessKeyField).toBe('mock-access-key');
+        expect(component.minioSecretField).toBe('mock-secret-key');
         expect(component.isLoading).toBe(false);
     });
 
-    it('should close dialog on service error', () => {
+    it('should clear the loading state when loading the service fails', () => {
         mockedOscarInferenceService.getServiceByName.mockReturnValue(
             throwError(() => new Error('Error'))
         );
+        component.isLoading = false;
 
-        component.ngOnInit();
+        component.getService();
 
-        expect(mockedOscarInferenceService.getServiceByName).toHaveBeenCalled();
+        expect(
+            mockedOscarInferenceService.getServiceByName
+        ).toHaveBeenLastCalledWith('test-service');
         expect(component.isLoading).toBe(false);
     });
 
-    it('should open documentation URL in a new window', () => {
-        const openSpy = jest
-            .spyOn(window, 'open')
-            .mockImplementation(() => null);
-        const event = new MouseEvent('click');
-        component.openDocumentationWeb();
-        expect(openSpy).toHaveBeenCalledWith(
-            'https://docs.ai4os.eu/en/latest/howtos/deploy/oscar.html'
-        );
-        openSpy.mockRestore();
+    it('should format resource values in CPU and memory order', () => {
+        expect(component.resourceItems).toEqual([
+            {
+                label: 'INFERENCE.DETAIL.RESOURCES.CPU',
+                value: '2',
+                unit: '',
+                icon: 'memory',
+                color: 'var(--color-accent)',
+            },
+            {
+                label: 'INFERENCE.DETAIL.RESOURCES.MEMORY',
+                value: '1024',
+                unit: 'MiB',
+                icon: 'memory_alt',
+                color: 'var(--color-secondary-4)',
+            },
+        ]);
+    });
+
+    it('should update the active tab and navigate with the tab query param', () => {
+        component.onTabChange('calls');
+
+        expect(component.activeTabId).toBe('calls');
+        expect(router.navigate).toHaveBeenCalledWith([], {
+            relativeTo: expect.anything(),
+            queryParams: { tab: 'calls' },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+        });
     });
 });

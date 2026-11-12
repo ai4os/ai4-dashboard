@@ -701,21 +701,20 @@
         "CREATION-TIME": "Creation time (UTC)",
         "ACTIONS": "Actions",
         "NO-INFERENCES": "Nothing deployed yet",
-        "INFERENCE-DETAIL": {
-            "TITLE": "Inference detail",
-            "DEPLOYMENT-ID": "Deployment ID",
-            "DOCKER-IMAGE": "Docker image",
-            "CREATION-TIME": "Creation time (UTC)",
-            "CPU": "CPUs",
-            "MEMORY": "Memory",
-            "SYNC-CALLS": "Synchronous calls",
+        "DETAIL": {
+            "CALLS": "Calls",
+            "SYNC": "Synchronous calls",
             "ENDPOINT": "Endpoint",
             "TOKEN": "Token",
-            "ASYNC-CALLS": "Asynchronous calls",
+            "ASYNC": "Asynchronous calls",
             "MINIO-BUCKET": "MINIO bucket",
             "MINIO-URL": "MINIO URL",
             "MINIO-KEY": "MINIO access key",
-            "MINIO-SECRET": "MINIO secret key"
+            "MINIO-SECRET": "MINIO secret key",
+            "RESOURCES": {
+                "CPU": "Number of CPUs",
+                "MEMORY": "RAM"
+            }
         }
     },
     "BATCH": {

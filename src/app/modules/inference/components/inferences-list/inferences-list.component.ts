@@ -9,10 +9,9 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
-import { InferenceDetailComponent } from '../inference-detail/inference-detail.component';
 import { SnackbarService } from '@app/shared/services/snackbar/snackbar.service';
 import { DeploymentTableRow } from '@app/shared/interfaces/deployment.interface';
-import { timer, takeUntil, switchMap, Subject } from 'rxjs';
+import { timer, takeUntil, Subject, exhaustMap, catchError, EMPTY } from 'rxjs';
 import { formatDate } from '@app/shared/utils/formatDate';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
@@ -85,10 +84,17 @@ export class InferencesListComponent implements OnInit {
 
     getServicesList() {
         this.isLoading = true;
-        timer(0, 5000)
+
+        timer(0, 30000)
             .pipe(
                 takeUntil(this.unsub),
-                switchMap(() => this.oscarInferenceService.getServices())
+                exhaustMap(() =>
+                    this.oscarInferenceService.getServices().pipe(
+                        catchError(() => {
+                            return EMPTY;
+                        })
+                    )
+                )
             )
             .subscribe({
                 next: (servicesList: OscarService[]) => {
@@ -102,16 +108,15 @@ export class InferencesListComponent implements OnInit {
                             ),
                         };
                     });
-                    this.isLoading = false;
-                },
-                error: () => {
-                    this.dataset = [];
+
                     this.isLoading = false;
                 },
             });
     }
 
     removeService(uuid: string) {
+        this.isLoading = true;
+
         this.oscarInferenceService.deleteServiceByName(uuid).subscribe({
             next: (serviceName: string) => {
                 if (serviceName && serviceName == uuid) {
@@ -137,18 +142,6 @@ export class InferencesListComponent implements OnInit {
                     'Error deleting service with uuid: ' + uuid
                 );
             },
-        });
-    }
-
-    openServiceDetailDialog(uuid: string): void {
-        const width = this.mobileQuery.matches ? '300px' : '650px';
-        this.dialog.open(InferenceDetailComponent, {
-            data: { name: uuid },
-            width: width,
-            maxWidth: width,
-            minWidth: width,
-            autoFocus: false,
-            restoreFocus: false,
         });
     }
 }
