@@ -83,7 +83,6 @@ interface ListCardItem {
 export class DeploymentDetailComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private readonly location = inject(Location);
     private readonly platformStatusService = inject(PlatformStatusService);
 
     deploymentsService = inject(DeploymentsService);
@@ -376,6 +375,12 @@ export class DeploymentDetailComponent implements OnInit, OnDestroy {
             )
             .subscribe((deployment: Deployment) => {
                 const isFirstLoad = !this.deployment;
+
+                if (deployment.error_msg?.includes('FailedTGAllocs:')) {
+                    deployment.error_msg = this.translateService.instant(
+                        'DEPLOYMENTS.DETAIL.ALLOC-ERROR'
+                    );
+                }
 
                 if (this.type !== 'tool') {
                     this.normalizeDockerImage(deployment);

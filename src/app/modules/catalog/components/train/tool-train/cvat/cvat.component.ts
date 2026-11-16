@@ -85,6 +85,7 @@ export class CvatComponent implements OnInit {
         dockerImageInput: false,
         dockerTagSelect: false,
         infoButton: true,
+        datacenterSelect: true,
     };
 
     ngOnInit(): void {

@@ -5,6 +5,7 @@ import {
     OnInit,
     ChangeDetectionStrategy,
     inject,
+    signal,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -29,6 +30,8 @@ import { NgClass } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UiChipGroupComponent } from '@app/shared/components/ui/ui-chip-group/ui-chip-group.component';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { UiExpansionPanelComponent } from '@app/shared/components/ui/ui-expansion-panel/ui-expansion-panel.component';
+import { MatIcon } from '@angular/material/icon';
 
 export interface ShowGeneralFormField {
     descriptionInput: boolean;
@@ -39,6 +42,7 @@ export interface ShowGeneralFormField {
     dockerImageInput: boolean;
     dockerTagSelect: boolean;
     infoButton: boolean;
+    datacenterSelect: boolean;
 }
 
 @Component({
@@ -56,6 +60,8 @@ export interface ShowGeneralFormField {
         NgClass,
         TranslatePipe,
         UiChipGroupComponent,
+        UiExpansionPanelComponent,
+        MatIcon,
     ],
 })
 export class GeneralConfFormComponent implements OnInit {
@@ -65,6 +71,7 @@ export class GeneralConfFormComponent implements OnInit {
     fb = inject(FormBuilder);
     changeDetectorRef = inject(ChangeDetectorRef);
     media = inject(MediaMatcher);
+    expanded = signal(false);
 
     constructor() {
         this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
@@ -87,6 +94,7 @@ export class GeneralConfFormComponent implements OnInit {
     serviceToRunOptions: { value: string; viewValue: string }[] = [];
     dockerTagOptions: { value: string; viewValue: string }[] = [];
     modelIdOptions: { value: string; viewValue: string }[] = [];
+    datacenterOptions: { value: string; viewValue: string }[] = [];
 
     mobileQuery: MediaQueryList;
     private readonly _mobileQueryListener: () => void;
@@ -100,6 +108,7 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: false,
+        datacenterSelect: true,
     };
 
     @Input() set showFields(showFields: ShowGeneralFormField) {
@@ -160,6 +169,18 @@ export class GeneralConfFormComponent implements OnInit {
             const selectedService =
                 this.generalConfFormGroup.get('serviceToRunChip')?.value ?? '';
             this.checkIfPasswordIsNeeded(selectedService);
+
+            defaultFormValues.datacenter?.options?.forEach(
+                (datacenter: string) => {
+                    this.datacenterOptions.push({
+                        value: datacenter,
+                        viewValue: datacenter,
+                    });
+                }
+            );
+            this.generalConfFormGroup
+                .get('datacenterSelect')
+                ?.setValue(defaultFormValues.datacenter?.value as string);
         }
     }
 
@@ -177,6 +198,7 @@ export class GeneralConfFormComponent implements OnInit {
         dockerImageInput: [{ value: '', disabled: true }],
         dockerTagSelect: [''],
         federatedSecretInput: [{ value: '', disabled: true }],
+        datacenterSelect: [''],
     });
 
     ngOnInit(): void {
@@ -218,6 +240,7 @@ export class GeneralConfFormComponent implements OnInit {
         | 'docker_tag'
         | 'service'
         | 'jupyter_password'
+        | 'datacenter'
     > {
         const v = this.generalConfFormGroup.getRawValue();
 
@@ -240,6 +263,9 @@ export class GeneralConfFormComponent implements OnInit {
                 : undefined,
             jupyter_password: this.isPasswodRequired
                 ? (v.serviceToRunPassInput ?? undefined)
+                : undefined,
+            datacenter: this._showFields.datacenterSelect
+                ? (v.datacenterSelect ?? undefined)
                 : undefined,
         };
     }

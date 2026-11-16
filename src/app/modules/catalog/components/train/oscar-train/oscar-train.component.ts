@@ -87,6 +87,7 @@ export class OscarTrainComponent implements OnInit {
         dockerImageInput: true,
         dockerTagSelect: true,
         infoButton: true,
+        datacenterSelect: false,
     };
 
     showHardwareFields: ShowHardwareField = {

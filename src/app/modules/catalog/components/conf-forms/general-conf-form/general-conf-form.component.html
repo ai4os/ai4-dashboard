@@ -119,6 +119,35 @@
         }
     </div>
 
+    <!-- Advanced config -->
+    @if (_showFields.datacenterSelect) {
+        <app-ui-expansion-panel [(expanded)]="expanded">
+            <span panelHeader>
+                <mat-icon>tune</mat-icon>
+                {{
+                    'CATALOG.CONF-FORMS.GENERAL.ADVANCED-OPTIONS' | translate
+                }}</span
+            >
+            <div panelContent class="api-keys__form">
+                <div class="form-flex">
+                    <!-- Datacenter -->
+                    <app-ui-select
+                        formControlName="datacenterSelect"
+                        [options]="datacenterOptions"
+                        label="{{
+                            'CATALOG.CONF-FORMS.GENERAL.DATACENTER' | translate
+                        }}"
+                        [hint]="
+                            _showHelp
+                                ? _defaultFormValues.datacenter?.description
+                                : ''
+                        "
+                    ></app-ui-select>
+                </div>
+            </div>
+        </app-ui-expansion-panel>
+    }
+
     <!-- Docker image -->
     @if (_showFields.dockerImageInput || _showFields.dockerTagSelect) {
         <h4 [ngClass]="{ 'mt-3': _showHelp }">
