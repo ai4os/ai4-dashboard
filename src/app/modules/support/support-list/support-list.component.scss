@@ -1,0 +1,10 @@
+.services-cards-container {
+    display: grid;
+    grid-gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+    margin-top: var(--space-lg);
+
+    ::ng-deep app-ui-card {
+        width: 100%;
+    }
+}

@@ -87,6 +87,13 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'support',
+                loadChildren: () =>
+                    import('@modules/support/support.module').then(
+                        (m) => m.SupportModule
+                    ),
+            },
+            {
                 path: 'forbidden',
                 loadChildren: () =>
                     import('@modules/forbidden/forbidden.module').then(

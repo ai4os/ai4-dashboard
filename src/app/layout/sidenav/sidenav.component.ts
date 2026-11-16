@@ -165,6 +165,12 @@ export class SidenavComponent implements OnInit, AfterViewInit {
         icon: 'dns',
     };
 
+    supportLink: ProjectLink = {
+        name: 'SIDENAV.SUPPORT',
+        url: '/support',
+        icon: 'support_agent',
+    };
+
     acknowledgments = '';
     projectName = '';
     projectUrl = '';
