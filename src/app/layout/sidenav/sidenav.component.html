@@ -43,8 +43,9 @@
                     [matTooltip]="
                         link.tooltip || 'ERRORS.UNAUTHORIZED' | translate
                     "
-                    [matTooltipPosition]="'right'"
+                    [matTooltipPosition]="'above'"
                     [matTooltipDisabled]="!link.isDisabled"
+                    matTooltipClass="ui-tooltip"
                 >
                     <mat-icon>{{ link.icon }}</mat-icon>
                     <span>{{ link.name | translate }}</span>

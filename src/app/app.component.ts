@@ -216,28 +216,9 @@ export class AppComponent implements OnInit {
     }
 
     private getHighestAccessLevel(roles: string[]): AccessLevel {
-        const voNameEscaped = this.appConfigService.voName.replace(
-            /[.*+?^${}()|[\]\\]/g,
-            '\\$&'
+        return (
+            ACCESS_LEVEL_ORDER.find((level) => roles.includes(level)) ?? 'ap-0'
         );
-        const pattern = new RegExp(
-            `^access:${voNameEscaped}:(ap-d|ap-u|ap-b|ap-a1|ap-a)$`
-        );
-
-        let best: AccessLevel = 'ap-0';
-        for (const role of roles) {
-            const match = role.match(pattern);
-            if (match) {
-                const level = match[1] as AccessLevel;
-                if (
-                    ACCESS_LEVEL_ORDER.indexOf(level) <
-                    ACCESS_LEVEL_ORDER.indexOf(best)
-                ) {
-                    best = level;
-                }
-            }
-        }
-        return best;
     }
 
     private checkUserRoles(): void {
