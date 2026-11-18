@@ -6,7 +6,7 @@ import {
     OnInit,
     ChangeDetectionStrategy,
 } from '@angular/core';
-import { AuthService, VoAccess } from '@app/core/services/auth/auth.service';
+import { AuthService } from '@app/core/services/auth/auth.service';
 import { distinctUntilChanged } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfigService } from '@app/core/services/app-config/app-config.service';
@@ -17,6 +17,7 @@ import { OverviewTabComponent } from '../tabs/overview-tab/overview-tab.componen
 import { ApiKeysTabComponent } from '../tabs/api-keys-tab/api-keys-tab.component';
 import { StorageTabComponent } from '../tabs/storage-tab/storage-tab.component';
 import { ServicesTabComponent } from '../tabs/services-tab/services-tab.component';
+import { VoInfo } from '@app/shared/interfaces/profile.interface';
 
 @Component({
     selector: 'app-profile',
@@ -92,7 +93,7 @@ export class ProfileComponent implements OnInit {
 
     isProjectMember = false;
 
-    protected vos: VoAccess[] = [];
+    protected vos: VoInfo[] = [];
 
     ngOnInit(): void {
         this.authService.isDoneLoading$.subscribe((done) => {
