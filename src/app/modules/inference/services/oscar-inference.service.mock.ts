@@ -1,21 +1,9 @@
-import { get } from 'ol/proj';
 import { of } from 'rxjs';
 import { OscarService } from '../../../shared/interfaces/oscar-service.interface';
 
 export const mockedOscarServices: OscarService[] = [
     {
         token: 'mock-token',
-        storage_providers: {
-            minio: {
-                default: {
-                    access_key: 'mock-access-key',
-                    secret_key: 'mock-secret-key',
-                    endpoint: '',
-                    region: '',
-                    verify: false,
-                },
-            },
-        },
         environment: {
             variables: {
                 PAPI_TITLE: 'Oscar Service Mock Title',
@@ -23,16 +11,27 @@ export const mockedOscarServices: OscarService[] = [
                 PAPI_CREATED: '2023-01-01T00:00:00Z',
             },
         },
-        name: '',
+        name: 'mock-service',
         title: '',
-        owner: '',
-        memory: '',
-        cpu: '',
+        owner: 'mock-owner',
+        memory: '1024Mi',
+        cpu: '2',
         total_memory: '',
         total_cpu: '',
-        image: '',
-        endpoint: '',
+        image: 'mock-image',
+        endpoint: 'https://service.example.test',
         submit_time: '',
+        storage_providers: {
+            minio: {
+                default: {
+                    access_key: 'mock-access-key',
+                    secret_key: 'mock-secret-key',
+                    endpoint: 'https://minio.example.test',
+                    region: '',
+                    verify: false,
+                },
+            },
+        },
     },
     {
         token: 'mock-token',

@@ -1,363 +1,190 @@
-<mat-toolbar class="mb-3 detail-title">
-    <span>
-        {{ 'INFERENCE.INFERENCE-DETAIL.TITLE' | translate }}
+@if (isLoading) {
+    <div class="spinner-loading-overlay">
+        <app-ui-loader></app-ui-loader>
+    </div>
+} @else {
+    <!-- Header -->
+    <header class="header">
+        <div class="header__top-bar">
+            <xng-breadcrumb class="header__breadcrumb"></xng-breadcrumb>
+        </div>
 
-        <mat-icon>view_in_ar</mat-icon></span
-    >
-</mat-toolbar>
-
-<mat-card>
-    <mat-card-header>
-        <mat-card-title class="service-detail-title">
-            <h2>{{ service?.title }}</h2>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content
-        [ngClass]="{
-            'card-content-mobile': mobileQuery.matches,
-            'card-content': !mobileQuery.matches,
-        }"
-    >
-        @if (!isLoading) {
-            <div
-                class=""
-                [ngClass]="{
-                    'details-flex': mobileQuery.matches,
-                    'details-grid': !mobileQuery.matches,
-                }"
-            >
-                <div
-                    [ngClass]="{
-                        'deployment-detail-container-mobile':
-                            mobileQuery.matches,
-                        'deployment-detail-container': !mobileQuery.matches,
-                    }"
-                >
-                    <div>
-                        <h3>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.DEPLOYMENT-ID'
-                                    | translate
-                            }}
-                        </h3>
-                        <p>
-                            {{ service?.name }}
-                        </p>
+        <app-ui-banner variant="primary" decoration="none">
+            <div class="banner-layout">
+                <div class="banner-layout__header">
+                    <div class="banner-layout__info">
+                        <h1 class="banner-layout__title">
+                            {{ service?.title }}
+                        </h1>
                     </div>
-                    @if (service?.description !== '') {
-                        <div>
-                            <h3>
+                    <p class="banner-layout__subtitle">
+                        {{ service?.submit_time | date: 'd MMM y, HH:mm' }}
+                    </p>
+                </div>
+
+                <div class="banner-layout__user-id">
+                    <span class="banner-layout__user-id-label">{{
+                        'DEPLOYMENTS.UUID' | translate
+                    }}</span>
+                    <span class="banner-layout__user-id-value">{{
+                        service?.name
+                    }}</span>
+                </div>
+            </div>
+        </app-ui-banner>
+    </header>
+
+    <!-- Tabs -->
+    <app-ui-tabs
+        [tabs]="tabs"
+        [activeTabId]="activeTabId"
+        (tabChange)="onTabChange($event)"
+    ></app-ui-tabs>
+
+    <!-- Overview tab -->
+    @if (activeTabId === 'overview') {
+        <section class="tab-content">
+            <!-- Basic info -->
+            <div class="deployment-info-layout">
+                <div class="details-column">
+                    <span class="section-title">{{
+                        'DEPLOYMENTS.OVERVIEW.DETAILS' | translate
+                    }}</span>
+                    <app-ui-card class="details-card">
+                        <div class="detail-item">
+                            <span class="detail-label">{{
+                                'DEPLOYMENTS.DETAIL.DESCRIPTION' | translate
+                            }}</span>
+                            <span class="detail-value italic">
                                 {{
-                                    'DEPLOYMENTS.DETAIL.DESCRIPTION' | translate
+                                    service?.description &&
+                                    service?.description !== '-'
+                                        ? service?.description
+                                        : '-'
                                 }}
-                            </h3>
-                            <p>{{ service?.description }}</p>
+                            </span>
                         </div>
-                    }
-                    <div>
-                        <h3>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.DOCKER-IMAGE'
-                                    | translate
-                            }}
-                        </h3>
-                        <p>{{ service?.image }}</p>
-                    </div>
-                    <div>
-                        <h3>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.CREATION-TIME'
-                                    | translate
-                            }}
-                        </h3>
-                        <p>{{ service?.submit_time }}</p>
-                    </div>
-                    <div>
-                        <h3>
-                            {{
-                                'DEPLOYMENTS.DETAIL.RESOURCES-ASSIGNED'
-                                    | translate
-                            }}
-                        </h3>
-                        <mat-list>
-                            <mat-list-item
-                                >{{
-                                    'INFERENCE.INFERENCE-DETAIL.CPU'
-                                        | translate
-                                }}:
-                                {{ service?.cpu }}
-                            </mat-list-item>
-                            <mat-list-item>
-                                {{
-                                    'INFERENCE.INFERENCE-DETAIL.MEMORY'
-                                        | translate
-                                }}: {{ service?.memory }}B
-                            </mat-list-item>
-                        </mat-list>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="mb-0">
-                        {{
-                            'INFERENCE.INFERENCE-DETAIL.SYNC-CALLS' | translate
-                        }}
-                    </h3>
-                    <span class="title-with-button">
-                        <h4>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.ENDPOINT'
-                                    | translate
-                            }}
-                        </h4>
-                        <button
-                            mat-icon-button
-                            matTooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
-                            [matTooltipPosition]="'above'"
-                            (click)="openDocumentationWeb()"
-                        >
-                            <mat-icon color="accent">help</mat-icon>
-                        </button>
-                    </span>
-                    <div class="token-container">
-                        <mat-form-field
-                            class="full-width mr-3"
-                            subscriptSizing="dynamic"
-                        >
-                            <input
-                                matInput
-                                disabled="true"
-                                value="{{ service?.endpoint }}"
-                            />
-                        </mat-form-field>
-                        <button
-                            mat-icon-button
-                            matTooltip="Copy"
-                            [copy-to-clipboard]="
-                                $safeNavigationMigration(service?.endpoint)
-                            "
-                        >
-                            <mat-icon matSuffix color="accent">
-                                content_copy</mat-icon
-                            >
-                        </button>
-                    </div>
-                    <div class="mb-3">
-                        <h4>
-                            {{ 'INFERENCE.INFERENCE-DETAIL.TOKEN' | translate }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    [type]="
-                                        tokenField.hide ? 'password' : 'text'
-                                    "
-                                    disabled="true"
-                                    value="{{ tokenField.value }}"
-                                />
-                                <button
-                                    mat-icon-button
-                                    matSuffix
-                                    [matTooltip]="
-                                        tokenField.hide ? 'Show' : 'Hide'
-                                    "
-                                    (click)="tokenField.hide = !tokenField.hide"
-                                    [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="tokenField.hide"
-                                >
-                                    <mat-icon color="accent">{{
-                                        tokenField.hide
-                                            ? 'visibility_off'
-                                            : 'visibility'
-                                    }}</mat-icon>
-                                </button>
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="tokenField.value"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="mb-0">
-                        {{
-                            'INFERENCE.INFERENCE-DETAIL.ASYNC-CALLS' | translate
-                        }}
-                    </h3>
-                    <div>
-                        <h4>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.MINIO-BUCKET'
-                                    | translate
-                            }}
-                        </h4>
-                        <p>{{ service?.name }}</p>
-                    </div>
-                    <div>
-                        <h4>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.MINIO-URL'
-                                    | translate
-                            }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    disabled="true"
-                                    value="{{
-                                        service?.storage_providers?.minio
-                                            ?.default?.endpoint
-                                    }}"
-                                />
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="
-                                    $safeNavigationMigration(
-                                        service?.storage_providers?.minio
-                                            ?.default?.endpoint
-                                    )
-                                "
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <h4>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.MINIO-KEY'
-                                    | translate
-                            }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    [type]="
-                                        accessKeyField.hide
-                                            ? 'password'
-                                            : 'text'
-                                    "
-                                    disabled="true"
-                                    value="{{ accessKeyField.value }}"
-                                />
-                                <button
-                                    mat-icon-button
-                                    matSuffix
-                                    [matTooltip]="
-                                        accessKeyField.hide ? 'Show' : 'Hide'
-                                    "
-                                    (click)="
-                                        accessKeyField.hide =
-                                            !accessKeyField.hide
-                                    "
-                                    [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="accessKeyField.hide"
-                                >
-                                    <mat-icon color="accent">{{
-                                        accessKeyField.hide
-                                            ? 'visibility_off'
-                                            : 'visibility'
-                                    }}</mat-icon>
-                                </button>
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="accessKeyField.value"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <h4>
-                            {{
-                                'INFERENCE.INFERENCE-DETAIL.MINIO-SECRET'
-                                    | translate
-                            }}
-                        </h4>
-                        <div class="token-container">
-                            <mat-form-field
-                                class="full-width mr-3"
-                                subscriptSizing="dynamic"
-                            >
-                                <input
-                                    matInput
-                                    [type]="
-                                        minioSecretField.hide
-                                            ? 'password'
-                                            : 'text'
-                                    "
-                                    disabled="true"
-                                    value="{{ minioSecretField.value }}"
-                                />
-                                <button
-                                    mat-icon-button
-                                    matSuffix
-                                    [matTooltip]="
-                                        minioSecretField.hide ? 'Show' : 'Hide'
-                                    "
-                                    (click)="
-                                        minioSecretField.hide =
-                                            !minioSecretField.hide
-                                    "
-                                    [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="minioSecretField.hide"
-                                >
-                                    <mat-icon color="accent">{{
-                                        minioSecretField.hide
-                                            ? 'visibility_off'
-                                            : 'visibility'
-                                    }}</mat-icon>
-                                </button>
-                            </mat-form-field>
-                            <button
-                                mat-icon-button
-                                matTooltip="Copy"
-                                [copy-to-clipboard]="minioSecretField.value"
-                            >
-                                <mat-icon matSuffix color="accent">
-                                    content_copy</mat-icon
-                                >
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        } @else {
-            <div class="spinner">
-                <mat-progress-spinner color="primary" mode="indeterminate">
-                </mat-progress-spinner>
-            </div>
-        }
-    </mat-card-content>
 
-    <mat-card-actions align="end">
-        <button mat-raised-button mat-dialog-close>
-            {{ 'GENERAL.CLOSE' | translate }}
-        </button>
-    </mat-card-actions>
-</mat-card>
+                        <div class="detail-item">
+                            <span class="detail-label with-icon">
+                                <img
+                                    src="assets/images/module-detail/dockerhub.svg"
+                                    class="docker-icon"
+                                />{{
+                                    'DEPLOYMENTS.DETAIL.DOCKER-IMAGE'
+                                        | translate
+                                }}</span
+                            >
+                            <span class="detail-value code-font">
+                                {{ service?.image ?? '-' }}
+                            </span>
+                        </div>
+                    </app-ui-card>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div class="resources-grid">
+                @for (item of resourceItems; track item.label) {
+                    <app-stats-card
+                        [label]="item.label"
+                        [value]="item.value"
+                        [unit]="item.unit"
+                        [icon]="item.icon"
+                        [color]="item.color"
+                    ></app-stats-card>
+                } @empty {
+                    <p>-</p>
+                }
+            </div>
+        </section>
+    }
+
+    <!-- Calls tab -->
+    @if (activeTabId === 'calls') {
+        <section class="tab-content">
+            <!-- Sync -->
+            <div class="details-column">
+                <span class="section-with-button">
+                    <span class="section-title">{{
+                        'INFERENCE.DETAIL.SYNC' | translate
+                    }}</span>
+                    <app-ui-button
+                        variant="icon"
+                        icon="help"
+                        tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                        href="https://docs.ai4os.eu/en/latest/howtos/deploy/oscar.html#synchronous-predictions"
+                    ></app-ui-button>
+                </span>
+
+                <app-ui-card class="details-card">
+                    <div class="detail-item">
+                        <span class="detail-label">{{
+                            'INFERENCE.DETAIL.ENDPOINT' | translate
+                        }}</span>
+
+                        <app-ui-credential-row
+                            [value]="service!.endpoint"
+                        ></app-ui-credential-row>
+
+                        <span class="detail-label">{{
+                            'INFERENCE.DETAIL.TOKEN' | translate
+                        }}</span>
+                        <app-ui-credential-row
+                            [value]="service!.token"
+                            [maskable]="true"
+                        ></app-ui-credential-row>
+                    </div>
+                </app-ui-card>
+            </div>
+
+            <!-- Async -->
+            <div class="details-column">
+                <span class="section-with-button">
+                    <span class="section-title">{{
+                        'INFERENCE.DETAIL.ASYNC' | translate
+                    }}</span>
+                    <app-ui-button
+                        variant="icon"
+                        icon="help"
+                        tooltip="{{ 'GENERAL.OPEN-DOCS' | translate }}"
+                        href="https://docs.ai4os.eu/en/latest/howtos/deploy/oscar.html#asynchronous-predictions"
+                    ></app-ui-button>
+                </span>
+                <app-ui-card class="details-card">
+                    <div class="detail-item">
+                        <span class="detail-label">{{
+                            'INFERENCE.DETAIL.MINIO-BUCKET' | translate
+                        }}</span>
+                        <app-ui-credential-row
+                            [value]="service!.name"
+                        ></app-ui-credential-row>
+
+                        <span class="detail-label">{{
+                            'INFERENCE.DETAIL.MINIO-URL' | translate
+                        }}</span>
+                        <app-ui-credential-row
+                            [value]="endpointField"
+                        ></app-ui-credential-row>
+
+                        <span class="detail-label">{{
+                            'INFERENCE.DETAIL.MINIO-KEY' | translate
+                        }}</span>
+                        <app-ui-credential-row
+                            [value]="accessKeyField"
+                            [maskable]="true"
+                        ></app-ui-credential-row>
+
+                        <span class="detail-label">{{
+                            'INFERENCE.DETAIL.MINIO-SECRET' | translate
+                        }}</span>
+                        <app-ui-credential-row
+                            [value]="minioSecretField"
+                            [maskable]="true"
+                        ></app-ui-credential-row>
+                    </div>
+                </app-ui-card>
+            </div>
+        </section>
+    }
+}

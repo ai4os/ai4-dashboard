@@ -1,4 +1,3 @@
-import { MediaMatcher } from '@angular/cdk/layout';
 import {
     ChangeDetectorRef,
     Component,
@@ -6,30 +5,23 @@ import {
     ChangeDetectionStrategy,
     inject,
 } from '@angular/core';
-import {
-    MAT_DIALOG_DATA,
-    MatDialogRef,
-    MatDialogClose,
-} from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { OscarService } from '@app/shared/interfaces/oscar-service.interface';
 import { OscarInferenceService } from '../../services/oscar-inference.service';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { UiBannerComponent } from '@app/shared/components/ui/ui-banner/ui-banner.component';
+import { UiCardComponent } from '@app/shared/components/ui/ui-card/ui-card.component';
+import { UiLoaderComponent } from '@app/shared/components/ui/ui-loader/ui-loader.component';
+import { DatePipe } from '@angular/common';
 import {
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatCardActions,
-} from '@angular/material/card';
-import { NgClass } from '@angular/common';
-import { MatList, MatListItem } from '@angular/material/list';
-import { MatIconButton, MatButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatFormField, MatInput, MatSuffix } from '@angular/material/input';
-import { CopyToClipboardDirective } from '../../../../shared/directives/copy-to-clipboard.directive';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { TranslatePipe } from '@ngx-translate/core';
+    Tab,
+    UiTabsComponent,
+} from '@app/shared/components/ui/ui-tabs/ui-tabs.component';
+import { StatsCardComponent } from '@app/modules/statistics/components/common/stats-card/stats-card.component';
+import { UiCredentialRowComponent } from '@app/shared/components/ui/ui-credential-row/ui-credential-row.component';
+import { UiButtonComponent } from '@app/shared/components/ui/ui-button/ui-button.component';
 
 export interface SecretField {
     value: string;
@@ -42,73 +34,56 @@ export interface SecretField {
     styleUrls: ['./inference-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
-        MatToolbar,
-        MatIcon,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        NgClass,
-        MatList,
-        MatListItem,
-        MatIconButton,
-        MatTooltip,
-        MatFormField,
-        MatInput,
-        CopyToClipboardDirective,
-        MatSuffix,
-        MatProgressSpinner,
-        MatCardActions,
-        MatButton,
-        MatDialogClose,
         TranslatePipe,
+        BreadcrumbComponent,
+        UiBannerComponent,
+        UiCardComponent,
+        UiLoaderComponent,
+        DatePipe,
+        UiTabsComponent,
+        StatsCardComponent,
+        UiCredentialRowComponent,
+        UiButtonComponent,
     ],
 })
 export class InferenceDetailComponent implements OnInit {
-    data = inject<{
-        name: string;
-    }>(MAT_DIALOG_DATA);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
-    dialogRef = inject(MatDialogRef<InferenceDetailComponent>);
     changeDetectorRef = inject(ChangeDetectorRef);
     media = inject(MediaMatcher);
     oscarInferenceService = inject(OscarInferenceService);
+    translateService = inject(TranslateService);
 
-    constructor() {
-        this.mobileQuery = this.media.matchMedia('(max-width: 650px)');
-        this._mobileQueryListener = () =>
-            this.changeDetectorRef.detectChanges();
-        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-    }
-
+    uuid = '';
     isLoading = false;
-    mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
-
     service: OscarService | undefined;
 
-    tokenField: SecretField = {
-        value: '',
-        hide: true,
-    };
+    endpointField = '';
+    accessKeyField = '';
+    minioSecretField = '';
 
-    accessKeyField: SecretField = {
-        value: '',
-        hide: true,
-    };
+    get tabs(): Tab[] {
+        const dynamicTabs: Tab[] = [
+            { id: 'overview', label: 'DEPLOYMENTS.OVERVIEW.TITLE' },
+            { id: 'calls', label: 'INFERENCE.DETAIL.CALLS' },
+        ];
 
-    minioSecretField: SecretField = {
-        value: '',
-        hide: true,
-    };
+        return dynamicTabs;
+    }
+
+    activeTabId = 'overview';
 
     ngOnInit(): void {
-        this.getService();
+        this.uuid = this.route.snapshot.paramMap.get('uuid') ?? '';
+        if (this.uuid) {
+            this.getService();
+        }
     }
 
     getService() {
         this.isLoading = true;
-        this.oscarInferenceService.getServiceByName(this.data.name).subscribe({
+        this.oscarInferenceService.getServiceByName(this.uuid).subscribe({
             next: (service: OscarService) => {
                 this.service = service;
                 this.service.title = service.environment.variables.PAPI_TITLE;
@@ -116,22 +91,66 @@ export class InferenceDetailComponent implements OnInit {
                     service.environment.variables.PAPI_DESCRIPTION ?? '';
                 this.service.submit_time =
                     service.environment.variables.PAPI_CREATED;
-                this.tokenField.value = service.token;
-                this.accessKeyField.value =
+                this.endpointField =
+                    service.storage_providers?.minio?.default?.endpoint;
+                this.accessKeyField =
                     service.storage_providers.minio.default.access_key;
-                this.minioSecretField.value =
+                this.minioSecretField =
                     service.storage_providers.minio.default.secret_key;
                 this.isLoading = false;
             },
             error: () => {
                 this.isLoading = false;
-                this.dialogRef.close();
             },
         });
     }
 
-    openDocumentationWeb(): void {
-        const url = 'https://docs.ai4os.eu/en/latest/howtos/deploy/oscar.html';
-        window.open(url);
+    get resourceItems(): any[] {
+        const service = this.service ?? {};
+        const desiredOrder = ['cpu', 'memory'];
+
+        return Object.entries(service)
+            .filter(([key]) => desiredOrder.includes(key))
+            .sort(([keyA], [keyB]) => {
+                return desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB);
+            })
+            .map(([key, value]) => {
+                const label = this.translateService.instant(
+                    'INFERENCE.DETAIL.RESOURCES.' + key.toUpperCase()
+                );
+
+                let unit = '';
+                let icon = '';
+                let color = '';
+
+                if (key === 'memory' && typeof value === 'string') {
+                    value = value.replace(/Mi$/, '');
+                }
+
+                switch (key.toLowerCase()) {
+                    case 'cpu':
+                        icon = 'memory';
+                        color = 'var(--color-accent)';
+                        break;
+
+                    case 'memory':
+                        unit = 'MiB';
+                        icon = 'memory_alt';
+                        color = 'var(--color-secondary-4)';
+                        break;
+                }
+
+                return { label, value, unit, icon, color };
+            });
+    }
+
+    onTabChange(tabId: string): void {
+        this.activeTabId = tabId;
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { tab: tabId === 'overview' ? null : tabId },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+        });
     }
 }

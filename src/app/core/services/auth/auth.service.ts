@@ -6,18 +6,14 @@ import { authCodeFlowConfig } from './auth.config';
 import { AppConfigService } from '../app-config/app-config.service';
 import { jwtDecode } from 'jwt-decode';
 import { KeycloakToken } from '@app/shared/interfaces/keycloak-token.interface';
-
-export interface VoAccess {
-    name: string; // "vo.ai4eosc.eu"
-    roles: string[]; // ["ap-d", "ap-u", ...] sorted by level
-}
+import { VoInfo } from '@app/shared/interfaces/profile.interface';
 
 export interface UserProfile {
     name: string;
     email: string;
     sub: string;
-    roles: string[]; // roles for the current vo
-    vos: VoAccess[]; // roles for all the vos
+    roles: string[]; // effective roles for the current vo
+    vos: VoInfo[]; // roles for all the vos
     isAuthenticated: boolean; // ap-0
     isAuthorized: boolean; // ap-a, ap-a1, ap-b
     isProjectMember: boolean; // ap-u
@@ -220,12 +216,22 @@ export class AuthService {
 
     // Not all Keycloak VOs have their corresponding PAPI/Dashboard VO.
     // Keep in sync with `vo_mappings` in the API (ai4papi main conf).
-    private static readonly VO_MAPPINGS: Record<string, string> = {
-        'vo.fluid.ai4eosc.eu': 'vo.ai4eosc.eu',
-        'vo.arena.ai4eosc.eu': 'vo.ai4eosc.eu',
+    private static readonly AI4EOSC_VO_GROUP = {
+        logicalVo: 'vo.ai4eosc.eu',
+        members: [
+            'vo.ai4eosc.eu',
+            'vo.fluid.ai4eosc.eu',
+            'vo.arena.ai4eosc.eu',
+        ],
     };
 
-    private buildVos(entitlements: string[]): VoAccess[] {
+    private static isGroupedVo(voName: string): boolean {
+        return AuthService.AI4EOSC_VO_GROUP.members.some(
+            (member) => member === voName
+        );
+    }
+
+    private buildVos(entitlements: string[]): VoInfo[] {
         const byVo = new Map<string, Set<string>>();
 
         for (const raw of entitlements) {
@@ -235,24 +241,34 @@ export class AuthService {
             const role = e.role.toLowerCase().replace(/^access-/, '');
             if (!AuthService.ACCESS_ORDER.includes(role)) continue;
 
-            // Map Keycloak VO to the Dashboard/PAPI VO if needed
-            const vo = AuthService.VO_MAPPINGS[e.vo] ?? e.vo;
-
-            if (!byVo.has(vo)) byVo.set(vo, new Set());
-            byVo.get(vo)!.add(role);
+            if (!byVo.has(e.vo)) byVo.set(e.vo, new Set());
+            byVo.get(e.vo)!.add(role);
         }
 
-        const order = AuthService.ACCESS_ORDER;
+        const sharedGroupRoles = new Set(
+            [...byVo.entries()]
+                .filter(([name]) => AuthService.isGroupedVo(name))
+                .flatMap(([, roles]) => [...roles])
+        );
+        const sharedHighestRole = AuthService.ACCESS_ORDER.find((role) =>
+            sharedGroupRoles.has(role)
+        );
         const currentVo = this.appConfigService.voName;
 
         return (
             [...byVo.entries()]
-                .map(([name, roles]) => ({
-                    name,
-                    roles: [...roles].sort(
-                        (a, b) => order.indexOf(a) - order.indexOf(b)
-                    ),
-                }))
+                .map(([name, roles]) => {
+                    const isGroupedVo = AuthService.isGroupedVo(name);
+                    return {
+                        name,
+                        roles: AuthService.ACCESS_ORDER.filter((role) =>
+                            roles.has(role)
+                        ),
+                        ...(isGroupedVo && sharedHighestRole
+                            ? { sharedHighestRole }
+                            : {}),
+                    };
+                })
                 // current VO first
                 .sort((a, b) =>
                     a.name === currentVo ? -1 : b.name === currentVo ? 1 : 0
@@ -279,6 +295,18 @@ export class AuthService {
         return { group: match[1], vo: match[2], role: match[3] };
     }
 
+    getEffectiveRoles(voName: string, vos: VoInfo[]): string[] {
+        const isGroupedVo = AuthService.isGroupedVo(voName);
+        const roles = isGroupedVo
+            ? vos
+                  .filter((vo) => AuthService.isGroupedVo(vo.name))
+                  .flatMap((vo) => vo.roles)
+            : (vos.find((vo) => vo.name === voName)?.roles ?? []);
+        const uniqueRoles = new Set(roles);
+
+        return AuthService.ACCESS_ORDER.filter((role) => uniqueRoles.has(role));
+    }
+
     loadUserProfile() {
         const token = this.oauthService.getAccessToken();
         const parsedToken = jwtDecode(token) as KeycloakToken;
@@ -288,11 +316,9 @@ export class AuthService {
             ? rawEntitlements
             : [rawEntitlements];
 
-        // Access levels for every VO, and for the current VO only
+        // Keep original VO access for display; calculate effective access separately.
         const vos = this.buildVos(entitlements);
-        const roles =
-            vos.find((v) => v.name === this.appConfigService.voName)?.roles ??
-            [];
+        const roles = this.getEffectiveRoles(this.appConfigService.voName, vos);
 
         const has = (r: string) => roles.includes(r);
 

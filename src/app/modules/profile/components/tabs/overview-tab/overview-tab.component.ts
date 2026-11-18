@@ -21,4 +21,20 @@ export class OverviewTabComponent {
     appConfigService = inject(AppConfigService);
 
     @Input() vos: VoInfo[] = [];
+
+    isCurrentVo(vo: VoInfo): boolean {
+        return (
+            vo.name === this.appConfigService.voName ||
+            (this.appConfigService.voName === 'vo.ai4eosc.eu' &&
+                vo.sharedHighestRole !== undefined)
+        );
+    }
+
+    isHighlightedRole(vo: VoInfo, role: string): boolean {
+        if (vo.sharedHighestRole) {
+            return role === vo.sharedHighestRole;
+        }
+
+        return this.isCurrentVo(vo) && vo.roles[0] === role;
+    }
 }
