@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.1.0](https://github.com/ai4os/ai4-dashboard/compare/v4.0.0...v4.1.0) (2026-11-19)
+
+
+### Features
+
+* add datacenter to general conf and improve allocation error message in deployment detail ([#541](https://github.com/ai4os/ai4-dashboard/issues/541)) ([e77ff49](https://github.com/ai4os/ai4-dashboard/commit/e77ff49a534accc23e6066587ac54cacc0ad4a91))
+* add support module with routing and UI components to the side panel ([#540](https://github.com/ai4os/ai4-dashboard/issues/540)) ([59cad18](https://github.com/ai4os/ai4-dashboard/commit/59cad1846b0d156e6597cdf92aa2daf45fba79d5))
+* filter litellm keys with ai4os- prefix ([#539](https://github.com/ai4os/ai4-dashboard/issues/539)) ([fc20e81](https://github.com/ai4os/ai4-dashboard/commit/fc20e81d33982b6b6b531ed8500ebfcf725817fe))
+* migrate to eduperson entitlements ([#538](https://github.com/ai4os/ai4-dashboard/issues/538)) ([e8a73a2](https://github.com/ai4os/ai4-dashboard/commit/e8a73a2856cbd33fe8b49c1deae30dc14f44b4c2))
+
+
+### Bug Fixes
+
+* fluid arena roles ([#545](https://github.com/ai4os/ai4-dashboard/issues/545)) ([e3d32e3](https://github.com/ai4os/ai4-dashboard/commit/e3d32e3f6a32f6d9e2f2f533f37ca762d5fb52b8))
+* fluid arena roles ([#546](https://github.com/ai4os/ai4-dashboard/issues/546)) ([dcb3ffc](https://github.com/ai4os/ai4-dashboard/commit/dcb3ffc2a08fe7ddf563ef6a3ac0239173061342))
+
 ## [4.0.0](https://github.com/ai4os/ai4-dashboard/compare/v3.26.5...v4.0.0) (2026-11-02)
 
 
