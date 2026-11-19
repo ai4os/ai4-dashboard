@@ -27,12 +27,12 @@
                     <app-ui-chip
                         [text]="role"
                         [variant]="
-                            isHighlightedRole(vo, role)
+                            isCurrentVo(vo) && isHighlightedRole(vo, role)
                                 ? 'accent-solid'
                                 : 'default-solid'
                         "
                         [tooltip]="
-                            isHighlightedRole(vo, role)
+                            isCurrentVo(vo) && isHighlightedRole(vo, role)
                                 ? ('PROFILE.OVERVIEW-TAB.ROLE-TOOLTIP'
                                   | translate)
                                 : undefined
