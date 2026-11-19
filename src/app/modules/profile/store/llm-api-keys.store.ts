@@ -28,13 +28,13 @@ export class LlmApiKeysStore {
         this._loading.set(true);
         this.llmApiKeysService.getLiteLLMKeys().subscribe({
             next: (keys) => {
-                // Filter keys with id genai_app or ai4os-* prefix, so users cannot delete them
+                // Filter keys which id includes `genai_app` or `ai4os-*` prefix, so users cannot delete them
                 this._apiKeys.set(
                     keys
                         .map((k) => this.mapKey(k))
                         .filter(
                             (k) =>
-                                k.id !== 'genai_app' &&
+                                !k.id.includes('genai_app') &&
                                 !k.id.startsWith('ai4os-')
                         )
                 );
