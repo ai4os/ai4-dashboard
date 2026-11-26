@@ -15,26 +15,24 @@
         @for (vo of vos; track vo.name; let i = $index) {
             <app-ui-list-card
                 [title]="vo.name"
-                [suffixText]="vo.roles.length + ' roles'"
-                [theme]="
-                    vo.name === appConfigService.voName ? 'primary' : 'default'
-                "
+                [suffixText]="vo.roles.length + ' role(s)'"
+                [theme]="isCurrentVo(vo) ? 'primary' : 'default'"
                 [tooltip]="
-                    vo.name === appConfigService.voName
+                    isCurrentVo(vo)
                         ? ('PROFILE.OVERVIEW-TAB.VO-TOOLTIP' | translate)
                         : undefined
                 "
             >
-                @for (role of vo.roles; track role; let isFirst = $first) {
+                @for (role of vo.roles; track role) {
                     <app-ui-chip
                         [text]="role"
                         [variant]="
-                            isFirst && vo.name === appConfigService.voName
+                            isCurrentVo(vo) && isHighlightedRole(vo, role)
                                 ? 'accent-solid'
                                 : 'default-solid'
                         "
                         [tooltip]="
-                            isFirst && vo.name === appConfigService.voName
+                            isCurrentVo(vo) && isHighlightedRole(vo, role)
                                 ? ('PROFILE.OVERVIEW-TAB.ROLE-TOOLTIP'
                                   | translate)
                                 : undefined

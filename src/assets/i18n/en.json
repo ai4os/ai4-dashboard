@@ -77,8 +77,8 @@
             "DESCRIPTION": "Groups and roles assigned to your account",
             "UNAUTHORIZED": "You are not a member of any VO",
             "UNAUTHORIZED-DESC": "Please <a href='https://docs.ai4os.eu/en/latest/help/index.html' target='_blank'>ask support</a> for the request link of your virtual organisation.",
-            "VO-TOOLTIP": "This is the VO for the dashboard you are currently viewing",
-            "ROLE-TOOLTIP": "Your highest-ranking role in this VO"
+            "VO-TOOLTIP": "This VO is associated with the dashboard you are currently viewing",
+            "ROLE-TOOLTIP": "Your highest-ranking role"
         },
         "API-KEYS-TAB": {
             "TITLE": "API Keys",

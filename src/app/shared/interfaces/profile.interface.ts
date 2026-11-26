@@ -35,8 +35,9 @@ export interface HuggingFaceTokenResponse {
 }
 
 export interface VoInfo {
-    name: string;
-    roles: string[];
+    name: string; // "vo.ai4eosc.eu"
+    roles: string[]; // ["ap-d", "ap-u", ...] sorted by level
+    sharedHighestRole?: string;
 }
 
 export interface MLflowCredentials {

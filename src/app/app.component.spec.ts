@@ -41,4 +41,30 @@ describe('AppComponent', () => {
     it(`should have as title 'ai4-dashboard'`, () => {
         expect(component.title).toEqual('ai4-dashboard');
     });
+
+    it('tracks changes to the highest effective role in the user profile', () => {
+        localStorage.removeItem('accessLevel');
+        component.userProfile = {
+            sub: 'test-user',
+            name: 'Test User',
+            email: 'test@example.org',
+            vos: [],
+            roles: ['ap-u', 'ap-a'],
+            isDeveloper: false,
+            isProjectMember: true,
+            isAuthorized: true,
+            isAuthenticated: true,
+        };
+
+        component['checkUserRoles']();
+        expect(localStorage.getItem('accessLevel')).toBe('ap-u');
+
+        component.userProfile = {
+            ...component.userProfile!,
+            roles: ['ap-a'],
+        };
+        component['checkUserRoles']();
+        expect(localStorage.getItem('accessLevel')).toBe('ap-a');
+        localStorage.removeItem('accessLevel');
+    });
 });

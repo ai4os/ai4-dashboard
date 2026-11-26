@@ -17,6 +17,7 @@ import { OverviewTabComponent } from '../tabs/overview-tab/overview-tab.componen
 import { ApiKeysTabComponent } from '../tabs/api-keys-tab/api-keys-tab.component';
 import { StorageTabComponent } from '../tabs/storage-tab/storage-tab.component';
 import { ServicesTabComponent } from '../tabs/services-tab/services-tab.component';
+import { VoInfo } from '@app/shared/interfaces/profile.interface';
 
 @Component({
     selector: 'app-profile',
