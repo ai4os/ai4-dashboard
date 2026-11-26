@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.2.0](https://github.com/ai4os/ai4-dashboard/compare/v4.1.1...v4.2.0) (2026-11-26)
+
+
+### Features
+
+* show deploy button to unlogged users ([#548](https://github.com/ai4os/ai4-dashboard/issues/548)) ([e157397](https://github.com/ai4os/ai4-dashboard/commit/e157397008d4dc2897ab3b097e3a30ff8b558cf9))
+
+
+### Bug Fixes
+
+* oscar bugs ([#542](https://github.com/ai4os/ai4-dashboard/issues/542)) ([541193b](https://github.com/ai4os/ai4-dashboard/commit/541193b753e1563ca29b6cee34b7b96bd5dc9442))
+
 ## [4.1.0](https://github.com/ai4os/ai4-dashboard/compare/v4.0.0...v4.1.0) (2026-11-19)
 
 
