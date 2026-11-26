@@ -33,7 +33,7 @@ const DIALOG_WIDTH_DESKTOP = '650px';
 const ACCESS_LEVEL_STORAGE_KEY = 'accessLevel';
 const STATUS_POPUP_COOKIE = 'statusPopup';
 
-// + privilegio a - privilegio
+// + rights to - rights
 const ACCESS_LEVEL_ORDER = [
     'ap-d',
     'ap-u',

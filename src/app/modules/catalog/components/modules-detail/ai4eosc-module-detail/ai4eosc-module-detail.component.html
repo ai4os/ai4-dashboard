@@ -88,68 +88,32 @@
                         </mat-menu>
 
                         <!-- Deploy -->
-                        @if (isLoggedIn()) {
-                            <div class="tooltip-container">
-                                <app-ui-button
-                                    variant="accent-solid"
-                                    [text]="
-                                        'CATALOG.DETAIL.DEPLOY.TITLE'
-                                            | translate
-                                    "
-                                    icon="expand_more"
-                                    iconPosition="right"
-                                    [matMenuTriggerFor]="deployMenu"
-                                ></app-ui-button>
-                            </div>
+                        <div class="tooltip-container">
+                            <app-ui-button
+                                variant="accent-solid"
+                                [text]="
+                                    'CATALOG.DETAIL.DEPLOY.TITLE' | translate
+                                "
+                                icon="expand_more"
+                                iconPosition="right"
+                                [matMenuTriggerFor]="deployMenu"
+                            ></app-ui-button>
+                        </div>
 
-                            <mat-menu
-                                #deployMenu="matMenu"
-                                xPosition="before"
-                                class="ui-dropdown-panel"
-                                hasBackdrop="true"
-                            >
-                                @if (module.links.docker_image) {
-                                    <button
-                                        mat-menu-item
-                                        (click)="trainModulePlatform('oscar')"
-                                        [disabled]="
-                                            !isProjectMember() ||
-                                            module.links.docker_image ===
-                                                undefined
-                                        "
-                                        matTooltip=" {{
-                                            'ERRORS.UNAUTHORIZED' | translate
-                                        }}"
-                                        matTooltipClass="ui-tooltip"
-                                        [matTooltipPosition]="'left'"
-                                        [matTooltipDisabled]="isProjectMember()"
-                                    >
-                                        <img
-                                            class="menu-item-icon"
-                                            src="../../../../../assets/images/oscar-logo.png"
-                                        />
-                                        <div class="button-texts">
-                                            <b>
-                                                {{
-                                                    'CATALOG.DETAIL.DEPLOY.API-SERVERLESS'
-                                                        | translate
-                                                }}
-                                            </b>
-                                            <span
-                                                class="button-description-text"
-                                            >
-                                                {{
-                                                    'CATALOG.DETAIL.DEPLOY.OSCAR'
-                                                        | translate
-                                                }}
-                                            </span>
-                                        </div>
-                                    </button>
-                                }
+                        <mat-menu
+                            #deployMenu="matMenu"
+                            xPosition="before"
+                            class="ui-dropdown-panel"
+                            hasBackdrop="true"
+                        >
+                            @if (module.links.docker_image) {
                                 <button
                                     mat-menu-item
-                                    (click)="trainModulePlatform('nomad')"
-                                    [disabled]="!isProjectMember()"
+                                    (click)="trainModulePlatform('oscar')"
+                                    [disabled]="
+                                        !isProjectMember() ||
+                                        module.links.docker_image === undefined
+                                    "
                                     matTooltip=" {{
                                         'ERRORS.UNAUTHORIZED' | translate
                                     }}"
@@ -159,77 +123,109 @@
                                 >
                                     <img
                                         class="menu-item-icon"
-                                        src="../../../../../assets/images/module-detail/nomad.svg"
+                                        src="../../../../../assets/images/oscar-logo.png"
                                     />
                                     <div class="button-texts">
                                         <b>
                                             {{
-                                                'CATALOG.DETAIL.DEPLOY.API-PLATFORM'
+                                                'CATALOG.DETAIL.DEPLOY.API-SERVERLESS'
                                                     | translate
-                                            }}</b
-                                        >
+                                            }}
+                                        </b>
                                         <span class="button-description-text">
                                             {{
-                                                'CATALOG.DETAIL.DEPLOY.NOMAD'
+                                                'CATALOG.DETAIL.DEPLOY.OSCAR'
                                                     | translate
                                             }}
                                         </span>
                                     </div>
                                 </button>
-                                <a
-                                    mat-menu-item
-                                    target="_blank"
-                                    [href]="
-                                        'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
-                                        module.links.docker_image
-                                    "
-                                >
-                                    <img
-                                        class="menu-item-icon"
-                                        src="../../../../../assets/images/module-detail/im-logo.png"
-                                    />
-                                    <div class="button-texts">
-                                        <b>
-                                            {{
-                                                'CATALOG.DETAIL.DEPLOY.API-CLOUD'
-                                                    | translate
-                                            }}
-                                        </b>
-                                        <span class="button-description-text">
-                                            {{
-                                                'CATALOG.DETAIL.DEPLOY.IM'
-                                                    | translate
-                                            }}
-                                        </span>
-                                    </div>
-                                </a>
-                                <a
-                                    mat-menu-item
-                                    target="_blank"
-                                    href="https://docs.ai4eosc.eu/en/latest/howtos/deploy/eosc-node.html"
-                                >
-                                    <img
-                                        style="width: 24px; height: 24px"
-                                        class="menu-item-icon"
-                                        src="../../../../../assets/images/module-detail/circle-eu-flag.svg"
-                                    />
-                                    <div class="button-texts">
-                                        <b>
-                                            {{
-                                                'CATALOG.DETAIL.DEPLOY.API-EU'
-                                                    | translate
-                                            }}
-                                        </b>
-                                        <span class="button-description-text">
-                                            {{
-                                                'CATALOG.DETAIL.DEPLOY.EU-NODE'
-                                                    | translate
-                                            }}
-                                        </span>
-                                    </div>
-                                </a>
-                            </mat-menu>
+                            }
+                            <button
+                                mat-menu-item
+                                (click)="trainModulePlatform('nomad')"
+                                [disabled]="!isProjectMember()"
+                                matTooltip=" {{
+                                    'ERRORS.UNAUTHORIZED' | translate
+                                }}"
+                                matTooltipClass="ui-tooltip"
+                                [matTooltipPosition]="'left'"
+                                [matTooltipDisabled]="isProjectMember()"
+                            >
+                                <img
+                                    class="menu-item-icon"
+                                    src="../../../../../assets/images/module-detail/nomad.svg"
+                                />
+                                <div class="button-texts">
+                                    <b>
+                                        {{
+                                            'CATALOG.DETAIL.DEPLOY.API-PLATFORM'
+                                                | translate
+                                        }}</b
+                                    >
+                                    <span class="button-description-text">
+                                        {{
+                                            'CATALOG.DETAIL.DEPLOY.NOMAD'
+                                                | translate
+                                        }}
+                                    </span>
+                                </div>
+                            </button>
+                            <a
+                                mat-menu-item
+                                target="_blank"
+                                [href]="
+                                    'https://im.egi.eu/im-dashboard/configure?selected_tosca=simple-node-disk.yml&childs=ai4eoscvm.yaml&ai4eosc_model_image=' +
+                                    module.links.docker_image
+                                "
+                            >
+                                <img
+                                    class="menu-item-icon"
+                                    src="../../../../../assets/images/module-detail/im-logo.png"
+                                />
+                                <div class="button-texts">
+                                    <b>
+                                        {{
+                                            'CATALOG.DETAIL.DEPLOY.API-CLOUD'
+                                                | translate
+                                        }}
+                                    </b>
+                                    <span class="button-description-text">
+                                        {{
+                                            'CATALOG.DETAIL.DEPLOY.IM'
+                                                | translate
+                                        }}
+                                    </span>
+                                </div>
+                            </a>
+                            <a
+                                mat-menu-item
+                                target="_blank"
+                                href="https://docs.ai4eosc.eu/en/latest/howtos/deploy/eosc-node.html"
+                            >
+                                <img
+                                    style="width: 24px; height: 24px"
+                                    class="menu-item-icon"
+                                    src="../../../../../assets/images/module-detail/circle-eu-flag.svg"
+                                />
+                                <div class="button-texts">
+                                    <b>
+                                        {{
+                                            'CATALOG.DETAIL.DEPLOY.API-EU'
+                                                | translate
+                                        }}
+                                    </b>
+                                    <span class="button-description-text">
+                                        {{
+                                            'CATALOG.DETAIL.DEPLOY.EU-NODE'
+                                                | translate
+                                        }}
+                                    </span>
+                                </div>
+                            </a>
+                        </mat-menu>
 
+                        @if (isLoggedIn()) {
                             <!-- Codespaces -->
                             <div
                                 class="tooltip-container"
